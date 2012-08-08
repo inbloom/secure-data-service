@@ -28,16 +28,15 @@ public class StudentEntity extends SliEntity
 {
     // mandatory fields
     private String studentUniqueStateId;
-    private String name;
+    private Name name;
     private String sexType;//Demographics
     private String birthData;//Demographics
     private boolean hispanicLatinoEthnicity;//Demographics
     private boolean economicDisadvantaged;
     
-
     // optional fields
     private String studentIdentificationCode;
-    private String otherName;
+    private Name otherName;
     private List<Address> address;
     private List<InstitutionTelephone> telephone;
     private List<ElectronicMail> electronicMail;
@@ -65,12 +64,20 @@ public class StudentEntity extends SliEntity
         this.studentUniqueStateId = studentUniqueStateId;
     }
 
-    public String getName() {
+    public Name getName() {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
+    }
+    
+    public Name getOtherName() {
+        return this.otherName;
+    }
+
+    public void setOtherName(Name otherName) {
+        this.otherName = otherName;
     }
     
     public List<Address> getAddress() {
