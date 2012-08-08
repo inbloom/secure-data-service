@@ -35,6 +35,7 @@ import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
 import openadk.library.datamodel.DatamodelDTD;
 import openadk.library.student.StudentDTD;
+import openadk.library.common.CommonDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +57,6 @@ public class AgentManager {
 
     @Value("${log.path}")
     private String logPath;
-
-    @Value("${sli.conf}")
-    private String conf;
 
     @Value("${sli.sif-agent.adk.logFile}")
     private String adkLogFile;
@@ -127,17 +125,24 @@ public class AgentManager {
         Map<String, ElementDef> datamodelDtdMap = new HashMap<String, ElementDef>();
         DatamodelDTD datamodelDTD = new DatamodelDTD();
         datamodelDTD.addElementMappings(datamodelDtdMap);
+        Map<String, ElementDef> commonDtdMap = new HashMap<String, ElementDef>();
+        CommonDTD commonDTD = new CommonDTD();
+        commonDTD.addElementMappings(commonDtdMap);
 
         Zone zone = agent.getZoneFactory().getZone(subscriberZoneName);
 
         for (String dataTypeString : subscribeTypeList) {
             ElementDef studentDataTypeDef = studentDtdMap.get(dataTypeString);
             ElementDef datamodelDataTypeDef = datamodelDtdMap.get(dataTypeString);
+            ElementDef commonDataTypeDef = commonDtdMap.get(dataTypeString);
             if (studentDataTypeDef != null) {
                 zone.setSubscriber(subscriber, studentDataTypeDef, new SubscriptionOptions());
                 LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
             } else if (datamodelDataTypeDef != null) {
                 zone.setSubscriber(subscriber, datamodelDataTypeDef, new SubscriptionOptions());
+                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
+            } else if (commonDataTypeDef != null) {
+                zone.setSubscriber(subscriber, commonDataTypeDef, new SubscriptionOptions());
                 LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
             } else {
                 LOG.error("Unable to find SIF ADK datatype " + dataTypeString);

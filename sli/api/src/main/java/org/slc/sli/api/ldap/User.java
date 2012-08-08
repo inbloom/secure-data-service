@@ -22,6 +22,7 @@ public class User {
     private String homeDir;
     private String fullName;
     private String cn;
+    private Status status = Status.SUBMITTED;
 
     public String getCn() {
         return cn;
@@ -170,11 +171,48 @@ public class User {
         return sb.toString();
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "User [uid=" + uid + ", groups=" + groups + ", fullName=" + fullName + ", password=" + password
-                + ", email=" + email + ", tenant=" + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir
-                + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+        return "User [uid=" + uid + ", groups=" + groups + ", password=" + password + ", email=" + email + ", tenant="
+                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + fullName + ", cn=" + cn
+                + ", status=" + status + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+    }
+
+    /**
+     * A user status
+     *
+     * @author nbrown
+     *
+     */
+    public enum Status {
+        SUBMITTED("submitted"), APPROVED("approved");
+        private final String statusString;
+
+        private Status(String statusString) {
+            this.statusString = statusString;
+        }
+
+        protected String getStatusString() {
+            return statusString;
+        }
+
+        protected static Status getFromString(String statusString) {
+            for (Status value : Status.values()) {
+                if (value.getStatusString().equals(statusString)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
     }
 
 }

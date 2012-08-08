@@ -115,8 +115,7 @@
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers" />
-    <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
+    <property name="transformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />

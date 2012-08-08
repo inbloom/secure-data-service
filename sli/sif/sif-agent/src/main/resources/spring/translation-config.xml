@@ -32,6 +32,18 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="studentSchoolEnrollmentTranslationTask" class="org.slc.sli.sif.translation.StudentSchoolEnrollmentTranslationTask" />
+
+	<!-- define TranslationTask for translationTaskMap -->
+	<bean id="StudentSchoolEnrollmentTranslationTaskList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref local="studentSchoolEnrollmentTranslationTask" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+
 	<util:map id="translationMap" key-type="java.lang.String"
 		value-type="org.slc.sli.sif.translation.TranslationTask">
 		<entry key="SchoolInfo">
@@ -39,6 +51,9 @@
 		</entry>
 		<entry key="LEAInfo">
 			<ref bean="LEAInfoTranslationTaskList" />
+		</entry>
+		<entry key="StudentSchoolEnrollment">
+			<ref bean="StudentSchoolEnrollmentTranslationTaskList" />
 		</entry>
 	</util:map>
 

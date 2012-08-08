@@ -19,7 +19,7 @@ limitations under the License.
 require 'rubygems'
 require 'rest-client'
 require 'json'
-  
+
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
   
 $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
@@ -81,11 +81,15 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
   
 class APICallExecutor
 
-  def initialize(user, realm, format="application/vnd.slc+json", instance="")
-    @user = user
-    @realm = realm
+  def initialize(authenticationDetails, format="application/vnd.slc+json", instance="")
+    @user = authenticationDetails[:user]
+    @realm = authenticationDetails[:realm]
+    @sessionId = authenticationDetails[:token]
     @format = format
     @instance = instance
+
+    # use the token if user is nil and token is not nil
+    @useToken = @user.nil? && !@sessionId.nil?
   end
 
   def assert(bool, message = 'assertion failure')
@@ -128,8 +132,10 @@ class APICallExecutor
   def get(resource, outputFile)
     outputWriter = File.new(outputFile, "a")
     
-    idpRealmLogin(@user, @realm)
-  
+    if (!@useToken)
+      idpRealmLogin(@user, @realm)
+    end
+
     ############################
     # ADD IN API INSTANCE INFO #
     ############################
@@ -155,7 +161,9 @@ class APICallExecutor
   def getEachInFile(inputFile, outputFile)
     outputWriter = File.new(outputFile, "a")
     
-    idpRealmLogin(@user, @realm)
+    if (!@useToken)
+      idpRealmLogin(@user, @realm)
+    end
   
     file = File.new(inputFile, "r")
     while (resource = file.gets)
