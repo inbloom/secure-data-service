@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.reporting;
 
+import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
