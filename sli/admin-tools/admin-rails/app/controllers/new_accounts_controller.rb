@@ -23,14 +23,12 @@ require 'ldapstorage'
 require 'time'
 require 'date'
 
-class NewAccountsController < ApplicationController
+class NewAccountsController < ForgotPasswordsController
   
   skip_filter :handle_oauth
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
   
-  # GET /forgot_passwords
-  # GET /forgot_passwords.json
   def index
     set_model(params)
     respond_to do |format|
@@ -43,8 +41,6 @@ class NewAccountsController < ApplicationController
     # end
   end
   
-  # POST /resetPasswords
-  # POST /forgot_passwords.json
   def set_password
     set_model(params)
     @new_account_password.new_pass = params[:new_account_password][:new_pass]

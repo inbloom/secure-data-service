@@ -21,6 +21,7 @@ class NewAccountPassword < ForgotPassword
   validates_presence_of :token, :new_pass, :confirmation
   validates :new_pass, :confirmation => true #password_confirmation attr
   validate :confirm_new 
+  validates :eula, :presence => true
   
   # attributes passed to the template to render 
   attr_accessor :inviter, :edorg
