@@ -17,6 +17,7 @@
 package org.slc.sli.sif.subscriber;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
@@ -134,18 +135,18 @@ public class SifSubscriber implements Subscriber {
      * @param u
      *            : the map containing the updates
      */
-    private static void updateMap(Map map, Map u) {
-        for (Object k : u.keySet()) {
-            if (!map.containsKey(k)) {
-                map.put(k, u.get(k));
+    private static void updateMap(Map<String, Object> map, Map<String, Object> u) {
+        for (Entry<String, Object> uEntry : u.entrySet()) {
+            if (!map.containsKey(uEntry.getKey())) {
+                map.put(uEntry.getKey(), uEntry.getValue());
             } else {
-                Object o1 = map.get(k);
-                Object o2 = u.get(k);
+                Object o1 = map.get(uEntry.getKey());
+                Object o2 = uEntry.getValue();
                 // recursive update collections
                 if (o1 instanceof Map && o2 instanceof Map) {
-                    updateMap((Map) o1, (Map) o2);
+                    updateMap((Map<String, Object>) o1, (Map<String, Object>) o2);
                 } else {
-                    map.put(k, o2);
+                    map.put(uEntry.getKey(), o2);
                 }
             }
         }

@@ -29,7 +29,6 @@ import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.StudentLEARelationship;
-import openadk.library.student.StudentSchoolEnrollment;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -50,8 +50,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
 * StudentLEARelationship unit tests
 *
 */
-public class StudentLEARelationshipTranslationTaskTest
-{
+public class StudentLEARelationshipTranslationTaskTest {
     @InjectMocks
     private final StudentLEARelationshipTranslationTask translator = new StudentLEARelationshipTranslationTask();
 
@@ -79,7 +78,7 @@ public class StudentLEARelationshipTranslationTaskTest
         }
         MockitoAnnotations.initMocks(this);
     }
-    
+
     @Test
     public void testNotNull() throws SifTranslationException {
         List<StudentSchoolAssociationEntity> result = translator.translate(new StudentLEARelationship());
@@ -120,7 +119,7 @@ public class StudentLEARelationshipTranslationTaskTest
 
         List<StudentSchoolAssociationEntity> result = translator.translate(slr);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'", "Transfer from a charter school", entity.getEntryType());
     }
 
@@ -133,7 +132,7 @@ public class StudentLEARelationshipTranslationTaskTest
 
         List<StudentSchoolAssociationEntity> result = translator.translate(slr);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'", "Died or is permanently incapacitated", entity.getExitWithdrawType());
     }
 
@@ -146,7 +145,7 @@ public class StudentLEARelationshipTranslationTaskTest
 
         List<StudentSchoolAssociationEntity> result = translator.translate(slr);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getEntryGradeLevel());
     }
 }

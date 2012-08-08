@@ -28,7 +28,6 @@ import openadk.library.common.ExitType;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
-import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.StudentSchoolEnrollment;
 
 import org.junit.Assert;
@@ -120,7 +119,7 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
 
         List<StudentSchoolAssociationEntity> result = translator.translate(sse);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'", "Transfer from a charter school", entity.getEntryType());
     }
 
@@ -133,7 +132,7 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
 
         List<StudentSchoolAssociationEntity> result = translator.translate(sse);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'", "Died or is permanently incapacitated", entity.getExitWithdrawType());
     }
 
@@ -146,7 +145,7 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
 
         List<StudentSchoolAssociationEntity> result = translator.translate(sse);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = result.get(0);        
+        StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getEntryGradeLevel());
     }
 }

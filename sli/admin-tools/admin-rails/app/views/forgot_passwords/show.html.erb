@@ -7,13 +7,9 @@
     
     <%= link_to 'Back', forgot_passwords_path %>
 
-<% else if @forgot_password.errors.any? %>
+<% else if flash[:error] %>
     <div id="error_explanation">
-      <ul>
-      <% @forgot_password.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+        <%= flash[:error] %>
     </div>
   <% end %>
 <% end %>
