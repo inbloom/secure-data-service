@@ -26,11 +26,11 @@ require 'date'
 class NewAccountsController < ForgotPasswordsController
   
   skip_filter :handle_oauth
-  before_filter :get_user, :only => [:new_account, :update]
-  before_filter :token_still_valid, :only => [:new_account, :update]
+  before_filter :set_model
+  before_filter :get_user
+  before_filter :token_still_valid
   
   def index
-    set_model(params)
     respond_to do |format|
       format.html { render action: 'new_account' }
     end 
@@ -42,17 +42,17 @@ class NewAccountsController < ForgotPasswordsController
   end
   
   def set_password
-    set_model(params)
     @new_account_password.new_pass = params[:new_account_password][:new_pass]
     @new_account_password.confirmation = params[:new_account_password][:confirmation]
     is_valid = @new_account_password.valid?
 
     respond_to do |format|
       # re-render the form if not valid otherwise redirect to the target page 
-      if !is_valid 
-        format.html { render action: 'new_account' }
+      if @new_account_password.set_password
+        format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
+        format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else 
-        # TODO set the password and redirect to the rendered page 
+        format.html { render action: 'new_account' }
       end 
     end 
   end

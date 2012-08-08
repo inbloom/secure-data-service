@@ -25,6 +25,7 @@ require 'date'
 
 class ForgotPasswordsController < ApplicationController
   
+  skip_filter :handle_oauth
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
   
