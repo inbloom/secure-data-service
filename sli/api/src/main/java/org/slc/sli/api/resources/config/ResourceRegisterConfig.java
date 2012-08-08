@@ -82,13 +82,14 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
                 if (resourceTemplate.getRight() != null && !resourceTemplate.getRight().isEmpty()) {
                     resourceClass = Class.forName(resourceTemplate.getRight());
                 }
-
                 getExplicitRootResources().put(PREFIX + resourceTemplate.getLeft(), DefaultResource.class);
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
+
+        getExplicitRootResources().put(PREFIX + "schools/{id}", DefaultResource.class);
     }
 
     protected Map<String, Resource> getResources() {
