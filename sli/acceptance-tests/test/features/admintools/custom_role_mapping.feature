@@ -137,6 +137,7 @@ Then the group "Educator" contains the rights "Read General Public and Aggregate
 And the group "Educator" contains the roles "Educator"
 
 @sandbox
+@wip
 Scenario: Developer modifies roles in their tenant without affecting other tenant
 When I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
@@ -155,6 +156,7 @@ And the user "linda.kim" in tenant "developer-email" can access the API with rig
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 
 @sandbox
+@wip
 Scenario: Sandbox reset to defaults
 When I submit the credentials "sandboxdeveloper" "sandboxdeveloper1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
