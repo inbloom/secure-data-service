@@ -32,6 +32,7 @@ import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
 import openadk.library.common.ExitTypeCode;
+import openadk.library.common.GradeLevelCode;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
@@ -174,6 +175,10 @@ public class EventReporter implements Publisher {
                 schoolInfo.setChanged();
                 schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
+                Thread.sleep(5000);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
                 Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.DELETE);
                 Thread.sleep(5000);
