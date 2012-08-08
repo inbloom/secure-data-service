@@ -45,4 +45,34 @@ class ForgotPassword
       errors[:new_pass] << "New passwords do not match."
     end
   end
+  
+  def set_password
+    user = APP_LDAP_CLIENT.read_user_resetkey(token)
+    if !!user && valid? == true
+      begin
+        emailToken = user[:emailtoken]
+        if emailToken.nil?
+          currentTimestamp = DateTime.current.utc.to_i.to_s
+          emailToken = Digest::MD5.hexdigest(SecureRandom.base64(10)+currentTimestamp+user[:email]+user[:first]+user[:last])
+        end
+        update_info = {
+          :email => "#{user[:email]}",
+          :password => "#{new_pass}",
+          :resetKey => "",
+          :emailtoken => "#{emailToken}"
+        }
+        response =  APP_LDAP_CLIENT.update_user_info(update_info)
+        emailAddress = user[:emailAddress]
+        fullName = user[:first] + " " + user[:last]
+        ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
+        return true
+      rescue InvalidPasswordException => e
+        APP_CONFIG['password_policy'].each { |msg|  errors.add(:new_pass, msg) }
+      rescue Exception => e
+        errors.add(:base, "Unable to change password, please try again.")
+      end
+    end
+    return false
+  end
+
 end

@@ -68,21 +68,18 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   role = { 
     body: {
       realmId: @sandbox_realm['_id'],
-      tenantId: tenant['body']['tenantId'], 
-      roles: [], 
+      roles: [
+        {groupTitle: "Educator", names: ["Educator"], rights: ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"]},
+        {groupTitle: "IT Administrator", names: ["IT Administrator"], rights: ["WRITE_RESTRICTED", "READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "READ_RESTRICTED", "WRITE_GENERAL"]}, 
+        {groupTitle: "Leader", names: ["Leader"], rights: ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "READ_RESTRICTED"]}, 
+        {groupTitle: "Aggregate Viewer", names: ["Aggregate Viewer"], rights: ["AGGREGATE_READ", "READ_PUBLIC"]} 
+      ], 
       customRights: [] 
     }, 
-    metaData: { }
-  }
-  role[:metaData][:tenantId] = tenant['body']['tenantId']
-
-  unless @sandbox_realm['body']['mappings'].nil? || @sandbox_realm['body']['mappings']['role'].nil?
-    @sandbox_realm['body']['mappings']['role'].each { |realmRole|
-      names = realmRole['clientRoleName']
-      rights = @sli_role_to_rights[realmRole['sliRoleName']]
-      role[:body][:roles].push({groupName: realmRole['sliRoleName'], names: names, rights: rights})
+    metaData: {
+      tenantId:  tenant['body']['tenantId']
     }
-  end
+  }
 
   @db[:customRole].save(role)
   @log.info "created customRole: #{role}"
