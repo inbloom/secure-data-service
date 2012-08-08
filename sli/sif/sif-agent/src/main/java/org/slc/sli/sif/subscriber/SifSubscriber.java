@@ -105,7 +105,7 @@ public class SifSubscriber implements Subscriber {
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
             GenericEntity entity = sliEntity.createGenericEntity();
             String guid = slcInterface.create(entity);
-            LOG.info("addEntities "+entity.getEntityType()+": RefId="+sifData.getRefId()+" guid="+guid);
+            LOG.info("addEntities " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
             if (guid != null) {
                 sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid);
             }
@@ -123,7 +123,7 @@ public class SifSubscriber implements Subscriber {
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
             updateMap(matchedEntity.getData(), sliEntity.createBody());
             slcInterface.update(matchedEntity);
-            LOG.info("changeEntities "+sliEntity.entityType()+": RefId="+sifData.getRefId());
+            LOG.info("changeEntities " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
         }
     }
 
