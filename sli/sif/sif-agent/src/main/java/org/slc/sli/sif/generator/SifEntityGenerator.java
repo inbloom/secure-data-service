@@ -16,37 +16,59 @@
 
 package org.slc.sli.sif.generator;
 
+import java.math.BigDecimal;
+import java.util.GregorianCalendar;
+
 import openadk.library.common.Address;
 import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
 import openadk.library.common.CountryCode;
+import openadk.library.common.EntryTypeCode;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
+import openadk.library.common.MembershipType;
+import openadk.library.common.NonResidentAttendRationale;
+import openadk.library.common.OrganizationRelationshipType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
+import openadk.library.common.PublicSchoolResidenceStatus;
+import openadk.library.common.ResidencyStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
+import openadk.library.common.StudentLEARelationship;
+import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.EducationAgencyTypeCode;
+import openadk.library.student.FTPTStatus;
+import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
-import openadk.library.student.LEAInfo;
-import openadk.library.datamodel.SEAInfo;
+import openadk.library.student.StudentSchoolEnrollment;
+import openadk.library.student.TimeFrame;
 
+/**
+ * Sif entity generator
+ */
+public class SifEntityGenerator {
 
-public class SifEntityGenerator
-{
+    public static final String TEST_SCHOOLINFO_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_LEAINFO_REFID = "73648462888624AA5294BC6380173276";
+    public static final String TEST_SEAINFO_REFID = "73648462888624AA5294BC6380173276";
+    public static final String TEST_STUDENTPERSONAL_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_STUDENTSCHOOLENROLLMENT_REFID = "A8C3D3E34B359D75101D00AA001A1652";
+    public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
+
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
-        info.setRefId("D3E34B359D75101A8C3D00AA001A1652");
+        info.setRefId(TEST_SCHOOLINFO_REFID);
         info.setStateProvinceId("Daybreak West High");
         info.setNCESId("421575003045");
         info.setSchoolName("Daybreak West High");
-        info.setLEAInfoRefId("73648462888624AA5294BC6380173276");
-        
+        info.setLEAInfoRefId(TEST_LEAINFO_REFID);
+
         SchoolFocusList schoolFocusList = new SchoolFocusList();
         schoolFocusList.add(new SchoolFocus(SchoolFocusType.REGULAR));
         info.setSchoolFocusList(schoolFocusList);
@@ -87,14 +109,14 @@ public class SifEntityGenerator
         info.setPhoneNumberList(phoneNumberList);
         return info;
     }
-    
+
     public static LEAInfo generateTestLEAInfo() {
         LEAInfo info = new LEAInfo();
-        info.setRefId("73648462888624AA5294BC6380173276");
+        info.setRefId(TEST_LEAINFO_REFID);
         info.setStateProvinceId("IL-DAYBREAK");
         info.setNCESId("4215750");
         info.setLEAName("Daybreak School District 4530");
-        
+
         info.setLEAURL("http://IL-DAYBREAK.edu");
         info.setEducationAgencyType(EducationAgencyTypeCode.REG_DISTRICT);
         info.setOperationalStatus(OperationalStatus.SCHOOL_CLOSED);
@@ -135,8 +157,8 @@ public class SifEntityGenerator
 
     public static SEAInfo generateTestSEAInfo() {
         SEAInfo info = new SEAInfo();
-        info.setRefId("D3E34B359D75101A8C3D00AA001A1652");
-        info.setSEAName("Illinois State Board of Education");        
+        info.setRefId(TEST_SEAINFO_REFID);
+        info.setSEAName("Illinois State Board of Education");
         info.setSEAURL("http://IL.edu");
 
         Address address = new Address();
@@ -165,5 +187,51 @@ public class SifEntityGenerator
         info.setPhoneNumberList(phoneNumberList);
         return info;
     }
-}
 
+    public static StudentSchoolEnrollment generateTestStudentSchoolEnrollment() {
+        StudentSchoolEnrollment retVal = new StudentSchoolEnrollment();
+        retVal.setRefId(TEST_STUDENTSCHOOLENROLLMENT_REFID);
+        retVal.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
+        retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
+        retVal.setMembershipType(MembershipType.HOME);
+        retVal.setTimeFrame(TimeFrame.CURRENT);
+        retVal.setSchoolYear(2012);
+
+        retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
+        retVal.setEntryType(EntryTypeCode._0619_1838);
+        retVal.setGradeLevel(GradeLevelCode._10);
+        retVal.setFTE(new BigDecimal(1.00));
+        retVal.setFTPTStatus(FTPTStatus.FULLTIME);
+
+        ResidencyStatus rs = new ResidencyStatus();
+        rs.setCode(PublicSchoolResidenceStatus._0598_1653);
+        retVal.setResidencyStatus(rs);
+        retVal.setNonResidentAttendReason(NonResidentAttendRationale.VOCATIONAL);
+
+        return retVal;
+    }
+
+    public static StudentLEARelationship generateTestStudentLEARelationship() {
+        StudentLEARelationship retVal = new StudentLEARelationship();
+        retVal.setRefId(TEST_STUDENTLEARELATIONSHIP_REFID);
+        retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
+        retVal.setLEAInfoRefId(TEST_LEAINFO_REFID);
+        retVal.setSchoolYear(2012);
+
+        retVal.setMembershipType(MembershipType.HOME);
+        OrganizationRelationshipType ort = new OrganizationRelationshipType();
+        ResidencyStatus rs = new ResidencyStatus();
+        rs.setCode(PublicSchoolResidenceStatus.RESIDENT);
+        ort.setResidencyStatus(rs);
+        ort.setProvidingInstruction(true);
+        ort.setProvidingServices(true);
+        ort.setFinanciallyResponsible(true);
+        retVal.setLEARelationshipType(ort);
+
+        retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
+        retVal.setEntryType(EntryTypeCode._0619_1838);
+        retVal.setGradeLevel(GradeLevelCode._10);
+
+        return retVal;
+    }
+}

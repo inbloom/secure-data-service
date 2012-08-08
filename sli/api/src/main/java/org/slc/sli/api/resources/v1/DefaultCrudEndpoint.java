@@ -221,17 +221,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
 
-                if (results.isEmpty()) {
-                    Status errorStatus = Status.NOT_FOUND;
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                                    "Entity not found: " + key + "=" + value)).build();
-                } else {
-                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), apiQuery);
+                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(),apiQuery);
                     return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                             pagingHeaderTotalCount, uriInfo).build();
-                }
             }
         });
     }

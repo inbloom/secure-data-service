@@ -19,8 +19,6 @@ package org.slc.sli.sif.agent;
 import java.util.Properties;
 
 import junit.framework.Assert;
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.Agent;
 import openadk.library.AgentProperties;
 import openadk.library.SIFVersion;
@@ -32,6 +30,7 @@ import openadk.library.impl.Transport;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.sif.ADKTest;
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
 /**
@@ -42,14 +41,8 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
-public class SifAgentTest
-{
+public class SifAgentTest extends ADKTest {
     private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
         Properties agentProperties = new Properties();
         agentProperties.put("adk.messaging.mode", "Push");
         agentProperties.put("adk.messaging.transport", "http");
