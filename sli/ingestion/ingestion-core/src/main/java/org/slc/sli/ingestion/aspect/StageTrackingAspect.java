@@ -68,6 +68,12 @@ public class StageTrackingAspect {
         return proceedAndTrackCall(pjp);
     }
 
+    @Around("(call(* org.slc.sli.domain.Repository.create(..)) || call(* org.slc.sli.domain.Repository.update(..))) && !within(org..*Test)")
+    public Object trackRepositoryWrites(ProceedingJoinPoint pjp) throws Throwable {
+
+        return proceedAndTrackCall(pjp);
+    }
+
     private Object proceedAndTrackCall(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
