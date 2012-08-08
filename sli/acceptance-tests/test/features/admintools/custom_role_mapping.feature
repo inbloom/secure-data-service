@@ -168,6 +168,7 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+And I wait for 5 seconds
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
 
