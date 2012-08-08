@@ -24,6 +24,7 @@ import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
 import openadk.library.common.CountryCode;
 import openadk.library.common.EntryTypeCode;
+import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.MembershipType;
@@ -196,6 +197,8 @@ public class SifEntityGenerator {
         retVal.setMembershipType(MembershipType.HOME);
         retVal.setTimeFrame(TimeFrame.CURRENT);
         retVal.setSchoolYear(2012);
+        retVal.setExitType(ExitTypeCode._3502_NOT_ENROLLED_ELIGIBLE_TO);
+        retVal.setExitDate(new GregorianCalendar(2012, 9, 17));
 
         retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
         retVal.setEntryType(EntryTypeCode._0619_1838);

@@ -36,7 +36,6 @@ SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
-# BOOTSTRAPPED_GUIDS = ["2012av-6dcc2939-dcc5-11e1-95f6-0021701f543f", "2012fx-6dc8a6c8-dcc5-11e1-95f6-0021701f543f", "2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f", "2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30", "2012su-6dd020da-dcc5-11e1-95f6-0021701f543f"]
 BOOTSTRAPPED_GUIDS = ["2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
