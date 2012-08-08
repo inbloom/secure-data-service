@@ -185,6 +185,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             if (dataConfig != null && (!dataConfig.isLazy() || lazyOverride) && !model.hasDataForAlias(dataConfig.getCacheKey())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
                 model.addData(dataConfig.getCacheKey(), entity);
+            } else if (model.hasDataForAlias(dataConfig.getCacheKey())) {
+                entity = model.getData().get(dataConfig.getCacheKey());
             }
             if (!checkCondition(config, config, entity)) {
                 return null;
