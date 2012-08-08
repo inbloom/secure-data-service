@@ -33,6 +33,7 @@ import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
 import openadk.library.common.ExitTypeCode;
+import openadk.library.common.GradeLevelCode;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
@@ -175,6 +176,10 @@ public class EventReporter implements Publisher {
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
                 Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.DELETE);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                studentLEARelationship.setSchoolYear(2014);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
                 Thread.sleep(5000);
                 studentSchoolEnrollment.setChanged();
                 studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);

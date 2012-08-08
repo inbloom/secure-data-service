@@ -193,7 +193,7 @@ Then /^I check that the record contains all of the expected values:$/ do |table|
     expectedMap = JSON.parse(expectedJson)
     expectedMap.each do |key, expected|
       actual = entity[key]
-      assert(expected == actual, "Values don't match expected for key: #{key}")
+      assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
     end
 
     # must match at this point
