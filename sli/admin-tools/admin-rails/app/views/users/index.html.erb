@@ -19,6 +19,9 @@
 <% if flash[:notice]%>  
 <p id="notice"><%= flash[:notice] %></p>
 <%end%>
+<% if flash[:error]%>
+<p id="error_notice"><%=flash[:error] %></p>
+<%end%>
 
 <table id="Users_Management_Table" class="table table-striped">
   <thead>
