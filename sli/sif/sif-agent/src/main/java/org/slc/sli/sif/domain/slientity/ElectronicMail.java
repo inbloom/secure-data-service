@@ -17,34 +17,28 @@
 package org.slc.sli.sif.domain.slientity;
 
 /**
- * Corresponding to the electronicMail defined in SLI schema.
+ * Corresponds to the electronicMail complex-type in the SLI schema.
  *
  * @author slee
  *
  */
-public class ElectronicMail
-{
+public class ElectronicMail {
     private String emailAddress;
     private String emailAddressType;
 
-    public ElectronicMail() {
-
-    }
-
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
     public String getEmailAddressType() {
-        return this.emailAddressType;
+        return emailAddressType;
     }
 
     public void setEmailAddressType(String emailAddressType) {
         this.emailAddressType = emailAddressType;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String electronicMailAddress) {
+        this.emailAddress = electronicMailAddress;
+    }
 }
