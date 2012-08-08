@@ -746,7 +746,9 @@ end
 desc "Run SIF Tests"
 task :sifTests => [:sifSchoolInfoTest,
                    :sifSEAInfoTest,
-                   :sifLEAInfoTest] do
+                   :sifLEAInfoTest,
+                   :sifStudentSchoolEnrollmentTest
+                   ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
