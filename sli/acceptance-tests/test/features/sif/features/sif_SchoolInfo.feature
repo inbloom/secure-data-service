@@ -7,6 +7,7 @@ Given the following collections are clean and bootstrapped in datastore:
      | educationOrganization |
 And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And I want to POST a(n) "sifEvent_SchoolInfo_add" SIF message
+And I wait for "10" seconds
 When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
