@@ -35,19 +35,18 @@ public class StudentEntity extends SliEntity
     private boolean economicDisadvantaged;
     
     // optional fields
-    private String studentIdentificationCode;
-    private Name otherName;
+    private List<Name> otherName;
     private List<Address> address;
     private List<InstitutionTelephone> telephone;
     private List<ElectronicMail> electronicMail;
-    
-    private String race;//Demographics
+    private List<String> race;//Demographics
     private String limitedEnglishProficiency;
-    private String languages;//Demographics
-    private String homeLanguages;//Demographics
-    private String section504Disabilities;//section504
+    private List<String> languages;//Demographics
+    private List<String> homeLanguages;//Demographics
     private String gradeLevel;//MostRecent
     private String schoolId;//MostRecent
+    //not covered yet
+    private String section504Disabilities;//section504
 
     /**
      * Constructor
@@ -72,11 +71,11 @@ public class StudentEntity extends SliEntity
         this.name = name;
     }
     
-    public Name getOtherName() {
+    public List<Name> getOtherName() {
         return this.otherName;
     }
 
-    public void setOtherName(Name otherName) {
+    public void setOtherName(List<Name> otherName) {
         this.otherName = otherName;
     }
     
@@ -88,12 +87,76 @@ public class StudentEntity extends SliEntity
         this.birthData = birthData;
     }
     
+    public String getSchoolId() {
+        return this.schoolId;
+    }
+
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId;
+    }
+    
+    public String getGradeLevel() {
+        return this.gradeLevel;
+    }
+
+    public void setGradeLevel(String gradeLevel) {
+        this.gradeLevel = gradeLevel;
+    }
+    
     public String getSexType() {
         return this.sexType;
     }
 
     public void setSexType(String sexType) {
         this.sexType = sexType;
+    }
+    
+    public List<String> getRace() {
+        return this.race;
+    }
+
+    public void setRace(List<String> race) {
+        this.race = race;
+    }
+    
+    public List<String> getLanguages() {
+        return this.languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+    
+    public List<String> getHomeLanguages() {
+        return this.homeLanguages;
+    }
+
+    public void setHomeLanguages(List<String> homeLanguages) {
+        this.homeLanguages = homeLanguages;
+    }
+    
+    public String getLimitedEnglishProficiency() {
+        return this.limitedEnglishProficiency;
+    }
+
+    public void setLimitedEnglishProficiency(String limitedEnglishProficiency) {
+        this.limitedEnglishProficiency = limitedEnglishProficiency;
+    }
+    
+    public boolean getHispanicLatinoEthnicity() {
+        return this.hispanicLatinoEthnicity;
+    }
+
+    public void setHispanicLatinoEthnicity(boolean hispanicLatinoEthnicity) {
+        this.hispanicLatinoEthnicity = hispanicLatinoEthnicity;
+    }
+    
+    public boolean getEconomicDisadvantaged() {
+        return this.economicDisadvantaged;
+    }
+
+    public void setEconomicDisadvantaged(boolean economicDisadvantaged) {
+        this.economicDisadvantaged = economicDisadvantaged;
     }
     
     public List<Address> getAddress() {
@@ -119,10 +182,6 @@ public class StudentEntity extends SliEntity
     public void setElectronicMail(List<ElectronicMail> electronicMail) {
         this.electronicMail = electronicMail;
     }
-
-
-
-    
     
     @Override
     public String entityType()
