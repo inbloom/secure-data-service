@@ -2,6 +2,8 @@
 
 <script type="text/javascript" charset="utf-8">
   var is_lea = <%= @is_lea%> 
+  var is_sea = <%= @is_sea%> 
+  var is_operator = <%= @is_operator%> 
   var my_edorg = '<%= @login_user_edorg_name -%>'
   var self_editing = <%= @loginUserId == user.uid -%>
 </script>
@@ -35,7 +37,7 @@
 
 <div id="roles_edorg_block">
 <fieldset>
-<div class = "control-group">
+<div class = "control-group" id="primary_role_block">
 	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
 	<div class="controls">
 	<%= f.select :primary_role, @production_roles,{},:selected => user.primary_role %>
