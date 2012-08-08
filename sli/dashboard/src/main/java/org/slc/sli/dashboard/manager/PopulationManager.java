@@ -132,7 +132,8 @@ public interface PopulationManager {
     
     
     /**
-     * Retrieves attendance for student for the current year, and returns a sorted list of attendance events in a generic entity.
+     * Retrieves attendance for student for the current year. Returns a generic entity,
+     * with startDate, endDate, and a list of absent and tardy events.
      * @param token
      * @param studentId
      * @param config

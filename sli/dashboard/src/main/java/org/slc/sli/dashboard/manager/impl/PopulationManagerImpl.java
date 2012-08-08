@@ -1364,17 +1364,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     
     /**
-     * Retrieves attendance in a sorted order, and packages as GenericEntity.
+     * Retrieves attendance in a sorted order, removes all events where the student is present.
+     * Returns a GenericEntity with startDate, endDate, and attendanceList.
      */
 	@Override
 	public GenericEntity getStudentAttendanceForCalendar(String token,
 			Object studentId, Data config) {
 		List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
-		GenericEntity temp = attendanceList.get(0);
-		List<Map> schoolYearAttendance = (List<Map>)temp.get("schoolYearAttendance");
-		Map<String, Object> temp2 = (Map<String, Object>)schoolYearAttendance.get(0);
+		GenericEntity firstWrapper = attendanceList.get(0);
+		List<Map> schoolYearAttendance = (List<Map>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+		Map<String, Object> secondWrapper = (Map<String, Object>)schoolYearAttendance.get(0);
 		
-		List<Map> attList = (List)temp2.get("attendanceEvent");
+		List<Map> attList = (List)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Comparator<Map> c = new Comparator() {
 
@@ -1391,8 +1392,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
 				Date date1, date2;
 				try {
-					date1 = sdf.parse((String)map1.get("date"));
-					date2 = sdf.parse((String)map2.get("date"));
+					date1 = sdf.parse((String)map1.get(Constants.ATTR_ATTENDANCE_DATE));
+					date2 = sdf.parse((String)map2.get(Constants.ATTR_ATTENDANCE_DATE));
 					return date1.compareTo(date2);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -1401,9 +1402,25 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 			}
 		};
 
-		GenericEntity ge = new GenericEntity();
+		String startDate = (String) attList.get(0).get(Constants.ATTR_ATTENDANCE_DATE);
+		String endDate = (String) attList.get(attList.size()-1).get(Constants.ATTR_ATTENDANCE_DATE);
+		
+		
 		Collections.sort(attList, c);
-		ge.put("attendanceList", attList);
+		
+		LinkedList<Map> absentList = new LinkedList<Map>();
+		
+		for (Map attEvent : attList) {
+			String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+			if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+				absentList.addLast(attEvent);
+			}
+		}
+		
+		GenericEntity ge = new GenericEntity();
+		ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
+		ge.put(Constants.ATTR_START_DATE, startDate);
+		ge.put(Constants.ATTR_END_DATE, endDate);
 		return ge;
 	}
 }
