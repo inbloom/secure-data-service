@@ -175,6 +175,10 @@ public class EventReporter implements Publisher {
                 schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
                 Thread.sleep(5000);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
+                Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.DELETE);
                 studentLEARelationship.setChanged();
                 studentLEARelationship.setGradeLevel(GradeLevelCode._09);
