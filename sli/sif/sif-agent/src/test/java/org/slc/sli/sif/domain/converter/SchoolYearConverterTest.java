@@ -14,23 +14,31 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.domain.sifentity;
+package org.slc.sli.sif.domain.converter;
 
-import openadk.library.SIFElement;
+import junit.framework.Assert;
+
+import org.junit.Test;
+
+import org.slc.sli.sif.ADKTest;
 
 /**
- * An GenericEntity in the SIF domain, which has a corresponding SIFDataObject.
- *
- * @author slee
- *
+ * SchoolYearConverter unit tests
  */
-public class GenericEntity
-{
-    private SIFElement sifElement;
-    /**
-     *  Constructor
-     */
-    public GenericEntity(SIFElement sifElement) {
-        this.sifElement = sifElement;
+public class SchoolYearConverterTest extends ADKTest {
+
+    private final SchoolYearConverter converter = new SchoolYearConverter();
+
+    @Test
+    public void testNullList() {
+        String result = converter.convert(null);
+        Assert.assertNull("school year should be null", result);
     }
+
+    @Test
+    public void test() {
+        Assert.assertEquals(converter.convert(2011), "2011-2012");
+        Assert.assertEquals(converter.convert(2013), "2013-2014");
+    }
+
 }

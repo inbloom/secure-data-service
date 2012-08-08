@@ -21,6 +21,8 @@ import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.ldap.User.Status;
+
 /**
  * Unit tests
  */
@@ -109,6 +111,7 @@ public class LdapServiceImplTest {
         assertEquals("/dev/null", newUser.getHomeDir());
         assertEquals("testTenant", newUser.getTenant());
         assertEquals("testEdorg", newUser.getEdorg());
+        assertEquals(User.Status.SUBMITTED, newUser.getStatus());
 
         // test update
         updateTestUser(newUser);
@@ -127,6 +130,7 @@ public class LdapServiceImplTest {
         assertEquals("/dev/null/update", updatedUser.getHomeDir());
         assertEquals("testTenantUpdate", updatedUser.getTenant());
         assertEquals("testEdorgUpdate", updatedUser.getEdorg());
+        assertEquals(Status.APPROVED, updatedUser.getStatus());
 
         // test delete
         ldapService.removeUser("local", uid);
@@ -158,6 +162,7 @@ public class LdapServiceImplTest {
         user.removeGroup("SLC Operator");
         user.removeGroup("SEA Administrator");
         user.addGroup("Realm Administrator");
+        user.setStatus(User.Status.APPROVED);
     }
 
 }
