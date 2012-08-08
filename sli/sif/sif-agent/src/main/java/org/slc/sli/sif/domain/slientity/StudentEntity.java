@@ -30,7 +30,7 @@ public class StudentEntity extends SliEntity
     private String studentUniqueStateId;
     private Name name;
     private String sexType;//Demographics
-    private String birthData;//Demographics
+    private BirthData birthData;//Demographics
     private boolean hispanicLatinoEthnicity;//Demographics
     private boolean economicDisadvantaged;
     
@@ -78,6 +78,22 @@ public class StudentEntity extends SliEntity
 
     public void setOtherName(Name otherName) {
         this.otherName = otherName;
+    }
+    
+    public BirthData getBirthData() {
+        return this.birthData;
+    }
+
+    public void setBirthData(BirthData birthData) {
+        this.birthData = birthData;
+    }
+    
+    public String getSexType() {
+        return this.sexType;
+    }
+
+    public void setSexType(String sexType) {
+        this.sexType = sexType;
     }
     
     public List<Address> getAddress() {
