@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 public interface ResourceService {
-
     public EntityBody getEntity(String resource, String id);
 
     public List<EntityBody> getEntities(String resource);
@@ -20,4 +19,5 @@ public interface ResourceService {
     public String postEntity(String resource, EntityBody entity);
 
     public EntityDefinition getEntityDefinition(String resource);
+
 }
