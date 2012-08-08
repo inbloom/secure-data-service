@@ -21,8 +21,12 @@ $(document).ready(function() {
     $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
   }
   
-  if (self_editing && is_lea) {
+  if (self_editing && (is_lea || is_operator)) {
     $("#roles_edorg_block").hide()
+  }
+
+  if (self_editing && is_sea) {
+    $("#primary_role_block").hide()
   }
 
   if (is_sandbox) {
