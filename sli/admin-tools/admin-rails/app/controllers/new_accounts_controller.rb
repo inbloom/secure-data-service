@@ -44,8 +44,6 @@ class NewAccountsController < ForgotPasswordsController
   def set_password
     @new_account_password.new_pass = params[:new_account_password][:new_pass]
     @new_account_password.confirmation = params[:new_account_password][:confirmation]
-    is_valid = @new_account_password.valid?
-
     respond_to do |format|
       # re-render the form if not valid otherwise redirect to the target page 
       if @new_account_password.set_password
@@ -57,7 +55,7 @@ class NewAccountsController < ForgotPasswordsController
     end 
   end
 
-  def set_model(params)
+  def set_model
     token = params[:key]
     # TODO get the username of the inviter and the edorg 
     inviter, edorg = "jdoe", "Fictitious School District"

@@ -18,11 +18,10 @@ limitations under the License.
 
 class NewAccountPassword < ForgotPassword 
 
-  validates_presence_of :token, :new_pass, :confirmation
+  validates_presence_of :token, :agree_to_tou
   validates :new_pass, :confirmation => true #password_confirmation attr
   validate :confirm_new 
-  validates :eula, :presence => true
   
   # attributes passed to the template to render 
-  attr_accessor :inviter, :edorg
+  attr_accessor :inviter, :edorg, :agree_to_tou
 end
