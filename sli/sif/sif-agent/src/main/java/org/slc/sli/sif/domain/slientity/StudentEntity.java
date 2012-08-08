@@ -27,22 +27,78 @@ import java.util.List;
 public class StudentEntity extends SliEntity
 {
     // mandatory fields
-    String studentUniqueStateId;
-    String name;
-    String entryDate;
-    String entryGradeLevel;
+    private String studentUniqueStateId;
+    private String name;
+    private String sexType;//Demographics
+    private String birthData;//Demographics
+    private boolean hispanicLatinoEthnicity;//Demographics
+    private boolean economicDisadvantaged;
+    
 
     // optional fields
-    String schoolYear;
-    String entryType;
-    boolean repeatGradeIndicator;
-    String classOf;
-    boolean schoolChoiceTransfer;
-    String exitWithdrawDate;
-    String exitWithdrawType;
-    List<String> educationalPlans;
-
+    private String studentIdentificationCode;
+    private String otherName;
+    private List<Address> address;
+    private List<InstitutionTelephone> telephone;
+    private List<ElectronicMail> electronicMail;
     
+    private String race;//Demographics
+    private String limitedEnglishProficiency;
+    private String languages;//Demographics
+    private String homeLanguages;//Demographics
+    private String section504Disabilities;//section504
+    private String gradeLevel;//MostRecent
+    private String schoolId;//MostRecent
+
+    /**
+     * Constructor
+     */
+    public StudentEntity() {
+        super();
+    }
+
+    public String getStudentUniqueStateId() {
+        return this.studentUniqueStateId;
+    }
+
+    public void setStudentUniqueStateId(String studentUniqueStateId) {
+        this.studentUniqueStateId = studentUniqueStateId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public List<Address> getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
+    }
+
+    public List<InstitutionTelephone> getTelephone() {
+        return this.telephone;
+    }
+
+    public void setTelephone(List<InstitutionTelephone> telephone) {
+        this.telephone = telephone;
+    }
+
+    public List<ElectronicMail> getElectronicMail() {
+        return this.electronicMail;
+    }
+
+    public void setElectronicMail(List<ElectronicMail> electronicMail) {
+        this.electronicMail = electronicMail;
+    }
+
+
+
     
     
     @Override
