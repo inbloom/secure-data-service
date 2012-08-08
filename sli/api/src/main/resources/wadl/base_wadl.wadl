@@ -14,9 +14,22 @@
  represents the collection of student grades for courses taken during a grading period.
 
  For detailed information, see the schema for $$ReportCard$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/sections" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the definition of a section resource. A section is an educational entity that
@@ -28,24 +41,67 @@
  For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
 
  For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/studentSectionAssociations"/>
-      <ns2:resource path="{id}/studentSectionAssociations/students"/>
-      <ns2:resource path="{id}/teacherSectionAssociations"/>
-      <ns2:resource path="{id}/teacherSectionAssociations/teachers"/>
-      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/studentSectionAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSectionAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSectionAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSectionAssociations/teachers">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
-    <ns2:resource path="v1/studentProgramAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+    <ns2:resource path="v1/studentProgramAssociations"
+                  resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the association between a $$Student$$ and a $$Program$$.
 
  For more information, see the schema for $$StudentProgramAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/programs"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/programs">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/courses" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the organization of subject matter and related learning experiences provided
@@ -54,29 +110,73 @@
  This is similar to section except that a section is a specific instance of a course.
 
  For more information, see the schema for $$Course$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/courseOfferings"/>
-      <ns2:resource path="{id}/courseOfferings/sessions"/>
-      <ns2:resource path="{id}/courseTranscripts"/>
-      <ns2:resource path="{id}/courseTranscripts/students"/>
-      <ns2:resource path="{id}/studentParentAssociations"/>
-      <ns2:resource path="{id}/studentParentAssociations/students"/>
-      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/courseOfferings">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseOfferings/sessions">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseTranscripts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseTranscripts/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/home">
       <ns2:doc><![CDATA[Provides initial information for a user. This includes providing different links to self and associated
  resources.]]></ns2:doc>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/gradingPeriods">
       <ns2:doc><![CDATA[Represents the time span for which grades are reported.
 
  For detailed information, see the schema for $$GradingPeriod$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/reportCards"/>
-      <ns2:resource path="{id}/grades"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/reportCards">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/grades">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/cohorts">
       <ns2:doc><![CDATA[Represents the definition of a cohort.
@@ -85,13 +185,34 @@
  designated students for tracking, analysis, or intervention.
 
  For detailed information, see the schema for $$Cohort$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/staffCohortAssociations"/>
-      <ns2:resource path="{id}/staffCohortAssociations/staff"/>
-      <ns2:resource path="{id}/studentCohortAssociations"/>
-      <ns2:resource path="{id}/studentCohortAssociations/students"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffCohortAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffCohortAssociations/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentCohortAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentCohortAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/sessions">
       <ns2:doc><![CDATA[Represents the session resource. A session is the prescribed span of time
@@ -101,31 +222,78 @@
  by one or more vacations.
 
  For detailed information, see the schema for $$Session$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/courseOfferings"/>
-      <ns2:resource path="{id}/courseOfferings/courses"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseOfferings">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseOfferings/courses">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/courseTranscripts">
       <ns2:doc><![CDATA[Represents the final record of a student's performance in their courses at the end of semester or
  school year.
 
  For more information, see the schema for $$StudentTranscriptAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/courses"/>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/courses">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/gradebookEntries">
       <ns2:doc><![CDATA[Represents a teacher's assignment, homework, or classroom assessment to be recorded in a
  gradebook.
 
  For more information, see the schema for $$GradebookEntry$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/staffEducationOrgAssignmentAssociations">
       <ns2:doc><![CDATA[Represents the link between an education organization and a staff member. Education
@@ -133,11 +301,28 @@
  organizations.
 
  For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/staff"/>
-      <ns2:resource path="{id}/educationOrganizations"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/educationOrganizations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/disciplineIncidents">
       <ns2:doc><![CDATA[Represents the definition of a discipline incident.  A discipline incident
@@ -146,19 +331,49 @@
  Discipline incidents are events classified as warranting discipline action.
 
  For detailed information, see the schema for $$DisciplineIncident$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/studentDisciplineIncidentAssociations"/>
-      <ns2:resource path="{id}/studentDisciplineIncidentAssociations/students"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentDisciplineIncidentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentDisciplineIncidentAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentGradebookEntries">
       <ns2:doc><![CDATA[Represents a student's grade or competency level for a $$GradebookEntry$$.
 
  For detailed information, see the schema for $$StudentGradebookEntry$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/assessments">
       <ns2:doc><![CDATA[Represents a tool, instrument, process, or exhibition composed of a systematic sampling of
@@ -167,104 +382,271 @@
  occasion to the next.
 
  For more information, see the schema for $$Assessment$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/studentAssessments"/>
-      <ns2:resource path="{id}/studentAssessments/students"/>
-      <ns2:resource path="{id}/learningStandards"/>
-      <ns2:resource path="{id}/learningObjectives"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/studentAssessments">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentAssessments/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/learningStandards">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/learningObjectives">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentCohortAssociations">
       <ns2:doc><![CDATA[Represents the association between a $$Student$$ and a $$Cohort$$.
 
  For more information, see the schema for $$StudentCohortAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/cohorts"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/cohorts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/educationOrganizations">
       <ns2:doc><![CDATA[Represents any public or private institution, organization, or agency that provides instructional
  or support services to students or staff at any level.
 
  For more information, see the schema for $$EducationOrganization$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations"/>
-      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations/staff"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/teacherSectionAssociations">
       <ns2:doc><![CDATA[Represents the class sections (see the $$Section$$ schema) to which a teacher (see the
  $$Teacher$$ schema) is assigned to.
 
  For more information, see the schema for $$TeacherSectionAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/teachers"/>
-      <ns2:resource path="{id}/sections"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/teachers">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/sections">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/schools">
       <ns2:doc><![CDATA[This entity represents an educational organization that includes staff and students who
  participate in classes and educational activity groups.
 
  For more information, see the schema for $$School$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/teacherSchoolAssociations"/>
-      <ns2:resource path="{id}/teacherSchoolAssociations/teachers"/>
-      <ns2:resource path="{id}/studentSchoolAssociations"/>
-      <ns2:resource path="{id}/studentSchoolAssociations/students"/>
-      <ns2:resource path="{id}/sections"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/teacherSchoolAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSchoolAssociations/teachers">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSchoolAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSchoolAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/sections">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/programs">
       <ns2:doc><![CDATA[Represents the definition of a program.  A program is designed to work in
  conjunction with or to supplement the main academic program.
 
  For detailed information, see the schema for $$Program$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/staffProgramAssociations/staff"/>
-      <ns2:resource path="{id}/studentProgramAssociations"/>
-      <ns2:resource path="{id}/studentProgramAssociations/students"/>
-      <ns2:resource path="{id}/staffProgramAssociations"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffProgramAssociations/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentProgramAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentProgramAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffProgramAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/learningStandards">
       <ns2:doc><![CDATA[Represents a subelement of a learning objective consisting of a precise statement of the
  expectation of a student's proficiency.
 
  For more information, see the schema for $$LearningStandard$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/parents">
       <ns2:doc><![CDATA[Represents a parent or guardian of a student.
 
  For detailed information, see the schema for $$Parent$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/studentParentAssociations"/>
-      <ns2:resource path="{id}/studentParentAssociations/students"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/teachers">
       <ns2:doc><![CDATA[Represents a person that is employed by an LEA or other educational unit engaged in student
  instruction. These persons are instructional-type staff members. In the data model, a teacher
  entity is a staff member with additional properties. For more information, see the schema for
  $$Teacher$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/teacherSchoolAssociations"/>
-      <ns2:resource path="{id}/teacherSectionAssociations"/>
-      <ns2:resource path="{id}/teacherSectionAssociations/sections"/>
-      <ns2:resource path="{id}/teacherSchoolAssociations/schools"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/teacherSchoolAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSectionAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSectionAssociations/sections">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/teacherSchoolAssociations/schools">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentAcademicRecords">
       <ns2:doc><![CDATA[Represents the cumulative record of academic achievements and the collection of student grades
@@ -274,50 +656,131 @@
  instead.
 
  For detailed information, see the schema for $$StudentAcademicRecord$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/learningObjectives">
       <ns2:doc><![CDATA[Represents identified learning objectives for courses in specific grades.
 
  For more information, see the schema for $$LearningObjective$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/studentCompetencies"/>
-      <ns2:resource path="{id}/learningStandards"/>
-      <ns2:resource path="{id}/parentLearningObjectives"/>
-      <ns2:resource path="{id}/childLearningObjectives"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/studentCompetencies">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/learningStandards">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/parentLearningObjectives">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/childLearningObjectives">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/attendances">
       <ns2:doc><![CDATA[Represents the definition of an attendance resource. An attendance resource represents
  both daily and class period (section) attendance.
 
  For more information, see the schema for $$Attendance$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentSchoolAssociations">
       <ns2:doc><![CDATA[Represents the school to which a student is enrolled.
 
  For more information, see the schema for $$StudentSchoolAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/schools"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/schools">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/teacherSchoolAssociations">
       <ns2:doc><![CDATA[This association indicates the school(s) to which a teacher provides instructional services to.
 
  For more information, see the schema for $$TeacherSchoolAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/teachers"/>
-      <ns2:resource path="{id}/schools"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/teachers">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/schools">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/staff">
       <ns2:doc><![CDATA[Represents the definition of a staff resource. A staff is a person that is employed by
@@ -330,15 +793,40 @@
  For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources.
 
  For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/staffProgramAssociations/programs"/>
-      <ns2:resource path="{id}/staffCohortAssociations"/>
-      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations"/>
-      <ns2:resource path="{id}/staffProgramAssociations"/>
-      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations/educationOrganizations"/>
-      <ns2:resource path="{id}/staffCohortAssociations/cohorts"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/staffProgramAssociations/programs">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffCohortAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffProgramAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffEducationOrgAssignmentAssociations/educationOrganizations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staffCohortAssociations/cohorts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/grades">
       <ns2:doc><![CDATA[Represents an overall score or assessment tied to a course over a period
@@ -347,71 +835,188 @@
  Student grades are usually a compilation of marks and other scores.
 
  For more information, see the schema for $$Grade$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentCompetencies">
       <ns2:doc><![CDATA[Represents the competency assessed or evaluated for the student against a specific Learning
  Objective.
 
  For detailed information, see the schema for $$StudentCompetency$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/reportCards"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/reportCards">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentSectionAssociations">
       <ns2:doc><![CDATA[Represents the course sections a student is assigned to.
 
  For more information, see the schema for $$StudentSectionAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/sections"/>
-      <ns2:resource path="{id}/studentCompetencies"/>
-      <ns2:resource path="{id}/grades"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/sections">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentCompetencies">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/grades">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/staffCohortAssociations">
       <ns2:doc><![CDATA[Represents the association between a $$Staff$$ member and a $$Cohort$$.
 
  For more information, see the schema for $$StaffCohortAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/staff"/>
-      <ns2:resource path="{id}/cohorts"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/cohorts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentAssessments">
       <ns2:doc><![CDATA[Represents the analysis or scoring of a student's response on an assessment. The analysis results
  in a value that represents a student's performance on a set of items on a test.
 
  For more information, see the schema for $$StudentAssessmentAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/assessments"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/assessments">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/competencyLevelDescriptor">
       <ns2:doc><![CDATA[Defines various levels for assessed competencies.
 
  For more information, see the schema for $$CompetencyLevelDescriptor$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/staffProgramAssociations">
       <ns2:doc><![CDATA[Represents the association between a $$Staff$$ member and a $$Program$$.
 
  For more information, see the schema for $$StaffProgramAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/staff"/>
-      <ns2:resource path="{id}/programs"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/staff">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/programs">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentCompetencyObjectives">
       <ns2:doc><![CDATA[Represents additional competencies for student achievement that are not associated with specific
@@ -419,19 +1024,49 @@
  (e.g., paying attention in class).
 
  For detailed information, see the schema for $$StudentCompetencyObjective$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentDisciplineIncidentAssociations">
       <ns2:doc><![CDATA[Represents the association between a $$Student$$ and a $$DisciplineIncident$$.
 
  For more information, see the schema for $$StudentDisciplineIncidentAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}/disciplineIncidents"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/disciplineIncidents">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/competencyLevelDescriptorTypes">
       <ns2:doc><![CDATA[Provides references for competency level descriptors during interchange. Use XML IDREF to
@@ -439,19 +1074,49 @@
  specify either CodeValue OR Description.
 
  For more information, see the schema $$CompetencyLevelDescriptorType$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/studentParentAssociations">
       <ns2:doc><![CDATA[Represents the relationships between students and their parents, guardians, or caretakers.
 
  For more information, see the schema for $$StudentParentAssociation$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}/parents"/>
-      <ns2:resource path="{id}/students"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/parents">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/students">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/courseOfferings">
       <ns2:doc><![CDATA[Represents the course offering resource. A course offering represents
@@ -459,11 +1124,28 @@
  course is offered.
 
  For detailed information, see the schema for $$CourseOffering$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/sessions"/>
-      <ns2:resource path="{id}/courses"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/sessions">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courses">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/disciplineActions">
       <ns2:doc><![CDATA[Represents the definition of a discipline action.
@@ -473,9 +1155,22 @@
  is recorded as a discipline incident.
 
  For detailed information, see the schema for the $$DisciplineAction$$ entity.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/students">
       <ns2:doc><![CDATA[This entity represents an individual for whom
@@ -486,27 +1181,77 @@
  or program. A student is a person who has been enrolled in a
  school or other educational institution. For more information, see the schema for the $$Student$$
  resources.]]></ns2:doc>
-      <ns2:resource path="{id}/studentProgramAssociations/programs"/>
-      <ns2:resource path="{id}/studentAssessments"/>
-      <ns2:resource path="{id}/studentCohortAssociations"/>
-      <ns2:resource path="{id}/courseTranscripts"/>
-      <ns2:resource path="{id}/studentParentAssociations"/>
-      <ns2:resource path="{id}/studentDisciplineIncidentAssociations"/>
-      <ns2:resource path="{id}/reportCards"/>
-      <ns2:resource path="{id}/studentParentAssociations/parents"/>
-      <ns2:resource path="{id}/studentProgramAssociations"/>
-      <ns2:resource path="{id}/studentSchoolAssociations"/>
-      <ns2:resource path="{id}/studentSectionAssociations"/>
-      <ns2:resource path="{id}/studentSectionAssociations/sections"/>
-      <ns2:resource path="{id}/studentSchoolAssociations/schools"/>
-      <ns2:resource path="{id}/studentAssessments/assessments"/>
-      <ns2:resource path="{id}/attendances"/>
-      <ns2:resource path="{id}/courseTranscripts/courses"/>
-      <ns2:resource path="{id}/studentDisciplineIncidentAssociations/disciplineIncidents"/>
-      <ns2:resource path="{id}/studentCohortAssociations/cohorts"/>
-      <ns2:resource path="{id}"/>
-      <ns2:resource path="{id}/custom"/>
-      <ns2:resource path="{id}/aggregates"/>
+      <ns2:resource path="{id}/studentProgramAssociations/programs">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentAssessments">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentCohortAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseTranscripts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentDisciplineIncidentAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/reportCards">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentParentAssociations/parents">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentProgramAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSchoolAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSectionAssociations">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSectionAssociations/sections">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentSchoolAssociations/schools">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentAssessments/assessments">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/attendances">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/courseTranscripts/courses">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentDisciplineIncidentAssociations/disciplineIncidents">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/studentCohortAssociations/cohorts">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:resource path="{id}">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/custom">
+        <ns2:method id="read" name="GET"/>
+        <ns2:method id="create" name="POST"/>
+        <ns2:method id="delete" name="DELETE"/>
+        <ns2:method id="update" name="PUT"/>
+      </ns2:resource>
+      <ns2:resource path="{id}/aggregates">
+        <ns2:method id="read" name="GET"/>
+      </ns2:resource>
+      <ns2:method id="create" name="POST"/>
+      <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
   </ns2:resources>
 </ns2:application>
+
