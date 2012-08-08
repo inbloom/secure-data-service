@@ -60,7 +60,8 @@ public class RealmHelper {
      * If it's production and the user is an admin user, this is the realm
      * they can administer, not the realm they logged into.
      * 
-     * @return
+     * 
+     * @return the realm's mongo id, or null if a realm doesn't exist.
      */
     public String getAssociatedRealmId() {
         
@@ -72,7 +73,10 @@ public class RealmHelper {
             debug("Looking up realm for edorg {}.", edOrg);
             realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, edOrg));
             Entity realm = repo.findOne("realm", realmQuery);
-            return realm.getEntityId();
+            if (realm != null) {
+                return realm.getEntityId();
+            }
+            return null;
         }
 
     }

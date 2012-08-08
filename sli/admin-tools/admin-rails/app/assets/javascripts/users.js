@@ -17,7 +17,13 @@
 
 $(document).ready(function() {
 
-
+  if (!self_editing && is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
+    $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
+  }
+  
+  if (self_editing && is_lea) {
+    $("#roles_edorg_block").hide()
+  }
 
   if (is_sandbox) {
     $("#user_primary_role").change(function() {
@@ -27,7 +33,6 @@ $(document).ready(function() {
           }
           else if($("#user_primary_role option:selected").attr("value")== "Application Developer") {
         	  $("#application_developer_role").attr("disabled","disabled").attr("checked",false);
-        	  
         	  $("#ingestion_user_role").removeAttr("disabled");
           } else {
         	  $("#ingestion_user_role").attr("disabled","disabled").attr("checked",false);
@@ -42,26 +47,33 @@ $(document).ready(function() {
 	        	 $("#realm_administrator_role").attr("disabled", "disabled").attr("checked",false);
 	        	 $("#user_tenant").attr("disabled", "disabled").val("");
 	        	 $("#user_edorg").attr("disabled", "disabled").val("");
-	        	
-	          }
-	          else if($("#user_primary_role option:selected").attr("value")== "SEA Administrator" || $("#user_primary_role option:selected").attr("value")== "LEA Administrator") {
+	          } else if($("#user_primary_role option:selected").attr("value")== "SEA Administrator" 
+                                || $("#user_primary_role option:selected").attr("value")== "LEA Administrator") {
 	        	     $("#ingestion_user_role").removeAttr("disabled")
 		        	 $("#realm_administrator_role").removeAttr("disabled")
 		        	 $("#user_tenant").removeAttr("disabled");
 		        	 $("#user_edorg").removeAttr("disabled");
-		        	
 	          } else if($("#user_primary_role option:selected").attr("value")== "Ingestion User"){
 	        	  $("#ingestion_user_role").attr("disabled","disabled").attr("checked",false);
 	        	  $("#realm_administrator_role").removeAttr("disabled")
 		          $("#user_tenant").removeAttr("disabled");
 		          $("#user_edorg").removeAttr("disabled");
+                  if(is_lea) { 
+	        	    $("#user_edorg option[value=\"" +my_edorg+ "\"]").removeAttr("disabled").text(my_edorg);
+                  }
 	          } else if($("#user_primary_role option:selected").attr("value")== "Realm Administrator"){
 	        	  $("#realm_administrator_role").attr("disabled","disabled").attr("checked",false);
 	        	  $("#ingestion_user_role").removeAttr("disabled")
 		          $("#user_tenant").removeAttr("disabled");
 		          $("#user_edorg").removeAttr("disabled");
+                  if(is_lea) {
+	        	    $("#user_edorg option[value=\"" +my_edorg+ "\"]").removeAttr("disabled").text(my_edorg);
+                  }
 	          }
-	        });
+              if (is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
+	        	  $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
+              }
+	  });
   };
 
 })
