@@ -19,6 +19,12 @@ package org.slc.sli.ingestion.xml.idref;
 
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -26,22 +32,18 @@ import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Id Reference Resolution of the future...
- * 
+ *
  * @author shalka
  */
 @Scope("prototype")
 @Component
 public class IdRefResolutionCallable implements Callable<Boolean> {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionCallable.class);
-    
+
     private final IdRefResolutionHandler resolver;
     private final IngestionFileEntry entry;
     private final Job job;
@@ -70,8 +72,10 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
      */
     @Override
     public Boolean call() throws Exception {
+        TenantContext.setJobId(job.getId());
+
         boolean hasErrors = false;
-        
+
         LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
         resolver.handle(entry, entry.getErrorReport());
 

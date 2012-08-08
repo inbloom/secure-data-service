@@ -161,6 +161,7 @@ public class MongoTrackingAspect {
         if (jobId != null) {
             this.stats.put(jobId, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
         }
+        LOG.info("Mongo tracking stats are now cleared for job {}.", jobId);
     }
 
 }

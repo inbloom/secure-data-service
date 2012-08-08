@@ -1231,6 +1231,26 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
+Then /^I check to find if complex record is in batch job collection:$/ do |table|
+  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+
+    @entity_count = @entity_collection.find({row["searchParameter"] => { "$type" => 3 }}).count().to_s
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record " + row["searchParameter"]
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+end
+
 Then /^I check to find if record is in batch job collection:$/ do |table|
   @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
 
