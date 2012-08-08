@@ -41,6 +41,7 @@ class UsersController < ApplicationController
     @users = User.all
     @is_operator = is_operator?
     @is_lea = is_lea_admin?
+    @is_sea = is_sea_admin?
     check = Check.get ""
     @login_user_edorg_name = check['edOrg']
     respond_to do |format|
@@ -79,6 +80,7 @@ class UsersController < ApplicationController
     @user = User.new
     @is_operator = is_operator?
     @is_lea = is_lea_admin?
+    @is_sea = is_sea_admin?
    set_edorg_options
    set_role_options
    get_login_tenant
@@ -137,6 +139,7 @@ class UsersController < ApplicationController
          get_login_tenant
          @is_operator = is_operator?
          @is_lea = is_lea_admin?
+         @is_sea = is_sea_admin?
          @user.errors[:edorg] << "tenant and edorg mismatch"
          format.html {render "new"}
        else
@@ -157,6 +160,7 @@ class UsersController < ApplicationController
     set_role_options
     @is_operator = is_operator?
     @is_lea = is_lea_admin?
+    @is_sea = is_sea_admin?
    @users.each do |user|
       if user.uid == params[:id]
         @user = user
@@ -184,6 +188,7 @@ class UsersController < ApplicationController
     
     logger.info{"running the update user now"}
     @is_lea = is_lea_admin?
+    @is_sea = is_sea_admin?
     @users = User.all
     @users.each do |user|
       if user.uid = params[:id]
@@ -220,6 +225,7 @@ class UsersController < ApplicationController
          set_roles
          @is_operator = is_operator?
          @is_lea = is_lea_admin?
+         @is_sea = is_sea_admin?
          format.html { render "edit"}
        else
          flash[:notice]='Success! You have updated the user'
@@ -253,7 +259,6 @@ class UsersController < ApplicationController
       @user.tenant = params[:user][:tenant]
     end
     @user.edorg = params[:user][:edorg]
-   
     @user.groups = groups
     @user.homeDir = "/dev/null"
     return @user
