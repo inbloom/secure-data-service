@@ -294,7 +294,6 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("gidNumber", GROUP_ID_NUMBER);
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
-        if (user.getStatus() != null && user.getStatus().getStatusString() != null)
         context.setAttributeValue("destinationindicator", user.getStatus().getStatusString());
         String description = "";
         if (user.getTenant() != null) {
