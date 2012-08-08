@@ -35,8 +35,8 @@ public class SchoolYearConverter {
         if (schoolYear == null) {
             return null;
         }
-        Integer nextSchoolYear = schoolYear + 1;
-        return schoolYear.toString() + "-" + nextSchoolYear.toString();
+        Integer priorSchoolYear = schoolYear - 1;
+        return priorSchoolYear.toString() + "-" + schoolYear.toString();
     }
 
 }
