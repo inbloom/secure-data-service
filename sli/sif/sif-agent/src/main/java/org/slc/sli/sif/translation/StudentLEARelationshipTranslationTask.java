@@ -25,7 +25,8 @@ import openadk.library.common.EntryType;
 import openadk.library.common.ExitType;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.StudentLEARelationship;
-import openadk.library.student.StudentSchoolEnrollment;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
@@ -33,7 +34,6 @@ import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.SchoolYearConverter;
 import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Translation task for translating StudentLEARelationship SIF data objects
@@ -57,8 +57,7 @@ public class StudentLEARelationshipTranslationTask extends
     @Autowired
     ExitTypeConverter exitTypeConverter;
 
-    public StudentLEARelationshipTranslationTask()
-    {
+    public StudentLEARelationshipTranslationTask() {
         super(StudentLEARelationship.class);
     }
 
