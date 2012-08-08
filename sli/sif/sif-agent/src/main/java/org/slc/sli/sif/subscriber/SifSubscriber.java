@@ -105,6 +105,7 @@ public class SifSubscriber implements Subscriber {
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
             GenericEntity entity = sliEntity.createGenericEntity();
             String guid = slcInterface.create(entity);
+            LOG.info("addEntities "+entity.getEntityType()+": received guid="+guid);
             if (guid != null) {
                 sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid);
             }
