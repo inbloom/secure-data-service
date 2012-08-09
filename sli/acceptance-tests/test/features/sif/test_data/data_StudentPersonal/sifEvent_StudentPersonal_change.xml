@@ -16,7 +16,7 @@
       </SIF_Contexts>
     </SIF_Header>
     <SIF_ObjectData>
-      <SIF_EventObject ObjectName="StudentPeronal" Action="Change">
+      <SIF_EventObject ObjectName="StudentPersonal" Action="Change">
         <StudentPersonal RefId="222222222222222A8C3D00AA001A1652">
           <LocalId>P00001</LocalId> 
           <Name Type="04"> 
