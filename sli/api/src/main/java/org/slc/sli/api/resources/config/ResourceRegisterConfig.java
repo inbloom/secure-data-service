@@ -4,7 +4,6 @@ import com.sun.jersey.api.core.DefaultResourceConfig;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.GenericResource;
-import org.slc.sli.api.resources.generic.RestSuite;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
@@ -68,6 +67,8 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
                 getExplicitRootResources().put(PREFIX + resource.getKey(), resourceClass);
             }
 
+            getExplicitRootResources().put(PREFIX + "schools/{id}", DefaultResource.class);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -82,14 +83,13 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
                 if (resourceTemplate.getRight() != null && !resourceTemplate.getRight().isEmpty()) {
                     resourceClass = Class.forName(resourceTemplate.getRight());
                 }
-                getExplicitRootResources().put(PREFIX + resourceTemplate.getLeft(), DefaultResource.class);
+
+                getExplicitRootResources().put(PREFIX + resourceTemplate.getLeft(), resourceClass);
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-
-        getExplicitRootResources().put(PREFIX + "schools/{id}", DefaultResource.class);
     }
 
     protected Map<String, Resource> getResources() {
