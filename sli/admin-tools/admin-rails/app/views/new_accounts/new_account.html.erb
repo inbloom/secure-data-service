@@ -54,12 +54,14 @@
     </table>
   </div>
 
-  <div> 
-    <label class="checkbox">
-            <%= check_box_tag "terms_and_conditions" %> 
-       I have read and agree to the Shared Learning Collaborative Terms and Coditions.
-    </label> 
-  <div> 
+  <% if APP_CONFIG['is_sandbox'] %>
+    <div>
+      <label class="checkbox">
+              <%= check_box_tag "terms_and_conditions" %>
+              <%= render :partial => 'eulas/eula' %>
+      </label>
+    <div>
+  <% end %>
 
   <div class="actions">
     <br/>
