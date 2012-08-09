@@ -33,6 +33,8 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
+import org.slc.sli.sif.domain.converter.NameConverter;
+import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
@@ -43,6 +45,13 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    NameConverter nameConverter;
+    
+    @Autowired
+    OtherNamesConverter otherNameConverter;
+    
     @Autowired
     LanguageListConverter languageListConverter;
     
@@ -73,13 +82,19 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         Demographics demographics = sp.getDemographics();
         StudentEntity e = new StudentEntity();
         //convert properties
+        e.setStudentUniqueStateId(sp.getStateProvinceId());
+        e.setName(nameConverter.convert(sp.getName()));
+        e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
+        
         if (demographics!=null) {
             e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
+            e.setSchoolId(mostRecent.getSchoolLocalId());
         }
+        
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));

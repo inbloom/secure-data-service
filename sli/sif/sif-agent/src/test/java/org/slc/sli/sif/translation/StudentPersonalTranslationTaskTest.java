@@ -22,15 +22,13 @@ import java.util.List;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
-import openadk.library.common.AddressList;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
-import openadk.library.common.Language;
 import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
-import openadk.library.common.LanguageType;
+import openadk.library.common.NameType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
@@ -43,15 +41,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
+import org.slc.sli.sif.domain.converter.NameConverter;
+import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
+import org.slc.sli.sif.domain.slientity.OtherName;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -61,8 +61,15 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTaskTest {
+       
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    NameConverter mockNameConverter;
+
+    @Mock
+    OtherNamesConverter mockOtherNameConverter;
 
     @Mock
     LanguageListConverter mockLanguageListConverter;
@@ -96,6 +103,36 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testName() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        openadk.library.common.Name original = new openadk.library.common.Name(NameType.BIRTH, "Smith", "John");
+        info.setName(original);
+
+        org.slc.sli.sif.domain.slientity.Name name = new org.slc.sli.sif.domain.slientity.Name();
+        Mockito.when(mockNameConverter.convert(original)).thenReturn(name);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(name, entity.getName());
+    }
+    
+    @Test
+    public void testOtherNames() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        openadk.library.common.OtherNames original = new openadk.library.common.OtherNames();        
+        info.setOtherNames(original);
+
+        List<org.slc.sli.sif.domain.slientity.OtherName> otherNames = new ArrayList<org.slc.sli.sif.domain.slientity.OtherName>();
+        Mockito.when(mockOtherNameConverter.convert(original)).thenReturn(otherNames);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(otherNames, entity.getOtherName());
+    }
+    
     @Test
     public void testLanguages() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
