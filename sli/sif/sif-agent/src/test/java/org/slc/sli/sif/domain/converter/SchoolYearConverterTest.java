@@ -37,8 +37,8 @@ public class SchoolYearConverterTest extends ADKTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(converter.convert(2011), "2011-2012");
-        Assert.assertEquals(converter.convert(2013), "2013-2014");
+        Assert.assertEquals(converter.convert(2011), "2010-2011");
+        Assert.assertEquals(converter.convert(2013), "2012-2013");
     }
 
 }
