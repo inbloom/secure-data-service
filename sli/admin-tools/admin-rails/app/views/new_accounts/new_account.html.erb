@@ -14,7 +14,9 @@
   <% end %>
 
   <div> 
-   You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+    <% if !APP_CONFIG["is_sandbox"]%>
+      You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+    <%end %>
   </div>
   <div>
     Please create a password for your your account. 
@@ -58,7 +60,15 @@
     <div>
       <label class="checkbox">
               <%= check_box_tag "terms_and_conditions" %>
-              <%= render :partial => 'eulas/eula' %>
+              I have read and agree to <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">the Shared Learning Collaborative Terms and Conditions</a>
+              <div id="tou_modal" class="modal hide">
+                <div class="modal-body">
+                  <%= render :partial => 'eulas/eula' %>
+                </div>
+                <div class="modal-footer">
+                  <a href="#" class="btn" data-dismiss="modal">Close</a>
+                </div>
+             </div>
       </label>
     <div>
   <% end %>
