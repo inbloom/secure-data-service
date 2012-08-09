@@ -48,13 +48,13 @@ import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
 import openadk.library.student.TimeFrame;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SifEntityGeneratorTest {
 
-    @BeforeClass
-    public static void setup() throws ADKException {
+    @Before
+    public void setup() throws ADKException {
         ADK.initialize();
     }
 
