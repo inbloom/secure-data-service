@@ -17,26 +17,36 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import com.mongodb.MongoException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.ingestion.BatchJobStatusType;
+import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
+import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.FileUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * @author unavani
@@ -47,6 +57,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
 
     private static final Logger LOG = LoggerFactory.getLogger(FilePreProcessor.class);
     private MessageSource messageSource;
+    private static final String BATCH_JOB_STAGE_NAME = "FilePreProcessor";
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -55,36 +66,72 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
     @Override
-    public void process(Exchange exchange) throws Exception {
-        // TODO Auto-generated method stub
+    public void process(Exchange exchange) {
 
         String inputFileName = "control_file";
         File fileForControlFile = null;
         NewBatchJob newBatchJob = null;
+//        FaultsReport errorReport = new FaultsReport();
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
 
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             inputFileName = fileForControlFile.getName();
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
-            LOG.debug("FilePreProcessor: " + inputFileName);
 
-            //UN: If it is a control file, parse this file and move all the other files in the .done folder
-            if(inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
-                File lzFile = new File(newBatchJob.getTopLevelSourceId());
-                LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
-                ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
-                List<IngestionFileEntry> entries = controlFile.getFileEntries();
-                for (IngestionFileEntry entry : entries) {
-                    FileUtils.renameFile(new File(lzFile +  "\\" + entry.getFileName()), new File(lzFile +  "\\.done\\" + entry.getFileName()));
-                }
+            if (!batchJobDAO.attemptLockForFile(fileForControlFile, newBatchJob.getId(), newBatchJob.getTopLevelSourceId())) {
+                handleExceptions(exchange, batchJobId, new IllegalArgumentException("Could not lock the file " + inputFileName), inputFileName);
+//                errorReport.error("Could not lock the file " + inputFileName, this);
             }
 
-        } catch (Exception exception) {
+            moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
 
+//            setExchangeHeaders(exchange, errorReport, newBatchJob);
+//
+//            setExchangeBody(exchange, fileForControlFile, errorReport, batchJobId);
+
+        } catch (IOException ioException) {
+            handleExceptions(exchange, batchJobId, ioException, inputFileName);
+        } catch (SubmissionLevelException submissionLevelException) {
+            handleExceptions(exchange, batchJobId, submissionLevelException, inputFileName);
+        } catch (MongoException mongoException) {
+            handleExceptions(exchange, batchJobId, mongoException, inputFileName);
+        } catch (IllegalArgumentException illegalArgException) {
+            handleExceptions(exchange, batchJobId, illegalArgException, inputFileName);
         }
-
     }
+
+    private void moveControlFileDependencies(String inputFileName,
+            File fileForControlFile, NewBatchJob newBatchJob)
+            throws IOException, SubmissionLevelException {
+        //UN: If it is a control file, parse this file and move all the other files in the .done folder
+        if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
+            File lzFile = new File(newBatchJob.getTopLevelSourceId());
+            LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
+            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+            List<IngestionFileEntry> entries = controlFile.getFileEntries();
+            for (IngestionFileEntry entry : entries) {
+                FileUtils.renameFile(new File(lzFile +  "\\" + entry.getFileName()), new File(lzFile +  "\\.done\\" + entry.getFileName()));
+            }
+        }
+    }
+
+//    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport, String batchJobId) {
+//        if (!errorReport.hasErrors() && ctlFile != null) {
+//            exchange.getIn().setBody(ctlFile, File.class);
+//        } else {
+//            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
+//            exchange.getIn().setBody(workNote, WorkNote.class);
+//        }
+//    }
+//
+//    private void setExchangeHeaders(Exchange exchange, FaultsReport errorReport, NewBatchJob newJob) {
+//        exchange.getIn().setHeader("BatchJobId", newJob.getId());
+//        if (errorReport.hasErrors()) {
+//            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+//            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+//        }
+//    }
 
     private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
         NewBatchJob job = null;
@@ -93,9 +140,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
         } else {
             job = createNewBatchJob(cf);
         }
-
         TenantContext.setJobId(job.getId());
-
         return job;
     }
 
@@ -112,8 +157,22 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
      */
     @Override
     public void setMessageSource(MessageSource messageSource) {
-        // TODO Auto-generated method stub
+        this.messageSource = messageSource;
+    }
 
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, String fileName) {
+        exchange.getIn().setHeader("BatchJobId", batchJobId);
+        exchange.getIn().setHeader("hasErrors", true);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, fileName, BATCH_JOB_STAGE_NAME, null,
+                    null, null, FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
+            batchJobDAO.saveError(error);
+            // this will require some routing changes
+            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
+        }
     }
 
 }

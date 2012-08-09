@@ -19,6 +19,13 @@ package org.slc.sli.ingestion.model.da;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +39,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,6 +68,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
     private static final String BATCHJOB_NEW_BATCH_JOB_COLLECTION = "newBatchJob";
+    private static final String BATCHJOB_FILE_LOCK_COLLECTION = "fileLock";
 
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
@@ -181,6 +190,98 @@ public class BatchJobMongoDA implements BatchJobDAO {
             throw new IllegalArgumentException(
                     "Must specify a valid tenant id and batch job id for which to attempt lock release.");
         }
+    }
+
+    @Override
+    public boolean attemptLockForFile(File jobFile, String jobId, String topLevelSourceId) {
+        if (topLevelSourceId != null && jobId != null) {
+            try {
+                String fileName = jobId.replaceFirst("(.*)-[\\w]{8}(-[\\w]{4}){3}-[\\w]{12}", "$1");
+                String checkSum = getMD5Checksum(topLevelSourceId + ".done\\" + fileName);
+                File topLevelSource = new File(topLevelSourceId);
+
+                BasicDBObject fileLock = new BasicDBObject();
+                fileLock.put("_id", fileName + ":" + checkSum + ":" + topLevelSource.getName());
+
+                final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
+                fileLock.put("jvmName", jvmName);
+
+                batchJobMongoTemplate.getCollection(BATCHJOB_FILE_LOCK_COLLECTION).insert(fileLock, WriteConcern.SAFE);
+                return true;
+            } catch (IOException e) {
+                LOG.debug(e.getMessage());
+                return false;
+            } catch (NoSuchAlgorithmException e) {
+                LOG.debug(e.getMessage());
+                return false;
+            } catch (MongoException me) {
+                if (me.getCode() == DUP_KEY_CODE) {
+                    LOG.debug("Cannot obtain lock for File");
+                }
+                throw me;
+            }
+        } else {
+            throw new IllegalArgumentException(
+                    "Must specify a valid file for which to attempt lock.");
+        }
+    }
+
+    @Override
+    public void releaseLockForFile(String jobId, String topLevelSourceId) {
+         if (topLevelSourceId != null && jobId != null) {
+             try {
+                 String fileName = jobId.replaceFirst("(.*)-[\\w]{8}(-[\\w]{4}){3}-[\\w]{12}", "$1");
+                 String checkSum = getMD5Checksum(topLevelSourceId + ".done\\.camel\\" + fileName);
+                 File topLevelSource = new File(topLevelSourceId);
+
+                 BasicDBObject fileLock = new BasicDBObject();
+                 fileLock.put("_id", fileName + ":" + checkSum + ":" + topLevelSource.getName());
+
+                 final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
+                 fileLock.put("jvmName", jvmName);
+
+                 batchJobMongoTemplate.getCollection(BATCHJOB_FILE_LOCK_COLLECTION).remove(fileLock, WriteConcern.SAFE);
+
+                 FileUtils.deleteQuietly(new File(topLevelSourceId + ".done\\.camel\\" + fileName));
+            } catch (IOException e) {
+                LOG.debug("Cannot release lock for File");
+            } catch (NoSuchAlgorithmException e) {
+                LOG.debug("Cannot release lock for File");
+            }
+         } else {
+             throw new IllegalArgumentException(
+                     "Must specify a valid file for which to attempt lock.");
+         }
+    }
+
+    // see this How-to for a faster way to convert
+    // a byte array to a HEX string
+    public static String getMD5Checksum(String filename) throws NoSuchAlgorithmException, IOException {
+        byte[] b = createChecksum(filename);
+        String result = "";
+
+        for (int i = 0; i < b.length; i++) {
+            result += Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1);
+        }
+        return result;
+    }
+
+    public static byte[] createChecksum(String filename) throws NoSuchAlgorithmException, IOException {
+        InputStream fis =  new FileInputStream(filename);
+
+        byte[] buffer = new byte[1024];
+        MessageDigest complete = MessageDigest.getInstance("MD5");
+        int numRead;
+
+        do {
+            numRead = fis.read(buffer);
+            if (numRead > 0) {
+                complete.update(buffer, 0, numRead);
+            }
+        } while (numRead != -1);
+
+        fis.close();
+        return complete.digest();
     }
 
     @Override
