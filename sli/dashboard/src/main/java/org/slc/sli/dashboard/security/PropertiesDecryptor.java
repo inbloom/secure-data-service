@@ -28,56 +28,32 @@ public class PropertiesDecryptor {
 
     private String decryptedClientId, decryptedClientSecret;
     private Encryptor encryptor;
+    private String alias, aliasPassword;
     
     public PropertiesDecryptor(String keyStore, String clientId, String clientSecret, String alias,
             String keyStorePassword, String aliasPassword) throws Exception {
         
+    	this.alias = alias;
+    	this.aliasPassword = aliasPassword;
         encryptor = new Encryptor(keyStore, keyStorePassword);
         decryptedClientId = encryptor.decrypt(alias, aliasPassword, clientId);
         decryptedClientSecret = encryptor.decrypt(alias, aliasPassword, clientSecret);
     }
 
-    /**
-     * Decodes csv byteString to byte array and decrypts to string
-     *
-     * @param csString
-     * @return
-     * @throws Exception
-     */
-    public String getDecryptedStringFromCSByteString(String csString) throws Exception {
-        List<String> items = Arrays.asList(csString.split("\\s*,\\s*"));
-        byte[] encodedBytes = new byte[items.size()];
-        int i = 0;
-
-        for (String item : items) {
-            encodedBytes[i++] = Byte.parseByte(item);
-        }
-        byte[] decodedBytes = decryptCipher.doFinal(encodedBytes);
-        return new String(decodedBytes);
+    public String getDecryptedClientId() {
+    	return decryptedClientId;
     }
-
-    /**
-     * Convert string to Encrypted CVS byte string
-     * @param toEncode
-     * @return Encrypted comma delimited byte string. 
-     * @throws Exception
-     */
-    public String getEncryptedByteCSString(String toEncode) throws Exception {
-        byte[] encoded = encryptCipher.doFinal(toEncode.getBytes());
-
-        String s = "";
-        String delim = "";
-
-        for (byte byteElement : encoded) {
-            s += delim + byteElement;
-            delim = ",";
-        }
-
-        return s;
-    }
-
+    
     public String getDecryptedClientSecret() {
         return decryptedClientSecret;
+    }
+    
+    public String encrypt(String toEncrypt) throws Exception{
+    	return encryptor.encrypt(alias, aliasPassword, toEncrypt);
+    }
+    
+    public String decrypt(String toDecrypt) throws Exception {
+    	return encryptor.decrypt(alias, aliasPassword, toDecrypt);
     }
     
 }
