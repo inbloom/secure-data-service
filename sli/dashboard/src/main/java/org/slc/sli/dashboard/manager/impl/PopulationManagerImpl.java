@@ -1418,6 +1418,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 			for (Map attEvent : attList) {
 				String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
 				if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+					String strippedWhiteSpaceEvent = ((String)attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY)).replace(" ", "");
+					attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
 					absentList.addLast(attEvent);
 				}
 			}
