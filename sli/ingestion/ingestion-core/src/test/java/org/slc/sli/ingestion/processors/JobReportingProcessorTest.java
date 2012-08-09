@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertTrue;
@@ -23,8 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -127,7 +124,8 @@ public class JobReportingProcessorTest {
         List<ResourceEntry> mockedResourceEntries = createFakeResourceEntries();
         List<Stage> mockedStages = createFakeStages();
         Map<String, String> mockedProperties = createFakeBatchProperties();
-        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties, mockedStages, mockedResourceEntries);
+        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
+                mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
@@ -135,16 +133,17 @@ public class JobReportingProcessorTest {
         // mock the WorkNote
         WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
 
-        List<Stage> mockStages = new ArrayList<Stage>();
-        List<Metrics> mockMetrics = new ArrayList<Metrics>();
+        List<Stage> mockStages = new LinkedList<Stage>();
+        List<Metrics> mockMetrics = new LinkedList<Metrics>();
 
         mockMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
         mockStages.add(new Stage("PersistenceProcessor", "finished", new Date(), new Date(), mockMetrics));
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.getBatchStagesStoredSeperatelly(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
-        Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
+        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
+        Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(
+                fakeErrorIterable);
 
         NeutralRecordRepository mockedNeutralRecordRepository = Mockito.mock(NeutralRecordRepository.class);
         Mockito.when(mockedNeutralRecordMongoAccess.getRecordRepository()).thenReturn(mockedNeutralRecordRepository);
@@ -158,7 +157,6 @@ public class JobReportingProcessorTest {
         // jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
-
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);
 
@@ -166,10 +164,12 @@ public class JobReportingProcessorTest {
         FileReader fr = new FileReader(TEMP_DIR + OUTFILE);
         BufferedReader br = new BufferedReader(fr);
 
-        //String contents = FileUtils.readFileToString(new File(TEMP_DIR + OUTFILE));
+        // String contents = FileUtils.readFileToString(new File(TEMP_DIR + OUTFILE));
 
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
-        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName() + ")"));
+        assertTrue(br.readLine().contains(
+                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/"
+                        + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName() + ")"));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed: " + RECORDS_FAILED));
@@ -211,21 +211,29 @@ public class JobReportingProcessorTest {
         re.setResourceId(RESOURCEID);
         re.setExternallyUploadedResourceId(RESOURCEID);
         re.setResourceName(TEMP_DIR + RESOURCEID);
-        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT_PARENT_ASSOCIATION.getName(), "123456789", RECORDS_CONSIDERED, RECORDS_FAILED);
+        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT_PARENT_ASSOCIATION.getName(), "123456789",
+                RECORDS_CONSIDERED, RECORDS_FAILED);
         resourceEntries.add(re);
         return resourceEntries;
     }
 
     private Iterable<Error> createFakeErrorIterable() {
         List<Error> errors = new LinkedList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID, "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
+        Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
+                FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
         errors.add(error);
         return errors;
     }
 
     private List<Stage> createFakeStages() {
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "finished", BatchJobUtils.getCurrentTimeStamp(), BatchJobUtils.getCurrentTimeStamp(), Arrays.asList(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED)));
-        return Arrays.asList(s);
-    }
+        List<Metrics> fakeMetrics = new LinkedList<Metrics>();
+        fakeMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
 
+        List<Stage> fakeStageList = new LinkedList<Stage>();
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "finished",
+                BatchJobUtils.getCurrentTimeStamp(), BatchJobUtils.getCurrentTimeStamp(), fakeMetrics);
+        fakeStageList.add(s);
+        return fakeStageList;
+    }
 }

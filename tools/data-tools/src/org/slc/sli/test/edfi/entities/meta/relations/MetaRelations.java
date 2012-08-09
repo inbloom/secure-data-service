@@ -164,7 +164,8 @@ public final class MetaRelations {
               
         }
         catch (IOException ie) {
-              ie.printStackTrace();
+        	System.out.println("Can not find the specified properties file, or the specified file is wrong! please try again!");
+            ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -172,11 +173,13 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
+                    	 System.out.println("The config properties file can not be closed!");
                     	 e.printStackTrace();   
                      }
               }
         }
       
+        try {
         INTERCHANGE_ED_ORG = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG", "true"));
         INTERCHANGE_ED_ORG_CALENDAR = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG_CALENDAR", "true"));
         INTERCHANGE_MASTER_SCHEDULE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_MASTER_SCHEDULE", "true"));
@@ -242,6 +245,7 @@ public final class MetaRelations {
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
         
+ 
     	School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref").trim());
 		Session_Ref = Boolean.parseBoolean(properties
@@ -250,7 +254,6 @@ public final class MetaRelations {
 				.getProperty("StateEducationAgency_Ref").trim());
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
 				.getProperty("LocalEducationAgency_Ref").trim());
-
 	
 		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
 				.getProperty("StudentParentAssociation_Ref").trim());
@@ -265,12 +268,19 @@ public final class MetaRelations {
 		GradingPeriod_Ref = Boolean.parseBoolean(properties
 				.getProperty("GradingPeriod_Ref").trim());
 		
-		if(properties.getProperty("fidelityOfData") =="low"||properties.getProperty("fidelityOfData") =="medium") {
+		String fidelity = properties.getProperty("fidelityOfData");
+		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
+			
 			StateEdFiXmlGenerator.fidelityOfData = properties
 				.getProperty("fidelityOfData").trim();
 		}
 		
 		 System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+        }catch(Exception e)
+        {
+        	System.out.println("Can not find the attributes in the properties file");
+        	e.printStackTrace();
+        }
         
     }
     /**

@@ -1,0 +1,75 @@
+<h1>New Account Registration</h1>
+<br>
+<%= form_for(@new_account_password) do |f| %>
+  <% if @new_account_password.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@new_account_password.errors.count, "error") %> prohibited you from setting your password</h2>
+
+      <ul>
+      <% @new_account_password.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div> 
+   You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+  </div>
+  <div>
+    Please create a password for your your account. 
+  </div> 
+
+  <div class="field">
+    <table>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :new_pass ,"Password"%><span style="color:red"> *</span><br />
+                <%= f.hidden_field :token, :value => @new_account_password.token %>
+                <%= f.password_field :new_pass %>
+            </td>
+            <% if @new_account_password.errors[:new_pass].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @new_account_password.errors[:new_pass].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :confirmation, "Confirm Password" %><span style="color:red"> *</span><br/>
+                <%= f.password_field :confirmation %>
+             </td>
+             <% if @new_account_password.errors[:confirmation].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @new_account_password.errors[:confirmation].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+    </table>
+  </div>
+
+  <% if APP_CONFIG['is_sandbox'] %>
+    <div>
+      <label class="checkbox">
+              <%= check_box_tag "terms_and_conditions" %>
+              <%= render :partial => 'eulas/eula' %>
+      </label>
+    <div>
+  <% end %>
+
+  <div class="actions">
+    <br/>
+    <table>
+        <tr>
+          <td id="SubmitButton"><%= f.submit "Submit", 
+            :id => "submitForgotPasswordButton"%></td>
+        </tr>
+    </table>
+  </div>
+<% end %>

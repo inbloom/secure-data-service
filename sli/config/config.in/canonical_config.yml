@@ -346,6 +346,7 @@ default:
         sli.sif-agent.agentPort: 25100
         sli.sif-agent.zoneId: TestZone
         sli.sif-agent.zoneUrl: http://local.slidev.org:8087/mock-zis/zis
+        sli.sif-agent.adk.logFile: sif-openadk.log
         # interim sif id reference resolution files
         sli.sif-agent.idmap: default-idmap.csv
         sli.sif-agent.zonemap: default-zonemap.csv
@@ -1175,7 +1176,7 @@ team:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
-        bootstrap.app.portal.url: http://local.slidev.org:7000/portal
+        bootstrap.app.portal.url: https://${sli.dev.subdomain}.slidev.org/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
 

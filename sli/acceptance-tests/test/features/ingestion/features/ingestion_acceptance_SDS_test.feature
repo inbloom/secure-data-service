@@ -16,6 +16,7 @@
 @RALLY_DE621
 @RALLY_US3122
 @RALLY_US3202
+@RALLY_US3200
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -65,6 +66,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | reportCard                  |
         | courseOffering              |
         | studentAcademicRecord       |
+        | graduationPlan              |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -108,6 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
         | reportCard                  | 2     |
         | courseOffering              | 95    |
         | studentAcademicRecord       | 117   |
+        | graduationPlan              | 3     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -115,7 +118,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
        | student                     | 1                   | metaData.externalId      | 800000025                  | string               |
        | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
-       | staff                       | 2                   | body.race                | White                      | string               |	   
+       | staff                       | 2                   | body.race                | White                      | string               |
+       | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
+       | staff                       | 2                   | body.name.verification   | Drivers license            | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
        | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
@@ -154,7 +159,12 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentItemResult              | Correct             | string |
        | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentResponse                | False               | string |
        | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
-    And I should see "Processed 4148 records." in the resulting batch job file
+       | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
+       | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
+    And I should see "Processed 4151 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -171,8 +181,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 495" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 495" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file
@@ -238,8 +248,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-Scenario: Check the collections: Clean Database  
- And I check to find if record is in collection: 
+Scenario: Check the collections: Clean Database
+ And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                             | searchType           |
      | session                     | 1                   | body.sessionName            | Spring 2010 East Daybreak Junior High   | string               |
      | session                     | 4                   | body.schoolYear             | 2009-2010                               | string               |
@@ -295,7 +305,7 @@ And I check to find if record is in collection:
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Tardiness               | string               |
      | disciplineIncident          | 2                   | body.incidentLocation       | On School               | string               |
      | disciplineIncident          | 1                   | body.incidentDate           | 2011-02-01              | string               |
- And I check to find if record is in collection: 
+ And I check to find if record is in collection:
      | collectionName    | expectedRecordCount   | searchParameter              | searchValue              | searchType            |
      | gradebookEntry    | 2                     | body.dateAssigned            | 2011-09-15               | string                |
      | gradebookEntry    | 3                     | body.dateAssigned            | 2011-09-29               | string                |
@@ -325,10 +335,10 @@ And I check to find if record is in collection:
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
      | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-1 |   string              |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-2 |   string              | 
+     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-2 |   string              |
      | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-3 |   string              |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-4 |   string              | 
- And I check to find if record is in collection: 
+     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-4 |   string              |
+ And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue              | searchType           |
      | courseOffering              | 1                   | body.localCourseCode        | 3rd Grade Homeroom       | string               |
      | courseOffering              | 1                   | body.localCourseCode        | Government-4             | string               |
@@ -374,8 +384,12 @@ And I check to find if record is in collection:
      | parent                      | 1                   | body.parentUniqueStateId      | 6473283635      |string               |
      | parent                      | 1                   | body.parentUniqueStateId      | 0798132465      |string               |
      | parent                      | 1                   | body.parentUniqueStateId      | 3597672174      |string               |
- 
-   
+   And I check to find if record is in collection:
+  | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
+  | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
+  | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
+
+
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
@@ -540,7 +554,7 @@ Then I should see following map of entry counts in the corresponding collections
 	 | studentAssessmentAssociation| 204  |
 	 | student                     | 193  |
      | parent                      | 12   |
-     | studentParentAssociation    | 11   |   
+     | studentParentAssociation    | 11   |
   And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | program                     | 1                   | body.programId              | ACC-TEST-PROG-1         | string               |
@@ -581,8 +595,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
      | gradebookEntry              | 4                   | body.dateAssigned           | 2011-10-13              | string               |
      | gradebookEntry              | 1                   | body.dateAssigned           | 2011-10-27              | string               |
-     | gradebookEntry              | 3                   | body.gradebookEntryType     | Quiz                    | string               |  
-     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               | 
+     | gradebookEntry              | 3                   | body.gradebookEntryType     | Quiz                    | string               |
+     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
      | disciplineIncident          | 2                   | body.incidentIdentifier     | Disruption              | string               |
      | disciplineIncident          | 2                   | body.incidentIdentifier     | Tardiness               | string               |
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Bullying                | string               |
@@ -609,16 +623,16 @@ Then I should see following map of entry counts in the corresponding collections
      | courseOffering              | 2                   | body.localCourseTitle       | Government-4              | string               |
      | courseOffering              | 0                   | body.localCourseTitle       | 3rd Grade Homeroom        | string               |
      | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-1 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-2 |string                  |    
+     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-2 |string                  |
      | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-3 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-4 |string                  | 
+     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-4 |string                  |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature     |string                  |
-     | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  | 
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  | 
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |  
-     | parent                      | 1                   | body.parentUniqueStateId      | 3152281864      |string                  | 
-     | parent                      | 1                   | body.parentUniqueStateId      | 2521899635      |string                  |  
+     | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
+     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  |
+     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |
+     | parent                      | 1                   | body.parentUniqueStateId      | 3152281864      |string                  |
+     | parent                      | 1                   | body.parentUniqueStateId      | 2521899635      |string                  |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
@@ -633,7 +647,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |   
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
      | assessment                  | 1                   | body.assessmentItem.identificationCode         | AssessmentItem-1 | string |
      | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
      | assessment                  | 1                   | body.assessmentItem.maxRawScore                | 5                | integer |
@@ -672,7 +686,7 @@ Then I should see following map of entry counts in the corresponding collections
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 113 records." in the resulting batch job file 
+  And I should see "Processed 113 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file

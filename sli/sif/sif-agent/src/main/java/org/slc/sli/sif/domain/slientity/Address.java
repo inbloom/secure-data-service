@@ -34,8 +34,7 @@ import java.util.Date;
  * @author slee
  *
  */
-public class Address
-{
+public class Address {
     private String streetNumberName;
     private String apartmentRoomSuiteNumber;
     private String buildingSiteNumber;

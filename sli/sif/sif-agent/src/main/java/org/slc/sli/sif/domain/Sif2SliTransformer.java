@@ -16,11 +16,11 @@
 
 package org.slc.sli.sif.domain;
 
+import java.util.Map;
+
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
-
-import java.util.Map;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -28,21 +28,21 @@ import java.util.Map;
  * @author slee
  *
  */
-public interface Sif2SliTransformer
-{
+public interface Sif2SliTransformer {
     /**
-     * Transform an SIF SchoolInfo into a the body of the corresponding SLI entity
-     */
+    * Transform an SIF SchoolInfo into a the body of the corresponding SLI
+    * entity
+    */
     public Map<String, Object> transform(SchoolInfo schoolInfo);
 
     /**
-     * Transform an SIF LEAInfo into a the body of the corresponding SLI entity
-     */
-    public Map<String, Object>  transform(LEAInfo info);
+    * Transform an SIF LEAInfo into a the body of the corresponding SLI entity
+    */
+    public Map<String, Object> transform(LEAInfo info);
 
     /**
-     * Transform an SIF SEAInfo into a the body of the corresponding SLI entity
-     */
-    public Map<String, Object>  transform(SEAInfo info);
+    * Transform an SIF SEAInfo into a the body of the corresponding SLI entity
+    */
+    public Map<String, Object> transform(SEAInfo info);
 
 }

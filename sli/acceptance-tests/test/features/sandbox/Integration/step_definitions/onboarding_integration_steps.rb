@@ -50,7 +50,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
-  id = "Application Developer"                                        if human_readable_id == "APPLICATION_DEVELOPER"
+  id = "application_developer"                                        if human_readable_id == "APPLICATION_DEVELOPER"
   id = "Dashboard"                                                    if human_readable_id == "DASHBOARD_APP"
   id = "Admin Tool"                                                   if human_readable_id == "ADMIN_APP"
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
@@ -136,8 +136,8 @@ When /^the developer click "([^"]*)"$/ do |button|
 end
 
 Then /^the developer is directed to an acknowledgement page\.$/ do
-  assertText("Thank You")
-  assertText("Be on the lookout for a confirmation email.")
+  assertText("Registration Complete")
+  assertText("Email Confirmation")
 end
 
 Then /^a verification email is sent to "([^"]*)"$/ do |email_address|

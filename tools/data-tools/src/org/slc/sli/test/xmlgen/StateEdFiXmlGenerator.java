@@ -74,7 +74,7 @@ public class StateEdFiXmlGenerator {
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-    public static String propertyPath = "./db-datagen-approach/ref-configurations/config.properties";
+    public static String propertyPath = "config.properties";
     
     /**
      * used to determine the output directory for generated interchange and control files
@@ -122,7 +122,7 @@ public class StateEdFiXmlGenerator {
             System.out.println("  [<output_dir>] : where the xml, ctl, and count files will be written (e.g. ./data)");
             System.out.println("  [low|medium] : to set fidelity (not fully implemented yet)");
         }
-
+        
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             
@@ -135,24 +135,7 @@ public class StateEdFiXmlGenerator {
             }
         }
         
-//        if (args.length >0 && "low".equals(args[0]) && "medium".equals(args[0])) {
-//        	propertyPath = args[0];
-//        }
-//        else if (args.length >0 && ("low".equals(args[0]) || "medium".equals(args[0]))) {
-//        	fidelityOfData = args[0];
-//        }
-//        
-//        if (args.length >1 && "low".equals(args[1]) && "medium".equals(args[1])) {
-//        	rootOutputPath = args[1];
-//        }
-//        else if (args.length >1 && ("low".equals(args[1]) || "medium".equals(args[1]))) {
-//        	fidelityOfData = args[1];
-//        }
-//        if (args.length > 2 && ("low".equals(args[2]) || "medium".equals(args[2]))) {
-//            fidelityOfData = args[2];
-//     }
 
-        
         if (new File(rootOutputPath).mkdirs()) {
             System.out.println("created directory: " + rootOutputPath);
         }
