@@ -52,12 +52,7 @@ public class MongoCompositeTest implements Callable<Boolean> {
         int iterations = operationCount / this.chunkSize;
         
         for (int i = 0; i < iterations; i++) {
-            if (Math.random() > 2) {
-                this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
-            } else {
-                this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
-            }
-            
+            this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
             this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
         }
 
@@ -142,7 +137,7 @@ public class MongoCompositeTest implements Callable<Boolean> {
         }
 
         System.out.println("ID = " + this.id +
-                " SELECTS BATCH     " + chunkSize + " = " + String.format("%1$6s", elapsed) + " ms." + 
+                " SELECTS BATCH   " + chunkSize + " = " + String.format("%1$6s", elapsed) + " ms." + 
                 "          Average = " + String.format("%1$10s", (float) ((float) (elapsed) / (float) chunkSize)) + " ms/record." + 
                 "          RPS = " + Math.floor((float) ((float) chunkSize / (float)(elapsed)) * 1000));
         
