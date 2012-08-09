@@ -52,40 +52,9 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password = ForgotPassword.new(params[:forgot_password])
     @forgot_password.errors.clear
     respond_to do |format|
-      user = APP_LDAP_CLIENT.read_user_resetkey(@forgot_password.token)
-           
-      if !!user && @forgot_password.valid? == true
-         begin
-           emailToken = user[:emailtoken]
-           if emailToken.nil?
-             currentTimestamp = DateTime.current.utc.to_i.to_s
-             emailToken = Digest::MD5.hexdigest(SecureRandom.base64(10)+currentTimestamp+user[:email]+user[:first]+user[:last])
-           end
-           update_info = {
-             :email => "#{user[:email]}",
-             :password => "#{@forgot_password.new_pass}",
-             :resetKey => "",
-             :emailtoken => "#{emailToken}"
-           }
-           response =  APP_LDAP_CLIENT.update_user_info(update_info)
-           
-           emailAddress = user[:emailAddress]
-           fullName = user[:first] + " " + user[:last]
-           ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
-           
-           format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
-           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
-
-         rescue InvalidPasswordException => e
-           APP_CONFIG['password_policy'].each { |msg|  @forgot_password.errors.add(:new_pass, msg) }
-           format.html { render action: "update" }
-           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
-
-         rescue Exception => e
-           @forgot_password.errors.add(:base, "Unable to change password, please try again.")
-           format.html { render action: "update" }
-           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
-         end
+      if @forgot_password.set_password
+        format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
+        format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else
         format.html { render action: "update" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
@@ -107,6 +76,9 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password = NewAccountPassword.new
     @forgot_password.token = params[:key]
     render action: 'update'
+  end
+
+  def new_account_set
   end
 
   def token_still_valid
