@@ -78,8 +78,10 @@ SLIAdmin::Application.routes.draw do
   match "/forgotPassword/notify" => "forgot_passwords#show", :via => :get, :as => "forgot_password_notify"
   match "/resetPassword" => "forgot_passwords#update", :via => :get
   match "/resetPassword/new" => "forgot_passwords#new", :via => :get
-  match "/resetPassword/newAccount/:key" => "forgot_passwords#new_account", :via => :get, :as => "new_account_passwords"
-  match "/resetPassword/newAccount/:key" => "forgot_passwords#new_account_set", :via => :post
+
+  # matches the model in NewAccountPassword
+  match "/resetPassword/newAccount/:key" => "new_accounts#index", :via => :get, :as => "new_account_passwords"
+  match "/resetPassword/newAccount/:key" => "new_accounts#set_password", :via => :post, :as => "new_account_passwords"
 
   root :to => 'home#index'
 
