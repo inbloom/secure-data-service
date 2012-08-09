@@ -25,7 +25,7 @@ public class SifIdResolverImplDummy implements SifIdResolver {
 
     @Override
     public String getSliGuid(String sifId) {
-	return null;
+        return null;
     }
 
     @Override
