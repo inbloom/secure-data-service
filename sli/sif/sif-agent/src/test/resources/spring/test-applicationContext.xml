@@ -9,6 +9,8 @@
 
     <context:annotation-config />
 
+    <bean id="sifIdResolverImplDummy" class="org.slc.sli.sif.slcinterface.SifIdResolverImplDummy"/>
+
     <!-- Environment config -->
     <bean id="commonProperties"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
