@@ -19,6 +19,8 @@ package org.slc.sli.sif.translation;
 import java.util.Arrays;
 import java.util.List;
 
+import openadk.library.common.Demographics;
+import openadk.library.student.MostRecent;
 import openadk.library.student.StudentPersonal;
 
 import org.mockito.Mock;
@@ -62,10 +64,12 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     public List<StudentEntity> doTranslate(StudentPersonal sifData)
     {
         StudentPersonal sp = sifData;
+        MostRecent mostRecent = sp.getMostRecent();
+        Demographics demographics = sp.getDemographics();
         StudentEntity e = new StudentEntity();
         //convert properties
-        if (sp.getMostRecent()!=null) {
-            e.setGradeLevel(gradeLevelsConverter.convert(sp.getMostRecent().getGradeLevel()));
+        if (mostRecent!=null) {
+            e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
         }
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
