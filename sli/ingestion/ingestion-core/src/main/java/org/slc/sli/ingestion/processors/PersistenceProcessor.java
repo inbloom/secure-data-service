@@ -206,11 +206,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             try {
-                List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
-                for (Entity entity : failed) {
-                    NeutralRecord record = recordStore.get(persist.indexOf(entity));
-                    Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
-                    currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                if (persist.size() > 0) {
+                    List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
+                    for (Entity entity : failed) {
+                        NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                        Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                    }
                 }
             } catch (DataAccessResourceFailureException darfe) {
                 LOG.error("Exception processing record with entityPersistentHandler", darfe);
@@ -221,7 +223,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
-
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
                 Metrics m = it.next();
