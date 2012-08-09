@@ -195,11 +195,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
                         || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
                     SimpleEntity transformed = transformNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
-                    recordStore.add(neutralRecord);
-                    persist.add(transformed);
+                    if (transformed != null) {
+                        recordStore.add(neutralRecord);
+                        persist.add(transformed);
+                    } else {
+                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                    }
                     currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
                 }
-
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
 
@@ -239,11 +242,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
-        if (transformed.isEmpty()) {
+        if (transformed == null || transformed.isEmpty()) {
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
                     record.getRecordType()), this);
+            return null;
         }
-
         return transformed.get(0);
     }
 
