@@ -59,6 +59,12 @@ public class NameConverter {
 
         Name sliName = new Name();
 
+        mapSifNameIntoSliName(sifName, sliName);
+
+        return sliName;
+    }
+
+    public void mapSifNameIntoSliName(openadk.library.common.Name sifName, Name sliName) {
         if (sifName.getFirstName() != null) {
             sliName.setFirstName(sifName.getFirstName());
         } else {
@@ -80,8 +86,6 @@ public class NameConverter {
         if (sifName.getSuffix() != null && SLI_SUFFIXES.contains(sifName.getSuffix())) {
             sliName.setGenerationCodeSuffix(sifName.getSuffix());
         }
-
-        return sliName;
     }
 
 }
