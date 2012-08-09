@@ -24,6 +24,7 @@ import openadk.library.student.StudentPersonal;
 import org.mockito.Mock;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> 
 {
+    @Autowired
+    GradeLevelsConverter gradeLevelsConverter;
+
     @Autowired
     PhoneNumberListConverter phoneNumberListConverter;
 
@@ -60,6 +64,9 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         StudentPersonal sp = sifData;
         StudentEntity e = new StudentEntity();
         //convert properties
+        if (sp.getMostRecent()!=null) {
+            e.setGradeLevel(gradeLevelsConverter.convert(sp.getMostRecent().getGradeLevel()));
+        }
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));
