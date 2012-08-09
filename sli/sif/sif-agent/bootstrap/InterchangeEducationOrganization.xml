@@ -15,7 +15,7 @@
       <PostalCode>00000</PostalCode>
     </Address>
   </StateEducationAgency>
-
+<!--
   <LocalEducationAgency>
     <StateOrganizationId>IL-BOOTSTRAP</StateOrganizationId>
     <NameOfInstitution>Bootstrap School District</NameOfInstitution>
@@ -68,5 +68,5 @@
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
-
+-->
 </InterchangeEducationOrganization>
