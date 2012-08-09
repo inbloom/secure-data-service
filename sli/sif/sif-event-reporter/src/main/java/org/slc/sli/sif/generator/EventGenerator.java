@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.reporting;
+package org.slc.sli.sif.generator;
 
 import java.util.Properties;
 

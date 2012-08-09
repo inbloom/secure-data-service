@@ -17,16 +17,24 @@
 package org.slc.sli.sif.generator;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import openadk.library.ADK;
 import openadk.library.common.Address;
 import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
+import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
+import openadk.library.common.Demographics;
+import openadk.library.common.EmailList;
+import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.MembershipType;
+import openadk.library.common.Name;
+import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
 import openadk.library.common.PhoneNumberList;
@@ -46,6 +54,8 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StudentAddressList;
+import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
 import openadk.library.student.TimeFrame;
 
@@ -211,7 +221,7 @@ public class SifEntityGenerator {
         return retVal;
     }
 
-    public static StudentLEARelationship generateTestStudentLEARelationship() {
+    public static StudentLEARelationship generateTestStudentLeaRelationship() {
         StudentLEARelationship retVal = new StudentLEARelationship();
         retVal.setRefId(TEST_STUDENTLEARELATIONSHIP_REFID);
         retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
@@ -233,5 +243,49 @@ public class SifEntityGenerator {
         retVal.setGradeLevel(GradeLevelCode._10);
 
         return retVal;
+    }
+
+    public static StudentPersonal generateTestStudentPersonal() {
+        StudentPersonal studentPersonal = new StudentPersonal();
+        studentPersonal.setRefId(ADK.makeGUID());
+        Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
+        name.setMiddleName("");
+        name.setPreferredName("Joe");
+        studentPersonal.setName(name);
+        EmailList emailList = new EmailList();
+        emailList.addEmail(EmailType.PRIMARY, "joe.student@anyschool.edu");
+        studentPersonal.setGraduationDate("1982");
+        Demographics demographics = new Demographics();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1981, 11, 20);
+        demographics.setBirthDate(calendar);
+        demographics.setCitizenshipStatus(CitizenshipStatus.USCITIZEN);
+        demographics.setCountryOfBirth(CountryCode.US);
+        demographics.setStateOfBirth(StatePrCode.AK);
+        studentPersonal.setDemographics(demographics);
+        Address address = new Address();
+        address.setCity("Salt Lake City");
+        address.setStateProvince(StatePrCode.UT);
+        address.setCountry(CountryCode.US);
+        address.setPostalCode("84102");
+        Street street = new Street();
+        street.setLine1("1 IBM Plaza");
+        street.setApartmentNumber("2000");
+        street.setLine2("Suite 2000");
+        street.setLine3("Salt Lake City, UT 84102");
+        street.setStreetName("IBM");
+        street.setStreetNumber("1");
+        street.setStreetType("Plaza");
+        street.setApartmentType("Suite");
+        address.setStreet(street);
+        address.setType(AddressType.MAILING);
+        StudentAddressList addressList = new StudentAddressList();
+        addressList.add(address);
+        studentPersonal.setAddressList(addressList);
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        studentPersonal.setPhoneNumberList(phoneNumberList);
+
+        return studentPersonal;
     }
 }
