@@ -44,7 +44,7 @@ public class BaseImporter implements Importer {
             logger.log(Level.FINE, "Adding vertex for {0}#{1} \t {2}",
                     new String[] { collectionName, (String) item.get("_id"), v.getId().toString() });
 
-            v.setProperty("mongoid", item.get("id"));
+            v.setProperty("mongoid", (String) item.get("_id"));
             count++;
             if (count % 200 == 0) {
                 logger.log(Level.FINE, "Importing {0} @ {1}", new String[] { collectionName, "" + count });

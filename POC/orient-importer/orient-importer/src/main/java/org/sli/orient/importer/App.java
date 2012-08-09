@@ -7,12 +7,9 @@ import java.util.logging.Logger;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.impls.orient.OrientBatchGraph;
 
 import org.sli.orient.importer.importers.BaseImporter;
-import org.sli.orient.importer.importers.EdOrgImporter;
-import org.sli.orient.importer.importers.TeacherSectionEdgeImporter;
 
 /**
  * Hello world!
@@ -27,20 +24,24 @@ public class App
     public static void main( String[] args )
     {
         Mongo m = null;
-        g = new OrientBatchGraph("remote:localhost/security");
+        g = new OrientBatchGraph("remote:localhost/security", "admin", "admin");
 
 
-        // Clear the graph first.
+        // // Clear the graph first.
         // for (Vertex v : g.getVertices()) {
         // g.removeVertex(v);
         // }
-        log.log(Level.INFO, "Verticies removed...");
-        
-        for (Edge e : g.getEdges()) {
-            g.removeEdge(e);
-        }
-        log.log(Level.INFO, "Edges removed...");
+        // // g.stopTransaction(Conclusion.SUCCESS);
+        // log.log(Level.INFO, "Verticies removed...");
+        //
+        // for (Edge e : g.getEdges()) {
+        // g.removeEdge(e);
+        // }
+        // // g.stopTransaction(Conclusion.SUCCESS);
+        // log.log(Level.INFO, "Edges removed...");
+        //
         // g.createKeyIndex("mongoid", Vertex.class);
+        // g.stopTransaction(Conclusion.SUCCESS);
 
         try {
             m = new Mongo("127.0.0.1", 27017);
@@ -52,12 +53,15 @@ public class App
             e.printStackTrace();
         }
         DB db = m.getDB("sli");
-        BaseImporter importer = new EdOrgImporter(db, g);
+        // BaseImporter importer = new EdOrgImporter(db, g);
         // benchmarkStamp(importer);
-
-        // importer = new SectionImporter(db, g);
-        // benchmarkStamp(importer);
-        
+        //
+        // // importer = new SectionImporter(db, g);
+        // // benchmarkStamp(importer);
+        // //
+        // // importer = new TeacherImporter(db, g);
+        // // benchmarkStamp(importer);
+        //
         // importer = new CohortImporter(db, g);
         // benchmarkStamp(importer);
         //
@@ -66,10 +70,7 @@ public class App
         //
         // importer = new StudentImporter(db, g);
         // benchmarkStamp(importer);
-
-        // importer = new TeacherImporter(db, g);
-        // benchmarkStamp(importer);
-        
+        //
         // importer = new TeacherSchoolEdgeImporter(db, g);
         // benchmarkStamp(importer);
         //
@@ -88,8 +89,8 @@ public class App
         // importer = new StaffCohortEdgeImporter(db, g);
         // benchmarkStamp(importer);
         
-        importer = new TeacherSectionEdgeImporter(db, g);
-        benchmarkStamp(importer);
+        // importer = new TeacherSectionEdgeImporter(db, g);
+        // benchmarkStamp(importer);
 
         
 
@@ -112,7 +113,6 @@ public class App
         long startTime = System.currentTimeMillis();
         stamper.importCollection();
         // g.stopTransaction(Conclusion.SUCCESS);
-        // g.getRawGraph().commit();
         long endTime = System.currentTimeMillis() - startTime;
         log.log(Level.INFO, "{0} in {1} ms", new String[] { stamper.getClass().getName(), "" + endTime });
         totalTime += endTime;
