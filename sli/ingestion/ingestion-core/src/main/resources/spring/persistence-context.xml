@@ -17,6 +17,7 @@
   <!-- Used for new (plain and transformed) entities -->
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
+    <property name="entityConfigurations" ref="entityConfigurationsFactory" />
     <property name="messageSource" ref="messageSource" />
   </bean>
 

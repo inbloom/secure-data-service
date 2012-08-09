@@ -20,8 +20,11 @@ package org.slc.sli.ingestion.handler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +36,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
@@ -54,7 +59,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
     private Repository<Entity> entityRepository;
-
+    private EntityConfigFactory entityConfigurations;
     private MessageSource messageSource;
 
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
@@ -132,22 +137,29 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
+        Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
         String collectionName = getCollectionName(entities.get(0));
+        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
+
         for (SimpleEntity entity : entities) {
             if (entity.getEntityId() != null) {
                 if (!entityRepository.update(collectionName, entity)) {
                     failed.add(entity);
                 }
             } else {
-                try {
-                    // pre-match here according to primary key
-                    validator.validate(entity);
-                    addTimestamps(entity);
-                    queued.add(entity);
-                } catch (EntityValidationException e) {
-                    reportErrors(e.getValidationErrors(), entity, errorReport);
-                    failed.add(entity);
-                }
+                preMatchEntity(memory, entityConfig, errorReport, entity);
+            }
+        }
+
+        for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
+            SimpleEntity entity = entry.getValue();
+            try {
+                validator.validate(entity);
+                addTimestamps(entity);
+                queued.add(entity);
+            } catch (EntityValidationException e) {
+                reportErrors(e.getValidationErrors(), entity, errorReport);
+                failed.add(entity);
             }
         }
 
@@ -158,6 +170,22 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         return failed;
+    }
+
+    private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig, ErrorReport errorReport, SimpleEntity entity) {
+        List<String> keyFields = entityConfig.getKeyFields();
+        if (keyFields.size() > 0) {
+            List<Object> keyValues = new ArrayList<Object>();
+            for (String field : keyFields) {
+                try {
+                    keyValues.add(PropertyUtils.getProperty(entity, field));
+                } catch (Exception e) {
+                    String errorMessage = "Issue finding key field: " + field + " for entity of type: " + entity.getType() + "\n";
+                    errorReport.error(errorMessage, this);
+                }
+            }
+            memory.put(keyValues, entity);
+        }
     }
 
     private String getCollectionName(Entity entity) {
@@ -214,6 +242,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public EntityConfigFactory getEntityConfigurations() {
+        return entityConfigurations;
+    }
+
+    public void setEntityConfigurations(EntityConfigFactory entityConfigurations) {
+        this.entityConfigurations = entityConfigurations;
     }
 
     private void addTimestamps(Entity entity) {
