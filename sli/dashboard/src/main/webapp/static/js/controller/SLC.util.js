@@ -41,6 +41,11 @@ SLC.namespace('SLC.util', (function () {
 				return b-a; 
 			}
 		}
+
+		// pad a number to two digits
+		function pad2(number) {
+			return (number < 10 ? '0' : '') + number;
+		}
 		
 		function getElementFontSize(element) {
 		    var elemStyle = this.getStyleDeclaration(element);
@@ -331,6 +336,7 @@ SLC.namespace('SLC.util', (function () {
 		return {
 			counter: counter,
 			compareInt: compareInt,
+			pad2: pad2,
 			compareIntReverse: compareIntReverse,
 			getElementFontSize: getElementFontSize,
 			getElementColor: getElementColor,

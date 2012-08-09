@@ -1,6 +1,6 @@
 {
   id : "studentAttendanceCalendar",
-  name: "SLC - Student Attendance Calendar",
+  name: "",
   type : "PANEL",
   data :{
     entity: "studentAttendanceCalendar",

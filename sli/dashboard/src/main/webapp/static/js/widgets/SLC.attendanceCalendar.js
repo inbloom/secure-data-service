@@ -31,63 +31,17 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 	 */
 	(function ($) {
 
-		$.fn.attendanceCalendar = function (data, startDate, endDate, options) {
+		$.fn.attendanceCalendar = function (calendarOptions) {
 
-			var minDate = "",
-				maxDate = "",
-				i;
+			var options;
 
-			function absenceDays(date) {
-				var m = pad2(parseInt(date.getMonth(), 10)+1),
-					d = pad2(parseInt(date.getDate(), 10)),
-					y = date.getFullYear(),
-					formattedDate = y + '-' + (m) + '-' + d;
-
-				for (i = 0; i < data.length; i++) {
-					if(formattedDate === data[i].date) {
-						if (data[i].event === "Tardy") {
-							return [false, "tardy", data[i].reason];
-						}
-						else if (data[i].event === "Excused Absence") {
-							return [false, "excusedAbsence", data[i].reason];
-						}
-						else if (data[i].event === "Unexcused Absence") {
-							return [false, "unexcusedAbsence", data[i].reason];
-						}
-					}
-				}
-
-				// if the date is greater than end date, it should be grayed out
-				if (formattedDate > endDate) {
-					return [false, 'disableDays'];
-				}
-
-				return [false, ''];
-			}
-			function noWeekendsOrHolidays(date) {
-				var noWeekend = jQuery.datepicker.noWeekends(date);
-				return noWeekend[0] ? absenceDays(date) : noWeekend;
-			}
-			function pad2(number) {
-				return (number < 10 ? '0' : '') + number;
-			}
-
-			function minmaxDate() {
-				var newDate = startDate.split("-");
-				minDate = newDate[0] + "," + newDate[1] + "," + newDate[2];
-				maxDate = newDate[0] + ",12," + newDate[2];
-			}
-
-			minmaxDate();
-
-			$(this).datepicker({
-				numberOfMonths: [3, 4],
+			options = {
 				dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
-				hideIfNoPrevNext: true,
-				minDate: new Date(minDate),
-				maxDate: new Date(maxDate),
-				beforeShowDay: noWeekendsOrHolidays
-			});
+				hideIfNoPrevNext: true
+			};
+
+			options = $.extend(options, calendarOptions);
+			$(this).datepicker(options);
 		};
 	})(jQuery);
 
@@ -97,31 +51,69 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 	 * @param panelData
 	 * @param options
 	 */
-	function create(calendarId, data, options) {
+	function create(calendarId, panelData, options) {
 
-		var calendarOptions = {},
-			panelData,
+		var calendarOptions,
 			absentData = [],
+			minDate,
+			maxDate,
 			startDate,
 			endDate,
-			i;
+			i,
+			util = SLC.util;
 
-		panelData = [{reason: "Absent excused", event:"Excused Absence", date:"2011-09-01"}, {event:"In Attendance", date:"2011-09-02"}, {event:"In Attendance", date:"2011-09-05"}, {reason: "Absent unexcused", event:"Unexcused Absence", date:"2011-09-06"}, {event:"In Attendance", date:"2011-09-07"}, {event:"In Attendance", date:"2011-09-08"}, {reason:"traffic", event:"Tardy", date:"2011-09-09"}, {reason:"Missed school bus", event:"Tardy", date:"2011-09-12"}, {event:"In Attendance", date:"2011-09-13"}, {event:"In Attendance", date:"2011-09-14"}, {event:"In Attendance", date:"2012-05-14"}];
+		absentData = panelData.attendanceList;
+		startDate = panelData.startDate;
+		endDate = panelData.endDate;
 
-			if (options) {
-				calendarOptions = $.extend(calendarOptions, options);
-			}
-
-		for (i = 0; i < panelData.length; i++) {
-			if(panelData[i].event === "Tardy" || panelData[i].event === "Excused Absence" || panelData[i].event === "Unexcused Absence"){
-				absentData.push(panelData[i]);
-			}
+		function setMinMaxDates() {
+			var newDate = startDate.split("-");
+			minDate = newDate[0] + "," + newDate[1] + "," + newDate[2];
+			maxDate = newDate[0] + ",12," + newDate[2];
 		}
 
-		startDate = panelData[0].date;
-		endDate = panelData[panelData.length - 1].date;
+		function absentDays(date) {
+			var m = util.pad2(parseInt(date.getMonth(), 10)+1),
+				d = util.pad2(parseInt(date.getDate(), 10)),
+				y = date.getFullYear(),
+				formattedDate = y + '-' + (m) + '-' + d;
 
-		return $("#" + calendarId).attendanceCalendar(absentData, startDate, endDate, calendarOptions);
+			for (i = 0; i < absentData.length; i++) {
+				if(formattedDate === absentData[i].date) {
+					return [false, absentData[i].event, absentData[i].reason];
+				}
+			}
+
+			// if the date is greater than end date, it should be grayed out
+			if (formattedDate > endDate) {
+				return [false, 'disableDays'];
+			}
+
+			return [false, ''];
+		}
+
+		// Check the type of day: weekend/weekday
+		function formatDays(date) {
+			var noWeekend = jQuery.datepicker.noWeekends(date);
+			// If it's a weekday, check for special formatting
+			return noWeekend[0] ? absentDays(date) : noWeekend;
+		}
+
+
+		setMinMaxDates();
+
+		calendarOptions = {
+			numberOfMonths: [3, 4],
+			minDate: new Date(minDate),
+			maxDate: new Date(maxDate),
+			beforeShowDay: formatDays
+		};
+
+		if (options) {
+			calendarOptions = $.extend(calendarOptions, options);
+		}
+
+		return $("#" + calendarId).attendanceCalendar(calendarOptions);
 	}
 
 	return {
