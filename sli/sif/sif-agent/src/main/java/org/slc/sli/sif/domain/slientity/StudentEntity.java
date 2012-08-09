@@ -35,7 +35,7 @@ public class StudentEntity extends SliEntity
     private boolean economicDisadvantaged;
     
     // optional fields
-    private List<Name> otherName;
+    private List<OtherName> otherName;
     private List<Address> address;
     private List<InstitutionTelephone> telephone;
     private List<ElectronicMail> electronicMail;
@@ -71,11 +71,11 @@ public class StudentEntity extends SliEntity
         this.name = name;
     }
     
-    public List<Name> getOtherName() {
+    public List<OtherName> getOtherName() {
         return this.otherName;
     }
 
-    public void setOtherName(List<Name> otherName) {
+    public void setOtherName(List<OtherName> otherName) {
         this.otherName = otherName;
     }
     

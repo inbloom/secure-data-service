@@ -17,7 +17,7 @@
 package org.slc.sli.sif.domain.slientity;
 
 /**
- * Corresponding to the name and otherName defined in SLI schema.
+ * Corresponding to the name defined in SLI schema.
  *
  * @author slee
  *
@@ -31,8 +31,6 @@ public class Name
     private String middleName;
     private String personalTitlePrefix;
     private String generationCodeSuffix;
-    //otherName-only fields
-    private String otherNameType;
     //unmatched fields
     private String maidenName;
     private String personalInformationVerificationType;
@@ -79,14 +77,6 @@ public class Name
 
     public void setGenerationCodeSuffix(String generationCodeSuffix) {
         this.generationCodeSuffix = generationCodeSuffix;
-    }
-
-    public String getOtherNameType() {
-        return this.otherNameType;
-    }
-    
-    public void setOtherNameType(String otherNameType) {
-        this.otherNameType = otherNameType;
     }
 
 }

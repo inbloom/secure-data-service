@@ -21,7 +21,11 @@ import java.util.List;
 
 import openadk.library.student.StudentPersonal;
 
+import org.mockito.Mock;
+import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Translation task for translating StudentPersonal SIF data objects to Student SLI entities.
@@ -31,6 +35,15 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> 
 {
+    @Autowired
+    PhoneNumberListConverter phoneNumberListConverter;
+
+    @Autowired
+    AddressListConverter addressListConverter;
+
+    @Mock
+    PhoneNumberListConverter mockPhoneNumberListConverter;
+
 
     public StudentPersonalTranslationTask()
     {
@@ -43,6 +56,8 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         StudentPersonal sp = sifData;
         StudentEntity e = new StudentEntity();
         //convert properties
+        e.setAddress(addressListConverter.convert(sp.getAddressList()));
+        e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));
 
         return Arrays.asList(e);
     }

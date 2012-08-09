@@ -20,15 +20,16 @@ import java.util.List;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
-import openadk.library.student.LEAInfo;
 import openadk.library.student.StudentPersonal;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.sif.domain.slientity.LEAEntity;
+import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -41,6 +42,12 @@ public class StudentPersonalTranslationTaskTest
 {
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    AddressListConverter mockAddressConverter;
+
+    @Mock
+    PhoneNumberListConverter mockPhoneNumberListConverter;
 
     @Before
     public void beforeTests() {
