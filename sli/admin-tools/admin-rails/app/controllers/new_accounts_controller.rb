@@ -48,6 +48,8 @@ class NewAccountsController < ForgotPasswordsController
     respond_to do |format|
       # re-render the form if not valid otherwise redirect to the target page 
       if @new_account_password.set_password
+        @user[:status] = 'approved'
+        APP_LDAP_CLIENT.update_status(@user)
         format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
         format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else 
