@@ -17,14 +17,20 @@
 package org.slc.sli.sif.translation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.AddressList;
+import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.Language;
+import openadk.library.common.LanguageCode;
+import openadk.library.common.LanguageList;
+import openadk.library.common.LanguageType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.MostRecent;
@@ -42,6 +48,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
@@ -60,6 +67,9 @@ public class StudentPersonalTranslationTaskTest
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
 
+    @Mock
+    LanguageListConverter mockLanguageListConverter;
+    
     @Mock
     GradeLevelsConverter mockGradeLevelsConverter;
 
@@ -89,6 +99,30 @@ public class StudentPersonalTranslationTaskTest
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testLanguages() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        LanguageList languageList = new LanguageList();
+        languageList.addLanguage(LanguageCode.ENGLISH);
+        languageList.addLanguage(LanguageCode.CHINESE);
+        demographics.setLanguageList(languageList);
+        info.setDemographics(demographics);
+        
+        Mockito.when(mockLanguageListConverter.convert(Mockito.any(LanguageList.class))).thenReturn(Arrays.asList("English","Chinese"));
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        List<String> list = entity.getLanguages();
+        Assert.assertEquals(2, list.size());
+        Assert.assertEquals("language[0] is expected to be 'English'", "English", list.get(0));
+        Assert.assertEquals("language[1] is expected to be 'Chinese'", "Chinese", list.get(1));
+        
+        list = entity.getHomeLanguages();
+        Assert.assertNull("Home Languages was not null", list);
+    }
+    
     @Test
     public void testGradeLevel() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();

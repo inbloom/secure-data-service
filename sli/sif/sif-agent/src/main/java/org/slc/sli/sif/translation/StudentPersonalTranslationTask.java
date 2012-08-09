@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import openadk.library.common.Demographics;
+import openadk.library.common.Language;
+import openadk.library.common.LanguageList;
+import openadk.library.common.LanguageType;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentPersonal;
 
@@ -27,6 +30,7 @@ import org.mockito.Mock;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> 
 {
+    @Autowired
+    LanguageListConverter languageListConverter;
+    
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
 
@@ -68,6 +75,10 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         Demographics demographics = sp.getDemographics();
         StudentEntity e = new StudentEntity();
         //convert properties
+        if (demographics!=null) {
+            e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
+            e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
+        }
         if (mostRecent!=null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
         }
@@ -76,6 +87,18 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));
 
         return Arrays.asList(e);
+    }
+    
+    private List<String> getHomeLanguages(LanguageList languageList) {
+        Language[] languages = languageList==null ? null : languageList.getLanguages();
+        if (languages==null) return null;
+        LanguageList homeList = new LanguageList();
+        for (Language language : languages) {
+            if (language.getLanguageType()!=null && LanguageType.HOME.valueEquals(language.getLanguageType())) {
+                homeList.add(language);
+            }
+        }
+        return homeList.size()==0 ? null : languageListConverter.convert(homeList);
     }
 
 }
