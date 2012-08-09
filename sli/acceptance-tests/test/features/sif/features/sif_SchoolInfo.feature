@@ -1,6 +1,9 @@
 @RALLY_US3047
 Feature: SIF SchoolInfo Test
 
+Background: Set my data store
+Given the data store is "data_SchoolInfo"
+
 Scenario: Add a School
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName        |

@@ -1,6 +1,9 @@
 @RALLY_US3048
 Feature: SIF StudentLEARelationship Test
 
+Background: Set my data store
+Given the data store is "data_StudentLEARelationship"
+
 Scenario: Add a StudentLEARelationship
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName           |
@@ -10,6 +13,7 @@ Given the following collections are clean and bootstrapped in datastore:
 And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
+And I wait for "10" seconds
 When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -50,7 +54,7 @@ And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName           | count |
      | studentSchoolAssociation | 0     |
-     
+
 Scenario: Negative Testing - Update a StudentLEARelationship which doesn't exist
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName           |

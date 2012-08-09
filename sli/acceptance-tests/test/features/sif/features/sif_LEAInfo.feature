@@ -1,6 +1,9 @@
 @RALLY_US3047
 Feature: SIF LEAInfo Test
 
+Background: Set my data store
+Given the data store is "data_LEAInfo"
+
 Scenario: Add an LEA
 Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
