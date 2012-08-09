@@ -25,6 +25,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.FilePreProcessor;
@@ -94,7 +95,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             + "$&exclude=\\.in\\.*&preMove="
             + inboundDir + "/.done&moveFailed=" + inboundDir
             + "/.error"
-            + "&delete=true"
+//            + "&delete=true"
             + "&readLock=changed&readLockCheckInterval=1000")
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
@@ -115,7 +116,8 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             + "$&exclude=\\.in\\.*&preMove="
                             + inboundDir + "/.done&moveFailed=" + inboundDir
                             + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
+//                            + "&delete=true"
+                            + "&readLock=changed&readLockCheckInterval=1000")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
                     .process(filePreProcessor)
