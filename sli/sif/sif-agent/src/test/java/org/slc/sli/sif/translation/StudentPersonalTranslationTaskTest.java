@@ -23,10 +23,14 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.AddressList;
 import openadk.library.common.EmailList;
+import openadk.library.common.GradeLevel;
+import openadk.library.common.GradeLevelCode;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
+import openadk.library.student.StudentSchoolEnrollment;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,11 +41,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
+import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
 
 /**
  * StudentPersonal to StudentEntity unit tests
@@ -53,6 +59,9 @@ public class StudentPersonalTranslationTaskTest
 {
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    GradeLevelsConverter mockGradeLevelsConverter;
 
     @Mock
     EmailListConverter mockEmailListConverter;
@@ -80,6 +89,21 @@ public class StudentPersonalTranslationTaskTest
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testGradeLevel() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        GradeLevel gradeLevel = new GradeLevel(GradeLevelCode._10);
+        MostRecent mostRecent = new MostRecent();
+        mostRecent.setGradeLevel(gradeLevel);
+        info.setMostRecent(mostRecent);
+        Mockito.when(mockGradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getGradeLevel());
+    }
+    
     @Test
     public void testEmailList() throws SifTranslationException {
         EmailList emailList = new EmailList();
