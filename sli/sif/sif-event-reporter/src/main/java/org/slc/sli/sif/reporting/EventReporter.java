@@ -140,6 +140,7 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
         this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
+        this.props = props;
 
         populateMethodMap();
     }

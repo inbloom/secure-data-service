@@ -21,6 +21,12 @@ task :importSifBootstrapData do
   setMultipleFixtureFiles(testHash)
 end
 
+desc "Run SIF Integrated Tests"
+task :sifIntegratedTest => [:realmInit] do
+  Rake::Task["importSifBootstrapData"].execute
+  runTests("test/features/sif/features/sif_integrated.feature")
+end
+
 desc "Run SIF SchoolInfo Tests"
 task :sifSchoolInfoTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute

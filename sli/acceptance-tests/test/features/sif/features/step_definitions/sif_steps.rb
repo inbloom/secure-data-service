@@ -57,6 +57,10 @@ end
 # STEPS: GIVEN
 ############################################################
 
+Given /^the data store is "(.*?)"$/ do |dataStore|
+  @local_file_store_path = @local_file_store_path + dataStore + "/"
+end
+
 # Doesn't remove entities where _id is in BOOTSTRAPPED_GUIDS
 Given /^the following collections are clean and bootstrapped in datastore:$/ do |table|
   @result = "true"

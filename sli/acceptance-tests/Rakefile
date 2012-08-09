@@ -258,7 +258,7 @@ def swap_realm_ids()
 
       update_count = 0
       custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
-        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}}) 
+        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}})
         update_count = update_count + 1
       end
       puts "\tUpdated #{update_count} custom roles."
@@ -744,8 +744,8 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifSchoolInfoTest,
-                   :sifSEAInfoTest,
+task :sifTests => [:sifIntegratedTest,
+                   :sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
                    :sifStudentLEARelationshipTest
