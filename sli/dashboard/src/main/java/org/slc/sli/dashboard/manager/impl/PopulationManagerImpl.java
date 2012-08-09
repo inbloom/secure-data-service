@@ -1372,9 +1372,25 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 			Object studentId, Data config) {
 		List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
 		GenericEntity firstWrapper = attendanceList.get(0);
-		List<Map> schoolYearAttendance = (List<Map>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
-		Map<String, Object> secondWrapper = (Map<String, Object>)schoolYearAttendance.get(0);
+		List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
 		
+		//Comparator, sort by "schoolYear" descending order
+		Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
+		    @Override
+            public int compare(Map<String,Object> arg0, Map<String,Object> arg1) {
+		        Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
+		        Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
+		        if(schoolYearObj0 == null || schoolYearObj1 == null) {
+		            return 0;
+		        }
+		        String schoolYear0 = schoolYearObj0.toString();
+		        String schoolYear1 = schoolYearObj1.toString();
+		        return schoolYear1.compareTo(schoolYear0);
+		    }
+        };
+        Collections.sort(schoolYearAttendance,schoolYearAttendanceComparator);
+        
+		Map<String, Object> secondWrapper = (Map<String, Object>)schoolYearAttendance.get(0);
 		List<Map> attList = (List)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Comparator<Map> c = new Comparator() {
