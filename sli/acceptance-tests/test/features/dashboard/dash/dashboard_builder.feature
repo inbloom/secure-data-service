@@ -72,9 +72,6 @@ When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
  Then I should be redirected to the Dashboard landing page
-When I navigate to the Dashboard Builder page
-And I click on "School" Profile Builder
-And I see the following page order "Subjects and Courses;Teachers;State Tab;School Tab" in the builder
 #TODO : drag and drop not working on jenkins
 #And I move Page "School Tab" to become Page Number "0"
 #When I navigate to the Dashboard home page
@@ -86,14 +83,6 @@ And I see the following page order "Subjects and Courses;Teachers;State Tab;Scho
 #And I click on "School" Profile Builder
 #And I see the following page order "School Tab;Subjects and Courses" in the builder
 #end of TODO
-And I delete Page "School Tab"
-And I see the following page order "Subjects and Courses;Teachers;State Tab" in the builder
-And I delete Page "State Tab"
-And I see the following page order "Subjects and Courses;Teachers" in the builder
-And I click on "Section" Profile Builder
-And I delete Page "LOS 2"
-And I see the following page order "List of Students" in the builder
-When I navigate to the Dashboard home page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
