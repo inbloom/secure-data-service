@@ -28,4 +28,7 @@ grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed 
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/*.rb
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/*.rb
 
+#Take care of Portal properties
+sed -i "s/\${sli\.dev\.subdomain}/$hostname/g" config/config.in/portal_config.yml
+
 echo "Done.. ready to build and deploy!"

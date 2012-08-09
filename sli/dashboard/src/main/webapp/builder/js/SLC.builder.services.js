@@ -29,12 +29,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 	})
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
-			modalConfig = {
-				mode: "",
-				modalTitle: "Title",
-				pageTitle: "",
-				contentJSON: "[]"
-			};
+			modalConfig = {};
 
 		function getPage() {
 			return page;
@@ -45,16 +40,20 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		}
 
 		function showModal(modalId, modalCfg) {
-			setModalConfig(modalCfg);
+			if(modalCfg) {
+				setModalConfig(modalCfg);
+			}
+			$(".control-group").removeClass("error");
 			$(modalId).modal({onOpen: function (dialog) {
 				dialog.overlay.fadeIn('fast', function () {
 					dialog.data.hide();
 					dialog.container.fadeIn('fast', function () {
 						dialog.data.slideDown('fast');
+						$rootScope.$broadcast("modalDisplayed");
 					});
 				});
 			}});
-			$rootScope.$broadcast("modalDisplayed");
+
 		}
 
 		function closeModal(modalId) {
@@ -85,10 +84,54 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 				data: profileData
 			}).success(function() {
 				console.log("success");
-			}).error(function() {
+			}).error(function(data, status, headers, config) {
 				console.log("fail");
-				alert("Server Error");
+				showError(status, null);
 			});
+		}
+
+		function generatePageId(pages) {
+			var tabIdPrefix = "tab",
+				pageNumMax = 0,
+				id,
+				pageNumStr,
+				pageNum,
+				i;
+
+			for (i = 0; i < pages.length; i++) {
+				id = pages[i].id;
+				if(id.indexOf(tabIdPrefix) === 0) {
+					pageNumStr = id.substring(tabIdPrefix.length);
+					if (pageNumStr.length > 0 && !isNaN(pageNumStr)) {
+						pageNum = parseInt(pageNumStr, 10);
+						if (pageNum > pageNumMax) {
+							pageNumMax = pageNum;
+						}
+					}
+				}
+			}
+			return tabIdPrefix + (pageNumMax + 1);
+		}
+
+		function showError(errorStatus, errorMsg) {
+			
+			// when the user session times out, the ajax request returns with
+			// error status 0. when that happens, reload the page, forcing re-login
+			if (errorStatus === 0) {
+				location.reload();
+				return;
+			}
+			
+			$(".errorMessage").removeClass("hide");
+			$("#banner").addClass("hide");
+			$(".profileList").addClass("hide");
+			$(".profilePageWrapper").addClass("hide");
+
+			if (errorStatus === 401) {
+				$(".errorMessage").html("Access Denied: Unauthorized user");
+			} else {
+				$(".errorMessage").html("Server Error");
+			}
 		}
 
 		return {
@@ -98,6 +141,8 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			showModal: showModal,
 			closeModal: closeModal,
 			getModalConfig: getModalConfig,
-			setModalConfig: setModalConfig
+			setModalConfig: setModalConfig,
+			generatePageId: generatePageId,
+			showError: showError
 		};
 	});

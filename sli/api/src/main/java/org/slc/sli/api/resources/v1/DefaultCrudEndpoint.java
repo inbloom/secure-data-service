@@ -211,17 +211,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
 
-                if (results.isEmpty()) {
-                    Status errorStatus = Status.NOT_FOUND;
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                                    "Entity not found: " + key + "=" + value)).build();
-                } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
                     return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                             pagingHeaderTotalCount, uriInfo).build();
-                }
             }
         });
     }
@@ -332,17 +324,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     logAccessToRestrictedEntity(uriInfo, endpointEntity);
                 }
 
-                if (finalResults.isEmpty()) {
-                    Status errorStatus = Status.NOT_FOUND;
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                                    "Entity not found: " + key + "=" + value)).build();
-                } else {
-                    long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(), finalResults)),
+                long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
+                return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(), finalResults)),
                             pagingHeaderTotalCount, uriInfo).build();
-                }
             }
         });
     }

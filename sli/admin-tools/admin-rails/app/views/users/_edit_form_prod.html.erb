@@ -1,5 +1,13 @@
 <%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
 
+<script type="text/javascript" charset="utf-8">
+  var is_lea = <%= @is_lea%> 
+  var is_sea = <%= @is_sea%> 
+  var is_operator = <%= @is_operator%> 
+  var my_edorg = '<%= @login_user_edorg_name -%>'
+  var self_editing = <%= @loginUserId == user.uid -%>
+</script>
+
 <% if @user.errors.any? %>
         <div class="alert alert-error">
           There was an error processing your request. Please fix any highlighted fields below.
@@ -27,8 +35,9 @@
 </div>
 </fieldset>
 
+<div id="roles_edorg_block">
 <fieldset>
-<div class = "control-group">
+<div class = "control-group" id="primary_role_block">
 	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
 	<div class="controls">
 	<%= f.select :primary_role, @production_roles,{},:selected => user.primary_role %>
@@ -42,14 +51,14 @@
 	<div class="controls">
 	<label class="checkbox">
 	<% @role1_checked = true if user.optional_role_1=="Ingestion User" %>
-	<% @role1_disabled = true if user.primary_role == "Ingestion User" || user.primary_role == "SLC Operator" || user.primary_role == nil%>
+	<% @role1_disabled = true if (user.primary_role == "Ingestion User" || user.primary_role == "SLC Operator" || user.primary_role == nil || (@loginUserId == user.uid and @is_lea)) %>
 	<%= f.check_box :optional_role_1,{:id=> "ingestion_user_role",:checked => @role1_checked,:disabled=>@role1_disabled},"Ingestion User" %>Ingestion User
 	</label>
 	</div>
 	<div class="controls">
 	<label class="checkbox">
 		<% @role2_checked = true if user.optional_role_2=="Realm Administrator" %>
-		<% @role2_disabled = true if user.primary_role == "Realm Administrator" || user.primary_role == "SLC Operator" || user.primary_role == nil%>
+		<% @role2_disabled = true if user.primary_role == "Realm Administrator" || user.primary_role == "SLC Operator" || user.primary_role == nil || (@loginUserId == user.uid and @is_lea)%>
 	<%= f.check_box :optional_role_2,{:id=>"realm_administrator_role",:checked => @role2_checked,:disabled=>@role2_disabled},"Realm Administrator" %>Realm Administrator
 	</label>
 	</div>
@@ -63,7 +72,7 @@
 	<%= f.label :tenant, "Tenant",:class => "control-label" %>
 	<div class="controls">
 	<label style="color:#B94A48;" >
-		<% if (!@is_operator || user.primary_role == "SLC Operator" || user.primary_role == nil)
+		<% if (!@is_operator || user.primary_role == "SLC Operator" || user.primary_role == nil) || (@loginUserId == user.uid and @is_lea)
 		@disable_tenant = true
 		else 
 		@disable_tenant = false 
@@ -81,7 +90,7 @@
 	<%= f.label :edorg, "EdOrg",:class => "control-label" %>
 	<div class="controls">
 	<label style="color:#B94A48;" >
-	<% if ( user.primary_role == "SLC Operator" || user.primary_role == nil)
+	<% if (user.primary_role == "SLC Operator" || user.primary_role == nil) 
 		@disable_edorg = true
 		else 
 		@disable_edorg = false 
@@ -92,15 +101,17 @@
 </fieldset>
 <%else%>
 <fieldset>
-<div class = "control-group">
+<div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
 	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
 	<div class="controls">
-	<%= f.select :edorg,  @edorgs, {},:include_blank => true %>
+	<label style="color:#B94A48;" >
+	<%= f.select :edorg,  @edorgs, {},:include_blank => true%> <%=@user.errors[:edorg][0]%></label>
 	</div>
 </div>
 </fieldset>
 <%end%>
 
+</div> <!-- roles and edorgs --> 
 <fieldset>
 <div class = "form-actions">
 	<%= f.submit "Update", :class => "btn btn-primary" %>

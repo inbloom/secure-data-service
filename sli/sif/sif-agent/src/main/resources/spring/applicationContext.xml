@@ -10,6 +10,10 @@
     <context:annotation-config />
     <context:component-scan base-package="org.slc.sli.sif" />
 
+    <bean id="slcInterface" class="org.slc.sli.sif.slcinterface.SlcInterface"/>
+    
+    <bean id="sifIdResolverImplFile" class="org.slc.sli.sif.slcinterface.SifIdResolverImplFile"/>
+
     <!-- Environment config -->
     <bean id="commonProperties"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -23,31 +27,12 @@
     </bean>
     
     <import resource="agent-config.xml" />
+    <import resource="translation-config.xml" />
 
 	<!-- custom converter -->
   	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
   	<bean id="PhoneNumberListConverter" class="org.slc.sli.sif.domain.converter.PhoneNumberListConverter"/>
   	<bean id="AddressListConverter" class="org.slc.sli.sif.domain.converter.AddressListConverter"/>
   	
-	<bean id="dozerBeanMapperFactory" class="org.dozer.spring.DozerBeanMapperFactoryBean">
-    	<property name="mappingFiles" value="classpath*:/dozer/*dozer-mapping.xml" />
-		<property name="customConvertersWithId"> 
-	    	<map> 
-	        	<entry key="gradeLevelsConverter" value-ref="GradeLevelsConverter"/> 
-	        	<entry key="phoneNumberListConverter" value-ref="PhoneNumberListConverter"/> 
-	        	<entry key="addressListConverter" value-ref="AddressListConverter"/> 
-	      	</map> 
-    	</property>   
-<!--        <property name="eventListeners">-->
-<!--            <list>-->
-<!--                <bean class="org.dozer.listeners.EventListener"/>-->
-<!--            </list>-->
-<!--        </property>-->
-<!--        <property name="factories">-->
-<!--            <map>-->
-<!--                <entry key="id" value-ref="bean-factory-ref"/>-->
-<!--            </map>-->
-<!--        </property>-->
-    </bean>
     
 </beans>

@@ -4,6 +4,7 @@ When /^I navigate to the Dashboard Builder page$/ do
 end
 
 When /^I click on "(.*?)" Profile Builder$/ do |profileName|
+  @currentProfile = profileName.downcase
   name = "SLC - " + profileName + " Profile"
   profile_list = @explicitWait.until{@driver.find_element(:class, "profile_list").find_element(:link_text, name)}
   profile_list.click
@@ -16,13 +17,15 @@ When /^I delete Page "(.*?)"$/ do |pageName|
 end
 
 When /^I add a Page named "(.*?)"$/ do |pageName|
-  puts "clicking on add"
   addSection = @driver.find_element(:class, "addPageSection")
   addSection.find_element(:tag_name, "button").click
   ensurePopupLoaded()
   setPageName(pageName) 
   
-  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\",\"condition\":null,\"data\":null,\"items\":null,\"root\":null,\"description\":null,\"field\":null,\"value\":null,\"width\":null,\"datatype\":null,\"color\":null,\"style\":null,\"formatter\":null,\"sorter\":null,\"align\":null,\"params\":null}]"
+  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
+  if (@currentProfile == "section")
+    uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
+  end
   @driver.find_element(:id, "content_json").send_keys(:backspace)
   @driver.find_element(:id, "content_json").send_keys(:backspace)
   @driver.find_element(:id, "content_json").send_keys(uploadText)
@@ -103,7 +106,7 @@ def hoverOverPage(pageName, mode)
 end
 
 def saveDashboardBuilder()
-  save = @driver.find_element(:class, "modal-footer").find_element(:link_text, "Save")
+  save = @driver.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
@@ -117,6 +120,8 @@ def ensurePopupLoaded()
   @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
 end
 
-def ensurePopupUnloaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('class').strip) == "modal hide ng-scope"}
+def ensurePopupUnloaded() 
+   @driver.manage.timeouts.implicit_wait = 2
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @driver.manage.timeouts.implicit_wait = 10
 end

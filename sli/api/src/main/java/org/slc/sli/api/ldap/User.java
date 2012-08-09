@@ -15,15 +15,23 @@ public class User {
 
     private String uid;
     private List<String> groups;
-    private String firstName;
-    private String lastName;
     private String password;
     private String email;
     private String tenant;
     private String edorg;
     private String homeDir;
     private String fullName;
-    
+    private String cn;
+    private Status status = Status.SUBMITTED;
+
+    public String getCn() {
+        return cn;
+    }
+
+    public void setCn(String cn) {
+        this.cn = cn;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -60,20 +68,17 @@ public class User {
         }
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String parseFirstName() {
+        return fullName.split(" ")[0];
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String parseLastName() {
+        String[] split = fullName.split(" ", 2);
+        if (split.length == 2) {
+            return split[1];
+        } else {
+            return null;
+        }
     }
 
     public String getPassword() {
@@ -117,16 +122,11 @@ public class User {
     }
 
     public void setFullName(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = firstName + (" ".equals(lastName) ? "" : " " + lastName);
     }
 
     public String getFullName() {
-        if (firstName != null && lastName != null && !firstName.equals("") && !lastName.equals("")) {
-            return this.firstName + " " + this.lastName;
-        } else {
-            return "";
-        }
+        return this.fullName;
     }
 
     public void setCreateTime(Date createTime) {
@@ -171,20 +171,48 @@ public class User {
         return sb.toString();
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("uid = ").append(uid).append("\n");
-        sb.append("first name = ").append(firstName).append("\n");
-        sb.append("last name = ").append(lastName).append("\n");
-        sb.append("groups = ").append(printGroup(groups)).append("\n");
-        sb.append("email = ").append(email).append("\n");
-        sb.append("tenant = ").append(tenant).append("\n");
-        sb.append("edorg = ").append(edorg).append("\n");
-        sb.append("home dir = ").append(homeDir).append("\n");
-        sb.append("create time = ").append(getCreateTime()).append("\n");
-        sb.append("modify time = ").append(getModifyTime()).append("\n");
-
-        return sb.toString();
+        return "User [uid=" + uid + ", groups=" + groups + ", password=" + password + ", email=" + email + ", tenant="
+                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + fullName + ", cn=" + cn
+                + ", status=" + status + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
     }
+
+    /**
+     * A user status
+     *
+     * @author nbrown
+     *
+     */
+    public enum Status {
+        SUBMITTED("submitted"), APPROVED("approved");
+        private final String statusString;
+
+        private Status(String statusString) {
+            this.statusString = statusString;
+        }
+
+        protected String getStatusString() {
+            return statusString;
+        }
+
+        protected static Status getFromString(String statusString) {
+            for (Status value : Status.values()) {
+                if (value.getStatusString().equals(statusString)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+    }
+
 }

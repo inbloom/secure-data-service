@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static junit.framework.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -52,37 +52,22 @@ public class SecuritySessionResourceTest {
     SecuritySessionResource resource;
 
     @Test
-    public void testLogoutUser() throws Exception {
-
-    }
-
-    @Test
-    public void testGetSecurityContext() throws Exception {
-
-    }
-
-    @Test
-    public void testSessionCheck() throws Exception {
-
-    }
-    
-    @Test
     public void testSessionEmails() throws Exception {
         buildWithEmailType(Arrays.asList("Work"));
         Map<String, Object> response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Work@Work.com".equals(response.get("email")));
+        assertEquals("Work@Work.com", response.get("email"));
         
         buildWithEmailType(Arrays.asList("Organization"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Organization@Organization.com".equals(response.get("email")));
+        assertEquals("Organization@Organization.com", response.get("email"));
         
         buildWithEmailType(Arrays.asList("Organization", "Work", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Work@Work.com".equals(response.get("email")));
+        assertEquals("Work@Work.com", response.get("email"));
         
         buildWithEmailType(Arrays.asList("Organization", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Organization@Organization.com".equals(response.get("email")));
+        assertEquals("Organization@Organization.com", response.get("email"));
         
         EntityBody body = new EntityBody();
         body.put("name", new ArrayList<String>());
@@ -91,7 +76,7 @@ public class SecuritySessionResourceTest {
         injector.setCustomContext("MerpTest", "Merp Test", "IL", Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR), e,
                 "merpmerpmerp");
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("".equals(response.get("email")));
+        assertNull(response.get("email"));
 
     }
     

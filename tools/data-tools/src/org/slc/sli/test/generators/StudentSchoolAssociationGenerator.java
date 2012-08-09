@@ -33,15 +33,13 @@ public class StudentSchoolAssociationGenerator {
 
     public static StudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
 
-    	StudentSchoolAssociation ssa = new StudentSchoolAssociation();
-    	
-		if (MetaRelations.StudentSchoolAssociation_Ref) {
-			String graduationPlan = schoolId + "-gPlan0";
-			Ref gPlan = new Ref(graduationPlan);
-			ReferenceType refType = new ReferenceType();
-			refType.setRef(gPlan);
-			ssa.setGraduationPlanReference(refType);
-		}
+    	StudentSchoolAssociation ssa = new StudentSchoolAssociation(); 	
+
+		String graduationPlan = schoolId + "-gPlan0";
+		Ref gPlan = new Ref(graduationPlan);
+		ReferenceType refType = new ReferenceType();
+		refType.setRef(gPlan);
+		ssa.setGraduationPlanReference(refType);
     	
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);

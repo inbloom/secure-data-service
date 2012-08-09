@@ -89,12 +89,19 @@ public class TeacherSchoolAssociationGenerator {
         teacherSchool.setTeacherReference(teacherRef);
         */
         
-	
-		Ref teacherRefer = new Ref(teacherMeta.id);
-		StaffReferenceType teacherRef = new StaffReferenceType();
-		teacherRef.setRef(teacherRefer);
-		teacherSchool.setTeacherReference(teacherRef);
+		if (MetaRelations.TeacherSchoolAssociation_Ref) {
+			Ref teacherRefer = new Ref(teacherMeta.id);
+			StaffReferenceType teacherRef = new StaffReferenceType();
+			teacherRef.setRef(teacherRefer);
+			teacherSchool.setTeacherReference(teacherRef);
+		} else {
+			StaffIdentityType staffIdentity = new StaffIdentityType();
+			staffIdentity.setStaffUniqueStateId(teacherMeta.id);
+			StaffReferenceType teacherRef = new StaffReferenceType();
+			teacherRef.setStaffIdentity(staffIdentity);
 
+			teacherSchool.setTeacherReference(teacherRef);
+		}
 
         teacherSchool.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
 
