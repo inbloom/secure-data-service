@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import openadk.library.ADK;
 import openadk.library.common.Address;
 import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
@@ -250,13 +249,14 @@ public class SifEntityGenerator {
 
     public static StudentPersonal generateTestStudentPersonal() {
         StudentPersonal studentPersonal = new StudentPersonal();
-        studentPersonal.setRefId(ADK.makeGUID());
+        studentPersonal.setRefId(TEST_STUDENTPERSONAL_REFID);
         Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
         name.setMiddleName("");
         name.setPreferredName("Joe");
         studentPersonal.setName(name);
         EmailList emailList = new EmailList();
         emailList.addEmail(EmailType.PRIMARY, "joe.student@anyschool.edu");
+        studentPersonal.setEmailList(emailList);
         studentPersonal.setGraduationDate("1982");
         Demographics demographics = new Demographics();
         Calendar calendar = Calendar.getInstance();
@@ -268,15 +268,15 @@ public class SifEntityGenerator {
         studentPersonal.setDemographics(demographics);
         Address address = new Address();
         address.setCity("Salt Lake City");
-        address.setStateProvince(StatePrCode.UT);
+        address.setStateProvince(StatePrCode.IL);
         address.setCountry(CountryCode.US);
         address.setPostalCode("84102");
         Street street = new Street();
         street.setLine1("1 IBM Plaza");
         street.setApartmentNumber("2000");
         street.setLine2("Suite 2000");
-        street.setLine3("Salt Lake City, UT 84102");
-        street.setStreetName("IBM");
+        street.setLine3("Salt Lake City, IL 84102");
+        street.setStreetName("IBM way");
         street.setStreetNumber("1");
         street.setStreetType("Plaza");
         street.setApartmentType("Suite");
