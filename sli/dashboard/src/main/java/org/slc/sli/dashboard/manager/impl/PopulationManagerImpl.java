@@ -1401,23 +1401,30 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 				}
 			}
 		};
-
-		String startDate = (String) attList.get(0).get(Constants.ATTR_ATTENDANCE_DATE);
-		String endDate = (String) attList.get(attList.size()-1).get(Constants.ATTR_ATTENDANCE_DATE);
 		
 		
-		Collections.sort(attList, c);
+		
 		
 		LinkedList<Map> absentList = new LinkedList<Map>();
+		GenericEntity ge = new GenericEntity();
+		String startDate = null;
+		String endDate = null;
 		
-		for (Map attEvent : attList) {
-			String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-			if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-				absentList.addLast(attEvent);
+		try {
+			Collections.sort(attList, c);
+			startDate = (String) attList.get(0).get(Constants.ATTR_ATTENDANCE_DATE);
+			endDate = (String) attList.get(attList.size()-1).get(Constants.ATTR_ATTENDANCE_DATE);
+			
+			for (Map attEvent : attList) {
+				String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+				if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+					absentList.addLast(attEvent);
+				}
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
 		}
 		
-		GenericEntity ge = new GenericEntity();
 		ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
 		ge.put(Constants.ATTR_START_DATE, startDate);
 		ge.put(Constants.ATTR_END_DATE, endDate);
