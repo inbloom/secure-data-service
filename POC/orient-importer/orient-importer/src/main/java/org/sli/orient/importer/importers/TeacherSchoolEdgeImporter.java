@@ -33,6 +33,7 @@ public class TeacherSchoolEdgeImporter extends BaseImporter {
             for (Vertex teacher : graph.getVertices("mongoid", body.get("teacherId"))) {
                 for (Vertex school : graph.getVertices("mongoid", body.get("schoolId"))) {
                     Edge e = graph.addEdge(null, teacher, school, "teacherSchool");
+                    e.setProperty("mongoid", tsa.get("_id"));
                     e.setProperty("endDate", endDate);
                 }
             }
