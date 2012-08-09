@@ -93,6 +93,7 @@ And I see the following page order "Subjects and Courses;Teachers" in the builde
 And I click on "Section" Profile Builder
 And I delete Page "LOS 2"
 And I see the following page order "List of Students" in the builder
+When I navigate to the Dashboard home page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
