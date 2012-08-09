@@ -20,20 +20,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Dynamic resource to handle one and two part resources
- *
- * @author srupasinghe
+ * Created with IntelliJ IDEA.
+ * User: srupasinghe
+ * Date: 8/8/12
+ * Time: 3:45 PM
+ * To change this template use File | Settings | File Templates.
  */
 @Component
 @Scope("request")
-public class GenericResource {
-
+public class TwoPartResource {
     @Autowired
     private ResourceService resourceService;
 
@@ -44,15 +44,6 @@ public class GenericResource {
     private Map<String, Set<String>> resourceSupprtedMethods;
 
     @GET
-    public Response getAll(@Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.ONE_PART);
-        List<EntityBody> results = resourceService.getEntities(resource);
-
-        return Response.ok(results).build();
-    }
-
-    @GET
-    @Path("{id}")
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
         final String resource = getResourceName(uriInfo, ResourceTemplate.TWO_PART);
@@ -61,39 +52,20 @@ public class GenericResource {
         return Response.ok(result).build();
     }
 
-    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    public CustomEntityResource getCustom(@PathParam("id") final String id,
-                              @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-
-        EntityDefinition entityDef = resourceService.getEntityDefinition(resource);
-        return new CustomEntityResource(id, entityDef);
-    }
-
-    @POST
-    public Response post(final EntityBody entityBody,
-                         @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.ONE_PART);
-        String id = resourceService.postEntity(resource, entityBody);
-
-        return Response.ok(id).build();
-    }
-
     @PUT
-    @Path("{id}")
     public Response put(@PathParam("id") final String id,
                         final EntityBody entityBody,
                         @Context final UriInfo uriInfo) {
 
-        return null;
+        return Response.ok("put").build();
 
     }
 
     @DELETE
-    @Path("{id}")
     public Response delete(@PathParam("id") final String id,
                            @Context final UriInfo uriInfo) {
-        return null;
+
+        return Response.ok("delete").build();
     }
 
     protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {

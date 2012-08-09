@@ -21,42 +21,25 @@ import java.util.Stack;
  *
  */
 public class ResourceWadlHandler implements WadlHandler {
-    private Map<Integer, List<Pair<String, String>>> resourceEnds = new HashMap<Integer, List<Pair<String, String>>>();
+    private Map<String, Resource> resourceEnds = new HashMap<String, Resource>();
+
 
     private void computeURI(final Resource resource, final Resources resources, final Application app,
                                           final Stack<Resource> ancestors) {
         final List<String> steps = WadlHelper.toSteps(resource, ancestors);
 
-        if (steps.contains("custom") || steps.contains("aggregates")) return;
-
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (final String step : steps) {
-            if (WadlHelper.isVersion(step)) {
-                // Ignore
+            if (first) {
+                first = false;
             } else {
-                if (first) {
-                    first = false;
-                } else {
-                    sb.append("/");
-                }
-                sb.append(step);
+                sb.append("/");
             }
+            sb.append(step);
         }
 
-        addURI(steps.size()-1, sb.toString(), resource.getResourceClass());
-    }
-
-    private void addURI(int key, String uri, String resourceClass) {
-        Pair<String, String> pair = Pair.of(uri, resourceClass);
-
-        if (resourceEnds.containsKey(key)) {
-            resourceEnds.get(key).add(pair);
-        } else {
-            List<Pair<String, String>> list = new ArrayList<Pair<String, String>>();
-            list.add(pair);
-            resourceEnds.put(key, list);
-        }
+        resourceEnds.put(sb.toString(), resource);
     }
 
     @Override
@@ -88,7 +71,7 @@ public class ResourceWadlHandler implements WadlHandler {
     }
 
 
-    public Map<Integer, List<Pair<String, String>>> getResourceEnds() {
+    public Map<String, Resource> getResourceEnds() {
         return resourceEnds;
     }
 }

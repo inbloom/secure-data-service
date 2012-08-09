@@ -1,38 +1,32 @@
 package org.slc.sli.api.resources.generic;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Dynamic resource to handle one and two part resources
- *
- * @author srupasinghe
+ * Created with IntelliJ IDEA.
+ * User: srupasinghe
+ * Date: 8/8/12
+ * Time: 3:45 PM
+ * To change this template use File | Settings | File Templates.
  */
 @Component
 @Scope("request")
-public class GenericResource {
+public class OnePartResource {
 
     @Autowired
     private ResourceService resourceService;
@@ -45,29 +39,17 @@ public class GenericResource {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
+        final String key = getResourceName(uriInfo, ResourceTemplate.ONE_PART_FULL);
+
+        Set<String> values = resourceSupprtedMethods.get(key);
+        if (!values.contains("GET")) {
+            throw new UnsupportedOperationException("GET not supported");
+        }
+
         final String resource = getResourceName(uriInfo, ResourceTemplate.ONE_PART);
         List<EntityBody> results = resourceService.getEntities(resource);
 
         return Response.ok(results).build();
-    }
-
-    @GET
-    @Path("{id}")
-    public Response getWithId(@PathParam("id") final String id,
-                              @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.TWO_PART);
-        EntityBody result = resourceService.getEntity(resource, id);
-
-        return Response.ok(result).build();
-    }
-
-    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    public CustomEntityResource getCustom(@PathParam("id") final String id,
-                              @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-
-        EntityDefinition entityDef = resourceService.getEntityDefinition(resource);
-        return new CustomEntityResource(id, entityDef);
     }
 
     @POST
@@ -79,25 +61,7 @@ public class GenericResource {
         return Response.ok(id).build();
     }
 
-    @PUT
-    @Path("{id}")
-    public Response put(@PathParam("id") final String id,
-                        final EntityBody entityBody,
-                        @Context final UriInfo uriInfo) {
-
-        return null;
-
-    }
-
-    @DELETE
-    @Path("{id}")
-    public Response delete(@PathParam("id") final String id,
-                           @Context final UriInfo uriInfo) {
-        return null;
-    }
-
     protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
         return resourceHelper.grabResource(uriInfo.getRequestUri().toString(), template);
     }
-
 }
