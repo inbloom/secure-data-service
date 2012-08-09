@@ -111,14 +111,10 @@ public class EventReporter implements Publisher {
                 "TestZone", zoneUrl, SIFVersion.SIF23);
     }
 
-    public static final int ZONE_ID = 0;
-    public static final int MESSAGE_FILE = 1;
-
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
     private Zone zone;
     private Properties props;
-
     private Map<String, ScriptMethod> scriptMethodMap = new HashMap<String, ScriptMethod>();
 
     static class ScriptMethod {
