@@ -127,7 +127,7 @@ class UsersController < ApplicationController
 
    rescue =>e
      logger.error "Could not send email to #{@user.email}."
-     @email_error_message = "Could not send notification email to #{@user.email}"
+     @email_error_message = "Failed to send notification email to #{@user.email}"
    end
     end
     
@@ -143,7 +143,10 @@ class UsersController < ApplicationController
          @user.errors[:edorg] << "tenant and edorg mismatch"
          format.html {render "new"}
        else
-        flash[:notice]= ( @email_error_message==nil ? 'Success! You have added a new user' : 'Success! You have added a new user\n'+@email_error_message)
+        flash[:notice]=  'Success! You have added a new user'
+        if @email_error_message !=nil
+        flash[:error] = @email_error_message
+        end
         format.html { redirect_to "/users" } 
        end
      end
