@@ -24,6 +24,12 @@ import org.apache.commons.cli.ParseException;
 import org.junit.Test;
 import org.slc.sli.sif.reporting.PropertyUtils;
 
+/**
+ * Test class for PropertyUtils
+ *
+ * @author vmcglaughlin
+ *
+ */
 public class PropertyUtilsTest {
 
     @Test

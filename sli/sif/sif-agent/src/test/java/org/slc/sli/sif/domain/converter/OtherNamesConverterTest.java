@@ -126,7 +126,7 @@ public class OtherNamesConverterTest extends ADKTest {
 
     private OtherNames createOtherNames() {
         OtherNames otherNames = new OtherNames();
-        for( String sifNameType : nameTypeMap.keySet()) {
+        for (String sifNameType : nameTypeMap.keySet()) {
             Name sifName = new Name();
             sifName.setType(sifNameType);
             sifName.setFirstName(firstName);

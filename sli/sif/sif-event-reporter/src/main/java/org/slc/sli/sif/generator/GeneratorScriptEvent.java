@@ -16,6 +16,12 @@
 
 package org.slc.sli.sif.generator;
 
+/**
+ * Contains valid values for command line scripting
+ *
+ * @author vmcglaughlin
+ *
+ */
 public class GeneratorScriptEvent {
 
     public static final String KEY_LEA_INFO_ADD = "LEAInfoAdd";

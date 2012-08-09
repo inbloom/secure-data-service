@@ -24,12 +24,13 @@ import openadk.library.student.MostRecent;
 import openadk.library.student.StudentPersonal;
 
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Translation task for translating StudentPersonal SIF data objects to Student SLI entities.
@@ -37,8 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author slee
  *
  */
-public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> 
-{
+public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
 
@@ -55,20 +55,18 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
 
-    public StudentPersonalTranslationTask()
-    {
+    public StudentPersonalTranslationTask() {
         super(StudentPersonal.class);
     }
 
     @Override
-    public List<StudentEntity> doTranslate(StudentPersonal sifData)
-    {
+    public List<StudentEntity> doTranslate(StudentPersonal sifData) {
         StudentPersonal sp = sifData;
         MostRecent mostRecent = sp.getMostRecent();
         Demographics demographics = sp.getDemographics();
         StudentEntity e = new StudentEntity();
         //convert properties
-        if (mostRecent!=null) {
+        if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
         }
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));

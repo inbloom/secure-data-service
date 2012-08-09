@@ -28,6 +28,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+/**
+ * Test class for PublishZoneConfigurator
+ *
+ * @author vmcglaughlin
+ *
+ */
 public class PublishZoneConfiguratorTest {
 
     @InjectMocks

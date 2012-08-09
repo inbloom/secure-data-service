@@ -43,7 +43,7 @@ public class AddressListConverterTest extends ADKTest {
 
     @Test
     public void testNullObject() {
-        List<Address> result = converter.convert((AddressList)null);
+        List<Address> result = converter.convert((AddressList) null);
         Assert.assertNull("Address list should be null", result);
     }
 

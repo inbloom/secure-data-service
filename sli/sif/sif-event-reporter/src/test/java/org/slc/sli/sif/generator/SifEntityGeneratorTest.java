@@ -67,6 +67,12 @@ import openadk.library.student.TimeFrame;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test class for SifEntityGenerator
+ *
+ * @author vmcglaughlin
+ *
+ */
 public class SifEntityGeneratorTest {
 
     @Before
