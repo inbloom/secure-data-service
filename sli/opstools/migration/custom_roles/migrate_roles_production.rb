@@ -59,11 +59,12 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   role = { 
     body: {
       realmId: realm['_id'], 
-      tenantId: realm['body']['tenantId'], 
       roles: [], 
-      customRights: [] 
+      customRights: []
     }, 
-    metaData: { }
+    metaData: {
+      tenantId: realm['body']['tenantId']
+    }
   }
   role[:metaData][:tenantId] = realm['metaData']['tenantId'] unless realm['metaData'].nil? || realm['metaData']['tenantId'].nil?
 

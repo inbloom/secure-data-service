@@ -140,7 +140,11 @@ public class EdfiStats {
         Set<String> uniqueStudentSessions = (Set<String>)counts.get(1);
         
         Map<String, Long> sliCounts = IngestionDataParser.mapEntityCounts(edfiCounts);
+        if (sliCounts.get("attendance") == 0) {
+            sliCounts.remove("attendance");
+        } else {
            sliCounts.put("attendance", (long)uniqueStudentSessions.size());
+        }
         sliCounts.remove("assessmentItem"               );
         sliCounts.remove("assessmentFamily"             );
         sliCounts.remove("assessmentPeriodDescriptor"   );

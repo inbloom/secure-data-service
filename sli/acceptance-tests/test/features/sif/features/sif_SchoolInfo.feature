@@ -1,14 +1,18 @@
 @RALLY_US3047
 Feature: SIF SchoolInfo Test
 
+Background: Set my data store
+Given the data store is "data_SchoolInfo"
+
 Scenario: Add a School
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
 And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And I want to POST a(n) "sifEvent_SchoolInfo_add" SIF message
-When I POST the message to the ZIS
 And I wait for "10" seconds
+When I POST the message to the ZIS
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 3     |
@@ -24,7 +28,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Update a School 1
 Given I want to POST a(n) "sifEvent_SchoolInfo_change_1" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 3     |
@@ -41,7 +45,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Update a School 2
 Given I want to POST a(n) "sifEvent_SchoolInfo_change_2" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 3   |
@@ -61,7 +65,7 @@ Given the following collections are clean and bootstrapped in datastore:
 And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And I want to POST a(n) "sifEvent_SchoolInfo_add_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |
@@ -78,7 +82,7 @@ Given the following collections are clean and bootstrapped in datastore:
 And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And I want to POST a(n) "sifEvent_SchoolInfo_change_1" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |

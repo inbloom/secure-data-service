@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.reporting;
 
+import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -31,6 +32,8 @@ import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
+import openadk.library.common.ExitTypeCode;
+import openadk.library.common.GradeLevelCode;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
@@ -51,10 +54,8 @@ public class EventReporter implements Publisher {
 
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
-        String catalinaHome = System.getProperty("catalina.home");
-        if (catalinaHome == null) {
-            System.setProperty("catalina.home", "target");
-        }
+        System.setProperty("adk.log.file", "target" + File.separator + "logs" + File.separator + "EventReporter.log");
+
         String sliConf = System.getProperty("sli.conf");
         if (sliConf == null) {
             System.setProperty("sli.conf", "../../config/properties/sli.properties");
@@ -174,7 +175,19 @@ public class EventReporter implements Publisher {
                 schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
                 Thread.sleep(5000);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
+                Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.DELETE);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                studentLEARelationship.setSchoolYear(2014);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
+                Thread.sleep(5000);
+                studentSchoolEnrollment.setChanged();
+                studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.CHANGE);
                 Thread.sleep(5000);
                 zone.reportEvent(studentSchoolEnrollment, EventAction.DELETE);
                 Thread.sleep(5000);

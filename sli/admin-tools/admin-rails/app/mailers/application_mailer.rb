@@ -29,7 +29,7 @@ class ApplicationMailer < ActionMailer::Base
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
   FORGOT_PASSWORD_SUBJECT = "SLC Notification - Forgot Password"
   SAMT_VERIFY_SUBJECT_SANDBOX = "SLC Sandbox Account - Email Confirmation"
-  SAMT_VERIFY_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
+  SAMT_VERIFY_SUBJECT_PROD = "SLC Administrator Account - Email Confirmation"
 
   def welcome_email(user)
     @firstName = user[:first]
@@ -48,7 +48,12 @@ class ApplicationMailer < ActionMailer::Base
   def notify_reset_password(email, key)
     user = APP_LDAP_CLIENT.read_user(email)
     @fullName = user[:first] + " " + user[:last]
-    @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    logger.info("user status is: #{user[:status]}")
+    if user[:status]=="submitted"
+     @resetPasswordUrl=APP_CONFIG['email_replace_uri']+"/resetPassword/newAccount/"+key
+     else
+     @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    end
     mail(:to => user[:emailAddress], :subject => FORGOT_PASSWORD_SUBJECT )
   end
   
@@ -88,11 +93,11 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
   
-  def samt_verify_email(email_address, firstName, groups,reset_password_link)
+  def samt_verify_email(email_address, firstName, primary_role,reset_password_link)
   logger.info {"samt verification email is sent to: #{email_address}"}
   @firstName = firstName
   @reset_password_link = reset_password_link
-  @groups = groups
+  @primary_role = primary_role
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?SAMT_VERIFY_SUBJECT_SANDBOX : SAMT_VERIFY_SUBJECT_PROD)) 
   end
 end
