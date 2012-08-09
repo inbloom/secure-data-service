@@ -182,11 +182,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
             }
             Config.Data dataConfig = config.getData();
-            if (dataConfig != null && (!dataConfig.isLazy() || lazyOverride) && !model.hasDataForAlias(dataConfig.getCacheKey())) {
-                entity = getDataComponent(componentId, entityKey, dataConfig);
-                model.addData(dataConfig.getCacheKey(), entity);
-            } else if (model.hasDataForAlias(dataConfig.getCacheKey())) {
-                entity = model.getData().get(dataConfig.getCacheKey());
+            if(dataConfig != null) {
+                entity = model.getDataForAlias(dataConfig.getCacheKey());
+                if ((!dataConfig.isLazy() || lazyOverride) && entity == null) {
+                    entity = getDataComponent(componentId, entityKey, dataConfig);
+                    model.addData(dataConfig.getCacheKey(), entity);
+                }
             }
             if (!checkCondition(config, config, entity)) {
                 return null;
