@@ -746,7 +746,6 @@ end
 desc "Run SIF Tests"
 task :sifTests => [:sifIntegratedTest,
                    :sifSchoolInfoTest,
-                   :sifSEAInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
                    :sifStudentLEARelationshipTest

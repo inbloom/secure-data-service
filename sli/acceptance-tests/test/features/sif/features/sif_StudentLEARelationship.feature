@@ -15,7 +15,7 @@ And the fixture data "sif_student_fixture" has been imported into collection "st
 And I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
 And I wait for "10" seconds
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName           | count |
      | studentSchoolAssociation | 1     |
@@ -29,7 +29,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Update a StudentLEARelationship
 Given I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName           | count |
      | studentSchoolAssociation | 1     |
@@ -50,7 +50,7 @@ And the fixture data "sif_educationOrganization_fixture" has been imported into 
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentLEARelationship_add_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName           | count |
      | studentSchoolAssociation | 0     |
@@ -65,7 +65,7 @@ And the fixture data "sif_educationOrganization_fixture" has been imported into 
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName           | count |
      | studentSchoolAssociation | 0     |

@@ -5,24 +5,24 @@
       <SIF_MsgId>***SUB SIF MSG ID***</SIF_MsgId>
       <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
       <SIF_Security>
-        <SIF_SecureChannel>
-          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
-          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
-        </SIF_SecureChannel>
+	<SIF_SecureChannel>
+	  <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
+	  <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
+	</SIF_SecureChannel>
       </SIF_Security>
       <SIF_SourceId>acceptance.test.reporter</SIF_SourceId>
       <SIF_Contexts>
-        <SIF_Context>SIF_Default</SIF_Context>
+	<SIF_Context>SIF_Default</SIF_Context>
       </SIF_Contexts>
     </SIF_Header>
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="LEAInfo" Action="Change">
-        <LEAInfo RefId="73648462888624AA5294BC6380173276">
-          <StateProvinceId>Daybreak School District 4530</StateProvinceId>
-          <NCESId>4215750</NCESId>
-          <LEAName>UPDATED Daybreak School District 4530</LEAName>
-          <OperationalStatus>0821</OperationalStatus>
-        </LEAInfo>
+	<LEAInfo RefId="73648462888624AA5294BC6380173276">
+	  <StateProvinceId>Daybreak School District 4530</StateProvinceId>
+	  <NCESId>4215750</NCESId>
+	  <LEAName>UPDATED Daybreak School District 4530</LEAName>
+	  <OperationalStatus>0821</OperationalStatus>
+	</LEAInfo>
       </SIF_EventObject>
     </SIF_ObjectData>
   </SIF_Event>
