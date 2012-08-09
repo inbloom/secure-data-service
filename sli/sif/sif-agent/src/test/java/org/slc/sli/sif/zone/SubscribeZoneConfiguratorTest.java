@@ -27,10 +27,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class PublishZoneConfiguratorTest {
+public class SubscribeZoneConfiguratorTest {
 
     @InjectMocks
-    PublishZoneConfigurator publishZoneConfigurator;
+    SubscribeZoneConfigurator subscribeZoneConfigurator;
 
     @Mock
     private Zone zone1;
@@ -43,19 +43,19 @@ public class PublishZoneConfiguratorTest {
 
     @Before
     public void setup() {
-        publishZoneConfigurator = new PublishZoneConfigurator();
+        subscribeZoneConfigurator = new SubscribeZoneConfigurator();
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testConfigure() throws ADKException {
         Zone[] zones = {zone1, zone2, zone3};
-        publishZoneConfigurator.configure(zones);
+        subscribeZoneConfigurator.configure(zones);
         Mockito.verify(zone1, Mockito.times(1)).connect(Mockito.anyInt());
         Mockito.verify(zone2, Mockito.times(1)).connect(Mockito.anyInt());
         Mockito.verify(zone3, Mockito.times(1)).connect(Mockito.anyInt());
 
-        Assert.assertTrue(publishZoneConfigurator instanceof ZoneConfigurator);
+        Assert.assertTrue(subscribeZoneConfigurator instanceof ZoneConfigurator);
     }
 
 }
