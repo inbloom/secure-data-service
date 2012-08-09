@@ -13,11 +13,11 @@ Feature: Tailored welcome email, user is able to log in
     When I enter my username and password
     Then I can log in the portal
   Examples:
-    |account_type  |template_type  |
-    |LEA Admin     |LEA or SEA type|
-    |SEA Admin     |LEA or SEA type|
-    |Ingestion User|Ingestion Admin|
-    |Realm Admin   |Realm Admin    |
+    |account_type          |template_type  |
+    |LEA Administrator     |LEA or SEA type|
+    |SEA Administrator     |LEA or SEA type|
+    |Ingestion User        |Ingestion Admin|
+    |Realm Admin           |Realm Admin    |
 
   @sandbox
   Scenario Outline: When I set my password on sandbox account, I get a welcome email and I am able to log in
