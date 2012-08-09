@@ -1,5 +1,6 @@
 <% @title="Provision Landing Zone" %>
-<% custom_ed_org_text = "Provide my own dataset" %>
+<% custom_ed_org_text = "I will upload my own data" %>
+<% standard_ed_org_text = "I will upload SLC sample data" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
 <% rsaKey_error_text = "Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
 <div class="provision">
@@ -7,9 +8,11 @@
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
   </div>
 	<% if APP_CONFIG['is_sandbox']%>
-		<p>Before your applications can be functional in the sandbox, you need to define which test data to use. After you have configured your test data, you will receive an email with further instructions.  Select one:</p>
+		<p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data store.  To add sample data, use this page to configure a landing zone, which is a SFTP location for uploading data files.  Each time you want to upload data for a new education organization, you must return to this page to configure a new landing zone.</p>
+        <p>SLC makes Ed-Fi compliant sample data available to you, or you can provide your own Ed-Fi-compliant data.</p>
+        <p>To configure the landing zone, select one of the following:</p>
 	<%else%>
-		<p>A Landing Zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a Landing Zone, you will be able to access it using an SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. Please click Create to continue. </p>
+		<p>A Landing Zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a Landing Zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. Please click Create to continue. </p>
 	<% end %>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
 	    <% if APP_CONFIG['is_sandbox'] %>
@@ -17,7 +20,7 @@
 			<% @edOrgs.each do |org| %>
 				<div class="provisionBlock">
 					<%= radio_button_tag 'ed_org', org.stateUniqueId, false, :class => "radioButton" %>
-					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= standard_ed_org_text %></label>
 				</div>
 			<% end %>
 			<div class="provisionBlock">
@@ -38,6 +41,7 @@
 			  </div>
 			</div>
 		<% end %>
+        <p>After you configure your landing zone, you will receive an email with further instructions on how to upload your data.</p>
 		<% end %>
 
 <!--  !!! Commenting out RSA Key field UI temporarily !!!
