@@ -243,7 +243,8 @@ public class UserResourceTest {
 
         List<User> users = Arrays.asList(new User(), new User());
         Mockito.when(
-                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class), Mockito.anyString(),
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                        Mockito.anyCollectionOf(String.class), Mockito.anyString(),
                         (Collection<String>) Mockito.isNull())).thenReturn(users);
 
         Response res = resource.readAll();

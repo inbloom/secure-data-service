@@ -67,6 +67,30 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
   @production
+  Scenario Outline:  As an admin, I can only see users I'm allowed to see
+  Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
+  And I have a role "<ADMIN_ROLE>"
+  When I navigate to GET "/users"
+  Then I <SHOULD> see "<USER_ID>"
+  Examples:
+	|USER		|PASSWORD		|ADMIN_ROLE			|REALM		|SHOULD			|USER_ID			|
+	# |operator   |operator1234	|SLC Operator		|SLI		|should			|operator			|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|iladmin			|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetadmin		|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetingestionuser|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetrealmadmin	|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should not		|operator			|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|iladmin			|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetadmin		|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetingestionuser|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetrealmadmin	|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should not		|operator			|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should not		|iladmin			|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetadmin		|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetingestionuser|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetrealmadmin	|
+
+  @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users. 
     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -372,3 +396,14 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
+
+  @production
+  Scenario: Unhappy path:  LEA cannot see SEA who has same edorg
+  Given I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  And I create a new "SEA Administrator, Ingestion User" "il2admin" with tenant "Midgar" and edorg "IL-SUNSET"
+  When I have logged in to realm "SLI" using "operator" "operator1234"
+  Then I should see user "il2admin"
+  When I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  Then I should see user "il2admin"
+  When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
+  Then I should not see user "il2admin"
