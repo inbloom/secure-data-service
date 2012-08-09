@@ -15,6 +15,7 @@
 -->
 <@includePanelModel panelId="contactInfo"/>
 <#assign id = getDivId(panelConfig.id)>
+<div id="attendanceCalendar"></div>
 <div class="panel-container">
 <div id="${id}_student" class="panel-item contactInfoItem">
 	<#assign singleContact = panelData>

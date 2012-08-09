@@ -1348,3 +1348,33 @@ text-decoration: none;
 .hidden {
     display: none;
 }
+
+/* Attendance Calendar Styles */
+.ui-datepicker-multi .ui-datepicker-group { height: 250px; margin-right: 10px; margin-bottom: 20px; width: 23%; border-top: solid 1px #F2F2F2;}
+.ui-datepicker .ui-datepicker-header { color: #999; background-color: #F2F2F2; border: solid 1px #D8D8D8; font-weight: normal; }
+.ui-datepicker th { color: #999999; border-right: solid 1px #D8D8D8; background-color: #F2F2F2; font-weight: normal; }
+.ui-datepicker-multi .ui-datepicker-group table { width: 100%; }
+.ui-datepicker .ui-state-default { background: none !important;}
+.ui-datepicker .ui-datepicker-unselectable { opacity: 1.0 !important;}
+.ui-datepicker .ui-datepicker-unselectable span.ui-state-default { color: #CCCCCC; font-weight: bold; }
+.ui-datepicker .ui-datepicker-week-end span.ui-state-default { color: #D8D8D8; font-weight: normal; }
+.ui-datepicker td span, .ui-datepicker td { border-bottom: solid 1px #F2F2F2; border-left: solid 1px #F2F2F2; }
+.ui-datepicker td span, .ui-datepicker td a { text-align: center; }
+.ui-datepicker .tardy span.ui-state-default {
+    background: #F5844C !important;
+    color: #fff !important;
+}
+.ui-datepicker .excusedAbsence span.ui-state-default {
+    background: #0064C8 !important;
+    color: #fff !important;
+}
+.ui-datepicker .unexcusedAbsence span.ui-state-default {
+    background: #DD0000 !important;
+    color: #fff !important;
+}
+
+.ui-datepicker .disableDays span.ui-state-default { color: #D8D8D8; }
+.ui-datepicker-group {
+   /* border: solid 2px #CCCCCC;*/
+}
+

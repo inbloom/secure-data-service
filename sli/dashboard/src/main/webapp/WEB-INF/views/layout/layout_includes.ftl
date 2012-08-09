@@ -103,6 +103,11 @@
 	document.title = SLC.dataProxy.getLayoutName();
 
 	setTimeout(SLC.util.placeholderFix, 500);
+
+	// Calendar
+	$(function() {
+	    SLC.attendanceCalendar.create("attendanceCalendar", SLC.dataProxy.getData("studentAttendance"));
+	});
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">
