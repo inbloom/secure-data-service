@@ -201,3 +201,20 @@ devlr2:
         mail.session.mail.smtp.user: 65E82A5B9904AC1B440189EC9B2CDFE63E5FCD1B39385EC47CF593F0AA684A4A
         mail.session.mail.smtp.password: 36D4305BF2B501E083FFBC4F22130745271756445779ED6FBB35B1B773BDBA5F6E4BB8922DCF0125AB61C3E8981E2BBA
 
+team:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+
+        # email server settings 
+        mail.session.mail.smtp.auth: false
+        mail.session.mail.smtp.host: mon.slidev.org
+        mail.session.mail.smtp.port: 3000
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user:
+        mail.session.mail.smtp.password:
+
