@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.modeling.xsdgen;
 
 import java.util.Collections;
@@ -21,17 +37,17 @@ import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
 public final class PluginForMongo implements Uml2XsdPlugin {
-
+    
     /**
      * This is the type that is used whenever we have just a reference.
      */
     private static final String MONGO_REFERENCE_TYPE = "Reference";
-
+    
     @SuppressWarnings("unused")
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
-
+    
     /**
      * Not all association ends have names so we synthesize a name based upon the type.
      */
@@ -47,7 +63,7 @@ public final class PluginForMongo implements Uml2XsdPlugin {
             return name.concat(unbounded ? "Ids" : "Id");
         }
     }
-
+    
     private static final QName getQName(final Type type, final ModelIndex lookup) {
         final Identifier id = type.getId();
         for (final ModelElement whereUsed : lookup.whereUsed(id)) {
@@ -58,69 +74,69 @@ public final class PluginForMongo implements Uml2XsdPlugin {
         }
         return new QName(type.getName());
     }
-
+    
     private static final boolean isUnbounded(final Occurs occurs) {
         return occurs.equals(Occurs.UNBOUNDED);
     }
-
+    
     @SuppressWarnings("unused")
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
-
+    
     @Override
     public Map<String, String> declarePrefixMappings() {
         final Map<String, String> pms = new HashMap<String, String>();
         pms.put("sli", SliMongoConstants.NAMESPACE_SLI);
         return Collections.unmodifiableMap(pms);
     }
-
+    
     @Override
     public QName getElementName(final String name, final boolean isReference) {
         // camel case is the convention for JSON.
         return new QName(Uml2XsdTools.camelCase(name));
     }
-
+    
     @Override
     public QName getElementType(final String name, final boolean isAssociation) {
         return getTypeName(name);
     }
-
+    
     @Override
-    public QName getPluralTopLevelElementName(final PsmDocument<Type> classType) {
-        return new QName(classType.getPluralResourceName().getName());
+    public QName getGraphAssociationEndName(final PsmDocument<Type> classType) {
+        return new QName(classType.getGraphAssociationEndName().getName());
     }
-
+    
     @Override
-    public QName getSingularTopLevelElementName(final PsmDocument<Type> classType) {
+    public QName getElementName(final PsmDocument<Type> classType) {
         return new QName(classType.getSingularResourceName().getName());
     }
-
+    
     @Override
     public String getTargetNamespace() {
         return SliMongoConstants.NAMESPACE_SLI;
     }
-
+    
     @Override
     public QName getTypeName(final String name) {
         return new QName(name);
     }
-
+    
     @Override
     public boolean isAttributeFormDefaultQualified() {
         return true;
     }
-
+    
     @Override
     public boolean isElementFormDefaultQualified() {
         return true;
     }
-
+    
     @Override
     public boolean isEnabled(final QName name) {
         return false;
     }
-
+    
     @Override
     public void writeAppInfo(final TaggedValue taggedValue, final ModelIndex lookup, final Uml2XsdPluginWriter xsw) {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
@@ -129,6 +145,11 @@ public final class PluginForMongo implements Uml2XsdPlugin {
             if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
                         SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
+                xsw.characters(taggedValue.getValue());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getLocalPart(),
+                        SliMongoConstants.SLI_APPLY_NATURAL_KEYS.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
             } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
@@ -161,7 +182,7 @@ public final class PluginForMongo implements Uml2XsdPlugin {
         }
         xsw.end();
     }
-
+    
     @Override
     public void writeAssociation(final ClassType complexType, final AssociationEnd end, final ModelIndex model,
             final Uml2XsdPluginWriter xsw) {
@@ -198,12 +219,12 @@ public final class PluginForMongo implements Uml2XsdPlugin {
             }
         }
     }
-
+    
     @Override
     public void writeTopLevelElement(PsmDocument<Type> classType, ModelIndex model, Uml2XsdPluginWriter xsw) {
         xsw.element();
         try {
-            final QName name = getSingularTopLevelElementName(classType);
+            final QName name = getElementName(classType);
             xsw.elementName(name);
             final Type elementType = classType.getType();
             {

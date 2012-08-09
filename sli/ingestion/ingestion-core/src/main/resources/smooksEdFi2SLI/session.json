@@ -6,7 +6,7 @@
            "fieldPath" : "body.gradingPeriodReference",
             "ref" :
             {
-                "collectionName" : "gradingPeriod",
+                "entityType" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.gradingPeriodReference",
                 "choiceOfFields" :
@@ -27,10 +27,25 @@
                             }]
                         },
                         {
-                            "path" : "body.gradingPeriodIdentity.stateOrganizationId",
+                            "path" : "body.gradingPeriodIdentity.schoolId",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                "ref" :
+                                {
+                                   "entityType" : "educationOrganization",
+                                   "choiceOfFields" :
+                                   [
+                                       [
+                                            {
+                                                 "path" : "body.stateOrganizationId" ,
+                                                 "values" :
+                                                 [{
+                                                    "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                                 }]
+                                            }
+                                       ]
+                                   ]
+                               }
                             }]
                         }
                     ]
@@ -41,12 +56,12 @@
             "fieldPath" : "body.schoolId",
             "ref" :
             {
-                "collectionName" : "school",
+                "entityType" : "school",
                 "choiceOfFields" :
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.stateOrganizationId",
                             "values" :
                             [{
                                 "valueSource" : "body.schoolId"

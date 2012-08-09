@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.client.constants;
 
 import java.util.HashMap;
@@ -40,7 +57,7 @@ public final class ResourceNames {
     public static final String STUDENT_COMPETENCY_OBJECTIVES = "studentCompetencyObjectives";
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String LEARNINGSTANDARDS = "learningStandards";
-    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    public static final String STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
     public static final String GRADES = "grades";
@@ -80,7 +97,6 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "getStudentSchoolAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "getTeacherSchoolAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "getTeacherSectionAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "getSchoolSessionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "getSectionAssessmentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_OFFERINGS, "getCourseOffering");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "getStudentAssessment");
@@ -116,7 +132,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ACADEMIC_RECORDS, "getStudentAcademicRecord");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentGradebookEntry");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_GRADEBOOK_ENTRIES, "getStudentGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
+  
+<!-- Happy path A: resolving to 1 course: -->
+  <CourseOffering>
+    <LocalCourseCode>ACC-TEST-COURSE-CODE-1</LocalCourseCode>
+    <LocalCourseTitle>ACC-TEST-COURSE-TITLE-1</LocalCourseTitle>
+    <SchoolReference>
+	  <EducationalOrgIdentity>
+	    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+	  </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+		<SessionName>Fall 2010 Daybreak Central High</SessionName>
+		<SchoolYear>2010-2011</SchoolYear>
+		<Term>Fall Semester</Term>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-10</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+ 
+<!-- Happy path B: resolving to 1 course, using multiple fields: -->
+  <CourseOffering>
+    <LocalCourseCode>ACC-TEST-COURSE-CODE-2</LocalCourseCode>
+    <LocalCourseTitle>ACC-TEST-COURSE-TITLE-2</LocalCourseTitle>
+    <SchoolReference>
+	  <EducationalOrgIdentity>
+	    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+	  </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+		<SessionName>Fall 2010 Daybreak Central High</SessionName>
+		<SchoolYear>2010-2011</SchoolYear>
+		<Term>Fall Semester</Term>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+            <ID>Interm Algebra</ID>
+          </CourseCode>
+          <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+            <ID>Math 102</ID>
+          </CourseCode>
+        </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+ 
+</InterchangeMasterSchedule>

@@ -1,28 +1,18 @@
 {
     "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
-	"references" :
-	[{
-        "fieldPath" : "body.courseId","ref" :
-        {
-	        "collectionName" : "course",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.courseId"
-		                }]
-		            }
-	            ]
-	        ]
-        }
+    "complexReference" :
+    {
+        "fieldPath" : "body.courseId",
+        "entityType" : "course",
+        "path" : "body.courseCode",
+        "valueSource" : "body.courseCode",
+        "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
     },
-    { 
+	"references" :
+	[{ 
         "fieldPath" : "body.studentAcademicRecordId","ref" :
         {
-	        "collectionName" : "studentAcademicRecord",
+	        "entityType" : "studentAcademicRecord",
 	        "choiceOfFields" :
 	        [
 	            [

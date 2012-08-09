@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.service.query;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +24,8 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -16,7 +35,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 
@@ -44,8 +63,22 @@ public class ApiQueryTest {
     }
 
     @Test
-    public void testToString() {
-        assertTrue(new ApiQuery(null).toString() != null);
+    public void testToString() throws URISyntaxException {
+
+        String queryString = "selector=:(field1,link1:(*,field2:false))";
+        
+        //the selector gets parsed and stored in a map so there's no concept of ordering
+        List<String> equivalentStrings = new ArrayList<String>();
+        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(*,field2:false))");
+        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(field2:false,*))");
+        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(*,field2:false),field1)");
+        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(field2:false,*),field1)");
+        
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        ApiQuery apiQuery = new ApiQuery(uriInfo);
+        
+        assertTrue(equivalentStrings.contains(apiQuery.toString()));
     }
 
     @Test

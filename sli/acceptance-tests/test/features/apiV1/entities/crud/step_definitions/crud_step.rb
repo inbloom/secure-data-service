@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -26,7 +45,14 @@ end
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
-$entityData = {
+
+Given /^entity URI "([^"]*)"$/ do |arg1|
+  @entityUri = arg1
+end
+
+
+Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
+@entityData = {
   "gradingPeriod" => {
     "gradingPeriodIdentity" => {
       "educationalOrgIdentity" => [{
@@ -47,21 +73,22 @@ $entityData = {
     "validated" => false,
     "environment" => "Sandbox"
   },
+
   "attendance" => {
-    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "entityType" => "attendance",
+    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a",
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
         "date" => "2011-09-16", 
-        "event" => "Tardy", 
-        "reason" => "Missed school bus" 
+        "event" => "Tardy"
       }]
     }]
   },
   "studentAcademicRecord" => {
-    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4", 
-    "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904"
+    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93"
   },
   "student" => {
     "birthData" => {
@@ -83,7 +110,7 @@ $entityData = {
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
     "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
-    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
+    "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
     "courseTitle" => "Chinese 1",
@@ -108,7 +135,14 @@ $entityData = {
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+  },
+  "courseOffering" => { 
+    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
+    "localCourseCode" => "LCCMA1",  
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
+    "localCourseTitle" => "Math 1 - Intro to Mathematics", 
+    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -118,10 +152,10 @@ $entityData = {
         {"description" => "Long disciplinary Action 3"}
     ]],
     "disciplineDate" => "2012-01-28",
-    "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
-    "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4"],
-    "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-    "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+    "disciplineIncidentId" => ["0e26de79-7efa-5e67-9201-5113ad50a03b"],
+    "studentId" => ["61161008-2560-480d-aadf-4b0264dc2ae3"],
+    "responsibilitySchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "assignmentSchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
@@ -132,7 +166,7 @@ $entityData = {
         {"shortDescription" => "Behavior 012 description"},
         {"codeValue" => "BEHAVIOR 012"}
     ]],
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
@@ -149,7 +183,7 @@ $entityData = {
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
     "dateAssigned" => "2012-02-14", 
-    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -179,9 +213,10 @@ $entityData = {
     "educationalEnvironment" => "Off-school center",
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-    "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-    "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+    "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
+    "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
   "session" => {
     "sessionName" => "Spring 2012",
@@ -190,7 +225,7 @@ $entityData = {
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
-    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
+    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
@@ -203,13 +238,13 @@ $entityData = {
       "lastSurname" => "Students"
     }
   },
-  "studentSectionGradebookEntry" => { 
-    "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380", 
-    "letterGradeEarned" => "A", 
-    "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388", 
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085", 
-    "numericGradeEarned" => 98, 
-    "dateFulfilled" => "2012-01-31", 
+  "studentGradebookEntry" => { 
+    "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
+    "letterGradeEarned" => "A",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
+    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
+    "numericGradeEarned" => 98,
+    "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes" 
   },
   "assessment" => {
@@ -268,7 +303,7 @@ $entityData = {
     }
   },
   "grade" => {
-    "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
   },
@@ -279,8 +314,8 @@ $entityData = {
      "diagnosticStatement" => "passed with flying colors"
   },
   "reportCard" => {
-      "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-      "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
+      "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
+      "studentCompetencyId" => ["3a2ea9f8-9acf-11e1-add5-68a86d83461b"],
       "gpaGivenGradingPeriod" => 3.14,
       "gpaCumulative" => 2.9,
       "numberOfDaysAbsent" => 15,
@@ -290,14 +325,7 @@ $entityData = {
       #"gradingPeriodId" => "TODO"
   }
 }
-
-Given /^entity URI "([^"]*)"$/ do |arg1|
-  @entityUri = arg1
-end
-
-
-Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
-  @fields = $entityData[arg1]
+  @fields = @entityData[arg1]
 end
 
 Then /^I should receive a new entity URI$/ do

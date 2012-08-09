@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.model;
 
 /**
@@ -22,9 +39,9 @@ public final class ResourceEntry {
 
     private String topLevelLandingZonePath;
 
-    private int recordCount;
+    private long recordCount;
 
-    private int errorCount;
+    private long errorCount;
 
     // mongoTemplate requires this constructor.
     public ResourceEntry() {
@@ -92,19 +109,19 @@ public final class ResourceEntry {
         this.topLevelLandingZonePath = topLevelLandingZone;
     }
 
-    public int getRecordCount() {
+    public long getRecordCount() {
         return recordCount;
     }
 
-    public void setRecordCount(int recordCount) {
+    public void setRecordCount(long recordCount) {
         this.recordCount = recordCount;
     }
 
-    public int getErrorCount() {
+    public long getErrorCount() {
         return errorCount;
     }
 
-    public void setErrorCount(int errorCount) {
+    public void setErrorCount(long errorCount) {
         this.errorCount = errorCount;
     }
 

@@ -1,7 +1,0 @@
-{
-    "collection": "attendance",
-    "indexFields":
-    [
-        {"name" : "body.studentId" , "order" : "1"}
-    ]
-}

@@ -1,0 +1,5 @@
+Call,Number,Response time (ms),Max time, Min time,90th Percentile,Standard deviation,Response size (bytes),Percent standard deviation, Weighted total time
+"http://local.slidev.org:8080/api/rest/v1/test_call1",10,14.5,19,10,18.5,3.0276503540974917,1024,20.880347269637873,14.5
+"http://local.slidev.org:8080/api/rest/v1/test_call2",10,24.5,29,20,28.5,3.0276503540974917,2048,12.3577565473367,24.5
+"http://local.slidev.org:8080/api/rest/v1/test_call3",10,34.5,39,30,38.5,3.0276503540974917,4096,8.775798127818817,34.5
+,,,,,,,,,73.5

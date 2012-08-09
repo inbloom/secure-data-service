@@ -1,14 +1,32 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -28,51 +46,68 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.enums.Right;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
+
 /**
- * 
+ *
  * Provides CRUD operations on registered application through the /tenants path.
- * 
+ *
  * @author
  */
 @Component
 @Scope("request")
 @Path("tenants")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
-    
+
     @Autowired
     private EntityDefinitionStore store;
     
+    @Autowired
+    private RoleInitializer roleInitializer;
+    
     @Value("${sli.tenant.landingZoneMountPoint}")
     private String landingZoneMountPoint;
-    
+
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
     
-    private String[] ingestionServerList;
-    
-    private Random random = new Random(System.currentTimeMillis());
-    
+    @Autowired
+    private RealmHelper realmHelper;
+
+    private List<String> ingestionServerList;
+
+    /* this is only available for unit testing */
+    public void setIngestionServerList(List<String> testList) {
+        ingestionServerList = testList;
+    }
+
+    //private Random random = new Random(System.currentTimeMillis());
+
     @PostConstruct
     protected void init() {
-        ingestionServerList = ingestionServers.split(",");
+        ingestionServerList = Arrays.asList(ingestionServers.split(","));
     }
-    
+
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
@@ -83,24 +118,25 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_USER_NAMES = "userNames";
     public static final String LZ_DESC = "desc";
     public static final String LZ_INGESTION_SERVER_LOCALHOST = "localhost";
-    
+
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
         super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
     }
-    
+
+    @Override
     @POST
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+
         // Tenants can not be created using this class. They will be created via OnboardingResource
         return SecurityUtil.forbiddenResponse();
     }
-    
+
     @Override
-    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId)
+    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
             throws TenantResourceCreationException {
-        String newTenantId = createLandingZone(tenantId, edOrgId, null, null);
+        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody newTenant = tenantService.get(newTenantId);
         @SuppressWarnings("unchecked")
@@ -112,40 +148,40 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
         throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to find landing zone information after creation.");
     }
-    
+
     @SuppressWarnings({ "unchecked" })
-    protected String createLandingZone(EntityBody newTenant)
+    protected String createLandingZone(EntityBody newTenant, boolean isSandbox)
             throws TenantResourceCreationException {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
-        
+
         // NOTE: OnboardingResource may only send in one at a time
         if (1 != newLzs.size()) {
             throw new TenantResourceCreationException(Status.BAD_REQUEST,
                     "Only one landing zone may be provisioned at a time.  Please submit your requests individually.");
         }
-        
+
         String tenantId = (String) newTenant.get(TENANT_ID);
-        
+
         Map<String, Object> newLz = newLzs.get(0);
         String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
-        
+
         return createLandingZone(tenantId, newEdOrg, (String) newLz.get(LZ_DESC),
-                (List<String>) newLz.get(LZ_USER_NAMES));
+                (List<String>) newLz.get(LZ_USER_NAMES), isSandbox);
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames)
+    protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames, boolean isSandbox)
             throws TenantResourceCreationException {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
-        
-        String ingestionServer = randomIngestionServer();
+
+        String ingestionServer = findLeastLoadedIngestionServer();
         File inboundDirFile = new File(landingZoneMountPoint);
-        File fullPath = new File(inboundDirFile, tenantId + "/" + edOrgId);
+        File fullPath = new File(inboundDirFile, tenantId + "/" + DigestUtils.sha256Hex(edOrgId));
         String path = fullPath.getAbsolutePath();
-        
+
         //resolve localhost ingestion server to the current server name
         if (ingestionServer.equals(LZ_INGESTION_SERVER_LOCALHOST)) {
             try {
@@ -155,13 +191,14 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                         "Failed to resolve ingestion server for " + LZ_INGESTION_SERVER_LOCALHOST + ".");
             }
         }
-        
+
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();
         for (String id : tenantService.listIds(query)) {
             existingIds.add(id);
         }
-        // If no tenant already exist, create
+                
+        // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
@@ -175,13 +212,17 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
             
+            //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
+            if (isSandbox) {
+                roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
+            }
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
         if (existingIds.size() > 1) {
             throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
         }
-        
+
         String existingTenantId = existingIds.get(0);
         // combine lzs from existing tenant and new tenant entry, overwriting with values of new
         // tenant entry if there is conflict.
@@ -202,19 +243,19 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                         .get(LZ_EDUCATION_ORGANIZATION));
             }
         });
-        
-        Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones;
+
+        Set<Map<String, Object>> all = allLandingZones;
         for (Map<String, Object> lz : all) {
             if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
                 throw new TenantResourceCreationException(Status.CONFLICT,
                         "This tenant/educational organization combination all ready has a landing zone provisioned.");
             }
         }
-        
+
         EntityBody existingBody = tenantService.get(existingTenantId);
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
-        
+
         Map<String, Object> newLandingZone = new HashMap<String, Object>();
         newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
         newLandingZone.put(LZ_DESC, desc);
@@ -222,17 +263,62 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         newLandingZone.put(LZ_PATH, path);
         newLandingZone.put(LZ_USER_NAMES, userNames);
         allLandingZones.add(newLandingZone);
-        
+
         existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-        
+        tenantService.update(existingTenantId, existingBody);        
         return existingTenantId;
     }
     
-    private String randomIngestionServer() {
-        return ingestionServerList[random.nextInt(ingestionServerList.length)];
+    /**
+     * TODO: add javadoc
+     *
+     */
+    class MutableInt {
+      int value = 0;
+      public void increment() {
+          ++value;
+      }
+      public int  get() {
+          return value;
+      }
     }
-    
+
+    public String findLeastLoadedIngestionServer() {
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
+        Iterable<EntityBody> tenants = tenantService.get(tenantService.listIds(new NeutralQuery()));
+        Map<String, MutableInt> map = new HashMap<String, MutableInt>(ingestionServerList.size());
+
+        for (String s : ingestionServerList) {
+            map.put(s.toLowerCase(), new MutableInt());
+        }
+
+        for (EntityBody t : tenants) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> currentLZs = (List<Map<String, Object>>) t.get(LZ);
+            for (Map<String, Object> lz : currentLZs) {
+                String server = ((String) lz.get(LZ_INGESTION_SERVER)).toLowerCase();
+                MutableInt use = map.get(server);
+                //only increment if we actually have that server in our list
+                if (null != use) {
+                    use.increment();
+                }
+            }
+        }
+
+        int curMin = Integer.MAX_VALUE;
+        String curHost = ingestionServerList.get(0);
+        for (Entry<String, MutableInt> e : map.entrySet()) {
+            int i = e.getValue().get();
+            if (i < curMin) {
+                curMin = i;
+                curHost = e.getKey();
+            }
+        }
+
+        return curHost;
+    }
+
+    @Override
     @GET
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -244,18 +330,19 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             body.put("message", "You are not authorized to view tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+
         return super.readAll(offset, limit, headers, uriInfo);
     }
-    
+
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/tenants/<tenantId>
-     * 
+     *
      * @param tenantId
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
      */
+    @Override
     @GET
     @Path("{" + UUID + "}")
     public Response read(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -265,10 +352,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             body.put("message", "You are not authorized to view tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+
         return super.read(uuid, headers, uriInfo);
     }
-    
+
+    @Override
     @DELETE
     @Path("{" + UUID + "}")
     public Response delete(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -278,10 +366,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             body.put("message", "You are not authorized to delete tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+
         return super.delete(uuid, headers, uriInfo);
     }
-    
+
+    @Override
     @PUT
     @Path("{" + UUID + "}")
     public Response update(@PathParam(UUID) String uuid, EntityBody tenant, @Context HttpHeaders headers,
@@ -292,8 +381,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             body.put("message", "You are not authorized to provision tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+
         return super.update(uuid, tenant, headers, uriInfo);
     }
-    
+
 }

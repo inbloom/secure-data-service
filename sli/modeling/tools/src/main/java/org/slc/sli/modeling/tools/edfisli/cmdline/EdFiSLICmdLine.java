@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.tools.edfisli.cmdline;
 
 import java.io.FileNotFoundException;
@@ -53,7 +70,6 @@ public final class EdFiSLICmdLine {
         renames.put("CourseOffering", "CourseOffering");
         renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
-        renames.put("StudentGradebookEntry", "StudentSectionGradebookEntry");
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(renames);
     }
@@ -61,11 +77,11 @@ public final class EdFiSLICmdLine {
     @SuppressWarnings("unused")
     private static final void compareAttributes(final ModelIndex slim, final ModelIndex edfi) {
 
-        final Set<QName> slimNames = attributeNames(slim.getClassTypes());
+        final Set<QName> slimNames = attributeNames(slim.getClassTypes().values());
         System.out.println("slimNames.size=" + slimNames.size());
         System.out.println("slimNames:" + slimNames);
 
-        final Set<QName> edfiNames = attributeNames(edfi.getClassTypes());
+        final Set<QName> edfiNames = attributeNames(edfi.getClassTypes().values());
         System.out.println("edfiNames.size=" + edfiNames.size());
         System.out.println("edfiNames:" + edfiNames);
 
@@ -81,7 +97,7 @@ public final class EdFiSLICmdLine {
         printGMT();
         System.out.println("");
         System.out.println("SLI:");
-        final Set<String> slimRaw = classNames(slimModel.getClassTypes());
+        final Set<String> slimRaw = classNames(slimModel.getClassTypes().values());
         System.out.println("Raw complexTypes . . . . . : " + slimRaw.size());
         final Set<String> slim = rename(subtractEndsWith(subtractEndsWith(slimRaw, "ReferenceType"), "IdentityType"),
                 invert(classRenames));
@@ -89,7 +105,7 @@ public final class EdFiSLICmdLine {
 
         System.out.println("");
         System.out.println("Ed-Fi-Core:");
-        final Set<String> edfiRaw = classNames(edfiModel.getClassTypes());
+        final Set<String> edfiRaw = classNames(edfiModel.getClassTypes().values());
         System.out.println("Raw complexTypes . . . . . : " + edfiRaw.size());
         final Set<String> edfi = subtractEndsWith(subtractEndsWith(edfiRaw, "ReferenceType"), "IdentityType");
         System.out.println("Normalized . . . . . . . . : " + edfi.size() + " (remove *ReferenceType or *IdentityType)");
@@ -210,7 +226,7 @@ public final class EdFiSLICmdLine {
     public static void main(final String[] args) {
         try {
             final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel("SLI.xmi")); // was
-                                                                                   // ../data/SLI.xmi
+            // ../data/SLI.xmi
             final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel("ED-Fi-Core.xmi"));
             compareClasses(slim, edfi);
             // compareAttributes(slim, edfi);

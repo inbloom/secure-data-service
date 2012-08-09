@@ -1,5 +1,6 @@
 @RALLY_US187
 @RALLY_US103
+@derp
 Feature: Application Registration
 As a super-admin I want to be able to create new application keys to allow the onboarding of new applications to SLI
 
@@ -22,7 +23,7 @@ Given I am a valid IT Administrator "administrator" from the "SLI" hosted direct
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-Then the api should generate a 500 error
+Then the api should generate a 403 error
 
 Scenario: Register a new application
 
@@ -68,7 +69,8 @@ When I click 'Yes'
 Then application "NewApp" is not registered 
 And application "NewApp" is removed from the list
 
-Scenario: Vendor edits denied application
+
+Scenario: Vendor edits denied application incorrectly
 
 Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
@@ -77,9 +79,35 @@ And I submit the credentials "developer-email@slidev.org" "test1234" for the "Si
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
+And I have edited the field named "Description" to say ""
+When I clicked Save
+Then I should get 1 error
+
+Scenario: Vendor edits denied application incorrectly for optional url fields
+
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And I clicked on the button Edit for the application "NewApp"
+And I have edited the field named "Image URL" to say "burp.com"
+And I have edited the field named "Administration URL" to say "burp.com"
+When I clicked Save
+Then I should get 2 errors
+
+Scenario: Vendor edits denied application
+
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And I clicked on the button Edit for the application "NewApp"
+And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-And I the field named "Application Icon Url" still says "http://placekitten.com/100/100"
+And I the field named "Application Icon Url" still says "https://imageurl"
 And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request
@@ -96,6 +124,14 @@ When I click on 'Approve' next to application "NewApp"
 Then application "NewApp" is registered
 And the 'Approve' button is disabled for application "NewApp"
 And a notification email is sent to "developer-email@slidev.org"
+
+Scenario: Vendor inspects app after approval 
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And the client ID and shared secret fields are present
 
 Scenario: SLC Operator un-registers already-registered application
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
@@ -148,4 +184,6 @@ Scenario: App Developer registers an application in App Registration Tool in San
 	Then the application is registered
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
+	When I click on the In Progress button
+	  Then I can see the ed-orgs I want to approve for my application
 

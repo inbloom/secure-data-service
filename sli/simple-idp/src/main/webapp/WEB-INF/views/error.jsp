@@ -1,8 +1,10 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <title>Simple IDP</title>
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 
 .error-container {
@@ -26,17 +28,23 @@
 
 }
 </style>
+<link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
 
 <body>
 	<div class="error-container">
-
 		<div class="error-header">ERROR</div>
-
 		<div class="error-content">
-			<h3>We're sorry, an error occurred. Please try again.</h3>
+			<div class="panel-header">
+				<p/>
+				<c:if test="${errMessage!=null}">
+					<h3><c:out value="${errMessage}"/></h3>
+				</c:if>
+				<c:if test="${errMessage==null}">
+					<h3>We're sorry, an error occurred. Please try again.</h3>
+				</c:if>
+			</div>
 		</div>
-
 	</div>
 </body>
 </html>

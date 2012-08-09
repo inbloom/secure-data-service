@@ -148,22 +148,84 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links
 
-  Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 404
+  Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 200 
     Given format "application/json"
     And I create a valid base level school object
     When I navigate to POST "/v1/schools"
     Then I should receive a return code of 201
     And I should receive an ID for the newly created school
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200 
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
 
-  Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 404
+  Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 200 
     Given format "application/json"
     And I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     When I navigate to GET "/v1/sections/<'Valid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
     And a collection of size 1
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
+
+  Scenario Outline: Given a valid JSON document for an entity, when I POST it multiple times I should only find one record
+    Given format "application/json"
+    And a valid json document for <entity>
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 409
+    When I query <entity_uri> by <query_field> = <query_value>
+    Then I should receive only 1 record
+
+    # Change the natural key and try a put
+    When I navigate to GET "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    When I set the <query_field> to <new_query_value>
+    And I navigate to PUT "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+
+    # Post a new record, and then try to change natural key and do a put 
+    And a valid json document for <entity>
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to GET "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    When I set the <query_field> to <new_query_value>
+    And I navigate to PUT "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Examples:
+    | entity                       | entity_uri              | query_field                      | query_value                                | new_query_value    |
+#    | assessment                   | assessments             | assessmentTitle                  | Validation Test Assessment Title           |                    |
+#    | attendance                   | attendances             | studentId                        | 12345678-1234-1234-1234-1234567890ab       |                    |
+#    | cohort                       | cohorts                 | cohortDescription                | Validation Test Cohort Desc                |                    |
+#    | course                       | courses                 | courseDescription                | Validation Test Course Desc                |                    |
+#    | disciplineAction             | disciplineActions       | disciplineActionIdentifier       | Validation Test Discip. Act. ID            |                    |
+#    | disciplineIncident           | disciplineIncidents     | incidentIdentifier               | Validation Test Discip. Inc. ID            |                    |
+#    | educationOrganization        | educationOrganizations  | nameOfInstitution                | Validation Test School District            |                    |
+#    | gradebookEntry               | gradebookEntries        | gradebookEntryType               | Validation Test GBE Type                   |                    |
+#    | learningObjective            | learningObjectives      | objective                        | Validation Test Objective                  |                    |
+#    | learningStandard             | learningStandards       | description                      | Validation Test Learning Standard Desc.    |                    |
+#    | parent                       | parents                 | parentUniqueStateId              | ValidationTestParentUniqId                 |                    |
+#    | program                      | programs                | programType                      | Title I Part A                             |                    |
+#    | school                       | schools                 | nameOfInstitution                | Validation Test School                     |                    |
+#    | section                      | sections                | populationServed                 | Migrant Students                           |                    |
+#    | session                      | sessions                | sessionName                      | Validation Test Spring 2012                |                    |
+    | staff                        | staff                   | staffUniqueStateId               | WLVDSUSID00001                      | newteststaffid     |
+#    | student                      | students                | studentUniqueStateId             | 87654321                                   |                    |
+#    | studentAcademicRecord        | studentAcademicRecords  | cumulativeGradePointsEarned      | 99.0                                       |                    |
+#    | studentGradebookEntry        | studentGradebookEntries | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
+    | teacher                      | teachers                | teacherUniqueStateId             | testing123                          | testing456         |
+#    | grade                        | grades                  | letterGradeEarned                | F--                                        |                    |
+#    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
+#    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |
+#    | reportCard                   | reportCards             | numberOfDaysAbsent               | 999                                        |                    |
+
+  Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
+    Given format "application/json"
+    And a valid json document for student
+    When I set the sex to InvalidValue
+    And I navigate to POST "/v1/students"
+    Then I should receive a return code of 400
+    And the error message should contain "expectedTypes=['Female', 'Male']"

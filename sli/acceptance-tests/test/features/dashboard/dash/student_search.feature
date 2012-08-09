@@ -2,8 +2,7 @@ Feature:  Simple Student Search
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
-
+Given that dashboard has been authorized for all ed orgs
 
 @integration @RALLY_US197
 Scenario: Search by First name

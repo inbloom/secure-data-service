@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 
 require 'simplecov'
 require 'simplecov-rcov'
@@ -24,19 +43,15 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   setup do
-    @role_fixtures = load_fixture("roles")
     @realm_fixtures = load_fixture("realms")
     @app_fixtures = load_fixture("apps")
     @appauth_fixtures = load_fixture("application_authorizations")
     @ed_org_fixtures = load_fixture("education_organization")
     @account_managements_fixtures=load_fixture("account_managements")
     @admin_delegations_fixtures = load_fixture("admin_delegations")
+    @user_fixtures = load_fixture("users")
 
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
-      mock.get "/api/rest/admin/roles/0", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
-      mock.get "/api/rest/admin/roles/1", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
-      mock.get "/api/rest/admin/roles/-123", {"Accept" => "application/json"}, nil, 404
       #Realms
       mock.get "/api/rest/realm", {"Accept" => "application/json"}, [@realm_fixtures['one'], @realm_fixtures['two']].to_json
       mock.get "/api/rest/realm?realm.idp.id=http%3A%2F%2Fslidev.org", {"Accept" => "application/json"}, [@realm_fixtures['one']].to_json
@@ -49,6 +64,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/apps", {"Accept" => "application/json"}, [@app_fixtures['admin'], @app_fixtures['waffles']].to_json
       mock.get "/api/rest/apps/1", {"Accept" => "application/json"}, @app_fixtures['admin'].to_json
       mock.post "/api/rest/apps", {"Content-Type" => "application/json"}, @app_fixtures['new'].to_json, 201
+      mock.put "/api/rest/apps/1", {"Content-Type" => "application/json"}, @app_fixtures['admin'].merge(@app_fixtures['update']).to_json, 201
 
       #app auth
       mock.get "/api/rest/applicationAuthorization", {"Accept" => "application/json"}, [@appauth_fixtures['district1']].to_json
@@ -62,6 +78,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/v1/educationOrganizations", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=1", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=2", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
+      mock.get "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json
 
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
@@ -72,6 +89,16 @@ class ActiveSupport::TestCase
       #mock.get "/api/rest/educationOrganization-associations", {"Accept" => "application/json"}, [@ed_org_fixtures["assoc_one"]].to_json
       #ed org associations
       mock.get "/api/rest/"
+
+      #change password
+      mock.get "/api/rest/change_passwords", {"Accept"=>"application/json"}, [].to_json
+      
+      # users
+      mock.get "/api/rest/users",{"Accept"=>"application/json"}, [@user_fixtures['user1']].to_json
+      mock.delete "/api/rest/users/testuser@testwgen.net", {"Accept"=>"application/json"}, nil,200
+      mock.post "/api/rest/users", {"Content-Type"=>"application/json"}, @user_fixtures['new_user'].to_json,201
+      mock.put "/api/rest/users/testuser@testwgen.net", {"Content-Type"=>"application/json"}, @user_fixtures['update_user'].to_json,204
+      
     end
   end
 

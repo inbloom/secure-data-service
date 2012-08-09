@@ -1,9 +1,0 @@
-{
-	"collectionName":"Teacher",
-	"choiceOfFields":[
-			{"path":"metaData.externalId", {"sourceValue":"localId"} }
-		]
-}
-
-
-

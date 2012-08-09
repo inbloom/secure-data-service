@@ -146,7 +146,21 @@
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_4"/>
 	</GradingPeriod>
-
+	
+	<GradingPeriod id="GP_10">
+    	<GradingPeriodIdentity>
+          <GradingPeriod>Second Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+           <EducationOrgIdentificationCode IdentificationSystem="School">
+                   <ID>Baker School</ID>
+             </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+        <BeginDate>2012-09-01</BeginDate>
+		<EndDate>2012-12-01</EndDate>
+		<TotalInstructionalDays>90</TotalInstructionalDays>
+		<CalendarDateReference ref="CD_4"/>
+	</GradingPeriod>
+	
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
         <SchoolYear>2011-2012</SchoolYear>

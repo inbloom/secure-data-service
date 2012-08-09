@@ -5,13 +5,13 @@
         "fieldPath" : "body.schoolId",
         "ref" :
         {
-	        "collectionName" : "school",
+	        "entityType" : "school",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.schoolId"
 		                }]
@@ -20,17 +20,17 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.studentId",
         "ref" :
         {
-	        "collectionName" : "student",
+	        "entityType" : "student",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.studentId"
 		                }]

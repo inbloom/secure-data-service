@@ -14,6 +14,7 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+  addSecurityData()
 end
 
 desc "Run Ingestion Tenant Test"
@@ -21,57 +22,7 @@ task :ingestionTenantTest do
   runTests("test/features/ingestion/features/ingestion_tenant.feature")
 end
 
-desc "Run Ingestion Session Test"
-task :ingestionSessionTest do
-  runTests("test/features/ingestion/features/ingestion_session.feature")
-end
-
-desc "Run Ingestion Program Test"
-task :ingestionProgramTest do
-  runTests("test/features/ingestion/features/ingestion_program.feature")
-end
-
-desc "Run Ingestion StudentProgramAssociation Test"
-task :ingestionStudentProgramAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentProgramAssociation.feature")
-end
-
-desc "Run Ingestion StaffProgramAssociation Test"
-task :ingestionStaffProgramAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StaffProgramAssociation.feature")
-end
-
-desc "Run Ingestion Cohort Test"
-task :ingestionCohortTest do
-  runTests("test/features/ingestion/features/ingestion_cohort.feature")
-end
-
-desc "Run Ingestion StudentCohortAssociation Test"
-task :ingestionStudentCohortAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentCohortAssociation.feature")
-end
-
-desc "Run Ingestion StaffCohortAssociation Test"
-task :ingestionStaffCohortAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StaffCohortAssociation.feature")
-end
-
-desc "Run Ingestion DisciplineIncident Test"
-task :ingestionDisciplineIncidentTest do
-  runTests("test/features/ingestion/features/ingestion_disciplineIncident.feature")
-end
-
-desc desc "Run Ingestion DisciplineAction Test"
-task :ingestionDisciplineActionTest do
-  runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
-end
-
-desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
-task :ingestionStudentDisciplineIncidentAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
-end
-
-"Run Ingestion Negative Tests"
+desc "Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
 end
@@ -91,30 +42,12 @@ task :ingestionAttendanceTests do
   runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
 end
 
-desc "Run Ingestion Assessment Tests"
-task :ingestionAssessmentTests do
-  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
-end
-
-desc "Run Student Parents Tests"
-task :ingestionStudentParentsTests do
-  runTests("test/features/ingestion/features/ingestion_student_parents.feature")
-end
-
-desc "Run Student Transcript Association Test"
-task :ingestionStudentTranscriptAssociationTests do
-  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
-end
 
 desc "Run idNamespace Test"
 task :ingestionidNamespaceTest do
   runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
 end
 
-desc "Run Ingestion Gradebook Entry Test"
-task :ingestionGradebookEntryTests do
-  runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
-end
 
 desc "Run Ingestion Batch Job Tests"
 task :ingestionBatchJobTest do
@@ -126,15 +59,6 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
-desc "Run Ingestion AP Assessment and StudentAssessment Tests"
-task :ingestionAPAssessmentTests do
-  runTests("test/features/ingestion/features/apAssessment.feature")
-end
-
-desc "Run Ingestion ACT Assessment Tests"
-task :ingestionACTAssessmentTests do
-  runTests("test/features/ingestion/features/ACTAssessment.feature")
-end
 
 desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
 task :ingestionIDReferenceResolutionTest do
@@ -165,6 +89,7 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
+  addSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
@@ -179,6 +104,8 @@ end
 
 desc "Run Tenant Purge Test"
 task :ingestionTenantPurgeTests do
+  Rake::Task["realmInit"].invoke
+  Rake::Task["importSandboxData"].invoke
   runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 
@@ -197,11 +124,6 @@ task :ingestionBadControlFileTest do
   runTests("test/features/ingestion/features/ingestion_badCtlFile.feature")
 end
 
-desc "Run  Empty Ctl file Test"
-task :ingestionEmptyControlFileTest do
-  runTests("test/features/ingestion/features/ingestion_emptyCtlFile.feature")
-end
-
 desc "Run Dry Run Test"
 task :ingestionDryRunTest do
   runTests("test/features/ingestion/features/ingestion_dry_run.feature")
@@ -210,6 +132,42 @@ end
 desc "Run Course Update Test"
 task :ingestionCourseUpdateTest do
   runTests("test/features/ingestion/features/ingestion_courseUpdate.feature")
+end
+
+desc "Run Complex Object Array Id Reference Resolution Test"
+task :ingestionComplexObjectArrayIdRefTest do
+  runTests("test/features/ingestion/features/ingestion_complexObjectArrayIdResolution.feature")
+end
+
+desc "Run Sandbox Data Test"
+task :ingestionSandboxDataTest do
+  runTests("test/features/ingestion/features/ingestion_sandbox_data_test.feature")
+end
+
+desc "Run Medium Sample Data Set Test"
+task :ingestionMediumSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_MediumSampleDataSet.feature")
+end
+
+desc "Run Ingestion Smoke Tests"
+task :ingestionSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["ingestionAcceptanceSdsTest"].invoke
+end
+
+desc "Run Small Sample Data Set Test"
+task :ingestionSmallSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
+end
+
+desc "Run Ingestion HealthCheck Test"
+task :ingestionHealthCheckTest do
+  runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
+end
+
+desc "Run Ingestion Concurrent Jon Error Message Testing"
+task :ingestionConcurrentJobErrorTest do
+  runTests("test/features/ingestion/features/ingestion_concurrentJobErrorTest.feature")
 end
 
 ############################################################

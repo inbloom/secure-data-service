@@ -1,0 +1,15 @@
+---
+default:
+    api: &API-DEFAULT
+
+        # Used in api performance tracking
+        sli.application.buildTag: sli.app.buildTag
+local:
+    api:
+        <<: *API-DEFAULT
+        sli.application.buildTag: sli.app.buildTag
+
+team:
+    api: &API-TEAM
+        <<: *API-DEFAULT
+        sli.application.buildTag: sli.app.buildTag

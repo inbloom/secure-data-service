@@ -1,4 +1,24 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require File.expand_path('../common_stepdefs.rb', __FILE__)
+require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 
@@ -32,12 +52,13 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_IL" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_IL" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "custom_IL" => "20de11c7-56b3-4d8b-bfaa-b61bc5be7671",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
-                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
+                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786",
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
@@ -70,7 +91,47 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
-                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342"}
+                "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
+                "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
+                "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
+                "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
+                "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
+                "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
+                "teach2_SEC" => "00000000-5555-5555-0001-500000000002",
+                "teach3_SEC" => "00000000-5555-5555-0001-500000000003",
+                "teach4_SEC" => "00000000-5555-5555-0001-500000000004",
+                "teacher10_SEC" => "00000000-5555-5555-0001-500000000010",
+                "teacher11_SEC" => "00000000-5555-5555-0001-500000000011",
+                "teacher12_SEC" => "00000000-5555-5555-0001-500000000012",
+                "staff1_SEC" => "00000000-5555-5555-0001-500000000101",
+                "staff2_SEC" => "00000000-5555-5555-0001-500000000102",
+                "staff3_SEC" => "00000000-5555-5555-0001-500000000103",
+                "staff4_SEC" => "00000000-5555-5555-0001-500000000104",
+                "staff5_SEC" => "00000000-5555-5555-0001-500000000105",
+                "staff6_SEC" => "00000000-5555-5555-0001-500000000106",
+                "staff7_SEC" => "00000000-5555-5555-0001-500000000107",
+                "staff8_SEC" => "00000000-5555-5555-0001-500000000108",
+                "staff9_SEC" => "00000000-5555-5555-0001-500000000109",
+                "staff10_SEC" => "00000000-5555-5555-0001-500000000110",
+                "staff11_SEC" => "00000000-5555-5555-0001-500000000111",
+                "staff12_SEC" => "00000000-5555-5555-0001-500000000112",
+                "staff13_SEC" => "00000000-5555-5555-0001-500000000113",
+                "staff14_SEC" => "00000000-5555-5555-0001-500000000114",
+                "staff15_SEC" => "00000000-5555-5555-0001-500000000115",
+                "staff16_SEC" => "00000000-5555-5555-0001-500000000116",
+                "staff17_SEC" => "00000000-5555-5555-0001-500000000117",
+                "staff18_SEC" => "00000000-5555-5555-0001-500000000118",
+                "staff20_SEC" => "00000000-5555-5555-0001-500000000120",
+                "staff21_SEC" => "00000000-5555-5555-0001-500000000121",
+                "staff22_SEC" => "00000000-5555-5555-0001-500000000122",
+                "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
+                "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
+                "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
+                "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
+                "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
+                "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
+}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -145,6 +206,16 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeHeaders('get',sessionId,format)
+  @res = RestClient.get(url, urlHeader){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpPut
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Inputs: (Object) data = Data object of type @format that you want to update
@@ -187,13 +258,7 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
 end
 
 def makeUrlAndHeaders(verb,id,sessionId,format)
-  if(verb == 'put' || verb == 'post')
-    headers = {:content_type => format}
-  else
-    headers = {:accept => format}
-  end
-
-  headers.store(:Authorization, "bearer "+sessionId)
+  headers = makeHeaders(verb, sessionId, format)
 
   url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
@@ -201,16 +266,166 @@ def makeUrlAndHeaders(verb,id,sessionId,format)
   return {:url => url, :headers => headers}
 end
 
+def makeHeaders(verb,sessionId,format)
+  if(verb == 'put' || verb == 'post')
+    headers = {:content_type => format}
+  else
+    headers = {:accept => format}
+  end
+
+  headers.store(:Authorization, "bearer "+sessionId)
+  return headers
+end
+
+##############################################################################
+##############################################################################
+###### Indexing ##############################################################
+
+def createIndexesOnDb(db_connection,db_name)
+
+  @db = db_connection[db_name]
+  ensureIndexes(@db)
+
+end
+
+def ensureIndexes(db)
+
+  @collection = @db["assessment"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["attendance"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["course"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["educationOrganization"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["gradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["parent"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["school"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+
+  @collection = @db["session"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staff"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staffEducationOrganizationAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentAssessmentAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentParentAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSchoolAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentGradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentTranscriptAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["teacher"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["teacherSectionAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+
+end
+
+
 ##############################################################################
 ##############################################################################
 ###### After hook(s) #########################################################
 
-After do |scenario| 
-  if(ENV['FAILFAST'])
-    Cucumber.wants_to_quit = true if scenario.failed?
+After do |scenario|
+  Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']
+end
+
+Around('@LDAP_Reset_developer-email') do |scenario, block|
+  block.call
+  if scenario.failed?
+    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
+                          PropLoader.getProps['ldap_admin_pass'])
+    ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
 
+Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
+  block.call
+  if scenario.failed?
+    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
+                          PropLoader.getProps['ldap_admin_pass'])
+    ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
+  end
+end
 
 ##############################################################################
 ##############################################################################
@@ -288,26 +503,6 @@ end
 
 ########################################################################
 ########################################################################
-# Property Loader class
-
-class PropLoader
-  @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
-
-  def self.getProps
-    self.updateHash() unless @@modified
-    return @@yml
-  end
-
-  private
-
-  def self.updateHash()
-    @@yml.each do |key, value|
-      @@yml[key] = ENV[key] if ENV[key]
-    end
-    @@modified=true
-  end
-end
 
 module DataProvider
   def self.getValidRealmData()
@@ -318,13 +513,20 @@ module DataProvider
        "saml" => {"field" => []},
        "name" => "a_new_realm",
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
-       "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
   
+  def self.getValidCustomRoleData() 
+    return {
+      "realmId" => "",
+      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
+    }
+  end
+
   def self.getValidAppData()
     return {
-      "installed" => true,
+      "installed" => false,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
@@ -335,16 +537,16 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "vendor" => "Acme", 
+      "vendor" => "Acme",
       "authorized_ed_orgs" => []
     }
   end
-  
+
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
       "appApprovalEnabled" => false,
-      "localEdOrgId" => "IL-SUNSET"
+      "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
 
@@ -393,8 +595,9 @@ module CreateEntityHash
 end
 
 module EntityProvider
+
   def self.verify_entities_match(expected, response)
-    if expected.is_a?(Hash) 
+    if expected.is_a?(Hash)
       expected.each { |key, value| verify_entities_match(value, response[key]) }
     elsif expected.is_a?(Array)
       assert( expected.size == response.size )
@@ -404,437 +607,6 @@ module EntityProvider
     end
   end
 
-  def self.get_new_entity(type)
-    case type
-      when 'attendance', 'v1attendance'
-        {
-            "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650",
-            "schoolId" => "2058ddfb-b5c6-70c4-3bee-b43e9e93307d",
-            "schoolYearAttendance" =>
-                [{
-                     "schoolYear" => "2011-2012",
-                     "attendanceEvent" =>
-                         [{
-
-                              "date" => "2012-02-24",
-                              "event" => "Tardy",
-                              "reason" => "missed the bus"
-
-                          }]
-                 }]
-        }
-    end
-  end
-
-  def self.get_entity_uri(type)
-    case type
-    when 'attendance'
-      "/attendances"
-    when 'v1attendance'
-      "/v1/attendances"
-    end
-  end
-
-  def self.get_existing_entity(type)
-    case type
-    when 'attendance', 'v1attendance'
-      {
-          "id" => "530f0704-c240-4ed9-0a64-55c0308f91ee",
-          "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
-          "schoolId" => "fdacc41b-8133-f12d-5d47-358e6c0c791c",
-          "schoolYearAttendance" =>
-              [
-                  {"schoolYear" => "2011-2012",
-                   "attendanceEvent" =>
-                       [
-                           {"date" => "2011-09-06", "event" => "In Attendance"},
-                           {"date" => "2011-09-07", "event" => "In Attendance"},
-                           {"date" => "2011-09-08", "event" => "In Attendance"},
-                           {"date" => "2011-09-09", "event" => "In Attendance"},
-                           {"date" => "2011-09-12", "event" => "In Attendance"},
-                           {"date" => "2011-09-13", "event" => "In Attendance"},
-                           {"date" => "2011-09-14", "event" => "In Attendance"},
-                           {"date" => "2011-09-15", "event" => "In Attendance"},
-                           {"date" => "2011-09-16", "event" => "Tardy", "reason" => "Missed school bus"},
-                           {"date" => "2011-09-19", "event" => "In Attendance"},
-                           {"date" => "2011-09-20", "event" => "In Attendance"},
-                           {"date" => "2011-09-21", "event" => "In Attendance"},
-                           {"date" => "2011-09-22", "event" => "In Attendance"},
-                           {"date" => "2011-09-23", "event" => "In Attendance"},
-                           {"date" => "2011-09-26", "event" => "In Attendance"},
-                           {"date" => "2011-09-27", "event" => "In Attendance"},
-                           {"date" => "2011-09-28", "event" => "In Attendance"},
-                           {"date" => "2011-09-29", "event" => "In Attendance"},
-                           {"date" => "2011-09-30", "event" => "In Attendance"},
-                           {"date" => "2011-10-03", "event" => "In Attendance"},
-                           {"date" => "2011-10-04", "event" => "In Attendance"},
-                           {"date" => "2011-10-05", "event" => "In Attendance"},
-                           {"date" => "2011-10-06", "event" => "In Attendance"},
-                           {"date" => "2011-10-07", "event" => "In Attendance"},
-                           {"date" => "2011-10-11", "event" => "In Attendance"},
-                           {"date" => "2011-10-12", "event" => "In Attendance"},
-                           {"date" => "2011-10-13", "event" => "In Attendance"},
-                           {"date" => "2011-10-14", "event" => "In Attendance"},
-                           {"date" => "2011-10-17", "event" => "In Attendance"},
-                           {"date" => "2011-10-18", "event" => "In Attendance"},
-                           {"date" => "2011-10-19", "event" => "In Attendance"},
-                           {"date" => "2011-10-20", "event" => "In Attendance"},
-                           {"date" => "2011-10-21", "event" => "In Attendance"},
-                           {"date" => "2011-10-24", "event" => "In Attendance"},
-                           {"date" => "2011-10-25", "event" => "In Attendance"},
-                           {"date" => "2011-10-26", "event" => "In Attendance"},
-                           {"date" => "2011-10-27", "event" => "In Attendance"},
-                           {"date" => "2011-10-28", "event" => "In Attendance"},
-                           {"date" => "2011-10-31", "event" => "In Attendance"},
-                           {"date" => "2011-11-01", "event" => "In Attendance"},
-                           {"date" => "2011-11-02", "event" => "In Attendance"},
-                           {"date" => "2011-11-03", "event" => "In Attendance"},
-                           {"date" => "2011-11-04", "event" => "In Attendance"},
-                           {"date" => "2011-11-07", "event" => "In Attendance"},
-                           {"date" => "2011-11-08", "event" => "In Attendance"},
-                           {"date" => "2011-11-09", "event" => "In Attendance"},
-                           {"date" => "2011-11-10", "event" => "In Attendance"},
-                           {"date" => "2011-11-14", "event" => "In Attendance"},
-                           {"date" => "2011-11-15", "event" => "In Attendance"},
-                           {"date" => "2011-11-16", "event" => "In Attendance"},
-                           {"date" => "2011-11-17", "event" => "In Attendance"},
-                           {"date" => "2011-11-18", "event" => "Excused Absence", "reason" => "Absent excused"},
-                           {"date" => "2011-11-21", "event" => "In Attendance"},
-                           {"date" => "2011-11-22", "event" => "In Attendance"},
-                           {"date" => "2011-11-23", "event" => "In Attendance"},
-                           {"date" => "2011-11-28", "event" => "Tardy", "reason" => "Missed school bus"},
-                           {"date" => "2011-11-29", "event" => "In Attendance"},
-                           {"date" => "2011-11-30", "event" => "In Attendance"},
-                           {"date" => "2011-12-01", "event" => "In Attendance"},
-                           {"date" => "2011-12-02", "event" => "In Attendance"},
-                           {"date" => "2011-12-05", "event" => "In Attendance"},
-                           {"date" => "2011-12-06", "event" => "In Attendance"},
-                           {"date" => "2011-12-07", "event" => "In Attendance"},
-                           {"date" => "2011-12-08", "event" => "In Attendance"},
-                           {"date" => "2011-12-09", "event" => "Excused Absence", "reason" => "Absent excused"},
-                           {"date" => "2011-12-12", "event" => "In Attendance"},
-                           {"date" => "2011-12-13", "event" => "In Attendance"},
-                           {"date" => "2011-12-14", "event" => "In Attendance"},
-                           {"date" => "2011-12-15", "event" => "In Attendance"},
-                           {"date" => "2011-12-16", "event" => "In Attendance"},
-                           {"date" => "2011-12-19", "event" => "In Attendance"},
-                           {"date" => "2011-12-20", "event" => "In Attendance"},
-                           {"date" => "2011-12-21", "event" => "Excused Absence", "reason" => "Absent excused"},
-                           {"date" => "2011-12-22", "event" => "In Attendance"},
-                           {"date" => "2011-12-23", "event" => "In Attendance"},
-                           {"date" => "2011-12-28", "event" => "In Attendance"},
-                           {"date" => "2011-12-29", "event" => "In Attendance"},
-                           {"date" => "2012-01-03", "event" => "In Attendance"},
-                           {"date" => "2012-01-04", "event" => "In Attendance"},
-                           {"date" => "2012-01-05", "event" => "In Attendance"},
-                           {"date" => "2012-01-06", "event" => "In Attendance"},
-                           {"date" => "2012-01-09", "event" => "In Attendance"},
-                           {"date" => "2012-01-10", "event" => "In Attendance"},
-                           {"date" => "2012-01-11", "event" => "In Attendance"},
-                           {"date" => "2012-01-12", "event" => "In Attendance"},
-                           {"date" => "2012-01-13", "event" => "In Attendance"},
-                           {"date" => "2012-01-16", "event" => "In Attendance"},
-                           {"date" => "2012-01-17", "event" => "In Attendance"},
-                           {"date" => "2012-01-18", "event" => "In Attendance"},
-                           {"date" => "2012-01-19", "event" => "In Attendance"},
-                           {"date" => "2012-01-20", "event" => "In Attendance"},
-                           {"date" => "2012-01-23", "event" => "In Attendance"},
-                           {"date" => "2012-01-24", "event" => "In Attendance"},
-                           {"date" => "2012-01-25", "event" => "In Attendance"},
-                           {"date" => "2012-01-26", "event" => "In Attendance"},
-                           {"date" => "2012-01-27", "event" => "In Attendance"},
-                           {"date" => "2012-01-30", "event" => "Excused Absence", "reason" => "Absent excused"},
-                           {"date" => "2012-01-31", "event" => "In Attendance"},
-                           {"date" => "2012-02-01", "event" => "In Attendance"},
-                           {"date" => "2012-02-02", "event" => "In Attendance"},
-                           {"date" => "2012-02-03", "event" => "In Attendance"},
-                           {"date" => "2012-02-06", "event" => "In Attendance"},
-                           {"date" => "2012-02-07", "event" => "In Attendance"},
-                           {"date" => "2012-02-08", "event" => "In Attendance"},
-                           {"date" => "2012-02-09", "event" => "In Attendance"},
-                           {"date" => "2012-02-10", "event" => "In Attendance"},
-                           {"date" => "2012-02-13", "event" => "In Attendance"},
-                           {"date" => "2012-02-14", "event" => "In Attendance"},
-                           {"date" => "2012-02-15", "event" => "In Attendance"},
-                           {"date" => "2012-02-16", "event" => "Tardy", "reason" => "Missed school bus"},
-                           {"date" => "2012-02-17", "event" => "In Attendance"},
-                           {"date" => "2012-02-20", "event" => "In Attendance"},
-                           {"date" => "2012-02-21", "event" => "In Attendance"},
-                           {"date" => "2012-02-22", "event" => "In Attendance"},
-                           {"date" => "2012-02-23", "event" => "In Attendance"},
-                           {"date" => "2012-02-24", "event" => "In Attendance"},
-                           {"date" => "2012-02-27", "event" => "In Attendance"},
-                           {"date" => "2012-02-28", "event" => "In Attendance"},
-                           {"date" => "2012-02-29", "event" => "In Attendance"},
-                           {"date" => "2012-03-01", "event" => "In Attendance"},
-                           {"date" => "2012-03-02", "event" => "In Attendance"},
-                           {"date" => "2012-03-05", "event" => "In Attendance"},
-                           {"date" => "2012-03-06", "event" => "In Attendance"},
-                           {"date" => "2012-03-07", "event" => "In Attendance"},
-                           {"date" => "2012-03-08", "event" => "In Attendance"},
-                           {"date" => "2012-03-09", "event" => "In Attendance"},
-                           {"date" => "2012-03-19", "event" => "In Attendance"},
-                           {"date" => "2012-03-20", "event" => "In Attendance"},
-                           {"date" => "2012-03-21", "event" => "In Attendance"},
-                           {"date" => "2012-03-22", "event" => "In Attendance"},
-                           {"date" => "2012-03-23", "event" => "In Attendance"},
-                           {"date" => "2012-03-26", "event" => "In Attendance"},
-                           {"date" => "2012-03-27", "event" => "In Attendance"},
-                           {"date" => "2012-03-28", "event" => "In Attendance"},
-                           {"date" => "2012-03-29", "event" => "In Attendance"},
-                           {"date" => "2012-03-30", "event" => "In Attendance"},
-                           {"date" => "2012-04-02", "event" => "In Attendance"},
-                           {"date" => "2012-04-03", "event" => "In Attendance"},
-                           {"date" => "2012-04-04", "event" => "In Attendance"},
-                           {"date" => "2012-04-05", "event" => "In Attendance"},
-                           {"date" => "2012-04-06", "event" => "In Attendance"},
-                           {"date" => "2012-04-09", "event" => "In Attendance"},
-                           {"date" => "2012-04-10", "event" => "In Attendance"},
-                           {"date" => "2012-04-11", "event" => "In Attendance"},
-                           {"date" => "2012-04-12", "event" => "In Attendance"},
-                           {"date" => "2012-04-13", "event" => "In Attendance"},
-                           {"date" => "2012-04-16", "event" => "In Attendance"},
-                           {"date" => "2012-04-17", "event" => "In Attendance"},
-                           {"date" => "2012-04-18", "event" => "In Attendance"},
-                           {"date" => "2012-04-19", "event" => "In Attendance"},
-                           {"date" => "2012-04-20", "event" => "In Attendance"},
-                           {"date" => "2012-04-23", "event" => "In Attendance"},
-                           {"date" => "2012-04-24", "event" => "In Attendance"},
-                           {"date" => "2012-04-25", "event" => "In Attendance"},
-                           {"date" => "2012-04-26", "event" => "In Attendance"},
-                           {"date" => "2012-04-27", "event" => "In Attendance"},
-                           {"date" => "2012-04-30", "event" => "In Attendance"},
-                           {"date" => "2012-05-01", "event" => "In Attendance"},
-                           {"date" => "2012-05-02", "event" => "In Attendance"},
-                           {"date" => "2012-05-03", "event" => "In Attendance"},
-                           {"date" => "2012-05-04", "event" => "In Attendance"},
-                           {"date" => "2012-05-07", "event" => "In Attendance"},
-                           {"date" => "2012-05-08", "event" => "Tardy", "reason" => "Missed school bus"},
-                           {"date" => "2012-05-09", "event" => "In Attendance"},
-                           {"date" => "2012-05-10", "event" => "In Attendance"},
-                           {"date" => "2012-05-11", "event" => "In Attendance"},
-                           {"date" => "2012-05-14", "event" => "In Attendance"},
-                           {"date" => "2012-05-15", "event" => "In Attendance"},
-                           {"date" => "2012-05-16", "event" => "In Attendance"},
-                           {"date" => "2012-05-17", "event" => "In Attendance"},
-                           {"date" => "2012-05-18", "event" => "In Attendance"},
-                           {"date" => "2012-05-21", "event" => "In Attendance"},
-                           {"date" => "2012-05-22", "event" => "In Attendance"},
-                           {"date" => "2012-05-23", "event" => "In Attendance"},
-                           {"date" => "2012-05-24", "event" => "In Attendance"},
-                           {"date" => "2012-05-25", "event" => "In Attendance"},
-                           {"date" => "2012-05-28", "event" => "In Attendance"},
-                           {"date" => "2012-05-29", "event" => "In Attendance"},
-                           {"date" => "2012-05-30", "event" => "In Attendance"},
-                           {"date" => "2012-05-31", "event" => "In Attendance"},
-                           {"date" => "2012-06-01", "event" => "In Attendance"
-                           }
-                       ]
-                  }
-              ]
-      }
-    end
-  end
-
-  def self.get_updated_entity(type)
-    case type
-    when 'attendance', 'v1attendance'
-      { 
-        "id" => "530f0704-c240-4ed9-0a64-55c0308f91ee",
-        "studentId" => "6a98d5d3-d508-4b9c-aec2-59fce7e16825",
-        "schoolId" => "fdacc41b-8133-f12d-5d47-358e6c0c791c",
-        "schoolYearAttendance" =>
-            [
-                {"schoolYear" => "2011-2012",
-                 "attendanceEvent" =>
-                     [
-                         {"date" => "2011-09-06", "event" => "In Attendance"},
-                         {"date" => "2011-09-07", "event" => "In Attendance"},
-                         {"date" => "2011-09-08", "event" => "In Attendance"},
-                         {"date" => "2011-09-09", "event" => "In Attendance"},
-                         {"date" => "2011-09-12", "event" => "In Attendance"},
-                         {"date" => "2011-09-13", "event" => "In Attendance"},
-                         {"date" => "2011-09-14", "event" => "In Attendance"},
-                         {"date" => "2011-09-15", "event" => "In Attendance"},
-                         {"date" => "2011-09-16", "event" => "In Attendance"},
-                         {"date" => "2011-09-19", "event" => "In Attendance"},
-                         {"date" => "2011-09-20", "event" => "In Attendance"},
-                         {"date" => "2011-09-21", "event" => "In Attendance"},
-                         {"date" => "2011-09-22", "event" => "In Attendance"},
-                         {"date" => "2011-09-23", "event" => "In Attendance"},
-                         {"date" => "2011-09-26", "event" => "In Attendance"},
-                         {"date" => "2011-09-27", "event" => "In Attendance"},
-                         {"date" => "2011-09-28", "event" => "In Attendance"},
-                         {"date" => "2011-09-29", "event" => "In Attendance"},
-                         {"date" => "2011-09-30", "event" => "In Attendance"},
-                         {"date" => "2011-10-03", "event" => "In Attendance"},
-                         {"date" => "2011-10-04", "event" => "In Attendance"},
-                         {"date" => "2011-10-05", "event" => "In Attendance"},
-                         {"date" => "2011-10-06", "event" => "In Attendance"},
-                         {"date" => "2011-10-07", "event" => "In Attendance"},
-                         {"date" => "2011-10-11", "event" => "Tardy", "reason" => "Missed school bus"},
-                         {"date" => "2011-10-12", "event" => "In Attendance"},
-                         {"date" => "2011-10-13", "event" => "In Attendance"},
-                         {"date" => "2011-10-14", "event" => "In Attendance"},
-                         {"date" => "2011-10-17", "event" => "In Attendance"},
-                         {"date" => "2011-10-18", "event" => "In Attendance"},
-                         {"date" => "2011-10-19", "event" => "In Attendance"},
-                         {"date" => "2011-10-20", "event" => "In Attendance"},
-                         {"date" => "2011-10-21", "event" => "Tardy", "reason" => "Missed school bus"},
-                         {"date" => "2011-10-24", "event" => "In Attendance"},
-                         {"date" => "2011-10-25", "event" => "In Attendance"},
-                         {"date" => "2011-10-26", "event" => "In Attendance"},
-                         {"date" => "2011-10-27", "event" => "In Attendance"},
-                         {"date" => "2011-10-28", "event" => "In Attendance"},
-                         {"date" => "2011-10-31", "event" => "In Attendance"},
-                         {"date" => "2011-11-01", "event" => "In Attendance"},
-                         {"date" => "2011-11-02", "event" => "In Attendance"},
-                         {"date" => "2011-11-03", "event" => "In Attendance"},
-                         {"date" => "2011-11-04", "event" => "In Attendance"},
-                         {"date" => "2011-11-07", "event" => "In Attendance"},
-                         {"date" => "2011-11-08", "event" => "In Attendance"},
-                         {"date" => "2011-11-09", "event" => "In Attendance"},
-                         {"date" => "2011-11-10", "event" => "In Attendance"},
-                         {"date" => "2011-11-14", "event" => "In Attendance"},
-                         {"date" => "2011-11-15", "event" => "In Attendance"},
-                         {"date" => "2011-11-16", "event" => "In Attendance"},
-                         {"date" => "2011-11-17", "event" => "In Attendance"},
-                         {"date" => "2011-11-18", "event" => "In Attendance"},
-                         {"date" => "2011-11-21", "event" => "In Attendance"},
-                         {"date" => "2011-11-22", "event" => "In Attendance"},
-                         {"date" => "2011-11-23", "event" => "In Attendance"},
-                         {"date" => "2011-11-28", "event" => "In Attendance"},
-                         {"date" => "2011-11-29", "event" => "In Attendance"},
-                         {"date" => "2011-11-30", "event" => "In Attendance"},
-                         {"date" => "2011-12-01", "event" => "In Attendance"},
-                         {"date" => "2011-12-02", "event" => "In Attendance"},
-                         {"date" => "2011-12-05", "event" => "In Attendance"},
-                         {"date" => "2011-12-06", "event" => "In Attendance"},
-                         {"date" => "2011-12-07", "event" => "Excused Absence", "reason" => "Absent excused"},
-                         {"date" => "2011-12-08", "event" => "In Attendance"},
-                         {"date" => "2011-12-09", "event" => "In Attendance"},
-                         {"date" => "2011-12-12", "event" => "In Attendance"},
-                         {"date" => "2011-12-13", "event" => "In Attendance"},
-                         {"date" => "2011-12-14", "event" => "In Attendance"},
-                         {"date" => "2011-12-15", "event" => "In Attendance"},
-                         {"date" => "2011-12-16", "event" => "In Attendance"},
-                         {"date" => "2011-12-19", "event" => "In Attendance"},
-                         {"date" => "2011-12-20", "event" => "In Attendance"},
-                         {"date" => "2011-12-21", "event" => "In Attendance"},
-                         {"date" => "2011-12-22", "event" => "In Attendance"},
-                         {"date" => "2011-12-23", "event" => "In Attendance"},
-                         {"date" => "2011-12-28", "event" => "In Attendance"},
-                         {"date" => "2011-12-29", "event" => "In Attendance"},
-                         {"date" => "2012-01-03", "event" => "In Attendance"},
-                         {"date" => "2012-01-04", "event" => "In Attendance"},
-                         {"date" => "2012-01-05", "event" => "In Attendance"},
-                         {"date" => "2012-01-06", "event" => "In Attendance"},
-                         {"date" => "2012-01-09", "event" => "In Attendance"},
-                         {"date" => "2012-01-10", "event" => "In Attendance"},
-                         {"date" => "2012-01-11", "event" => "In Attendance"},
-                         {"date" => "2012-01-12", "event" => "In Attendance"},
-                         {"date" => "2012-01-13", "event" => "In Attendance"},
-                         {"date" => "2012-01-16", "event" => "In Attendance"},
-                         {"date" => "2012-01-17", "event" => "In Attendance"},
-                         {"date" => "2012-01-18", "event" => "In Attendance"},
-                         {"date" => "2012-01-19", "event" => "In Attendance"},
-                         {"date" => "2012-01-20", "event" => "In Attendance"},
-                         {"date" => "2012-01-23", "event" => "In Attendance"},
-                         {"date" => "2012-01-24", "event" => "In Attendance"},
-                         {"date" => "2012-01-25", "event" => "In Attendance"},
-                         {"date" => "2012-01-26", "event" => "In Attendance"},
-                         {"date" => "2012-01-27", "event" => "In Attendance"},
-                         {"date" => "2012-01-30", "event" => "In Attendance"},
-                         {"date" => "2012-01-31", "event" => "In Attendance"},
-                         {"date" => "2012-02-01", "event" => "In Attendance"},
-                         {"date" => "2012-02-02", "event" => "In Attendance"},
-                         {"date" => "2012-02-03", "event" => "In Attendance"},
-                         {"date" => "2012-02-06", "event" => "In Attendance"},
-                         {"date" => "2012-02-07", "event" => "In Attendance"},
-                         {"date" => "2012-02-08", "event" => "In Attendance"},
-                         {"date" => "2012-02-09", "event" => "In Attendance"},
-                         {"date" => "2012-02-10", "event" => "In Attendance"},
-                         {"date" => "2012-02-13", "event" => "In Attendance"},
-                         {"date" => "2012-02-14", "event" => "In Attendance"},
-                         {"date" => "2012-02-15", "event" => "In Attendance"},
-                         {"date" => "2012-02-16", "event" => "In Attendance"},
-                         {"date" => "2012-02-17", "event" => "In Attendance"},
-                         {"date" => "2012-02-20", "event" => "In Attendance"},
-                         {"date" => "2012-02-21", "event" => "In Attendance"},
-                         {"date" => "2012-02-22", "event" => "In Attendance"},
-                         {"date" => "2012-02-23", "event" => "In Attendance"},
-                         {"date" => "2012-02-24", "event" => "In Attendance"},
-                         {"date" => "2012-02-27", "event" => "In Attendance"},
-                         {"date" => "2012-02-28", "event" => "In Attendance"},
-                         {"date" => "2012-02-29", "event" => "In Attendance"},
-                         {"date" => "2012-03-01", "event" => "In Attendance"},
-                         {"date" => "2012-03-02", "event" => "In Attendance"},
-                         {"date" => "2012-03-05", "event" => "In Attendance"},
-                         {"date" => "2012-03-06", "event" => "In Attendance"},
-                         {"date" => "2012-03-07", "event" => "In Attendance"},
-                         {"date" => "2012-03-08", "event" => "Tardy", "reason" => "Missed school bus"},
-                         {"date" => "2012-03-09", "event" => "In Attendance"},
-                         {"date" => "2012-03-19", "event" => "In Attendance"},
-                         {"date" => "2012-03-20", "event" => "In Attendance"},
-                         {"date" => "2012-03-21", "event" => "In Attendance"},
-                         {"date" => "2012-03-22", "event" => "In Attendance"},
-                         {"date" => "2012-03-23", "event" => "In Attendance"},
-                         {"date" => "2012-03-26", "event" => "In Attendance"},
-                         {"date" => "2012-03-27", "event" => "In Attendance"},
-                         {"date" => "2012-03-28", "event" => "In Attendance"},
-                         {"date" => "2012-03-29", "event" => "In Attendance"},
-                         {"date" => "2012-03-30", "event" => "In Attendance"},
-                         {"date" => "2012-04-02", "event" => "In Attendance"},
-                         {"date" => "2012-04-03", "event" => "In Attendance"},
-                         {"date" => "2012-04-04", "event" => "In Attendance"},
-                         {"date" => "2012-04-05", "event" => "In Attendance"},
-                         {"date" => "2012-04-06", "event" => "In Attendance"},
-                         {"date" => "2012-04-09", "event" => "Tardy", "reason" => "Missed school bus"},
-                         {"date" => "2012-04-10", "event" => "In Attendance"},
-                         {"date" => "2012-04-11", "event" => "In Attendance"},
-                         {"date" => "2012-04-12", "event" => "In Attendance"},
-                         {"date" => "2012-04-13", "event" => "In Attendance"},
-                         {"date" => "2012-04-16", "event" => "In Attendance"},
-                         {"date" => "2012-04-17", "event" => "In Attendance"},
-                         {"date" => "2012-04-18", "event" => "In Attendance"},
-                         {"date" => "2012-04-19", "event" => "In Attendance"},
-                         {"date" => "2012-04-20", "event" => "In Attendance"},
-                         {"date" => "2012-04-23", "event" => "In Attendance"},
-                         {"date" => "2012-04-24", "event" => "In Attendance"},
-                         {"date" => "2012-04-25", "event" => "In Attendance"},
-                         {"date" => "2012-04-26", "event" => "In Attendance"},
-                         {"date" => "2012-04-27", "event" => "In Attendance"},
-                         {"date" => "2012-04-30", "event" => "In Attendance"},
-                         {"date" => "2012-05-01", "event" => "In Attendance"},
-                         {"date" => "2012-05-02", "event" => "In Attendance"},
-                         {"date" => "2012-05-03", "event" => "In Attendance"},
-                         {"date" => "2012-05-04", "event" => "In Attendance"},
-                         {"date" => "2012-05-07", "event" => "In Attendance"},
-                         {"date" => "2012-05-08", "event" => "In Attendance"},
-                         {"date" => "2012-05-09", "event" => "In Attendance"},
-                         {"date" => "2012-05-10", "event" => "In Attendance"},
-                         {"date" => "2012-05-11", "event" => "In Attendance"},
-                         {"date" => "2012-05-14", "event" => "In Attendance"},
-                         {"date" => "2012-05-15", "event" => "In Attendance"},
-                         {"date" => "2012-05-16", "event" => "In Attendance"},
-                         {"date" => "2012-05-17", "event" => "In Attendance"},
-                         {"date" => "2012-05-18", "event" => "In Attendance"},
-                         {"date" => "2012-05-21", "event" => "In Attendance"},
-                         {"date" => "2012-05-22", "event" => "In Attendance"},
-                         {"date" => "2012-05-23", "event" => "In Attendance"},
-                         {"date" => "2012-05-24", "event" => "In Attendance"},
-                         {"date" => "2012-05-25", "event" => "In Attendance"},
-                         {"date" => "2012-05-28", "event" => "In Attendance"},
-                         {"date" => "2012-05-29", "event" => "In Attendance"},
-                         {"date" => "2012-05-30", "event" => "In Attendance"},
-                         {"date" => "2012-05-31", "event" => "In Attendance"},
-                         {"date" => "2012-06-01", "event" => "Excused Absence", "reason" => "Absent excused"}
-                     ]
-                }
-            ]
-      }
-    end
-  end
 end
 
 ######################
@@ -848,4 +620,10 @@ def id_from_juuid(uuid)
   lsb = lsb[14, 2] + lsb[12, 2] + lsb[10, 2] + lsb[8, 2] + lsb[6, 2] + lsb[4, 2] + lsb[2, 2] + lsb[0, 2]
   hex = msb + lsb;
   BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
+end
+
+######################
+### create a deep copy of entity data used in API CRUD tests
+def deep_copy(o)
+  Marshal.load(Marshal.dump(o))
 end

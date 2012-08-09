@@ -10,7 +10,7 @@
     <StateOrganizationId>${DisciplineIncident.SchoolReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
 </#if>
 
-<#list isciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode as edorgId>
+<#list DisciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode as edorgId>
     <EducationOrgIdentificationCode
 
     <#if (edorgId.@IdentificationSystem[0])??>

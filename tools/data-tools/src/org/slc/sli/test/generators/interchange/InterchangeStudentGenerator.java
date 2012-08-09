@@ -1,13 +1,36 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.InterchangeStudent;
+import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.Student;
+import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.FastStudentGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -25,14 +48,12 @@ public class InterchangeStudentGenerator {
      *
      * @return
      */
-    public static InterchangeStudent generate() {
+    public static void generate(InterchangeWriter<InterchangeStudent> iWriter) {
 
-        InterchangeStudent interchange = new InterchangeStudent();
-        List<Student> interchangeObjects = interchange.getStudent();
 
-        addEntitiesToInterchange(interchangeObjects);
 
-        return interchange;
+        writeEntitiesToInterchange(iWriter);
+
     }
 
     /**
@@ -40,9 +61,9 @@ public class InterchangeStudentGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<Student> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudent> iWriter) {
 
-        generateStudents(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
 
     }
 
@@ -52,7 +73,7 @@ public class InterchangeStudentGenerator {
      * @param interchangeObjects
      * @param studentMetas
      */
-    private static void generateStudents(List<Student> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    private static void generateStudents(InterchangeWriter<InterchangeStudent> iWriter, Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
         for (StudentMeta studentMeta : studentMetas) {
@@ -65,7 +86,8 @@ public class InterchangeStudentGenerator {
                 student = FastStudentGenerator.generateLowFi(studentMeta.id);
             }
 
-            interchangeObjects.add(student);
+
+            iWriter.marshal(student);
 
         }
 

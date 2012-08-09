@@ -1,7 +1,26 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.milyn.container.ExecutionContext;
@@ -9,14 +28,14 @@ import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -31,7 +50,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
     /** Constant to write a log message every N records. */
-    private static final int LOG_INTERVAL = 100000;
+    private static final int FLUSH_QUEUE_THRESHOLD = 10000;
+
+    private static final int FIRST_INSTANCE = 1;
 
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
@@ -41,9 +62,17 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private final IngestionFileEntry fe;
 
     private Map<String, Integer> occurences;
+    private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
 
+    /**
+     * Get records persisted to data store. If there are still queued writes waiting, flush the
+     * queue by writing to data store before returning final count.
+     *
+     * @return Final number of records persisted to data store.
+     */
     public int getRecordsPerisisted() {
+        writeAndClearQueuedNeutralRecords();
         return recordsPerisisted;
     }
 
@@ -54,6 +83,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.fe = fe;
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
+        this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
@@ -66,40 +96,55 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
-
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
-            this.recordsPerisisted++;
+            queueNeutralRecordForWriting(neutralRecord);
 
-            logRecordsPersisted(neutralRecord);
-
+            if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
+                writeAndClearQueuedNeutralRecords();
+            }
         } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error("Error: Smooks validation failure at element " + element.getName().toString());
+            LOG.error("Smooks validation failure at element " + element.getName().toString());
 
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
         }
-
-
     }
 
-    private void logRecordsPersisted(NeutralRecord neutralRecord) {
-
-        if (recordsPerisisted % LOG_INTERVAL == 0) {
-            LOG.info("Persisted {} records of type {} ", recordsPerisisted, neutralRecord.getRecordType());
+    /**
+     * Adds the Neutral Record to the queue of Neutral Records waiting to be written.
+     *
+     * @param record
+     *            Neutral Record to be written to data store.
+     */
+    private void queueNeutralRecordForWriting(NeutralRecord record) {
+        if (!queuedWrites.containsKey(record.getRecordType())) {
+            queuedWrites.put(record.getRecordType(), new ArrayList<NeutralRecord>());
         }
+        queuedWrites.get(record.getRecordType()).add(record);
+        this.recordsPerisisted++;
+    }
 
+    /**
+     * Write all neutral records currently contained in the queue, and clear the queue.
+     */
+    private void writeAndClearQueuedNeutralRecords() {
+        if (recordsPerisisted != 0) {
+            for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
+                if (entry.getValue().size() > 0) {
+                    nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                    LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                    queuedWrites.get(entry.getKey()).clear();
+                }
+            }
+        }
     }
 
     private NeutralRecord getProcessedNeutralRecord(ExecutionContext executionContext) {
-
         NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
-
         neutralRecord.setBatchJobId(batchJobId);
-
         neutralRecord.setSourceFile(fe == null ? "" : fe.getFileName());
 
         if (this.occurences.containsKey(neutralRecord.getRecordType())) {
@@ -107,8 +152,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), temp);
             neutralRecord.setLocationInSourceFile(temp);
         } else {
-            this.occurences.put(neutralRecord.getRecordType(), 0);
-            neutralRecord.setLocationInSourceFile(0);
+            this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
+            neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
@@ -142,5 +187,4 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         // nothing
 
     }
-
 }

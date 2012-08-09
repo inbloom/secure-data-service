@@ -5,13 +5,13 @@
         "fieldPath" : "body.studentId",
         "ref" :
         {
-	        "collectionName" : "student",
+	        "entityType" : "student",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
 		                }]
@@ -20,17 +20,17 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.programId",
         "ref" :
         {
-	        "collectionName" : "program",
+	        "entityType" : "program",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
 		                }]
@@ -43,13 +43,13 @@
         "fieldPath" : "body.educationOrganizationId",
         "ref" :
         {
-	        "collectionName" : "educationOrganization",
+	        "entityType" : "educationOrganization",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
 		                }]
@@ -58,7 +58,7 @@
 	        ]
         }
     }],
-    
+
     "piiFields" : {
         "StudentReference" : {
             "StudentIdentity" : {
@@ -80,7 +80,7 @@
                     "FirstName" : true,
                     "MiddleName" : true,
                     "LastSurname" : true,
-                    "GenerationCodeSuffix" : true 
+                    "GenerationCodeSuffix" : true
                   },
                 "BirthDate" : true,
                 "Sex" : true

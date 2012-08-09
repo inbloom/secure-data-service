@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import static junit.framework.Assert.assertFalse;
@@ -89,6 +106,7 @@ public class ApprovedApplicationResourceTest {
         adminApp.put("endpoints", endpoints);
         adminApp.put("created_by", "slcdeveloper");
         adminApp.put("name", "Admin App");
+        adminApp.put("admin_visible", true);
         userApp = new EntityBody();
         userApp.put("is_admin", false);
         userApp.put("installed", false);
@@ -99,11 +117,11 @@ public class ApprovedApplicationResourceTest {
         installedApp.put("is_admin", false);
         installedApp.put("installed", true);
         installedApp.put("created_by", "bob");
-        Mockito.when(service.get("adminAppId")).thenReturn(adminApp);
-        Mockito.when(service.get("userAppId")).thenReturn(userApp);
-        Mockito.when(service.get("disabledAppId")).thenReturn(installedApp);
-        Mockito.when(service.listIds(Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
+        List<Entity> appList = new ArrayList<Entity>();
+        appList.add(new MongoEntity("application", adminApp));
+        appList.add(new MongoEntity("application", userApp));
+        appList.add(new MongoEntity("application", installedApp));
+        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(appList);
     }
     
     @Test (expected = InsufficientAuthenticationException.class)
@@ -111,20 +129,16 @@ public class ApprovedApplicationResourceTest {
         SecurityContextHolder.clearContext();
         resource.getApplications("");
     }
-    
-    @Test
-    public void testAdminUser() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-
-        setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertTrue(ents.contains(adminApp));
-        assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(installedApp));
+        
+    private boolean isInEntityList(EntityBody app, List<EntityBody> ents) {
+        for (EntityBody ent : ents) {
+            if (app.get("name").equals(ent.get("name"))) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     @Test
     public void testEndpointFilteringNoRoles() {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
@@ -132,14 +146,7 @@ public class ApprovedApplicationResourceTest {
         setupAuth(Right.ADMIN_ACCESS, null);
         Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        boolean foundAdmin = false;
-        for (EntityBody body : ents) {
-            
-            if (body == adminApp) {
-                foundAdmin = true;
-            }
-         }
-        assertFalse("Admin should be filtered out since no endpoints are applicable", foundAdmin);
+        assertFalse("Admin should be filtered out since no endpoints are applicable", isInEntityList(adminApp, ents));
     }
     
     @Test
@@ -155,7 +162,7 @@ public class ApprovedApplicationResourceTest {
         boolean foundAdmin = false;
         for (EntityBody body : ents) {
             
-            if (body == adminApp) {
+            if (body.get("name").equals(adminApp.get("name"))) {
                 foundAdmin = true;
                 assertTrue("endpoint found", ((List) body.get("endpoints")).size() == 1);
             }
@@ -175,7 +182,7 @@ public class ApprovedApplicationResourceTest {
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         boolean foundAdmin = false;
         for (EntityBody body : ents) { 
-            if (body == adminApp) {
+            if (body.get("name").equals(adminApp.get("name"))) {
                 foundAdmin = true;
                 assertTrue("endpoint found", ((List) body.get("endpoints")).size() == 1);
             }
@@ -202,20 +209,11 @@ public class ApprovedApplicationResourceTest {
         setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
         Response resp = resource.getApplications("true");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertTrue(ents.contains(adminApp));
-        assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(installedApp));
+        assertTrue(isInEntityList(adminApp, ents));
+        assertFalse(isInEntityList(userApp, ents));
+        assertFalse(isInEntityList(installedApp, ents));
     }   
     
-    @Test
-    public void testNoneAllowed() {
-        setupAuth(Right.READ_GENERAL, null);
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertFalse(ents.contains(adminApp));
-        assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(installedApp));
-    }
     
     private void setupAuth(GrantedAuthority auth, List<String> roles) {
         Authentication mockAuth = Mockito.mock(Authentication.class);

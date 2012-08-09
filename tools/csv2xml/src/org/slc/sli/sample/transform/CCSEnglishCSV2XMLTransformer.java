@@ -1,4 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.sample.transform;
+
+import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.GradeLevelMapper;
+
+import org.slc.sli.sample.entities.GradeLevelType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,13 +35,28 @@ import org.slc.sli.sample.entities.LearningStandardIdentityType;
 import org.slc.sli.sample.entities.LearningStandardReferenceType;
 import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.LearningStandardResult;
 
-public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
+public class CCSEnglishCSV2XMLTransformer {
 
     private static final String englishLearningStandardFile = "data/CC_Standards_6.25.10-English.csv";
 
     private static final String outputPath = "data/";
 
     private static Pattern PATTERN = Pattern.compile("^([^.]+).([^.]+).(.+)");
+    
+    static class EnglishGradeLevelMapper extends GradeLevelMapper {
+        @Override
+        int getGradeLevel(String s) {
+            String gradeLevel = s.split("\\.")[0];
+            if(gradeLevel.indexOf('-') > 0) {
+                gradeLevel = gradeLevel.split("-")[0];
+            }
+            if("K".equalsIgnoreCase(gradeLevel)) {
+                return 0;
+            }
+            return Integer.valueOf(gradeLevel);
+        }
+    }
+    
     public static void main(String args[]) throws Exception {
         CcsCsvReader englishLearningStandardReader = new CcsCsvReader();
         englishLearningStandardReader.setFileLocation(englishLearningStandardFile);
@@ -84,6 +120,7 @@ public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
                 return convert("Literacy", dotNotation);
             }
         });
+        transformer.setGradeLevelMapper(new EnglishGradeLevelMapper());
         // TODO: remove ignore when GUID is added to CSV
         transformer.setIgnoreNonExistentGuid(true);
         transformer.printLearningStandards();

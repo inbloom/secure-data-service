@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.util.HashSet;
@@ -53,13 +70,12 @@ public class PurgeProcessorTest {
     @Test
     public void testNoTenantId() throws Exception {
 
-        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
-        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
@@ -74,13 +90,12 @@ public class PurgeProcessorTest {
     @Test
     public void testPurging() throws Exception {
 
-        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
-        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");
@@ -100,13 +115,12 @@ public class PurgeProcessorTest {
     @Test
     public void testPurgingSystemCollections() throws Exception {
 
-        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
-        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");

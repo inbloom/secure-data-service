@@ -1,17 +1,26 @@
 <% @title="Provision Landing Zone" %>
-<% custom_ed_org_text = "I want to provide my own dataset" %>
+<% custom_ed_org_text = "I will upload my own data" %>
+<% standard_ed_org_text = "I will upload SLC sample data" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
+<% rsaKey_error_text = "Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
 <div class="provision">
   <div class="page-header">
-	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Select Data Source</h1><%end%>
+	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
   </div>
-	<% if APP_CONFIG['is_sandbox']%><p>In order for your applications to be functional in the sandbox, you need to define which test data you will use. After you have configured your test data, you will be emailed with next steps.</p><%else%><p>Choose a sample set of school data provided by the SLC or upload your own data via FTP.</p><% end %>
+	<% if APP_CONFIG['is_sandbox']%>
+		<p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data store.  To add sample data, use this page to configure a landing zone, which is a SFTP location for uploading data files.  Each time you want to upload data for a new education organization, you must return to this page to configure a new landing zone.</p>
+        <p>SLC makes Ed-Fi compliant sample data available to you, or you can provide your own Ed-Fi-compliant data.</p>
+        <p>To configure the landing zone, select one of the following:</p>
+	<%else%>
+		<p>A Landing Zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a Landing Zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. Please click Create to continue. </p>
+	<% end %>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
+	    <% if APP_CONFIG['is_sandbox'] %>
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
 				<div class="provisionBlock">
 					<%= radio_button_tag 'ed_org', org.stateUniqueId, false, :class => "radioButton" %>
-					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= standard_ed_org_text %></label>
 				</div>
 			<% end %>
 			<div class="provisionBlock">
@@ -32,14 +41,44 @@
 			  </div>
 			</div>
 		<% end %>
+        <p>After you configure your landing zone, you will receive an email with further instructions on how to upload your data.</p>
+		<% end %>
+
+<!--  !!! Commenting out RSA Key field UI temporarily !!!
+		<div class="rsaKeyBlock">
+	      <label id="addKeyBtn">Add Public Key to SFTP
+            <i id="key_arrow" <% if @validation_errors %>class="icon-chevron-down"<% else %>class="icon-chevron-left"<% end %>></i>
+          </label>
+		  <i id="key_tooltip" class="icon-question-sign" style="cursor:pointer;font-size:20px"></i>
+		</div>
+		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
+		    
+		    <span class="control-group">
+		      <%= text_area_tag(:public_key, @public_key) %>
+		    </span>
+		    
+		      <span class="control-group error">
+		        <span id="rsa_validation_error_text" class="help-inline">
+		          <%= rsaKey_error_text %>
+		        </span>
+			<span id="spinner" class="spinner" style="display:none"><img src="/assets/spinner.gif"></span>
+		      </span>
+		</div>
+  !!! Commenting out RSA Key field UI temporarily !!!  -->
+
 		<div class="form-actions">
           <%#
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
           %>
-			<input name="commit" type="submit" value="Assign" id="provisionButton" class= "btn"/>
+			<input name="commit" type="submit" <% if APP_CONFIG['is_sandbox']%>value="Select"<% else %>value="Create" <%end%> id="provisionButton" class= "btn"/>
 		</div>
 	</form>
 </div>
 <script type="text/javascript">
-    $("#tooltip").tooltip();
+    var is_sandbox = <%= APP_CONFIG['is_sandbox'] %>
+    $("#key_tooltip").tooltip();
+    <% if APP_CONFIG['is_sandbox'] %>
+        $("#tooltip").tooltip();
+    <% end %>
 </script>
+

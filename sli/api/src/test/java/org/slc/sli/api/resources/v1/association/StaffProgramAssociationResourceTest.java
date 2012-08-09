@@ -1,4 +1,53 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.association;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.entity.ProgramResource;
+import org.slc.sli.api.resources.v1.entity.StaffResource;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,45 +56,10 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.representation.EntityResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.entity.ProgramResource;
-import org.slc.sli.api.resources.v1.entity.StaffResource;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-
 /**
  * Unit tests for the resource representing a staffProgramAssociation
- * @author jtully
  *
+ * @author jtully
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -80,33 +94,39 @@ public class StaffProgramAssociationResourceTest {
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-    private Map<String, Object> createTestEntity() {
+    private Map<String, Object> createTestEntity(String staffId, String programId) {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("staffId", "1001");
-        entity.put("programId", "2001");
+        entity.put("staffId", staffId);
+        entity.put("programId", programId);
         entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 1234);
         return entity;
     }
 
-    private Map<String, Object> createTestUpdateEntity() {
+    private Map<String, Object> createTestUpdateEntity(String staffId) {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("staffId", "1001");
-        entity.put("programId", "2003");
+        entity.put("staffId", staffId);
+        entity.put("programId", ResourceTestUtil.parseIdFromLocation(programResource.create(new EntityBody(), httpHeaders, uriInfo)));
         entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 1234);
         return entity;
     }
 
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("staffId", "1002");
-        entity.put("programId", "2002");
+        entity.put("staffId", ResourceTestUtil.parseIdFromLocation(staffResource.create(new EntityBody(), httpHeaders, uriInfo)));
+        entity.put("programId", ResourceTestUtil.parseIdFromLocation(programResource.create(new EntityBody(), httpHeaders, uriInfo)));
         entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 5678);
         return entity;
     }
 
     @Test
     public void testCreate() {
-        Response response = staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
+        Response response = staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
 
         String id = ResourceTestUtil.parseIdFromLocation(response);
@@ -115,8 +135,14 @@ public class StaffProgramAssociationResourceTest {
 
     @Test
     public void testRead() {
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = staffProgramAssociationResource.read(id, httpHeaders, uriInfo);
 
@@ -142,8 +168,14 @@ public class StaffProgramAssociationResourceTest {
 
     @Test
     public void testDelete() {
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //delete it
@@ -163,12 +195,18 @@ public class StaffProgramAssociationResourceTest {
 
     @Test
     public void testUpdate() {
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //update it
-        Response response = staffProgramAssociationResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
+        Response response = staffProgramAssociationResource.update(id, new EntityBody(createTestUpdateEntity(staffId)), httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
         //try to get it
@@ -178,15 +216,19 @@ public class StaffProgramAssociationResourceTest {
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + " should be 1234", body.get(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID), 1234);
-        assertEquals("staffId should be Updated Reading Recovery", body.get("staffId"), "1001");
-        assertEquals("programId should be Updated Reading Recovery", body.get("programId"), "2003");
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
     @Test
     public void testReadAll() {
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create two entities
-        staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         staffProgramAssociationResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
 
         //read everything
@@ -262,8 +304,14 @@ public class StaffProgramAssociationResourceTest {
     }
 
     private String getIDList(String resource) {
+        Response res = staffResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = programResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create more resources
-        Response createResponse1 = staffProgramAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse1 = staffProgramAssociationResource.create(new EntityBody(createTestEntity(staffId, programId)), httpHeaders, uriInfo);
         Response createResponse2 = staffProgramAssociationResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
 
         return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);

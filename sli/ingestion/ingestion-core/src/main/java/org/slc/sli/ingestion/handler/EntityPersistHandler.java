@@ -1,7 +1,30 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.handler;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -10,9 +33,10 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Handles the persisting of Entity objects
@@ -23,11 +47,26 @@ import org.springframework.dao.DuplicateKeyException;
  *         entities.
  *
  */
-public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> {
+public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
     private Repository<Entity> entityRepository;
 
     private MessageSource messageSource;
+
+    @Value("${sli.ingestion.mongotemplate.writeConcern}")
+    private String writeConcern;
+
+    @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
+    private String referenceCheckEnabled;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        entityRepository.setWriteConcern(writeConcern);
+        entityRepository.setReferenceCheck(referenceCheckEnabled);
+    }
 
     Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
         return doHandling(entity, errorReport, null);
@@ -40,7 +79,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
         }
         return null;
     }
@@ -56,10 +95,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      */
     private Entity persist(SimpleEntity entity) throws EntityValidationException {
 
-        String collectionName = entity.getType();
-        if ((String) entity.getBody().get("collectionName") != null) {
-            collectionName = (String) entity.getBody().get("collectionName");
-            entity.getBody().remove("collectionName");
+        String collectionName = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
         }
 
         if (entity.getEntityId() != null) {
@@ -79,11 +121,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (ValidationError err : errors) {
 
             String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
-                           + "       Error      " + err.getType().name() + "\n"
-                           + "       Entity     " + entity.getType() + "\n"
-                           + "       Field      " + err.getFieldName() + "\n"
-                           + "       Value      " + err.getFieldValue() + "\n"
-                           + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
+                    + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
+                    + "\n"  + "       Instance   " + entity.getRecordNumber()
+                    + "\n" + "       Field      " + err.getFieldName() + "\n" + "       Value      "
+                    + err.getFieldValue() + "\n" + "       Expected   " + Arrays.toString(err.getExpectedTypes())
+                    + "\n";
             errorReport.error(message, this);
         }
     }
@@ -101,6 +143,21 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private void reportErrors(String errorMessage, SimpleEntity entity, ErrorReport errorReport) {
         String assembledMessage = "Entity (" + entity.getType() + ") reports failure: " + errorMessage;
         errorReport.error(assembledMessage, this);
+    }
+
+    /**
+     * Generic warning reporting function.
+     *
+     * @param warningMessage
+     *            Warning message reported by entity.
+     * @param entity
+     *            Entity reporting warning.
+     * @param errorReport
+     *            Reference to error report to log warning message in.
+     */
+    private void reportWarnings(String warningMessage, SimpleEntity entity, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+        errorReport.warning(assembledMessage, this);
     }
 
     protected String getFailureMessage(String code, Object... args) {

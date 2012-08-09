@@ -1,13 +1,29 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import java.util.List;
-
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AttendanceEventGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -23,29 +39,22 @@ public class InterchangeStudentAttendanceGenerator {
      *
      * @return
      */
-    public static InterchangeStudentAttendance generate() {
-
-        InterchangeStudentAttendance interchange = new InterchangeStudentAttendance();
-        List<AttendanceEvent> interchangeObjects = interchange.getAttendanceEvent();
-
-        addEntitiesToInterchange(interchangeObjects);
-
-        return interchange;
+    public static void generate(InterchangeWriter<InterchangeStudentAttendance> writer) {
+        writeEntitiesToInterchange(writer);        
     }
 
     /**
-     * Generate the individual Student Attendance Association entities.
+     * Generate the individual Student Attendance Association entities and write them out.
      *
-     * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<AttendanceEvent> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentAttendance> writer) {
 
-        generateStudentAttendanceEventAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        generateStudentAttendanceEventAssoc(MetaRelations.STUDENT_MAP.values(), writer);
 
     }
 
-    private static void generateStudentAttendanceEventAssoc(List<AttendanceEvent> interchangeObjects,
-            Collection<StudentMeta> studentMetas) {
+    private static void generateStudentAttendanceEventAssoc(Collection<StudentMeta> studentMetas, 
+            InterchangeWriter<InterchangeStudentAttendance> writer) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -67,7 +76,7 @@ public class InterchangeStudentAttendanceGenerator {
                                 studentMeta.schoolIds.get(0), sectionId);
                     }
 
-                    interchangeObjects.add(attendanceEvent);
+                    writer.marshal(attendanceEvent);
 
                     objGenCounter++;
                 }

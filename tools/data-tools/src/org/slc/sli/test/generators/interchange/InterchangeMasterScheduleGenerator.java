@@ -1,14 +1,35 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
+import org.slc.sli.test.edfi.entities.CourseOffering;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
 import org.slc.sli.test.edfi.entities.Section;
+import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.generators.CourseOfferingGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -26,14 +47,14 @@ public class InterchangeMasterScheduleGenerator {
      *
      * @return
      */
-    public static InterchangeMasterSchedule generate() {
+    public static void generate(InterchangeWriter<InterchangeMasterSchedule> iWriter) {
 
-        InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
-        List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
+//        InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
+//        List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(iWriter);
 
-        return interchange;
+//        return interchange;
     }
 
     /**
@@ -41,10 +62,29 @@ public class InterchangeMasterScheduleGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeMasterSchedule> iWriter) {
 
-        generateSections(interchangeObjects, MetaRelations.SECTION_MAP.values());
+        generateCourseOffering(iWriter, MetaRelations.COURSEOFFERING_MAP.values());
+        generateSections(iWriter, MetaRelations.SECTION_MAP.values());
 
+    }
+
+    private static void generateCourseOffering(InterchangeWriter<InterchangeMasterSchedule> iWriter,
+            Collection<CourseOfferingMeta> courseOfferingMetas) {
+        long startTime = System.currentTimeMillis();
+
+        for (CourseOfferingMeta courseOfferingMeta : courseOfferingMetas) {
+            CourseOffering courseOffering;
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                courseOffering = CourseOfferingGenerator.generate(courseOfferingMeta);
+            } else {
+                courseOffering = CourseOfferingGenerator.generateLowFi(courseOfferingMeta);
+            }
+//            interchangeObjects.add(courseOffering);
+            iWriter.marshal(courseOffering);
+        }
+        System.out.println("Generated " + courseOfferingMetas.size() + " CourseOfferings in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -53,7 +93,7 @@ public class InterchangeMasterScheduleGenerator {
      * @param interchangeObjects
      * @param sectionMetas
      */
-    private static void generateSections(List<ComplexObjectType> interchangeObjects,
+    private static void generateSections(InterchangeWriter<InterchangeMasterSchedule> iWriter,
             Collection<SectionMeta> sectionMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -64,11 +104,12 @@ public class InterchangeMasterScheduleGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 section = null;
             } else {
-                section = SectionGenerator.generateLowFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
+            	section = SectionGenerator.generateMediumFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
                         sectionMeta.sessionId);
             }
 
-            interchangeObjects.add(section);
+//            interchangeObjects.add(section);
+            iWriter.marshal(section);
         }
 
         System.out.println("generated " + sectionMetas.size() + " Section objects in: "

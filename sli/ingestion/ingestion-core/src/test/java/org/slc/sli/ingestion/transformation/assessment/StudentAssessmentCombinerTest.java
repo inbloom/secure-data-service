@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.mockito.Matchers.any;
@@ -24,7 +41,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
@@ -32,7 +48,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.TransformationStrategy;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -51,6 +66,8 @@ public class StudentAssessmentCombinerTest {
     
     private StudentAssessmentCombiner saCombiner = spy(new StudentAssessmentCombiner());
     
+    private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
@@ -72,26 +89,25 @@ public class StudentAssessmentCombinerTest {
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
         
         when(
-                repository.findByQueryForJob(eq(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT), any(Query.class), eq(batchJobId), eq(0),
-                        eq(0))).thenReturn(buildSOANeutralRecords());
+                repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class))).thenReturn(buildSOANeutralRecords());
         
-        when(repository.findByQueryForJob(eq(EntityNames.OBJECTIVE_ASSESSMENT), any(Query.class), eq(batchJobId), eq(0), eq(0)))
+        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class)))
                 .thenReturn(
                         Arrays.asList(AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ1_ID),
                                 AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ2_ID)));
         DBCollection oaCollection = mock(DBCollection.class);
-        when(repository.getCollectionForJob(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT, batchJobId)).thenReturn(oaCollection);
+        when(repository.getCollectionForJob(STUDENT_OBJECTIVE_ASSESSMENT)).thenReturn(oaCollection);
         
         when(oaCollection.distinct(eq("body." + OBJECTIVE_ASSESSMENT_REFERENCE), any(BasicDBObject.class))).thenReturn(
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));
         
         when(
-                repository.findAllForJob(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
                         new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa1")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1")));
         when(
-                repository.findAllForJob(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
                         new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa2")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2")));

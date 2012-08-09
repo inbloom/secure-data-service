@@ -1,7 +1,0 @@
-{
-    "collection": "studentParentAssociation",
-    "indexFields":
-    [
-        {"name" : "locationInSourceFile" , "order" : "1"}
-    ]
-}

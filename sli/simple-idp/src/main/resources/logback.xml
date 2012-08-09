@@ -1,50 +1,57 @@
 <configuration>
   <property file="${sli.conf}" />
-    
+   
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-   
-    	<encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-			<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
-	    </encoder>
-  </appender>
   
-  <appender name="API_CALL_LOGGER" class="ch.qos.logback.core.FileAppender">
+       <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                     <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+           </encoder>
+  </appender>
+ 
+  <appender name="API_CALL_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${log.path}/apicall.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${log.path}/apicall-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] - %msg%n</Pattern>
     </encoder>
   </appender>
-  
-  <appender name="SECURITY_FILE" class="ch.qos.logback.core.FileAppender">
+ 
+  <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${log.path}/security.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${log.path}/security-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%msg%n</Pattern>
     </encoder>
   </appender>
-   
+  
   <logger name="SecurityMonitor" level="INFO" additivity="false">
     <appender-ref ref="SECURITY_FILE" />
   </logger>
-  
+ 
   <logger name="APICallLogger" level="INFO">
     <appender-ref ref="API_CALL_LOGGER" />
   </logger>
-
+ 
   <logger name="org.springframework.security" level="INFO" />
   <logger name="org.springframework.beans.factory" level="INFO" />
   <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />
-  
+ 
   <logger name="org.slc.sli.dal.repository" level="INFO" />
   <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="INFO" />
   <logger name="audit" level="info" />
-  
+ 
   <logger name="org.slc.sli.sandbox.idp.service.LoginService" level="DEBUG" />
-
+ 
   <root level="debug">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>
+ 

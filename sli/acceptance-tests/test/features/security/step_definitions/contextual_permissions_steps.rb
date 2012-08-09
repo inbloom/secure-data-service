@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'json'
 require_relative '../../utils/sli_utils.rb'
 
@@ -5,6 +24,7 @@ Transform /^the school "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-d574-8da22127fd2d" if arg1 == "Fry High School"
   id = "eb4d7e1b-7bed-890a-d974-8da22127fd2d" if arg1 == "Watson Elementary School"
   id = "eb4d7e1b-7bed-890a-d5b4-8da22127fd2d" if arg1 == "Parker-Dust Middle School"
+  id = "46c2e439-f800-4aaf-901c-8cf3299658cc" if arg1 == "Parker Elementary School"
   id
 end
 
@@ -68,7 +88,7 @@ Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
   array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "John Doe 3"
-  array = ["eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d"] if arg1 == "Emily Jane"
+  array = [] if arg1 == "Emily Jane"
   array
 end
 
@@ -86,7 +106,8 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d"] if arg1 == "WES-English"
-  array = ["eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
+  array = ["eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d",
+           "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d"] if arg1 == "WES-Math"
   array = ["eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d",
@@ -97,14 +118,14 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array
 end
 
-Transform /the staff "[^"]*"/ do |arg1|
-  id = nil
-  case arg1
-  when /Rick Rogers/
-    id = "/v1/staff/85585b27-5368-4f10-a331-3abcaf3a3f4c"
-  end
-  id
-end
+Transform /the staff "[^"]*"/ do |arg1| 
+  id = nil 
+  case arg1 
+  when /Rick Rogers/ 
+    id = "/v1/staff/85585b27-5368-4f10-a331-3abcaf3a3f4c" 
+  end 
+  id 
+end 
 
 Given /^I have a Role attribute that equals "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
@@ -177,16 +198,20 @@ When /^I make an API call to get the list of sections taught by (the teacher "[^
 end
 
 Then /^I receive a JSON response that includes the (list of sections that "[^"]*" teaches)$/ do |arg1|
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  numMatches = 0
-  result.each {|jsonObj| 
-    # Find each ID in the JSON
-    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
-    numMatches += 1
-  }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  if arg1.empty?
+    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  else
+    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+    result = JSON.parse(@res.body)
+    assert(result != nil, "Result of JSON parsing is nil")
+    numMatches = 0
+    result.each {|jsonObj| 
+      # Find each ID in the JSON
+      assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
+      numMatches += 1
+    }
+    assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  end
 end
 
 Given /^I teach in "([^"]*)"$/ do |arg1|

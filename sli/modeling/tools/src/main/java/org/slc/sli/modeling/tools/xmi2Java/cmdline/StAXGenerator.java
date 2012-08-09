@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.tools.xmi2Java.cmdline;
 
 import java.io.BufferedOutputStream;
@@ -126,7 +143,7 @@ public class StAXGenerator {
                 final File file = new File(dir, fileName);
                 writeElementsClass("EdFiCoreElementName", edfi, file, config);
             }
-            for (final ClassType classType : edfi.getClassTypes()) {
+            for (final ClassType classType : edfi.getClassTypes().values()) {
                 if (isTemporalClass(classType.getName())) {
                     final String fileName = classType.getName().concat(".java");
                     final File file = new File(dir, fileName);
@@ -165,10 +182,10 @@ public class StAXGenerator {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 jsw.writePackage("org.slc.sli.modeling.ninja.parser");
-                jsw.beginClass(name, null);
+                jsw.beginClass(name);
                 try {
                     final Set<String> featureNames = new HashSet<String>();
-                    for (final ClassType classType : edfi.getClassTypes()) {
+                    for (final ClassType classType : edfi.getClassTypes().values()) {
                         final List<JavaFeature> features = ClassTypeHelper.getFeatures(classType, edfi);
                         for (final JavaFeature feature : features) {
                             featureNames.add(feature.getName(config));
@@ -243,7 +260,7 @@ public class StAXGenerator {
                 jsw.writeImport("javax.xml.stream.XMLStreamReader");
                 jsw.beginClass(name, "StAXReader");
                 try {
-                    for (final ClassType classType : edfi.getClassTypes()) {
+                    for (final ClassType classType : edfi.getClassTypes().values()) {
                         final List<JavaFeature> features = ClassTypeHelper.getFeatures(classType, edfi);
                         jsw.write("public static final ").write(classType.getName()).write(" read")
                                 .write(classType.getName())

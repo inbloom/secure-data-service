@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'set'
 require 'digest'
 require 'ldapstorage'
@@ -36,15 +55,21 @@ module ApprovalEngine
         STATE_DISABLED      => { ACTION_ENABLE  => STATE_APPROVED }
     }
 
+    # Roles 
+    ROLE_APPLICATION_DEVELOPER = "application_developer"
+    ROLE_INGESTION_USER        = "ingestion_user"
+    ROLE_SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
+
     # Roles to set in sandbox mode
     SANDBOX_ROLES = [
-        "Application Developer",
-        "Ingestion User"
+        ROLE_APPLICATION_DEVELOPER,
+        ROLE_INGESTION_USER,
+        ROLE_SANDBOX_ADMINISTRATOR
     ]
 
     # Roles to set in production mode
     PRODUCTION_ROLES = [
-        "Application Developer"
+        ROLE_APPLICATION_DEVELOPER
     ]
 
     # all the user states that should be included in the user count 
@@ -60,9 +85,10 @@ module ApprovalEngine
     @@is_sandbox               = false
     @@email_secret             = ""
     @@roles                    = []
+    @@auto_approve             = nil
 
     # initialize the storage
-    def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox)
+    def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox, auto_approve=nil)
     #def ApprovalEngine.init(storage, emailer, is_sandbox)
         @@storage = storage
         @@transition_action_config = transition_action_config
@@ -70,6 +96,7 @@ module ApprovalEngine
         @@is_sandbox = is_sandbox
         @@email_secret = (0...32).map{rand(256).chr}.join
         @@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
+        @@auto_approve = auto_approve
     end
 
     # Update the status of a user.
@@ -105,6 +132,10 @@ module ApprovalEngine
                 # update the status, set the roles and send an email
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
+
             when [STATE_PENDING, STATE_REJECTED]
                 # update the status and clear the roles
                 @@storage.update_status(user)
@@ -113,12 +144,18 @@ module ApprovalEngine
                 # update the status and set the roles
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             when [STATE_APPROVED, STATE_DISABLED]
                 @@storage.update_status(user)
                 clear_roles(user[:email])
             when [STATE_DISABLED, STATE_APPROVED]
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             else
                 raise "Unknown state transition #{status} => #{target[transition]}."
         end
@@ -126,7 +163,8 @@ module ApprovalEngine
         @@transition_action_config.transition(user) if @@transition_action_config
 
         # if this is a sandbox and the new status is pending then move to status approved
-        if @@is_sandbox && (user[:status] == STATE_PENDING)
+        
+        if ((@@auto_approve==nil && @@is_sandbox) || @@auto_approve) && (user[:status] == STATE_PENDING)
             change_user_status(email_address, ACTION_APPROVE)
         end
     end
@@ -249,21 +287,9 @@ module ApprovalEngine
     #
     # email_address: Previously added email_address identifying a user.
     def ApprovalEngine.remove_user(email_address)
-        user = @@storage.read_user(email_address)
+        #user = @@storage.read_user(email_address)
         clear_roles(email_address)
         @@storage.delete_user(email_address)
-    end
-
-    def ApprovalEngine.clear_roles(email_address)
-        @@roles.each do |role|
-             @@storage.remove_user_group(email_address, role)
-        end
-    end
-
-    def ApprovalEngine.set_roles(email_address)
-        @@roles.each do |role|
-             @@storage.add_user_group(email_address, role)
-        end
     end
 
     def ApprovalEngine.get_roles(email_address)
@@ -275,6 +301,19 @@ module ApprovalEngine
     #############################################################
     private 
 
+    def ApprovalEngine.set_roles(email_address)
+        @@roles.each do |role|
+             @@storage.add_user_group(email_address, role)
+        end
+    end
+
+    def ApprovalEngine.clear_roles(email_address)
+        user_roles = @@storage.get_user_groups(email_address)
+        user_roles.each do |role|
+             @@storage.remove_user_group(email_address, role)
+        end
+    end
+
     def ApprovalEngine.set_emailtoken(user)
         user_info = {
             :email => user[:email],
@@ -282,4 +321,14 @@ module ApprovalEngine
         }
         update_user_info(user_info)
     end
+
+    def ApprovalEngine.set_sandbox_tenant(user)
+        if @@is_sandbox
+            new_user_info = {
+                :email => user[:email],
+                :tenant => user[:email]
+            }
+            @@storage.update_user_info(new_user_info)
+        end 
+    end 
 end

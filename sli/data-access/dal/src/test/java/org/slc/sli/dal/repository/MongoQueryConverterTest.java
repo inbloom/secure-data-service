@@ -1,6 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.repository;
 
 import com.mongodb.DBObject;
+
+import org.bson.types.BasicBSONList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.NeutralQuery;
@@ -255,20 +274,46 @@ public class MongoQueryConverterTest {
         mongoQueryConverter.convert("section", neutralQuery);
     }
 
+
+    /**
+     * Checks the conversion of NeutralQueries (containing ORed criteria)
+     * into Mongo-appropriate Query objects.
+     * 
+     * This test uses an example similar to:
+     * 
+     * select * 
+     *   from student
+     *  where economicDisadvantaged = true
+     *    and (metaData.tenantId = 'Security' or studentUniqueStateId = '000000054')
+     * 
+     */
     @Test
     public void testOrConvert() {
-        NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.addCriteria(new NeutralCriteria("populationServed", "=", "Regular Students"));
-
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("uniqueSectionCode", "=", "some value"));
-        neutralQuery.addOrQuery(neutralQuery1);
-
-        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        NeutralQuery mainQuery = new NeutralQuery();
+        
+        //not part of the or, so added to the main query
+        mainQuery.addCriteria(new NeutralCriteria("economicDisadvantaged=true"));
+        
+        //construct a query representing all the criteria in 1 or branch
+        NeutralQuery orQuery1 = new NeutralQuery();
+        orQuery1.addCriteria(new NeutralCriteria("metaData.tenantId", "=", "Security", false));
+        
+        //construct a query representing all the criteria in a second or branch
+        NeutralQuery orQuery2 = new NeutralQuery();
+        orQuery2.addCriteria(new NeutralCriteria("studentUniqueStateId", "=", "000000054"));
+        
+        //add the or queries
+        mainQuery.addOrQuery(orQuery1);
+        mainQuery.addOrQuery(orQuery2);
+        
+        //the converter will convert the NeutralQuery into a mongo Query Object
+        Query query = mongoQueryConverter.convert("student", mainQuery);
+        
         assertNotNull("Should not be null", query);
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
         assertNotNull("Should not be null", obj.get("$or"));
+        assertTrue(((BasicBSONList) obj.get("$or")).size() == 2);
     }
 
 

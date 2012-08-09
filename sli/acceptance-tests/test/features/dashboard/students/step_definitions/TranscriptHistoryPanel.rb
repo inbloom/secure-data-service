@@ -1,5 +1,25 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../dash/step_definitions/selenium_common_dash.rb'
+require_relative '../../dash/step_definitions/profile.rb'
 require_relative '../../dash/step_definitions/student_profile_steps.rb'
 require_relative '../../dash/step_definitions/population_widget_steps.rb'
 require_relative '../../dash/step_definitions/pages_panel_steps.rb'
@@ -19,6 +39,11 @@ end
 When /^I click the expand button of the row "([^\"]*)"$/ do |rowData|
   rowIndex = getIndexFromRowData(@rows, rowData)
   expandBtn = @rows[rowIndex.to_i].find_element(:tag_name, "a")
+  
+  # Scroll the browser to the button's Y position, Chrome needs this or else it can't click the element
+  yLocation = expandBtn.location.y.to_s
+  @driver.execute_script("window.scrollTo(0, #{yLocation});")
+  
   expandBtn.click
   @lastExpandedRow = rowIndex.to_i - 1
   @subGrids = @tranHistTable.find_elements(:class, "ui-subgrid")

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.validation;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +39,7 @@ import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 
 /**
  *
- * @author Thomas Shewchuk (tshewchuk@wgen.net)
+ * @author Thomas Shewchuk
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,27 +62,22 @@ public class XsdErrorHandlerTest {
     @Test
     public void testWarning() {
         // Test receiving a SAX warning.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException warning");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        //assertTrue(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testError() {
         // Test receiving a SAX error.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException error");
         xsdErrorHandler.error(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testFatalError() throws SAXException {
         // Test receiving a SAX fatal error.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
         try {
             xsdErrorHandler.fatalError(mockedSAXParseException);
@@ -74,7 +86,6 @@ public class XsdErrorHandlerTest {
             assertNotNull(e);
         }
         assertTrue(errorReport.hasErrors());
-        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test

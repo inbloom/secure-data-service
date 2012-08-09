@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -15,6 +32,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +50,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String targetKey;
     
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
     
     public BasicAssocService(final String collectionName, final List<Treatment> treatments,
@@ -85,10 +104,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<String> targetId = getIds(content, targetKey);
         
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, srcId, false));
-        this.addDefaultQueryParams(query, sourceCollection);
         Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, query);
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, targetId, false));
-        this.addDefaultQueryParams(query, sourceCollection);
         Iterable<Entity> targetEntities = repo.findAll(sourceCollection, query);
         
         for (Entity sourceEntity : sourceEntities) {
@@ -219,7 +236,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         final Iterable<String> results = getRepo().findAllIds(otherEntityDefn.getStoredCollectionName(),
                 localNeutralQuery);
@@ -263,7 +279,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().findAll(getCollectionName(), localNeutralQuery);
     }
@@ -272,7 +287,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
             final NeutralQuery neutralQuery) {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }

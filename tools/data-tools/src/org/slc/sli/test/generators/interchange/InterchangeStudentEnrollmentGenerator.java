@@ -1,15 +1,40 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
+import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
+import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.generators.GraduationPlanGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -26,31 +51,73 @@ public class InterchangeStudentEnrollmentGenerator {
      *
      * @return
      */
-    public static InterchangeStudentEnrollment generate() {
+    public static void generate(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
 
-        InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
-        List<Object> interchangeObjects = interchange
-                .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
+//        InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
+//        List<Object> interchangeObjects = interchange
+//                .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(iWriter);
 
-        return interchange;
+//        return interchange;
     }
 
+    
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
+
+        generateStudentSchoolAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
+
+        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());        
+
+		generateGraduationPlan(iWriter,
+				MetaRelations.GRADUATION_PLAN_MAP.values());
+
+
+    }
+
+    /**
+     * Generate the individual Graduation Plan entities.
+     *
+     * @param interchangeObjects
+     */
+    private static void generateGraduationPlan(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<GraduationPlanMeta> graduationPlanMetas) {
+    	
+		long startTime = System.currentTimeMillis();
+
+		int objGenCounter = 0;
+
+		for (GraduationPlanMeta graduationPlanMeta : graduationPlanMetas) {
+
+			GraduationPlan graduationPlan;
+
+			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+				graduationPlan = null;
+			} else {
+				graduationPlan = GraduationPlanGenerator
+						.generateLowFi(graduationPlanMeta.id);
+			}
+
+
+	         iWriter.marshal(graduationPlan);
+			
+//			interchangeObjects.add(graduationPlan);
+
+			objGenCounter++;
+		}
+
+		System.out.println("generated " + objGenCounter
+				+ " GraduationPlan objects in: "
+				+ (System.currentTimeMillis() - startTime));
+   }
+    
     /**
      * Generate the individual Student Association entities.
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
-
-        generateStudentSchoolAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
-
-        generateStudentSectionAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
-
-    }
-
-    private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    
+    private static void generateStudentSchoolAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<StudentMeta> studentMetas) {
+    	
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -65,9 +132,10 @@ public class InterchangeStudentEnrollmentGenerator {
                     studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 }
 
-                interchangeObjects.add(studentSchool);
 
-                objGenCounter++;
+
+   	         iWriter.marshal(studentSchool);
+             objGenCounter++;
             }
         }
 
@@ -75,7 +143,12 @@ public class InterchangeStudentEnrollmentGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateStudentSectionAssoc(List<Object> interchangeObjects,
+    /**
+     * Generate the individual Student Section entities.
+     *
+     * @param interchangeObjects
+     */
+    private static void generateStudentSectionAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter,
             Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -93,7 +166,9 @@ public class InterchangeStudentEnrollmentGenerator {
                             studentMeta.schoolIds.get(0), sectionId);
                 }
 
-                interchangeObjects.add(studentSection);
+
+
+      	        iWriter.marshal(studentSection);
 
                 objGenCounter++;
             }

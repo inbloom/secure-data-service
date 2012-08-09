@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.landingzone;
 
 import java.util.Enumeration;
@@ -45,7 +62,6 @@ public class BatchJobAssembler {
      * @return BatchJob Assembled batch job
      */
     public Job assembleJob(ControlFileDescriptor fileDesc, String filename) {
-        // TODO DatabaseBatchJob job = DatabaseBatchJob.createBatchJob(filename);
         Job job = BatchJob.createDefault(filename);
 
         return populateJob(fileDesc, job);
@@ -64,8 +80,7 @@ public class BatchJobAssembler {
     public Job populateJob(ControlFileDescriptor fileDesc, Job job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
-        // iterate over the configProperties and copy into the job
-        // TODO validate config properties are legit
+        // Iterate over the configProperties and copy into the job
         Enumeration<Object> e = controlFile.configProperties.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();

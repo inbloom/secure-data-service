@@ -4,13 +4,13 @@
 	[{
         "fieldPath" : "body.schoolId","ref" :
         {
-	        "collectionName" : "school",
+	        "entityType" : "school",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.schoolId"
 		                }]
@@ -19,16 +19,16 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.teacherId","ref" :
         {
-	        "collectionName" : "staff",
+	        "entityType" : "staff",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.teacherId"
 		                }]

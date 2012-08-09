@@ -1,37 +1,29 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -41,11 +33,33 @@ import org.slc.sli.api.resources.v1.association.StaffCohortAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentCohortAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the resource representing a cohort
- * @author srichards
  *
+ * @author srichards
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -69,6 +83,9 @@ public class CohortResourceTest {
     StudentCohortAssociationResource studentCohortAssn;
 
     @Autowired
+    EducationOrganizationResource educationOrganizationResource;
+
+    @Autowired
     private SecurityContextInjector injector;
 
     private UriInfo uriInfo;
@@ -83,7 +100,7 @@ public class CohortResourceTest {
     private final String staffAssnBeginDate = "2012-03-03";
     private final String studentAssnBeginDate = "2012-04-04";
     private final String secondCohortType = "Dua Type";
-    private final String edOrgId = "9876";
+    private String edOrgId = "9876";
 
     @Before
     public void setup() throws Exception {
@@ -100,7 +117,7 @@ public class CohortResourceTest {
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-    private Map<String, Object> createTestEntity() {
+    private Map<String, Object> createTestEntity(String edOrgId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(CohortResource.COHORT_IDENTIFIER, firstCohortId);
         entity.put(CohortResource.COHORT_TYPE, "Unua Type");
@@ -162,7 +179,10 @@ public class CohortResourceTest {
 
     @Test
     public void testCreate() {
-        Response response = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response response = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
 
         String id = ResourceTestUtil.parseIdFromLocation(response);
@@ -172,7 +192,10 @@ public class CohortResourceTest {
     @Test
     public void testRead() {
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = cohortResource.read(id, httpHeaders, uriInfo);
 
@@ -196,31 +219,30 @@ public class CohortResourceTest {
         }
     }
 
-    @Test
+    @Test(expected = EntityNotFoundException.class)
     public void testDelete() {
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //delete it
         Response response = cohortResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        try {
-            @SuppressWarnings("unused")
-            Response getResponse = cohortResource.read(id, httpHeaders, uriInfo);
-            fail("should have thrown EntityNotFoundException");
-        } catch (EntityNotFoundException e) {
-            return;
-        } catch (Exception e) {
-            fail("threw wrong exception: " + e);
-        }
+        @SuppressWarnings("unused")
+        Response getResponse = cohortResource.read(id, httpHeaders, uriInfo);
     }
 
     @Test
     public void testUpdate() {
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //update it
@@ -240,8 +262,11 @@ public class CohortResourceTest {
 
     @Test
     public void testReadAll() {
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
         //create two entities
-        cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         cohortResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
 
         //read everything
@@ -278,8 +303,11 @@ public class CohortResourceTest {
 
     @Test
     public void testGetStaffAssociations() {
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         createResponse = staffResource.create(new EntityBody(createTestStaffEntity()), httpHeaders, uriInfo);
@@ -326,8 +354,11 @@ public class CohortResourceTest {
 
     @Test
     public void testGetAssociatedStaff() {
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         createResponse = staffResource.create(new EntityBody(createTestStaffEntity()), httpHeaders, uriInfo);
@@ -373,8 +404,11 @@ public class CohortResourceTest {
 
     @Test
     public void testGetStudentAssociations() {
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         createResponse = studentResource.create(new EntityBody(createTestStudentEntity()), httpHeaders, uriInfo);
@@ -422,7 +456,10 @@ public class CohortResourceTest {
     @Test
     public void testGetAssociatedStudents() {
         //create one entity
-        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         createResponse = studentResource.create(new EntityBody(createTestStudentEntity()), httpHeaders, uriInfo);
@@ -467,8 +504,11 @@ public class CohortResourceTest {
     }
 
     private String getIDList(String resource) {
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
         //create more resources
-        Response createResponse1 = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        Response createResponse1 = cohortResource.create(new EntityBody(createTestEntity(edOrgId)), httpHeaders, uriInfo);
         Response createResponse2 = cohortResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
 
         return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);

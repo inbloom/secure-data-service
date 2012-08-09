@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 /**
  *
  */
@@ -7,13 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.CohortIdentityType;
 import org.slc.sli.test.edfi.entities.CohortReferenceType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
+import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
  * Generates StudentCohortAssociation data
@@ -34,18 +57,22 @@ public class StudentCohortAssociationGenerator {
      * 
      * @return <code>List<StudentCohortAssociation></code>
      */
-    public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
+    public static int generateLowFi(InterchangeWriter<InterchangeStudentCohort> iWriter, CohortMeta cohortMeta) {
+    	int count=0;
         String cohortId = cohortMeta.id;
-        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
+        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> studentIds = cohortMeta.studentIds;
         
-        List<StudentCohortAssociation> list = new ArrayList<StudentCohortAssociation>(studentIds.size());
         
         for (String studentId : studentIds) {
-            list.add(generateLowFi(cohortId, studentId, schoolId));
+        	StudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
+
+            
+            iWriter.marshal(retVal);
+            count++;
         }
 
-        return list;
+        return count;
     }
 
     /**

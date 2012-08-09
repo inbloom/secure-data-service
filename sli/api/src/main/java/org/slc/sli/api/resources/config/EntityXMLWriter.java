@@ -1,12 +1,28 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.config;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -18,12 +34,14 @@ import javax.ws.rs.ext.Provider;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 /**
  * Custom Context Resolver that will generate XML for entities
@@ -32,7 +50,7 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML+";charset=utf-8", HypermediaType.VENDOR_SLC_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
 
     @Autowired
@@ -40,6 +58,9 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
 
     private static final String TYPE = "type";
     private static final String HREF = "href";
+    private static final String LIST_ELEM = "member";
+    private static final String PREFIX = "sli";
+    private static final String NS = "urn:sli";
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -85,12 +106,15 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
             //get the stream writer
             writer = factory.createXMLStreamWriter(entityStream);
 
-            EntityDefinition resourceDef = entityDefs.lookupByEntityType(entityResponse.getEntityCollectionName());
-            String resourceName = (resourceDef != null) ? resourceDef.getResourceName() : entityResponse.getEntityCollectionName();
+            String resourceName = entityResponse.getEntityCollectionName();
+            if (isList(entityResponse.getEntity())) {
+                resourceName += "List";
+            }
 
             //start the document
             writer.writeStartDocument();
             writer.writeStartElement(resourceName);
+            writer.writeNamespace(PREFIX, NS);
             //recursively add the objects
             writeToXml(entityResponse.getEntity(), entityResponse.getEntityCollectionName(), writer);
             //end the document
@@ -117,6 +141,7 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
 
             for (Object obj : values) {
                 writer.writeStartElement(key);
+                writer.writeAttribute(PREFIX, NS, LIST_ELEM, "true");
                 writeToXml(obj, key, writer);
                 writer.writeEndElement();
             }
@@ -124,9 +149,13 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
             Map<String, Object> map = (Map) object;
 
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                writer.writeStartElement(entry.getKey());
-                writeToXml(entry.getValue(), entry.getKey(), writer);
-                writer.writeEndElement();
+                if (isList(entry.getValue())) {
+                    writeToXml(entry.getValue(), entry.getKey(), writer);
+                } else {
+                    writer.writeStartElement(entry.getKey());
+                    writeToXml(entry.getValue(), entry.getKey(), writer);
+                    writer.writeEndElement();
+                }
             }
         } else if (EmbeddedLink.class.isInstance(object)) {
             EmbeddedLink link = (EmbeddedLink) object;
@@ -140,6 +169,9 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
         } else {
             writer.writeCharacters(String.valueOf(object));
         }
+    }
 
+    private boolean isList(Object obj) {
+        return obj instanceof List;
     }
 }

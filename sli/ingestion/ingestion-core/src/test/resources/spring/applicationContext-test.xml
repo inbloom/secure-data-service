@@ -26,9 +26,11 @@
     </property>
   </bean>
 
+  <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
+
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
@@ -44,14 +46,16 @@
     <context:exclude-filter type="regex" expression=".*DummyEntityRepository" />
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*AesCipher" />
+    <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
   </context:component-scan>
+
 
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="repo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
+  <bean id="repo"  name="validationRepo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
   <context:annotation-config />
 
@@ -111,17 +115,18 @@
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers"/>
-    <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
-    <property name="entityPersistHandlers" ref="entityPersistHandlers" />
+    <property name="transformer" ref="smooksEdFi2SLITransformer" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
-    <property name="persistedCollections" ref="persistedEntities" />
-    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
+    <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 
-  <bean id="WorkNoteAggregator" class=" org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
-  <bean id="WorkNoteSplitter" class=" org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="dummyNeutralRecordAccess" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategyTest.DummyNeutralRecordAccess" />
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="dummyNeutralRecordAccess" />
+  </bean>
 
 </beans>

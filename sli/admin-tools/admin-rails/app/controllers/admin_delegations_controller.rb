@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 class AdminDelegationsController < ApplicationController
   before_filter :check_rights
 
@@ -11,9 +30,10 @@ class AdminDelegationsController < ApplicationController
   # GET /admin_delegations.json
   def index
     admin_delegations = AdminDelegation.all
+    edOrgId = session[:edOrgId]
+    @edorgName = EducationOrganization.find(edOrgId).nameOfInstitution
     if admin_delegations == nil
       @admin_delegation = AdminDelegation.new
-      edOrgId = Check.get("")["edOrg"]
       @admin_delegation.localEdOrgId = edOrgId
     else
       @admin_delegation = admin_delegations[0]
@@ -58,7 +78,7 @@ class AdminDelegationsController < ApplicationController
   # PUT /admin_delegations/1
   # PUT /admin_delegations/1.json
   def update
-    @admin_delegation = AdminDelegation.all[0]
+    @admin_delegation = AdminDelegation.first
     @admin_delegation.id = "myEdOrg"
     params[:admin_delegation][:appApprovalEnabled] = boolean_fix(params[:admin_delegation][:appApprovalEnabled])
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])

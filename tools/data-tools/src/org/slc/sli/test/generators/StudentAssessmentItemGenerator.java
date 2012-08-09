@@ -1,8 +1,26 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators;
 
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentAssessmentItemGenerator {
     private boolean optional;
@@ -26,15 +44,18 @@ public class StudentAssessmentItemGenerator {
         if (optional) {
             sai.setRawScoreResult(random.nextInt(100));
 
-            //TODO: StudentTestAssessmentReference
-            if (studentTestAssessmentReference != null) {
-                sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
-            }
+		
+			// TODO: StudentTestAssessmentReference
+			if (studentTestAssessmentReference != null) {
+				// sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
+				sai.setStudentAssessmentReference(studentTestAssessmentReference);
+			}
 
-            //TODO: StudentObjectiveAssessmentReference
-            if (studentObjectiveAssessmentReference != null) {
-                sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
-            }
+			// TODO: StudentObjectiveAssessmentReference
+			if (studentObjectiveAssessmentReference != null) {
+				sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
+			}
+		
         }
 
         return sai;
@@ -44,7 +65,7 @@ public class StudentAssessmentItemGenerator {
         return generate(id, assessmentItemReference, null, null);
     }
 
-    public static StudentAssessmentItem generateLoFi(String id, AssessmentItemReferenceType assessmentItemReference) {
+    public static StudentAssessmentItem generateLowFi(String id, AssessmentItemReferenceType assessmentItemReference) {
         StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(false);
         return saig.generate(id, assessmentItemReference);
     }

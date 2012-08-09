@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.config;
 
 import java.util.ArrayList;
@@ -31,13 +48,15 @@ public class EntityDefinition {
     private static Repository<Entity> defaultRepo;
     private NeutralSchema schema;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
+    private final boolean supportsAggregates;
 
-    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service) {
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
         this.referencingEntities = new LinkedList<EntityDefinition>();
+        this.supportsAggregates = supportsAggregates;
     }
 
     /**
@@ -100,7 +119,9 @@ public class EntityDefinition {
     }
 
     public final void addReferencingEntity(EntityDefinition entityDefinition) {
-        this.referencingEntities.add(entityDefinition);
+        if (!this.referencingEntities.contains(entityDefinition)) {
+            this.referencingEntities.add(entityDefinition);
+        }
     }
 
     /**
@@ -152,4 +173,12 @@ public class EntityDefinition {
         return defaultRepo;
     }
 
+    /**
+     * Whether or not the entity definition supports aggregates
+     *
+     * @return
+     */
+    public boolean supportsAggregates() {
+        return supportsAggregates;
+    }
 }

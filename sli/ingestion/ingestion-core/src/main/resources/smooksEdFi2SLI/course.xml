@@ -22,7 +22,7 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
     
     
     <jb:bean beanId="courseMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes courseTitle" />
+        <jb:value property="externalId" data="attributes courseCode element ID" />
     </jb:bean>
     
     <jb:bean beanId="courseBody" class="java.util.HashMap" createOnElement="attributes">

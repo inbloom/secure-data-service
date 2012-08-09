@@ -1,0 +1,42 @@
+{
+    "keyFields" : ["body.studentId", "body.schoolId", "body.entryDate", "body.entryGradeLevel"],
+    "references" :
+    [{
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+            "entityType" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "metaData.externalId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.studentId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.schoolId",
+        "ref" :
+        {
+            "entityType" : "school",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.schoolId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }]
+}

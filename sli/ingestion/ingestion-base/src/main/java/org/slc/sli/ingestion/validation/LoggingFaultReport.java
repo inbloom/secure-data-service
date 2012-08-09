@@ -1,7 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.validation;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slf4j.Logger;
+
+import org.slc.sli.ingestion.FaultsReport;
 
 /**
  * FaultReport implementation that gathers errors and also logs them to file.
@@ -11,6 +29,10 @@ import org.slf4j.Logger;
  */
 public class LoggingFaultReport extends FaultsReport {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final Logger logger;
     private boolean hasErrors;
 
@@ -24,8 +46,9 @@ public class LoggingFaultReport extends FaultsReport {
         super.fatal(message, sender);
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override
@@ -33,8 +56,9 @@ public class LoggingFaultReport extends FaultsReport {
         super.error(message, sender);
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override

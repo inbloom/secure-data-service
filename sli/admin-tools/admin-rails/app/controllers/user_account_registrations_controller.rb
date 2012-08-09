@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 class UserAccountRegistrationsController < ApplicationController
@@ -81,9 +100,20 @@ private
 
   def user_limit_reached?
     max_user = APP_CONFIG['maximum_user_count']
-    user_count = ApprovalEngine.get_user_count_ignore_states
-    Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
-    max_user && (max_user < 0 || user_count >= max_user)
+    if max_user
+      begin
+        user_count = ApprovalEngine.get_user_count_ignore_states
+        Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
+        user_count >= max_user
+      rescue Exception => e
+        Rails.logger.fatal "An exception occured when retrieving existing user counts."
+        Rails.logger.fatal "Exception:  #{e}"
+        Rails.logger.fatal "Backtrace:  #{e.backtrace.join("\n")}"
+        return true
+      end
+    else
+      false
+    end
   end
 
   #redirect cancel

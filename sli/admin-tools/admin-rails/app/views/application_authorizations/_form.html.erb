@@ -1,5 +1,5 @@
 
-<h1>District - <%= @application_authorization.authId %></h1>
+<h1>District - <%= @edorgs[@application_authorization.authId] %></h1>
 <table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable table">
   <thead>
   <tr>
@@ -12,7 +12,7 @@
   </thead>
   <tbody>
 <%
-    apps = App.all_but_admin
+    apps = App.all
 
     #The reason map is being used is to put the apps in the order that they were authorized
     authorizedApps = @application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId }}

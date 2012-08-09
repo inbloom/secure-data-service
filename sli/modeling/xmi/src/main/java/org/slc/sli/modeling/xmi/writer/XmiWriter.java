@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.modeling.xmi.writer;
 
 import java.io.BufferedOutputStream;
@@ -13,7 +29,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -43,10 +58,10 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
  */
 public final class XmiWriter {
-
+    
     private static final String NAMESPACE_UML = "org.omg.xmi.namespace.UML";
     private static final String PREFIX_UML = "UML";
-
+    
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
@@ -54,7 +69,7 @@ public final class XmiWriter {
             e.printStackTrace();
         }
     }
-
+    
     private static final int range(final Occurs value) {
         if (value == null) {
             throw new NullPointerException("value");
@@ -74,24 +89,10 @@ public final class XmiWriter {
             }
         }
     }
-
-    private static final void writeAssociation(final Association association, final ModelIndex mapper,
-            final XMLStreamWriter xsw) throws XMLStreamException {
-
-        xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION.getLocalName(), NAMESPACE_UML);
-        writeId(association, xsw);
-        xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), association.getName());
-        writeModelElementTaggedValues(association, mapper, xsw);
-        xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_DOT_CONNECTION.getLocalName(), NAMESPACE_UML);
-        writeAssociationEnd(association.getLHS(), mapper, xsw);
-        writeAssociationEnd(association.getRHS(), mapper, xsw);
-        xsw.writeEndElement();
-        xsw.writeEndElement();
-    }
-
+    
     private static final void writeGeneralization(final Generalization generalization, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
-
+        
         xsw.writeStartElement(PREFIX_UML, XmiElementName.GENERALIZATION.getLocalName(), NAMESPACE_UML);
         writeId(generalization, xsw);
         xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), generalization.getName());
@@ -112,7 +113,7 @@ public final class XmiWriter {
         }
         xsw.writeEndElement();
     }
-
+    
     private static final void writeAssociationEnd(final AssociationEnd end, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_END.getLocalName(), NAMESPACE_UML);
@@ -126,14 +127,17 @@ public final class XmiWriter {
         writeAssociationEndParticipant(end.getType(), mapper, xsw);
         xsw.writeEndElement();
     }
-
+    
     private static final void writeAssociationEndParticipant(final Identifier participant, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_END_DOT_PARTICIPANT.getLocalName(), NAMESPACE_UML);
-        writeReference(participant, mapper, xsw);
-        xsw.writeEndElement();
+        try {
+            writeReference(participant, mapper, xsw);
+        } finally {
+            xsw.writeEndElement();
+        }
     }
-
+    
     private static final void writeAttribute(final Attribute attribute, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.ATTRIBUTE.getLocalName(), NAMESPACE_UML);
@@ -158,14 +162,36 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeClassType(final ClassType classType, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
-        xsw.writeStartElement(PREFIX_UML, XmiElementName.CLASS.getLocalName(), NAMESPACE_UML);
+        if (classType.isClassType()) {
+            if (classType.isAssociation()) {
+                xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_CLASS.getLocalName(), NAMESPACE_UML);
+            } else {
+                xsw.writeStartElement(PREFIX_UML, XmiElementName.CLASS.getLocalName(), NAMESPACE_UML);
+            }
+        } else {
+            if (classType.isAssociation()) {
+                xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION.getLocalName(), NAMESPACE_UML);
+            } else {
+                throw new AssertionError();
+            }
+        }
         try {
             writeId(classType, xsw);
             xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), classType.getName());
             writeModelElementTaggedValues(classType, mapper, xsw);
+            if (classType.isAssociation()) {
+                xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_DOT_CONNECTION.getLocalName(),
+                        NAMESPACE_UML);
+                try {
+                    writeAssociationEnd(classType.getLHS(), mapper, xsw);
+                    writeAssociationEnd(classType.getRHS(), mapper, xsw);
+                } finally {
+                    xsw.writeEndElement();
+                }
+            }
             xsw.writeStartElement(PREFIX_UML, XmiElementName.CLASSIFIER_DOT_FEATURE.getLocalName(), NAMESPACE_UML);
             try {
                 for (final Attribute attribute : classType.getAttributes()) {
@@ -178,7 +204,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeContent(final Model model, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement("XMI.content");
@@ -188,7 +214,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeDataType(final DataType dataType, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.DATA_TYPE.getLocalName(), NAMESPACE_UML);
@@ -201,7 +227,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     public static final void writeDocument(final Model model, final ModelIndex mapper, final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
@@ -217,7 +243,7 @@ public final class XmiWriter {
             throw new RuntimeException(e);
         }
     }
-
+    
     public static final void writeDocument(final Model model, final ModelIndex mapper, final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -230,7 +256,7 @@ public final class XmiWriter {
             e.printStackTrace();
         }
     }
-
+    
     public static final void writeDocument(final Model model, final ModelIndex mapper, final File file) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
@@ -243,12 +269,12 @@ public final class XmiWriter {
             e.printStackTrace();
         }
     }
-
+    
     private static final void writeStartElement(final XmiElementName name, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, name.getLocalName(), NAMESPACE_UML);
     }
-
+    
     private static final void writeEnumType(final EnumType enumType, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
         writeStartElement(XmiElementName.ENUMERATION, xsw);
@@ -272,20 +298,20 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeId(final HasIdentity hasIdentity, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeAttribute(XmiAttributeName.ID.getLocalName(), hasIdentity.getId().toString());
     }
-
+    
     private static final void writeName(final HasName hasName, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), hasName.getName());
     }
-
+    
     private static final void writeModel(final Model model, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
-
+        
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MODEL.getLocalName(), NAMESPACE_UML);
         try {
             xsw.writeAttribute(XmiAttributeName.ID.getLocalName(), model.getId().toString());
@@ -296,7 +322,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeNamespaceOwnedElements(final List<NamespaceOwnedElement> ownedElements,
             final ModelIndex mapper, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT.getLocalName(), NAMESPACE_UML);
@@ -309,11 +335,8 @@ public final class XmiWriter {
                     final EnumType type = (EnumType) ownedElement;
                     writeEnumType(type, mapper, xsw);
                 } else if (ownedElement instanceof ClassType) {
-                    final ClassType type = (ClassType) ownedElement;
-                    writeClassType(type, mapper, xsw);
-                } else if (ownedElement instanceof Association) {
-                    final Association association = (Association) ownedElement;
-                    writeAssociation(association, mapper, xsw);
+                    final ClassType classType = (ClassType) ownedElement;
+                    writeClassType(classType, mapper, xsw);
                 } else if (ownedElement instanceof Generalization) {
                     final Generalization generalization = (Generalization) ownedElement;
                     writeGeneralization(generalization, mapper, xsw);
@@ -329,7 +352,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeModelElementTaggedValues(final ModelElement element, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE.getLocalName(), NAMESPACE_UML);
@@ -344,19 +367,19 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeMultiplicity(final Multiplicity multiplicity, final XMLStreamWriter xsw)
             throws XMLStreamException {
-
+        
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MULTIPLICITY.getLocalName(), NAMESPACE_UML);
         writeId(multiplicity, xsw);
         writeMultiplicityRange(multiplicity.getRange(), xsw);
         xsw.writeEndElement();
     }
-
+    
     private static final void writeMultiplicityRange(final Range range, final XMLStreamWriter xsw)
             throws XMLStreamException {
-
+        
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MULTIPLICITY_DOT_RANGE.getLocalName(), NAMESPACE_UML);
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MULTIPLICITY_RANGE.getLocalName(), NAMESPACE_UML);
         writeId(range, xsw);
@@ -365,39 +388,46 @@ public final class XmiWriter {
         xsw.writeEndElement();
         xsw.writeEndElement();
     }
-
+    
     private static final void writeReference(final Identifier reference, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         if (reference == null) {
             throw new NullPointerException("reference");
         }
-
+        
         mapper.lookup(reference, new Visitor() {
-
-            @Override
-            public void visit(final Association association) {
-                throw new AssertionError();
-            }
-
+            
             @Override
             public void visit(final AssociationEnd associationEnd) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final Attribute attribute) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final ClassType classType) {
                 try {
-                    writeStartElement(XmiElementName.CLASS, xsw);
+                    if (classType.isClassType()) {
+                        if (classType.isAssociation()) {
+                            writeStartElement(XmiElementName.ASSOCIATION_CLASS, xsw);
+                        } else {
+                            writeStartElement(XmiElementName.CLASS, xsw);
+                        }
+                    } else {
+                        if (classType.isAssociation()) {
+                            writeStartElement(XmiElementName.ASSOCIATION, xsw);
+                        } else {
+                            throw new AssertionError();
+                        }
+                    }
                 } catch (final XMLStreamException e) {
                     throw new RuntimeException(e);
                 }
             }
-
+            
             @Override
             public void visit(final DataType dataType) {
                 try {
@@ -406,12 +436,12 @@ public final class XmiWriter {
                     throw new RuntimeException(e);
                 }
             }
-
+            
             @Override
             public void visit(final EnumLiteral enumLiteral) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final EnumType enumType) {
                 try {
@@ -420,42 +450,42 @@ public final class XmiWriter {
                     throw new RuntimeException(e);
                 }
             }
-
+            
             @Override
             public void visit(final Generalization generalization) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final Model model) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final Multiplicity multiplicity) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final Range range) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final TaggedValue taggedValue) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void beginPackage(final UmlPackage pkg) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void endPackage(final UmlPackage pkg) {
                 throw new AssertionError();
             }
-
+            
             @Override
             public void visit(final TagDefinition tagDefinition) {
                 try {
@@ -471,7 +501,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writePackage(final UmlPackage pkg, final ModelIndex mapper, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.PACKAGE.getLocalName(), NAMESPACE_UML);
@@ -484,7 +514,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeTagDefinition(final TagDefinition tagdef, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.TAG_DEFINITION.getLocalName(), NAMESPACE_UML);
@@ -503,7 +533,7 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     private static final void writeTaggedValue(final TaggedValue taggedValue, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.TAGGED_VALUE.getLocalName(), NAMESPACE_UML);
@@ -525,10 +555,10 @@ public final class XmiWriter {
             xsw.writeEndElement();
         }
     }
-
+    
     /**
      * Writes the UML model to the XML stream in XMI format.
-     *
+     * 
      * @param model
      *            The UML model.
      * @param xsw

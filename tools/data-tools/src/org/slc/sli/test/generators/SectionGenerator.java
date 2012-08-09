@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators;
 
 import java.util.Random;
@@ -12,6 +29,7 @@ import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
+import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
@@ -45,7 +63,7 @@ public class SectionGenerator {
         s.setCourseOfferingReference(corft);
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        eoit.setStateOrganizationId(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
 
@@ -54,14 +72,69 @@ public class SectionGenerator {
         return s;
     }
 
+    public static Section generateMediumFi(String sectionId, String schoolId, String courseId, String sessionId) {
+    	 Section section = new Section();
+//         String[] temp;
+//         temp = courseId.split("-");
+//         String courseTemp= temp[temp.length -1];
+//         section.setUniqueSectionCode(sectionId + "-" + courseTemp);
+         section.setUniqueSectionCode(sectionId);
+
+         section.setSequenceOfCourse(1);
+         // construct and add the school reference
+         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+         edOrgIdentityType.setStateOrganizationId(schoolId);
+
+         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+         section.setSchoolReference(schoolRef);
+
+         // construct and add the course reference
+         CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
+         String lcc = schoolId + "-l" + sessionId.substring(sessionId.lastIndexOf('-'))  + courseId.substring(courseId.lastIndexOf('-'));
+         courseOfferingIdentity.setLocalCourseCode(lcc);
+         CourseCode courseCode = new CourseCode();
+         courseCode.setID(courseId);
+         courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+         courseOfferingIdentity.getCourseCode().add(courseCode);
+         courseOfferingIdentity.setTerm(TermType.SPRING_SEMESTER);
+         courseOfferingIdentity.setSchoolYear("2011-2012");
+         
+         ObjectFactory of = new ObjectFactory();
+         
+         courseOfferingIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+
+         CourseOfferingReferenceType courseRef = new CourseOfferingReferenceType();
+         courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
+
+         section.setCourseOfferingReference(courseRef);
+
+         // construct and add the session reference
+         SessionIdentityType sessionIdentity = new SessionIdentityType();
+         sessionIdentity.setSessionName(sessionId);
+
+         SessionReferenceType sessionRef = new SessionReferenceType();
+         sessionRef.setSessionIdentity(sessionIdentity);
+
+         section.setSessionReference(sessionRef);
+
+         
+         
+
+         
+         return section;
+    }
+
     public static Section generateLowFi(String sectionId, String schoolId, String courseId, String sessionId) {
         Section section = new Section();
+
         section.setUniqueSectionCode(sectionId);
         section.setSequenceOfCourse(1);
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentityType.setStateOrganizationId(schoolId);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);

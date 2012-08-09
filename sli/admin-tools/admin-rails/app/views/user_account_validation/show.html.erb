@@ -2,17 +2,17 @@
     <div class="page-header">
       <h1>Email Confirmed</h1>
     </div>
-    <pre>
-    <p>
-      <b>What to look for next</b>
+    <div class="field well">
+    
+      <p><b>What to look for next</b></p>
 
-      <% if APP_CONFIG['is_sandbox'] %><% else%>An SLC Administrator reviews each account to maintain the privacy of the students and teachers we are serving.<% end%> You will be receiving an email with more information about your account.
+      <p><% if APP_CONFIG['is_sandbox'] %><% else%>An SLC Administrator reviews each account to maintain the privacy of the students and teachers we are serving.<% end%> You will be receiving an email with more information about your account.</p>
 
-      <b>For other questions:</b>
+      <p><b>For other questions:</b></p>
 
-      If any other support related questions should arise, feel free to email customer support at <%= APP_CONFIG['support_email'] %>
-    </p>
-    </pre>
+      <p>If any other support related questions should arise, feel free to email customer support at <%= APP_CONFIG['support_email'] %></p>
+    
+    </div>
 <% else %>
     <div class="page-header">
       <h1><%= @validation_result['status'] %></h1>

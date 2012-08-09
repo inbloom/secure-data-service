@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.docgen;
 
 import java.io.BufferedOutputStream;
@@ -25,14 +42,13 @@ import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Feature;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.UmlPackage;
+import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
@@ -123,18 +139,18 @@ public final class DocumentationWriter {
             throw new NullPointerException("value");
         }
         switch (value) {
-            case ZERO: {
-                return "0";
-            }
-            case ONE: {
-                return "1";
-            }
-            case UNBOUNDED: {
-                return "*";
-            }
-            default: {
-                throw new AssertionError(value);
-            }
+        case ZERO: {
+            return "0";
+        }
+        case ONE: {
+            return "1";
+        }
+        case UNBOUNDED: {
+            return "*";
+        }
+        default: {
+            throw new AssertionError(value);
+        }
         }
     }
 
@@ -211,7 +227,7 @@ public final class DocumentationWriter {
             try {
                 xsw.writeStartElement(DocumentationElements.NAMESPACE.getLocalPart());
                 try {
-                    xsw.writeCharacters(getNamespace(parent, model));
+                    xsw.writeCharacters(NamespaceHelper.getNamespace(parent, model));
                 } finally {
                     xsw.writeEndElement();
                 }
@@ -225,16 +241,6 @@ public final class DocumentationWriter {
                 xsw.writeEndElement();
             }
         }
-    }
-
-    private static final String getNamespace(final Type type, final ModelIndex model) {
-        for (final ModelElement whereUsed : model.whereUsed(type.getId())) {
-            if (whereUsed instanceof UmlPackage) {
-                final UmlPackage pkg = (UmlPackage) whereUsed;
-                return pkg.getName();
-            }
-        }
-        return "";
     }
 
     private static final void writeEnumType(final EnumType enumType, final ModelIndex model, final XMLStreamWriter xsw)
@@ -448,7 +454,7 @@ public final class DocumentationWriter {
             for (final Domain<Type> domain : documentation.getDomains()) {
                 writeDomain(domain, modelIndex, xsw);
             }
-            for (final ClassType classType : modelIndex.getClassTypes()) {
+            for (final ClassType classType : modelIndex.getClassTypes().values()) {
                 writeClassType(classType, modelIndex, xsw);
             }
             for (final EnumType enumType : modelIndex.getEnumTypes()) {

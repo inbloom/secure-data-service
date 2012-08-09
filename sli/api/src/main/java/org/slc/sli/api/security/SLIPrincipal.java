@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security;
 
 import java.io.Serializable;
@@ -30,6 +47,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String tenantId;
     private List<String> roles;
     private List<String> sliRoles;
+    private String edOrgId;
     
     private Entity entity;
     
@@ -144,6 +162,23 @@ public class SLIPrincipal implements Principal, Serializable {
      */
     public String getTenantId() {
         return tenantId;
+    }
+    
+    /**
+     * Gets the entity ID of the edOrg the user is associated with
+     * @return
+     */
+    public String getEdOrgId() {
+        return edOrgId;
+    }
+    
+    
+    /**
+     * 
+     * @param edOrgId the entityId of the edOrg the user is associated with
+     */
+    public void setEdOrgId(String edOrgId) {
+        this.edOrgId = edOrgId;
     }
     
     public Map<String, Object> toMap() throws Exception {

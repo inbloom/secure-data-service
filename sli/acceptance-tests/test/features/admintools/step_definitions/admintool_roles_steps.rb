@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require 'mongo'
 
@@ -23,28 +42,16 @@ Given /^I am not authenticated to SLI IDP$/ do
   @driver.manage.delete_all_cookies
 end
 
-When /^I navigate to the SLI Default Roles Admin Page$/ do
+When /^I navigate to the default Admin Page$/ do
   url = PropLoader.getProps['admintools_server_url']
   @driver.get url
 end
 
-Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
-  @driver.get url
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
+Then /^I should be redirected to the default Admin Page$/ do
+  assertWithWait("Failed to navigate to the Admintools default page")  {@driver.page_source.index("Admin Tool") != nil}
 end
 
-Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.page_source.index("Default SLC Roles") != nil}
-end
-
-Given /^I have tried to access the SLI Default Roles Admin Page$/ do
+Given /^I have tried to access the default Admin Page$/ do
   url = PropLoader.getProps['admintools_server_url']
   @driver.get url
 end
@@ -70,7 +77,7 @@ Then /^I am informed that authentication has failed$/ do
   assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
 end
 
-Then /^I do not have access to the SLI Default Roles Admin Page$/ do
+Then /^I do not have access to the default Admin Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']
   assert(@driver.page_source.index("Default SLI Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))
 end
@@ -83,7 +90,7 @@ Then /^I should get a message that I am not authorized$/ do
   assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("Forbidden")!= nil}
 end
 
-Given /^I have navigated to the SLI Default Roles Admin Page$/ do
+Given /^I have navigated to the default Admin Page$/ do
   pending # express the regexp above with the code you wish you had
 end
 

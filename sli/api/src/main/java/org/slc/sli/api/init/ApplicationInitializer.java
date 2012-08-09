@@ -1,9 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.init;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -11,11 +27,11 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -35,7 +51,6 @@ import com.mongodb.util.JSON;
  * <ol>
  * <li>bootstrap.app.keys - comma-separated list identifying which apps to bootstrap</li>
  * <li>bootstrap.app.<key>.template - path within API of the template file for a given app key</li>
- * <li>bootstrap.app.<key>.guid - (optional) mongo id to use when bootstrapping app
  * </ol>
  * 
  * Before loading the template file into mongo, it performs string substitution on the ${...} tokens.
@@ -45,6 +60,7 @@ import com.mongodb.util.JSON;
 public class ApplicationInitializer {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repository;
     
     @Value("file:${bootstrap.app.conf}")
@@ -81,7 +97,7 @@ public class ApplicationInitializer {
                         try {
                             is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
                             Map appData = loadJsonFile(is, sliProps);
-                            writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
+                            writeApplicationToMongo(appData);
                         } finally {
                             is.close();
                         }
@@ -96,25 +112,13 @@ public class ApplicationInitializer {
     /**
      * Determine if an app needs to be created/updated in mongo, and if so, performs the operation
      * @param appData
-     * @param guid optional mongo id.  Can be null
      */
-    private void writeApplicationToMongo(Map<String, Object> appData, String guid) {
+    private void writeApplicationToMongo(Map<String, Object> appData) {
         Entity app = findExistingApp(appData);
-
-        if (guid != null && app != null && !app.getEntityId().equals(guid)) {
-            repository.delete(APP_RESOURCE, guid);
-            app = null;
-        }
 
         if (app == null) {
             info("Creating boostrap application data for {}", appData.get("name"));
-
-            if (guid != null) {
-                Entity entity = new MongoEntity(APP_RESOURCE, guid, appData, new HashMap<String, Object>());
-                repository.update(APP_RESOURCE, entity);
-            } else {
-                repository.create(APP_RESOURCE, appData);
-            }
+            repository.create(APP_RESOURCE, appData);
         } else {
             //check if we need to update it
             long oldAppHash = InitializerUtils.checksum(app.getBody());

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.xsdgen;
 
 import static java.util.Arrays.asList;
@@ -7,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import joptsimple.OptionException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -38,53 +56,58 @@ public final class XsdGen {
         final OptionSpec<String> outFileSpec = optionSpec(parser, ARGUMENT_OUT_FILE, "Output file", String.class);
         final OptionSpec<File> outFolderSpec = optionSpec(parser, ARGUMENT_OUT_FOLDER, "Output folder", File.class);
         final OptionSpec<String> plugInNameSpec = optionSpec(parser, ARGUMENT_PLUGIN_NAME, "PlugIn name", String.class);
-        final OptionSet options = parser.parse(args);
-        if (options.hasArgument(helpSpec)) {
-            try {
-                parser.printHelpOn(System.out);
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
+        try {
+            final OptionSet options = parser.parse(args);
+            if (options.hasArgument(helpSpec)) {
+                try {
+                    parser.printHelpOn(System.out);
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                try {
+                    final File xmiFile = options.valueOf(xmiFileSpec);
+                    // The UML model provides the types for the logical model.
+                    final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(xmiFile));
+
+                    // The document file provides the top-level elements.
+                    final File documentFile = options.valueOf(documentFileSpec);
+                    final PsmConfig<Type> psmConfig = PsmConfigReader.readConfig(documentFile, model);
+
+                    // The platform-specific model provides the implementation mappings.
+                    final String plugInName = options.valueOf(plugInNameSpec);
+                    final Uml2XsdPlugin plugIn = loadPlugIn(plugInName);
+
+                    // Write the XML Schema file to the location and file specified.
+                    final File outFolder = options.valueOf(outFolderSpec);
+                    final String outFile = options.valueOf(outFileSpec);
+                    final File outLocation = new File(outFolder, outFile);
+                    Uml2XsdWriter.writeSchema(psmConfig.getDocuments(), model, plugIn, outLocation);
+                } catch (final FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        } else {
-            try {
-                final File xmiFile = options.valueOf(xmiFileSpec);
-                // The UML model provides the types for the logical model.
-                final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(xmiFile));
-
-                // The document file provides the top-level elements.
-                final File documentFile = options.valueOf(documentFileSpec);
-                final PsmConfig<Type> psmConfig = PsmConfigReader.readConfig(documentFile, model);
-
-                // The platform-specific model provides the implementation mappings.
-                final String plugInName = options.valueOf(plugInNameSpec);
-                final Uml2XsdPlugin plugIn = loadPlugIn(plugInName);
-
-                // Write the XML Schema file to the location and file specified.
-                final File outFolder = options.valueOf(outFolderSpec);
-                final String outFile = options.valueOf(outFileSpec);
-                final File outLocation = new File(outFolder, outFile);
-                Uml2XsdWriter.writeSchema(psmConfig.getDocuments(), model, plugIn, outLocation);
-            } catch (final FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (final OptionException e) {
+            // Caused by illegal arguments.
+            System.err.println(e.getMessage());
+        } catch (final ClassNotFoundException e) {
+            // Caused by not being able to load the plug-in.
+            System.err.println("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
+                    + e.getMessage());
         }
+
     }
 
-    private static final Uml2XsdPlugin loadPlugIn(final String name) {
+    private static final Uml2XsdPlugin loadPlugIn(final String name) throws ClassNotFoundException {
+        final Class<?> clazz = Class.forName(name);
+        final Class<? extends Uml2XsdPlugin> factory = clazz.asSubclass(Uml2XsdPlugin.class);
         try {
-            final Class<?> clazz = Class.forName(name);
-            final Class<? extends Uml2XsdPlugin> factory = clazz.asSubclass(Uml2XsdPlugin.class);
-            try {
-                return factory.newInstance();
-            } catch (final InstantiationException e) {
-                throw new RuntimeException(name, e);
-            } catch (final IllegalAccessException e) {
-                throw new RuntimeException(name, e);
-            }
-        } catch (final ClassNotFoundException e) {
+            return factory.newInstance();
+        } catch (final InstantiationException e) {
+            throw new RuntimeException(name, e);
+        } catch (final IllegalAccessException e) {
             throw new RuntimeException(name, e);
         }
-
     }
 
     private static final <T> OptionSpec<T> optionSpec(final OptionParser parser, final String option,

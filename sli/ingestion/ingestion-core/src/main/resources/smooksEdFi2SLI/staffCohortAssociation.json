@@ -5,15 +5,15 @@
         "fieldPath" : "body.staffId",
         "ref" :
         {
-            "collectionName" : "staff",
+            "entityType" : "staff",
             "isRefList" : true,
             "refObjectPath" : "body.staffReference",
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.staffUniqueStateId",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
                         }]
@@ -22,37 +22,35 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.cohortId",
         "ref" :
         {
-            "collectionName" : "cohort",
+            "entityType" : "cohort",
             "isRefList" : true,
             "refObjectPath" : "body.cohortReference",
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.cohortIdentifier",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.cohortReference.cohortIdentity.cohortIdentifier"}
                         ]
                     },
                     {
                         "path" : "body.educationOrgId",
-                        "values" : 
+                        "values" :
                         [
                             {"ref" :
                                 {
-                                    "collectionName" : "educationOrganization",
-                                    "isRefList" : true,
-                                    "refObjectPath" : "body.cohortReference",
+                                    "entityType" : "educationOrganization",
                                     "choiceOfFields" :
                                     [[
                                         {
                                             "path" : "body.stateOrganizationId",
-                                            "values": 
+                                            "values":
                                             [
                                                 {"valueSource": "body.cohortReference.cohortIdentity.stateOrganizationId"}
                                             ]

@@ -1,3 +1,18 @@
+<#--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <@includePanelModel panelId="csi"/>
 
 
@@ -10,14 +25,14 @@
 		    <#list panelData.otherName as oName>
 			    <small>
 				    <#if oName.otherNameType == "Nickname">
-					    (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>${oName.firstName} 
+					    (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>${oName.firstName}
 					    <#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>${oName.lastSurname}<#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
 					</#if>
 			    </small>
 		    </#list>
 	    </#if>
     </h1>
-    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(DashboardProxy.getData("csi")));</script>
+    <script>$("#csi_colMain").append(SLC.util.renderLozenges(SLC.dataProxy.getData("csi")));</script>
     <div class="studentInfo">
         <div class="col1 column">
         	<div class="tabular">

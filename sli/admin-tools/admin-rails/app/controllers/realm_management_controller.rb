@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 include GeneralRealmHelper
 
 class RealmManagementController < ApplicationController
@@ -52,6 +71,7 @@ class RealmManagementController < ApplicationController
         flash[:notice] = 'Realm was successfully created.'
       rescue ActiveResource::BadRequest => error
         @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+        @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
       end
       if success
         @realm = Realm.find(@realm.id)
@@ -69,8 +89,7 @@ class RealmManagementController < ApplicationController
   def update
    @realm = Realm.find(params[:id])
    params[:realm] = {} if params[:realm] == nil
-   params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
-  
+
    respond_to do |format|
      success = false
      begin
@@ -78,6 +97,7 @@ class RealmManagementController < ApplicationController
        success = true if @realm.valid? and @realm.idp.valid?
      rescue ActiveResource::BadRequest => error
        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+       @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
      end
      if success
        format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully updated.' }

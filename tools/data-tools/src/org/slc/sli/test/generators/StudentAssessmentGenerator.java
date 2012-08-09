@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators;
 
 import java.util.Random;
@@ -8,6 +25,7 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.LanguageItemType;
 import org.slc.sli.test.edfi.entities.LinguisticAccommodationItemType;
 import org.slc.sli.test.edfi.entities.LinguisticAccommodationsType;
+import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ReasonNotTestedType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
@@ -85,8 +103,12 @@ public class StudentAssessmentGenerator {
 
             // performanceLevels
             String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
-            sa.getPerformanceLevels().add(
-                    PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
+//            sa.getPerformanceLevels().add(
+//                    PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
+            PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
+            pldt.setPerformanceLevelMet(true);
+            pldt.setCodeValue(randomPerfLevelDescId);
+            sa.getPerformanceLevels().add(pldt);
         }
 
         return sa;

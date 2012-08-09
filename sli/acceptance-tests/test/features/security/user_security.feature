@@ -1,5 +1,5 @@
+@smoke
 Feature: Users who resolve incorrectly should not have access to anything except admin data
-
 
 Scenario: An invalid user logs in and cannot see any real data
 	Given I am logged in using "operator" "operator1234" to realm "SLI"

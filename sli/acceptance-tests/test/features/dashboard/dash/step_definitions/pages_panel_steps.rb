@@ -1,13 +1,32 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'selenium-webdriver'
 
 And /^there are "([^"]*)" Tabs$/ do |tabCount|
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   tab = allTabs.find_elements(:tag_name, "li")
   assert(tabCount.to_i == tab.length, "Actual Tab Count: " + tab.length.to_s)
 end
 
 Given /^Tab "([^"]*)" is titled "([^"]*)"$/ do |tabIndex, tabTitle|
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   tab = allTabs.find_elements(:tag_name, "li")
   title = tab[tabIndex.to_i-1].find_element(:tag_name, "a")
   assert(title.text == tabTitle, "Actual Title: " + title.text)
@@ -20,10 +39,9 @@ When /^in Tab ID "([^"]*)", there is "([^"]*)" Panels$/ do |tabId, panelCount|
 end
 
 Then /^in "([^"]*)" tab, there are "([^"]*)" Panels$/ do |tabName, panelCount|
-  tabId = getTabIndex(tabName)
-  element = @driver.find_element(:id, tabId)
-  tabs = element.find_elements(:class, "panel")
-  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + tabs.length.to_s)
+  tab = getTab(tabName)
+  actualPanels = tab.find_elements(:class, "panel")
+  assert(actualPanels.length == panelCount.to_i, "Actual # of Panels: " + actualPanels.length.to_s)
 end
 
 When /^Tab has a title named "([^"]*)"$/ do |tabTitle|
@@ -32,14 +50,23 @@ end
 
 When /^I click on "([^"]*)" Tab$/ do |tabName|
   tab = getTabIndex(tabName)
-  searchPattern = "//a[contains(@href,'" + tab + "')]"
-  @driver.find_element(:xpath, searchPattern).click()
-  
+  searchPattern = "a[href*='" + tab + "']"
+  @driver.find_element(:css, searchPattern).click()
+  @currentTab = getTab(tabName)
+end
+
+When /^I see the following tab order "(.*?)"$/ do |pages|
+  checkPageOrder(pages)
+end
+
+def getTab(tabName)
+  tabIndex = getTabIndex(tabName)
+  return @driver.find_element(:id, tabIndex)
 end
 
 # Given a tabname, find the tab ID index to know which tab to read from
 def getTabIndex(tabName)
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   links = allTabs.find_elements(:tag_name, "a")
   found = nil
   tabIndex = nil
@@ -66,11 +93,15 @@ end
 
 #Given a tabName and panelName, return the panel
 #Note: exact panelName is not required
-def getPanel(tabName, panelName)
-  tabIndex = getTabIndex(tabName)
-  tab = @driver.find_element(:id, tabIndex)
-  checkPanelNameExists(tab, panelName)
+# if panelName is nil, return the first panel
+def getPanel(tabName, panelName = nil)
+  tab = getTab(tabName)
   panelsInTab = tab.find_elements(:class, "panel")
+  if (panelName != nil)
+    checkPanelNameExists(tab, panelName)
+  else
+    return panelsInTab[0]
+  end
   
   panelsInTab.each do |panel|
     panelHeader = panel.find_element(:class, "panel-header")
@@ -79,4 +110,16 @@ def getPanel(tabName, panelName)
     end
   end
   assert(false, "Panel name: " + panelName + " is not found in tab: " + tabName)
+end
+
+def checkPageOrder(expectedPages, extraTabsToIgnore = 0)
+  expected = expectedPages.split(';')  
+  actual = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul").find_elements(:tag_name, "li") 
+  assert(expected.length == actual.length - extraTabsToIgnore.to_i , "size of pages are not equal Actual: " + (actual.length - extraTabsToIgnore.to_i).to_s + " Expected: " + expected.length.to_s )
+  for index in 0..actual.length - 1 - extraTabsToIgnore.to_i  
+    page = actual[index]
+    pageText = page.find_element(:tag_name,"a").text
+    puts pageText
+    assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
+  end
 end

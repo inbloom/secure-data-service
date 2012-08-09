@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'json'
 
 require_relative '../../../utils/sli_utils.rb'
@@ -30,13 +49,12 @@ Then /^I should be denied access$/ do
   assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
 end
 
-Then /^I should see a top level ed org is created with "([^"]*)" is "([^"]*)" and "([^"]*)" is <"([^"]*)"$/ do |key1, value1,key2,value2|
+Then /^I should see a top level ed org is created with "([^"]*)" is "([^"]*)"$/ do |key1, value1|
 uri="/v1/educationOrganizations"
   uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
   restHttpGet(uri)
   assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
   dataH=JSON.parse(@res.body)
-  assert(dataH[0]["metaData"][key2]==value2,"didnt see a top level ed org with #{key2} is #{value2}")
  @edorgId=dataH[0]["id"]
 end
 

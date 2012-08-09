@@ -7,7 +7,7 @@
 </#if>
 
 
-<EducationOrgIdentity>
+<EducationalOrgIdentity>
     <#if (entityName.StateOrganizationId[0])?? >
     <StateOrganizationId>${entityName.StateOrganizationId}</StateOrganizationId>
     </#if>
@@ -23,5 +23,4 @@
         </#if>
     </EducationOrgIdentificationCode>
     </#list>
-</EducationOrgIdentity>
-</EducationOrgIdentity>
+</EducationalOrgIdentity>

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertFalse;
@@ -27,7 +43,7 @@ public class RealmInitializerTest {
     
     @InjectMocks
     private RealmInitializer realmInit;
-    
+        
     @Mock
     private Repository<Entity> mockRepo;
     
@@ -38,12 +54,13 @@ public class RealmInitializerTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testRealmNotExist() throws Exception {
         
         // verify that the code attempts to insert a new realm when no existing realm is present
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(null);
         final AtomicBoolean update = new AtomicBoolean(false);
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
+        Mockito.when(mockRepo.create(Mockito.anyString(), Mockito.any(Map.class))).thenAnswer(new Answer<Boolean>() {
             
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
@@ -52,7 +69,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertTrue("Repo was updated with new realm", update.get());
     }
     
@@ -76,7 +93,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertTrue("Existing realm was updated", update.get());
     }
     
@@ -99,7 +116,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertFalse("Existing realm was not touched", update.get());
     }
     

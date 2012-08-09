@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.mock;
 
 import static org.mockito.Mockito.mock;
@@ -20,8 +37,8 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -122,7 +139,7 @@ public class Mocker {
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(
-                rolesToRightsResolver.resolveRoles(DEFAULT_REALM_ID,
+                rolesToRightsResolver.resolveRoles("42",DEFAULT_REALM_ID,
                         Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
         return rolesToRightsResolver;
     }

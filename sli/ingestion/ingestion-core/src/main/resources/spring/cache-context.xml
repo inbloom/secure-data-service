@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+
+ <bean id="memcachedClientFactory" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
+    <property name="servers" value="nxmemcache.slidev.org:11211"/>
+    <property name="protocol" value="BINARY"/>
+    <property name="transcoder">
+      <bean class="net.spy.memcached.transcoders.SerializingTranscoder">
+        <property name="compressionThreshold" value="1024"/>
+      </bean>
+    </property>
+    <property name="opTimeout" value="1000"/>
+    <property name="timeoutExceptionThreshold" value="1998"/>
+    <!-- <property name="hashAlg" value="KETAMA_HASH"/>  -->
+    <property name="locatorType" value="CONSISTENT"/> 
+    <property name="failureMode" value="Redistribute"/>
+    <property name="useNagleAlgorithm" value="false"/>
+  </bean>
+</beans>

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertEquals;
@@ -46,10 +63,14 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.dashboard.url", "https://dashboard");
         props.put("bootstrap.app.dashboard.client_id", "XXXXXXXX");
         props.put("bootstrap.app.dashboard.client_secret", "YYYYYYYYYYYY");
+        props.put("bootstrap.app.dashboard.authorized_for_all_edorgs", "false");
+        props.put("bootstrap.app.dashboard.allowed_for_all_edorgs", "true");
         props.put("bootstrap.app.admin.template", "applications/admin.json");
         props.put("bootstrap.app.admin.url", "https://admin");
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
+        props.put("bootstrap.app.admin.authorized_for_all_edorgs", "true");
+        props.put("bootstrap.app.admin.allowed_for_all_edorgs", "true");
         saveProps();
 
 
@@ -77,26 +98,6 @@ public class ApplicationInitializerTest {
         assertEquals("Two apps registered", 2, apps.size());
         assertEquals("Value replaced", "https://admin", apps.get(0).get("application_url"));
         assertEquals("Value replaced", "https://dashboard", apps.get(1).get("application_url"));
-    }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
-    public void testCreateWithGuid() throws Exception {
-        // when a GUID is specified, we have to use an update instead of a create
-        final List<Entity> apps = new ArrayList<Entity>();
-        props.put("bootstrap.app.admin.guid", "111");
-        props.put("bootstrap.app.dashboard.guid", "222");
-        saveProps();
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-            
-            @Override
-            public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                apps.add((Entity) invocation.getArguments()[1]);
-                return true;
-            }
-        });
-        appInit.init();
-        assertEquals("Two apps updated", 2, apps.size());
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })

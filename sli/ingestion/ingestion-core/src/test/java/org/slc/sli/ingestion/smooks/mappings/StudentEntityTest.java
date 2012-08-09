@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
 
 /**
  * Test the smooks mappings for Student entity
@@ -78,7 +94,7 @@ public class StudentEntityTest {
                 + "    <StateAbbreviation>MD</StateAbbreviation>"
                 + "    <PostalCode>21218</PostalCode>"
                 + "    <NameOfCounty>Baltimore</NameOfCounty>"
-                + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+                + "    <CountyFIPSCode>12345</CountyFIPSCode>"
                 + "    <CountryCode>US</CountryCode>"
                 + "    <Latitude>245</Latitude>"
                 + "    <Longitude>432</Longitude>"
@@ -91,7 +107,7 @@ public class StudentEntityTest {
                 + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
                 + "    <EmailAddress>asteele@email.com</EmailAddress>"
                 + "</ElectronicMail>"
-                + "<ProfileThumbnail>profilethumbnail</ProfileThumbnail>"
+                + "<ProfileThumbnail>slcedu.org/somePhoto.jpg</ProfileThumbnail>"
                 + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
                 + "<OldEthnicity>Hispanic</OldEthnicity>"
                 + "<Race>"
@@ -173,10 +189,10 @@ public class StudentEntityTest {
                 + "Alias,Mr,Alden,Gannon,Horne,II,"
                 + "Male,"
                 + "1999-07-12,Baltimore,MD,US,2001-03-23,false,"
-                + "Home,555 Main Street,1A,building site number,Baltimore,MD,21218,Baltimore,US123,US,245,432,1969-01-01,2012-12-12,"
+                + "Home,555 Main Street,1A,building site number,Baltimore,MD,21218,Baltimore,12345,US,245,432,1969-01-01,2012-12-12,"
                 + "Mobile,410-555-0248,true,"
                 + "Home/Personal,asteele@email.com,"
-                + "profilethumbnail,"
+                + "slcedu.org/somePhoto.jpg,"
                 + "true,"
                 + "Hispanic,"
                 + "White,"
@@ -245,7 +261,7 @@ public class StudentEntityTest {
                 + "    <StateAbbreviation>MD</StateAbbreviation>"
                 + "    <PostalCode>21218</PostalCode>"
                 + "    <NameOfCounty>Baltimore</NameOfCounty>"
-                + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+                + "    <CountyFIPSCode>12345</CountyFIPSCode>"
                 + "    <CountryCode>US</CountryCode>"
                 + "    <Latitude>245</Latitude>"
                 + "    <Longitude>432</Longitude>"
@@ -258,7 +274,7 @@ public class StudentEntityTest {
                 + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
                 + "    <EmailAddress>asteele@email.com</EmailAddress>"
                 + "</ElectronicMail>"
-                + "<ProfileThumbnail>profilethumbnail</ProfileThumbnail>"
+                + "<ProfileThumbnail>slcedu.org/somePhoto.jpg</ProfileThumbnail>"
                 + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
                 + "<OldEthnicity>Hispanic</OldEthnicity>"
                 + "<Race>"
@@ -368,7 +384,7 @@ public class StudentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "MD");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "21218");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "Baltimore");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "US123");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "12345");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");
@@ -386,7 +402,7 @@ public class StudentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddressType", "Home/Personal");
         EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddress", "asteele@email.com");
 
-        assertEquals("profilethumbnail", studentNeutralRecord.getAttributes().get("profileThumbnail"));
+        assertEquals("slcedu.org/somePhoto.jpg", studentNeutralRecord.getAttributes().get("profileThumbnail"));
         assertEquals("Hispanic", studentNeutralRecord.getAttributes().get("oldEthnicity"));
         assertEquals(true, studentNeutralRecord.getAttributes().get("hispanicLatinoEthnicity"));
 

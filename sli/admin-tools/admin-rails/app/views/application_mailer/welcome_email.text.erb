@@ -1,33 +1,37 @@
 <% if APP_CONFIG["is_sandbox"] %>
 Welcome <%= @firstName %>,
 
-Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.
+Your request for a developer sandbox account has been approved.
 
-First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by following this link:
-<%= @landing_zone_link %>
+Please use the steps below to complete the setup of your development environment:
+    1. Browse to Shared Learning Collaborative portal at <%= @portal_link %>
+    2. Select “Shared Learning Collaborative” and click "Go".
+    3. Use your email address and password to log in.
+    4. Click Admin in the upper right to go to the admin page.
+    5. Click Provision Landing Zone.
+    6. Choose the sample data you intend to use: an SLC sample dataset or your own sample Ed-Fi data. Click "Assign" to complete your landing zone setup. 
+    7. Follow instructions in the "Data Setup" email to upload the corresponding data set.
 
-Second, after you have selected a data source, register your sandbox applications here:
-<%= @apps_link %>
+After setup, write your SLC-compatible applications using the documentation available at:
+        <%= @documentation_link %>
 
-You can access admin tools, and applications through the portal at:
-<%= @portal_link %>
-
+When ready, register your sandbox applications from the Application Registration page, also available from the admin page.
 
 Thank you,
+
 The Shared Learning Collaborative
 <% else %>
 Welcome <%= @firstName %>,
 
 Your request for an application developer account has been approved.
 
-To get started, register your applications with the Shared Learning Collaborative.
+To get started, write a SLC-compatible application using the documentation available at:
+       <%= @documentation_link %>
 
-To register your applications go to:
-<%= @apps_link %>
-
-You can access admin tools, and applications through the portal at:
-<%= @portal_link %>
+When you are ready to register your application, select Application Registration from the Admin page. You can access the Admin page using the Admin link in the upper right of the portal:
+       <%= @portal_link %>
 
 Thank you,
+
 The Shared Learning Collaborative
 <% end %>

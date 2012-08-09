@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'selenium-webdriver'
 # require_relative '../../utils/sli_utils.rb'
 
@@ -21,15 +40,20 @@ end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    if option.find_element(:tag_name, "a").attribute("text")  != listContent and 
-      option.find_element(:tag_name, "a").attribute("text") != "" then
+    link =  option.find_element(:tag_name,"a").text
+    if link != "Choose One" and link != listContent then
       matchCondition = false
     end
   end
+  #unclick it 
+  dropList.click
   assert(matchCondition, "list has more then required string(s) " + listContent)
 end
 
@@ -44,20 +68,24 @@ When /^I look at the section drop\-down$/ do
 end
 
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
-  puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    selectContent += option.find_element(:tag_name, "a").attribute("text") + ";"
+    selectContent += option.find_element(:tag_name, "a").text + ";"
     puts "selectContent = " + selectContent
   end
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
-  assert(result == [], "list content does not match required content: " + listContent)  
+  #unclick it
+  dropList.click
+  assert(result == ["Choose One"], "list content does not match required content: " + listContent)  
 end
 
 Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
@@ -65,8 +93,11 @@ Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
+  @explicitWait.until{@driver.find_element(:class,"sectionProfile")}
   studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
+  #Assume that we're in section profile in the list of students tab
+  @currentTab = getTab("List of Students")
   actualCount = countTableRows()
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   assert(actualCount == numOfStudents.to_i, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
@@ -93,6 +124,8 @@ end
 When /^I select section "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "sectionSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
+  # impliclty click on go when a section is selected
+  clickOnGo()
 end
 
 When /^I select user view "([^"]*)"$/ do |optionToSelect|
@@ -139,6 +172,10 @@ Then /^I don't see a course selection$/ do
   end
 end
 
+When /^I click on the go button$/ do
+  clickOnGo()
+end
+
 def isValuesInList(listContent, isInList)
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
@@ -159,4 +196,8 @@ def isValuesInList(listContent, isInList)
     result = selectContentArray - desiredContentArray
     assert(result == selectContentArray, "The content is found: " + listContent)
   end
+end
+
+def clickOnGo()
+  clickButton("dbrd_btn_pw_go", "id")
 end

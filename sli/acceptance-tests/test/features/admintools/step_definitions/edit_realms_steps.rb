@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 When /^I hit the realm editing URL$/ do
   @url = PropLoader.getProps['admintools_server_url'] + "/realm_management"
   @driver.get @url
@@ -52,7 +71,7 @@ Then /^all of the input fields should be blank$/ do
 end
 
 Then /^I should hit the role mapping page$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realms"
+  @url = PropLoader.getProps['admintools_server_url'] + "/custom_roles"
   @driver.get @url
 end
 
@@ -102,6 +121,13 @@ end
 Then /^I should make the unique identifier not unique$/ do
   @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Shared Learning Infrastructure"
+end
+
+Then /^I should make the display name not unique$/ do
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Brand New Realm"
+  @driver.find_element(:name, 'realm[name]').clear
+  @driver.find_element(:name, 'realm[name]').send_keys "Illinois Daybreak School District 4529"
 end
 
 Then /^I should get (\d+) error$/ do |arg1|

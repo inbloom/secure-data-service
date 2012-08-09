@@ -1,7 +1,32 @@
+=begin
+#--
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+# This model represents talking to any Api endpoint and making adjustments
+# to the data we get back so that we can do more clever rendering of that
+# data.
 class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
   add_response_method :http_response
   
+  # This method makes a call to get whatever it is we need from the Api
+  # and proceeds to split the data up into two objects. Simple is for
+  # the table view, and complex is a dump of the data
   def self.get_simple_and_complex(parameters)
     base = get("", parameters)
     entity = []
@@ -21,6 +46,8 @@ class Entity < SessionResource
     entity
   end
 
+  # We use this method to go through the data, detecting it's type
+  # and then building the tabular information we need to display.
   def self.build_simple_hash(type, hash)
     return nil if hash.nil?
     type = get_basic_types(hash) if type.nil?
@@ -32,6 +59,10 @@ class Entity < SessionResource
     one
   end
   
+  
+  # This method looks through what we have configured as the path to get the
+  # value out of our configuration and then digs through our hashmap to get
+  # there.
   def self.value_for_simple_view (type, hash)
     return nil if hash.nil? or type.nil?
     return hash[type] unless type.include? '/'
@@ -49,6 +80,8 @@ class Entity < SessionResource
     temp_hash
   end
   
+  # If we don't have any preconfigured table rows we take the first 5 keys out
+  # of our complex entity and use those instead
   def self.get_basic_types(hash)
     types = []
     hash.keys.each do |key|

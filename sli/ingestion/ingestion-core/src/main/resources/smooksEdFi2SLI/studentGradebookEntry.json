@@ -1,0 +1,88 @@
+{
+    "keyFields" : [ "body.gradebookEntryId", "body.studentId", "body.sectionId"],
+	"references" :
+	[{
+        "fieldPath" : "body.sectionId","ref" :
+        {
+	        "entityType" : "section",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "metaData.externalId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.sectionId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId","ref" :
+        {
+	        "entityType" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "metaData.externalId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.studentId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+       "fieldPath" : "body.gradebookEntryId","ref" :
+        {
+            "entityType" : "gradebookEntry",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.gradebookEntryType",
+                        "values" :
+                        [{
+                            "valueSource" : "body.gradebookReference.gradebookEntryType"
+                        }]
+                    },
+                    {
+                        "path" : "body.dateAssigned",
+                        "values" :
+                        [{
+                            "valueSource" : "body.gradebookReference.dateAssigned"
+                        }]
+                    },
+                    {
+                        "path" : "body.sectionId" ,
+                        "values" : 
+                        [{
+                            "ref" :
+                            { 
+                                "entityType" : "section" ,
+                                "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.uniqueSectionCode" ,
+                                            "values" : 
+                                            [{
+                                                "valueSource" : "body.gradebookReference.uniqueSectionCode"
+                                            }]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+

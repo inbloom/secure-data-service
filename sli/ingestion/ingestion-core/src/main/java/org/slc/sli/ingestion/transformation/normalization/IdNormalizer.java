@@ -1,52 +1,116 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
+
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Internal ID resolver.
  *
+ *
+ *
  * @author okrook
  *
  */
+
+@Component
 public class IdNormalizer {
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
+    private static final String CACHE_NAMESPACE = "newId";
+
+    @Autowired
+    @Qualifier(value = "mongoEntityRepository")
     private Repository<Entity> entityRepository;
+
+    @Autowired
+    private CacheProvider cacheProvider;
+
+    @Autowired
+    private EntityConfigFactory entityConfigurations;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
+        if (entityConfig == null) {
+            LOG.warn("Entity configuration is null --> returning...");
+            return;
+        }
+
         if (entityConfig.getReferences() == null) {
+            LOG.debug("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            resolveSubEntities(entity, tenantId, entityConfig, errorReport);
             return;
         }
 
         String resolvedReferences = "";
-        String collectionName = null;
+        String collectionName = "";
 
         try {
             for (RefDef reference : entityConfig.getReferences()) {
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
-                collectionName = reference.getRef().getCollectionName();
+                NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());
+                if (schema != null) {
+                    AppInfo appInfo = schema.getAppInfo();
+                    if (appInfo != null) {
+                        collectionName = appInfo.getCollectionType();
+                    }
+                }
 
                 resolvedReferences += "       collectionName = " + collectionName;
 
@@ -56,7 +120,7 @@ public class IdNormalizer {
                             for (FieldValue fv : field.getValues()) {
                                 if (fv.getRef() == null) {
                                     String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
-                                            reference.getRef(), refIndex);
+                                            reference.getRef(), refIndex, refIndex, fv.getRef());
                                     try {
                                         Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                                         if (entityValue != null) {
@@ -118,8 +182,8 @@ public class IdNormalizer {
                 }
 
                 if (reference.getRef().isRefList()) {
-                    // for lists of references set the properties on each element of the resolved ID
-                    // list
+                    // for lists of references set the properties on each element of the
+                    // resolved ID list
                     for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
                         String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
                         PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
@@ -140,17 +204,77 @@ public class IdNormalizer {
 
             errorReport.error(errorMessage, this);
         }
+        resolveSubEntities(entity, tenantId, entityConfig, errorReport);
     }
 
-    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+    private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
+        Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
+        if (subEntityConfigs != null) {
+            LOG.debug("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
+            for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
+                String pathString = entry.getKey();
+                boolean optional = pathString.endsWith("?");
+                String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
+                EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
+                LOG.debug("Checking sub-entity: {} [optional: {}]", pathString, optional);
+                try {
+                    Object subEntityObject = PropertyUtils.getProperty(entity, path);
+                    if (subEntityObject == null) {
+                        if (optional) {
+                            continue;
+                        } else {
+                            errorReport.error("Unable to find property " + path, this);
+                        }
+                    }
+                    if (subEntityObject instanceof List) {
+                        LOG.debug("Resolving list of sub-entities.");
+                        for (Object subEntityInstance : (List<?>) subEntityObject) {
+                            resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
+                        }
+                    } else {
+                        LOG.debug("Resolving single sub-entity.");
+                        resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
+                    }
+                } catch (Exception e) {
+                    LogUtil.error(LOG, "Error parsing " + entity, e);
+                }
+            }
+        } else {
+            LOG.debug("Entity: {} does not have any sub-entities.", entity.getType());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void resolveSubEntity(String tenantId, ErrorReport errorReport, EntityConfig subEntityConfig,
+            Object subEntityInstance) {
+        try {
+            NeutralRecord nr = new NeutralRecord();
+            nr.setAttributes((Map<String, Object>) subEntityInstance);
+            Entity subEntity = new NeutralRecordEntity(nr);
+            resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
+        } catch (ClassCastException e) {
+            LogUtil.error(LOG, "error resolving " + subEntityInstance, e);
+        }
+    }
+
+    protected String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport, String resolvedReferences) {
         LOG.debug("resolving id for {}", entity.getType());
         List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
 
+            String collectionName = "";
+            NeutralSchema schema = schemaRepository.getSchema(refConfig.getEntityType());
+            if (schema != null) {
+                AppInfo appInfo = schema.getAppInfo();
+                if (appInfo != null) {
+                    collectionName = appInfo.getCollectionType();
+                }
+            }
+
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
-                    + ": Reference to " + refConfig.getCollectionName() + " unresolved" + "\n";
+                    + ": Reference to " + collectionName + " unresolved" + "\n";
 
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
@@ -180,7 +304,7 @@ public class IdNormalizer {
      *            error reporting.
      * @return list of strings representing resolved id's.
      */
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+    protected List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport) {
         int numRefInstances = 1;
         try {
@@ -188,16 +312,24 @@ public class IdNormalizer {
         } catch (Exception e) {
             errorReport.error("Failed to get number of reference instances", this);
         }
-        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport);
+        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport, 0,
+                null);
     }
 
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
-            String fieldPath, ErrorReport errorReport) {
+    protected List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances,
+            Ref refConfig, String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
 
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         ArrayList<Query> queryOrList = new ArrayList<Query>();
-        String collection = refConfig.getCollectionName();
+        String collection = "";
+        NeutralSchema schema = schemaRepository.getSchema(refConfig.getEntityType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collection = appInfo.getCollectionType();
+            }
+        }
 
         try {
             // if the reference is a list of references loop over all elements adding an 'or' query
@@ -217,30 +349,78 @@ public class IdNormalizer {
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                boolean isEmptyRef = isEmptyRef(entity, fv.getRef(), refIndex, refConfig);
+                                List<String> resolvedIds = null;
+                                if (!isEmptyRef) {
+                                    resolvedIds = resolveReferenceInternalIds(entity, tenantId, numRefInstances,
+                                            fv.getRef(), fieldPath, proxyErrorReport, refIndex, refConfig);
+                                }
+
+                                // it is acceptable for a child reference to not be resolved iff it
+                                // is
+                                // an optional reference and the source is empty
+                                // otherwise fail the parent reference by returning an empty list
                                 if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
+                                } else if (!fv.getRef().isOptional() || !isEmptyRef) {
+                                    return new ArrayList<String>();
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
-                                        refIndex);
+                                        refIndex, parentIndex, parentRefConfig);
                                 try {
                                     Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
 
                                     if (entityValue != null) {
-                                        if (entityValue instanceof Collection) {
-                                            Collection<?> entityValues = (Collection<?>) entityValue;
-                                            filterValues.addAll(entityValues);
-                                        } else if (entityValue != null) {
-                                            filterValues.add(entityValue);
+                                        if (field.getIsList()) {
+                                            BasicDBList entitySourceValueDBList = (BasicDBList) entityValue;
+                                            if (entitySourceValueDBList != null) {
+
+                                                for (Object object : entitySourceValueDBList) {
+                                                    BasicDBObject dbObject = (BasicDBObject) object;
+                                                    if (dbObject == null) {
+                                                        continue;
+                                                    }
+
+                                                    Object keyObject = dbObject.get(field.getEntityKey());
+                                                    if (keyObject == null) {
+                                                        continue;
+                                                    }
+                                                    BasicDBList keyList = (BasicDBList) keyObject;
+                                                    for (Object queryObject : keyList) {
+                                                        BasicDBObject queryDbObject = (BasicDBObject) queryObject;
+                                                        if (queryDbObject == null) {
+                                                            continue;
+                                                        }
+
+                                                        for (Object keyObj : queryDbObject.toMap().keySet()) {
+                                                            if (keyObj == null) {
+                                                                continue;
+                                                            }
+                                                            LOG.debug(keyObj.toString());
+                                                            if (field.getQueryList().containsKey(keyObj.toString())) {
+                                                                choice.addCriteria(Criteria.where(
+                                                                        field.getQueryList().get(keyObj.toString()))
+                                                                        .is(queryDbObject.toMap().get(keyObj)));
+                                                                criteriaCount++;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (entityValue instanceof Collection) {
+                                                Collection<?> entityValues = (Collection<?>) entityValue;
+                                                filterValues.addAll(entityValues);
+                                            } else {
+                                                filterValues.add(entityValue);
+                                            }
                                         }
                                     }
-
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
-                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                + " for bean " + entity.getType());
+                                        LogUtil.error(LOG, "Error accessing indexed bean property " + valueSourcePath
+                                                + " for bean " + entity.getType(), e);
                                         String errorMessage = "ERROR: Failed to resolve a reference"
                                                 + "\n"
                                                 + "       Entity "
@@ -285,24 +465,160 @@ public class IdNormalizer {
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
-        if (collection.equals("school")) {
-            collection = "educationOrganization";
-        } else if (collection.equals("teacher")) {
-            collection = "staff";
+        List<String> ids = checkInCache(collection, tenantId, filter);
+
+        if (CollectionUtils.isEmpty(ids)) {
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+
+            if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                for (Entity record : foundRecords) {
+                    ids.add(record.getEntityId());
+                }
+            }
+
+            cache(ids, collection, tenantId, filter);
         }
 
-        @SuppressWarnings("deprecation")
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+        // sort because the $or query can produce different results every time
+        Collections.sort(ids);
+        return ids;
+    }
 
-        List<String> ids = new ArrayList<String>();
+    /**
+     * Resolves a reference represented by an array of complex objects, which
+     *
+     * @param entity
+     *            - the referer entity
+     * @param tenantId
+     *            - tenant's id
+     * @param valueSource
+     *            - xpath to the complex object array in the referer entity
+     * @param fieldPath
+     *            - xpath to the field in the referer entity where the resolved id will be written
+     *            into
+     * @param targetCollection
+     *            - referenced entity
+     * @param path
+     *            - xpath to the complex object array in the referenced entity
+     * @param complexFieldNames
+     *            - names of fields in the complex object
+     * @param errorReport
+     *            - error reporter
+     */
+    public void resolveReferenceWithComplexArray(Entity entity, String tenantId, String valueSource, String fieldPath,
+            String collectionName, String path, List<String> complexFieldNames, ErrorReport errorReport) {
 
-        if (foundRecords != null && foundRecords.iterator().hasNext()) {
-            for (Entity record : foundRecords) {
-                ids.add(record.getEntityId());
+        try {
+            List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, valueSource);
+
+            // Overall query
+            Query query = new Query();
+            ArrayList<Query> queryOrList = new ArrayList<Query>();
+
+            // For each element in the referer's array, create a subQuery
+            // Then OR them together to make a single mongo query
+            for (int refIndex = 0; refIndex < refValues.size(); refIndex++) {
+                String valueSourcePath = valueSource + ".[" + Integer.toString(refIndex) + "]";
+
+                // Create the fieldValueCriteria for matching this complex object
+                Criteria fieldValueCriteria = null;
+                for (String fieldName : complexFieldNames) {
+                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
+                    if (fieldValue == null) {
+                        continue;
+                    }
+                    if (fieldValueCriteria == null) {
+                        fieldValueCriteria = Criteria.where(fieldName).is(fieldValue);
+                    } else {
+                        fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
+                    }
+                }
+                if (fieldValueCriteria == null) {
+                    continue;
+                }
+                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                        tenantId);
+                criteria = criteria.and(path).elemMatch(fieldValueCriteria);
+
+                // create the subquery using the fieldValue criteria
+                Query subQuery = new Query();
+                subQuery.addCriteria(criteria);
+
+                // add the subquery to overall query
+                queryOrList.add(subQuery);
             }
+
+            // combine the queries with or (must be done this way because Query.or overrides itself)
+            query.or(queryOrList.toArray(new Query[queryOrList.size()]));
+
+            // execute query and record results
+            Set<String> foundIds = new LinkedHashSet<String>();
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
+
+            for (Entity record : foundRecords) {
+                foundIds.add(record.getEntityId());
+            }
+
+            // resolution fails if not exactly one resolved object is found.
+            if (foundIds.size() != 1) {
+                throw new RuntimeException("Number of resolved ids in resolve complex reference is not 1, but is "
+                        + foundIds.size());
+            } else {
+                PropertyUtils.setProperty(entity, fieldPath, foundIds.iterator().next());
+            }
+
+        } catch (Exception e) {
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
+            errorReport.error(errorMessage, this);
+        }
+
+    }
+
+    private void cache(List<String> ids, String collection, String tenantId, Query filter) {
+        String key = composeKey(collection, tenantId, filter);
+
+        cacheProvider.add(key, ids);
+
+    }
+
+    /**
+     * Check for this in the cache
+     *
+     * @param collection
+     * @param filter
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> checkInCache(String collection, String tenantId, Query filter) {
+        List<String> ids;
+        String key = composeKey(collection, tenantId, filter);
+        Object val = cacheProvider.get(key);
+
+        if (val == null) {
+            ids = new ArrayList<String>();
+
+        } else {
+            ids = (List<String>) val;
         }
 
         return ids;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private String composeKey(String collection, String tenantId, Query filter) {
+
+        Map map = filter.getQueryObject().toMap();
+
+        SortedMap<?, ?> sortedMap = new TreeMap();
+        sortedMap.putAll(map);
+
+        String hash = DigestUtils.sha256Hex(sortedMap.toString());
+        return String.format("%s_%s_%s_%s", CACHE_NAMESPACE, collection, tenantId, hash);
+
     }
 
     /**
@@ -328,7 +644,7 @@ public class IdNormalizer {
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
-            Set<String> valueSet = new HashSet<String>();
+            Set<String> valueSet = new LinkedHashSet<String>();
             for (Object entry : refValues) {
                 valueSet.add(entry.toString());
             }
@@ -341,7 +657,8 @@ public class IdNormalizer {
     /**
      * Constructs the property name used by PropertyUtils.getProperty for indexed references
      */
-    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex) {
+    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex, int parentIndex,
+            Ref parentRefConfig) {
         String result = valueSource;
 
         if (refConfig.isRefList()) {
@@ -361,6 +678,46 @@ public class IdNormalizer {
             }
         }
 
+        // UN: Parent is also a refList, add current Parent Index to the Parent RefObject Path
+        if (parentRefConfig != null && parentRefConfig.isRefList()) {
+            String parentRefObjectPath = parentRefConfig.getRefObjectPath();
+            result = result.replaceFirst(parentRefObjectPath,
+                    parentRefObjectPath + ".[" + Integer.toString(parentIndex) + "]");
+        }
+
         return result;
+    }
+
+    public void setCacheProvider(CacheProvider c) {
+        this.cacheProvider = c;
+    }
+
+    private boolean isEmptyRef(Entity entity, Ref refConfig, int parentIndex, Ref parentRef) {
+        for (List<Field> fields : refConfig.getChoiceOfFields()) {
+            for (Field field : fields) {
+                for (FieldValue fv : field.getValues()) {
+                    if (fv.getRef() != null) {
+                        if (!isEmptyRef(entity, fv.getRef(), parentIndex, parentRef)) {
+                            return false;
+                        }
+                    } else {
+                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0,
+                                parentIndex, parentRef);
+                        Object entityValue = null;
+                        try {
+                            entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                        } catch (Exception e) {
+                            // exceptions here indicate that the something in valueSourcePath does
+                            // not exist
+                            continue;
+                        }
+                        if (entityValue != null) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

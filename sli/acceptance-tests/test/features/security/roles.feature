@@ -1,5 +1,4 @@
-@RALLY_US175
-@RALLY_US217
+@smoke @RALLY_US175 @RALLY_US217
 Feature: SLI Default Roles and Permissions
  
  As a SLI Super Administrator, I would like to have the possibility to map the SLI roles with those of the corresponding IDPs,

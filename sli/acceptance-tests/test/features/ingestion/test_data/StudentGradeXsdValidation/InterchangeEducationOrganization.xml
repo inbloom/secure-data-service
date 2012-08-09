@@ -89,9 +89,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <CompetencyLevels id="CL-G1-1">

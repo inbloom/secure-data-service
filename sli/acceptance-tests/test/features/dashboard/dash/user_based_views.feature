@@ -5,7 +5,7 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
-  Given the server is in "live" mode
+Given that dashboard has been authorized for all ed orgs
 
 @wip
 Scenario: Check user has multiple views available

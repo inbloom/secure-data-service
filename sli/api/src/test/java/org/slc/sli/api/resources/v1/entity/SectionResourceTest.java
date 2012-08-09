@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.entity;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
@@ -8,7 +25,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.SectionAssessmentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentSectionAssociationResource;
 import org.slc.sli.api.resources.v1.association.TeacherSectionAssociationResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -46,7 +62,6 @@ public class SectionResourceTest {
     private final String assessmentResourceName = "AssessmentResource";
     private final String studentResourceName = "StudentResource";
     private final String teacherSectionAssociationResourceName = "TeacherSectionAssociationResource";
-    private final String sectionAssessmentAssociationResourceName = "sectionAssessmentAssociationResource";
     private final String studentSectionAssociationResourceName = "StudentSectionAssociationResource";
 
     @Autowired
@@ -61,8 +76,6 @@ public class SectionResourceTest {
     private StudentResource studentResource;
     @Autowired
     private TeacherSectionAssociationResource teacherSectionAssociationResource;
-    @Autowired
-    private SectionAssessmentAssociationResource sectionAssessmentAssociationResource;
     @Autowired
     private StudentSectionAssociationResource studentSectionAssociationResource;
 
@@ -115,40 +128,6 @@ public class SectionResourceTest {
         teacherSectionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
         Response response = sectionResource.getTeacherSectionAssociationTeachers(sectionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSectionAssessmentAssociations() {
-        Response createResponse = sectionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = assessmentResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
-        String assessmentId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sectionAssessmentAssociationResourceName, sectionResourceName, sectionId, assessmentResourceName, assessmentId);
-        sectionAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sectionResource.getSectionAssessmentAssociations(sectionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSectionAssessmentAssociationAssessments() {
-        Response createResponse = sectionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = assessmentResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
-        String assessmentId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sectionAssessmentAssociationResourceName, sectionResourceName, sectionId, assessmentResourceName, assessmentId);
-        sectionAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sectionResource.getSectionAssessmentAssociationAssessments(sectionId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
     }
 

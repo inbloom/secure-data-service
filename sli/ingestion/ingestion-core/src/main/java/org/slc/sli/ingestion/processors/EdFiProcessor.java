@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -11,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -19,10 +35,8 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -55,14 +69,8 @@ public class EdFiProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
-
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) throws Exception {
-
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -82,14 +90,12 @@ public class EdFiProcessor implements Processor {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
+            TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(batchJobId);
+
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
             boolean anyErrorsProcessingFiles = false;
-
-            if (fileEntryList.size() > 0) {
-                // prepare staging database
-                setupStagingDatabase(batchJobId);
-            }
 
             for (IngestionFileEntry fe : fileEntryList) {
 
@@ -208,11 +214,6 @@ public class EdFiProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
-
-    private void setupStagingDatabase(String batchJobId) {
-        neutralRecordMongoAccess.getRecordRepository().ensureIndexesForJob(batchJobId);
-    }
-
 }

@@ -1,13 +1,28 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require "socket"
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
-
-#Given /^LDAP server has been setup and running$/ do
-#  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-#end
 
 Given /^I navigate to the account management page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/account_managements"
@@ -16,8 +31,9 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+Socket.gethostname+"@slidev.org"
-  ldap_base=PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
 end
 
 Given /^there are accounts in requests pending in the system$/ do
@@ -25,7 +41,7 @@ Given /^there are accounts in requests pending in the system$/ do
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -100,6 +116,8 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
+ user_name = user_name+"_"+Socket.gethostname
+  puts "And i am looking to find the element with id username.", user_name
   user=@driver.find_element(:id,"username."+user_name)
   assert(user.text==user_name,"didnt find the account with name #{user_name}")
   @user_name=user_name
@@ -116,10 +134,6 @@ end
 
 When /^I am asked "([^"]*)"$/ do |arg1|
      # do nothing
-end
-
-When /^I click on Ok$/ do
-  @driver.switch_to.alert.accept
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
@@ -141,7 +155,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -152,6 +166,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
        :gidnumber => "500",
        :emailAddress => @email
    }
+   puts "And my email is ", @email
   @ldap.create_user(user_info)
   sleep(1)
 end
@@ -161,7 +176,7 @@ def create_account(status, vendor)
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -178,11 +193,8 @@ end
 
 def clear_users
   # remove all users that have this hostname in their email address
-  users = @ldap.search_users("*#{Socket.gethostname}*")
-  if users
-    users.each do |u|
-      @ldap.delete_user(u[:email])    
+  if @ldap.user_exists?(@email)
+      @ldap.delete_user(@email)    
     end
-  end
 end
 

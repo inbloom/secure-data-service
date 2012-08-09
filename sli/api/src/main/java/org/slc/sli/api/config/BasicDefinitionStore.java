@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.config;
 
 import java.util.Collection;
@@ -12,8 +29,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -84,7 +101,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
         //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
-        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
+        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates().buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
                 ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
@@ -94,15 +111,15 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
         EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS)
-                .storeAs(EntityNames.EDUCATION_ORGANIZATION).buildAndRegister(this);
-        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(
+                .storeAs(EntityNames.EDUCATION_ORGANIZATION).supportsAggregates().buildAndRegister(this);
+        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates().buildAndRegister(
                 this);
-        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(
+        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates().buildAndRegister(
                 this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(
                 this);
-        factory.makeEntity(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES)
+        factory.makeEntity(EntityNames.STUDENT_GRADEBOOK_ENTRY, ResourceNames.STUDENT_GRADEBOOK_ENTRIES)
                 .buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS)
                 .storeAs(EntityNames.STAFF).buildAndRegister(this);
@@ -113,8 +130,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(
                 this);
 
-        factory.makeEntity(EntityNames.LEARNINGOBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.LEARNINGSTANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.LEARNING_OBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.LEARNING_STANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
@@ -167,13 +184,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getStaffEducationOrgAssignmentAssociations").build();
         addDefinition(staffEducationOrgAssignmentAssociation);
 
-        AssociationDefinition sectionAssessmentAssociation = factory.makeAssoc("sectionAssessmentAssociation", "sectionAssessmentAssociations")
-                .exposeAs(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).storeAs("sectionAssessmentAssociation")
-                .from(section, "getSection", "getSections").to(assessment, "getAssessment", "getAssessments")
-                .calledFromSource("getSectionAssessmentAssociations")
-                .calledFromTarget("getSectionAssessmentAssociations").build();
-        addDefinition(sectionAssessmentAssociation);
-
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation", "educationOrganizationAssociations")
                 .exposeAs("educationOrganization-associations")
@@ -184,13 +194,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         "educationOrganizationChildId").calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addDefinition(educationOrganizationAssociation);
-
-        AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation", "schoolSessionAssociations")
-                .exposeAs(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).storeAs("schoolSessionAssociation")
-                .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
-                .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
-                .build();
-        addDefinition(schoolSessionAssociation);
 
         AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
                 .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")
@@ -258,6 +261,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(roles);
         addDefinition(factory.makeEntity("realm").storeAs("realm").build());
         addDefinition(factory.makeEntity("authSession").build());
+        addDefinition(factory.makeEntity("customRole").storeAs("customRole").build());
 
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());

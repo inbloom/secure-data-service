@@ -1,0 +1,15 @@
+<h1>Reset Password</h1>
+<br>
+<% if notice != nil %>
+    <ul style="color:green">
+      <li id="successNotice"><%= notice %></li>
+    </ul>
+    
+    <%= link_to 'Back', forgot_passwords_path %>
+
+<% else if flash[:error] %>
+    <div id="error_explanation">
+        <%= flash[:error] %>
+    </div>
+  <% end %>
+<% end %>

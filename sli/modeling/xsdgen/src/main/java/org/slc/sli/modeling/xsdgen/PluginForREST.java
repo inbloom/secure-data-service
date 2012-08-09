@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.xsdgen;
 
 import java.util.Collections;
@@ -22,8 +39,8 @@ public final class PluginForREST implements Uml2XsdPlugin {
 
     // The target name-space should coincide with whatever is returned by the API.
     // Currently, we don't put the returned elements in a name-space.
-    private static final String TARGET_NAMESPACE = "";
-    // private static final String TARGET_NAMESPACE = "http://www.slcedu.org/api/v1";
+    // private static final String TARGET_NAMESPACE = "";
+    private static final String TARGET_NAMESPACE = "http://www.slcedu.org/api/v1";
 
     // The prefix for the target name-space can be empty or non-empty.
     // Using an empty prefix makes the generated schema less cluttered.
@@ -74,12 +91,12 @@ public final class PluginForREST implements Uml2XsdPlugin {
     }
 
     @Override
-    public QName getPluralTopLevelElementName(final PsmDocument<Type> classType) {
-        return new QName(TARGET_NAMESPACE, classType.getPluralResourceName().getName(), TARGET_NAMESPACE_PREFIX);
+    public QName getGraphAssociationEndName(final PsmDocument<Type> classType) {
+        return new QName(TARGET_NAMESPACE, classType.getGraphAssociationEndName().getName(), TARGET_NAMESPACE_PREFIX);
     }
 
     @Override
-    public QName getSingularTopLevelElementName(final PsmDocument<Type> classType) {
+    public QName getElementName(final PsmDocument<Type> classType) {
         return new QName(TARGET_NAMESPACE, classType.getSingularResourceName().getName(), TARGET_NAMESPACE_PREFIX);
     }
 
@@ -119,13 +136,14 @@ public final class PluginForREST implements Uml2XsdPlugin {
         // The existence of this feature depends on whether the association is logically navigable.
         if (end.isNavigable()) {
             if (PluginHelpers.hasMongoName(end, model)) {
-                xsw.choice();
-                try {
-                    writeReference(complexType, end, model, xsw);
-                    writeEmbedded(complexType, end, model, xsw);
-                } finally {
-                    xsw.end();
-                }
+                writeEmbedded(complexType, end, model, xsw);
+                // xsw.choice();
+                // try {
+                // writeReference(complexType, end, model, xsw);
+                // writeEmbedded(complexType, end, model, xsw);
+                // } finally {
+                // xsw.end();
+                // }
             } else {
                 writeEmbedded(complexType, end, model, xsw);
             }
@@ -179,32 +197,48 @@ public final class PluginForREST implements Uml2XsdPlugin {
     @Override
     public void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model,
             final Uml2XsdPluginWriter xsw) {
+        final Type elementType = classType.getType();
+        final QName elementName = getElementName(classType);
+        final String ns = elementName.getNamespaceURI();
+        final QName elementList = new QName(ns, elementName.getLocalPart().concat("List"));
+
         xsw.element();
         try {
-            xsw.elementName(getPluralTopLevelElementName(classType));
-            final Type elementType = classType.getType();
-            xsw.annotation();
-            try {
-                PluginHelpers.writeDocumentation(elementType, model, xsw);
-            } finally {
-                xsw.end();
-            }
+            xsw.elementName(elementList);
             xsw.complexType();
             try {
                 xsw.sequence();
                 try {
                     xsw.element();
                     try {
-                        xsw.elementName(getSingularTopLevelElementName(classType));
-                        xsw.type(getQName(elementType, model));
+                        xsw.ref(elementName);
                         xsw.minOccurs(Occurs.ZERO);
                         xsw.maxOccurs(Occurs.UNBOUNDED);
+                        xsw.annotation();
+                        try {
+                            PluginHelpers.writeDocumentation(elementType, model, xsw);
+                        } finally {
+                            xsw.end();
+                        }
                     } finally {
                         xsw.end();
                     }
                 } finally {
                     xsw.end();
                 }
+            } finally {
+                xsw.end();
+            }
+        } finally {
+            xsw.end();
+        }
+        xsw.element();
+        try {
+            xsw.elementName(elementName);
+            xsw.type(getQName(elementType, model));
+            xsw.annotation();
+            try {
+                PluginHelpers.writeDocumentation(elementType, model, xsw);
             } finally {
                 xsw.end();
             }

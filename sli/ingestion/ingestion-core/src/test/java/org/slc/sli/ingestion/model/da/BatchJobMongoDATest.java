@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
@@ -9,17 +26,25 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.CursorPreparer;
@@ -30,8 +55,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -45,6 +72,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 public class BatchJobMongoDATest {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
+    private static final int DUP_KEY_CODE = 11000;
     private static final String BATCHJOBID = "controlfile.ctl-2345342-2342334234";
     private static final int RESULTLIMIT = 3;
     private static final int START_INDEX = 0;
@@ -163,6 +191,180 @@ public class BatchJobMongoDATest {
         verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
+    @Test
+    public void testTrueCountdownTransformationLatch() {
+        BasicDBObject result = new BasicDBObject();
+        result.put("count", 0);
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("transformationLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
+
+        Assert.assertTrue(mockBatchJobMongoDA.countDownLatch(MessageType.DATA_TRANSFORMATION.name(), BATCHJOBID , "student"));
+   }
+
+    @Test
+    public void testTrueCountdownPersistenceLatch() {
+        BasicDBObject result = new BasicDBObject();
+
+        Map<String, Object> student = new HashMap<String, Object>();
+        student.put("count", 0);
+
+        List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
+        entities.add(student);
+
+        result.put("entities", entities);
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("persistenceLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
+
+        Assert.assertTrue(mockBatchJobMongoDA.countDownLatch(MessageType.PERSIST_REQUEST.name(), BATCHJOBID , "student"));
+   }
+
+    @Test
+    public void testFalseCountdownTransformationLatch() {
+        BasicDBObject result = new BasicDBObject();
+        result.put("count", 1);
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("transformationLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
+
+        Assert.assertFalse(mockBatchJobMongoDA.countDownLatch(MessageType.DATA_TRANSFORMATION.name(), BATCHJOBID , "student"));
+   }
+
+    @Test
+    public void testFalseCountdownPersistenceLatch() {
+        BasicDBObject result = new BasicDBObject();
+
+        Map<String, Object> student = new HashMap<String, Object>();
+        student.put("count", 1);
+
+        List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
+        entities.add(student);
+
+        result.put("entities", entities);
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("persistenceLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
+
+        Assert.assertFalse(mockBatchJobMongoDA.countDownLatch(MessageType.PERSIST_REQUEST.name(), BATCHJOBID , "student"));
+   }
+
+    @Test
+    public void testSetPersistenceLatch() {
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("persistenceLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(null);
+
+        mockBatchJobMongoDA.setPersistenceLatchCount(BATCHJOBID , "student", 1);
+
+        Mockito.verify(collection, Mockito.atMost(1)).findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean());
+
+   }
+
+    @Test
+    public void testCreateTransformationLatch() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("transformationLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenReturn(null);
+
+        Assert.assertTrue(mockBatchJobMongoDA.createTransformationLatch(BATCHJOBID , "student", 1));
+   }
+
+    @Test
+    public void testExceptionCreateTransformationLatch() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("transformationLatch")).thenReturn(collection);
+        MongoException exception = new MongoException(DUP_KEY_CODE, "DuplicateKeyException");
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
+
+        Assert.assertFalse(mockBatchJobMongoDA.createTransformationLatch(BATCHJOBID , "student", 1));
+   }
+
+    @Test
+    public void testCreatePersistanceWorkNoteCountdownLatch() {
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("persistenceLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenReturn(null);
+
+        List<Map<String, Object>> entities = new ArrayList<Map<String, Object>>();
+
+        Assert.assertNotNull(mockBatchJobMongoDA.createPersistanceLatch(entities, BATCHJOBID));
+   }
+
+    @Test
+    public void testExceptionSetStagedEntitiesForJob() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
+        MongoException exception = Mockito.mock(MongoException.class);
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class))).thenThrow(exception);
+
+        Mockito.when(exception.getCode()).thenReturn(DUP_KEY_CODE);
+        mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
+
+        Mockito.verify(exception).getCode();
+   }
+
+    @Test
+    public void testSetStagedEntitiesForJob() {
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+
+        Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class))).thenReturn(null);
+
+        mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
+
+        Mockito.verify(collection).insert(Mockito.any(DBObject.class));
+   }
+
+    @Test
+    public void testRemoveStagedEntityForJob() {
+        BasicDBObject result = new BasicDBObject();
+
+        result.put("recordTypes", new ArrayList<String>());
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
+
+        Assert.assertNotNull(mockBatchJobMongoDA.removeStagedEntityForJob(BATCHJOBID, "student"));
+   }
+
+
+
+
     private List<Error> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {
         List<Error> errors = new ArrayList<Error>();
 
@@ -180,6 +382,31 @@ public class BatchJobMongoDATest {
 
         return errors;
     }
+
+    @Test
+    public void testExceptionAttemptTentantLockForJob() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
+        MongoException exception = Mockito.mock(MongoException.class);
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
+
+        Mockito.when(exception.getCode()).thenReturn(11000);
+
+        Assert.assertFalse(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
+   }
+
+    @Test
+    public void testAttemptTentantLockForJob() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
+
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenReturn(null);
+
+
+        Assert.assertTrue(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
+   }
 
     private void assertOnErrorIterableValues(Error error, int iterationCount) {
 

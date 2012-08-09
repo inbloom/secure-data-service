@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'selenium-webdriver'
 require_relative '../../../utils/selenium_common.rb'
 
@@ -9,10 +28,12 @@ When /^I click the Go button$/ do
   clickButton("submit")
 end
 
-Given /^the server is in "([^"]*)" mode$/ do |serverMode|
-  @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
+When /^I navigate to the Dashboard home page$/ do
+  url = getBaseUrl()
+  @driver.get url
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30) 
+  # We should be able to get rid of this and reply on the implicitWait
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 10)  
 end
 
 Then /^I click on the browser back button$/ do
@@ -20,38 +41,16 @@ Then /^I click on the browser back button$/ do
 end
 
 Then /^the title of the page is "(.*?)"$/ do |pageTitle|
-  assert(@driver.title == pageTitle, "Expected: " + pageTitle + " Actual " + @driver.title)
+  verifyPageTitle(pageTitle)
 end
 
-def localLogin (username, password)
-  puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
-  puts "localLogin" if $SLI_DEBUG
-  if @driver == nil 
-    @driver = Selenium::WebDriver.for :firefox
-  end
-  url = getBaseUrl() + PropLoader.getProps['dashboard_landing_page']
-  puts "url = " + url
-  # Go to login url and verify status of the page/server is up
-  @driver.get url
-  sleep 1
-  # assert(@driver.current_url == url, "Failed to navigate to "+url)
-  
-  # assertMissingField("Sivan")
-
-  # Perform login and verify
-  assertMissingField("j_username", "name")
-  assertMissingField("j_password", "name")
-  assertMissingField("submit", "name")
-  putTextToField(username, "j_username", "name")
-  putTextToField(password, "j_password", "name")
-  clickButton("submit", "name")
-  # url = baseUrl + "/appselector"
-  assert(@driver.current_url.start_with?(url),  "Failed to navigate to "+url)
+def verifyPageTitle(pageTitle)
+  assert(@driver.title == pageTitle, "Expected: " + pageTitle + " Actual " + @driver.title)
 end
 
 def getBaseUrl()
   return PropLoader.getProps['dashboard_server_address']+ 
-          PropLoader.getProps[@appPrefix] 
+          PropLoader.getProps['dashboard_app_prefix'] 
 end
 
 def assertMissingField(field, by)
@@ -104,7 +103,13 @@ end
 
 def selectDropdownOption(selectFieldId, optionToSelect)
   puts "dropDownId = " + selectFieldId
-  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  select = nil
+  # Special case for view selector and filter, as they're a class
+  if (selectFieldId == "viewSelectMenu" || selectFieldId == "filterSelectMenu")
+    select = @explicitWait.until{@driver.find_element(:css, "div[class*='#{selectFieldId}']")}
+  else
+    select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  end
   select.find_element(:tag_name,"a").click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   optionFound = false
@@ -121,8 +126,13 @@ end
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
   @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  tableRows = @driver.find_elements(:xpath, ".//tr[contains(@class,'ui-widget-content')]")
-  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
+  # we'll read from current tab if present
+  source = @driver
+  if (@currentTab != nil)
+    source = @currentTab
+  end
+  tableRows = source.find_elements(:css, "tr[class*='ui-widget-content']")
+  #puts "# of TR = " +  source.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
 
@@ -133,8 +143,7 @@ def listContains(desiredContent)
   # Find all student names based on their class attribute
   
   los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  studentNames = los.find_elements(:xpath,".//td[contains(@aria-describedby,'name.fullName')]")
-  
+  studentNames = los.find_elements(:css,"td[aria-describedby*='name.fullName']")
   puts "num of studs = "+ studentNames.length.to_s
   
   nonFoundItems = desiredContentArray.length

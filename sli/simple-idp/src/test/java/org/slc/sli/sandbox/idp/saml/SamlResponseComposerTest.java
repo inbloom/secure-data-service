@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.sandbox.idp.saml;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +43,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.codec.binary.Base64;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -57,7 +75,7 @@ public class SamlResponseComposerTest {
     static final String SAML_NS = "urn:oasis:names:tc:SAML:2.0:assertion";
     
     @Test
-    public void testComponseResponse() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+    public void testComposeResponse() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             KeyException, TransformerException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException {
         
@@ -102,6 +120,16 @@ public class SamlResponseComposerTest {
         assertTrue(!xpathOne(doc, "/samlp:Response/@ID").getTextContent().equals("__RESPONSE_ID__"));
         assertTrue(!xpathOne(doc, "/samlp:Response/saml:Assertion/@ID").getTextContent().equals("__ASSERTION_ID__"));
         assertTrue(!xpathOne(doc, "/samlp:Response/@Destination").getTextContent().equals("__DESTINATION__"));
+        assertEquals("requestId", 
+                xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@InResponseTo").getTextContent());
+        assertEquals("dest", 
+                xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@Recipient").getTextContent());
+        String expDate = xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@NotOnOrAfter").getTextContent();
+        DateTime dt = DateTime.parse(expDate);
+        
+        //expiration is 10 minutes from the time it was generated, so let's make sure -9 is valid and -11 is not
+        assertTrue(dt.minusMinutes(9).isAfterNow());
+        assertTrue(dt.minusMinutes(11).isBeforeNow());
     }
     
     private static boolean hasAttributeValue(Document doc, String attrType, String attrValue) {

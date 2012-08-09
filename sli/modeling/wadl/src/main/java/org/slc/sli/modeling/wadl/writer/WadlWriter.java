@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.wadl.writer;
 
 import static org.slc.sli.modeling.wadl.WadlSyntax.encodeParamStyle;
@@ -5,6 +22,7 @@ import static org.slc.sli.modeling.wadl.WadlSyntax.encodeStringList;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -164,6 +182,23 @@ public final class WadlWriter {
         }
     }
 
+    public static final void writeDocument(final Application app, final Map<String, String> prefixMappings,
+            final File file) {
+        if (file == null) {
+            throw new NullPointerException("file");
+        }
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
+            try {
+                writeDocument(app, prefixMappings, outstream);
+            } finally {
+                closeQuiet(outstream);
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static final void writeDocumentation(final Documentation doc, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.DOCUMENTATION.getLocalName(), WadlSyntax.NAMESPACE);
@@ -214,7 +249,7 @@ public final class WadlWriter {
             if (representation.getId() != null) {
                 xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), representation.getId());
             }
-            final QName element = representation.getElement();
+            final QName element = representation.getElementName();
             xsw.writeAttribute(WadlAttributeName.ELEMENT.getLocalName(), toLexicalForm(element, xsw));
             writeDocumentation(representation, xsw);
         } finally {
@@ -227,7 +262,7 @@ public final class WadlWriter {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.GRAMMARS.getLocalName(), WadlSyntax.NAMESPACE);
         try {
             writeDocumentation(resources, xsw);
-            for (final Include resource : resources.getInclude()) {
+            for (final Include resource : resources.getIncludes()) {
                 writeInclude(resource, xsw);
             }
         } finally {
@@ -248,7 +283,7 @@ public final class WadlWriter {
     private static final void writeMethod(final Method method, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.METHOD.getLocalName(), WadlSyntax.NAMESPACE);
         try {
-            xsw.writeAttribute(WadlAttributeName.NAME.getLocalName(), method.getName());
+            xsw.writeAttribute(WadlAttributeName.NAME.getLocalName(), method.getVerb());
             xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), method.getId());
             writeDocumentation(method, xsw);
             if (method.getRequest() != null) {
@@ -325,7 +360,7 @@ public final class WadlWriter {
             if (representation.getId() != null) {
                 xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), representation.getId());
             }
-            final QName element = representation.getElement();
+            final QName element = representation.getElementName();
             if (element != null) {
                 xsw.writeAttribute(WadlAttributeName.ELEMENT.getLocalName(), toLexicalForm(element, xsw));
             }

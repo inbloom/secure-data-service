@@ -1,11 +1,32 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.Cohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
@@ -13,6 +34,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.CohortGenerator;
 import org.slc.sli.test.generators.StaffCohortAssociationGenerator;
 import org.slc.sli.test.generators.StudentCohortAssociationGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -29,17 +51,18 @@ public class InterchangeStudentCohortGenerator {
      *
      * @return
      */
-    public static InterchangeStudentCohort generate() {
+    public static void generate(InterchangeWriter<InterchangeStudentCohort> iWriter) {
         long startTime = System.currentTimeMillis();
 
-        InterchangeStudentCohort interchange = new InterchangeStudentCohort();
-        List<Object> interchangeObjects = interchange.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
+//        InterchangeStudentCohort interchange = new InterchangeStudentCohort();
+//        List<Object> interchangeObjects = interchange.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
 
-        addEntitiesToInterchange(interchangeObjects);
+        int total = 0;
+        total += writeEntitiesToInterchange(iWriter);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentCohort entries in: "
+        System.out.println("generated " + total + " InterchangeStudentCohort entries in: "
                 + (System.currentTimeMillis() - startTime));
-        return interchange;
+//        return interchange;
     }
 
     /**
@@ -47,11 +70,13 @@ public class InterchangeStudentCohortGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+    private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentCohort> iWriter) {
 
-        generateCohortData(interchangeObjects, MetaRelations.COHORT_MAP.values());
-        generateStaffCohortAssociationData(interchangeObjects, MetaRelations.COHORT_MAP.values());
-        generateStudentCohortAssociation(interchangeObjects, MetaRelations.COHORT_MAP.values());
+    	int total=0;
+    	total += generateCohortData(iWriter, MetaRelations.COHORT_MAP.values());
+    	total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
+    	total += generateStudentCohortAssociation(iWriter, MetaRelations.COHORT_MAP.values());
+    	return total;
     }
 
     /**
@@ -61,8 +86,9 @@ public class InterchangeStudentCohortGenerator {
      * @param interchangeObjects
      * @param cohortMetas
      */
-    private static void generateCohortData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+    private static int generateCohortData(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
+    	int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
             Cohort retVal;
 
@@ -71,8 +97,12 @@ public class InterchangeStudentCohortGenerator {
             } else {
                 retVal = CohortGenerator.generateLowFi(cohortMeta);
             }
-            interchangeObjects.add(retVal);
+            
+            
+            iWriter.marshal(retVal);
+            count++;
         }
+        return count;
         
     }
 
@@ -83,8 +113,9 @@ public class InterchangeStudentCohortGenerator {
      * @param interchangeObjects
      * @param cohortMetas
      */
-    private static void generateStaffCohortAssociationData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+    private static int generateStaffCohortAssociationData(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
+    	int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
             StaffCohortAssociation retVal;
 
@@ -93,8 +124,12 @@ public class InterchangeStudentCohortGenerator {
             } else {
                 retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
-            interchangeObjects.add(retVal);
+            
+            
+            iWriter.marshal(retVal);
+            count++;
         }
+        return count;
         
     }
 
@@ -105,8 +140,9 @@ public class InterchangeStudentCohortGenerator {
      * @param interchangeObjects
      * @param cohortMetas
      */
-    private static void generateStudentCohortAssociation(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+    private static int generateStudentCohortAssociation(InterchangeWriter<InterchangeStudentCohort> iWriter, Collection<CohortMeta> cohortMetas) {
 
+    	int count=0;
         for (CohortMeta cohortMeta : cohortMetas) {
             
             List<StudentCohortAssociation> retVal;
@@ -114,10 +150,10 @@ public class InterchangeStudentCohortGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 retVal = new ArrayList<StudentCohortAssociation>(0);
             } else {
-                retVal = StudentCohortAssociationGenerator.generateLowFi(cohortMeta);
+                count += StudentCohortAssociationGenerator.generateLowFi(iWriter,cohortMeta);
             }
-            interchangeObjects.addAll(retVal);
         }
+        return count;
     }
     
 }

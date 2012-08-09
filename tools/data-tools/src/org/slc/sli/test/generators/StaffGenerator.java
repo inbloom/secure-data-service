@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators;
 
 import java.util.Random;
@@ -14,16 +31,26 @@ import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
 public class StaffGenerator {
-    AddressGenerator ag;
-    NameGenerator ng;
-    TelephoneGenerator tg;
-    ElectronicMailGenerator emg;
-    Random random = new Random();
-    boolean optional = true;
-    RaceItemType[] raceItemTypes = RaceItemType.values();
-    LevelOfEducationType[] levelOfEducationTypes = LevelOfEducationType.values();
-    OldEthnicityType[] oldEthnicityTypes = OldEthnicityType.values();
+    static AddressGenerator ag;
+    static NameGenerator ng;
+    static TelephoneGenerator tg;
+    static ElectronicMailGenerator emg;
+    static Random random = new Random();
+    static boolean optional = true;
+    static RaceItemType[] raceItemTypes = RaceItemType.values();
+    static LevelOfEducationType[] levelOfEducationTypes = LevelOfEducationType.values();
+    static OldEthnicityType[] oldEthnicityTypes = OldEthnicityType.values();
 
+  static {
+	  try {
+		  ag =  new AddressGenerator(StateAbbreviationType.NY);
+		  ng = new NameGenerator();
+		  tg =new TelephoneGenerator(); 
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
+  }
+    
     public StaffGenerator(StateAbbreviationType state, boolean optional) {
         try {
             ng = new NameGenerator();
@@ -46,14 +73,14 @@ public class StaffGenerator {
         }
     }
 
-    public Staff generate(String staffId) {
+    public static Staff generateMediumFi(String staffId) throws Exception {
         Staff staff = new Staff();
         populateFields(staff, staffId);
         return staff;
     }
 
-    protected void populateFields(Staff staff, String staffId) {
-
+    protected static void populateFields(Staff staff, String staffId) throws Exception {
+    	 
         try {
             staff.setId(staffId);
             staff.setStaffUniqueStateId(staffId);
@@ -87,8 +114,8 @@ public class StaffGenerator {
 
                 staff.getTelephone().add(tg.getTelephone());
 
-                staff.getElectronicMail().add(
-                        emg.generate(staff.getName().getFirstName() + "." + staff.getName().getLastSurname()));
+//                staff.getElectronicMail().add(
+//                        emg.generate(staff.getName().getFirstName() + "." + staff.getName().getLastSurname()));
 
                 staff.setOldEthnicity(oldEthnicityTypes[random.nextInt(oldEthnicityTypes.length)]);
 
@@ -98,7 +125,7 @@ public class StaffGenerator {
 
                 // TODO: add Credentials
 
-                staff.setLoginId(staff.getName().getFirstName() + staff.getName().getLastSurname());
+              //  staff.setLoginId(staff.getName().getFirstName() + staff.getName().getLastSurname());
             }
 
         } catch (Exception e) {

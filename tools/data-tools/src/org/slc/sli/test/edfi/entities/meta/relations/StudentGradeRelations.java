@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.ArrayList;
@@ -19,7 +36,7 @@ public class StudentGradeRelations {
     public static List<String>  studentCompetencyObjectives     = new LinkedList<String>();
     public static List<String>   competencyLevelDescriptors     = new LinkedList<String>();
      
-    public static final int COMPETENCY_LEVEL_DESCRIPTOR           = 2;
+    public static int COMPETENCY_LEVEL_DESCRIPTOR           = 2;
     
     //For every Student
     //    There is one SAR Per Session(SAR is the summary of the Student's performance for that Session) 
@@ -30,14 +47,14 @@ public class StudentGradeRelations {
     //    A ReportCard has StudentCompetencies
     //        A StudentCompetency has LearningObjective|StudentCompetencyObjective and CompetencyLevelDescriptor 
             
-    public static final int REPORT_CARDS                              = 1;  
+    public static int REPORT_CARDS                              = 1;  
     
-    public static final int LEARNING_OBJECTIVES_PER_REPORT            = 1;       
-    public static final int STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT   = 1;
+    public static int LEARNING_OBJECTIVES_PER_REPORT            = 1;       
+    public static int STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT   = 1;
     
-    public static final int GRADEBOOK_ENTRIES                         = 1;
-    public static final int LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY    = 1;
-    public static final int INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY = 43;
+    public static int GRADEBOOK_ENTRIES                         = 1;
+    public static int LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY    = 1;
+    public static int INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY = 43;
     
     public static final LearningStandard LEARNING_STANDARD            = LearningStandardGenerator.generateLowFi("LearningStandardCode");
     public static final LearningStandardReferenceType LEARNING_STANDARD_REF        
@@ -48,7 +65,7 @@ public class StudentGradeRelations {
     
     public static final Random RAND                                   = new Random();
     private static List<SectionMeta> SECTIONS                         = null;
-    private static final int GRADING_PERIOD_START_YEAR                = 1996;
+    private static final int GRADING_PERIOD_START_YEAR                = 2011;
     private static final int GRADING_PERIOD_MAX_START_YEAR            = 2030;
     private static final int GRADING_PERIOD_INTERVAL                  = GRADING_PERIOD_MAX_START_YEAR - GRADING_PERIOD_START_YEAR;
     

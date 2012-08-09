@@ -1,4 +1,6 @@
 @RALLY_US0615
+@RALLY_US927
+ 
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
@@ -11,12 +13,9 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | collectionName              |
      | student                     |
      | studentSchoolAssociation    |
-     | course                      |
      | educationOrganization       |
      | school                      |
-     | section                     |
      | session                     |
-     | studentSectionAssociation   |
      | attendance                  |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -24,22 +23,20 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | student                     | 94    |
      | studentSchoolAssociation    | 123   |
-     | course                      | 15    |
      | educationOrganization       | 8     |
      | school                      | 0     |
-     | section                     | 25    |
      | session                     | 8     |
-     | studentSectionAssociation   | 210   |
      | attendance                  | 38    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-     | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
-     | attendance                  | 35                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
-     | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
+    | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
+    | attendance                  | 3                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
+    | attendance                  | 33                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
+     | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 
-  And I should see "Processed 534 records." in the resulting batch job file
+  And I should see "Processed 281 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
@@ -75,7 +72,6 @@ Scenario: Post a zip file containing duplicate configured interchanges as a payl
 Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-#	And I should see "Entity (attendanceEvent) reports failure: E11000 duplicate key error" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 72 records." in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records considered: 72" in the resulting batch job file
@@ -86,9 +82,35 @@ Scenario: Post a zip file containing attendance event interchange with non-exist
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-#	And I should see "<<<insert could not find [student] in mongo repository error message>>>" in the resulting error log file
-  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 1 records." in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "Processed 0 records." in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records failed: 1" in the resulting batch job file
+  And I should see "StudentAttendanceNoStudent.xml records failed: 0" in the resulting batch job file
+
+Scenario: Post a zip file where an attendanceEvent occurs in a school's parent LEA session: Clean Database
+Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName              |
+     | student                     |
+     | educationOrganization       |
+     | session                     |
+     | attendance                  |
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName              | count |
+     | student                     | 1     |
+     | educationOrganization       | 3     |
+     | session                     | 1     |
+     | attendance                  | 1     |
+ And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                                | searchValue     |
+     | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |
+  And I should see "Processed 8 records." in the resulting batch job file
+  And I should not see an error log file created
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file

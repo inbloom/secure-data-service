@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -12,15 +29,14 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for StateEducationAgency entity
@@ -35,6 +51,7 @@ public class StateEducationAgencyTest {
     @Autowired
     private EntityValidator validator;
 
+    @Ignore
     @Test
     public void testValidStateEducationAgency() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -98,23 +115,6 @@ public class StateEducationAgencyTest {
         when(e.getType()).thenReturn("stateEducationAgency");
 
         Assert.assertTrue(validator.validate(e));
-    }
-
-    @Ignore
-    @Test
-    public void csvStateEducationAgencyTest() throws Exception {
-
-        String smooksConfig = "smooks_conf/smooks-stateEducationAgency-csv.xml";
-
-        String targetSelector = "csv-record";
-
-        String csv = "152901001,identification system,9777,Apple Alternative Elementary School,Apple,School,Physical,123 Main Street,1A,"
-                + "building site number,Lebanon,KS,66952,Smith County,USA123,USA,245,432,01-01-1969,12-12-2012,Main,(785) 667-6006,www.a.com,running,"
-                + "first rating,A,01-01-2012,rating org,rating program,program reference";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, csv);
-
-        checkValidSEANeutralRecord(neutralRecord);
     }
 
     @Test
@@ -233,10 +233,9 @@ public class StateEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingOrganization", "rating org");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
-        List programReferenceList = (List) neutralRecord.getAttributes().get("programReference");
-        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0));
-        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1));
-
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) neutralRecord.getAttributes().get("programReference");
+        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0).get("programId"));
+        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1).get("programId"));
     }
-
 }

@@ -5,7 +5,7 @@
         "fieldPath" : "body.staffId",
         "ref" :
         {
-	        "collectionName" : "staff",
+	        "entityType" : "staff",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -24,7 +24,7 @@
         "fieldPath" : "body.schoolId",
         "ref" :
         {
-	        "collectionName" : "school",
+	        "entityType" : "school",
 	        "choiceOfFields" :
 	        [
 	            [

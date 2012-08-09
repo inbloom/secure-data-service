@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -76,7 +93,7 @@ public class TeacherEntityTest {
             + "    <StateAbbreviation>NY</StateAbbreviation>"
             + "    <PostalCode>10021</PostalCode>"
             + "    <NameOfCounty>New York</NameOfCounty>"
-            + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+            + "    <CountyFIPSCode>12345</CountyFIPSCode>"
             + "    <CountryCode>US</CountryCode>"
             + "    <Latitude>245</Latitude>"
             + "    <Longitude>432</Longitude>"
@@ -131,7 +148,6 @@ public class TeacherEntityTest {
         when(e.getType()).thenReturn("teacher");
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        attributes.remove("collectionName");
         EntityTestUtils.mapValidation(attributes, "teacher", validator);
     }
 
@@ -145,7 +161,7 @@ public class TeacherEntityTest {
 
         String teacherCsv = "111111111,District,OrgCode,111111111,Birth certificate,Dr,Teacher,Jose,NotStaff,III,maiden name,"
                 + "Alias,Mr,shady,guy,alias,Jr,Male,1971-01-01,Home,100 10th street,1A,building site number,"
-                + "New York,NY,10021,New York,US123,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
+                + "New York,NY,10021,New York,12345,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
                 + "false,Hispanic,White,Bachelor's,12,13,Certification,C110AW,Computer Science certificate,"
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
@@ -230,7 +246,7 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "NY");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "10021");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "New York");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "US123");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "12345");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");

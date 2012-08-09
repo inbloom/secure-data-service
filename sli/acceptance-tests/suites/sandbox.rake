@@ -60,5 +60,45 @@ end
 # Onboarding tests end
 ############################################################
 
+############################################################
+# Super Admin Management Tools Tests begin
+############################################################
+desc "Run Super Admin Management Tools Tests"
+task :userAdminSandboxTests do
+@tags = ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+end
+
+
+###########################################################
+# Super Admin Management Tools Tests end
+############################################################
+
+###########################################################
+# Provisioning tests start
+############################################################
+
+desc "Run Provisioning Integration Sandbox Tests"
+task :provisionIntegrationSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  runTests("test/features/sandbox/Provision/provision_Integrated.feature")
+end
+############################################################
+# Provisioning tests end
+############################################################
+
+###########################################################
+# Tenant Metrics tests start
+############################################################
+
+desc "Tenant Metrics Tests"
+task :tenantMetricsTests do
+  Rake::Task["importTenantMetricsData"].invoke
+  runTests("test/features/sandbox/TenantUsage/usage_analytics.feature")
+end
+############################################################
+# Tenant Metrics tests end
+############################################################
+
 
 

@@ -1,17 +1,39 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.ServiceDescriptor;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.StudentProgramAssociationGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -28,17 +50,17 @@ public class InterchangeStudentProgramGenerator {
      *
      * @return
      */
-    public static InterchangeStudentProgram generate() {
+    public static void generate(InterchangeWriter<InterchangeStudentProgram> iWriter) {
         long startTime = System.currentTimeMillis();
 
-        InterchangeStudentProgram interchange = new InterchangeStudentProgram();
-        List<Object> interchangeObjects = interchange.getStudentProgramAssociationOrStudentSpecialEdProgramAssociationOrRestraintEvent();
+//        InterchangeStudentProgram interchange = new InterchangeStudentProgram();
+//        List<Object> interchangeObjects = interchange.getStudentProgramAssociationOrStudentSpecialEdProgramAssociationOrRestraintEvent();
 
-        addEntitiesToInterchange(interchangeObjects);
+        int total = writeEntitiesToInterchange(iWriter);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentProgram entries in: "
+        System.out.println("generated " + total + " InterchangeStudentProgram entries in: "
                 + (System.currentTimeMillis() - startTime));
-        return interchange;
+        
     }
 
     /**
@@ -46,10 +68,12 @@ public class InterchangeStudentProgramGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+    private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentProgram> iWriter) {
 
-        generateServiceDescriptor(interchangeObjects);
-        generateProgramAssocs(interchangeObjects, MetaRelations.PROGRAM_MAP.values());
+    	int total = 0;
+    	total += generateServiceDescriptor(iWriter);
+    	total += generateProgramAssocs(iWriter, MetaRelations.PROGRAM_MAP.values());
+    	return total;
 
     }
 
@@ -60,29 +84,33 @@ public class InterchangeStudentProgramGenerator {
      * @param interchangeObjects
      * @param programMetas
      */
-    private static void generateProgramAssocs(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+    private static int generateProgramAssocs(InterchangeWriter<InterchangeStudentProgram> iWriter, Collection<ProgramMeta> programMetas) {
 
+    	int count = 0;
         for (ProgramMeta programMeta : programMetas) {
 
-            generateStudentProgramAssoc(interchangeObjects, programMeta);
+        	count += generateStudentProgramAssoc(iWriter, programMeta);
+            
 
             // StaffProgramAssociation is not included in any EdFi interchanges; it is a bug in edfi. 
             // It probably should belong to the student-program interchange. 
             // generateStaffProgramAssoc(interchangeObjects, programMeta);
         }
-
+        return count;
     }
 
-    private static void generateStudentProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {
+    private static int generateStudentProgramAssoc(InterchangeWriter<InterchangeStudentProgram> iWriter, ProgramMeta programMeta) {
 
+    	int count=0;
         List<StudentProgramAssociation> retVal;
 
         if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             retVal = new ArrayList<StudentProgramAssociation> ();
         } else {
-            retVal = StudentProgramAssociationGenerator.generateLowFi(programMeta);
+            count += StudentProgramAssociationGenerator.generateLowFi(iWriter, programMeta);
         }
-        interchangeObjects.addAll(retVal);
+  
+        return count;
     }
 
     /**
@@ -90,7 +118,8 @@ public class InterchangeStudentProgramGenerator {
      *
      * @param interchangeObjects
      */
-    private static void generateServiceDescriptor(List<Object> interchangeObjects) {
+    private static int generateServiceDescriptor(InterchangeWriter<InterchangeStudentProgram> iWriter) {
+    	int count = 0;
         ObjectFactory factory = new ObjectFactory();
         for (ProgramGenerator.ServiceDescriptor serviceDescriptor : ProgramGenerator.ServiceDescriptor.values()) {
             ServiceDescriptor sc = factory.createServiceDescriptor();
@@ -98,8 +127,14 @@ public class InterchangeStudentProgramGenerator {
             sc.setDescription(serviceDescriptor.getDescription());
             sc.setShortDescription(serviceDescriptor.getShortDescription());
             sc.setServiceCategory(serviceDescriptor.getServiceCategory());
-            interchangeObjects.add(sc);
+//            interchangeObjects.add(sc);
+            
+            QName qName = new QName("http://ed-fi.org/0100", "ServiceDescriptor");
+            JAXBElement<ServiceDescriptor> jaxbElement = new JAXBElement<ServiceDescriptor>(qName,ServiceDescriptor.class,sc);
+
+            iWriter.marshal(jaxbElement);
         }
+        return count;
     }
     
 //    private static void generateStaffProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {

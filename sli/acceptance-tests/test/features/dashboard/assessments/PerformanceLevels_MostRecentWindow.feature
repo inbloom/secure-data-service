@@ -7,7 +7,6 @@ application
 
 Background:
   Given I have an open web browser
-  Given the server is in "test" mode
   
 # USE:  AssessmentFamilyHierarchy like "StateTest Writing for Grades 8" 
 Scenario: Calculating Most Recent Performance Level for an Assessment

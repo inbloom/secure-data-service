@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.ArrayList;
@@ -18,14 +35,15 @@ import org.slc.sli.test.edfi.entities.meta.PerformanceLevelDescriptorMeta;
 public class AssessmentMetaRelations {
 
     // knobs to control number of entities to create
-    public static final int ASSESSMENTS = 2;
-    public static final int OBJ_ASSESS_PER_DEPENDANT = 1;
-    public static final int LEARN_OBJ_PER_OBJ_ASSES = 1;
-    public static final int ASSESS_ITEM_PER_DEPENDANT = 1;
-    public static final int LEARN_STANDARD_PER_DEPENDANT = 1;
-    public static final int PERF_LEVEL_DESC_PER_DEPENDANT = 1;
-    public static final int ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY = 1;
-    public static final double INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT = 2;
+    public static int ASSESSMENTS = 1;
+    public static int OBJ_ASSESS_PER_DEPENDANT = 1;
+    public static int LEARN_OBJ_PER_OBJ_ASSES = 1;
+    public static int ASSESS_ITEM_PER_DEPENDANT = 3;
+    public static int LEARN_STANDARD_PER_DEPENDANT = 1;
+    public static int PERF_LEVEL_DESC_PER_DEPENDANT = 1;
+    public static int ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY = 1;
+    public static double INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT = 2;
+    public static double INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM = 2;
 
     // publicly accessible structures for the "meta-skeleton" entities
     public static final Map<String, AssessmentMeta> ASSESSMENT_MAP = new TreeMap<String, AssessmentMeta>();

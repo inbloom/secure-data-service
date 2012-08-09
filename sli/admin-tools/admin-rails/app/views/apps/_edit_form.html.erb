@@ -40,9 +40,13 @@
 	<span class="help-inline"> Your company Name</span>
 </div>
 
-<div class = "field">
+<div class = "field" id='application_url'>
 	<%= f.label :application_url, "Url", :class => "required" %>
-	<%= f.text_field :application_url, :placeholder => 'https://' %>
+    <% if app.installed %>
+          <%= f.text_field :application_url, :placeholder => "https://", :disabled => true %>
+	<% else %>
+      <%= f.text_field :application_url, :placeholder => "https://" %>
+    <% end %>
 	<span class="help-inline">The URL used to access your application</span>
 </div>
 <div class = "field">
@@ -57,15 +61,19 @@
 </div>
 <div class = "field">
 	<%= f.label :behavior, "Display Method" %>
-	<%= select_tag(:app_behavior, options_for_select(['Iframe App', 'Wsrp App', 'Full Window App'], app.behavior))%>
+	<%= select_tag(:app_behavior, options_for_select(['iframe App', 'WSRP App', 'Full Window App'], app.behavior))%>
 	<span class="help-inline">How does this application behave, can it be put into an IFrame, behave as a portlet, or stand alone?</span>
 </div>
-<div class = "field">
+<div class = "field" id='redirect_uri'>
 	<%= f.label :redirect_uri, "Redirect Url", :class => "required" %>
-	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
+     <% if app.installed %>
+	    <%= f.text_field :redirect_uri, :placeholder => 'https://', :disabled => true %>
+     <% else %>
+        <%= f.text_field :redirect_uri, :placeholder => "https://" %>
+     <% end %>
 	<span class="help-inline">Where OAuth will redirect to after authentication.</span>
 </div>
-<div class = "field">
+<div class = "field" id='installed'>
 	<%= f.label :installed, "Installed" %>
 	<%= f.check_box :installed %>
 	<span class="help-inline">This is used for applications that aren't web-based (Mobile).</span>
@@ -84,7 +92,7 @@
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
   <% isNew = @district_hierarchy == nil %>
   
-  <% if !isNew and !app.pending? and !app.bootstrap %>
+  <% if !isNew and !app.pending? and !app.allowed_for_all_edorgs %>
   <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
     <h3>Enable</h2>
     <h6>Choose the states or Districts you would like to have access to your application.</h6>
@@ -97,9 +105,9 @@
   <% @district_hierarchy.keys.each do |district| %>
     <li>
       <% if !app.authorized_ed_orgs.nil? %>
-        <%= check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"])) %>
+        <%= check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"])) %>
       <% else %>
-         <%= check_box_tag(check_box_name, district["stateOrganizationId"]) %>
+         <%= check_box_tag(check_box_name, district["id"]) %>
       <%end%>
 
          <%= district["name"] %>
@@ -108,9 +116,9 @@
             <li>
             <%=
                 if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"], app.authorized_ed_orgs.include?(child_district["stateOrganizationId"]))
+                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
                 else
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"])
+                    check_box_tag(check_box_name, child_district["id"])
                 end
             %>
             <%= child_district["name"] %>

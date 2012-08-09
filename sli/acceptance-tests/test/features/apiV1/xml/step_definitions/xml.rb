@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'rexml/document'
 require_relative '../../../utils/sli_utils.rb'
@@ -22,31 +41,6 @@ Transform /^<(.+)><(.+)>$/ do |template1,template2|
   id
 end
 
-Transform /^<(.+)><(.+)><(.+)>$/ do |template1,template2,template3|
-  id = template1 + "/" + template2 + "/" + template3
-  id
-end
-
-Transform /^<(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4|
-  id = template1 + "/" + template2 + "/" + template3 + "/" + template4
-  id
-end
-
-Transform /^<(.+)><(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4,template5|
-  id = template1 + "/" + template2 + "/" + template3 + "/" + template4 + "/" + template5
-  id
-end
-
-Transform /^<(.+)><(.+)><(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4,template5,template6|
-  id = template1 + "/" + template2 + "/" + template3 + "/" + template4 + "/" + template5 + "/" + template6
-  id
-end
-
-Transform /^<(.+)><(.+)><(.+)><(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4,template5,template6,template7|
-  id = template1 + "/" + template2 + "/" + template3 + "/" + template4 + "/" + template5 + "/" + template6 + "/" + template7
-  id
-end
-
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
@@ -63,35 +57,25 @@ end
 
 Given /^a valid XML document for a new school entity$/ do
   @result = <<-eos
-  <school>        
-        <schoolCategories>
-            <schoolCategories>Elementary School</schoolCategories>
-        </schoolCategories>
-        <gradesOffered>
-            <gradesOffered>Third grade</gradesOffered>
-            <gradesOffered>Fifth grade</gradesOffered>
-            <gradesOffered>Fourth grade</gradesOffered>
-            <gradesOffered>Sixth grade</gradesOffered>
-        </gradesOffered>
-        <organizationCategories>
-            <organizationCategories>School</organizationCategories>
-        </organizationCategories>
-        <address>
-            <address>
-                <addressType>Physical</addressType>
-                <streetNumberName>123 Main Street</streetNumberName>
-                <city>Lebanon</city>
-                <stateAbbreviation>KS</stateAbbreviation>
-                <postalCode>66952</postalCode>
-                <nameOfCounty>Smith County</nameOfCounty>
-            </address>
-        </address>        
+    <school xmlns:sli="urn:sli">        
+        <schoolCategories sli:member="true">Elementary School</schoolCategories>
+        <gradesOffered sli:member="true">Third grade</gradesOffered>
+        <gradesOffered sli:member="true">Fifth grade</gradesOffered>
+        <gradesOffered sli:member="true">Fourth grade</gradesOffered>
+        <gradesOffered sli:member="true">Sixth grade</gradesOffered>
+        <organizationCategories sli:member="true">School</organizationCategories>
+        <address sli:member="true">
+            <addressType>Physical</addressType>
+            <streetNumberName>123 Main Street</streetNumberName>
+            <city>Lebanon</city>
+            <stateAbbreviation>KS</stateAbbreviation>
+            <postalCode>66952</postalCode>
+            <nameOfCounty>Smith County</nameOfCounty>
+        </address>
         <stateOrganizationId>152901001</stateOrganizationId>
-        <telephone>
-            <telephone>
-                <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
-                <telephoneNumber>(785) 667-6006</telephoneNumber>
-            </telephone>
+        <telephone sli:member="true">
+            <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
+            <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
         <nameOfInstitution>Apple Alternative Elementary School</nameOfInstitution>
     </school>
@@ -104,21 +88,14 @@ end
 
 When /^I change the name to "([^"]*)"$/ do |newName|
   @result = <<-eos
-<school>   
-    <schoolCategories>
-        <schoolCategories>Elementary School</schoolCategories>
-    </schoolCategories>
-    <gradesOffered>
-        <gradesOffered>Third grade</gradesOffered>
-        <gradesOffered>Fifth grade</gradesOffered>
-        <gradesOffered>Fourth grade</gradesOffered>
-        <gradesOffered>Sixth grade</gradesOffered>
-    </gradesOffered>
-    <organizationCategories>
-        <organizationCategories>School</organizationCategories>
-    </organizationCategories>
-    <address>
-        <address>
+  <school xmlns:sli="urn:sli">        
+        <schoolCategories sli:member="true">Elementary School</schoolCategories>
+        <gradesOffered sli:member="true">Third grade</gradesOffered>
+        <gradesOffered sli:member="true">Fifth grade</gradesOffered>
+        <gradesOffered sli:member="true">Fourth grade</gradesOffered>
+        <gradesOffered sli:member="true">Sixth grade</gradesOffered>
+        <organizationCategories sli:member="true">School</organizationCategories>
+        <address sli:member="true">
             <addressType>Physical</addressType>
             <streetNumberName>123 Main Street</streetNumberName>
             <city>Lebanon</city>
@@ -126,15 +103,11 @@ When /^I change the name to "([^"]*)"$/ do |newName|
             <postalCode>66952</postalCode>
             <nameOfCounty>Smith County</nameOfCounty>
         </address>
-    </address>    
-    <stateOrganizationId>152901001</stateOrganizationId>
-    <telephone>
-        <telephone>
+        <stateOrganizationId>152901001</stateOrganizationId>
+        <telephone sli:member="true">
             <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
             <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
-    </telephone>
-    <parentEducationAgencyReference>b2c6e292-37b0-4148-bf75-c98a2fcc905f</parentEducationAgencyReference>
     <nameOfInstitution>#{newName}</nameOfInstitution>
 </school>
 eos
@@ -146,7 +119,24 @@ end
 
 Then /^I should receive an XML document$/ do
   assert(contentType(@res).match "application/xml")
-  @node = @result.elements[1]
+  #@node = @result.elements[1]
+end
+
+Then /^I should receive (\d+) entities$/ do |count|
+  assert(@result.elements != nil, "Cannot find any element")
+  assert(@result.elements.size == convert(count), "Expected #{count}, received #{@result.elements.size}")
+end
+
+Then /^when I look at the student "([^\"]*)" "([^\"]*)"$/ do |fname, lname|
+  found = false
+  @result.elements.each do |element|
+    if element.elements["name/firstName"].text == fname && element.elements["name/lastSurname"].text == lname
+      found = true
+      @result = element
+      break
+    end
+  end
+  assert(found, "Cannot find #{fname} #{lname}")
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)"$/ do |key, value|
@@ -162,7 +152,7 @@ Then /^I should see each entity's "([^\"]*)" is "([^\"]*)"$/ do |key, value|
   end
 end
 
-Then /^I should receive ([\d]*) entities$/ do |count|
+Then /^I should receive ([\d]*) records$/ do |count|
   assert(@result.elements.size == convert(count), "Expected #{count}, received #{@result.elements.size}")
 end
 
@@ -172,6 +162,23 @@ Then /^I should find "([^"]*)" under "([^"]*)"$/ do |key, arg|
   @node = @result.elements["#{path}/#{key}"]
 end
 
+Then /^I should find "([^"]*)" under it$/ do |key|
+  assert(@node.elements["#{key}"] != nil, "Cannot find the element #{key}")
+  @node = @node.elements["#{key}"]
+end
+
+Then /^I should find (\d+) "([^"]*)" under it$/ do |count, key|
+  assert(@node.get_elements("#{key}") != nil, "Cannot find the element #{key}")
+  assert(@node.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@node.get_elements("#{key}").size}")
+  @node = @node.get_elements("#{key}")
+end
+
+Then /^I should find ([\d]*) "([^"]*)"$/ do |count, key|
+  assert(@result.get_elements("#{key}") != nil, "Cannot find #{key}")
+  assert(@result.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@result.get_elements("#{key}").size}")
+  @node = @result.get_elements("#{key}")
+end
+
 Then /^I should find ([\d]*) "([^"]*)" under "([^"]*)"$/ do |count, key, arg|
   path = arg.split("><").join("/")
   assert(@result.elements["#{path}"].get_elements("#{key}") != nil, "Cannot find #{key} under #{path}")
@@ -179,9 +186,21 @@ Then /^I should find ([\d]*) "([^"]*)" under "([^"]*)"$/ do |count, key, arg|
   @node = @result.elements["#{path}"].get_elements("#{key}")
 end
 
-Then /^I should see "([^"]*)" is "([^"]*)" for the one at position (\d+)$/ do |key, value, pos|
-  assert(@node[convert(pos)-1].elements["#{key}"] != nil,  "Cannot find element #{key}")
-  assert(@node[convert(pos)-1].elements["#{key}"].text == value, "Value does not match. expected #{value}, received #{@node[convert(pos)-1].elements["#{key}"].text}")
+Then /^I should see "([^"]*)" is "([^"]*)" for one of them$/ do |key, value|
+  found = false
+  @node.each do |element|
+    if element.elements["#{key}"].text == value
+      found = true
+      @node = element
+      break
+    end
+  end
+  assert(found, "Cannot find the element #{key} = #{value}")
+end
+
+Then /^I should see "([^"]*)" is "([^"]*)" for it$/ do |key, value|
+  assert(@node.elements["#{key}"] != nil,  "Cannot find element #{key}")
+  assert(@node.elements["#{key}"].text == value, "Value does not match. expected #{value}, received #{@node.elements["#{key}"].text}")
 end
 
 Then /^I should find (\d+) entries with "([^"]*)" including the string "([^"]*)"$/ do |count, key, value|

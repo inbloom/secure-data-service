@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources;
 
 import java.util.HashMap;
@@ -10,6 +27,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -22,15 +43,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-
 /**
  * System resource class for security session context.
  * Hosted at the URI path "/system/session"
@@ -38,14 +50,8 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Path("{a:v1/|}system/session")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecuritySessionResource {
-
-    @Autowired
-    private RoleRightAccess roleAccessor;
-
-    @Autowired
-    private ClientRoleResolver roleResolver;
 
     @Autowired
     private OauthSessionManager sessionManager;
@@ -100,7 +106,7 @@ public class SecuritySessionResource {
         }
 
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+        principal.setSliRoles(principal.getRoles());
         return SecurityContextHolder.getContext();
     }
 
@@ -125,18 +131,12 @@ public class SecuritySessionResource {
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
             sessionDetails.put("edOrg", principal.getEdOrg());
-            sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+            sessionDetails.put("edOrgId", principal.getEdOrgId());
+
+            sessionDetails.put("sliRoles", principal.getRoles());
             sessionDetails.put("tenantId", principal.getTenantId());
             sessionDetails.put("external_id", principal.getExternalId());
-
-            List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
-                @Override
-                public List<Role> execute() {
-                    return roleAccessor.fetchAllRoles();
-                }
-            });
-
-            sessionDetails.put("all_roles", allRoles);
+            sessionDetails.put("email", getUserEmail(principal));
 
         } else {
             sessionDetails.put("authenticated", false);
@@ -144,6 +144,55 @@ public class SecuritySessionResource {
         }
 
         return sessionDetails;
+    }
+
+    private String getUserEmail(SLIPrincipal principal) {
+        // Admin users are special cases.
+        if (principal.getEntity().getBody().isEmpty()) {
+            return principal.getExternalId();
+        }
+        Map<String, Object> body = principal.getEntity().getBody();
+        if (!body.containsKey("electronicMail")) {
+            return null;
+        }
+        List emails = (List) body.get("electronicMail");
+        if (emails.size() == 1) {
+            Map<String, String> email = (Map) emails.get(0);
+            return email.get("emailAddress");
+        }
+
+        String address = getEmailAddressByType(emails, "Work");
+        if (address != null) {
+            return address;
+        }
+
+        address = getEmailAddressByType(emails, "Organization");
+        if (address != null) {
+            return address;
+        }
+
+        address = getEmailAddressByType(emails, "Other");
+        if (address != null) {
+            return address;
+        }
+
+        address = getEmailAddressByType(emails, "Home/Personal");
+        if (address != null) {
+            return address;
+        }
+        return null;
+    }
+
+    private String getEmailAddressByType(List emails, String checkedType) {
+        for (Object baseEmail : emails) {
+            Map<String, String> email = (Map) baseEmail;
+            String type = email.get("emailAddressType");
+            String address = email.get("emailAddress");
+            if (type.equals(checkedType)) {
+                return address;
+            }
+        }
+        return null;
     }
 
     /**

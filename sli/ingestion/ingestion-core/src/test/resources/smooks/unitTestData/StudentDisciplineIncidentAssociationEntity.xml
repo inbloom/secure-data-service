@@ -43,7 +43,11 @@
         </Race>
       </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="waterboard" />
+    <DisciplineIncidentReference>
+      <DisciplineIncident>
+        <IncidentIdentifier>waterboard</IncidentIdentifier>
+      </DisciplineIncident>
+    </DisciplineIncidentReference>
     <StudentParticipationCode>Perpetrator</StudentParticipationCode>
       <Behaviors>
         <CodeValue>Code Value 1</CodeValue>

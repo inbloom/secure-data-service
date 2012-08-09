@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.io.IOException;
@@ -61,12 +78,12 @@ public class AssessmentItemTest {
         Assert.assertEquals(100, m.get("maxRawScore"));
         Assert.assertEquals("Hello World!", m.get("correctResponse"));
 
-        List<Map<String, Object>> refs = (List<Map<String, Object>>) nr.getLocalParentIds().get("learningStandardRefs");
+        List<Map<String, Object>> refs = (List<Map<String, Object>>) nr.getAttributes().get("learningStandards");
         Assert.assertNotNull(refs);
         Assert.assertEquals(2, refs.size());
-        Assert.assertEquals("id-code-1", refs.get(0).get("learningStandardId"));
+        Assert.assertEquals("id-code-1", refs.get(0).get("identificationCode"));
         Assert.assertEquals("Common Core", refs.get(0).get("contentStandardName"));
-        Assert.assertEquals("id-code-2", refs.get(1).get("learningStandardId"));
+        Assert.assertEquals("id-code-2", refs.get(1).get("identificationCode"));
         Assert.assertEquals("Unusual Periphery", refs.get(1).get("contentStandardName"));
 
         Assert.assertEquals("nomen", m.get("nomenclature"));

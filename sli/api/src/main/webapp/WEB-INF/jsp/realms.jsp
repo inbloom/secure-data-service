@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Choose your realm</title>
+<link rel="icon" type="image/x-icon" href="<c:url value="/resources/favicon.ico"/>"/>
 </head>
 <style>
 body {

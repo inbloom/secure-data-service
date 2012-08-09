@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.common.util.logging;
 
 import java.util.Calendar;
@@ -49,26 +66,6 @@ public class SecurityEvent {
     private List<String> roles;
 
     public SecurityEvent() {
-    }
-
-    public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri,
-            String appId, String origin, String executedOn, String credential, String userOrigin,
-            Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, List<String> roles, String logMessage) {
-        this.tenantId = tenantId;
-        this.user = user;
-        this.targetEdOrg = targetEdOrg;
-        this.actionUri = actionUri;
-        this.appId = appId;
-        this.origin = origin;
-        this.executedOn = executedOn;
-        this.credential = credential;
-        this.userOrigin = userOrigin;
-        this.timeStamp = timeStamp;
-        this.processNameOrId = processNameOrId;
-        this.className = className;
-        this.logLevel = logLevel;
-        this.logMessage = logMessage;
-        this.roles = roles;
     }
 
     public String getTenantId() {

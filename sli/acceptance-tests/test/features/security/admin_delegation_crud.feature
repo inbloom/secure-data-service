@@ -1,4 +1,4 @@
-@RALLY_US134
+@smoke @RALLY_US134
 Feature: Admin delegation CRUD
 
 	Scenario: District administrator creating admin delegation
@@ -48,4 +48,4 @@ Scenario: State administrator seeing delegations they have access to
      Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
      When I have access to app authorizations for district "IL-SUNSET"
       Then I should get my delegations
-      And I should see that "appApprovalEnabled" is "true" for "IL-SUNSET"
+      And I should see that "appApprovalEnabled" is "true" for district "IL-SUNSET's ID"

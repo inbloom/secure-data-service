@@ -1,9 +1,27 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.test.generators;
 
 import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
+import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 
 public class GradingPeriodGenerator {
@@ -12,9 +30,17 @@ public class GradingPeriodGenerator {
     private String endDate = null;
     Random generator = new Random();
 
-    public GradingPeriod getGradingPeriod () {
-        GradingPeriod gp = new GradingPeriod ();
-        gp.setGradingPeriod(getGradingPeriodType());
+    public GradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
+        GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+        
+        gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
+        gpit.setSchoolYear("2011-2012");
+//        String orgId = new String("Test");
+        gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) orgId);
+        GradingPeriod gp = new GradingPeriod();
+//        gp.setGradingPeriod(getGradingPeriodType());
+        //gp.setId(orgId);
+        gp.setGradingPeriodIdentity(gpit);
         beginDate = "2011-03-04";
         endDate = "2012-03-04";
         gp.setBeginDate(beginDate);
@@ -25,8 +51,8 @@ public class GradingPeriodGenerator {
         return gp;
     }
 
-    public GradingPeriodType getGradingPeriodType() {
-        int roll = generator.nextInt(20) + 1;
+    public GradingPeriodType getGradingPeriodType(int roll) {
+//        int roll = generator.nextInt(20) + 1;
         switch (roll) {
         case 1:
             return GradingPeriodType.END_OF_YEAR;
@@ -74,9 +100,9 @@ public class GradingPeriodGenerator {
     public static void main(String args[]) {
         GradingPeriodGenerator gpg = new GradingPeriodGenerator();
         for(int i = 0; i < 5; i++ ){
-            GradingPeriod gp = gpg.getGradingPeriod();
+            GradingPeriod gp = gpg.getGradingPeriod(i+"",i);
 
-            log.info("GradingPeriodType = " + gp.getGradingPeriod() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
+            log.info("GradingPeriodType = " + gp.getGradingPeriodIdentity() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
                      "endDate = " + gp.getEndDate() + ",\n" + "totalInstructionDays = " + gp.getTotalInstructionalDays() + ",\n");
 
         }

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.validation.schema;
 
 import java.util.Arrays;
@@ -68,7 +85,7 @@ public class TokenSchema extends NeutralSchema {
      */
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
-        return addError(this.matchesToken(entity), fieldName, entity, getTokens(), ErrorType.ENUMERATION_MISMATCH,
+        return addError(this.matchesToken(entity), fieldName, entity, getQuotedTokens(), ErrorType.ENUMERATION_MISMATCH,
                 errors);
     }
 
@@ -88,5 +105,16 @@ public class TokenSchema extends NeutralSchema {
             return tokens.toArray(new String[0]);
         }
         return null;
+    }
+
+    protected String[] getQuotedTokens() {
+        // Wrap token in quotes so that the error message is more clear
+        String[] quotedTokens = this.getTokens();
+        if (quotedTokens != null) {
+            for (int i = 0; i < quotedTokens.length; i++) {
+                quotedTokens[i] = String.format("'%s'", quotedTokens[i]);
+            }
+        }
+        return quotedTokens;
     }
 }

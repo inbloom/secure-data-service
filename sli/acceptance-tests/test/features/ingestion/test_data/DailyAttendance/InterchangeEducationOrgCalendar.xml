@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-
-  <GradingPeriod id="GRDP_20120527_EDJH">
+<GradingPeriod id="GRDP_20120527_EDJH">
     <GradingPeriodIdentity>
       <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       <GradingPeriod>End of Year</GradingPeriod>
@@ -90,6 +89,7 @@
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
 
+  
   <Session>
     <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>

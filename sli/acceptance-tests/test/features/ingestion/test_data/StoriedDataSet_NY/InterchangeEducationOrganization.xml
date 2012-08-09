@@ -15,10 +15,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10437</PostalCode>
 			<NameOfCounty>Albany</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00001</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -37,10 +36,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10648</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00061</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -65,10 +63,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00027</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -96,10 +93,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00027</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -147,10 +143,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00027</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -205,10 +200,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00061</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -258,10 +252,9 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
-			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<CountyFIPSCode>00061</CountyFIPSCode>
+			<Latitude>42.3</Latitude>
+			<Longitude>75.2</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -323,9 +316,7 @@
 		<CourseDescription>Advanced Masonry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>10000000121</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -338,9 +329,7 @@
 		<CourseDescription>Physical Sciences</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000112</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -353,9 +342,7 @@
 		<CourseDescription>Inorganic Chemistry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>10000000121</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -368,9 +355,7 @@
 		<CourseDescription>Mathmatics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000112</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -383,9 +368,7 @@
 		<CourseDescription>Art Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000122</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -398,9 +381,7 @@
 		<CourseDescription>Structual Engineering</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000111</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -413,9 +394,7 @@
 		<CourseDescription>Sports Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000122</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -428,9 +407,7 @@
 		<CourseDescription>Relativistic Physics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000111</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>

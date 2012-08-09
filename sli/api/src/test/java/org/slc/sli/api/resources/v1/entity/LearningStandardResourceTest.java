@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.entity;
 
 import static org.junit.Assert.assertEquals;
@@ -29,8 +46,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -41,40 +58,40 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for LearningStandardResource
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class LearningStandardResourceTest {
-    
+
     @Autowired
     LearningStandardResource learningStandardResource; // class under test
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
-    
+
     @Before
     public void setup() throws Exception {
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
-        
+
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
-        
+
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
+
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
-    
+
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         Map<String, String> learningStandardId = new HashMap<String, String>();
@@ -86,7 +103,7 @@ public class LearningStandardResourceTest {
         entity.put(ParameterConstants.LEARNING_STANDARD_ID, 1234);
         return entity;
     }
-    
+
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         Map<String, String> learningStandardId = new HashMap<String, String>();
@@ -98,7 +115,7 @@ public class LearningStandardResourceTest {
         entity.put(ParameterConstants.LEARNING_STANDARD_ID, 1234);
         return entity;
     }
-    
+
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         Map<String, String> learningStandardId = new HashMap<String, String>();
@@ -127,7 +144,7 @@ public class LearningStandardResourceTest {
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
-    
+
     @Test
     public void testRead() {
         // create one entity
@@ -135,9 +152,9 @@ public class LearningStandardResourceTest {
                 uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = learningStandardResource.read(id, httpHeaders, uriInfo);
-        
+
         Object responseEntityObj = null;
-        
+
         if (response.getEntity() instanceof EntityResponse) {
             EntityResponse resp = (EntityResponse) response.getEntity();
             responseEntityObj = resp.getEntity();
@@ -155,36 +172,29 @@ public class LearningStandardResourceTest {
             fail("Response entity not recognized: " + response);
         }
     }
-    
+
     @Test
     public void testCreate() {
         Response response = learningStandardResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-        
+
         String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
     }
-    
-    @Test
+
+    @Test(expected = EntityNotFoundException.class)
     public void testDelete() {
         // create one entity
         Response createResponse = learningStandardResource.create(new EntityBody(createTestEntity()), httpHeaders,
                 uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         // delete it
         Response response = learningStandardResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        
-        try {
-            @SuppressWarnings("unused")
-            Response getResponse = learningStandardResource.read(id, httpHeaders, uriInfo);
-            fail("should have thrown EntityNotFoundException");
-        } catch (EntityNotFoundException e) {
-            return;
-        } catch (Exception e) {
-            fail("threw wrong exception: " + e);
-        }
+
+        @SuppressWarnings("unused")
+        Response getResponse = learningStandardResource.read(id, httpHeaders, uriInfo);
     }
 
     @Test

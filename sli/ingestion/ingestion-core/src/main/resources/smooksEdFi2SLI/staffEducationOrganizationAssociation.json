@@ -1,0 +1,43 @@
+{
+    "keyFields" : ["body.staffReference","body.educationOrganizationReference", "body.beginDate"],
+	"references" :
+	[{
+        "fieldPath" : "body.staffReference",
+        "ref" :
+        {
+	        "entityType" : "staff",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.staffUniqueStateId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.educationOrganizationReference",
+        "ref" :
+        {
+	        "entityType" : "school",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
+		                [
+		                	{"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
+		                ]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}
+

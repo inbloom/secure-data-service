@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.jgen;
 
 import org.slc.sli.modeling.psm.helpers.TagName;
@@ -71,6 +88,10 @@ public final class JavaFeature {
         }
     }
 
+    public JavaType getAttributeType(final JavaGenConfig config) {
+        return JavaTypeHelper.getAttributeType(feature, model, config);
+    }
+
     public String getAttributeTypeName(final JavaGenConfig config) {
         return JavaTypeHelper.getAttributeTypeName(feature, model, config);
     }
@@ -79,28 +100,32 @@ public final class JavaFeature {
         return JavaTypeHelper.getNavigableTypeName(feature, model);
     }
 
+    public JavaType getNavigableType() {
+        return JavaTypeHelper.getNavigableType(feature, model);
+    }
+
     public boolean isOptional() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ZERO & range.getUpper() == Occurs.ONE);
+        return (range.getLower() == Occurs.ZERO && range.getUpper() == Occurs.ONE);
     }
 
     public boolean isRequired() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ONE & range.getUpper() == Occurs.ONE);
+        return (range.getLower() == Occurs.ONE && range.getUpper() == Occurs.ONE);
     }
 
     public boolean isZeroOrMore() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ZERO & range.getUpper() == Occurs.UNBOUNDED);
+        return (range.getLower() == Occurs.ZERO && range.getUpper() == Occurs.UNBOUNDED);
     }
 
     public boolean isOneOrMore() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ONE & range.getUpper() == Occurs.UNBOUNDED);
+        return (range.getLower() == Occurs.ONE && range.getUpper() == Occurs.UNBOUNDED);
     }
 
     public boolean isAttribute() {

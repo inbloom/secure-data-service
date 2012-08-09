@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.modeling.xsdgen;
 
 import javax.xml.namespace.NamespaceContext;
@@ -16,18 +33,33 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new NullPointerException("value");
         }
         switch (value) {
-            case ZERO: {
-                return "0";
+        case ZERO: {
+            return "0";
+        }
+        case ONE: {
+            return "1";
+        }
+        case UNBOUNDED: {
+            return "unbounded";
+        }
+        default: {
+            throw new AssertionError(value);
+        }
+        }
+    }
+
+    private static final String typeLexicalName(final QName name, final XMLStreamWriter context) {
+        final NamespaceContext namespaceContext = context.getNamespaceContext();
+        final String namespace = name.getNamespaceURI();
+        if (namespace.length() > 0) {
+            final String prefix = namespaceContext.getPrefix(namespace);
+            if (prefix.length() > 0) {
+                return prefix.concat(":").concat(name.getLocalPart());
+            } else {
+                return name.getLocalPart();
             }
-            case ONE: {
-                return "1";
-            }
-            case UNBOUNDED: {
-                return "unbounded";
-            }
-            default: {
-                throw new AssertionError(value);
-            }
+        } else {
+            return name.getLocalPart();
         }
     }
 
@@ -122,6 +154,15 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     }
 
     @Override
+    public void elementName(final QName name) {
+        try {
+            xsw.writeAttribute("name", name.getLocalPart());
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void end() {
         try {
             xsw.writeEndElement();
@@ -153,9 +194,13 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     }
 
     @Override
-    public void elementName(final QName name) {
+    public void ref(final QName name) {
         try {
-            xsw.writeAttribute("name", name.getLocalPart());
+            if (name.getNamespaceURI().equals(WxsNamespace.URI)) {
+                xsw.writeAttribute("ref", prefix.concat(":").concat(name.getLocalPart()));
+            } else {
+                xsw.writeAttribute("ref", typeLexicalName(name, xsw));
+            }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -180,21 +225,6 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private static final String typeLexicalName(final QName name, final XMLStreamWriter context) {
-        final NamespaceContext namespaceContext = context.getNamespaceContext();
-        final String namespace = name.getNamespaceURI();
-        if (namespace.length() > 0) {
-            final String prefix = namespaceContext.getPrefix(namespace);
-            if (prefix.length() > 0) {
-                return prefix.concat(":").concat(name.getLocalPart());
-            } else {
-                return name.getLocalPart();
-            }
-        } else {
-            return name.getLocalPart();
         }
     }
 }

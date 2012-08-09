@@ -1,13 +1,30 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.validation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +34,7 @@ import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -38,11 +56,13 @@ public class SectionValidationTest {
     @Before
     public void init() {
         repo.clean();
-        repo.addEntity("educationOrganization", "42", ValidationTestUtils.makeDummyEntity("educationOrganization", "42"));
+        repo.addEntity("educationOrganization", "42",
+                ValidationTestUtils.makeDummyEntity("educationOrganization", "42"));
         repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
-        repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
         repo.addEntity("program", "program1", ValidationTestUtils.makeDummyEntity("program", "program1"));
         repo.addEntity("program", "program2", ValidationTestUtils.makeDummyEntity("program", "program2"));
+        repo.addEntity("courseOffering", "MyCourseOfferingId",
+                ValidationTestUtils.makeDummyEntity("courseOffering", "MyCourseOfferingId"));
     }
 
     private Entity goodSection() {
@@ -58,8 +78,8 @@ public class SectionValidationTest {
         credit.put("creditConversion", 2.5);
         goodSection.put("availableCredit", credit);
         goodSection.put("schoolId", "42");
+        goodSection.put("courseOfferingId", "MyCourseOfferingId");
         goodSection.put("sessionId", "MySessionId");
-        goodSection.put("courseId", "MyCourseId");
         List<String> programs = new ArrayList<String>();
         programs.add("program1");
         programs.add("program2");
@@ -86,13 +106,30 @@ public class SectionValidationTest {
             public Map<String, Object> getMetaData() {
                 return new HashMap<String, Object>();
             }
+
+            @Override
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
         };
     }
 
     @Test
     public void testSectionValidation() {
         Entity goodSection = goodSection();
-        assertTrue(validator.validate(goodSection));
+        try {
+            assertTrue(validator.validate(goodSection));
+        } catch (EntityValidationException ex) {
+            for (ValidationError err : ex.getValidationErrors()) {
+                System.err.println(err);
+            }
+            throw ex;
+        }
     }
 
     @Test

@@ -1,7 +1,0 @@
-{
-    "collection": "educationOrganization",
-    "indexFields":
-    [
-        {"name" : "locationInSourceFile" , "order" : "1"}
-    ]
-}

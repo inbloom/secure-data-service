@@ -20,6 +20,10 @@
 				groups and changes in performance from one occasion
 				to the next.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>assessment</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="assessmentTitle" type="assessmentTitle">
@@ -319,12 +323,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="learningStandardId" type="learningStandardId"
+			<xs:element name="learningStandards" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Learning Standard tested by this item.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningStandard</sli:ReferenceType>
+                    </xs:appinfo>
+ 				</xs:annotation>
 			</xs:element>
 			<xs:element name="nomenclature" type="nomenclature"
 				minOccurs="0">
@@ -591,6 +598,59 @@
 
 	</xs:complexType>
 
+	<xs:complexType name="localEducationAgency">
+		<xs:annotation>
+			<xs:documentation>This entity represents an administrative unit at the
+			local level which exists primarily to operate schools or to contract
+			for educational services.  It includes school districts, charter schools,
+			charter management organizations, or other local administrative organizations.
+			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="educationOrganization">
+				<xs:sequence>
+					<xs:element name="LEACategory" type="LEACategoryType">
+						<xs:annotation>
+							<xs:documentation>The category of LEA/district. For example:
+							Independent or Charter 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="charterStatus" type="charterStatusType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A school or agency providing free public
+							elementary or secondary education to eligible students under
+							a specific charter granted by the state legislature or other
+							appropriate authority and designated by such authority to be
+							a charter school.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="localEducationAgencyReference" type="reference" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>For subdistricts, the LEA the subdistrict
+							is a component of.</xs:documentation>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="educationServiceCenterReference" type="reference" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ESC of which the LEA is an organizational
+							component.</xs:documentation>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="objectiveAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity represents subtests that assess
@@ -854,6 +914,10 @@
 				This entity represents a parent or guardian of a
 				student, such as mother, father, or caretaker.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>parent</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
@@ -1024,19 +1088,25 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="institutionId" type="institutionId"
+			<xs:element name="institutionId" type="reference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The ID of the postsecondary institution.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentId" type="xs:string">
+			<xs:element name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>
 						The student associated with the postsecondary
 						event.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1148,6 +1218,10 @@
 				StudentSectionAssociation,
 				SectionAssessmentAssociation
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>section</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
@@ -1285,50 +1359,31 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="courseId"
+			<xs:element maxOccurs="1" minOccurs="1" name="courseOfferingId"
 				type="reference">
 				<xs:annotation>
-					<xs:documentation>The course associated with the section. This
+					<xs:documentation>The course offering associated with the section. This
 						reference is required.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>course</sli:ReferenceType>
+						<sli:ReferenceType>courseOffering</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentReferences" type="reference"
+                minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The assessment(s) which the section is associated with
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessment</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="sectionAssessmentAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a section
-				with an administered assessment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the section associated with the
-						assessment.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessmentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the assessment taken by the
-						section.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>assessment</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
 		<xs:documentation> An association between the section and bell schedule.
 		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">
@@ -1346,6 +1401,10 @@
 				education institution administration. A session may be interrupted
 				by one or more vacations.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>session</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="sessionName" type="identificationCode">
@@ -1425,6 +1484,10 @@
 			<xs:documentation>This entity represents the association of a course
 				with a session during which the course is offered.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>courseOffering</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="localCourseCode" type="localCourseCode">
@@ -1440,6 +1503,15 @@
 					<xs:documentation>The descriptive name given to a course of study
 						offered in the school, if different from the CourseTitle.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>The school that offers the course.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="courseId" type="reference">
@@ -1469,10 +1541,10 @@
 				that includes staff and students who participate in classes and
 				educational activity groups.
 			</xs:documentation>
-            <xs:appinfo>
-                <sli:SecuritySphere>Public</sli:SecuritySphere>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-            </xs:appinfo>
+			<xs:appinfo>
+				<sli:SecuritySphere>Public</sli:SecuritySphere>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -1556,37 +1628,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="schoolSessionAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a school
-				with all its sessions.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the school associated with the
-						session.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the session offered at the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="scoreResult">
 		<xs:annotation>
 			<xs:documentation>A meaningful raw score or statistical expression of
@@ -1650,6 +1691,10 @@
 				This association indicates the staff associated
 				with a cohort of students.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
@@ -1708,6 +1753,10 @@
 				member provides services. Also known as
 				school of service.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffReference" type="reference">
@@ -1825,6 +1874,10 @@
 			<xs:documentation>This association indicates the staff associated
 				with a program.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
@@ -1997,6 +2050,10 @@
 				contractor
 				or businessperson working at a school site.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>staff</sli:CollectionType>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
@@ -2025,7 +2082,6 @@
 					<xs:appinfo>
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2220,6 +2276,22 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="stateEducationAgency">
+		<xs:annotation>
+			<xs:documentation>This entity represents the agency of the state charged
+			with primary responsibility for coordinating and supervising public
+			instruction, including the setting of standards for elementary and secondary
+			instruction programs.
+			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="educationOrganization"/>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="student">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual for whom
@@ -2237,7 +2309,9 @@
 				institution.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>student</sli:CollectionType>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -2577,6 +2651,10 @@
 				student at the
 				end of a semester or school year.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentAcademicRecord</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -2748,6 +2826,10 @@
 				student's response on an assessment. The analysis results in a value
 				that represents a student's performance on a set of items on a test.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="administrationDate" type="xs:date">
@@ -3023,6 +3105,10 @@
 				This association represents the cohort(s) that a
 				student is designated for.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentCohortAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3104,6 +3190,10 @@
 				perpetrators, witnesses, and/or reporters for a discipline
 				incident.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentDisciplineIncidentAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3302,6 +3392,10 @@
 				This association relates students to their parents,
 				guardians, or caretakers.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentParentAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3387,6 +3481,10 @@
 				This association represents the program(s) that a
 				student participates in or is served by.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentProgramAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3468,6 +3566,10 @@
 			<xs:documentation>This association indicates the course sections a
 				student is assigned to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3533,6 +3635,10 @@
 			<xs:documentation>This association represents the school to which a
 				student is enrolled.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentSchoolAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3661,6 +3767,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <!-- 
 			<xs:element name="graduationPlan" type="graduationPlan"
 				minOccurs="0">
 				<xs:annotation>
@@ -3670,18 +3777,23 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+             -->
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentSectionGradebookEntry">
+	<xs:complexType name="studentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
-				StudentSectionGradebookEntry
+				StudentGradebookEntry
 				This entity holds a
 				student’s grade or competency level for a
 				GradeBookEntry.
 				Associations: Student, Section, GradebookEntry
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryId" type="reference">
@@ -3875,6 +3987,10 @@
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseAttemptResult" type="courseAttemptResultType">
@@ -4020,6 +4136,7 @@
 			</xs:documentation>
             <xs:appinfo>
                 <sli:CollectionType>staff</sli:CollectionType>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -4064,6 +4181,10 @@
 				teacher provides
 				instructional services to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>teacherSchoolAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -4126,6 +4247,10 @@
 				which a teacher is
 				assigned to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -4273,6 +4398,10 @@
 				organization after a disruptive event that is recorded as a
 				discipline incident.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>disciplineAction</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="disciplineActionIdentifier" type="disciplineActionIdentifier">
@@ -4397,9 +4526,6 @@
 
 	<xs:complexType name="educationOrganization">
 		<xs:annotation>
-			<xs:appinfo>
-				<sli:SecuritySphere>Public</sli:SecuritySphere>
-			</xs:appinfo>
 			<xs:documentation>This entity represents any public or private
 				institution,
 				organization, or agency that provides instructional or
@@ -4407,6 +4533,11 @@
 				students
 				or staff at any level.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+				<sli:SecuritySphere>Public</sli:SecuritySphere>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="stateOrganizationId" type="identificationCode">
@@ -4511,7 +4642,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="agencyHierarchyName" type="xs:string"
+			<xs:element name="agencyHierarchyName" type="agencyHierarchyType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An optional hierarchical name for the Ed Org
@@ -5252,6 +5383,10 @@
 			<xs:documentation>This entity represents identified learning
 				objectives for courses in specific grades.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>learningObjective</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningObjectiveId" type="learningStandardId"
@@ -5358,6 +5493,10 @@
 				student's
 				proficiency.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>learningStandard</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningStandardId" type="learningStandardId">
@@ -5550,6 +5689,10 @@
 				grading period). Student grades are usually a compilation of marks
 				and other scores.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>grade</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="letterGradeEarned" minOccurs="0">
@@ -5636,14 +5779,18 @@
 				assignment, homework, or classroom
 				assessment to be recorded in a
 				gradebook.
-				Associations: studentSectionGradebookEntry, section.
+				Associations: studentGradebookEntry, section.
 				This
-				is similar to a studentSectionGradebookEntry, but this entity
+				is similar to a studentGradebookEntry, but this entity
 				represents the
 				assessment/evaluation, not the grade a student
 				received.
 				Limitations: None
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>gradebookEntry</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryType" type="gradebookEntryType">
@@ -5697,6 +5844,10 @@
 				This entity represents the time span for which
 				grades are reported.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>gradingPeriod</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
@@ -5774,17 +5925,15 @@
           <xs:documentation>The identifier for the school year.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="stateOrganizationId" type="identificationCode">
+      <xs:element name="schoolId" type="reference">
         <xs:annotation>
           <xs:documentation>The identifier assigned to an education agency by
                             the State
                             Education Agency (SEA). Also known as the State LEA ID.
           </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
-        <xs:annotation>
-          <xs:documentation>The identifier for the educational organization.</xs:documentation>
+          <xs:appinfo>
+          <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -5803,6 +5952,10 @@
 				individual plans for
 				some or all students.
 			</xs:documentation>
+			<xs:appinfo>
+                <sli:CollectionType>graduationPlan</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="graduationPlanType">
@@ -5931,6 +6084,10 @@
 				This entity represents any type of list of
 				designated students for tracking, analysis, or intervention.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>cohort</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="cohortIdentifier" type="cohortIdentifier">
@@ -6043,6 +6200,10 @@
 				If you are looking for a specific course instance, use section
 				instead.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>course</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseTitle" type="courseTitle">
@@ -6329,6 +6490,10 @@
 				Attendance is partitioned by school year. School years must be
 				unique per school year attendance.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>attendance</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -6515,6 +6680,10 @@
 				incidents are events classified as warranting
 				discipline action.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>disciplineIncident</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="incidentIdentifier" type="incidentIdentifier">
@@ -6717,6 +6886,10 @@
 			<xs:documentation>This entity represents a day in the school
 				calendar.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>calendarDate</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="date" type="xs:date">
@@ -6807,6 +6980,10 @@
 				state, or local agencies. Programs may also include
 				organized extracurricular activities for students.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>program</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs="0" name="programId" type="programId">
@@ -6973,6 +7150,10 @@
 			<xs:documentation>This educational entity represents the collection
 				of student grades for courses taken during a grading period.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>reportCard</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="grades" type="reference" minOccurs="0"
@@ -7073,6 +7254,9 @@
 		<xs:annotation>
 			<xs:documentation>This descriptor defines various levels for assessed
 				competencies.</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>competencyLevelDescriptor</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="codeValue" type="codeValue">
@@ -7205,6 +7389,10 @@
 			<xs:documentation>This entity represents the competency assessed or
 				evaluated for the student against a specific Learning Objective.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentCompetency</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<!-- learningObjective and studentCompetencyObjective were wrapped in
@@ -7269,6 +7457,10 @@
 				student achievement that are not associated with specific learning
 				objectives (e.g., paying attention in class).
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentCompetencyObjectiveId" type="identificationCode"
@@ -7318,5 +7510,24 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+  <xs:complexType name="home">
+    <xs:annotation>
+      <xs:documentation>TODO: Placeholder documentation</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="links" type="links" maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="links">
+    <xs:annotation>
+      <xs:documentation>TODO: Placeholder documentation</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="rel" type="xs:string" />
+      <xs:element name="href" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
 
 </xs:schema>

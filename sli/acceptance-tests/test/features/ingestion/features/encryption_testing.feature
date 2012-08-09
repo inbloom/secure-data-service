@@ -5,7 +5,6 @@ Background: I have a landing zone route configured
     Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone
 
-@smoke
 Scenario: Ingested Student data should be encrypted: Clean Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
@@ -59,7 +58,6 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 		And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
 		And the field "body.loginId" with value "rsd" is encrypted
 
-@smoke
 Scenario: Ingested Student data should be encrypted: Populated Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone

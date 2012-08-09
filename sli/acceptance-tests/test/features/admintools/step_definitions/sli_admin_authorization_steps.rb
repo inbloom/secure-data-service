@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require 'json'
 
@@ -31,7 +50,7 @@ When /^I try to authenticate on the Application Authorization Tool$/ do
 end
 
 When /^I try to authenticate on the Role Mapping Tool$/ do
-  step "I navigate to the Complex-Configurable Role Mapping Page"
+  step "I navigate to the Custom Role Mapping Page"
   step "I login"
 end
 
@@ -41,7 +60,7 @@ And /^I login$/ do
 end
 
 Then /^the api should generate a (\d+) error$/ do |arg1|
-  sleep 1
+  sleep 2
   puts @driver.current_url
   assert(@driver.current_url.end_with?("api/rest/saml/sso/post"), "Should have gotten an error")
 end

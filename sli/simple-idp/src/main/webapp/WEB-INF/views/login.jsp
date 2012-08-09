@@ -1,9 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false"%>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
+<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 <title>Simple IDP</title>
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -23,10 +26,17 @@
 	margin: 10px;
 	margin-top: 30px;
 }
+
+.tool-tip-link {
+	margin-left:140px;
+	color:rgb(0, 102, 153);
+	font-size:11px; 
+}
+
 </style>
-<link href="resources/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
-<body OnLoad="document.login_form.user_id.focus();">
+<body onload="document.login_form.user_id.focus();">
 
 	<div class="container">
 		
@@ -35,16 +45,16 @@
 				<span class="heading">
 					<c:choose>
 						<c:when test ="${realm=='SLIAdmin'}">
-							<img src="resources/SLIAdmin.png"/>
+							<img src="resources/SLIAdmin.png" alt="SLC IDP Logo"/>
 						</c:when>
 						<c:when test="${is_sandbox}">
-							<img src="resources/sandbox.png"/>
+							<img src="resources/sandbox.png" alt="Sandbox IDP Logo"/>
 						</c:when>
 						<c:when test="${realm!=null}">
-							<img src="resources/${fn:escapeXml(realm)}.png"/>
+							<img src="resources/${fn:escapeXml(realm)}.png" alt="${fn:escapeXml(realm)} IDP Logo"/>
 						</c:when>
 						<c:otherwise>
-							<img src="resources/default.png"/>
+							<img src="resources/default.png" alt="IDP Logo"/>
 						</c:otherwise>
 					</c:choose>
 					
@@ -70,6 +80,7 @@
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
 				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">User Name:</label>
@@ -79,6 +90,11 @@
 						<label for="password" class="control-label">Password:</label>
 						<input type="password" id="password" name="password" />
 					</div>
+					<c:if test="${isForgotPasswordVisible}">
+						<div class="control-group">
+							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+						</div>
+					</c:if>
 					<c:if test="${is_sandbox}">
 					<div class="control-group">
 						<label for="impersonate_user" class="control-label">Login as User:</label>
@@ -94,6 +110,9 @@
 								</c:forEach>
 							</select>
 							<p class="help-block">Select one or more roles using Ctrl/Apple+Click</p>
+                            <label for='customRoles'>Custom Role(s):</label>
+                            <input type="text" id="customRoles" name="customRoles" />
+                            <p class="help-block">Custom roles should be comma separated</p>
 						</div>
 					</div>
 					</c:if>

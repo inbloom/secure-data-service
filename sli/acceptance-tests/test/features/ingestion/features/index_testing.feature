@@ -24,7 +24,7 @@ Given the following collections are empty in datastore:
      | studentSectionAssociation                  |
      | studentSectionAssociation                  |
      | studentSectionAssociation                  |
-     | studentSectionGradebookEntry               |
+     | studentGradebookEntry                      |
      | studentTranscriptAssociation               |
      | teacher                                    |
      | teacherSectionAssociation                  |
@@ -53,7 +53,7 @@ Then I should see following map of indexes in the corresponding collections:
      | studentSectionAssociation                  | body.sectionId_1_metaData.tenantId_1_metaData.externalId_1           |
      | studentSectionAssociation                  | body.studentId_1_metaData.tenantId_1_body.sectionId_1                |
      | studentSectionAssociation                  | body.studentId_1_metaData.tenantId_1_metaData.externalId_1           |
-     | studentSectionGradebookEntry               | metaData.tenantId_1_metaData.externalId_1                            |
+     | studentGradebookEntry                      | metaData.tenantId_1_metaData.externalId_1                            |
      | studentTranscriptAssociation               | body.studentId_1_metaData.tenantId_1_body.courseId_1                 |
      | teacher                                    | metaData.tenantId_1_metaData.externalId_1                            |
      | teacherSectionAssociation                  | body.teacherId_1_metaData.tenantId_1_body.sectionId_1                |

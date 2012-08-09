@@ -1,3 +1,4 @@
+@RALLY_US2492
 Feature: As an SLI application, I want to be able to read securityEvent entities
 SEA Admins should be able to see all securityEvents related to their SEA and having securityEvent.role as SEA Administrator
 LEA Admins should be able to see all securityEvents related to their LEA and having securityEvent.role as LEA Administrator

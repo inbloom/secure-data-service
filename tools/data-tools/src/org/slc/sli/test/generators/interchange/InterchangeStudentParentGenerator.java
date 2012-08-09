@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 /**
  *
  */
@@ -6,8 +23,12 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.InterchangeStudentParent;
 import org.slc.sli.test.edfi.entities.Parent;
+import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.Student;
 import org.slc.sli.test.edfi.entities.StudentParentAssociation;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
@@ -15,8 +36,10 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.FastStudentGenerator;
+import org.slc.sli.test.generators.MediumStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 
@@ -39,29 +62,31 @@ public class InterchangeStudentParentGenerator {
      *
      * @return
      */
-    public static InterchangeStudentParent generate() {
+    public static void generate(InterchangeWriter<InterchangeStudentParent> iWriter)  throws Exception  {
 
-        InterchangeStudentParent interchange = new InterchangeStudentParent();
-        List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
+//        InterchangeStudentParent interchange = new InterchangeStudentParent();
+//        List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
-        addEntitiesToInterchange(interchangeObjects);
-
-        return interchange;
+    	
+        writeEntitiesToInterchange(iWriter);
+        
+//        return interchange;
     }
 
     /**
      * Generate the individual parent Association entities.
      *
      * @param interchangeObjects
+     * @throws Exception 
      */
 
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentParent> iWriter) throws Exception {
 
-        generateStudents(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
 
-        generateParents(interchangeObjects, MetaRelations.PARENT_MAP.values());
+        generateParents(iWriter, MetaRelations.PARENT_MAP.values());
 
-        generateParentStudentAssoc(interchangeObjects, MetaRelations.STUDENT_PARENT_MAP.values());
+        generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
 
 
     }
@@ -72,21 +97,34 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param studentMetas
+     * @throws Exception 
      */
-    private static void generateStudents(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    private static void generateStudents(InterchangeWriter<InterchangeStudentParent> iWriter, Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
         for (StudentMeta studentMeta : studentMetas) {
 
-            Student student;
+            Student student = null;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                student = null;
+                try {
+					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             } else {
-                student = FastStudentGenerator.generateLowFi(studentMeta.id);
+                try {
+					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
 
-            interchangeObjects.add(student);
+
+            
+            iWriter.marshal(student);
 
         }
 
@@ -100,9 +138,10 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param parentMetas
+     * @throws Exception 
      */
 
-    private static void generateParents(List<Object> interchangeObjects, Collection<ParentMeta> parentMetas ) {
+    private static void generateParents(InterchangeWriter<InterchangeStudentParent> iWriter, Collection<ParentMeta> parentMetas ) throws Exception {
 
 
         long startTime = System.currentTimeMillis();
@@ -113,10 +152,13 @@ public class InterchangeStudentParentGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 parent = null;
             } else {
-                parent = ParentGenerator.generate(parentMeta.id, parentMeta.isMale);
+                //parent = ParentGenerator.generate(parentMeta.id, parentMeta.isMale);
+            	parent = ParentGenerator.generateMediumFi(parentMeta.id, parentMeta.isMale);
             }
 
-            interchangeObjects.add(parent);
+
+            
+            iWriter.marshal(parent);
         }
 
         System.out.println("generated " + parentMetas.size() + " Parent objects in: "
@@ -130,7 +172,7 @@ public class InterchangeStudentParentGenerator {
      * @param studentParentAssociationMetas
      */
 
-    private static void generateParentStudentAssoc(List<Object> interchangeObjects, Collection<StudentParentAssociationMeta> studentParentAssociationMetas) {
+    private static void generateParentStudentAssoc(InterchangeWriter<InterchangeStudentParent> iWriter, Collection<StudentParentAssociationMeta> studentParentAssociationMetas) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -145,7 +187,9 @@ public class InterchangeStudentParentGenerator {
                 else {
                     studentParent = StudentParentAssociationGenerator.generateLowFi(studentParentAssociationMeta.parentIds,studentParentAssociationMeta.isMale, studentParentAssociationMeta.studentIds);
                 }
-                interchangeObjects.add(studentParent);
+
+                
+                iWriter.marshal(studentParent);
 
                 objGenCounter++;
 

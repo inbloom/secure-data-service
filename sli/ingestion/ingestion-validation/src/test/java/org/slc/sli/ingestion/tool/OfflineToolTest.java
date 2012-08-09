@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.tool;
 
 import static org.junit.Assert.fail;
@@ -26,8 +43,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author tke
  *
  */
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class OfflineToolTest {
@@ -100,15 +115,14 @@ public class OfflineToolTest {
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args.getClass()}, new Object[]{args});
         Mockito.verify(logger, Mockito.times(1)).error("validationTool:Illegal options");
 
-
-        // Testing doesn't existing file
+        // Testing nonexistent file
         reset();
         String[] args4 = new String[1];
         args4[0] = "/invalid/nonExist.ctl";
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args4.getClass()}, new Object[]{args4});
         Mockito.verify(logger, Mockito.times(1)).error(args4[0] + " does not exist");
 
-        //Passing a directory
+        // Passing a directory
         reset();
         Resource fileResource = new ClassPathResource("invalid/");
         args4[0] = fileResource.getFile().toString();

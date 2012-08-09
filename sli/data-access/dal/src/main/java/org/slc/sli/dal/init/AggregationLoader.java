@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.init;
 
 import java.io.BufferedReader;
@@ -13,9 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * On startup loads all javascript function definitions into Mongo's memory.
@@ -24,7 +38,7 @@ import javax.annotation.PostConstruct;
  * @author Kevin Myers kmyers@wgen.net
  *
  */
-@Component
+
 public class AggregationLoader {
 
     // ability to write to DEBUG output
@@ -42,7 +56,7 @@ public class AggregationLoader {
     public AggregationLoader() {
     }
 
-    @PostConstruct
+
     public void init() {
         if (template != null) {
             if (loadJavascriptFiles(getFiles(), PATH_PREFIX)) {
@@ -115,7 +129,9 @@ public class AggregationLoader {
         // file IO can throw IOException(s)
         try {
 
-            if (in == null) return "";
+            if (in == null) {
+                return "";
+            }
 
             StringBuffer fileData = new StringBuffer();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));

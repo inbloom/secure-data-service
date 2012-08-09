@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.model;
 
 import java.util.ArrayList;
@@ -13,7 +29,6 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
@@ -46,7 +61,7 @@ public class NewBatchJob implements Job {
 
     private Map<String, String> batchProperties;
 
-    private List<StageSet> stages;
+    private List<Stage> stages;
 
     private List<ResourceEntry> resourceEntries;
 
@@ -55,7 +70,7 @@ public class NewBatchJob implements Job {
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
         initStartTime();
     }
@@ -63,7 +78,7 @@ public class NewBatchJob implements Job {
     public NewBatchJob(String id) {
         this.id = id;
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
         initStartTime();
     }
@@ -81,11 +96,9 @@ public class NewBatchJob implements Job {
             this.batchProperties = batchProperties;
         }
 
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         if (listOfStages != null) {
-            for (int i = 0; i < listOfStages.size(); i++) {
-                this.stages.add(new StageSet(listOfStages.get(i)));
-            }
+            this.stages = listOfStages;
         }
 
         this.resourceEntries = new LinkedList<ResourceEntry>();
@@ -103,7 +116,7 @@ public class NewBatchJob implements Job {
 
     public void stop() {
         jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
-      }
+    }
 
     public static NewBatchJob createJobForFile(String fileName) {
 
@@ -115,13 +128,25 @@ public class NewBatchJob implements Job {
     /**
      * generates a new unique ID
      */
-    @PutResultInContext(returnName = "ingestionBatchJobId")
     public static String createId(String filename) {
         if (filename == null) {
             return UUID.randomUUID().toString();
         } else {
             return filename + "-" + UUID.randomUUID().toString();
         }
+    }
+
+    @Override
+    public String getTenantId() {
+        String tenantId = getProperty("tenantId");
+        if (tenantId == null) {
+            tenantId = "SLI";
+        }
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        setProperty("tenantId", tenantId);
     }
 
     @Override
@@ -213,12 +238,6 @@ public class NewBatchJob implements Job {
         return jobStopTimestamp;
     }
 
-    /*
-    public List<Stage> getStages() {
-        return stages;
-    }
-    */
-
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
     }
@@ -273,11 +292,9 @@ public class NewBatchJob implements Job {
     public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
         List<Metrics> m = new LinkedList<Metrics>();
 
-        for (StageSet sts : this.stages) {
-            for (Stage s: sts.getChunks()) {
-                if (stageType.getName().equals(s.getStageName())) {
-                    m.addAll(s.getMetrics());
-                }
+        for (Stage s : this.stages) {
+            if (stageType.getName().equals(s.getStageName())) {
+                m.addAll(s.getMetrics());
             }
         }
 
@@ -294,48 +311,13 @@ public class NewBatchJob implements Job {
      * @param stage
      */
     public void addStage(Stage stage) {
-        boolean inExisting = false;
-        for (int i = 0; i < this.stages.size(); i++) {
-            if (!inExisting && this.stages.get(i).getStageName().equals(stage.getStageName())) {
-                this.stages.get(i).addStage(stage);
-                inExisting = true;
-            }
-        }
 
-        if (!inExisting) {
-            this.stages.add(new StageSet(stage));
-        }
+        this.stages.add(stage);
     }
 
     public void addStageChunk(Stage stage) {
         this.addStage(stage);
     }
-
-    /*
-    public void addStageChunk(Stage stage) {
-        boolean stageFound = false;
-
-        Stage stageToUpdate;
-        for (int i = 0; i < this.stages.size(); i++) {
-            if (this.stages.get(i).getStageName().equals(stage.getStageName())) {
-                stageFound = true;
-                stageToUpdate = this.stages.remove(i);
-
-                //insert stage with chunks
-                for (Metrics m : stage.getMetrics()) {
-                    stageToUpdate.addMetrics(m);
-                }
-
-                this.stages.add(stageToUpdate);
-            }
-        }
-
-        if (!stageFound) {
-            this.stages.add(stage);
-        }
-
-    }
-    */
 
     @Override
     public List<IngestionFileEntry> getFiles() {
@@ -356,19 +338,6 @@ public class NewBatchJob implements Job {
             }
         }
 
-        // assign neutral record files to IngestionFileEntry
-        // for (ResourceEntry resourceEntry : resourceEntries) {
-        // if
-        // (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())
-        // && resourceEntry.getResourceName() != null) {
-        // for (IngestionFileEntry ife : ingestionFileEntries) {
-        // if (ife.getFileName().equals(resourceEntry.getExternallyUploadedResourceId())) {
-        // ife.setNeutralRecordFile(new File(resourceEntry.getResourceName()));
-        // break;
-        // }
-        // }
-        // }
-        // }
         return ingestionFileEntries;
     }
 
@@ -392,6 +361,5 @@ public class NewBatchJob implements Job {
         // TODO Auto-generated method stub
         return null;
     }
-
 
 }

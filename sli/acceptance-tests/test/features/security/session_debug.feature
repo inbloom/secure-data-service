@@ -1,4 +1,5 @@
-Feature: In order to retreive session details from the API
+@smoke
+Feature: In order to retrieve session details from the API
 
 Scenario: Authenticate with valid session ID and get the session debug context successfully
         
@@ -39,4 +40,13 @@ Scenario: Access the session check resource with invalid authentication session 
 	When I GET the url "/system/session/check" using an invalid session ID
     Then I should receive a return code of 200
     And I should see the non-authenticated object in the response body
+    
+@US2926
+Scenario: Checking that we get an email back with session check
 
+	When I GET the url "/system/session/check" using a staff ID
+    Then I should receive a return code of 200
+    And I should see the work email address in the response
+  When I GET the url "/system/session/check" using an admin ID
+    Then I should receive a return code of 200
+    And I should see the email address in the response

@@ -1,19 +1,36 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.oauth;
 
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,21 +39,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
-/**
- *
- * @author pwolf
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -45,78 +48,131 @@ import org.slc.sli.domain.Repository;
 public class ApplicationAuthorizationValidatorTest {
 
     @Autowired
-    @InjectMocks
     ApplicationAuthorizationValidator validator;
 
-    @Mock
-    Repository<Entity> repo;
+    @Autowired
+    private Repository<Entity> repo;
 
-    @Mock
-    ContextResolverStore store;
-
-    @Mock
-    EntityContextResolver resolver;
-
+    Entity lea1 = null;
+    Entity sea1 = null;
+    Entity staff1 = null;
+    Entity adminApp = null;
+    Entity autoApp = null;
+    Entity approvedApp = null;
+    Entity noAuthApp = null;
+    Entity nonApprovedApp = null;
+    Entity notAuthorizedApp = null;
+    Entity leaRealm = null;
+    Entity sliRealm = null;
+    
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
 
-        //set up the resolver store to resolve a couple of edorgs
-        List<String> edOrgIds = new ArrayList<String>();
-        edOrgIds.add("district1");
-        edOrgIds.add("school1");
-        Mockito.when(resolver.findAccessible(Mockito.any(Entity.class))).thenReturn(edOrgIds);
-        Mockito.when(store.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION)).thenReturn(resolver);
-
-        //Set up the LEA
-        HashMap body = new HashMap();
-        List<String> categories = new ArrayList<String>();
-        categories.add("Local Education Agency");
-        Entity district1 = new MongoEntity("educationOrganization", "district1", body, new HashMap<String, Object>());
-        district1.getBody().put("stateOrganizationId", "NC-D1");
-        district1.getBody().put("organizationCategories", categories);
-        Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "district1")).thenReturn(district1);
-
-        //Set up a school
-        body = new HashMap();
-        categories = new ArrayList<String>();
-        categories.add("School");
-        Entity school1 = new MongoEntity("educationOrganization", "school1", body, new HashMap<String, Object>());
-        school1.getBody().put("organizationCategories", categories);
-        school1.getBody().put("stateOrganizationId", "NC-D1-SC1");
-        Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school1")).thenReturn(school1);
-
+        HashMap<String, Object> body = null;
+        
+        //Create edorgs
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("State Education Agency"));
+        sea1 = repo.create("educationOrganization", body);   
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put("parentEducationAgencyReference", sea1.getEntityId());
+        lea1 = repo.create("educationOrganization", body);
+        
+        //Create a staff associated with the LEA
+        body.put("staffUniqueStateId", "staff1");
+        staff1 = repo.create("staff", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("educationOrganizationReference", lea1.getEntityId());
+        body.put("staffReference", staff1.getEntityId());
+        repo.create("staffEducationOrganizationAssociation", body);
+        
+        //Create an app admin app - admin_visible = true
+        body = new HashMap<String, Object>();
+        body.put("name", "Admin App");
+        body.put("authorized_for_all_edorgs", false);
+        body.put("allowed_for_all_edorgs", false);
+        body.put("admin_visible", true);
+        adminApp = repo.create("application", body);
+        
+        //Create an auto allowed/authorized app
+        body = new HashMap<String, Object>();
+        body.put("name", "Auto App");
+        body.put("authorized_for_all_edorgs", true);
+        body.put("allowed_for_all_edorgs", true);
+        body.put("admin_visible", false);
+        autoApp = repo.create("application", body);
+        
+        //Create a normal app that's approved and authorized
+        body = new HashMap<String, Object>();
+        body.put("name", "Approved App");
+        body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        approvedApp = repo.create("application", body);
+        
+        //Create a normal app that's authorized by the edorg but not approved by developer
+        body = new HashMap<String, Object>();
+        body.put("name", "App No EdOrgs");
+        body.put("authorized_ed_orgs", new ArrayList());
+        nonApprovedApp = repo.create("application", body);
+        
+        //Create a normal app that's approved by the developer but not authorized by edorg
+        body = new HashMap<String, Object>();
+        body.put("name", "App No EdOrgs");
+        body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        notAuthorizedApp = repo.create("application", body);
+        
+        //Create a normal app that's not authorized for any edorgs and not authorized by any edorgs
+        body = new HashMap<String, Object>();
+        body.put("name", "App No Auth");
+        body.put("authorized_ed_orgs", new ArrayList());
+        noAuthApp = repo.create("application", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("authId", lea1.getEntityId());
+        body.put("authType", "EDUCATION_ORGANIZATION");
+        body.put("appIds", Arrays.asList(approvedApp.getEntityId(), nonApprovedApp.getEntityId()));
+  
+        repo.create("applicationAuthorization", body);
+        
+        body = new HashMap<String, Object>();
+        leaRealm = repo.create("realm", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("admin", true);
+        sliRealm = repo.create("realm", body);
     }
 
     @Test
-    public void testAppAuthorizationNoAppAuth() {
+    public void testStaffUser() throws InterruptedException {
         SLIPrincipal principal = new SLIPrincipal();
-        principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        assertNull(validator.getAuthorizedApps(principal));
+        principal.setEntity(staff1);
+        principal.setEdOrg(lea1.getEntityId());
+        principal.setRealm(leaRealm.getEntityId());
+        List<String> ids = validator.getAuthorizedApps(principal);
+        
+        assertTrue("Can see autoApp", ids.contains(autoApp.getEntityId()));
+        assertTrue("Can see approvedApp", ids.contains(approvedApp.getEntityId()));
+        assertFalse("Cannot see adminApp", ids.contains(adminApp.getEntityId()));
+        assertFalse("Cannot see noAuthApp", ids.contains(noAuthApp.getEntityId()));
+        assertFalse("Cannot see nonApprovedApp", ids.contains(nonApprovedApp.getEntityId()));
+        assertFalse("Cannot see notAuthorizedApp", ids.contains(notAuthorizedApp.getEntityId()));
     }
-
+    
     @Test
-    public void testAppIsAuthorized() {
-
-        //Create an auth token to use
+    public void testAdminUser() throws InterruptedException {
         SLIPrincipal principal = new SLIPrincipal();
-        principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-
-        //Register an app list with district1 containing the requested app
-        Entity appAuthEnt = new MongoEntity("applicationAuthorization", new HashMap<String, Object>());
-        appAuthEnt.getBody().put("authId", "NC-D1");
-        appAuthEnt.getBody().put("authType", "EDUCATION_ORGANIZATION");
-        List<String> allowedApps = new ArrayList<String>();
-        allowedApps.add("appId");
-        appAuthEnt.getBody().put("appIds", allowedApps);
-        Mockito.when(repo.findOne(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(appAuthEnt);
-        List<Entity> entities = new ArrayList<Entity>();
-        Entity mockEntity = Mockito.mock(Entity.class);
-        Mockito.when(mockEntity.getEntityId()).thenReturn("appId");
-        entities.add(mockEntity);
-        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
-
-        assertTrue("Authorized app list should contain appId", validator.getAuthorizedApps(principal).contains("appId"));
+        principal.setEntity(null);
+        principal.setEdOrg("SOMETHING");
+        principal.setRealm(sliRealm.getEntityId());
+        List<String> ids = validator.getAuthorizedApps(principal);
+        
+        assertFalse("Cannot see autoApp", ids.contains(autoApp.getEntityId()));
+        assertFalse("Cannot see approvedApp", ids.contains(approvedApp.getEntityId()));
+        assertTrue("Can see adminApp", ids.contains(adminApp.getEntityId()));
+        assertFalse("Cannot see noAuthApp", ids.contains(noAuthApp.getEntityId()));
+        assertFalse("Cannot see nonApprovedApp", ids.contains(nonApprovedApp.getEntityId()));
+        assertFalse("Cannot see notAuthorizedApp", ids.contains(notAuthorizedApp.getEntityId()));
     }
-
 }

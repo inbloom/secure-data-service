@@ -1,5 +1,22 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.domain.enums;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -8,23 +25,18 @@ import org.springframework.security.core.GrantedAuthority;
  * FULL_ACCESS -> allows operations on all entities everywhere without regard for associations
  */
 public enum Right implements GrantedAuthority {
-    ANONYMOUS_ACCESS,
-    READ_GENERAL,
-    WRITE_GENERAL,
-    READ_RESTRICTED,
-    WRITE_RESTRICTED,
-    AGGREGATE_READ,
-    AGGREGATE_WRITE,
-    ADMIN_ACCESS,
-    FULL_ACCESS,
-    CRUD_REALM_ROLES,
-    ROLE_CRUD,
-    SLC_APP_APPROVE,
-    EDORG_APP_AUTHZ,
-    EDORG_DELEGATE,
-    DEV_APP_CRUD,
-    INGEST_DATA,
-    READ_PUBLIC;
+    ANONYMOUS_ACCESS, READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, 
+    ADMIN_ACCESS, FULL_ACCESS, CRUD_REALM_ROLES, CRUD_ROLE, SLC_APP_APPROVE, EDORG_APP_AUTHZ, EDORG_DELEGATE, DEV_APP_CRUD, 
+    INGEST_DATA, CRUD_SLC_OPERATOR, CRUD_SANDBOX_SLC_OPERATOR, CRUD_SANDBOX_ADMIN, CRUD_SEA_ADMIN, CRUD_LEA_ADMIN, READ_PUBLIC;
+
+    public static final GrantedAuthority[] PROD_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_LEA_ADMIN, CRUD_SEA_ADMIN, CRUD_SLC_OPERATOR};
+
+    public static final GrantedAuthority[] SANDBOX_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_SANDBOX_ADMIN, CRUD_SANDBOX_SLC_OPERATOR};
+
+    public static final GrantedAuthority[] ALL_ADMIN_CRUD_RIGHTS = ArrayUtils.addAll(PROD_ADMIN_CRUD_RIGHTS, SANDBOX_ADMIN_CRUD_RIGHTS);
+    
+    public static final GrantedAuthority[] DEFAULT_RIGHTS = new Right[] { READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, 
+        AGGREGATE_READ, AGGREGATE_WRITE };
 
     @Override
     public String getAuthority() {

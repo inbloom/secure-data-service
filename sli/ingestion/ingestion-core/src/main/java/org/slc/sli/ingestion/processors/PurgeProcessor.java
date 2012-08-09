@@ -1,7 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -16,6 +34,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -26,7 +46,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
@@ -78,6 +97,18 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+
+//        //We need to extract the TenantID for each thread, so the DAL has access to it.
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            logger.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = getBatchJobId(exchange);
@@ -86,6 +117,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             NewBatchJob newJob = null;
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+                TenantContext.setTenantId(newJob.getTenantId());
+
 
                 String tenantId = newJob.getProperty(TENANT_ID);
                 if (tenantId == null) {
@@ -124,11 +158,42 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             if (isExcludedCollection(collectionName)) {
                 continue;
             }
-            mongoTemplate.remove(searchTenantId, collectionName);
+            if (collectionName.equalsIgnoreCase("educationOrganization")) {
+                cleanApplicationEdOrgs(searchTenantId);
+                mongoTemplate.remove(searchTenantId, collectionName);
+            } else {
+                mongoTemplate.remove(searchTenantId, collectionName);
+            }
         }
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
 
+    }
+    
+    private void cleanApplicationEdOrgs(Query searchTenantId) {
+        List<Entity> edorgs = mongoTemplate.find(searchTenantId, Entity.class, "educationOrganization");
+        List<Entity> apps = mongoTemplate.findAll(Entity.class, "application");
+        List<String> edorgids = new ArrayList();
+        for (Entity edorg : edorgs) {
+            edorgids.add(edorg.getEntityId());
+        }
+        
+        List<String> authedEdorgs;
+        for (Entity app : apps) {
+            authedEdorgs = (List<String>) app.getBody().get("authorized_ed_orgs");
+            if (authedEdorgs == null) {
+                continue;
+            }
+            
+            for (String id : edorgids) {
+                if (authedEdorgs.contains(id)) {
+                    authedEdorgs.remove(id);
+                }
+            }
+
+            app.getBody().put("authorized_ed_orgs", authedEdorgs);
+            mongoTemplate.save(app, "application");
+        }
     }
 
     private boolean isExcludedCollection(String collectionName) {
@@ -153,7 +218,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
-        LogUtil.error(logger, "Error processing batch job " + batchJobId, exception);
+        logger.error("Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),

@@ -1,9 +1,0 @@
-{
-    "collection": "studentAssessmentAssociation_transformed",
-    "indexFields":
-    [
-        {"name" : "body.studentId", "order" : "1"},
-        {"name" : "body.assessmentId", "order" : "1"},
-        {"name" : "metaData.tenantId", "order" : "1"}
-    ]
-}

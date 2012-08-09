@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.sample.transform;
 
 import java.io.IOException;
@@ -6,8 +23,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.slc.sli.sample.entities.AcademicSubjectType;
+import org.slc.sli.sample.entities.GradeLevelType;
 import org.slc.sli.sample.entities.LearningObjective;
 import org.slc.sli.sample.entities.LearningStandardId;
 import org.slc.sli.sample.entities.LearningStandardIdentityType;
@@ -96,6 +113,27 @@ public class CCSMathCSV2XMLTransformer {
                 }
                 return id;
             }
+        });
+        transformer.setGradeLevelMapper(new CcsCsv2XmlTransformer.GradeLevelMapper() {
+            @Override
+            public int getGradeLevel(String dotNotation) {
+                String[] gradeLevels = dotNotation.split("\\.");
+                int gradeLevel = 0;
+                try {
+                    gradeLevel = Integer.parseInt(gradeLevels[0]);
+                } catch (NumberFormatException e) {
+                    if (gradeLevels[0].toLowerCase().equals("k")) {
+                        gradeLevel = 0;
+                    } else {
+
+                        // return Ninth grade for high school for now
+                        // TODO map the grade level for each high school math
+                        gradeLevel = 9;
+                    }
+                }
+                return gradeLevel;
+            }
+
         });
         transformer.printLearningStandards();
         SchemaValidator.check(outputPath);

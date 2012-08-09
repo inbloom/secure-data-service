@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.view.impl;
 
 import org.junit.After;
@@ -60,8 +77,8 @@ public class StudentGradebookOptionalFieldAppenderTest {
         gradebookEntryId1 = repo.create("gradebookEntry", createGradebookEntry()).getEntityId();
         gradebookEntryId1 = repo.create("gradebookEntry", createGradebookEntry()).getEntityId();
 
-        repo.create("studentSectionGradebookEntry", createStudentSectionGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
-        repo.create("studentSectionGradebookEntry", createStudentSectionGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
+        repo.create("studentGradebookEntry", createStudentGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
+        repo.create("studentGradebookEntry", createStudentGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
     }
 
     @After
@@ -77,10 +94,10 @@ public class StudentGradebookOptionalFieldAppenderTest {
         entities = studentGradebookOptionalFieldAppender.applyOptionalField(entities, null);
         assertEquals("Should be 1", 1, entities.size());
 
-        List<EntityBody> studentSectionGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentGradebookEntries");
-        assertEquals("Should match", 2, studentSectionGradebookAssociations.size());
-        assertEquals("Should match", STUDENT_ID, studentSectionGradebookAssociations.get(0).get("studentId"));
-        assertEquals("Should match", SECTION_ID, studentSectionGradebookAssociations.get(0).get("sectionId"));
+        List<EntityBody> studentGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentGradebookEntries");
+        assertEquals("Should match", 2, studentGradebookAssociations.size());
+        assertEquals("Should match", STUDENT_ID, studentGradebookAssociations.get(0).get("studentId"));
+        assertEquals("Should match", SECTION_ID, studentGradebookAssociations.get(0).get("sectionId"));
 
         EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentGradebookEntries")).get(0);
         EntityBody gradebookEntry = (EntityBody) body.get("gradebookEntries");
@@ -107,7 +124,7 @@ public class StudentGradebookOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createStudentSectionGradebookEntry(String studentId, String sectionId,
+    private Map<String, Object> createStudentGradebookEntry(String studentId, String sectionId,
                                                                    String gradebookEntryId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);

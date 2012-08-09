@@ -6,6 +6,11 @@ task :dashboardPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
+desc "Run Dashboard section profile tests Tests"
+task :dashboardSdsSectionProfileTests do
+  runTests("test/features/dashboard/dash/section_profile.feature")
+end
+
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/dash/k3view.feature")
@@ -82,6 +87,11 @@ task :dashboardHTMLEscapeTests do
   runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
 end
 
+desc "Run dashboard teacher profile test"
+task :dashboardSdsTeacherProfileTests do
+  runTests("test/features/dashboard/dash/teacher_profile.feature")
+end
+
 desc "Dashboard Sad Path Test Suite"
 task :dashboardSadPathTestSuite => [:ingestionDashboardSadPathTest,
                                     :realmInitNoPeople,
@@ -90,6 +100,7 @@ end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
+  Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["dashboardSadPathTestSuite"].invoke
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke
@@ -165,6 +176,25 @@ desc "Run dashboard student gradebook entry tests"
 task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
+
+desc "Run dashboard builder tests"
+task :dashboardSdsDashboardBuilderTests do
+  runTests("test/features/dashboard/dash/dashboard_builder.feature")
+end
+
+desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"
+task :dashboardSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  runTests("test/features/dashboard/dash/smoked_dashboard.feature")
+end
+
+
+desc "Run dashboard qunit tests"
+task :dashboardQunitTests do
+  runTests("test/features/dashboard/dash/qunit_tests.feature")
+end
+
+
 ############################################################
 # Dashboard tests end
 ############################################################

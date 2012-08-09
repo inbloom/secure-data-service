@@ -70,9 +70,7 @@
 		</MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Sunset Central High School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
 	</Course>

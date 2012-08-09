@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 #This is only for contact information panel
 Given /^I look at the panel "([^"]*)"$/ do |panelName|
   tabIndex = getTabIndex("Overview")
@@ -5,7 +24,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   overviewTab = @driver.find_element(:id, tabIndex)
   # contact info is in the first panel
   panel = getPanel("Overview", panelName)
-  contactSections = panel.find_elements(:xpath, ".//div[@class='tabular']/table/tbody")
+  contactSections = panel.find_elements(:css, "div.tabular>table>tbody")
   
   #right now we only have 3 sections  
   # 0 is phone, 1 is email, 2 is address, 3 parent name
@@ -155,8 +174,6 @@ end
 
 def areItemsInOrder(listOfItems, content)
   array = listOfItems.split(";")
-  puts array.length.to_s
-  puts content.length.to_s
   assert(array.length == content.length, "Counts do not match")
    
   for i in (0..array.length-1)

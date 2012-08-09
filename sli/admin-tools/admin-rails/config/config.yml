@@ -1,6 +1,6 @@
 common: &common
     recaptcha_disable: true
-    terms_url: http://dev.slcedu.org/legal/terms-service
+    terms_url: http://dev.slcedu.org/legal/terms-of-use
     privacy_policy_url: http://dev.slcedu.org/legal/privacy
     # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
@@ -12,10 +12,15 @@ common: &common
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     admin_realm: Shared Learning Infrastructure
+    reset_password_lifespan: 86400
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started
 
 sandbox: &sandbox
     is_sandbox: true
+    auto_approve: true
     maximum_user_count: 500
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
+    sample_data_url: http://dev.slcedu.org
 
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
@@ -28,6 +33,9 @@ email_mon: &email_mon
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_username: 
+    email_password: 
+    email_tls: 
 
 email_rumbster: &email_rumbster
     email_sender_name: SLI Administrator
@@ -42,12 +50,15 @@ development:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
-    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
+    redirect_uri: http://local.slidev.org:3001/callback
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
-    email_replace_uri: http://local.slidev.org:3000
+    auto_approve: false
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
-    
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
+
 local-acceptance-tests:
     <<: *common
     <<: *email_rumbster
@@ -55,11 +66,14 @@ local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
+    redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     is_sandbox: false
+    auto_approve: false
     email_replace_uri: http://local.slidev.org:2000
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
     
 development_sb:
     <<: *common
@@ -69,11 +83,12 @@ development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
-    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
-    email_replace_uri: http://local.slidev.org:3000
+    redirect_uri: http://local.slidev.org:3001/callback
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
-    sample_data_url: http://www.slcedu.org
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
     
 team:
     <<: *common
@@ -86,7 +101,10 @@ team:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
+    auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
     
 team_sb:
     <<: *common
@@ -100,7 +118,8 @@ team_sb:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     portal_url: https://rc2portal.slidev.org/portal
-    sample_data_url: http://www.slcedu.org
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
     
 test:
     <<: *common
@@ -109,8 +128,11 @@ test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_base: ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
-    email_replace_uri: http://local.slidev.org:3000
+    auto_approve: false
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
     
 production:
     <<: *common
@@ -123,4 +145,8 @@ production:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
+    auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
+
