@@ -39,7 +39,7 @@ Scenario Outline: Provision a new landing zone
 #	And I should see this ed org is Authorized to use Apps "SLC Data Browser" and "SLC Dashboards"
 	Examples:
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
-	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "12345"  |
+	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "Zork"   |
 
 Scenario Outline: Provision a new landing zone twice should fail
 
@@ -53,5 +53,5 @@ Scenario Outline: Provision a new landing zone twice should fail
 	Then I should receive a return code of 201
 	Examples:
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
-	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test1"             | "12345"  |
+	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test1"             | "Zork"   |
 	

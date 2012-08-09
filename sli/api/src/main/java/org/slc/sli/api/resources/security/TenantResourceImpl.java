@@ -52,13 +52,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
@@ -77,12 +81,18 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private EntityDefinitionStore store;
-
+    
+    @Autowired
+    private RoleInitializer roleInitializer;
+    
     @Value("${sli.tenant.landingZoneMountPoint}")
     private String landingZoneMountPoint;
 
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
+    
+    @Autowired
+    private RealmHelper realmHelper;
 
     private List<String> ingestionServerList;
 
@@ -124,9 +134,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @Override
-    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId)
+    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
             throws TenantResourceCreationException {
-        String newTenantId = createLandingZone(tenantId, edOrgId, null, null);
+        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody newTenant = tenantService.get(newTenantId);
         @SuppressWarnings("unchecked")
@@ -140,7 +150,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @SuppressWarnings({ "unchecked" })
-    protected String createLandingZone(EntityBody newTenant)
+    protected String createLandingZone(EntityBody newTenant, boolean isSandbox)
             throws TenantResourceCreationException {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
 
@@ -156,11 +166,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
 
         return createLandingZone(tenantId, newEdOrg, (String) newLz.get(LZ_DESC),
-                (List<String>) newLz.get(LZ_USER_NAMES));
+                (List<String>) newLz.get(LZ_USER_NAMES), isSandbox);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames)
+    protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames, boolean isSandbox)
             throws TenantResourceCreationException {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
 
@@ -187,7 +197,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         for (String id : tenantService.listIds(query)) {
             existingIds.add(id);
         }
-        // If no tenant already exist, create
+                
+        // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
@@ -200,7 +211,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
-
+            
+            //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
+            if (isSandbox) {
+                roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
+            }
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
@@ -250,15 +265,10 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         allLandingZones.add(newLandingZone);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-
+        tenantService.update(existingTenantId, existingBody);        
         return existingTenantId;
     }
-
-/*    private String randomIngestionServer() {
-        return ingestionServerList[random.nextInt(ingestionServerList.length)];
-    }*/
-
+    
     /**
      * TODO: add javadoc
      *

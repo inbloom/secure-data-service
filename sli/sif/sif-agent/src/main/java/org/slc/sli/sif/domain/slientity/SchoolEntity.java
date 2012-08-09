@@ -16,46 +16,42 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.JsonNode;
 
 /**
  * An SLI Entity corresponding to a school defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
- * Note that school fields defined in SLI schema have no counterparts in SIF SchoolInfo.
- * Those fields have no get/setters defined here.
+ * Note that some school fields defined in SLI schema have no counterparts in SIF SchoolInfo,
+ * and those fields have no get/setters defined here.
  *
  * @author slee
  *
  */
-public class SchoolEntity extends GenericEntity
-{
+public class SchoolEntity extends SliEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *
-     * SLI domain                               SIF domain
+     * SLI domain SIF domain
      * -----------------------------------------------------------
-     * stateOrganizationId                      StateProvinceId
-     * nameOfInstitution                        SchoolName
+     * stateOrganizationId StateProvinceId
+     * nameOfInstitution SchoolName
      * organizationCategories [1..*]
-     * address [1..*]                           AddressList
-     * schoolType [0..1]                        SchoolFocusList
+     * address [1..*] AddressList
+     * schoolType [0..1] SchoolFocusList
      * charterStatus [0..1]
      * titleIPartASchoolDesignation [0..1]
      * magnetSpecialProgramEmphasisSchool [0..1]
      * administrativeFundingControl [0..1]
      * shortNameOfInstitution [0..1]
-     * webSite [0..1]                           SchoolURL
-     * operationalStatus [0..1]                 OperationalStatus
+     * webSite [0..1] SchoolURL
+     * operationalStatus [0..1] OperationalStatus
      * agencyHierarchyName [0..1]
      * parentEducationAgencyReference [0..1]
-     * gradesOffered [0..*]                     GradeLevels
-     * schoolCategories [0..*]                  SchoolType
+     * gradesOffered [0..*] GradeLevels
+     * schoolCategories [0..*] SchoolType
      * educationOrgIdentificationCode [0..*]
-     * telephone [0..*]                         PhoneNumberList
+     * telephone [0..*] PhoneNumberList
      * accountabilityRatings [0..*]
      * programReference [0..*]
      *
@@ -68,7 +64,6 @@ public class SchoolEntity extends GenericEntity
     private String webSite;
     private String operationalStatus;
     private List<String> gradesOffered;
-    private String schoolCategory;
     private List<String> schoolCategories;
     private List<InstitutionTelephone> telephone;
 
@@ -98,16 +93,14 @@ public class SchoolEntity extends GenericEntity
     private List<String> programReference;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public SchoolEntity() {
         super();
-        /*
-         * organizationCategories is mandatory but not counterpart in SIF SchoolInfo
-         * So set it to School
-         */
-        this.organizationCategories = new ArrayList<String>(1);
-        organizationCategories.add("School");
+    }
+
+    public void setOrganizationCategories(List<String> categories) {
+        this.organizationCategories = categories;
     }
 
     public List<String> getOrganizationCategories() {
@@ -162,10 +155,8 @@ public class SchoolEntity extends GenericEntity
         return this.gradesOffered;
     }
 
-    public void setSchoolCategory(String schoolCategory) {
-        this.schoolCategory = schoolCategory;
-        this.schoolCategories = new ArrayList<String>(1);
-        schoolCategories.add(schoolCategory);
+    public void setSchoolCategories(List<String> schoolCategories) {
+        this.schoolCategories = schoolCategories;
     }
 
     public List<String> getSchoolCategories() {
@@ -188,20 +179,9 @@ public class SchoolEntity extends GenericEntity
         return this.address;
     }
 
-    /**
-     * Output this Entity as a JSON Node
-     */
     @Override
-    public JsonNode json() {
-        return mapper.valueToTree(this);
-    }
-
-    /**
-     * Output this object as a JSON String
-     */
-    @Override
-    public String toString() {
-        return json().toString();
+    public String entityType() {
+        return "school";
     }
 
 }

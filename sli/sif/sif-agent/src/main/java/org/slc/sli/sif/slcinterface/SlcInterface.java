@@ -17,22 +17,27 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicRESTClient;
+import org.slc.sli.api.client.util.Query;
 
 /**
  * Basic authentication example using the SLI SDK.
  */
-@Component
 public class SlcInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(SlcInterface.class);
@@ -70,4 +75,52 @@ public class SlcInterface {
         }
         return "";
     }
+
+    public String create(final Entity e) {
+        try {
+            return client.create(e);
+        } catch (IOException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (URISyntaxException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (SLIClientException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        }
+        return null;
+    }
+
+    public boolean delete(final String entityType, final String entityId) {
+        boolean ok = false;
+        try {
+            client.delete(entityType, entityId);
+            ok = true;
+        } catch (MalformedURLException e) {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (URISyntaxException e) {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (SLIClientException e) {
+            LOG.error("  " + e.getMessage(), e);
+        }
+        return ok;
+    }
+
+    public void update(final Entity e) {
+        try {
+            client.update(e);
+        } catch (IOException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (URISyntaxException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (SLIClientException e1) {
+            LOG.error("  " + e1.getMessage(), e1);
+        }
+    }
+    /**
+     * Pass-through interface
+     */
+    public void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+             IOException, SLIClientException {
+        client.read(entities, type, null, query);
+    }
+
 }

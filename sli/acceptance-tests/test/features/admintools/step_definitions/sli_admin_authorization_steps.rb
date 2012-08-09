@@ -50,7 +50,7 @@ When /^I try to authenticate on the Application Authorization Tool$/ do
 end
 
 When /^I try to authenticate on the Role Mapping Tool$/ do
-  step "I navigate to the Complex-Configurable Role Mapping Page"
+  step "I navigate to the Custom Role Mapping Page"
   step "I login"
 end
 

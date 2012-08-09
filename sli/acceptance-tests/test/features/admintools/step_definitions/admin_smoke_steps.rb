@@ -43,10 +43,9 @@ Given /^I am a valid district administrator$/ do
   @pass = 'sunsetadmin1234'
 end
 
-When /^I authenticate on the Complex-Configurable Role Mapping tool$/ do
-  step "I navigate to the Complex-Configurable Role Mapping Page"
+When /^I authenticate on the realm editing tool$/ do
+  step "I hit the realm editing URL"
   step "I login"
-  step "I have navigated to my Complex-Configurable Role Mapping Page"
 end
 
 When /^I authenticate on the Application Registration Tool$/ do

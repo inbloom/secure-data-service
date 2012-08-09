@@ -20,11 +20,13 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.SeaMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StateEducationAgencyGenerator {
 
@@ -43,14 +45,28 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.setOperationalStatus(OperationalStatusType.ACTIVE);
 
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
-       int  counter =0;
-       for (String pid:seaMeta.programs.keySet()){
-    	   ProgramMeta pm = seaMeta.programs.get(pid); 
-    	   Ref programRef = new Ref(pm.id);
-    	   ProgramReferenceType prt = new ProgramReferenceType();
-    	   prt.setRef(programRef);
-    	   stateEducationAgency.getProgramReference().add(prt);
+        if(MetaRelations.StateEducationAgency_Ref)
+        {
+        	int  counter =0;
+        	for (String pid:seaMeta.programs.keySet()){
+        		ProgramMeta pm = seaMeta.programs.get(pid); 
+        		Ref programRef = new Ref(pm.id);
+        		ProgramReferenceType prt = new ProgramReferenceType();
+        		prt.setRef(programRef);
+        		stateEducationAgency.getProgramReference().add(prt);
+			}
+		} else {
+			for (String pid : seaMeta.programs.keySet()) {
+				ProgramMeta pm = seaMeta.programs.get(pid);
+				ProgramIdentityType pit = new ProgramIdentityType();
+				pit.setProgramId(pm.id);
+				ProgramReferenceType prt = new ProgramReferenceType();
+				prt.setProgramIdentity(pit);
+				stateEducationAgency.getProgramReference().add(prt);
+			}
        }
+       
+    
         return stateEducationAgency;
     }
 }

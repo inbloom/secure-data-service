@@ -1,0 +1,15 @@
+<script>
+var initCustomRoleScripts = true;
+</script>
+<div class="container">
+<% if flash[:notice] %>
+  <p class="notice alert alert-info"><%= flash[:notice] %></p>
+<% end %>
+<% if flash[:error] %>
+  <p class="error alert alert-error"><%= flash[:error] %></p>
+<% end %>
+<div class="page-header">
+<h1>Custom Roles for <%= @custom_roles.realm_name != "" ? @custom_roles.realm_name : session[:tenant_id]%> </h1>
+</div>
+<%= render :partial => 'form', :locals => {:roles => @custom_roles, :default_roles => @default_roles} %>
+</div>

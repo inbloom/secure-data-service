@@ -55,6 +55,10 @@
             <list>
                 <value>StudentPersonal</value>
                 <value>SchoolInfo</value>
+                <value>LEAInfo</value>
+                <value>SEAInfo</value>
+                <value>StudentSchoolEnrollment</value>
+                <value>StudentLEARelationship</value>
             </list>
         </property>
     </bean>

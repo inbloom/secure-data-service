@@ -20,7 +20,6 @@ package org.slc.sli.dashboard.client;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 
@@ -32,13 +31,6 @@ import org.slc.sli.dashboard.entity.GenericEntity;
  *
  */
 public interface APIClient {
-
-    /**
-     * Get the SDK client
-     *
-     * @return
-     */
-    public SLIClient getSdkClient();
 
     /**
      * Get the SLI configured grace period for historical access
@@ -171,10 +163,10 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getSchools(String token, List<String> ids);
-    
+
     /**
      * Get a list of all associated schools
-     * 
+     *
      * @param token
      * @return
      */
@@ -447,6 +439,15 @@ public interface APIClient {
     public GenericEntity getTeacherForSection(String token, String sectionId);
 
     /**
+     * Get a list of teachers for a specific school
+     *
+     * @param token
+     * @param schoolId
+     * @return
+     */
+    public List<GenericEntity> getTeachersForSchool(String schoolId, String token);
+
+    /**
      * Returns a list of student grade book entries for a given student and params
      *
      */
@@ -580,6 +581,6 @@ public interface APIClient {
     List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId);
 
     public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token);
-   
-    
+
+
 }

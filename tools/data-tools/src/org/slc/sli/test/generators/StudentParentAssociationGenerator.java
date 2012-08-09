@@ -24,6 +24,7 @@ import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.RelationType;
 import org.slc.sli.test.edfi.entities.StudentParentAssociation;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentParentAssociationGenerator {
    public static Random random = new Random();
@@ -64,24 +65,26 @@ public class StudentParentAssociationGenerator {
 
         try {
         	
-        	Ref parentRef = new Ref (parentId);
-        	ParentReferenceType prt = new ParentReferenceType();
-        	prt.setRef(parentRef);
-        	studentParentAssociation.setParentReference(prt);
-        	
-        	Ref studentRef = new Ref ("REF-" + studentId);
-        	StudentReferenceType srt = new StudentReferenceType();
-        	srt.setRef(studentRef);
-        	studentParentAssociation.setStudentReference(srt);
-        	
-        	/* original
-            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
-            studentParentAssociation.setStudentReference(srt);
+    
+			if (MetaRelations.StudentParentAssociation_Ref) {
+				Ref parentRef = new Ref(parentId);
+				ParentReferenceType prt = new ParentReferenceType();
+				prt.setRef(parentRef);
+				studentParentAssociation.setParentReference(prt);
 
-            ParentReferenceType prt = ParentGenerator.getParentReferenceType(parentId);
+				Ref studentRef = new Ref("REF-" + studentId);
+				StudentReferenceType srt = new StudentReferenceType();
+				srt.setRef(studentRef);
+				studentParentAssociation.setStudentReference(srt);
+			} else {
+				StudentReferenceType srt = StudentGenerator
+						.getStudentReferenceType(studentId);
+				studentParentAssociation.setStudentReference(srt);
+				ParentReferenceType prt = ParentGenerator
+						.getParentReferenceType(parentId);
+				studentParentAssociation.setParentReference(prt);
+			}
         	
-            studentParentAssociation.setParentReference(prt);
-            */
             if(isMale)
                 studentParentAssociation.setRelation(RelationType.FATHER);
             else

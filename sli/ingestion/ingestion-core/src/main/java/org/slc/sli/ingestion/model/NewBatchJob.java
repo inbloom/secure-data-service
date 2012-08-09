@@ -61,7 +61,7 @@ public class NewBatchJob implements Job {
 
     private Map<String, String> batchProperties;
 
-    private List<StageSet> stages;
+    private List<Stage> stages;
 
     private List<ResourceEntry> resourceEntries;
 
@@ -70,7 +70,7 @@ public class NewBatchJob implements Job {
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
         initStartTime();
     }
@@ -78,7 +78,7 @@ public class NewBatchJob implements Job {
     public NewBatchJob(String id) {
         this.id = id;
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
         initStartTime();
     }
@@ -96,11 +96,9 @@ public class NewBatchJob implements Job {
             this.batchProperties = batchProperties;
         }
 
-        this.stages = new LinkedList<StageSet>();
+        this.stages = new LinkedList<Stage>();
         if (listOfStages != null) {
-            for (int i = 0; i < listOfStages.size(); i++) {
-                this.stages.add(new StageSet(listOfStages.get(i)));
-            }
+            this.stages = listOfStages;
         }
 
         this.resourceEntries = new LinkedList<ResourceEntry>();
@@ -294,11 +292,9 @@ public class NewBatchJob implements Job {
     public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
         List<Metrics> m = new LinkedList<Metrics>();
 
-        for (StageSet sts : this.stages) {
-            for (Stage s : sts.getChunks()) {
-                if (stageType.getName().equals(s.getStageName())) {
-                    m.addAll(s.getMetrics());
-                }
+        for (Stage s : this.stages) {
+            if (stageType.getName().equals(s.getStageName())) {
+                m.addAll(s.getMetrics());
             }
         }
 
@@ -315,17 +311,8 @@ public class NewBatchJob implements Job {
      * @param stage
      */
     public void addStage(Stage stage) {
-        boolean inExisting = false;
-        for (int i = 0; i < this.stages.size(); i++) {
-            if (!inExisting && this.stages.get(i).getStageName().equals(stage.getStageName())) {
-                this.stages.get(i).addStage(stage);
-                inExisting = true;
-            }
-        }
 
-        if (!inExisting) {
-            this.stages.add(new StageSet(stage));
-        }
+        this.stages.add(stage);
     }
 
     public void addStageChunk(Stage stage) {

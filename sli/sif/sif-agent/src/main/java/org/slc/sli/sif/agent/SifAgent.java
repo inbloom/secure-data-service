@@ -27,7 +27,6 @@ import openadk.library.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
@@ -35,7 +34,6 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
  * SIF agent
  *
  */
-@Component
 public class SifAgent extends Agent {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);

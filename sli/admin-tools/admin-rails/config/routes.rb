@@ -24,9 +24,8 @@ SLIAdmin::Application.routes.draw do
   end
 
   resources :change_passwords
-  resources :tenant_metrics
-  get "tenant_metrics", :to => "tenant_metrics#all"
-  get "tenant_metrics/:id", :to => "tenant_metrics#find"
+  get "tenant_metrics", :to => "tenant_metrics#index"
+  match "tenant_metrics/(:id)" => "tenant_metrics#show", :constraints  => { :id => /[^\?\/]*/ }
 
   resources :waitlist_users do
     get 'success', :on => :collection
@@ -46,18 +45,13 @@ SLIAdmin::Application.routes.draw do
 
   get "sessions/new"
 
-  resources :roles
   resources :sessions
   resources :apps
   resources :realms
+  resources :custom_roles
+  resources :home
   match '/apps/approve', :to => 'apps#approve'
   match '/apps/unregister', :to => 'apps#unregister'
-
-  resources :realms do
-    member do
-      put :update
-    end
-  end
 
   get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
   get 'change_passwords', :to => 'change_passwords#new'
@@ -81,10 +75,16 @@ SLIAdmin::Application.routes.draw do
   match "/changePassword" => "change_passwords#new", :via => :get
   match "/forgotPassword" => "forgot_passwords#index", :via => :get
   match "/forgot_passwords" => "forgot_passwords#index", :via => :get
-  match "/forgotPassword/notify" => "forgot_passwords#show", :via => :get
+  match "/forgotPassword/notify" => "forgot_passwords#show", :via => :get, :as => "forgot_password_notify"
   match "/resetPassword" => "forgot_passwords#update", :via => :get
   match "/resetPassword/new" => "forgot_passwords#new", :via => :get
 
-  root :to => 'roles#index'
+  # matches the model in NewAccountPassword
+  match "/resetPassword/newAccount/:key" => "new_accounts#index", :via => :get, :as => "new_account_passwords"
+  match "/resetPassword/newAccount/:key" => "new_accounts#set_password", :via => :post, :as => "new_account_passwords"
 
+  root :to => 'home#index'
+
+  resources :users , :constraints => { :id => /[^\/]+/ }
+  
 end

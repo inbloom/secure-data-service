@@ -1,5 +1,6 @@
 @RALLY_US187
 @RALLY_US103
+@derp
 Feature: Application Registration
 As a super-admin I want to be able to create new application keys to allow the onboarding of new applications to SLI
 
@@ -22,7 +23,7 @@ Given I am a valid IT Administrator "administrator" from the "SLI" hosted direct
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-Then the api should generate a 500 error
+Then the api should generate a 403 error
 
 Scenario: Register a new application
 
@@ -123,6 +124,14 @@ When I click on 'Approve' next to application "NewApp"
 Then application "NewApp" is registered
 And the 'Approve' button is disabled for application "NewApp"
 And a notification email is sent to "developer-email@slidev.org"
+
+Scenario: Vendor inspects app after approval 
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And the client ID and shared secret fields are present
 
 Scenario: SLC Operator un-registers already-registered application
 Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory

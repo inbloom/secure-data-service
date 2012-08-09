@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.security.CustomRoleResource;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -53,7 +54,8 @@ public class MetaDataTreatment implements Treatment {
         if (stored.get("entityType").equals("roles")
                 || stored.get("entityType").equals("applicationAuthorization")
                 || stored.get("entityType").equals("application")
-                || stored.get("entityType").equals("onboarding")) {
+                || stored.get("entityType").equals("onboarding")
+                || stored.get("entityType").equals(CustomRoleResource.RESOURCE_NAME)) {
             stored.put(METADATA, entity.getMetaData());
         }
         //stored.put(METADATA, entity.getMetaData());

@@ -41,7 +41,7 @@ Given /^there are accounts in requests pending in the system$/ do
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -116,6 +116,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
+ user_name = user_name+"_"+Socket.gethostname
   puts "And i am looking to find the element with id username.", user_name
   user=@driver.find_element(:id,"username."+user_name)
   assert(user.text==user_name,"didnt find the account with name #{user_name}")
@@ -154,7 +155,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -175,7 +176,7 @@ def create_account(status, vendor)
   sleep(1)
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler_"+Socket.gethostname, 
        :email => @email,
        :password => "secret", 
        :emailtoken => "token",
@@ -192,11 +193,8 @@ end
 
 def clear_users
   # remove all users that have this hostname in their email address
-  users = @ldap.search_users("*#{Socket.gethostname}*")
-  if users
-    users.each do |u|
-      @ldap.delete_user(u[:email])    
+  if @ldap.user_exists?(@email)
+      @ldap.delete_user(@email)    
     end
-  end
 end
 

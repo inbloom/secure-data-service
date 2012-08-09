@@ -48,9 +48,7 @@ Given /^the new\/update user has$/ do
 end
 
 Given /^"(.*?)" is "(.*?)"$/ do |key, value|
-  if key == "fullName" && value!= ""
-    @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
-  elsif key!="role" && key!="additional_role"&&value!=""
+  if key!="role" && key!="additional_role"&&value!=""
     @new_update_user.merge!({key => value})
   elsif key=="role" && value!=""
     @new_update_user.merge!({"groups" => [value]})
@@ -73,11 +71,15 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
  # puts @new_update_user
   @append_host=true
   if action == "POST"
-    restHttpDelete(link+"/"+@new_update_user["uid"])
+    if @new_update_user["uid"] != nil
+      restHttpDelete(link+"/"+@new_update_user["uid"])
+    end
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
   elsif action=="PUT"
     restHttpDelete(link+"/"+@new_update_user["uid"])
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
     restHttpPut(link,@new_update_user.to_json)
   end
 
@@ -116,6 +118,14 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
 
 end
 
+Then /^an account with "(.*?)", "(.*?)", "(.*?)" should not exist$/ do |fullName, uid, email|
+  @result.each do |user|
+    if fullName == user["fullName"] and uid == user["uid"] and email == user["email"]
+      assert(false, "User should not have existed: #{user}")
+    end
+  end
+end
+
 Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
   @tenant = tenant
   @edorg = edorg
@@ -134,6 +144,7 @@ When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_r
   format = "application/json"
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
+  sleep(1)
 
   idpRealmLogin(@user, nil)
   sessionIdTestAdmin = @sessionId
@@ -146,6 +157,57 @@ end
 Then /^I should receive a return code "(.*?)"$/ do |return_code|
   assert_equal(return_code.to_i, @response_code)
 end
+
+Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
+  restHttpGet("/userapps?is_admin=true")
+  @res.should_not == nil
+  @res.code.should == 200
+  @res.body.should_not == nil
+  
+  apps = JSON.parse(@res.body)
+  admin = apps.find { |app| app["name"] == "Admin Apps" }
+  if should == "should"
+    admin.should_not == nil
+    samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+    samt.should_not == nil
+  else
+    if admin != nil
+      samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+      samt.should == nil
+    end
+  end
+end
+
+Given /^there is another LEA with "(.*?)" in my "(.*?)" and "(.*?)"$/ do |full_name, tenant, edorg|
+  uid=full_name.gsub(" ", "_")
+  groups = Array.new
+  groups.push("LEA Administrator")
+  @given_user=build_user(uid, groups, tenant, edorg)
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+  restHttpPost("/users", @given_user.to_json, format, sessionId)
+end         
+    
+Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg| 
+  @result.each do |other|
+    if (other['groups'].index("LEA Administrator") != nil) 
+      if (other['edorg'] == edorg) 
+        assert(other['uid'] == @user, "@user is not the only LEA in EdOrg #{edorg}, #{other['uid']} is also LEA")
+      end
+    end 
+  end
+
+  #clean up 
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+end 
+
 
 def get_user(uid)
 =begin
@@ -169,7 +231,7 @@ def print_administrator_comma_separated
   @result.each { |user|
     if((administrators & user['groups']).length > 0)
       user['groups'].each { |group|
-        out << "#{user['uid']},#{group},#{user['firstName']},#{user['lastName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
+        out << "#{user['uid']},#{group},#{user['fullName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
       }
     end
   }
@@ -181,8 +243,10 @@ end
 
 def append_hostname(user )
   oldUid = user["uid"]
-  newUid = oldUid+"_"+Socket.gethostname
-  user.merge!({"uid" => newUid})
+  if (oldUid != nil)
+    newUid = oldUid+"_"+Socket.gethostname
+    user.merge!({"uid" => newUid})
+  end
   return user
 end
 
@@ -194,8 +258,7 @@ def build_user(uid, groups, tenant, edorg)
   new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => "Test",
-      "lastName" => "User",
+      "fullName" => "Test User",
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,

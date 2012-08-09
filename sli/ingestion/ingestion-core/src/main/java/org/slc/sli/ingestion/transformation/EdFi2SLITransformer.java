@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -40,6 +41,9 @@ import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * EdFi to SLI data transformation
@@ -58,6 +62,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private EntityConfigFactory entityConfigurations;
 
     private Repository<Entity> entityRepository;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item) {
@@ -105,16 +112,23 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         return transformed;
     }
 
-    public void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
+    protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
-            idNormalizer
-                    .resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
-                            ref.getFieldPath(), ref.getCollectionName(), ref.getPath(), ref.getComplexFieldNames(),
-                            errorReport);
+            String collectionName = "";
+            NeutralSchema schema = schemaRepository.getSchema(ref.getEntityType());
+            if (schema != null) {
+                AppInfo appInfo = schema.getAppInfo();
+                if (appInfo != null) {
+                    collectionName = appInfo.getCollectionType();
+                }
+            }
+
+            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
+                    ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
@@ -131,7 +145,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            Error reporting
      */
-    public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
+    protected void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
@@ -140,14 +154,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
-        String collection = null;
-        if (entity.getType().equals("stateEducationAgency") || entity.getType().equals("localEducationAgency")
-                || entity.getType().equals("school")) {
-            collection = "educationOrganization";
-        } else if (entity.getType().equals("teacher")) {
-            collection = "staff";
-        } else {
-            collection = entity.getType();
+        String collection = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collection = appInfo.getCollectionType();
+            }
         }
 
         @SuppressWarnings("deprecation")
@@ -174,7 +187,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      *
      * @author tke
      */
-    public Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
+    protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
         Query query = new Query();
 
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
@@ -186,7 +199,16 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
                 errorMessage += "     The following collections are referenced by the key fields:" + "\n";
                 for (RefDef refDef : entityConfig.getReferences()) {
-                    errorMessage += "       collection = " + refDef.getRef().getCollectionName() + "\n";
+                    String collectionName = "";
+                    NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
+                    if (schema != null) {
+                        AppInfo appInfo = schema.getAppInfo();
+                        if (appInfo != null) {
+                            collectionName = appInfo.getCollectionType();
+                        }
+                    }
+
+                    errorMessage += "       collection = " + collectionName + "\n";
                 }
             }
         }

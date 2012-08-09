@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Resource;
@@ -26,6 +27,7 @@ import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.commons.lang3.tuple.Pair;
+import org.aspectj.lang.Aspects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
+import org.slc.sli.ingestion.aspect.StageTrackingAspect;
 import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
  * Process commands issued via a command topic
@@ -54,6 +60,9 @@ public class CommandProcessor {
     private MongoTemplate mongo;
 
     @Autowired
+    private BatchJobDAO batchJobDAO;
+
+    @Autowired
     private CacheProvider cacheProvider;
 
     @Handler
@@ -69,29 +78,56 @@ public class CommandProcessor {
 
             cacheProvider.flush();
 
-            // don't do this while aspect is disabled.
-            // dumpMongoTracking(chunks);
+            dumpAspectTrackers(chunks);
 
         } else {
             LOG.error("Unsupported command");
         }
     }
 
-    private void dumpMongoTracking(String[] chunks) throws UnknownHostException {
-        String batchId = chunks[1];
+    private void dumpAspectTrackers(String[] chunks) throws UnknownHostException {
+        String jobId = chunks[1];
+
+        TenantContext.setJobId(jobId);
+
+        dumpMongoTrackingStats(jobId);
+
+        dumpStageTrackingStats(jobId);
+    }
+
+    private void dumpMongoTrackingStats(String batchId) throws UnknownHostException {
         Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
 
-        String hostName = InetAddress.getLocalHost().getHostName();
-        hostName = hostName.replaceAll("\\.", "#");
-        Update update = new Update();
-        update.set("executionStats." + hostName, stats);
+        if (stats != null) {
+            String hostName = InetAddress.getLocalHost().getHostName();
+            hostName = hostName.replaceAll("\\.", "#");
+            Update update = new Update();
+            update.set("executionStats." + hostName, stats);
 
-        LOG.info("Dumping runtime stats to db for job {}", batchId);
-        LOG.info(stats.toString());
+            LOG.info("Dumping runtime stats to db for job {}", batchId);
+            LOG.info(stats.toString());
 
-        mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-        MongoTrackingAspect.aspectOf().reset();
-        LOG.info("Runtime stats are now cleared.");
+            // TODO: move to BatchJobDAO
+            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
+            MongoTrackingAspect.aspectOf().reset();
+        }
+    }
+
+    private void dumpStageTrackingStats(String jobId) {
+        Map<String, Pair<AtomicLong, AtomicLong>> stats = Aspects.aspectOf(StageTrackingAspect.class).getStats();
+
+        if (stats != null) {
+
+            for (Entry<String, Pair<AtomicLong, AtomicLong>> statsEntry : stats.entrySet()) {
+                Stage stage = new Stage(statsEntry.getKey());
+                stage.setElapsedTime(statsEntry.getValue().getRight().longValue());
+                stage.setProcessingInformation("Invocation count: " + statsEntry.getValue().getLeft().longValue());
+
+                batchJobDAO.saveBatchJobStage(jobId, stage);
+            }
+
+            Aspects.aspectOf(StageTrackingAspect.class).reset();
+        }
     }
 
 }

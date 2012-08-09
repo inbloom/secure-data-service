@@ -25,10 +25,12 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -59,8 +61,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -92,12 +96,12 @@ public class SamlFederationResource {
 
     @Autowired
     private SamlAttributeTransformer transformer;
+    
+    @Autowired
+    private RolesToRightsResolver resolver;
 
     @Autowired
     private OauthSessionManager sessionManager;
-
-    @Autowired
-    private ClientRoleResolver roleResolver;
 
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
@@ -283,7 +287,12 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), principal.getRoles());
+        List<String> sliRoleList = new ArrayList<String>();
+        for (Role role : sliRoleSet) {
+            sliRoleList.add(role.getName());
+        }
+        principal.setSliRoles(sliRoleList);
 
         if (principal.getSliRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
@@ -293,7 +302,7 @@ public class SamlFederationResource {
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
-        
+
         NeutralQuery idQuery = new NeutralQuery();
         idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
         idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));

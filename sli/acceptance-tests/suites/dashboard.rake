@@ -7,7 +7,7 @@ task :dashboardPopWidgetTests do
 end
 
 desc "Run Dashboard section profile tests Tests"
-task :dashboardSectionProfileTests do
+task :dashboardSdsSectionProfileTests do
   runTests("test/features/dashboard/dash/section_profile.feature")
 end
 
@@ -85,6 +85,11 @@ end
 desc "Run dashboard HTML escape tests"
 task :dashboardHTMLEscapeTests do
   runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
+end
+
+desc "Run dashboard teacher profile test"
+task :dashboardSdsTeacherProfileTests do
+  runTests("test/features/dashboard/dash/teacher_profile.feature")
 end
 
 desc "Dashboard Sad Path Test Suite"
@@ -170,6 +175,11 @@ end
 desc "Run dashboard student gradebook entry tests"
 task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
+end
+
+desc "Run dashboard builder tests"
+task :dashboardSdsDashboardBuilderTests do
+  runTests("test/features/dashboard/dash/dashboard_builder.feature")
 end
 
 desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"

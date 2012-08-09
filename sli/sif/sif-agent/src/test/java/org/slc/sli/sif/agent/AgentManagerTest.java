@@ -31,14 +31,12 @@ import openadk.library.ZoneFactory;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.sif.ADKTest;
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
 /**
@@ -47,8 +45,6 @@ import org.slc.sli.sif.subscriber.SifSubscriber;
  * @author jtully
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class AgentManagerTest {
     @InjectMocks
     AgentManager agentManager;
@@ -68,6 +64,8 @@ public class AgentManagerTest {
     @Before
     public void setup() {
         agentManager = new AgentManager();
+        agentManager.setLogPath(ADKTest.ADK_LOG_DIR);
+        agentManager.setAdkLogFile(ADKTest.ADK_LOG_FILE);
 
         MockitoAnnotations.initMocks(this);
 

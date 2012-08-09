@@ -21,6 +21,7 @@
 				to the next.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>assessment</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -604,6 +605,9 @@
 			for educational services.  It includes school districts, charter schools,
 			charter management organizations, or other local administrative organizations.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -911,6 +915,7 @@
 				student, such as mother, father, or caretaker.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>parent</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1088,10 +1093,10 @@
 				<xs:annotation>
 					<xs:documentation>The ID of the postsecondary institution.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
-				<xs:appinfo>
-					<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-				</xs:appinfo>
 			</xs:element>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>
@@ -1214,6 +1219,7 @@
 				SectionAssessmentAssociation
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>section</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1396,6 +1402,7 @@
 				by one or more vacations.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>session</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1477,6 +1484,10 @@
 			<xs:documentation>This entity represents the association of a course
 				with a session during which the course is offered.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>courseOffering</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="localCourseCode" type="localCourseCode">
@@ -1530,10 +1541,10 @@
 				that includes staff and students who participate in classes and
 				educational activity groups.
 			</xs:documentation>
-            <xs:appinfo>
-                <sli:SecuritySphere>Public</sli:SecuritySphere>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-            </xs:appinfo>
+			<xs:appinfo>
+				<sli:SecuritySphere>Public</sli:SecuritySphere>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -1681,6 +1692,7 @@
 				with a cohort of students.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1742,6 +1754,7 @@
 				school of service.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1862,6 +1875,7 @@
 				with a program.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -2037,6 +2051,7 @@
 				or businessperson working at a school site.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>staff</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -2268,6 +2283,9 @@
 			instruction, including the setting of standards for elementary and secondary
 			instruction programs.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization"/>
@@ -2291,6 +2309,7 @@
 				institution.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>student</sli:CollectionType>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
@@ -2633,6 +2652,7 @@
 				end of a semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentAcademicRecord</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -2807,6 +2827,7 @@
 				that represents a student's performance on a set of items on a test.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3085,6 +3106,7 @@
 				student is designated for.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3169,6 +3191,7 @@
 				incident.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentDisciplineIncidentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3370,6 +3393,7 @@
 				guardians, or caretakers.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentParentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3458,6 +3482,7 @@
 				student participates in or is served by.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3542,6 +3567,7 @@
 				student is assigned to.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3610,6 +3636,7 @@
 				student is enrolled.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3740,6 +3767,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <!-- 
 			<xs:element name="graduationPlan" type="graduationPlan"
 				minOccurs="0">
 				<xs:annotation>
@@ -3749,6 +3777,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+             -->
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3762,6 +3791,7 @@
 				Associations: Student, Section, GradebookEntry
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3958,6 +3988,7 @@
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4151,6 +4182,7 @@
 				instructional services to.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>teacherSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4216,6 +4248,7 @@
 				assigned to.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4366,6 +4399,7 @@
 				discipline incident.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>disciplineAction</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4500,6 +4534,7 @@
 				or staff at any level.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>educationOrganization</sli:CollectionType>
 				<sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
@@ -5349,6 +5384,7 @@
 				objectives for courses in specific grades.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>learningObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5458,6 +5494,7 @@
 				proficiency.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>learningStandard</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5653,6 +5690,7 @@
 				and other scores.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>grade</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5750,6 +5788,7 @@
 				Limitations: None
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>gradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5806,6 +5845,7 @@
 				grades are reported.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>gradingPeriod</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5913,6 +5953,7 @@
 				some or all students.
 			</xs:documentation>
 			<xs:appinfo>
+                <sli:CollectionType>graduationPlan</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6044,6 +6085,7 @@
 				designated students for tracking, analysis, or intervention.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>cohort</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6159,6 +6201,7 @@
 				instead.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>course</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6448,6 +6491,7 @@
 				unique per school year attendance.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6637,6 +6681,7 @@
 				discipline action.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>disciplineIncident</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6842,6 +6887,7 @@
 				calendar.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>calendarDate</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -6935,6 +6981,7 @@
 				organized extracurricular activities for students.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>program</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -7104,6 +7151,7 @@
 				of student grades for courses taken during a grading period.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>reportCard</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -7206,6 +7254,9 @@
 		<xs:annotation>
 			<xs:documentation>This descriptor defines various levels for assessed
 				competencies.</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>competencyLevelDescriptor</sli:CollectionType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="codeValue" type="codeValue">
@@ -7339,6 +7390,7 @@
 				evaluated for the student against a specific Learning Objective.
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentCompetency</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -7406,6 +7458,7 @@
 				objectives (e.g., paying attention in class).
 			</xs:documentation>
 			<xs:appinfo>
+				<sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>

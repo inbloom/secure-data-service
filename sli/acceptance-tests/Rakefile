@@ -85,16 +85,16 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  if RUN_STAMPER 
-  	addSecurityData()
-  end	
+  if RUN_STAMPER
+    addSecurityData()
+  end
 
   if IS_WINDOWS
     @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
   else
     @tags ||= ["~@wip", "~@sandbox"]
   end
-  
+
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
@@ -209,7 +209,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
-  
+
   #need a few if blocks for apps, app Auth, oauth tokens, realms
   if collectionName == "tenant"
     cleanseTenantCollection
@@ -224,19 +224,20 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
-  
+
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
 #  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
 end
 
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,
-# so here we swap out references to those realms in long-lived sessions with 
+# so here we swap out references to those realms in long-lived sessions with
 # the dynamic ID of the realm.
 def swap_realm_ids()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
+  custom_roles = @db.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
         {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
@@ -254,6 +255,14 @@ def swap_realm_ids()
         update_count = update_count + 1
       end
       puts "\tUpdated #{update_count} user sessions"
+
+      update_count = 0
+      custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
+        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdated #{update_count} custom roles."
+
     else
       puts "Skipping realm ID swap for #{realm['unique_realm_id']}"
     end
@@ -261,7 +270,7 @@ def swap_realm_ids()
 end
 
 # The app ids for bootstrapped apps are dynamically generated,
-# so here we swap out references to those apps in the app authroization 
+# so here we swap out references to those apps in the app authroization
 # wht the dynamic ID of the app.
 def swap_app_ids()
   @conn = Mongo::Connection.new(DB_HOST)
@@ -276,15 +285,17 @@ def swap_app_ids()
   to_swap.each do |app|
     puts "Swapping IDs for #{app['app_name']}"
     app_ent = apps.find_one({"body.name" => app['app_name']})
-    app_id = app_ent['_id']
-    update_count = 0
-    app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
-      app_ids = row['body']['appIds']
-      app_ids[app_ids.index(app['placeholder'])] = app_id
-      app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
-      update_count = update_count + 1
+    if app_ent
+      app_id = app_ent['_id']
+      update_count = 0
+      app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
+        app_ids = row['body']['appIds']
+        app_ids[app_ids.index(app['placeholder'])] = app_id
+        app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdate #{update_count} entries"
     end
-    puts "\tUpdate #{update_count} entries"
   end
 end
 
@@ -301,6 +312,8 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  setFixture("customRole", "customRole_fixture.json", "test/data")
+  swap_realm_ids()
 end
 
 task :appDenialInit do
@@ -318,8 +331,13 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
-  swap_realm_ids()
   swap_app_ids()
+end
+
+task :addBootstrapAppAuths do
+  require_relative 'test/features/utils/rakefile_common.rb'
+  allLeaAllowApp("SLC Dashboards")
+  allLeaAllowApp("SLC Data Browser")
 end
 
 task :loadDefaultIngestionTenants do
@@ -398,7 +416,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -435,7 +453,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI] do
+                     :aggregationAPI,
+                     :v1SelectorTests] do
   displayFailureReport()
 end
 
@@ -473,10 +492,9 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :samtEmailNotificationTests,:adminWebTests] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/admintools")
-  Rake::Task["importSandboxData"].execute
+  Rake::Task["realmInit"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -526,7 +544,7 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-						 :dashboardQunitTests] do
+                         :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -556,7 +574,9 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests] do
+                         :dashboardSdsSectionProfileTests,
+                         :dashboardSdsTeacherProfileTests,
+                         :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -579,12 +599,12 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
 #                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
-#                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
+#                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests, 
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
-                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
+                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
@@ -655,6 +675,37 @@ end
 # Onboarding Integration Tests end
 ############################################################
 
+############################################################
+# Super Admin Management Tools Tests begin
+############################################################
+desc "Run Super Admin Management Tools Tests"
+task :userAdminTests => [:importSandboxData] do
+#runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
+end
+task :sandboxUserAdminTests do
+@tags ||= ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+end
+
+task :sandboxSamtEmailNotificationTests do
+@tags ||= ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
+
+task :samtEmailNotificationTests do
+@tags ||= ["~@wip", "~@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
+
+
+
+
+
+###########################################################
+# Super Admin Management Tools Tests end
+############################################################
+
 
 
 
@@ -688,6 +739,28 @@ end
 ############################################################
 # User Registration App Tests end
 ############################################################
+
+############################################################
+# SIF tests start
+############################################################
+desc "Run SIF Tests"
+task :sifTests => [:sifIntegratedTest,
+                   :sifSchoolInfoTest,
+                   :sifLEAInfoTest,
+                   :sifStudentSchoolEnrollmentTest,
+                   :sifStudentLEARelationshipTest
+                   ] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# SIF tests end
+############################################################
+
 
 desc "Export Storied Test Data"
 task :exportStoriedData do
@@ -808,16 +881,16 @@ end
 desc "Import Tenant Metrics Data"
 task :importTenantMetricsData do
   testHash = Hash[
-	"assessment" => "metrics/assessment_fixture.json",
-	"educationOrganization" => "metrics/educationOrganization_fixture.json",
-	"grade" => "metrics/grade_fixture.json",
-	"parent" => "metrics/parent_fixture.json",
-	"program" => "metrics/program_fixture.json",
-	"section" => "metrics/section_fixture.json",
-	"session" => "metrics/session_fixture.json",
-	"staff" => "metrics/staff_fixture.json",
-	"student" => "metrics/student_fixture.json",
-	"tenant" => "metrics/tenant_fixture.json"
+    "assessment" => "metrics/assessment_fixture.json",
+    "educationOrganization" => "metrics/educationOrganization_fixture.json",
+    "grade" => "metrics/grade_fixture.json",
+    "parent" => "metrics/parent_fixture.json",
+    "program" => "metrics/program_fixture.json",
+    "section" => "metrics/section_fixture.json",
+    "session" => "metrics/session_fixture.json",
+    "staff" => "metrics/staff_fixture.json",
+    "student" => "metrics/student_fixture.json",
+    "tenant" => "metrics/tenant_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -850,18 +923,18 @@ end
 
 desc "Apply security denormalization"
 task :addSecurityData do
-	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
-	sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+    sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+    sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
 def addSecurityData()
-	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
-	sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+    sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+    sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
 desc "Turn off stamper"
 task :turnOffStamper do
-	RUN_STAMPER = false
+    RUN_STAMPER = false
 end
 
 desc "Help information for this Rakefile"

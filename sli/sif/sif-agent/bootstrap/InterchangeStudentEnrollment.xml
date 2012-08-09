@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentEnrollment xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentEnrollment.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100">
+
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>bootstrapturner</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>BOOTSTRAP-SCH</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>1912-09-01</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+
+</InterchangeStudentEnrollment>

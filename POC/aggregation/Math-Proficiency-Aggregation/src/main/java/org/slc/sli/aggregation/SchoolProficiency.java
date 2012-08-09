@@ -13,6 +13,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 
 /**
@@ -27,9 +28,9 @@ public class SchoolProficiency extends Configured implements Tool {
 
     @Override
     public int run(String[] args) throws Exception {
-        String assmtIDCode = "Grade 7 2011 State Math";
+        String assmtIDCode = args.length == 0 ? "Grade 7 2011 State Math" : args[0];
 
-        MongoURI input = new MongoURI("mongodb://localhost/sli.student");
+        MongoURI input = new MongoURI("mongodb://localhost/sli.educationOrganization");
         MongoURI output = new MongoURI("mongodb://localhost/sli.educationOrganization");
 
         Configuration conf = getConf();
@@ -38,17 +39,18 @@ public class SchoolProficiency extends Configured implements Tool {
         conf.set("AssessmentIdCode", assmtIDCode);
 
         // The value to aggregate
-        conf.set(SchoolProficiencyMapper.SCORE_TYPE, "aggregations.assessments." + assmtIDCode + ".HighestEver.Aggregate");
+        conf.set(SchoolProficiencyMapper.SCORE_TYPE, "aggregations.assessments." + assmtIDCode + ".HighestEver");
 
         // Where to store the resulting aggregate.
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver.Aggregate");
+        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver");
 
         MongoConfigUtil.setInputURI(conf, input);
+        MongoConfigUtil.setQuery(conf, "{'type':'school'}");
         MongoConfigUtil.setOutputURI(conf, output);
 
-        MongoConfigUtil.setSplitSize(conf, 2);
         MongoConfigUtil.setCreateInputSplits(conf,  true);
-
+        MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
+        MongoConfigUtil.setSplitSize(conf,  2);
         Job job = new Job(conf, "SchoolProficiency");
         job.setJarByClass(getClass());
 
@@ -57,7 +59,7 @@ public class SchoolProficiency extends Configured implements Tool {
         job.setMapperClass(SchoolProficiencyMapper.class);
         job.setReducerClass(SchoolProficiencyReducer.class);
 
-        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputKeyClass(TenantAndID.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setOutputFormatClass(MongoAggFormatter.class);
@@ -68,5 +70,4 @@ public class SchoolProficiency extends Configured implements Tool {
 
         return success ? 0 : 1;
     }
-
 }

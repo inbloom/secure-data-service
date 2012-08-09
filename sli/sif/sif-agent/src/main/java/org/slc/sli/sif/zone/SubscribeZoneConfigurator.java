@@ -7,6 +7,9 @@ import openadk.library.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Configuration for zone subscribers
+ */
 public class SubscribeZoneConfigurator implements ZoneConfigurator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SubscribeZoneConfigurator.class);

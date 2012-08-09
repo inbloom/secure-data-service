@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
@@ -57,6 +59,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
+    private static final String BATCHJOB_NEW_BATCH_JOB_COLLECTION = "newBatchJob";
 
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
@@ -82,13 +85,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void saveBatchJobStageSeparatelly(String batchJobId, Stage stage) {
+    public void saveBatchJobStage(String batchJobId, Stage stage) {
         stage.setJobId(batchJobId);
         batchJobMongoTemplate.save(stage, BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
 
     @Override
-    public List<Stage> getBatchStagesStoredSeperatelly(String batchJobId) {
+    public List<Stage> getBatchJobStages(String batchJobId) {
         return batchJobMongoTemplate.find(query(where("jobId").is(batchJobId)), Stage.class,
                 BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
@@ -109,6 +112,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
         List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class,
                 cursorPreparer, BATCHJOB_ERROR_COLLECTION);
         return errors;
+    }
+
+    public NewBatchJob findLatestBatchJob() {
+        Query query = new Query();
+        query.sort().on("jobStartTimestamp", Order.DESCENDING);
+        query.limit(1);
+        List<NewBatchJob> sortedBatchJobs = batchJobMongoTemplate.find(query, NewBatchJob.class);
+        if (sortedBatchJobs == null || sortedBatchJobs.size() == 0) {
+            return null;
+        }
+        return batchJobMongoTemplate.find(query, NewBatchJob.class).get(0);
     }
 
     @Override

@@ -28,10 +28,6 @@ class Realm < SessionResource
   validate :defaults_on_save
 
   def defaults_on_save
-    if mappings.nil?
-      self.mappings = {}
-      self.mappings["role"] = [{"sliRoleName" => "IT Administrator", "clientRoleName" => [ "IT Administrator" ] }, {"sliRoleName" => "Educator", "clientRoleName" => [ "Educator" ] }, {"sliRoleName" => "Aggregate Viewer", "clientRoleName" => [ "Aggregate Viewer" ] }, {"sliRoleName" => "Leader", "clientRoleName" => [ "Leader" ] }]
-    end
     self.admin = false
     #Default saml mapping
     self.saml =  { "field" => [ { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" }, { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" }, { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } ] } if saml.nil?
@@ -42,7 +38,7 @@ class Realm < SessionResource
   end
   schema do
     string "uniqueIdentifier", "name", "edOrg"
-    string "saml", "mappings"
+    string "saml"
     string "id", "redirectEndpoint", "idp"
   end
 

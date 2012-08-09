@@ -31,8 +31,7 @@ public class UserContextMapper implements ContextMapper {
     public Object mapFromContext(Object ctx) {
         DirContextAdapter context = (DirContextAdapter) ctx;
         User user = new User();
-        user.setFirstName(context.getStringAttribute("givenName"));
-        user.setLastName(context.getStringAttribute("sn"));
+        user.setFullName(context.getStringAttribute("givenName"), context.getStringAttribute("sn"));
         user.setUid(context.getStringAttribute("uid"));
         user.setEmail(context.getStringAttribute("mail"));
         user.setHomeDir(context.getStringAttribute("homeDirectory"));
@@ -41,6 +40,8 @@ public class UserContextMapper implements ContextMapper {
         // TODO figure out consistent ways to set user password with either plain text or MD5 hash
         // user.setPassword(context.getStringAttribute("userPassword"));
         user.setPassword("**********");
+        user.setCn(context.getStringAttribute("cn"));
+        user.setStatus(User.Status.getFromString(context.getStringAttribute("destinationindicator")));
 
         String description = context.getStringAttribute("description");
         if (description != null && description.length() > 0) {
@@ -58,9 +59,9 @@ public class UserContextMapper implements ContextMapper {
                 if (pairArray.length == 2) {
                     String key = pairArray[0].trim();
                     String value = pairArray[1].trim();
-                    if (key.equals("tenant")) {
+                    if (key.toLowerCase().indexOf("tenant") >= 0) {
                         user.setTenant(value);
-                    } else if (key.equals("edOrg")) {
+                    } else if (key.toLowerCase().indexOf("edorg") >= 0) {
                         user.setEdorg(value);
                     }
                 }
@@ -68,5 +69,5 @@ public class UserContextMapper implements ContextMapper {
         }
         return user;
     }
-    
+
 }

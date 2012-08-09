@@ -3,7 +3,7 @@
     "complexReference" :
     {
         "fieldPath" : "body.courseId",
-        "collectionName" : "course",
+        "entityType" : "course",
         "path" : "body.courseCode",
         "valueSource" : "body.courseCode",
         "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
@@ -13,7 +13,7 @@
         "fieldPath" : "body.schoolId",
         "ref" :
         {
-	        "collectionName" : "educationOrganization",
+	        "entityType" : "educationOrganization",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -32,7 +32,7 @@
          "fieldPath":"body.sessionId",
          "ref":
          {
-            "collectionName":"session",
+            "entityType":"session",
             "choiceOfFields":
             [
                [
@@ -64,7 +64,7 @@
                         {
                            "ref":
                            {
-                              "collectionName":"educationOrganization",
+                              "entityType":"educationOrganization",
                               "choiceOfFields":
                               [
                                  [

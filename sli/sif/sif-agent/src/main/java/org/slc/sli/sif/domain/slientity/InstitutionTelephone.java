@@ -22,8 +22,7 @@ package org.slc.sli.sif.domain.slientity;
  * @author slee
  *
  */
-public class InstitutionTelephone
-{
+public class InstitutionTelephone {
     private String telephoneNumber;
     private String institutionTelephoneNumberType;
 
@@ -43,7 +42,8 @@ public class InstitutionTelephone
         return this.institutionTelephoneNumberType;
     }
 
-    public void setInstitutionTelephoneNumberType(String institutionTelephoneNumberType) {
+    public void setInstitutionTelephoneNumberType(
+            String institutionTelephoneNumberType) {
         this.institutionTelephoneNumberType = institutionTelephoneNumberType;
     }
 }

@@ -20,10 +20,11 @@
     </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes studentCompetencyObjectiveIdentifier" />
+        <jb:value property="externalId" data="attributes studentCompetencyObjectiveId" />
     </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="studentCompetencyObjectiveId" data="attributes studentCompetencyObjectiveId" />
         <jb:value property="objective" data="attributes objective" />
         <jb:value property="description" data="attributes description" />
         <jb:value property="objectiveGradeLevel" data="attributes objectiveGradeLevel" />

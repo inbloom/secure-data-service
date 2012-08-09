@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require File.expand_path('../common_stepdefs.rb', __FILE__)
+require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 
@@ -51,12 +52,13 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_IL" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_IL" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "custom_IL" => "20de11c7-56b3-4d8b-bfaa-b61bc5be7671",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
-                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
+                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786",
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
@@ -89,9 +91,10 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
-                 "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
-                 "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
-                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
+                "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
+                "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -125,6 +128,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
                 "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
+                "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
+                "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
+                "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
 }
 
 def assert(bool, message = 'assertion failure')
@@ -273,22 +279,153 @@ end
 
 ##############################################################################
 ##############################################################################
+###### Indexing ##############################################################
+
+def createIndexesOnDb(db_connection,db_name)
+
+  @db = db_connection[db_name]
+  ensureIndexes(@db)
+
+end
+
+def ensureIndexes(db)
+
+  @collection = @db["assessment"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["attendance"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["course"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["educationOrganization"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["gradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["parent"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["school"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+
+  @collection = @db["session"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staff"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staffEducationOrganizationAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentAssessmentAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentParentAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSchoolAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentGradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentTranscriptAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["teacher"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["teacherSectionAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+
+end
+
+
+##############################################################################
+##############################################################################
 ###### After hook(s) #########################################################
 
-After do |scenario| 
+After do |scenario|
   Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']
 end
 
 Around('@LDAP_Reset_developer-email') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
                           PropLoader.getProps['ldap_admin_pass'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
 
+Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
+  block.call
+  if scenario.failed?
+    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
+                          PropLoader.getProps['ldap_admin_pass'])
+    ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
+  end
+end
 
 ##############################################################################
 ##############################################################################
@@ -366,26 +503,6 @@ end
 
 ########################################################################
 ########################################################################
-# Property Loader class
-
-class PropLoader
-  @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
-
-  def self.getProps
-    self.updateHash() unless @@modified
-    return @@yml
-  end
-
-  private
-
-  def self.updateHash()
-    @@yml.each do |key, value|
-      @@yml[key] = ENV[key] if ENV[key]
-    end
-    @@modified=true
-  end
-end
 
 module DataProvider
   def self.getValidRealmData()
@@ -396,10 +513,17 @@ module DataProvider
        "saml" => {"field" => []},
        "name" => "a_new_realm",
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
-       "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
   
+  def self.getValidCustomRoleData() 
+    return {
+      "realmId" => "",
+      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
+    }
+  end
+
   def self.getValidAppData()
     return {
       "installed" => false,
@@ -413,11 +537,11 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "vendor" => "Acme", 
+      "vendor" => "Acme",
       "authorized_ed_orgs" => []
     }
   end
-  
+
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
@@ -473,7 +597,7 @@ end
 module EntityProvider
 
   def self.verify_entities_match(expected, response)
-    if expected.is_a?(Hash) 
+    if expected.is_a?(Hash)
       expected.each { |key, value| verify_entities_match(value, response[key]) }
     elsif expected.is_a?(Array)
       assert( expected.size == response.size )

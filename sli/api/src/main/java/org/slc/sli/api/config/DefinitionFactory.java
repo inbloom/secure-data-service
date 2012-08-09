@@ -30,8 +30,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.service.BasicAssocService;
 import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -58,7 +58,7 @@ public class DefinitionFactory {
 
     @Autowired
     private MetaDataTreatment metaDataTreatment;
-    
+
     @Autowired
     private ApplicationContext beanFactory;
 
@@ -90,6 +90,7 @@ public class DefinitionFactory {
         protected Repository<Entity> repo;
         protected Right readRight;
         protected Right writeRight;
+        private boolean supportsAggregates;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -120,14 +121,15 @@ public class DefinitionFactory {
             this.treatments.add(DefinitionFactory.this.metaDataTreatment);
             this.readRight = Right.READ_GENERAL;
             this.writeRight = Right.WRITE_GENERAL;
+            this.supportsAggregates = false;
         }
-        
+
         public EntityBuilder setRequiredReadRight(Right right) {
             this.readRight = right;
             return this;
         }
 
-        
+
         public EntityBuilder setRequiredWriteRight(Right right) {
             this.writeRight = right;
             return this;
@@ -182,6 +184,11 @@ public class DefinitionFactory {
             return this;
         }
 
+        public EntityBuilder supportsAggregates() {
+            this.supportsAggregates = true;
+            return this;
+        }
+
         /**
          * Create the actual entity definition
          *
@@ -192,7 +199,8 @@ public class DefinitionFactory {
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
                     collectionName, treatments, this.readRight, this.writeRight);
 
-            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
+            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
+                    supportsAggregates);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }

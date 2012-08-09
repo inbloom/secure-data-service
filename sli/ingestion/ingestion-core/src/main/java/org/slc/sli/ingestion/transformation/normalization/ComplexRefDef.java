@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class ComplexRefDef {
     private String fieldPath;
-    private String collectionName;
+    private String entityType;
     private String path;
     private String valueSource;
     private List<String> complexFieldNames;
@@ -40,12 +40,12 @@ public class ComplexRefDef {
         this.fieldPath = fieldPath;
     }
 
-    public String getCollectionName() {
-        return collectionName;
+    public String getEntityType() {
+        return entityType;
     }
 
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 
     public String getPath() {

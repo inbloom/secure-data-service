@@ -14,28 +14,51 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal;
 
 /**
- * TODO: add javadoc
- *
+ * Class that provides thread-local context for non-local jump use cases.
  */
 public class TenantContext {
 
-   private static ThreadLocal<String> tenantId = new ThreadLocal<String>() {
-       @Override
-    protected synchronized String initialValue() {
-           return null;
-       }
-   };
+    private static ThreadLocal<String> threadLocalTenantId = new ThreadLocal<String>();
 
-   public static String getTenantId() {
-       return tenantId.get();
-   }
+    private static ThreadLocal<String> threadLocalJobId = new ThreadLocal<String>();
 
-   public static void setTenantId(String value) {
-       tenantId.set(value);
-   }
+    /**
+     * Get the tenant id local to this thread.
+     *
+     * @return tenant id.
+     */
+    public static String getTenantId() {
+        return threadLocalTenantId.get();
+    }
+
+    /**
+     * Set the tenant id local to this thread.
+     *
+     * @param tenantId
+     */
+    public static void setTenantId(String tenantId) {
+        threadLocalTenantId.set(tenantId);
+    }
+
+    /**
+     * Set the job id local to this thread.
+     *
+     * @param jobId
+     */
+    public static void setJobId(String jobId) {
+        threadLocalJobId.set(jobId);
+    }
+
+    /**
+     * Get the job id local to this thread.
+     *
+     * @return job id.
+     */
+    public static String getJobId() {
+        return threadLocalJobId.get();
+    }
 
 }

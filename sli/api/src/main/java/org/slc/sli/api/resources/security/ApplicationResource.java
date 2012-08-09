@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,8 +56,10 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -85,6 +88,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     private boolean sandboxEnabled;
 
     private EntityService service;
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
@@ -198,16 +205,31 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @Override
     protected void addAdditionalCritera(NeutralQuery query) {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
+
+        
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
             query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
-            query.addCriteria(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
-            NeutralQuery orQuery = new NeutralQuery(0);
-            orQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
-            orQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
-            query.addOrQuery(orQuery);
+            
+            //know this is ugly, but having trouble getting or queries to work
+            List<String> idList = new ArrayList<String>();
+            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
+            Iterable<String> ids = repo.findAllIds("application", newQuery);
+            for (String id : ids) {
+                idList.add(id);
+            }
+            
+            newQuery = new NeutralQuery(0);
+            newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
+            newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
+            
+            ids = repo.findAllIds("application", newQuery);
+            for (String id : ids) {
+                idList.add(id);
+            }
+            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
         } //else - operator -- sees all apps
     }
 
@@ -251,9 +273,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
                 //only see client id and secret if you're an app developer and it's approved
-                if (hasRight(Right.DEV_APP_CRUD) && !reg.get("status").equals("APPROVED")) {
-                    appMap.remove(CLIENT_ID);
-                    appMap.remove(CLIENT_SECRET);
+                if (hasRight(Right.DEV_APP_CRUD)) {
+                    if (!reg.get("status").equals("APPROVED")) {
+                        appMap.remove(CLIENT_ID);
+                        appMap.remove(CLIENT_SECRET);
+                    }
                 } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
                     appMap.remove(CLIENT_ID);
                     appMap.remove(CLIENT_SECRET);

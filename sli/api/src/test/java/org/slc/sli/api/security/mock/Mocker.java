@@ -37,8 +37,8 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -139,7 +139,7 @@ public class Mocker {
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(
-                rolesToRightsResolver.resolveRoles(DEFAULT_REALM_ID,
+                rolesToRightsResolver.resolveRoles("42",DEFAULT_REALM_ID,
                         Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
         return rolesToRightsResolver;
     }

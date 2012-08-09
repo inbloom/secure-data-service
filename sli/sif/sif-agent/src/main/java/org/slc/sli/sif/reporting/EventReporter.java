@@ -16,12 +16,14 @@
 
 package org.slc.sli.sif.reporting;
 
+import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
+import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.Publisher;
 import openadk.library.PublishingOptions;
@@ -29,7 +31,14 @@ import openadk.library.Query;
 import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
+import openadk.library.common.CommonDTD;
+import openadk.library.common.ExitTypeCode;
+import openadk.library.common.GradeLevelCode;
+import openadk.library.common.StudentLEARelationship;
+import openadk.library.student.LEAInfo;
+import openadk.library.student.SchoolInfo;
 import openadk.library.student.StudentDTD;
+import openadk.library.student.StudentSchoolEnrollment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +54,10 @@ public class EventReporter implements Publisher {
 
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
-        String catalinaHome = System.getProperty("catalina.home");
-        if( catalinaHome == null ){
-            System.setProperty("catalina.home", "target");
-        }
+        System.setProperty("adk.log.file", "target" + File.separator + "logs" + File.separator + "EventReporter.log");
+
         String sliConf = System.getProperty("sli.conf");
-        if( sliConf == null ){
+        if (sliConf == null) {
             System.setProperty("sli.conf", "../../config/properties/sli.properties");
         }
     }
@@ -62,11 +69,23 @@ public class EventReporter implements Publisher {
         ADK.debug = ADK.DBG_ALL;
 
         try {
-            SifAgent agent = createReporterAgent();
+            if (args.length == 3) {
+                String agentId = args[0];
+                String zoneUrl = args[1];
+                String localZoneId = args[2];
+                boolean reportSchoolLeaInfo = true;
+                SifAgent agent = createReporterAgent(agentId, zoneUrl);
+                agent.startAgent();
+                Zone zone = agent.getZoneFactory().getZone(localZoneId);
+                EventReporter reporter = new EventReporter(zone);
 
-            agent.startAgent();
-
-            if (args.length >= 2) {
+                reporter.setEventGenerator(new CustomEventGenerator());
+                if (reportSchoolLeaInfo) {
+                    reporter.reportSchoolLeaInfoEvents();
+                }
+            } else if (args.length == 2) {
+                SifAgent agent = createReporterAgent("test.publisher.agent", "http://10.163.6.73:50002/TestZone");
+                agent.startAgent();
                 String zoneId = args[EventReporter.ZONE_ID];
                 String messageFile = args[EventReporter.MESSAGE_FILE];
                 Zone zone = agent.getZoneFactory().getZone(zoneId);
@@ -75,6 +94,8 @@ public class EventReporter implements Publisher {
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
+                SifAgent agent = createReporterAgent("test.publisher.agent", "http://10.163.6.73:50002/TestZone");
+                agent.startAgent();
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
                 reporter.reportEvent();
@@ -84,7 +105,7 @@ public class EventReporter implements Publisher {
         }
     }
 
-    private static SifAgent createReporterAgent() {
+    private static SifAgent createReporterAgent(String agentId, String zoneUrl) {
         Properties agentProperties = new Properties();
         agentProperties.put("adk.messaging.mode", "Push");
         agentProperties.put("adk.messaging.transport", "http");
@@ -96,11 +117,9 @@ public class EventReporter implements Publisher {
 
         Properties httpsProperties = new Properties();
 
-        return new SifAgent("test.publisher.agent", new PublishZoneConfigurator(),
-                agentProperties, httpProperties, httpsProperties, "TestZone",
-                "http://10.163.6.73:50002/TestZone", SIFVersion.SIF23);
+        return new SifAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties, httpsProperties,
+                "TestZone", zoneUrl, SIFVersion.SIF23);
     }
-
 
     public static final int ZONE_ID = 0;
     public static final int MESSAGE_FILE = 1;
@@ -112,10 +131,12 @@ public class EventReporter implements Publisher {
 
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
-        //this.zone.setPublisher(this);
+        // this.zone.setPublisher(this);
         this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
+        this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
         generator = new HCStudentPersonalGenerator();
     }
 
@@ -127,6 +148,55 @@ public class EventReporter implements Publisher {
         Event event = generator.generateEvent(null);
         if (zone.isConnected()) {
             zone.reportEvent(event);
+        } else {
+            LOG.error("Zone is not connected");
+        }
+    }
+
+    public void reportSchoolLeaInfoEvents() throws ADKException {
+        SchoolInfo schoolInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestSchoolInfo();
+        LEAInfo leaInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestLEAInfo();
+        StudentSchoolEnrollment studentSchoolEnrollment = org.slc.sli.sif.generator.SifEntityGenerator
+                .generateTestStudentSchoolEnrollment();
+        StudentLEARelationship studentLEARelationship = org.slc.sli.sif.generator.SifEntityGenerator
+                .generateTestStudentLEARelationship();
+
+        if (zone.isConnected()) {
+            try {
+                zone.reportEvent(leaInfo, EventAction.ADD);
+                Thread.sleep(5000);
+                zone.reportEvent(schoolInfo, EventAction.ADD);
+                Thread.sleep(5000);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.ADD);
+                Thread.sleep(5000);
+                zone.reportEvent(studentLEARelationship, EventAction.ADD);
+                Thread.sleep(5000);
+                schoolInfo.setChanged();
+                schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
+                zone.reportEvent(schoolInfo, EventAction.CHANGE);
+                Thread.sleep(5000);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
+                Thread.sleep(5000);
+                zone.reportEvent(studentLEARelationship, EventAction.DELETE);
+                studentLEARelationship.setChanged();
+                studentLEARelationship.setGradeLevel(GradeLevelCode._09);
+                studentLEARelationship.setSchoolYear(2014);
+                zone.reportEvent(studentLEARelationship, EventAction.CHANGE);
+                Thread.sleep(5000);
+                studentSchoolEnrollment.setChanged();
+                studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.CHANGE);
+                Thread.sleep(5000);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.DELETE);
+                Thread.sleep(5000);
+                zone.reportEvent(schoolInfo, EventAction.DELETE);
+                Thread.sleep(5000);
+                zone.reportEvent(leaInfo, EventAction.DELETE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             LOG.error("Zone is not connected");
         }
@@ -144,12 +214,9 @@ public class EventReporter implements Publisher {
     }
 
     @Override
-    public void onRequest(DataObjectOutputStream out, Query query, Zone zone,
-            MessageInfo info) throws ADKException {
-        LOG.info("Received request to publish data:\n"
-                + "\tQuery:\n" + query.toXML() + "\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
-                + "\tInfo: " + info.getMessage());
+    public void onRequest(DataObjectOutputStream out, Query query, Zone zone, MessageInfo info) throws ADKException {
+        LOG.info("Received request to publish data:\n" + "\tQuery:\n" + query.toXML() + "\n" + "\tZone: "
+                + zone.getZoneId() + "\n" + "\tInfo: " + info.getMessage());
     }
 
     @SuppressWarnings("unused")
