@@ -92,7 +92,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setExternalId("developer");
-        principal.setSliRoles(roles);
+        principal.setRoles(roles);
         setSecurityContext(principal);
 
         // TODO why do developers have admin access?
@@ -153,7 +153,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setSliRoles(roles);
+        principal.setRoles(roles);
         setSecurityContext(principal);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE };
@@ -174,7 +174,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setEdOrg("fake-ed-org");
-        principal.setSliRoles(roles);
+        principal.setRoles(roles);
         principal.setTenantId(TENANT_ID);
         setSecurityContext(principal);
 
@@ -234,7 +234,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setSliRoles(roles);
+        principal.setRoles(roles);
         setSecurityContext(principal);
     }
 

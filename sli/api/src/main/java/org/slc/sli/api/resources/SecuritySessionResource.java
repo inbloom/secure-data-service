@@ -105,8 +105,6 @@ public class SecuritySessionResource {
             throw new InsufficientAuthenticationException("User must be logged in");
         }
 
-        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-        principal.setSliRoles(principal.getRoles());
         return SecurityContextHolder.getContext();
     }
 
