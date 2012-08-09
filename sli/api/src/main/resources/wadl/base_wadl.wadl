@@ -148,7 +148,6 @@
     <ns2:resource path="v1/home">
       <ns2:doc><![CDATA[Provides initial information for a user. This includes providing different links to self and associated
  resources.]]></ns2:doc>
-      <ns2:method id="create" name="POST"/>
       <ns2:method id="readAll" name="GET"/>
     </ns2:resource>
     <ns2:resource path="v1/gradingPeriods">
