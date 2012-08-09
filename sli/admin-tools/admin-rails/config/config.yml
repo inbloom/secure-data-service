@@ -14,6 +14,7 @@ common: &common
     admin_realm: Shared Learning Infrastructure
     reset_password_lifespan: 86400
     app_dev_documentation_link: http://dev.slcedu.org/getting-started
+    admin_documentation_link: http://www.google.com
 
 sandbox: &sandbox
     is_sandbox: true

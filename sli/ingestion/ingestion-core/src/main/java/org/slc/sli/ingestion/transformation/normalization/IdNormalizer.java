@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
@@ -52,8 +51,8 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Internal ID resolver.
@@ -258,7 +257,7 @@ public class IdNormalizer {
         }
     }
 
-    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+    protected String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport, String resolvedReferences) {
         LOG.debug("resolving id for {}", entity.getType());
         List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
@@ -305,7 +304,7 @@ public class IdNormalizer {
      *            error reporting.
      * @return list of strings representing resolved id's.
      */
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+    protected List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport) {
         int numRefInstances = 1;
         try {
@@ -313,11 +312,12 @@ public class IdNormalizer {
         } catch (Exception e) {
             errorReport.error("Failed to get number of reference instances", this);
         }
-        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport, 0, null);
+        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport, 0,
+                null);
     }
 
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
-            String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
+    protected List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances,
+            Ref refConfig, String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
 
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
@@ -352,14 +352,14 @@ public class IdNormalizer {
                                 boolean isEmptyRef = isEmptyRef(entity, fv.getRef(), refIndex, refConfig);
                                 List<String> resolvedIds = null;
                                 if (!isEmptyRef) {
-                                    resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport, refIndex,
-                                        refConfig);
+                                    resolvedIds = resolveReferenceInternalIds(entity, tenantId, numRefInstances,
+                                            fv.getRef(), fieldPath, proxyErrorReport, refIndex, refConfig);
                                 }
 
-                                //it is acceptable for a child reference to not be resolved iff it is
-                                //an optional reference and the source is empty
-                                //otherwise fail the parent reference by returning an empty list
+                                // it is acceptable for a child reference to not be resolved iff it
+                                // is
+                                // an optional reference and the source is empty
+                                // otherwise fail the parent reference by returning an empty list
                                 if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
                                 } else if (!fv.getRef().isOptional() || !isEmptyRef) {
@@ -393,14 +393,15 @@ public class IdNormalizer {
                                                             continue;
                                                         }
 
-                                                        for (Object keyObj : queryDbObject.toMap().keySet())
-                                                        {
+                                                        for (Object keyObj : queryDbObject.toMap().keySet()) {
                                                             if (keyObj == null) {
                                                                 continue;
                                                             }
                                                             LOG.debug(keyObj.toString());
                                                             if (field.getQueryList().containsKey(keyObj.toString())) {
-                                                                choice.addCriteria(Criteria.where(field.getQueryList().get(keyObj.toString())).is(queryDbObject.toMap().get(keyObj)));
+                                                                choice.addCriteria(Criteria.where(
+                                                                        field.getQueryList().get(keyObj.toString()))
+                                                                        .is(queryDbObject.toMap().get(keyObj)));
                                                                 criteriaCount++;
                                                             }
                                                         }
@@ -487,20 +488,26 @@ public class IdNormalizer {
     /**
      * Resolves a reference represented by an array of complex objects, which
      *
-     * @param entity - the referer entity
-     * @param tenantId - tenant's id
-     * @param valueSource - xpath to the complex object array in the referer entity
-     * @param fieldPath - xpath to the field in the referer entity where the resolved id will be written into
-     * @param targetCollection - referenced entity
-     * @param path - xpath to the complex object array in the referenced entity
-     * @param complexFieldNames - names of fields in the complex object
-     * @param errorReport - error reporter
+     * @param entity
+     *            - the referer entity
+     * @param tenantId
+     *            - tenant's id
+     * @param valueSource
+     *            - xpath to the complex object array in the referer entity
+     * @param fieldPath
+     *            - xpath to the field in the referer entity where the resolved id will be written
+     *            into
+     * @param targetCollection
+     *            - referenced entity
+     * @param path
+     *            - xpath to the complex object array in the referenced entity
+     * @param complexFieldNames
+     *            - names of fields in the complex object
+     * @param errorReport
+     *            - error reporter
      */
-    public void resolveReferenceWithComplexArray(Entity entity, String tenantId,
-                                                 String valueSource, String fieldPath,
-                                                 String collectionName, String path,
-                                                 List<String> complexFieldNames,
-                                                 ErrorReport errorReport) {
+    public void resolveReferenceWithComplexArray(Entity entity, String tenantId, String valueSource, String fieldPath,
+            String collectionName, String path, List<String> complexFieldNames, ErrorReport errorReport) {
 
         try {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, valueSource);
@@ -518,15 +525,20 @@ public class IdNormalizer {
                 Criteria fieldValueCriteria = null;
                 for (String fieldName : complexFieldNames) {
                     Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
-                    if (fieldValue == null) { continue; }
+                    if (fieldValue == null) {
+                        continue;
+                    }
                     if (fieldValueCriteria == null) {
                         fieldValueCriteria = Criteria.where(fieldName).is(fieldValue);
                     } else {
                         fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
                     }
                 }
-                if (fieldValueCriteria == null) { continue; }
-                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
+                if (fieldValueCriteria == null) {
+                    continue;
+                }
+                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                        tenantId);
                 criteria = criteria.and(path).elemMatch(fieldValueCriteria);
 
                 // create the subquery using the fieldValue criteria
@@ -551,7 +563,8 @@ public class IdNormalizer {
 
             // resolution fails if not exactly one resolved object is found.
             if (foundIds.size() != 1) {
-                throw new RuntimeException("Number of resolved ids in resolve complex reference is not 1, but is " + foundIds.size());
+                throw new RuntimeException("Number of resolved ids in resolve complex reference is not 1, but is "
+                        + foundIds.size());
             } else {
                 PropertyUtils.setProperty(entity, fieldPath, foundIds.iterator().next());
             }
@@ -644,7 +657,8 @@ public class IdNormalizer {
     /**
      * Constructs the property name used by PropertyUtils.getProperty for indexed references
      */
-    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex, int parentIndex, Ref parentRefConfig) {
+    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex, int parentIndex,
+            Ref parentRefConfig) {
         String result = valueSource;
 
         if (refConfig.isRefList()) {
@@ -664,10 +678,11 @@ public class IdNormalizer {
             }
         }
 
-        //UN: Parent is also a refList, add current Parent Index to the Parent RefObject Path
+        // UN: Parent is also a refList, add current Parent Index to the Parent RefObject Path
         if (parentRefConfig != null && parentRefConfig.isRefList()) {
             String parentRefObjectPath = parentRefConfig.getRefObjectPath();
-            result = result.replaceFirst(parentRefObjectPath, parentRefObjectPath + ".[" + Integer.toString(parentIndex) + "]");
+            result = result.replaceFirst(parentRefObjectPath,
+                    parentRefObjectPath + ".[" + Integer.toString(parentIndex) + "]");
         }
 
         return result;
@@ -676,7 +691,6 @@ public class IdNormalizer {
     public void setCacheProvider(CacheProvider c) {
         this.cacheProvider = c;
     }
-
 
     private boolean isEmptyRef(Entity entity, Ref refConfig, int parentIndex, Ref parentRef) {
         for (List<Field> fields : refConfig.getChoiceOfFields()) {
@@ -687,12 +701,14 @@ public class IdNormalizer {
                             return false;
                         }
                     } else {
-                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0, parentIndex, parentRef);
+                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0,
+                                parentIndex, parentRef);
                         Object entityValue = null;
                         try {
                             entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                         } catch (Exception e) {
-                            //exceptions here indicate that the something in valueSourcePath does not exist
+                            // exceptions here indicate that the something in valueSourcePath does
+                            // not exist
                             continue;
                         }
                         if (entityValue != null) {

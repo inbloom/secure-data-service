@@ -6,11 +6,19 @@
                                <!--  Home Entries – Add external JARs. -->
 <project default="create_run_jar" name="Create Runnable Jar for Project ExportTools with Jar-in-Jar Loader">
 
+	<tstamp>
+		<format property="DATE_TIME" pattern="yyyyMMdd_hhmm" locale="en,US"/>
+	</tstamp>
     <property name="host"         value="galvatron.slidev.org"/>
-    <property name="username"     value="ldalgado"/>
-    <property name="password"     value="$?Changed123"/>
-	<property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
-
+	<!--
+	<input message="Please enter a username: " addproperty="username"/>
+	<input message="Please enter a password: " addproperty="password"/>
+	-->
+	<property name="username"	value="datagen"/>
+	<property name="password"	value="b00ksrc00l"/>
+	<input message="Specify a subdir for your generator (e.g. bsuzuki): " addproperty="subdir"/>
+	<property name="path"         value="/metroplex/testDataGeneration/${username}/${subdir}/"/>
+	<input message="Specify a config file (e.g. db-datagen-approach/ref-configurations/config.properties): " addproperty="config"/>
 
 	    	
     <target name="create_run_jar">
@@ -35,7 +43,6 @@
         
         <scp file="TestDataGeneration.jar" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp file="start.sh" todir="${username}:${password}@${host}:${path}" trust="true"/>
-    	<scp file="db-datagen-approach/ref-configurations/reference_config.properties" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp todir="${username}:${password}@${host}:${path}" trust="true">
           <fileset dir=".">
               <include name = "database/**"></include>
@@ -49,6 +56,8 @@
                   <fileset dir="../../sli/domain/src/main/resources/edfiXsd/" />
         </scp>
     	    	        
-        <scp file = "reference_config.properties" todir="${username}:${password}@${host}:${path}/" trust="true"/>
+        <scp file = "${config}" todir="${username}:${password}@${host}:${path}/" trust="true"/>
+    	
     </target>
+	
 </project>

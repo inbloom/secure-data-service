@@ -21,6 +21,8 @@ import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.ldap.User.Status;
+
 /**
  * Unit tests
  */
@@ -54,8 +56,8 @@ public class LdapServiceImplTest {
         assertTrue(slcoperator.getEmail().equals("slcoperator@slidev.org"));
         assertTrue(slcoperator.getUid().equals("slcoperator"));
         assertNotNull(slcoperator.getHomeDir());
-        assertNotNull(slcoperator.parseFirstName());
-        assertNotNull(slcoperator.parseLastName());
+        assertNotNull(slcoperator.getGivenName());
+        assertNotNull(slcoperator.getSn());
         assertNotNull(slcoperator.getFullName());
         assertNull(slcoperator.getTenant());
         assertNull(slcoperator.getEdorg());
@@ -104,11 +106,12 @@ public class LdapServiceImplTest {
         assertTrue(newUser.getGroups().contains("LEA Administrator"));
         assertEquals(uid, newUser.getUid());
         assertEquals("testemail@slidev.org", newUser.getEmail());
-        assertEquals("testFirst", newUser.parseFirstName());
-        assertEquals("testLast", newUser.parseLastName());
+        assertEquals("testFirst", newUser.getGivenName());
+        assertEquals("testLast", newUser.getSn());
         assertEquals("/dev/null", newUser.getHomeDir());
         assertEquals("testTenant", newUser.getTenant());
         assertEquals("testEdorg", newUser.getEdorg());
+        assertEquals(User.Status.SUBMITTED, newUser.getStatus());
 
         // test update
         updateTestUser(newUser);
@@ -122,11 +125,12 @@ public class LdapServiceImplTest {
         assertTrue(updatedUser.getGroups().contains("Realm Administrator"));
         assertEquals(uid, updatedUser.getUid());
         assertEquals("testemailupdate@slidev.org", updatedUser.getEmail());
-        assertEquals("testFirstUpdate", updatedUser.parseFirstName());
-        assertEquals("testLastUpdate", updatedUser.parseLastName());
+        assertEquals("testFirstUpdate", updatedUser.getGivenName());
+        assertEquals("testLastUpdate", updatedUser.getSn());
         assertEquals("/dev/null/update", updatedUser.getHomeDir());
         assertEquals("testTenantUpdate", updatedUser.getTenant());
         assertEquals("testEdorgUpdate", updatedUser.getEdorg());
+        assertEquals(Status.APPROVED, updatedUser.getStatus());
 
         // test delete
         ldapService.removeUser("local", uid);
@@ -137,7 +141,7 @@ public class LdapServiceImplTest {
 
     private User buildTestUser() throws UnknownHostException {
         User testUser = new User();
-        testUser.setFullName("testFirst", "testLast");
+        testUser.setFullName("testFirst testLast");
         testUser.setUid("testUid_" + InetAddress.getLocalHost().getHostName());
         testUser.setEdorg("testEdorg");
         testUser.setTenant("testTenant");
@@ -154,10 +158,11 @@ public class LdapServiceImplTest {
         user.setTenant("testTenantUpdate");
         user.setEmail("testemailupdate@slidev.org");
         user.setHomeDir("/dev/null/update");
-        user.setFullName("testFirstUpdate", "testLastUpdate");
+        user.setFullName("testFirstUpdate testLastUpdate");
         user.removeGroup("SLC Operator");
         user.removeGroup("SEA Administrator");
         user.addGroup("Realm Administrator");
+        user.setStatus(User.Status.APPROVED);
     }
 
 }

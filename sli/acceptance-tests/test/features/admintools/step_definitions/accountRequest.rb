@@ -150,8 +150,8 @@ Then /^I am redirected to the hosting website$/ do
 end
 
 Then /^I am directed to an acknowledgement page.$/ do
-  assertText("Thank You")
-  assertText("Be on the lookout for a confirmation email.")
+  assertText("Registration Complete")
+  assertText("Email Confirmation")
 end
 
 Then /^I get a record for "([^\"]*)"$/ do |email|

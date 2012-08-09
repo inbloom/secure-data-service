@@ -115,12 +115,9 @@
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers" />
-    <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
-    <property name="entityPersistHandlers" ref="entityPersistHandlers" />
+    <property name="transformer" ref="smooksEdFi2SLITransformer" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
-    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 

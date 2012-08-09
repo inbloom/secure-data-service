@@ -66,6 +66,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | reportCard                  |
         | courseOffering              |
         | studentAcademicRecord       |
+        | graduationPlan              |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -109,6 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
         | reportCard                  | 2     |
         | courseOffering              | 95    |
         | studentAcademicRecord       | 117   |
+        | graduationPlan              | 3     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -159,7 +161,10 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
-    And I should see "Processed 4148 records." in the resulting batch job file
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
+       | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
+    And I should see "Processed 4151 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -176,8 +181,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 495" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 495" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file

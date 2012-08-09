@@ -20,8 +20,10 @@ public class User {
     private String tenant;
     private String edorg;
     private String homeDir;
-    private String fullName;
+    private String sn;
+    private String givenName;
     private String cn;
+    private Status status = Status.SUBMITTED;
 
     public String getCn() {
         return cn;
@@ -32,7 +34,14 @@ public class User {
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.setGivenName(fullName.split(" ")[0]);
+
+        String[] split = fullName.split(" ", 2);
+        if (split.length == 2) {
+            this.setSn(split[1]);
+        } else {
+            this.setSn(null);
+        }
     }
 
     private Date createTime;
@@ -64,19 +73,6 @@ public class User {
     public void removeGroup(String group) {
         if (groups != null && groups.contains(group)) {
             groups.remove(group);
-        }
-    }
-
-    public String parseFirstName() {
-        return fullName.split(" ")[0];
-    }
-
-    public String parseLastName() {
-        String[] split = fullName.split(" ", 2);
-        if (split.length == 2) {
-            return split[1];
-        } else {
-            return null;
         }
     }
 
@@ -120,12 +116,27 @@ public class User {
         this.homeDir = homeDir;
     }
 
-    public void setFullName(String firstName, String lastName) {
-        this.fullName = firstName + (" ".equals(lastName) ? "" : " " + lastName);
+    public String getFullName() {
+        if (getGivenName() == null && getSn() == null) {
+            return null;
+        }
+        return this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
     }
 
-    public String getFullName() {
-        return this.fullName;
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
     }
 
     public void setCreateTime(Date createTime) {
@@ -170,11 +181,48 @@ public class User {
         return sb.toString();
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "User [uid=" + uid + ", groups=" + groups + ", fullName=" + fullName + ", password=" + password
-                + ", email=" + email + ", tenant=" + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir
-                + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+        return "User [uid=" + uid + ", groups=" + groups + ", password=" + password + ", email=" + email + ", tenant="
+                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + getFullName() + ", cn=" + cn
+                + ", status=" + status + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+    }
+
+    /**
+     * A user status
+     *
+     * @author nbrown
+     *
+     */
+    public enum Status {
+        SUBMITTED("submitted"), APPROVED("approved");
+        private final String statusString;
+
+        private Status(String statusString) {
+            this.statusString = statusString;
+        }
+
+        protected String getStatusString() {
+            return statusString;
+        }
+
+        protected static Status getFromString(String statusString) {
+            for (Status value : Status.values()) {
+                if (value.getStatusString().equals(statusString)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
     }
 
 }

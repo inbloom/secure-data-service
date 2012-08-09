@@ -96,6 +96,8 @@ Then /^I see a list of (\d+) students$/ do |numOfStudents|
   @explicitWait.until{@driver.find_element(:class,"sectionProfile")}
   studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
+  #Assume that we're in section profile in the list of students tab
+  @currentTab = getTab("List of Students")
   actualCount = countTableRows()
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   assert(actualCount == numOfStudents.to_i, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")

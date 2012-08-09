@@ -150,6 +150,11 @@ Then /^I do not see Role selection nor EdOrg dropdown menu$/ do
   assert(roles_edorg_block.displayed? == false, "role and edorg block is visible")
 end
 
+Then /^I do not see an option to change my primary admin role$/ do
+  primary_role_block = @driver.find_element(:id, "primary_role_block")
+  assert(primary_role_block.displayed? == false, "I can still see the primary role block")
+end
+
 Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection| 
     drop_down = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_edorg"))
     drop_down.select_by(:text, selection)
@@ -194,7 +199,7 @@ end
 
 Then /^I do not see any other LEA admin from (.*?) besides me$/ do |edorg|
   my_name="#{@user_info[:first]} #{@user_info[:last]}"
-  my_edorg="#{@user_info[:first]} #{@user_info[:last]}"
+  my_edorg="#{@user_info[:edorg]}"
   found_myself=false
   table=@driver.find_element(:id, "Users_Management_Table")
   table.find_elements(:xpath, ".//tbody/tr").each do |tr|

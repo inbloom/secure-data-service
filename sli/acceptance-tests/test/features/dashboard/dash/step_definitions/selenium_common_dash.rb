@@ -126,8 +126,13 @@ end
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
   @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  tableRows = @driver.find_elements(:css, "tr[class*='ui-widget-content']")
-  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
+  # we'll read from current tab if present
+  source = @driver
+  if (@currentTab != nil)
+    source = @currentTab
+  end
+  tableRows = source.find_elements(:css, "tr[class*='ui-widget-content']")
+  #puts "# of TR = " +  source.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
 

@@ -196,5 +196,16 @@ end
 
 
 ############################################################
+# Dashboard local dev environmnet
+############################################################
+
+desc "Setup local dashboard dev enviroment"
+task :dashboardSetup  => [:realmInitNoPeople] do
+  OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
+  Rake::Task["addBootstrapAppAuths"].execute
+end
+
+############################################################
 # Dashboard tests end
 ############################################################
