@@ -286,8 +286,8 @@ public class LdapServiceImpl implements LdapService {
 
     private void mapUserToContext(DirContextAdapter context, User user) {
         context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
-        context.setAttributeValue("givenName", user.parseFirstName());
-        String surName = user.parseLastName();
+        context.setAttributeValue("givenName", user.getGivenName());
+        String surName = user.getSn();
         context.setAttributeValue("sn", surName == null ? " " : surName);
         context.setAttributeValue("uid", user.getUid());
         context.setAttributeValue("uidNumber", USER_ID_NUMBER);
