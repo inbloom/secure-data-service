@@ -22,8 +22,7 @@ package org.slc.sli.sif.domain.slientity;
  * @author slee
  *
  */
-public class OtherName extends Name
-{
+public class OtherName extends Name {
     //otherName-only fields
     private String otherNameType;
 
@@ -34,7 +33,7 @@ public class OtherName extends Name
     public String getOtherNameType() {
         return this.otherNameType;
     }
-    
+
     public void setOtherNameType(String otherNameType) {
         this.otherNameType = otherNameType;
     }

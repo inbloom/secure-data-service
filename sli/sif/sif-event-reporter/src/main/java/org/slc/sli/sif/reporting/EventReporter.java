@@ -90,7 +90,7 @@ public class EventReporter implements Publisher {
 
             EventReporter reporter = new EventReporter(zone, props);
             reporter.runReportScript(script);
-        } catch (Exception e) {
+        } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
             logger.error("Exception trying to report event", e);
         }
     }
@@ -117,6 +117,12 @@ public class EventReporter implements Publisher {
     private Properties props;
     private Map<String, ScriptMethod> scriptMethodMap = new HashMap<String, ScriptMethod>();
 
+    /**
+     * Helper class to map script identifiers to Java methods
+     *
+     * @author vmcglaughlin
+     *
+     */
     static class ScriptMethod {
         private Object executingClass;
         private Object[] args;
@@ -192,7 +198,7 @@ public class EventReporter implements Publisher {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                // Eat it
+                LOG.error("Exception while sleeping", e);
             }
         }
     }

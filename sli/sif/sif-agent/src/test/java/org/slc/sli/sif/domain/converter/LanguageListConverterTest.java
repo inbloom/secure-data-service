@@ -27,13 +27,13 @@ import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
 
 import org.junit.Test;
+
 import org.slc.sli.sif.ADKTest;
 
 /**
  * AddressListConverter unit tests
  */
-public class LanguageListConverterTest extends ADKTest
-{
+public class LanguageListConverterTest extends ADKTest {
     private final LanguageListConverter converter = new LanguageListConverter();
     private Map<LanguageCode, String> map = new HashMap<LanguageCode, String>();
 
@@ -80,7 +80,7 @@ public class LanguageListConverterTest extends ADKTest
         map.put(LanguageCode.MULTIPLE, "Other languages");
         map.put(LanguageCode.SPANISH, "Spanish");
         map.put(LanguageCode.wrap("something else"), "Other");
-        
+
         //use map to get a list of LanguageCode
         List<LanguageCode> languageCodes = new ArrayList<LanguageCode>();
         languageCodes.addAll(map.keySet());

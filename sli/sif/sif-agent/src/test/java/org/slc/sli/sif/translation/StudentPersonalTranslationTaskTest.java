@@ -32,11 +32,9 @@ import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
 import openadk.library.common.LanguageType;
 import openadk.library.common.PhoneNumberList;
-import openadk.library.student.LEAInfo;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
-import openadk.library.student.StudentSchoolEnrollment;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,6 +43,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -54,7 +53,6 @@ import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
-import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
 
 /**
  * StudentPersonal to StudentEntity unit tests
@@ -62,8 +60,7 @@ import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
  * @author slee
  *
  */
-public class StudentPersonalTranslationTaskTest
-{
+public class StudentPersonalTranslationTaskTest {
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
 
@@ -137,7 +134,7 @@ public class StudentPersonalTranslationTaskTest
         StudentEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getGradeLevel());
     }
-    
+
     @Test
     public void testEmailList() throws SifTranslationException {
         EmailList emailList = new EmailList();

@@ -20,9 +20,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import openadk.library.ADKException;
+import openadk.library.ADKParsingException;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.SIFDataObject;
+import openadk.library.SIFException;
 import openadk.library.SIFParser;
 import openadk.library.SIFVersion;
 
@@ -57,7 +60,13 @@ public class CustomEventGenerator implements EventGenerator {
             // Parse it
             SIFDataObject generic = (SIFDataObject) p.parse(xml.toString(), null, 0, SIFVersion.SIF23);
             event = new Event(generic, EventAction.ADD);
-        } catch (Exception e) {
+        } catch (SIFException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (ADKParsingException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (ADKException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (IOException e) {
             LOG.error("Caught exception trying to load entity from file", e);
         } finally {
             if (in != null) {
