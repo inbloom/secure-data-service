@@ -225,8 +225,6 @@ public class Login {
         if (doImpersonation) {
             if (customRoles != null) {
                 List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
-                customRolesList.removeAll(Arrays.asList("", null));
-
                 if(roles != null) {
                     roles.addAll(customRolesList);
                 } else {
