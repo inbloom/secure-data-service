@@ -113,7 +113,7 @@ class UsersController < ApplicationController
      rescue ActiveResource::BadRequest
      resend =true
      @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "tenant and edorg mismatch"
+     @user.errors[:edorg] << "Please check EdOrg selection"
     end
     
    

@@ -86,13 +86,13 @@ Then I see a list of 3 students
 Then I should only see one view named "Default View"
 
 @integration @RALLY_US2276
-Scenario:  Non-District IT admin upload
+Scenario:  State IT admin upload
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
  Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
-Then I am unauthorized to the Configuration Area
+Then I am authorized to the Configuration Area
 And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
