@@ -27,7 +27,7 @@ class NewAccountPassword < ForgotPassword
   attr_accessor :inviter, :edorg, :terms_and_conditions
 
   def accept_tou
-    if self.terms_and_conditions != "1"
+    if APP_CONFIG['is_sandbox'] && self.terms_and_conditions != "1"
       self.errors[:terms_and_conditions] << "must be accepted"
     end
   end
