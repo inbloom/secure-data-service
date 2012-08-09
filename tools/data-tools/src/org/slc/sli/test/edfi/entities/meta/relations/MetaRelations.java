@@ -55,6 +55,20 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
 
+    // toggles for interchanges
+    public static boolean INTERCHANGE_ED_ORG = true;
+    public static boolean INTERCHANGE_ED_ORG_CALENDAR = true;
+    public static boolean INTERCHANGE_MASTER_SCHEDULE = true;
+    public static boolean INTERCHANGE_STAFF_ASSOCIATION = true;
+    public static boolean INTERCHANGE_STUDENT_PARENT = true;
+    public static boolean INTERCHANGE_STUDENT_ENROLLMENT = true;
+    public static boolean INTERCHANGE_STUDENT_PROGRAM = true;
+    public static boolean INTERCHANGE_STUDENT_COHORT = true;
+    public static boolean INTERCHANGE_STUDENT_DISCIPLINE = true;
+    public static boolean INTERCHANGE_STUDENT_ATTENDANCE = true;
+    public static boolean INTERCHANGE_ASSESSMENT_META_DATA = true;
+    public static boolean INTERCHANGE_STUDENT_ASSESSMENT = true;
+    public static boolean INTERCHANGE_STUDENT_GRADE = true;
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -163,7 +177,21 @@ public final class MetaRelations {
               }
         }
       
-        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS").trim().trim());
+        INTERCHANGE_ED_ORG = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG", "true"));
+        INTERCHANGE_ED_ORG_CALENDAR = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG_CALENDAR", "true"));
+        INTERCHANGE_MASTER_SCHEDULE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_MASTER_SCHEDULE", "true"));
+        INTERCHANGE_STAFF_ASSOCIATION = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STAFF_ASSOCIATION", "true"));
+        INTERCHANGE_STUDENT_PARENT = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_PARENT", "true"));
+        INTERCHANGE_STUDENT_ENROLLMENT = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_ENROLLMENT", "true"));
+        INTERCHANGE_STUDENT_PROGRAM = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_PROGRAM", "true"));
+        INTERCHANGE_STUDENT_COHORT = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_COHORT", "true"));
+        INTERCHANGE_STUDENT_DISCIPLINE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_DISCIPLINE", "true"));
+        INTERCHANGE_STUDENT_ATTENDANCE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_ATTENDANCE", "true"));
+        INTERCHANGE_ASSESSMENT_META_DATA = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ASSESSMENT_META_DATA", "true"));
+        INTERCHANGE_STUDENT_ASSESSMENT = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_ASSESSMENT", "true"));
+        INTERCHANGE_STUDENT_GRADE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_STUDENT_GRADE", "true"));
+        
+        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS").trim());
         LEAS_PER_SEA = Integer.parseInt(properties.getProperty("LEAS_PER_SEA").trim());
         STAFF_PER_SEA = Integer.parseInt(properties.getProperty("STAFF_PER_SEA").trim());
         SCHOOLS_PER_LEA = Integer.parseInt(properties.getProperty("SCHOOLS_PER_LEA").trim());
@@ -211,8 +239,8 @@ public final class MetaRelations {
         AssessmentMetaRelations.LEARN_STANDARD_PER_DEPENDANT= Integer.parseInt(properties.getProperty("LEARN_STANDARD_PER_DEPENDANT").trim());
         AssessmentMetaRelations.PERF_LEVEL_DESC_PER_DEPENDANT= Integer.parseInt(properties.getProperty("PERF_LEVEL_DESC_PER_DEPENDANT").trim());
         AssessmentMetaRelations.ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY= Integer.parseInt(properties.getProperty("ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY").trim());
-        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
-        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
         
     	School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref").trim());
