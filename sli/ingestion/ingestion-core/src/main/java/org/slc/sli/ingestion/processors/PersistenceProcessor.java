@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -172,8 +173,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
-        boolean persistedFlag = false;
-
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
 
         EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
@@ -185,33 +184,37 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-
+            List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
+            List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
 
             for (NeutralRecord neutralRecord : records) {
-                long numFailed = 0;
-                persistedFlag = false;
-
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-                if (entityPipelineType == EntityPipelineType.NEW_PLAIN
-                        || entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
-                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
-                            errorReportForCollection);
-
-                    persistedFlag = true;
-                }
-
-                if (persistedFlag) {
+                if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
+                        || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
+                    SimpleEntity transformed = transformNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
+                    recordStore.add(neutralRecord);
+                    persist.add(transformed);
                     currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
                 }
 
-                currentMetric.setErrorCount(currentMetric.getErrorCount() + numFailed);
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
 
+            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+
+            try {
+                List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
+                for (Entity entity : failed) {
+                    NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                    Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                    currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                }
+            } catch (DataAccessResourceFailureException darfe) {
+                LOG.error("Exception processing record with entityPersistentHandler", darfe);
+            }
         } catch (Exception e) {
             String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
                     + collectionNameAsStaged + "\n";
@@ -227,53 +230,20 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    /**
-     * Invoked if the neutral record is of type $$type$$_transformed (underwent transformation).
-     *
-     * @param neutralRecord
-     *            transformed neutral record.
-     * @param tenantId
-     *            tenant of the neutral record.
-     * @param errorReportForCollection
-     *            error report.
-     * @return number of records that failed to persist.
-     */
-    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
-            ErrorReport errorReportForCollection) {
-        long numFailed = 0;
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, ErrorReport errorReport) {
+        LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
-        LOG.debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
+        record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
+        record.setSourceId(tenantId);
 
-        // remove _transformed metadata from type. upcoming transformation is based on type.
-        neutralRecord.setRecordType(neutralRecord.getRecordType().replaceFirst("_transformed", ""));
+        List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
-        // must set tenantId here, it is used by upcoming transformer.
-        neutralRecord.setSourceId(tenantId);
-
-        List<SimpleEntity> xformedEntities = transformer.handle(neutralRecord, errorReportForCollection);
-
-        if (xformedEntities.isEmpty()) {
-            numFailed++;
-            errorReportForCollection.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
-                    neutralRecord.getRecordType()), this);
+        if (transformed.isEmpty()) {
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                    record.getRecordType()), this);
         }
 
-        for (SimpleEntity xformedEntity : xformedEntities) {
-            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
-
-            try {
-                entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
-            } catch (DataAccessResourceFailureException darfe) {
-                LOG.error("Exception processing record with entityPersistentHandler", darfe);
-            }
-
-            if (errorReportForNrEntity.hasErrors()) {
-                numFailed++;
-                LOG.warn("persistence of simple entity FAILED.");
-            }
-        }
-
-        return numFailed;
+        return transformed.get(0);
     }
 
     /**
@@ -336,7 +306,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
         String collectionToPersistFrom = collectionNameAsStaged;
-        if (entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
+        if (entityPipelineType == EntityPipelineType.TRANSFORMED) {
             collectionToPersistFrom = collectionNameAsStaged + "_transformed";
         }
         return collectionToPersistFrom;
@@ -344,10 +314,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private EntityPipelineType getEntityPipelineType(String collectionName) {
         EntityPipelineType entityPipelineType = EntityPipelineType.NONE;
-        if (entityPersistTypeMap.get("newPipelinePlainEntities").contains(collectionName)) {
-            entityPipelineType = EntityPipelineType.NEW_PLAIN;
-        } else if (entityPersistTypeMap.get("newPipelineTransformedEntities").contains(collectionName)) {
-            entityPipelineType = EntityPipelineType.NEW_TRANSFORMED;
+        if (entityPersistTypeMap.get("passthroughEntities").contains(collectionName)) {
+            entityPipelineType = EntityPipelineType.PASSTHROUGH;
+        } else if (entityPersistTypeMap.get("transformedEntities").contains(collectionName)) {
+            entityPipelineType = EntityPipelineType.TRANSFORMED;
         }
         return entityPipelineType;
     }
@@ -424,6 +394,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     private static enum EntityPipelineType {
-        NEW_PLAIN, NEW_TRANSFORMED, NONE;
+        PASSTHROUGH, TRANSFORMED, NONE;
     }
 }

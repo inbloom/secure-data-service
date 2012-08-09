@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.validation.schema;
 
 import static org.junit.Assert.assertFalse;
@@ -57,7 +56,7 @@ import org.slc.sli.validation.ValidationError;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ReferenceSchemaTest {
 
-    ReferenceSchema schema; //class under test
+    ReferenceSchema schema; // class under test
 
     @Autowired
     SchemaRepository schemaRepository;
@@ -94,7 +93,8 @@ public class ReferenceSchemaTest {
     public void testInvalidReferenceValidation() throws IllegalArgumentException {
         List<ValidationError> errors = new ArrayList<ValidationError>();
 
-        assertFalse("Invalid Reference entity validation failed", spySchema.validate(REFERENCE_FIELDNAME, "45679", errors, repo));
+        assertFalse("Invalid Reference entity validation failed",
+                spySchema.validate(REFERENCE_FIELDNAME, "45679", errors, repo));
     }
 
     /**
@@ -197,7 +197,8 @@ public class ReferenceSchemaTest {
         }
 
         @Override
-        public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
+        public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths,
+                NeutralQuery neutralQuery) {
             // TODO Auto-generated method stub
             return null;
         }
@@ -216,7 +217,7 @@ public class ReferenceSchemaTest {
 
         @Override
         public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
-         // TODO Auto-generated method stub
+            // TODO Auto-generated method stub
             return null;
         }
 
@@ -260,6 +261,7 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
 
         }
+
         @Override
         public long count(String collectionName, Query query) {
             // TODO Auto-generated method stub
@@ -271,10 +273,16 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
         }
 
+        @Override
         public List<DBCollection> getCollections(boolean includeSystemCollections) {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
+        @Override
+        public List<Entity> insert(List<Entity> records, String collectionName) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 }

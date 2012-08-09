@@ -119,4 +119,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         this.smooksConfigs = smooksConfigs;
     }
 
+    @Override
+    public List<List<SimpleEntity>> handle(List<NeutralRecord> items, ErrorReport errorReport) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

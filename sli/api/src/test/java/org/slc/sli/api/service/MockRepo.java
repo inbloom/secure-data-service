@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -201,7 +200,7 @@ public class MockRepo implements Repository<Entity> {
                     if (entityValue != null) {
                         if (entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        } else if (entityValue instanceof List) { //also need to handle = for array
+                        } else if (entityValue instanceof List) { // also need to handle = for array
                             for (Object arrayElement : (List) entityValue) {
                                 if (arrayElement.equals(criteria.getValue())) {
                                     results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -608,6 +607,7 @@ public class MockRepo implements Repository<Entity> {
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
     }
+
     @Override
     public long count(String collectionName, Query query) {
         // TODO Auto-generated method stub
@@ -625,4 +625,9 @@ public class MockRepo implements Repository<Entity> {
         return null;
     }
 
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

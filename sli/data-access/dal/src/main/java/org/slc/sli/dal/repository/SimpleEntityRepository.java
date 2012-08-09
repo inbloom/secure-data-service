@@ -186,4 +186,9 @@ public class SimpleEntityRepository implements Repository<Entity> {
         return null;
     }
 
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

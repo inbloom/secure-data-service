@@ -17,7 +17,9 @@
 
 package org.slc.sli.ingestion.handler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 
+import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -33,6 +36,7 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
@@ -62,6 +66,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Autowired
     private SchemaRepository schemaRepository;
 
+    @Autowired
+    private EntityValidator validator;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
@@ -79,9 +86,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), errorReport);
         }
         return null;
+    }
+
+    @Override
+    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+        return persist(entities, errorReport);
     }
 
     /**
@@ -117,6 +129,49 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
+    private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
+        List<Entity> failed = new ArrayList<Entity>();
+        List<Entity> queued = new ArrayList<Entity>();
+        String collectionName = getCollectionName(entities.get(0));
+        for (SimpleEntity entity : entities) {
+            if (entity.getEntityId() != null) {
+                if (!entityRepository.update(collectionName, entity)) {
+                    failed.add(entity);
+                }
+            } else {
+                try {
+                    // pre-match here according to primary key
+                    validator.validate(entity);
+                    addTimestamps(entity);
+                    queued.add(entity);
+                } catch (EntityValidationException e) {
+                    reportErrors(e.getValidationErrors(), entity, errorReport);
+                    failed.add(entity);
+                }
+            }
+        }
+
+        try {
+            entityRepository.insert(queued, collectionName);
+        } catch (DuplicateKeyException e) {
+            reportWarnings(e.getRootCause().getMessage(), collectionName, errorReport);
+        }
+
+        return failed;
+    }
+
+    private String getCollectionName(Entity entity) {
+        String collectionName = null;
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
+        }
+        return collectionName;
+    }
+
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
@@ -131,21 +186,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     /**
-     * Generic error reporting function.
-     *
-     * @param errorMessage
-     *            Error message reported by entity.
-     * @param entity
-     *            Entity reporting error.
-     * @param errorReport
-     *            Reference to error report to log error message in.
-     */
-    private void reportErrors(String errorMessage, SimpleEntity entity, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + entity.getType() + ") reports failure: " + errorMessage;
-        errorReport.error(assembledMessage, this);
-    }
-
-    /**
      * Generic warning reporting function.
      *
      * @param warningMessage
@@ -155,8 +195,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report to log warning message in.
      */
-    private void reportWarnings(String warningMessage, SimpleEntity entity, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+    private void reportWarnings(String warningMessage, String type, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
         errorReport.warning(assembledMessage, this);
     }
 
@@ -174,5 +214,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    private void addTimestamps(Entity entity) {
+        Date now = DateTimeUtil.getNowInUTC();
+        entity.getMetaData().put("created", now);
+        entity.getMetaData().put("updated", now);
     }
 }
