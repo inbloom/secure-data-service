@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ns2:application xmlns:ns2="http://wadl.dev.java.net/2009/02">
+    <ns2:doc xmlns:jersey="http://jersey.java.net/" jersey:generatedBy="Jersey: 1.9.1 09/14/2011 02:05 PM"/>
+    <ns2:grammars/>
+    <ns2:resources base="http://www.sli.slc.org/api/rest">
+        <ns2:resource path="v1/sections" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
+            <ns2:doc><![CDATA[Represents the definition of a section resource. A section is an educational entity that
+ represents a setting in which organized instruction of course content is provided to one
+ or more students for a given period of time. See $$Course$$ resource for details.
+ A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$,
+ $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$.
+
+ For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
+
+ For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
+            <!--<ns2:resource path="{id}/studentSectionAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/studentSectionAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/teacherSectionAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/teacherSectionAssociations/teachers" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>-->
+            <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.TwoPartResource">
+                <ns2:method id="read" name="GET"/>
+                <ns2:method id="delete" name="DELETE"/>
+                <ns2:method id="update" name="PUT"/>
+            </ns2:resource>
+            <!--<ns2:resource path="{id}/custom" resourceClass="org.slc.sli.api.resources.v1.CustomEntityResource">
+                <ns2:method id="read" name="GET"/>
+                <ns2:method id="create" name="POST"/>
+                <ns2:method id="delete" name="DELETE"/>
+                <ns2:method id="update" name="PUT"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/aggregates" resourceClass="org.slc.sli.api.resources.aggregation.AggregateListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource> -->
+            <ns2:method id="create" name="POST"/>
+            <!--<ns2:method id="readAll" name="GET"/>-->
+        </ns2:resource>
+        <ns2:resource path="v1/schools" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
+            <ns2:doc><![CDATA[This entity represents an educational organization that includes staff and students who
+ participate in classes and educational activity groups.
+
+ For more information, see the schema for $$School$$ resources.]]></ns2:doc>
+            <!--<ns2:resource path="{id}/teacherSchoolAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/teacherSchoolAssociations/teachers" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/studentSchoolAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/studentSchoolAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/sections" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>-->
+            <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.TwoPartResource">
+                <ns2:method id="read" name="GET"/>
+                <ns2:method id="delete" name="DELETE"/>
+                <ns2:method id="update" name="PUT"/>
+            </ns2:resource>
+            <!--<ns2:resource path="{id}/custom" resourceClass="org.slc.sli.api.resources.v1.CustomEntityResource">
+                <ns2:method id="read" name="GET"/>
+                <ns2:method id="create" name="POST"/>
+                <ns2:method id="delete" name="DELETE"/>
+                <ns2:method id="update" name="PUT"/>
+            </ns2:resource>
+            <ns2:resource path="{id}/aggregates" resourceClass="org.slc.sli.api.resources.aggregation.AggregateListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>  -->
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+        </ns2:resource>
+    </ns2:resources>
+</ns2:application>
