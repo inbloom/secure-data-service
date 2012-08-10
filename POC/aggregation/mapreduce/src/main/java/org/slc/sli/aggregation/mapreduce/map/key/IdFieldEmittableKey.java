@@ -19,7 +19,6 @@ package org.slc.sli.aggregation.mapreduce.map.key;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.LinkedHashSet;
 
 import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
@@ -29,51 +28,47 @@ import org.bson.BasicBSONObject;
  * IdFieldEmittableKey - A generic emittable key instance that treats one or more Mongo fields
  * as emit ID keys.
  */
-public class IdFieldEmittableKey extends EmittableKey<IdFieldEmittableKey> {
-
-    protected static final String DEFAULT_ID_FIELD = "_id";
-
-    protected Text fieldName = null;
+public class IdFieldEmittableKey extends EmittableKey {
 
     public IdFieldEmittableKey() {
-        fieldName = new Text(DEFAULT_ID_FIELD);
+        this("_id");
     }
 
     public IdFieldEmittableKey(final String mongoFieldName) {
-        fieldName = new Text(mongoFieldName);
+        super.setFieldName(mongoFieldName);
     }
 
-    public String getIdField() {
-        return fieldName.toString();
+    public Text getIdField() {
+        return super.getFieldNames()[0];
     }
 
-    public String getId() {
-        return get(fieldName).toString();
+    public Text getId() {
+        return (Text) get(getIdField());
     }
 
-    public void setId(final String value) {
-        put(fieldName, new Text(value));
+    public void setId(final Text value) {
+        put(new Text(getIdField()), value);
     }
 
     @Override
     public void readFields(DataInput data) throws IOException {
-        setId(data.readLine());
+        setId(new Text(data.readLine()));
     }
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(getId());
+        data.writeBytes(getId().toString());
     }
 
     @Override
     public String toString() {
-        return "IdFieldEmittableKey [" + getIdField() + "=" + getId() + "]";
+        return "IdFieldEmittableKey [" + getIdField() + "=" + getId().toString() + "]";
     }
 
     @Override
     public BSONObject toBSON() {
         BSONObject rval = new BasicBSONObject();
-        rval.put(getIdField(), getId());
+        rval.put(getIdField().toString(), getId().toString());
         return rval;
     }
 
@@ -97,7 +92,7 @@ public class IdFieldEmittableKey extends EmittableKey<IdFieldEmittableKey> {
             return false;
         }
         IdFieldEmittableKey other = (IdFieldEmittableKey) obj;
-        if (!(fieldName.equals(other.fieldName))) {
+        if (!(getIdField().equals(other.getIdField()))) {
             return false;
         }
         if (getId() == null) {
@@ -111,14 +106,8 @@ public class IdFieldEmittableKey extends EmittableKey<IdFieldEmittableKey> {
     }
 
     @Override
-    public int compareTo(IdFieldEmittableKey other) {
-        return this.getId().compareTo(other.getId());
+    public int compareTo(EmittableKey other) {
+        return this.getId().toString().compareTo(other.get(getIdField()).toString());
     }
 
-    @Override
-    public LinkedHashSet<String> getFieldNames() {
-        LinkedHashSet<String> rval = new LinkedHashSet<String>();
-        rval.add(fieldName.toString());
-        return rval;
-    }
 }

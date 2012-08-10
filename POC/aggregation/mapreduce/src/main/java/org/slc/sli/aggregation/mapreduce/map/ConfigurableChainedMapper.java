@@ -25,8 +25,8 @@ import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.lib.ChainMapper;
-import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -39,22 +39,22 @@ import org.codehaus.jackson.type.TypeReference;
  *
  * A chained mapper requires, at a minimum, the following configuration values:
  *
- * "map_chain" : "[
+ * { "map_chain" : [
  * {
- * 'map_class' : 'org.slc.sli.aggregation.mapreduce.IDMapper',
- * 'input_collection': 'sli.assessment',
- * 'input_key_field' : '_id',
- * 'input_key_type' : 'org.apache.hadoop.io.Text',
- * 'input_value_type' : 'org.bson.BSONObject',
- * 'enable_read_from_secondaries' : true,
- * 'output_key_type' : 'org.slc.sli.aggregation.mapreduce.TenantAndIdEmittableKey',
- * 'output_value_type' : 'org.apache.hadoop.io.LongWritable',
- * 'by_value' : false,
- * 'query' : '{ "body.assessmentIdentificationCode.ID" : "Grade 7 2011 State Math" }'
- * 'fields' : '{ "_id" : 1 }',
- * 'hadoop_options' : [ {name:value}, ... ]
+ * "map_class" : "org.slc.sli.aggregation.mapreduce..map.IDMapper",
+ * "input_collection": "sli.assessment",
+ * "input_key_field" : "_id",
+ * "input_key_type" : "org.apache.hadoop.io.Text",
+ * "input_value_type" : "org.bson.BSONObject",
+ * "read_from_secondaries" : true,
+ * "output_key_type" : "org.slc.sli.aggregation.mapreduce.TenantAndIdEmittableKey",
+ * "output_value_type" : "org.apache.hadoop.io.LongWritable",
+ * "by_value" : false,
+ * "query" : { "body.assessmentIdentificationCode.ID" : "Grade 7 2011 State Math" }
+ * "fields" : { "_id" : 1 },
+ * "hadoop_options' : [ {"name":"value"}, ... ]
  * }, {
- * mapper 2 configuration }, ... ]"
+ * mapper 2 configuration }, ... ] }"
  *
  */
 public class ConfigurableChainedMapper extends ChainMapper {
@@ -89,14 +89,16 @@ public class ConfigurableChainedMapper extends ChainMapper {
 
         String chain = conf.get(CHAIN_CONF);
 
+        if (chain == null) {
+            log.severe("Invalid map/reduce configuration detected : no '" + CHAIN_CONF + "' field was included in JobConf.");
+            return;
+        }
         try {
-            List<Map<String, String>> chains =
-                (List<Map<String, String>>) om.readValue(chain,
-                    new TypeReference<List<Map<String, String>>>() {
-                    });
-
-            for (Map<String, String> mapper : chains) {
-                parseMapper(conf, mapper);
+            Map<String, List<Map<String, Object>>> chains = om.readValue(chain, Map.class);
+            for (Map.Entry<String, List<Map<String, Object>>> mappers : chains.entrySet()) {
+                for (Map<String, Object> mapper : mappers.getValue()) {
+                    parseMapper(conf, mapper);
+                }
             }
         } catch (IOException e) {
             log.severe("Invalid map/reduce configuration detected : parsing failed : "
@@ -105,7 +107,7 @@ public class ConfigurableChainedMapper extends ChainMapper {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void parseMapper(JobConf conf, Map<String, String> mapperDef) throws IOException {
+    public void parseMapper(JobConf conf, Map<String, Object> mapperDef) throws IOException {
 
         boolean byValue = false;
         String query = null;
@@ -120,9 +122,9 @@ public class ConfigurableChainedMapper extends ChainMapper {
         String collection = null;
         boolean readFromSecondaries = false;
 
-        for (Map.Entry<String, String> entry : mapperDef.entrySet()) {
+        for (Map.Entry<String, Object> entry : mapperDef.entrySet()) {
             mapper_entry key = mapper_entry.parseValue(entry.getKey());
-            String value = entry.getValue();
+            String value = entry.getValue().toString();
 
             switch (key) {
                 case MAP_CLASS:
@@ -132,7 +134,10 @@ public class ConfigurableChainedMapper extends ChainMapper {
                     } catch (ClassNotFoundException e) {
                         log.severe(String
                             .format(
-                                "Defined mapper class (%s) does not extend org.apache.hadoop.mapreduce.Mapper.",
+                                "Defined mapper class (%s) was not found. Is the class on your classpath?", value));
+
+                    } catch (ClassCastException e) {
+                        log.severe(String.format("Defined mapper class (%s) does not extend org.apache.hadoop.mapred.Mapper.",
                                 value));
                     }
                     break;
@@ -216,16 +221,21 @@ public class ConfigurableChainedMapper extends ChainMapper {
         // First one to finish wins; the remaining tasks are terminated.
         mapperConf.setSpeculativeExecution(true);
         mapperConf.setJarByClass(mapper);
+        mapperConf.setUseNewMapper(true);
+        mapperConf.setUseNewReducer(true);
         MongoConfigUtil.setQuery(mapperConf, query);
         MongoConfigUtil.setFields(mapperConf, fields);
         MongoConfigUtil.setInputKey(mapperConf, keyField);
         MongoConfigUtil.setInputURI(mapperConf, "mongodb://" + collection);
-        MongoConfigUtil.setMapper(mapperConf, mapper);
         MongoConfigUtil.setMapperOutputKey(mapperConf, outputKey);
         MongoConfigUtil.setMapperOutputValue(mapperConf, outputValue);
         MongoConfigUtil.setOutputKey(mapperConf, outputKey);
         MongoConfigUtil.setOutputValue(mapperConf, outputValue);
         MongoConfigUtil.setReadSplitsFromSecondary(mapperConf, readFromSecondaries);
+
+        // Mongo Hadoop uses the 'new' mapReduce functions.  We can't support these on 1.0.3
+        // as the chained mapper hasn't been ported to the new map functions in this version.
+        mapperConf.setClass(MongoConfigUtil.JOB_MAPPER, mapper, Mapper.class);
 
         /**
          * Configure how hadoop calculates splits.

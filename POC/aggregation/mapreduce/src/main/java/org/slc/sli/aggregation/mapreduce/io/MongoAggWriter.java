@@ -17,10 +17,8 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * M/R result aggregation records to mongo.  The MongoAggWriter takes an EmittableKey used to
  * locate the record to write to, and a BSONObject to write.
  *
- * @param <K> The key used to locate records to write values to.
- *
  */
-public class MongoAggWriter<K extends EmittableKey<K>> extends MongoRecordWriter<K, BSONObject> {
+public class MongoAggWriter extends MongoRecordWriter<EmittableKey, BSONObject> {
 
     private final DBCollection output;
 
@@ -30,7 +28,7 @@ public class MongoAggWriter<K extends EmittableKey<K>> extends MongoRecordWriter
     }
 
     @Override
-    public void write(K key, BSONObject value) throws IOException {
+    public void write(EmittableKey key, BSONObject value) throws IOException {
         BSONObject tmp = key.toBSON();
         DBObject k = new BasicDBObject();
         k.putAll(tmp);

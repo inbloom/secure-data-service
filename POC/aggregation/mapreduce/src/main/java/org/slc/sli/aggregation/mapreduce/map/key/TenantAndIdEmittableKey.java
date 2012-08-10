@@ -18,7 +18,6 @@ package org.slc.sli.aggregation.mapreduce.map.key;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.LinkedHashSet;
 
 import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
@@ -27,55 +26,69 @@ import org.bson.BSONObject;
  * EmittableKey for holding both a tenant identifier and an object id
  *
  */
-public class TenantAndIdEmittableKey extends IdFieldEmittableKey {
-
-    protected static final String TENANT_ID_FIELD = "metaData.tenantId";
+public class TenantAndIdEmittableKey extends EmittableKey {
 
     protected Text tenantFieldName = null;
+    protected IdFieldEmittableKey idKey = null;
 
     public TenantAndIdEmittableKey() {
-        this(IdFieldEmittableKey.DEFAULT_ID_FIELD, TENANT_ID_FIELD);
+        this("_id", "metaData.tenantId");
     }
 
     public TenantAndIdEmittableKey(final String tenantIdFieldName, final String idFieldName) {
-        super(idFieldName);
+        String[] fields = { idFieldName, tenantIdFieldName };
+        setFieldNames(fields);
+
         tenantFieldName = new Text(tenantIdFieldName);
+        this.idKey = new IdFieldEmittableKey(idFieldName);
     }
 
-    public String getTenantId() {
-        return get(tenantFieldName).toString();
+    public Text getTenantId() {
+        return (Text) get(tenantFieldName);
     }
 
-    public void setTenantId(String id) {
-        put(tenantFieldName, new Text(id));
+    public void setTenantId(final Text id) {
+        put(tenantFieldName, id);
     }
 
     public String getTenantIdField() {
         return tenantFieldName.toString();
     }
 
+    public Text getId() {
+        return idKey.getId();
+    }
+
+    public void setId(final Text id) {
+        idKey.setId(id);
+    }
+
+    public Text getIdField() {
+        return idKey.getIdField();
+    }
+
     @Override
     public void readFields(DataInput data) throws IOException {
-        super.readFields(data);
-        setTenantId(data.readLine());
+        idKey.readFields(data);
+        setTenantId(new Text(data.readLine()));
     }
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(getId());
-        data.writeBytes(getTenantId());
+        data.writeBytes(idKey.getId().toString());
+        data.writeBytes(getTenantId().toString());
     }
 
     @Override
     public String toString() {
-        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId() + ", " + getTenantIdField() + "="
-            + getTenantId() + "]";
+        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId().toString() + ", " + getTenantIdField() + "="
+            + getTenantId().toString() + "]";
     }
 
     @Override
     public BSONObject toBSON() {
-        BSONObject rval = super.toBSON();
-        rval.put(getTenantIdField(), getTenantId());
+        BSONObject rval = idKey.toBSON();
+        rval.put(getTenantIdField(), getTenantId().toString());
         return rval;
     }
 
@@ -110,10 +123,7 @@ public class TenantAndIdEmittableKey extends IdFieldEmittableKey {
     }
 
     @Override
-    public LinkedHashSet<String> getFieldNames() {
-        LinkedHashSet<String> rval = super.getFieldNames();
-        rval.add(getTenantIdField());
-        return rval;
+    public int compareTo(EmittableKey other) {
+        return getId().toString().compareTo(other.get(getIdField()).toString());
     }
-
 }

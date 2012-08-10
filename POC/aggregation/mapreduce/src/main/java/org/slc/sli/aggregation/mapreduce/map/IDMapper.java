@@ -17,13 +17,14 @@
 package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapred.MapReduceBase;
+import org.apache.hadoop.mapred.Mapper;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reporter;
 import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
@@ -33,14 +34,15 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  *
  * A basic mapper that emits the unique identifiers for a provided collection.
  *
- * @param <K>
- *            An implementation of EmittableKey that accepts a map of id/value pairs.
- *
+ * Map input / output:
+ *    Text - Identifier as a string
+ *    BSONOBject - Entity to examine.
+ *    EmittableKey - key for the entity.
+ *    BSONObject -- The entity the key corresponds to.
  */
-@SuppressWarnings("rawtypes")
-public class IDMapper<K extends EmittableKey> extends Mapper<Text, BSONObject, K, LongWritable> {
+public class IDMapper extends MapReduceBase implements Mapper<Text, BSONObject, EmittableKey, BSONObject> {
 
-    protected K identifier;
+    protected EmittableKey identifier;
 
     /**
      * IDMapper Constructor - Construct a new IDMapper and initialize the identifier.
@@ -51,27 +53,27 @@ public class IDMapper<K extends EmittableKey> extends Mapper<Text, BSONObject, K
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public IDMapper(Class<K> cls) throws InstantiationException, IllegalAccessException {
-        identifier = cls.newInstance();
+    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields) throws InstantiationException, IllegalAccessException {
+        super();
+        identifier = keyType.newInstance();
+        identifier.setFieldNames(keyFields);
     }
 
     @Override
-    protected void map(Text id, BSONObject entity, Context context) throws IOException,
-        InterruptedException {
+    public void map(Text id, BSONObject entity, OutputCollector<EmittableKey, BSONObject> context,
+        Reporter reporter) throws IOException {
 
-        @SuppressWarnings("unchecked")
         // Values in the getIdNames Set are dot-separated Mongo field names.
-        LinkedHashSet<String> idFieldNames = identifier.getFieldNames();
+        Text[] idFieldNames = identifier.getFieldNames();
         Map<Text, Text> ids = new TreeMap<Text, Text>();
-        for (String field : idFieldNames) {
-            String value = getLeaf(entity, field);
+        for (Text field : idFieldNames) {
+            Text value = getLeaf(entity, field);
             if (value != null) {
-                ids.put(new Text(field), new Text(value));
+                ids.put(field, value);
             }
         }
-
         identifier.putAll(ids);
-        context.write(identifier, new LongWritable(1));
+        context.collect(identifier, entity);
     }
 
     /**
@@ -83,19 +85,18 @@ public class IDMapper<K extends EmittableKey> extends Mapper<Text, BSONObject, K
      *            Field to retrieve.
      * @return String value of the field, or null if the field is not found.
      */
-    @SuppressWarnings("unchecked")
-    protected String getLeaf(BSONObject entity, final String field) {
-        String rval = null;
-        Map<String, Object> node = entity.toMap();
+    protected Text getLeaf(BSONObject entity, final Text field) {
+        Text rval = null;
 
-        String[] fieldPath = field.split("\\.");
+        BSONObject node = entity;
+        String[] fieldPath = field.toString().split("\\.");
         for (String path : fieldPath) {
-            if (node.containsKey(path)) {
-                Object val = entity.get(path);
-                if (val instanceof Map) {
-                    node = (Map<String, Object>) val;
+            if (node.containsField(path)) {
+                Object val = node.get(path);
+                if (val instanceof BSONObject) {
+                    node = (BSONObject) val;
                 } else {
-                    rval = (String) val;
+                    rval = new Text(String.valueOf(val));
                     break;
                 }
             }

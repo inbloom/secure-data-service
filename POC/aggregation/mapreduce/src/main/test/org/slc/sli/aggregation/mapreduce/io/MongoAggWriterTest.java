@@ -31,6 +31,7 @@ import com.mongodb.DBObject;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.bson.BSONObject;
@@ -46,8 +47,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatterTest.MockTaskAttemptContext;
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
@@ -62,7 +61,7 @@ public class MongoAggWriterTest<T> {
     TaskAttemptContext ctx = null;
     Configuration config = null;
     TenantAndIdEmittableKey key = null;
-    MongoAggWriter<IdFieldEmittableKey> writer = null;
+    MongoAggWriter writer = null;
     T expected = null;
 
     @Before
@@ -87,9 +86,9 @@ public class MongoAggWriterTest<T> {
         Mockito.when(MongoConfigUtil.getOutputCollection(config)).thenReturn(mockCollection);
 
         key = new TenantAndIdEmittableKey("testTenant", "testId");
-        key.setTenantId("Midgar");
-        key.setId("abcdefg01234567890");
-        writer = new MongoAggWriter<IdFieldEmittableKey>(mockCollection, ctx);
+        key.setTenantId(new Text("Midgar"));
+        key.setId(new Text("abcdefg01234567890"));
+        writer = new MongoAggWriter(mockCollection, ctx);
     }
 
     @Test
@@ -110,9 +109,9 @@ public class MongoAggWriterTest<T> {
 
                 // Key should contain two entries: tenant and id
                 assertTrue(arg0.containsField("testTenant"));
-                assertTrue(arg0.get("testTenant").equals("Midgar"));
+                assertTrue(arg0.get("testTenant").toString().equals("Midgar"));
                 assertTrue(arg0.containsField("testId"));
-                assertTrue(arg0.get("testId").equals("abcdefg01234567890"));
+                assertTrue(arg0.get("testId").toString().equals("abcdefg01234567890"));
 
                 return null;
             }

@@ -19,6 +19,7 @@ package org.slc.sli.aggregation.mapreduce.map.key;
 import java.util.LinkedHashSet;
 
 import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.bson.BSONObject;
 
@@ -31,21 +32,13 @@ import org.bson.BSONObject;
  *
  * An EmittableKey has one or more identifier keys.
  *
- * @param <T>
- *            identifier class. e.g. IdFieldEmittableKey implements EmittableKey<IdFieldEmittableKey>
  */
-public abstract class EmittableKey<T> extends MapWritable implements WritableComparable<T> {
+public abstract class EmittableKey extends MapWritable implements WritableComparable<EmittableKey> {
+
+    protected LinkedHashSet<Text> fieldNames = new LinkedHashSet<Text>();
 
     @Override
-    public abstract int compareTo(T other);
-
-    /**
-     * Get the name of the fields that this class represents. For Mongo identifiers,
-     * these should be the fully qualified field name(s).
-     *
-     * @return LinkedHashSet<String> ordered set of field names.
-     */
-    public abstract LinkedHashSet<String> getFieldNames();
+    public abstract int compareTo(EmittableKey other);
 
     /**
      * Get this key as a BSONObject instance. This allows for arbitrary complex keys.
@@ -53,4 +46,36 @@ public abstract class EmittableKey<T> extends MapWritable implements WritableCom
      * @return BSONObject instance
      */
     public abstract BSONObject toBSON();
+
+    /**
+     * addFieldName - add an emittable field to this emitter.
+     *
+     * @param keyFields
+     */
+    public final void setFieldName(final String name) {
+        fieldNames.clear();
+        fieldNames.add(new Text(name));
+    }
+
+    /**
+     * addFieldNames - add a set of emittable field to this emitter.
+     *
+     * @param keyFields
+     */
+    public final void setFieldNames(final String[] names) {
+        fieldNames.clear();
+        for (String name : names) {
+            fieldNames.add(new Text(name));
+        }
+    }
+
+    /**
+     * Get the name of the fields that this class represents. For Mongo identifiers,
+     * these should be the fully qualified field name(s).
+     *
+     * @return LinkedHashSet<String> ordered set of field names.
+     */
+    public final Text[] getFieldNames() {
+        return fieldNames.toArray(new Text[0]);
+    }
 }
