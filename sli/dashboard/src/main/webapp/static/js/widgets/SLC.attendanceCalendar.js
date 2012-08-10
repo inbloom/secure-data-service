@@ -62,6 +62,14 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			i,
 			util = SLC.util;
 
+		if (panelData === null || panelData === undefined || panelData.length < 1) {
+			return false;
+		}
+
+		if(panelData.attendanceList.length === 0) {
+			return false;
+		}
+
 		absentData = panelData.attendanceList;
 		startDate = panelData.startDate;
 		endDate = panelData.endDate;
