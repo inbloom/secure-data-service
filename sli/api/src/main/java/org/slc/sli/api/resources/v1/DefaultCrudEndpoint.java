@@ -658,11 +658,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
 
 
-    protected void addAdditionalCritera(NeutralQuery query) {
-
-    }
-
-
     protected boolean shouldReadAll() {
         return false;
     }
