@@ -37,6 +37,7 @@ import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.RaceListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -46,6 +47,9 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    RaceListConverter raceListConverter;
     
     @Autowired
     DemographicsToBirthDataConverter birthDataConverter;
@@ -94,6 +98,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
             e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
+            e.setRace(raceListConverter.convert(demographics.getRaceList()));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));

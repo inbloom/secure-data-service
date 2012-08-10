@@ -30,6 +30,7 @@ import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
 import openadk.library.common.NameType;
 import openadk.library.common.PhoneNumberList;
+import openadk.library.common.RaceList;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
@@ -49,11 +50,11 @@ import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.RaceListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
-import org.slc.sli.sif.domain.slientity.OtherName;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -66,6 +67,9 @@ public class StudentPersonalTranslationTaskTest {
        
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    RaceListConverter mockRaceListConverter;
 
     @Mock
     DemographicsToBirthDataConverter mockBirthDataConverter;
@@ -108,6 +112,23 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testRaceList() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        RaceList raceList = new RaceList();
+        demographics.setRaceList(raceList);
+        info.setDemographics(demographics);
+        
+        List<String> race = new ArrayList<String>();
+        Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(race, entity.getRace());
+    }
+    
     @Test
     public void testBirthData() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
