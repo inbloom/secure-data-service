@@ -88,7 +88,7 @@ public class UserResourceTest {
         Mockito.when(secUtil.getAllRights()).thenReturn(rights);
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
-        newUser.setFullName("Eddard", "Stark");
+        newUser.setFullName("Eddard Stark");
         newUser.setEmail("nedstark@winterfell.gov");
         newUser.setUid("nedstark");
         Response res = resource.create(newUser);
@@ -143,7 +143,7 @@ public class UserResourceTest {
         userWithNoMail.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
         userWithNoMail.setEdorg(EDORG1);
         userWithNoMail.setTenant(TENANT);
-        userWithNoMail.setFullName("Mance", "Rayder");
+        userWithNoMail.setFullName("Mance Rayder");
         userWithNoMail.setUid("mrayder");
         userWithNoMail.setPassword("fr33folk");
         Response response = resource.create(userWithNoMail);
@@ -191,7 +191,7 @@ public class UserResourceTest {
         userWithNoId.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
         userWithNoId.setEdorg(EDORG1);
         userWithNoId.setTenant(TENANT);
-        userWithNoId.setFullName("Arya", "Stark");
+        userWithNoId.setFullName("Arya Stark");
         userWithNoId.setPassword("@ry@");
         userWithNoId.setEmail("arya@winterfell.org");
         assertEquals(400, resource.create(userWithNoId).getStatus());
@@ -206,7 +206,7 @@ public class UserResourceTest {
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
         newUser.setUid(UUID2);
-        newUser.setFullName("Robb", "Stark");
+        newUser.setFullName("Robb Stark");
         newUser.setEmail("robbstark@winterfell.gov");
         newUser.setUid("robbstark");
         Response res = resource.update(newUser);
