@@ -40,7 +40,7 @@ public class IdFieldEmittableKeyTest {
 
         Object obj = bson.get("test.id.key.field");
         assertNotNull(obj);
-        assertTrue (obj instanceof String);
+        assertTrue(obj instanceof String);
         String val = (String) obj;
         assertEquals(val, "1234");
     }

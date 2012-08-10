@@ -79,7 +79,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     private EntityDefinitionStore store;
 
     @Autowired
-    @Value("${sli.sandbox.autoRegisterApps}")
+    @Value("${sli.autoRegisterApps}")
     private boolean autoRegister;
 
     @Autowired

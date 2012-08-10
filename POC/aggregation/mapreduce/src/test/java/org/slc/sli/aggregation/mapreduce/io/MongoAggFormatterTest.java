@@ -35,7 +35,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * MongoAggFormatterTest
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( { UserGroupInformation.class, MongoConfigUtil.class } )
+@PrepareForTest({ UserGroupInformation.class, MongoConfigUtil.class })
 public class MongoAggFormatterTest {
 
     /**

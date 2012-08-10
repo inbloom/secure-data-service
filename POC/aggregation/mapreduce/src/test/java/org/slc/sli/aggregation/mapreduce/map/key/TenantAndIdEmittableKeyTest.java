@@ -41,14 +41,14 @@ public class TenantAndIdEmittableKeyTest {
 
         Object obj = bson.get("meta.data.tenantId");
         assertNotNull(obj);
-        assertTrue (obj instanceof String);
+        assertTrue(obj instanceof String);
         String val = (String) obj;
         assertEquals(val, "Midgar");
 
         assertTrue(bson.containsField("test.id.key.field"));
         obj = bson.get("test.id.key.field");
         assertNotNull(obj);
-        assertTrue (obj instanceof String);
+        assertTrue(obj instanceof String);
         val = (String) obj;
         assertEquals(val, "1234");
     }

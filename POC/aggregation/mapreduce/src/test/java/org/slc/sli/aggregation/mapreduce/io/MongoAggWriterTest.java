@@ -51,9 +51,11 @@ import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * MongoAggWriterTest
+ * 
+ * @param <T> Expected value for a test.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( { UserGroupInformation.class, DBCollection.class, MongoAggWriter.class, MongoConfigUtil.class } )
+@PrepareForTest({ UserGroupInformation.class, DBCollection.class, MongoAggWriter.class, MongoConfigUtil.class })
 public class MongoAggWriterTest<T> {
 
     DBCollection mockCollection = null;
@@ -95,7 +97,7 @@ public class MongoAggWriterTest<T> {
     public void testKey() {
         Mockito.when(mockCollection.findAndModify(Matchers.any(DBObject.class), Matchers.any(DBObject.class))).thenAnswer(new Answer<DBObject>() {
             @Override
-            public DBObject answer (InvocationOnMock inv) {
+            public DBObject answer(InvocationOnMock inv) {
                 Object[] args = inv.getArguments();
 
                 // Expect 2 objects -- key and value
@@ -178,7 +180,7 @@ public class MongoAggWriterTest<T> {
 
         Mockito.when(mockCollection.findAndModify(Matchers.any(DBObject.class), Matchers.any(DBObject.class))).thenAnswer(new Answer<DBObject>() {
             @Override
-            public DBObject answer (InvocationOnMock inv) {
+            public DBObject answer(InvocationOnMock inv) {
                 Object[] args = inv.getArguments();
 
                 // Expect 2 objects -- key and value

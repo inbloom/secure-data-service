@@ -14,11 +14,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
+/**
+ * HighestTest - Test the Highest Ever Map/Reduce job using known values.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class HighestTest {
-    
+
     @Mock private Highest.Context context;
-    
+
     @Test
     public void testReduceBSONWritableIterableOfDoubleWritableContext() throws IOException, InterruptedException {
         Highest reducer = new Highest();
@@ -27,5 +30,5 @@ public class HighestTest {
         reducer.reduce(key, scoreResults, context);
         verify(context).write(key, new DoubleWritable(42.0));
     }
-    
+
 }

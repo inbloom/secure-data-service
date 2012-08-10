@@ -17,8 +17,6 @@
 package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -35,12 +33,12 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * A basic mapper that emits the unique identifiers for a provided collection.
  *
  * Map input / output:
- *    Text - Identifier as a string
+ *    EmittableKey - Input key type. Defines the fields that represent a key in the entity.
  *    BSONOBject - Entity to examine.
- *    EmittableKey - key for the entity.
+ *    EmittableKey - Output key for the mapper.
  *    BSONObject -- The entity the key corresponds to.
  */
-public class IDMapper extends MapReduceBase implements Mapper<Text, BSONObject, EmittableKey, BSONObject> {
+public class IDMapper extends MapReduceBase implements Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
 
     protected EmittableKey identifier;
 
@@ -60,19 +58,17 @@ public class IDMapper extends MapReduceBase implements Mapper<Text, BSONObject, 
     }
 
     @Override
-    public void map(Text id, BSONObject entity, OutputCollector<EmittableKey, BSONObject> context,
+    public void map(EmittableKey id, BSONObject entity, OutputCollector<EmittableKey, BSONObject> context,
         Reporter reporter) throws IOException {
 
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();
-        Map<Text, Text> ids = new TreeMap<Text, Text>();
         for (Text field : idFieldNames) {
             Text value = getLeaf(entity, field);
             if (value != null) {
-                ids.put(field, value);
+                identifier.put(field, value);
             }
         }
-        identifier.putAll(ids);
         context.collect(identifier, entity);
     }
 

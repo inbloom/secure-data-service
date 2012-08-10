@@ -41,6 +41,7 @@ import org.codehaus.jackson.type.TypeReference;
  *
  * { "map_chain" : [
  * {
+ * "description" : "Describe this mapper.",
  * "map_class" : "org.slc.sli.aggregation.mapreduce..map.IDMapper",
  * "input_collection": "sli.assessment",
  * "input_key_field" : "_id",
@@ -66,7 +67,7 @@ public class ConfigurableChainedMapper extends ChainMapper {
      * mapper_entry available keys when defining a chain mapper.
      */
     enum mapper_entry {
-        MAP_CLASS, INPUT_COLLECTION, INPUT_KEY_FIELD, INPUT_KEY_TYPE, INPUT_VALUE_TYPE,
+        DESCRIPTION, MAP_CLASS, INPUT_COLLECTION, INPUT_KEY_FIELD, INPUT_KEY_TYPE, INPUT_VALUE_TYPE,
         READ_FROM_SECONDARIES, OUTPUT_KEY_TYPE, OUTPUT_VALUE_TYPE, BY_VALUE, QUERY, FIELDS,
         HADOOP_OPTIONS;
 
@@ -94,10 +95,13 @@ public class ConfigurableChainedMapper extends ChainMapper {
             return;
         }
         try {
-            Map<String, List<Map<String, Object>>> chains = om.readValue(chain, Map.class);
-            for (Map.Entry<String, List<Map<String, Object>>> mappers : chains.entrySet()) {
-                for (Map<String, Object> mapper : mappers.getValue()) {
-                    parseMapper(conf, mapper);
+            Map<String, Object> confMap = om.readValue(chain, Map.class);
+            for (Map.Entry<String, Object> mappers : confMap.entrySet()) {
+                if (mappers.getKey().equals(CHAIN_CONF)) {
+                    List<Map<String, Object>> chains = (List<Map<String, Object>>) mappers.getValue();
+                    for (Map<String, Object> mapper : chains) {
+                        parseMapper(conf, mapper);
+                    }
                 }
             }
         } catch (IOException e) {
