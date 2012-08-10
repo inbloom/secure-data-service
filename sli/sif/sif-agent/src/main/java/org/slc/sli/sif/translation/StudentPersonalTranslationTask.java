@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
@@ -45,6 +46,9 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    DemographicsToBirthDataConverter birthDataConverter;
     
     @Autowired
     NameConverter nameConverter;
@@ -89,6 +93,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         if (demographics!=null) {
             e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
+            e.setBirthData(birthDataConverter.convert(demographics));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));

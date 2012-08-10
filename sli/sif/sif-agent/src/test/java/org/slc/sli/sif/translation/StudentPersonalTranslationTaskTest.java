@@ -42,6 +42,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
@@ -49,6 +50,7 @@ import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
+import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.OtherName;
@@ -64,6 +66,9 @@ public class StudentPersonalTranslationTaskTest {
        
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    DemographicsToBirthDataConverter mockBirthDataConverter;
 
     @Mock
     NameConverter mockNameConverter;
@@ -103,6 +108,21 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testBirthData() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        info.setDemographics(demographics);
+        
+        BirthData birthData = new BirthData();        
+        Mockito.when(mockBirthDataConverter.convert(demographics)).thenReturn(birthData);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(birthData, entity.getBirthData());
+    }
+    
     @Test
     public void testName() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
