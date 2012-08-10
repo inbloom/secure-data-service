@@ -43,7 +43,7 @@ Given /^I have an account of "(.*?)"$/ do |role|
       "password" => "changeit",
       "email" => "samttestuser@slidev.org",
       "tenant" => "Midgar",
-      "edorg" => "IL",
+      "edorg" => "IL-SUNSET",
       "homeDir" => "/dev/null"
   }
   remove_user(TEST_USER)
@@ -51,6 +51,7 @@ Given /^I have an account of "(.*?)"$/ do |role|
   sessionId = @sessionId
   format = "application/json"
   restHttpPost("/users", new_user.to_json,format, sessionId)
+  sleep(1)
   currentTimestamp = Time.now.utc.to_i.to_s
   @key = Digest::MD5.hexdigest(SecureRandom.base64(10))
   token = @key + "@" + currentTimestamp
@@ -59,6 +60,7 @@ Given /^I have an account of "(.*?)"$/ do |role|
             :resetKey => token
           }
   @ldap.update_user_info(update_info)
+  sleep(1)
   end
   
 When /^I access the password reset page$/ do

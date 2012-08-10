@@ -709,7 +709,8 @@ end
 
 desc "Run samt reset password Production Tests"
 task :samtResetPasswordTests do
-  @tags ||= ["~wip", "~@sandbox"]
+   @tags ||= ["~wip", "~@sandbox"]
+   Rake::Task["importSandboxData"].execute
   runTests("test/features/sandbox/UserAdmin/samt_reset_password_prod.feature")
 end
 
