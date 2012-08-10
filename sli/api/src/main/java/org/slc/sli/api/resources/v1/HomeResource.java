@@ -53,7 +53,7 @@ import org.slc.sli.domain.Entity;
  * @author pghosh
  *
  */
-@Path(PathConstants.V1 + "/" + "home")
+//@Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8" })

@@ -10,6 +10,7 @@ import javax.ws.rs.core.UriInfo;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +21,7 @@ import java.util.Set;
  */
 @Configuration
 public class ResourceConfig {
-    private Map<String, Set<String>> resourceMethods = new HashMap<String, Set<String>>();
+    private Map<String, Set<String>> resourceMethods = new ConcurrentHashMap<String, Set<String>>();
 
     @Bean(name = "resourceSupportedMethods")
     public Map<String, Set<String>> getResourceMethods() {

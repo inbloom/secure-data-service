@@ -40,7 +40,12 @@
                 <ns2:method id="read" name="GET"/>
             </ns2:resource> -->
             <ns2:method id="create" name="POST"/>
-            <!--<ns2:method id="readAll" name="GET"/>-->
+            <ns2:method id="readAll" name="GET"/>
+        </ns2:resource>
+        <ns2:resource path="v1/home" resourceClass="org.slc.sli.api.resources.v1.HomeResource">
+            <ns2:doc><![CDATA[Provides initial information for a user. This includes providing different links to self and associated
+ resources.]]></ns2:doc>
+            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/schools" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[This entity represents an educational organization that includes staff and students who
