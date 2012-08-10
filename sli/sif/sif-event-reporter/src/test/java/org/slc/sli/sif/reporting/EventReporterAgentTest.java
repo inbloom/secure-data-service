@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.reporting;
+package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import org.slc.sli.sif.ADKTest;
-import org.slc.sli.sif.reporting.EventReporterAgent;
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
 /**

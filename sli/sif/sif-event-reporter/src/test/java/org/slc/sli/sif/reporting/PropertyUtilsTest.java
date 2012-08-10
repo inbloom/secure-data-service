@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.reporting;
+package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
@@ -22,7 +22,6 @@ import junit.framework.Assert;
 
 import org.apache.commons.cli.ParseException;
 import org.junit.Test;
-import org.slc.sli.sif.reporting.PropertyUtils;
 
 /**
  * Test class for PropertyUtils
