@@ -1234,7 +1234,7 @@ Then /^I check to find if record is in collection:$/ do |table|
 end
 
 Then /^I check to find if complex record is in batch job collection:$/ do |table|
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
 
