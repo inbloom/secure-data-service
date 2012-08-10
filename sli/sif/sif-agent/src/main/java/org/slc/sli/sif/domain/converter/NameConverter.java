@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.sif.domain.slientity.Name;
+import org.springframework.stereotype.Component;
 
 /**
  * Converts a SIF Name to an SLI Name
@@ -27,6 +28,7 @@ import org.slc.sli.sif.domain.slientity.Name;
  * @author jtully
  *
  */
+@Component
 public class NameConverter {
 
     private static final Set<String> SLI_PREFIXES = new HashSet<String>();

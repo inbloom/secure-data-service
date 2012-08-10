@@ -25,6 +25,7 @@ import openadk.library.common.OtherNames;
 
 import org.slc.sli.sif.domain.slientity.OtherName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Converts a SIF otherName list to an SLI otherName list.
@@ -32,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author jtully
  *
  */
+@Component
 public class OtherNamesConverter {
 
     private static final Map<String, String> NAME_TYPE_MAP = new HashMap<String, String>();

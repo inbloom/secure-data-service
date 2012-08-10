@@ -7,6 +7,7 @@ import openadk.library.common.Email;
 import openadk.library.common.EmailList;
 
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
+import org.springframework.stereotype.Component;
 
 /**
  * Converter for mapping a SIF EmailList to a  List of SLI Electronic Mail objects.
@@ -17,7 +18,7 @@ import org.slc.sli.sif.domain.slientity.ElectronicMail;
  * @author jtully
  *
  */
-
+@Component
 public class EmailListConverter {
 
     public List<ElectronicMail> convert(EmailList list) {
