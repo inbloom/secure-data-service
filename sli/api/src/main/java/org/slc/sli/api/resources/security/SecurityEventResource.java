@@ -130,9 +130,9 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null && principal.getSliRoles() != null) {
+            if (principal != null && principal.getRoles() != null) {
 
-                Set<String> sliRoles = new HashSet<String>(principal.getSliRoles());
+                Set<String> sliRoles = new HashSet<String>(principal.getRoles());
 
                 if (sliRoles.contains(RoleInitializer.SLC_OPERATOR)) {
                     return retrieveEntities(offset, limit, uriInfo, principal, RoleInitializer.SLC_OPERATOR);

@@ -15,7 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -44,6 +45,6 @@ public class ScoreMapperTest {
         BasicDBObject studentAssessment = new BasicDBObject("body", saa);
         studentAssessment.put("metaData", new BasicDBObject("tenantId", "tenantId"));
         mapper.map("student123", studentAssessment, context);
-        verify(context).write(eq(new TenantAndID("student123", "tenantId")), eq(new DoubleWritable(42.0)));
+        verify(context).write(eq(new TenantAndIdEmittableKey("student123", "tenantId")), eq(new DoubleWritable(42.0)));
     }
 }
