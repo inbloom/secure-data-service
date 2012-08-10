@@ -136,8 +136,8 @@ public class EventReporterTest extends ADKTest {
                 + GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE + ","
                 + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD + ","
                 + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE
-                + "," + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD + ","
+                + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE + ","
+                + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD + ","
                 + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE + ","
                 + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE;
         long waitTime = 0;
