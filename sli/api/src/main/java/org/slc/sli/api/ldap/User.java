@@ -35,18 +35,18 @@ public class User {
 
     public void setFullName(String fullName) {
         if (fullName == null) {
-            this.setSn(null);
-            this.setGivenName(null);
+            this.sn = null;
+            this.givenName = null;
         } else {
             fullName = fullName.replaceAll("\\s+", " ");
             fullName = fullName.trim();
-            this.setGivenName(fullName.split(" ")[0]);
+            this.givenName = fullName.split(" ")[0];
 
             String[] split = fullName.split(" ", 2);
             if (split.length == 2) {
-                this.setSn(split[1]);
+                this.sn = split[1];
             } else {
-                this.setSn(null);
+                this.sn = null;
             }
         }
     }
@@ -136,7 +136,9 @@ public class User {
     }
 
     public void setSn(String sn) {
-        this.sn = sn;
+        if (this.sn == null) {
+            this.sn = sn;
+        }
     }
 
     public String getGivenName() {
@@ -144,7 +146,9 @@ public class User {
     }
 
     public void setGivenName(String givenName) {
-        this.givenName = givenName;
+        if (this.givenName == null) {
+            this.givenName = givenName;
+        }
     }
 
     public void setCreateTime(Date createTime) {
