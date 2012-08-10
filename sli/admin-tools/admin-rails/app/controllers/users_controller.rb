@@ -113,7 +113,7 @@ class UsersController < ApplicationController
      rescue ActiveResource::BadRequest
      resend =true
      @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "tenant and edorg mismatch"
+     @user.errors[:edorg] << "Please check EdOrg selection"
     end
     
    
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
     if resend==nil ||resend==false
     begin
    reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
-   ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],@user.groups,reset_password_link).deliver
+   ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
 
    rescue =>e
      logger.error "Could not send email to #{@user.email}."

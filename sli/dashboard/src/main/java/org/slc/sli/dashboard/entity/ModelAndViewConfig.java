@@ -70,6 +70,14 @@ public class ModelAndViewConfig {
     public boolean hasDataForAlias(String dataAliasId) {
         return this.data.containsKey(dataAliasId);
     }
+    /**
+     * Returning cached GenericEntity by cacheKey
+     * @param dataAliasId
+     * @return
+     */
+    public GenericEntity getDataForAlias(String dataAliasId) {
+        return this.data.get(dataAliasId);
+    }
 
     public void setWidgetConfig(Collection<Config> widgetConfigs) {
         this.widgetConfig = widgetConfigs;
