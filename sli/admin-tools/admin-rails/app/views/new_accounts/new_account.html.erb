@@ -1,5 +1,5 @@
 <h1>New Account Registration</h1>
-<br>
+<br/>
 <%= form_for(@new_account_password) do |f| %>
   <% if @new_account_password.errors.any? %>
     <div id="error_explanation">
@@ -14,12 +14,14 @@
   <% end %>
 
   <div> 
-   You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+    <% if !APP_CONFIG["is_sandbox"]%>
+      You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+    <%end %>
   </div>
   <div>
     Please create a password for your your account. 
   </div> 
-
+  <br/>
   <div class="field">
     <table>
         <tr class="field">
@@ -54,12 +56,23 @@
     </table>
   </div>
 
-  <div> 
-    <label class="checkbox">
-            <%= check_box_tag "terms_and_conditions" %> 
-       I have read and agree to the Shared Learning Collaborative Terms and Coditions.
-    </label> 
-  <div> 
+  <% if APP_CONFIG['is_sandbox'] %>
+    <br/>
+    <div>
+      <label class="checkbox">
+              <%= check_box_tag "terms_and_conditions" %>
+              I have read and agree to <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">the Shared Learning Collaborative Terms and Conditions</a>
+              <div id="tou_modal" class="modal hide">
+                <div class="modal-body">
+                  <%= render :partial => 'eulas/eula' %>
+                </div>
+                <div class="modal-footer">
+                  <a href="#" class="btn" data-dismiss="modal">Close</a>
+                </div>
+             </div>
+      </label>
+    <div>
+  <% end %>
 
   <div class="actions">
     <br/>

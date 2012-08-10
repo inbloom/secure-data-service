@@ -20,7 +20,8 @@ public class User {
     private String tenant;
     private String edorg;
     private String homeDir;
-    private String fullName;
+    private String sn;
+    private String givenName;
     private String cn;
     private Status status = Status.SUBMITTED;
 
@@ -33,7 +34,21 @@ public class User {
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        if (fullName == null) {
+            this.sn = null;
+            this.givenName = null;
+        } else {
+            fullName = fullName.replaceAll("\\s+", " ");
+            fullName = fullName.trim();
+            this.givenName = fullName.split(" ")[0];
+
+            String[] split = fullName.split(" ", 2);
+            if (split.length == 2) {
+                this.sn = split[1];
+            } else {
+                this.sn = null;
+            }
+        }
     }
 
     private Date createTime;
@@ -65,19 +80,6 @@ public class User {
     public void removeGroup(String group) {
         if (groups != null && groups.contains(group)) {
             groups.remove(group);
-        }
-    }
-
-    public String parseFirstName() {
-        return fullName.split(" ")[0];
-    }
-
-    public String parseLastName() {
-        String[] split = fullName.split(" ", 2);
-        if (split.length == 2) {
-            return split[1];
-        } else {
-            return null;
         }
     }
 
@@ -121,12 +123,32 @@ public class User {
         this.homeDir = homeDir;
     }
 
-    public void setFullName(String firstName, String lastName) {
-        this.fullName = firstName + (" ".equals(lastName) ? "" : " " + lastName);
+    public String getFullName() {
+        if (getGivenName() == null && getSn() == null) {
+            return null;
+        }
+        String fullName = this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
+        return fullName.trim();
     }
 
-    public String getFullName() {
-        return this.fullName;
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        if (this.sn == null) {
+            this.sn = sn;
+        }
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        if (this.givenName == null) {
+            this.givenName = givenName;
+        }
     }
 
     public void setCreateTime(Date createTime) {
@@ -182,7 +204,7 @@ public class User {
     @Override
     public String toString() {
         return "User [uid=" + uid + ", groups=" + groups + ", password=" + password + ", email=" + email + ", tenant="
-                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + fullName + ", cn=" + cn
+                + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir + ", fullName=" + getFullName() + ", cn=" + cn
                 + ", status=" + status + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
     }
 
