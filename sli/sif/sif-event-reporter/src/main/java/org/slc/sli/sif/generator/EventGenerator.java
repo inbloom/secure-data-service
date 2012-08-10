@@ -26,6 +26,7 @@ import openadk.library.Event;
 public interface EventGenerator {
 
     public static final String MESSAGE_FILE = "MESSAGE_FILE";
+    public static final String EVENT_ACTION = "EVENT_ACTION";
 
     public Event generateEvent(Properties eventProps);
 }

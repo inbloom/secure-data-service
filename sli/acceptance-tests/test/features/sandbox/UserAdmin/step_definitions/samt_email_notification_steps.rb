@@ -24,7 +24,7 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
 SAMT_EMAIL_NOTIFICATION_SUBJECT_SANDBOX = "SLC Sandbox Account - Email Confirmation"
-SAMT_EMAIL_NOTIFICATION_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
+SAMT_EMAIL_NOTIFICATION_SUBJECT_PROD = "SLC Administrator Account - Email Confirmation"
 TEST_EMAIL = "peacefrog@slidev.org"
 TEST_EMAIL_USER ="peacefrog"
 TEST_EMAIL_PASS ="demouser"

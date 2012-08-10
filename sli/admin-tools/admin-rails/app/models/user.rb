@@ -33,6 +33,8 @@ class User < SessionResource
     time "createTime", "modifyTime" 
     string  "groups"
     string  "fullName"
+    string  "sn"
+    string  "givenName"
     string  "primary_role"
     string  "optional_role_1"
     string  "optional_role_2"

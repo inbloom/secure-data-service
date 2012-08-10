@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Custom event generator.
+ *
+ * @author vmcglaughlin
  */
 public class CustomEventGenerator implements EventGenerator {
 
@@ -41,7 +43,9 @@ public class CustomEventGenerator implements EventGenerator {
 
     @Override
     public Event generateEvent(Properties eventProps) {
-        String messageFile = eventProps.getProperty(CustomEventGenerator.MESSAGE_FILE);
+        String messageFile = eventProps.getProperty(EventGenerator.MESSAGE_FILE);
+        String eventActionStr = eventProps.getProperty(EventGenerator.EVENT_ACTION, EventAction.ADD.toString());
+        EventAction eventAction = EventAction.valueOf(eventActionStr);
         FileReader in = null;
         Event event = null;
         try {
@@ -59,7 +63,7 @@ public class CustomEventGenerator implements EventGenerator {
             }
             // Parse it
             SIFDataObject generic = (SIFDataObject) p.parse(xml.toString(), null, 0, SIFVersion.SIF23);
-            event = new Event(generic, EventAction.ADD);
+            event = new Event(generic, eventAction);
         } catch (SIFException e) {
             LOG.error("Caught exception trying to load entity from file", e);
         } catch (ADKParsingException e) {
