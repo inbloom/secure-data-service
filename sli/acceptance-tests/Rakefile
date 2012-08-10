@@ -336,6 +336,7 @@ end
 
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
+  require 'securerandom'
   allLeaAllowApp("SLC Dashboards")
   allLeaAllowApp("SLC Data Browser")
 end
