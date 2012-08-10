@@ -49,6 +49,7 @@ import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
@@ -298,6 +299,7 @@ public class SifEntityGeneratorTest {
         StudentPersonal studentPersonal = SifEntityGenerator.generateTestStudentPersonal();
         Assert.assertEquals(SifEntityGenerator.TEST_STUDENTPERSONAL_REFID, studentPersonal.getRefId());
         Assert.assertEquals("1982", studentPersonal.getGraduationDate().getValue());
+        Assert.assertEquals(YesNoUnknown.NO.getValue(), studentPersonal.getMigrant());
 
         Name name = studentPersonal.getName();
         Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());

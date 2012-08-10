@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.EnglishProficiencyConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
@@ -49,28 +50,31 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
-    
+
+    @Autowired
+    EnglishProficiencyConverter englishProficiencyConverter;
+
     @Autowired
     YesNoUnknownConverter yesNoUnknownConverter;
-    
+
     @Autowired
     GenderConverter genderConverter;
-    
+
     @Autowired
     RaceListConverter raceListConverter;
-    
+
     @Autowired
     DemographicsToBirthDataConverter birthDataConverter;
-    
+
     @Autowired
     NameConverter nameConverter;
-    
+
     @Autowired
     OtherNamesConverter otherNameConverter;
-    
+
     @Autowired
     LanguageListConverter languageListConverter;
-    
+
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
 
@@ -99,40 +103,51 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         StudentEntity e = new StudentEntity();
         //convert properties
         e.setStudentUniqueStateId(sp.getStateProvinceId());
-        e.setEconomicDisadvantaged(yesNoUnknownConverter.convert(sp.getEconomicDisadvantage()));
         e.setName(nameConverter.convert(sp.getName()));
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
-        
-        if (demographics!=null) {
+        Boolean economicDisadvantaged = yesNoUnknownConverter.convert(sp.getEconomicDisadvantage());
+        if (economicDisadvantaged != null) {
+            e.setEconomicDisadvantaged(economicDisadvantaged);
+        }
+
+        if (demographics != null) {
             e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
             e.setSexType(genderConverter.convert(demographics.getGender()));
-            e.setHispanicLatinoEthnicity(yesNoUnknownConverter.convert(demographics.getHispanicLatino()));
+            Boolean hispanicLatinoEthnicity = yesNoUnknownConverter.convert(demographics.getHispanicLatino());
+            if (hispanicLatinoEthnicity != null) {
+                e.setHispanicLatinoEthnicity(hispanicLatinoEthnicity);
+            }
+            e.setLimitedEnglishProficiency(englishProficiencyConverter.convert(demographics.getEnglishProficiency()));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
+            //SLI defines schoolId of student as string instead of reference
+            //so we simply copy SIF SchoolLocalId as a string
             e.setSchoolId(mostRecent.getSchoolLocalId());
         }
-        
+
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));
 
         return Arrays.asList(e);
     }
-    
+
     private List<String> getHomeLanguages(LanguageList languageList) {
-        Language[] languages = languageList==null ? null : languageList.getLanguages();
-        if (languages==null) return null;
+        Language[] languages = languageList == null ? null : languageList.getLanguages();
+        if (languages == null) {
+            return null;
+        }
         LanguageList homeList = new LanguageList();
         for (Language language : languages) {
-            if (language.getLanguageType()!=null && LanguageType.HOME.valueEquals(language.getLanguageType())) {
+            if (language.getLanguageType() != null && LanguageType.HOME.valueEquals(language.getLanguageType())) {
                 homeList.add(language);
             }
         }
-        return homeList.size()==0 ? null : languageListConverter.convert(homeList);
+        return homeList.size() == 0 ? null : languageListConverter.convert(homeList);
     }
 
 }

@@ -103,11 +103,11 @@ public class DemographicsToBirthDataConverter {
             sliBirthData.setStateOfBirthAbbreviation(sifDemographics.getStateOfBirth());
         }
 
-        if(sifDemographics.getBirthDate() != null) {
+        if (sifDemographics.getBirthDate() != null) {
             sliBirthData.setBirthDate(sifDemographics.getBirthDate().getTime());
         }
 
-        if(sifDemographics.getCountryArrivalDate() != null) {
+        if (sifDemographics.getCountryArrivalDate() != null) {
             sliBirthData.setDateEnteredUS(sifDemographics.getCountryArrivalDate().getTime());
         }
 
