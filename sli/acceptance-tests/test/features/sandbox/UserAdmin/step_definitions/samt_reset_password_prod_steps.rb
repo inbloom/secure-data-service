@@ -63,7 +63,7 @@ Given /^I have an account of "(.*?)"$/ do |role|
   sleep(1)
   end
   
-When /^I access the password reset page$/ do
+When /^I access the production password reset page$/ do
   samt_reset_password_url = PropLoader.getProps['admintools_server_url']+"/resetPassword/newAccount/"+@key
   @driver.get samt_reset_password_url
 end
@@ -84,16 +84,16 @@ Then /^I "(.*?)" a checkbox with term\-of\-use$/ do |visible_status|
    end
      
 
-Then /^I have to enter my password$/ do
+Then /^I will have to enter my password$/ do
   @driver.find_element(:id,"new_account_password_new_pass").send_keys "test1234"
   @driver.find_element(:id,"new_account_password_confirmation").send_keys "test1234"
 end
 
-When /^I submit the form$/ do
+When /^I submit the reset password form$/ do
   @driver.find_element(:id,"submitForgotPasswordButton").click
 end
 
-Then /^the password is saved$/ do
+Then /^the new password is saved$/ do
     sleep(3)
   user=@ldap.read_user(TEST_USER)
   puts user
