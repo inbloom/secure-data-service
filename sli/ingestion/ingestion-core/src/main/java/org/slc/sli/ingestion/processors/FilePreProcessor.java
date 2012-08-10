@@ -71,7 +71,6 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
         String inputFileName = "control_file";
         File fileForControlFile = null;
         NewBatchJob newBatchJob = null;
-//        FaultsReport errorReport = new FaultsReport();
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
 
         try {
@@ -81,14 +80,17 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
 
             if (!batchJobDAO.attemptLockForFile(fileForControlFile, newBatchJob.getId(), newBatchJob.getTopLevelSourceId())) {
                 handleExceptions(exchange, batchJobId, new IllegalArgumentException("Could not lock the file " + inputFileName), inputFileName);
-//                errorReport.error("Could not lock the file " + inputFileName, this);
             }
 
             moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
 
-//            setExchangeHeaders(exchange, errorReport, newBatchJob);
-//
-//            setExchangeBody(exchange, fileForControlFile, errorReport, batchJobId);
+
+            exchange.getIn().setHeader("BatchJobId", batchJobId);
+            if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
+                exchange.getIn().setHeader("fileType", FileFormat.CONTROL_FILE.getExtension());
+            } else if (inputFileName.endsWith(FileFormat.ZIP_FILE.getExtension())) {
+				exchange.getIn().setHeader("fileType", FileFormat.ZIP_FILE.getExtension());
+			}
 
         } catch (IOException ioException) {
             handleExceptions(exchange, batchJobId, ioException, inputFileName);
@@ -115,23 +117,6 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             }
         }
     }
-
-//    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport, String batchJobId) {
-//        if (!errorReport.hasErrors() && ctlFile != null) {
-//            exchange.getIn().setBody(ctlFile, File.class);
-//        } else {
-//            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-//            exchange.getIn().setBody(workNote, WorkNote.class);
-//        }
-//    }
-//
-//    private void setExchangeHeaders(Exchange exchange, FaultsReport errorReport, NewBatchJob newJob) {
-//        exchange.getIn().setHeader("BatchJobId", newJob.getId());
-//        if (errorReport.hasErrors()) {
-//            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
-//            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-//        }
-//    }
 
     private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
         NewBatchJob job = null;
