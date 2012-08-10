@@ -237,9 +237,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
                  BasicDBObject fileLock = new BasicDBObject();
                  fileLock.put("_id", fileName + ":" + checkSum + ":" + topLevelSource.getName());
 
-                 final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
-                 fileLock.put("jvmName", jvmName);
-
                  batchJobMongoTemplate.getCollection(BATCHJOB_FILE_LOCK_COLLECTION).remove(fileLock, WriteConcern.SAFE);
 
                  FileUtils.deleteQuietly(new File(topLevelSourceId + ".done\\.camel\\" + fileName));
