@@ -28,6 +28,7 @@ public class MongoCompositeTest implements Callable<Boolean> {
     public int id;
     public int operationCount;
     public int chunkSize;
+    public String operationsEnabled;
     public CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
     
     public Map<String, Object> dataRecord;
@@ -36,13 +37,14 @@ public class MongoCompositeTest implements Callable<Boolean> {
         
     }
     
-    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, Map<String, Object> dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts) {
+    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, Map<String, Object> dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts, String operationsEnabled) {
         this.id = id;
         this.operationCount = operationCount;
         this.chunkSize = chunkSize;
         this.da = da;
         this.dataRecord = dataRecord;
         this.opCounts = opCounts;
+        this.operationsEnabled = operationsEnabled;
     }
 
     @Override
@@ -59,13 +61,25 @@ public class MongoCompositeTest implements Callable<Boolean> {
         int iterations = operationCount / this.chunkSize;
         
         for (int i = 0; i < iterations; i++) {
-            this.profileBatchedInsertsDriver(operationCount, profiledCollectionName, this.chunkSize, i);
+            if (this.operationsEnabled.contains("D")) {
+                this.profileBatchedInsertsDriver(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
             
-            //this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
-            //this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            if (this.operationsEnabled.contains("B")) {
+                this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
             
-            //this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
-            //this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            if (this.operationsEnabled.contains("W")) {
+                this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+            
+            if (this.operationsEnabled.contains("T")) {
+                this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+            
+            if (this.operationsEnabled.contains("R")) {
+                this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
         }
 
     }
