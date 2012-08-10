@@ -41,7 +41,12 @@ end
 Then /^I am redirected to "(.*?)" page$/ do |pageTitle|
   #assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
   sleep(3)
-  assertText(pageTitle)
+  begin
+    assertText(pageTitle)
+  rescue Exception => e
+    puts @driver.page_source
+    raise e
+  end
 end
 
 Then /^I will be redirected to "(.*?)" login page$/ do |idpType|
