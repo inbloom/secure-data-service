@@ -7003,7 +7003,7 @@
     <EventDate>2011-10-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
-    <AttendanceEventReason>Missed school bus</AttendanceEventReason>
+    <AttendanceEventReason>Woke up Late</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
       <StudentIdentity>
@@ -7020,7 +7020,7 @@
     <EventDate>2011-10-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
-    <AttendanceEventReason>Missed school bus</AttendanceEventReason>
+    <AttendanceEventReason>Dentist Appointment</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
       <StudentIdentity>
