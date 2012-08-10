@@ -636,7 +636,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return entityDef.getService().list(apiQuery);
+                            return logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
                         }
                     });
                 } else {
