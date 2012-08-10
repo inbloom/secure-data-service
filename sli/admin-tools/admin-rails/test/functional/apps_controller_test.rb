@@ -59,7 +59,7 @@ class AppsControllerTest < ActionController::TestCase
   test "should show App" do
     session[:roles] = ["Application Developer"]
     get :show, id: @Apps[0].id
-    assert_response :success
+    assert_redirected_to apps_path
   end
   
    test "should update App" do
