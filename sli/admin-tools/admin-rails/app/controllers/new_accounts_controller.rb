@@ -26,8 +26,8 @@ require 'date'
 class NewAccountsController < ForgotPasswordsController
   
   skip_filter :handle_oauth
-  before_filter :set_model
   before_filter :get_user
+  before_filter :set_model
   before_filter :token_still_valid
   
   def index
@@ -66,5 +66,6 @@ class NewAccountsController < ForgotPasswordsController
     @new_account_password.token = token
     @new_account_password.inviter = inviter
     @new_account_password.edorg = edorg
+    @new_account_password.tou_required = APP_CONFIG['is_sandbox'] && @user[:status] == "submitted"
   end 
 end

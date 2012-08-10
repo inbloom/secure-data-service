@@ -149,7 +149,7 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 
-        Assert.assertEquals("StudentUniqueStateId is expected to be '"+stateProvinceId+"'", stateProvinceId, entity.getStudentUniqueStateId());
+        Assert.assertEquals("StudentUniqueStateId is expected to be '" + stateProvinceId + "'", stateProvinceId, entity.getStudentUniqueStateId());
         Assert.assertEquals("EconomicDisadvantaged is expected to be 'true'", true, entity.getEconomicDisadvantaged());
         Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
         Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSex());
@@ -249,7 +249,7 @@ public class StudentPersonalTranslationTaskTest {
         demographics.setLanguageList(languageList);
         info.setDemographics(demographics);
 
-        Mockito.when(mockLanguageListConverter.convert(Mockito.any(LanguageList.class))).thenReturn(Arrays.asList("English","Chinese"));
+        Mockito.when(mockLanguageListConverter.convert(Mockito.any(LanguageList.class))).thenReturn(Arrays.asList("English", "Chinese"));
 
         List<StudentEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());

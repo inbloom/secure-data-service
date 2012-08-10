@@ -34,7 +34,7 @@ default:
 
         # Sandbox settings
         sli.sandbox.enabled: false
-        sli.sandbox.autoRegisterApps: false
+        sli.autoRegisterApps: false
         bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
@@ -943,7 +943,7 @@ local-sandbox:
     api:
         <<: *API-LOCAL
         sli.sandbox.enabled: true
-        sli.sandbox.autoRegisterApps: true
+        sli.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
 
     data-access:
@@ -1332,7 +1332,7 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.enabled: true
-        sli.sandbox.autoRegisterApps: true
+        sli.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin

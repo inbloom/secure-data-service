@@ -107,20 +107,18 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
 //        System.err.println("\n\n\t\t lastName="+e.getName().getLastSurname()+"\n");
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
         Boolean economicDisadvantaged = yesNoUnknownConverter.convert(sp.getEconomicDisadvantage());
-        if (economicDisadvantaged != null)
-        {
+        if (economicDisadvantaged != null) {
             e.setEconomicDisadvantaged(economicDisadvantaged);
         }
 
-        if (demographics!=null) {
+        if (demographics != null) {
             e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
             e.setSex(genderConverter.convert(demographics.getGender()));
             Boolean hispanicLatinoEthnicity = yesNoUnknownConverter.convert(demographics.getHispanicLatino());
-            if (hispanicLatinoEthnicity != null)
-            {
+            if (hispanicLatinoEthnicity != null) {
                 e.setHispanicLatinoEthnicity(hispanicLatinoEthnicity);
             }
             e.setLimitedEnglishProficiency(englishProficiencyConverter.convert(demographics.getEnglishProficiency()));
@@ -144,8 +142,8 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     }
 
     private List<String> getHomeLanguages(LanguageList languageList) {
-        Language[] languages = languageList==null ? null : languageList.getLanguages();
-        if (languages==null) {
+        Language[] languages = languageList == null ? null : languageList.getLanguages();
+        if (languages == null) {
             return null;
         }
         LanguageList homeList = new LanguageList();
@@ -154,7 +152,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
                 homeList.add(language);
             }
         }
-        return homeList.size()==0 ? null : languageListConverter.convert(homeList);
+        return homeList.size() == 0 ? null : languageListConverter.convert(homeList);
     }
 
 }

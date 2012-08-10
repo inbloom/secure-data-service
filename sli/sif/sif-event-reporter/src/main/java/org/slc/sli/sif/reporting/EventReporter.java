@@ -18,7 +18,9 @@ package org.slc.sli.sif.reporting;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -38,6 +40,7 @@ import openadk.library.common.CommonDTD;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNoUnknown;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.StudentDTD;
@@ -83,13 +86,14 @@ public class EventReporter implements Publisher {
             String zoneUrl = props.getProperty(PropertyUtils.KEY_ZONE_URL);
             String localZoneId = props.getProperty(PropertyUtils.KEY_ZONE_ID);
             String script = props.getProperty(PropertyUtils.KEY_SCRIPT);
+            long waitTime = ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue();
 
             EventReporterAgent agent = createReporterAgent(agentId, zoneUrl);
             agent.startAgent();
             Zone zone = agent.getZoneFactory().getZone(localZoneId);
 
-            EventReporter reporter = new EventReporter(zone, props);
-            reporter.runReportScript(script);
+            EventReporter reporter = new EventReporter(zone);
+            reporter.runReportScript(script, waitTime);
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
             logger.error("Exception trying to report event", e);
         }
@@ -114,7 +118,6 @@ public class EventReporter implements Publisher {
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
     private Zone zone;
-    private Properties props;
     private Map<String, ScriptMethod> scriptMethodMap = new HashMap<String, ScriptMethod>();
 
     /**
@@ -134,19 +137,18 @@ public class EventReporter implements Publisher {
             this.args = args;
         }
 
-        public void execute() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            method.invoke(executingClass, args);
+        public Event execute() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+            return (Event) method.invoke(executingClass, args);
         }
     }
 
-    public EventReporter(Zone zone, Properties props) throws Exception {
+    public EventReporter(Zone zone) throws ADKException, SecurityException, NoSuchMethodException {
         this.zone = zone;
         this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
         this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
-        this.props = props;
 
         populateMethodMap();
     }
@@ -156,7 +158,7 @@ public class EventReporter implements Publisher {
         scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_ADD, leaInfoAddMethod);
         ScriptMethod leaInfoChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.CHANGE);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_CHANGE, leaInfoChangeMethod);
-        ScriptMethod leaInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.DELETE);
+        ScriptMethod leaInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.DELETE);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_DELETE, leaInfoDeleteMethod);
 
         ScriptMethod schoolInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.ADD);
@@ -188,79 +190,99 @@ public class EventReporter implements Publisher {
         scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE, studentSchoolEnrollmentDeleteMethod);
     }
 
-    public void runReportScript(String script) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        long waitTime = ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue();
+    public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        List<Event> eventsSent = new ArrayList<Event>();
         LOG.info("Wait time (ms): " + waitTime);
         String[] eventDescriptors = script.split(",");
         for (String descriptor : eventDescriptors) {
             ScriptMethod scriptMethod = scriptMethodMap.get(descriptor);
-            scriptMethod.execute();
+            Event eventSent = scriptMethod.execute();
+            eventsSent.add(eventSent);
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
                 LOG.error("Exception while sleeping", e);
             }
         }
+        return eventsSent;
     }
 
-    public void reportLeaInfoEvent(EventAction action) throws ADKException {
+    public Event reportLeaInfoEvent(EventAction action) throws ADKException {
         LOG.info("LeaInfo " + action.toString());
         LEAInfo leaInfo = SifEntityGenerator.generateTestLEAInfo();
         if (action == EventAction.CHANGE) {
-            throw new RuntimeException("LEAInfo change not supported");
+            leaInfo.setChanged();
+            leaInfo.setLEAURL("http://www.example.com");
         }
-        zone.reportEvent(leaInfo, action);
+        Event event = new Event(leaInfo, action);
+        zone.reportEvent(event);
+        return event;
     }
 
-    public void reportSchoolInfoEvent(EventAction action) throws ADKException {
+    public Event reportSchoolInfoEvent(EventAction action) throws ADKException {
         LOG.info("SchoolInfo " + action.toString());
         SchoolInfo schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
         if (action == EventAction.CHANGE) {
             schoolInfo.setChanged();
             schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
         }
-        zone.reportEvent(schoolInfo, action);
+        Event event = new Event(schoolInfo, action);
+        zone.reportEvent(event);
+        return event;
     }
 
-    public void reportStudentPersonalEvent(EventAction action) throws ADKException {
+    public Event reportStudentPersonalEvent(EventAction action) throws ADKException {
         LOG.info("StudentPersonal " + action.toString());
         StudentPersonal studentPersonal = SifEntityGenerator.generateTestStudentPersonal();
         if (action == EventAction.CHANGE) {
-            throw new RuntimeException("StudentPersonal change not supported");
+            studentPersonal.setChanged();
+            studentPersonal.setMigrant(YesNoUnknown.UNKNOWN);
         }
-        zone.reportEvent(studentPersonal, action);
+        Event event = new Event(studentPersonal, action);
+        zone.reportEvent(event);
+        return event;
     }
 
-    public void reportStudentLeaRelationshipEvent(EventAction action) throws ADKException {
+    public Event reportStudentLeaRelationshipEvent(EventAction action) throws ADKException {
         LOG.info("StudentLeaRelationship " + action.toString());
         StudentLEARelationship studentLeaRelationship = SifEntityGenerator.generateTestStudentLeaRelationship();
         if (action == EventAction.CHANGE) {
             studentLeaRelationship.setChanged();
             studentLeaRelationship.setGradeLevel(GradeLevelCode._09);
         }
-        zone.reportEvent(studentLeaRelationship, action);
+        Event event = new Event(studentLeaRelationship, action);
+        zone.reportEvent(event);
+        return event;
     }
 
-    public void reportStudentSchoolEnrollmentEvent(EventAction action) throws ADKException {
+    public Event reportStudentSchoolEnrollmentEvent(EventAction action) throws ADKException {
         LOG.info("StudentSchoolEnrollment " + action.toString());
         StudentSchoolEnrollment studentSchoolEnrollment = SifEntityGenerator.generateTestStudentSchoolEnrollment();
         if (action == EventAction.CHANGE) {
             studentSchoolEnrollment.setChanged();
             studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);
         }
-        zone.reportEvent(studentSchoolEnrollment, action);
+        Event event = new Event(studentSchoolEnrollment, action);
+        zone.reportEvent(event);
+        return event;
     }
 
-    public void reportEvent(String messageFile) throws ADKException {
+    public Event reportEvent(String messageFile) throws ADKException {
         Properties props = new Properties();
         props.setProperty(CustomEventGenerator.MESSAGE_FILE, messageFile);
         EventGenerator generator = new CustomEventGenerator();
         Event event = generator.generateEvent(props);
+        if (event == null) {
+            LOG.error("Null event can not be reported");
+            return null;
+        }
         if (zone.isConnected()) {
             zone.reportEvent(event);
         } else {
             LOG.error("Zone is not connected");
+            return null;
         }
+        return event;
     }
 
     @Override

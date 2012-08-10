@@ -70,7 +70,7 @@ module EntitiesHelper
     type_split = type.split '/'
     type_split.each do |split|
       if temp_hash.is_a?(Array)
-        temp_hash = temp_hash.first[split]
+        temp_hash = temp_hash.first[split] unless temp_hash.first.nil?
       elsif temp_hash.has_key? split
         temp_hash = temp_hash[split]
       else
