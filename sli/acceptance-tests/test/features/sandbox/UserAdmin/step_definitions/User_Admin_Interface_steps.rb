@@ -27,7 +27,7 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
 Before do 
-   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
+   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 120)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
