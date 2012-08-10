@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
 
@@ -44,6 +46,7 @@ import openadk.library.common.LanguageList;
  * @author slee
  *
  */
+@Component
 public class LanguageListConverter {
     private static final Map<LanguageCode, String> LANGUAGE_TYPE_MAP = new HashMap<LanguageCode, String>();
     static {

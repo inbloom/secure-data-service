@@ -24,12 +24,19 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
+import openadk.library.common.EnglishProficiency;
+import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.Language;
 import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
+import openadk.library.common.LanguageType;
 import openadk.library.common.NameType;
 import openadk.library.common.PhoneNumberList;
+import openadk.library.common.RaceList;
+import openadk.library.common.YesNo;
+import openadk.library.common.YesNoUnknown;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
@@ -42,16 +49,21 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.EnglishProficiencyConverter;
+import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.RaceListConverter;
+import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
 import org.slc.sli.sif.domain.slientity.Address;
+import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
-import org.slc.sli.sif.domain.slientity.OtherName;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -64,6 +76,21 @@ public class StudentPersonalTranslationTaskTest {
        
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    EnglishProficiencyConverter mockEnglishProficiencyConverter;
+    
+    @Mock
+    YesNoUnknownConverter mockYesNoUnknownConverter;
+
+    @Mock
+    GenderConverter mockGenderConverter;
+
+    @Mock
+    RaceListConverter mockRaceListConverter;
+
+    @Mock
+    DemographicsToBirthDataConverter mockBirthDataConverter;
 
     @Mock
     NameConverter mockNameConverter;
@@ -104,6 +131,81 @@ public class StudentPersonalTranslationTaskTest {
     }
 
     @Test
+    public void testBasics() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        demographics.setHispanicLatino(YesNo.NO);
+        demographics.setGender(Gender.FEMALE);
+        
+        String stateProvinceId = "stateProvinceId";
+        info.setStateProvinceId(stateProvinceId);
+        info.setEconomicDisadvantage(YesNoUnknown.YES);
+        info.setDemographics(demographics);
+                
+        Mockito.when(mockYesNoUnknownConverter.convert("Yes")).thenReturn(true);
+        Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
+        Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        
+        Assert.assertEquals("StudentUniqueStateId is expected to be '"+stateProvinceId+"'", stateProvinceId, entity.getStudentUniqueStateId());
+        Assert.assertEquals("EconomicDisadvantaged is expected to be 'true'", true, entity.getEconomicDisadvantaged());
+        Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
+        Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSexType());
+    }
+    
+    @Test
+    public void testEnglishProficiency() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        EnglishProficiency englishProficiency = new EnglishProficiency();
+        demographics.setEnglishProficiency(englishProficiency);
+        info.setDemographics(demographics);
+        
+        String limitedEnglishProficiency = "limitedEnglishProficiency";
+        Mockito.when(mockEnglishProficiencyConverter.convert(englishProficiency)).thenReturn(limitedEnglishProficiency);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(limitedEnglishProficiency, entity.getLimitedEnglishProficiency());
+    }
+    
+    @Test
+    public void testRaceList() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        RaceList raceList = new RaceList();
+        demographics.setRaceList(raceList);
+        info.setDemographics(demographics);
+        
+        List<String> race = new ArrayList<String>();
+        Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(race, entity.getRace());
+    }
+    
+    @Test
+    public void testBirthData() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        info.setDemographics(demographics);
+        
+        BirthData birthData = new BirthData();        
+        Mockito.when(mockBirthDataConverter.convert(demographics)).thenReturn(birthData);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(birthData, entity.getBirthData());
+    }
+    
+    @Test
     public void testName() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
         openadk.library.common.Name original = new openadk.library.common.Name(NameType.BIRTH, "Smith", "John");
@@ -140,6 +242,11 @@ public class StudentPersonalTranslationTaskTest {
         LanguageList languageList = new LanguageList();
         languageList.addLanguage(LanguageCode.ENGLISH);
         languageList.addLanguage(LanguageCode.CHINESE);
+        // there is no way to setLanguageType
+        // the following error appears:
+        // Element "Language" is already a child of another element
+        //languageList.getLanguage(LanguageCode.CHINESE).setLanguageType(LanguageType.HOME);
+        
         demographics.setLanguageList(languageList);
         info.setDemographics(demographics);
         
@@ -161,8 +268,10 @@ public class StudentPersonalTranslationTaskTest {
     public void testGradeLevel() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
         GradeLevel gradeLevel = new GradeLevel(GradeLevelCode._10);
+        String schoolId = "schoolId";
         MostRecent mostRecent = new MostRecent();
         mostRecent.setGradeLevel(gradeLevel);
+        mostRecent.setSchoolLocalId(schoolId);
         info.setMostRecent(mostRecent);
         Mockito.when(mockGradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
 
@@ -170,6 +279,7 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getGradeLevel());
+        Assert.assertEquals("schoolId is expected to be 'schoolId'", "schoolId", entity.getSchoolId());
     }
 
     @Test
