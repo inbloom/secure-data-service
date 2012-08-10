@@ -24,6 +24,7 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
+import openadk.library.common.EnglishProficiency;
 import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
@@ -48,6 +49,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.EnglishProficiencyConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
@@ -73,6 +75,9 @@ public class StudentPersonalTranslationTaskTest {
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
 
+    @Mock
+    EnglishProficiencyConverter mockEnglishProficiencyConverter;
+    
     @Mock
     YesNoUnknownConverter mockYesNoUnknownConverter;
 
@@ -147,6 +152,23 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals("EconomicDisadvantaged is expected to be 'true'", true, entity.getEconomicDisadvantaged());
         Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
         Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSexType());
+    }
+    
+    @Test
+    public void testEnglishProficiency() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        EnglishProficiency englishProficiency = new EnglishProficiency();
+        demographics.setEnglishProficiency(englishProficiency);
+        info.setDemographics(demographics);
+        
+        String limitedEnglishProficiency = "limitedEnglishProficiency";
+        Mockito.when(mockEnglishProficiencyConverter.convert(englishProficiency)).thenReturn(limitedEnglishProficiency);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(limitedEnglishProficiency, entity.getLimitedEnglishProficiency());
     }
     
     @Test

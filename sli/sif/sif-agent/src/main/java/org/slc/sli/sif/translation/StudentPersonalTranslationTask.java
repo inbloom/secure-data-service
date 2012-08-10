@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.EnglishProficiencyConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
@@ -49,6 +50,9 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    EnglishProficiencyConverter englishProficiencyConverter;
     
     @Autowired
     YesNoUnknownConverter yesNoUnknownConverter;
@@ -110,6 +114,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
             e.setSexType(genderConverter.convert(demographics.getGender()));
             e.setHispanicLatinoEthnicity(yesNoUnknownConverter.convert(demographics.getHispanicLatino()));
+            e.setLimitedEnglishProficiency(englishProficiencyConverter.convert(demographics.getEnglishProficiency()));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
