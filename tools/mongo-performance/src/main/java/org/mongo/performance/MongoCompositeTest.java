@@ -54,6 +54,9 @@ public class MongoCompositeTest implements Callable<Boolean> {
         for (int i = 0; i < iterations; i++) {
             this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
             this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            
+            //this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
+            //this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
         }
 
     }
