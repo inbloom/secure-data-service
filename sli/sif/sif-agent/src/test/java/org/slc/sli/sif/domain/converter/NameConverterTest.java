@@ -87,7 +87,7 @@ public class NameConverterTest extends ADKTest {
         Name sliName = converter.convert(sifName);
         Assert.assertNotNull(sliName);
         Assert.assertEquals("Missing first name should map to Unknown", defaultName, sliName.getFirstName());
-        Assert.assertEquals("Missing last name should map to Unknown", defaultName, sliName.getLastName());
+        Assert.assertEquals("Missing last name should map to Unknown", defaultName, sliName.getLastSurname());
         Assert.assertNull("Missing optional fields should map to null", sliName.getGenerationCodeSuffix());
         Assert.assertNull("Missing optional fields should map to null", sliName.getMiddleName());
         Assert.assertNull("Missing optional fields should map to null", sliName.getPersonalTitlePrefix());
@@ -100,7 +100,7 @@ public class NameConverterTest extends ADKTest {
         Assert.assertNotNull(sliName);
         Assert.assertEquals("Incorrect prefix mapping", prefixes.get(0), sliName.getPersonalTitlePrefix());
         Assert.assertEquals("Incorrect firstName mapping", firstName, sliName.getFirstName());
-        Assert.assertEquals("Incorrect lastName mapping", lastName, sliName.getLastName());
+        Assert.assertEquals("Incorrect lastName mapping", lastName, sliName.getLastSurname());
         Assert.assertEquals("Incorrect middleName mapping", middleName, sliName.getMiddleName());
         Assert.assertEquals("Incorrect suffix", suffixes.get(0), sliName.getGenerationCodeSuffix());
 

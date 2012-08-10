@@ -97,8 +97,8 @@ public class OtherNamesConverterTest extends ADKTest {
         Assert.assertNull(sliOtherName.getOtherNameType());
         Assert.assertNotNull(sliOtherName.getFirstName());
         Assert.assertEquals(defaultName, sliOtherName.getFirstName());
-        Assert.assertNotNull(sliOtherName.getLastName());
-        Assert.assertEquals(defaultName, sliOtherName.getLastName());
+        Assert.assertNotNull(sliOtherName.getLastSurname());
+        Assert.assertEquals(defaultName, sliOtherName.getLastSurname());
         Assert.assertNull(sliOtherName.getMiddleName());
         Assert.assertNull(sliOtherName.getPersonalTitlePrefix());
         Assert.assertNull(sliOtherName.getGenerationCodeSuffix());
@@ -117,7 +117,7 @@ public class OtherNamesConverterTest extends ADKTest {
             Assert.assertNotNull(sliName);
             Assert.assertEquals(sliNameType, sliName.getOtherNameType());
             Assert.assertEquals(firstName, sliName.getFirstName());
-            Assert.assertEquals(lastName, sliName.getLastName());
+            Assert.assertEquals(lastName, sliName.getLastSurname());
             Assert.assertEquals(middleName, sliName.getMiddleName());
             Assert.assertEquals(suffix, sliName.getGenerationCodeSuffix());
             Assert.assertEquals(prefix, sliName.getPersonalTitlePrefix());

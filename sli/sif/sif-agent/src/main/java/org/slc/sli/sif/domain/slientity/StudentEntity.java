@@ -28,7 +28,7 @@ public class StudentEntity extends SliEntity {
     // mandatory fields
     private String studentUniqueStateId;
     private Name name;
-    private String sexType; // Demographics
+    private String sex; // Demographics
     private BirthData birthData; // Demographics
     private boolean hispanicLatinoEthnicity; // Demographics
     private boolean economicDisadvantaged;
@@ -102,12 +102,12 @@ public class StudentEntity extends SliEntity {
         this.gradeLevel = gradeLevel;
     }
 
-    public String getSexType() {
-        return this.sexType;
+    public String getSex() {
+        return this.sex;
     }
 
-    public void setSexType(String sexType) {
-        this.sexType = sexType;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public List<String> getRace() {

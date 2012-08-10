@@ -19,8 +19,9 @@ package org.slc.sli.sif.domain.converter;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.sif.domain.slientity.Name;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.sif.domain.slientity.Name;
 
 /**
  * Converts a SIF Name to an SLI Name
@@ -74,9 +75,9 @@ public class NameConverter {
         }
 
         if (sifName.getLastName() != null) {
-            sliName.setLastName(sifName.getLastName());
+            sliName.setLastSurname(sifName.getLastName());
         } else {
-            sliName.setLastName(DEFAULT_NAME);
+            sliName.setLastSurname(DEFAULT_NAME);
         }
 
         sliName.setMiddleName(sifName.getMiddleName());

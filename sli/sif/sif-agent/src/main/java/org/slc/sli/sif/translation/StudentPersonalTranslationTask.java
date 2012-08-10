@@ -104,6 +104,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         //convert properties
         e.setStudentUniqueStateId(sp.getStateProvinceId());
         e.setName(nameConverter.convert(sp.getName()));
+//        System.err.println("\n\n\t\t lastName="+e.getName().getLastSurname()+"\n");
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
         Boolean economicDisadvantaged = yesNoUnknownConverter.convert(sp.getEconomicDisadvantage());
         if (economicDisadvantaged != null)
@@ -116,13 +117,17 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
-            e.setSexType(genderConverter.convert(demographics.getGender()));
+            e.setSex(genderConverter.convert(demographics.getGender()));
             Boolean hispanicLatinoEthnicity = yesNoUnknownConverter.convert(demographics.getHispanicLatino());
             if (hispanicLatinoEthnicity != null)
             {
                 e.setHispanicLatinoEthnicity(hispanicLatinoEthnicity);
             }
             e.setLimitedEnglishProficiency(englishProficiencyConverter.convert(demographics.getEnglishProficiency()));
+
+
+//            System.err.println("\n\n\t\t sex="+e.getSex()+"\n");
+
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));

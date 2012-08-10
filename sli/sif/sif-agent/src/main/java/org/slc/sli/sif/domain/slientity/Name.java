@@ -25,7 +25,7 @@ package org.slc.sli.sif.domain.slientity;
 public class Name {
     //required fields
     private String firstName;
-    private String lastName;
+    private String lastSurname;
     //optional fields
     private String middleName;
     private String personalTitlePrefix;
@@ -46,12 +46,12 @@ public class Name {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return this.lastName;
+    public String getLastSurname() {
+        return this.lastSurname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastSurname(String lastSurname) {
+        this.lastSurname = lastSurname;
     }
 
     public String getMiddleName() {
