@@ -24,6 +24,7 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
+import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.LanguageCode;
@@ -31,6 +32,8 @@ import openadk.library.common.LanguageList;
 import openadk.library.common.NameType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.RaceList;
+import openadk.library.common.YesNo;
+import openadk.library.common.YesNoUnknown;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
@@ -124,23 +127,26 @@ public class StudentPersonalTranslationTaskTest {
     public void testBasics() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
         Demographics demographics = new Demographics();
-        RaceList raceList = new RaceList();
-        demographics.setRaceList(raceList);
+        demographics.setHispanicLatino(YesNo.NO);
+        demographics.setGender(Gender.FEMALE);
+        
+        String stateProvinceId = "stateProvinceId";
+        info.setStateProvinceId(stateProvinceId);
+        info.setEconomicDisadvantage(YesNoUnknown.YES);
         info.setDemographics(demographics);
-        
-        
-        
-        
-        
-        
-        
-        List<String> race = new ArrayList<String>();
-        Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
+                
+        Mockito.when(mockYesNoUnknownConverter.convert("Yes")).thenReturn(true);
+        Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
+        Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
 
         List<StudentEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
-        Assert.assertEquals(race, entity.getRace());
+        
+        Assert.assertEquals("StudentUniqueStateId is expected to be '"+stateProvinceId+"'", stateProvinceId, entity.getStudentUniqueStateId());
+        Assert.assertEquals("EconomicDisadvantaged is expected to be 'true'", true, entity.getEconomicDisadvantaged());
+        Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
+        Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSexType());
     }
     
     @Test
@@ -233,8 +239,10 @@ public class StudentPersonalTranslationTaskTest {
     public void testGradeLevel() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();
         GradeLevel gradeLevel = new GradeLevel(GradeLevelCode._10);
+        String schoolId = "schoolId";
         MostRecent mostRecent = new MostRecent();
         mostRecent.setGradeLevel(gradeLevel);
+        mostRecent.setSchoolLocalId(schoolId);
         info.setMostRecent(mostRecent);
         Mockito.when(mockGradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
 
@@ -242,6 +250,7 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getGradeLevel());
+        Assert.assertEquals("schoolId is expected to be 'schoolId'", "schoolId", entity.getSchoolId());
     }
 
     @Test
