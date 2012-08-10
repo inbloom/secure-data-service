@@ -147,26 +147,4 @@ public class IDMapperTest {
         mapper.map(id, entity, collector, null);
     }
 
-    @Test
-    public void testGetLeaf() throws InstantiationException, IllegalAccessException {
-        String[] fields = { "data.element.id" };
-
-        // root.body.profile.name.first = George
-        BSONObject root = new BasicBSONObject();
-        BSONObject body = new BasicBSONObject();
-        BSONObject profile = new BasicBSONObject();
-        BSONObject name = new BasicBSONObject();
-        BSONObject first = new BasicBSONObject();
-
-        first.put("first", "George");
-        name.put("name", first);
-        profile.put("profile", name);
-        body.put("body", profile);
-        root.put("root", body);
-
-        IDMapper mapper = new IDMapper(IdFieldEmittableKey.class, fields);
-
-        assertEquals(mapper.getLeaf(root, new Text("root.body.profile.name.first")).toString(), "George");
-    }
-
 }

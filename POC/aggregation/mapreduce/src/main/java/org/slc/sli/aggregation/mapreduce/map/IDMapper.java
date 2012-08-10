@@ -64,40 +64,11 @@ public class IDMapper extends MapReduceBase implements Mapper<EmittableKey, BSON
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();
         for (Text field : idFieldNames) {
-            Text value = getLeaf(entity, field);
+            String value = BSONValueLookup.getValue(entity, field.toString());
             if (value != null) {
-                identifier.put(field, value);
+                identifier.put(field, new Text(value));
             }
         }
         context.collect(identifier, entity);
     }
-
-    /**
-     * Given a dot-separated field, return the resulting value if it exists in the entity.
-     *
-     * @param entity
-     *            Entity to query
-     * @param field
-     *            Field to retrieve.
-     * @return String value of the field, or null if the field is not found.
-     */
-    protected Text getLeaf(BSONObject entity, final Text field) {
-        Text rval = null;
-
-        BSONObject node = entity;
-        String[] fieldPath = field.toString().split("\\.");
-        for (String path : fieldPath) {
-            if (node.containsField(path)) {
-                Object val = node.get(path);
-                if (val instanceof BSONObject) {
-                    node = (BSONObject) val;
-                } else {
-                    rval = new Text(String.valueOf(val));
-                    break;
-                }
-            }
-        }
-        return rval;
-    }
-
 }
