@@ -43,10 +43,10 @@ import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
  * IDMapperTest
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( { IDMapper.class, OutputCollector.class } )
+@PrepareForTest({ IDMapper.class, OutputCollector.class })
 public class IDMapperTest {
 
-    String fields[] = { "data.element.id" };
+    String[] fields = { "data.element.id" };
 
     /**
      * testMapIdFieldKey Test mapping an arbitrary field to an ID.
@@ -70,7 +70,7 @@ public class IDMapperTest {
                 @Override
                 public BSONObject answer(InvocationOnMock invocation) throws Throwable {
 
-                    Object args[] = invocation.getArguments();
+                    Object[] args = invocation.getArguments();
 
                     assertNotNull(args);
                     assertEquals(args.length, 2);
