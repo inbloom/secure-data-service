@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 import junit.framework.Assert;
-
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.common.Address;
@@ -303,7 +302,7 @@ public class SifEntityGeneratorTest {
 
         Name name = studentPersonal.getName();
         Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());
-        Assert.assertEquals("Student", name.getLastName());
+        Assert.assertEquals("Smith", name.getLastName());
         Assert.assertEquals("Joe", name.getFirstName());
         Assert.assertEquals("", name.getMiddleName());
         Assert.assertEquals("Joe", name.getPreferredName());
