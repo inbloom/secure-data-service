@@ -20,7 +20,7 @@ Scenario: Staff's edorg has no data (no schools)
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
-Then I get an error message "No data is available for you to view. Please contact your IT administrator."
+Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
 @DE1112
 Scenario: Teacher without associations to anything (orphaned)
