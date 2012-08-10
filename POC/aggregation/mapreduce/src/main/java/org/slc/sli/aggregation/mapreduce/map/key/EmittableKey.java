@@ -16,8 +16,6 @@
 
 package org.slc.sli.aggregation.mapreduce.map.key;
 
-import java.util.LinkedHashSet;
-
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
@@ -35,7 +33,7 @@ import org.bson.BSONObject;
  */
 public abstract class EmittableKey extends MapWritable implements WritableComparable<EmittableKey> {
 
-    protected LinkedHashSet<Text> fieldNames = new LinkedHashSet<Text>();
+    protected Text[] fieldNames = null;
 
     @Override
     public abstract int compareTo(EmittableKey other);
@@ -48,24 +46,35 @@ public abstract class EmittableKey extends MapWritable implements WritableCompar
     public abstract BSONObject toBSON();
 
     /**
-     * addFieldName - add an emittable field to this emitter.
+     * setFieldName - set the one and only field name for this emitter.
      *
      * @param keyFields
      */
-    public final void setFieldName(final String name) {
-        fieldNames.clear();
-        fieldNames.add(new Text(name));
+    public void setFieldName(final String name) {
+        fieldNames = new Text[1];
+        fieldNames[0] = new Text(name);
     }
+
+    /**
+     * getFieldName - get the one and only field name for this emitter.
+     *
+     * @return Text
+     */
+    public Text getFieldName() {
+        return fieldNames[0];
+    }
+
 
     /**
      * addFieldNames - add a set of emittable field to this emitter.
      *
      * @param keyFields
      */
-    public final void setFieldNames(final String[] names) {
-        fieldNames.clear();
+    public void setFieldNames(final String[] names) {
+        fieldNames = new Text[names.length];
+        int i = 0;
         for (String name : names) {
-            fieldNames.add(new Text(name));
+            fieldNames[i++] = new Text(name);
         }
     }
 
@@ -76,6 +85,6 @@ public abstract class EmittableKey extends MapWritable implements WritableCompar
      * @return LinkedHashSet<String> ordered set of field names.
      */
     public final Text[] getFieldNames() {
-        return fieldNames.toArray(new Text[0]);
+        return fieldNames;
     }
 }

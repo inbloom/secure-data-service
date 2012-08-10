@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.bson.BSONObject;
@@ -38,6 +36,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * IDMapperTest
@@ -45,8 +44,6 @@ import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ IDMapper.class, OutputCollector.class })
 public class IDMapperTest {
-
-    String[] fields = { "data.element.id" };
 
     /**
      * testMapIdFieldKey Test mapping an arbitrary field to an ID.
@@ -56,6 +53,7 @@ public class IDMapperTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testMapIdFieldKey() throws Exception {
+        String[] fields = { "data.element.id" };
 
         BSONObject elem = new BasicBSONObject("id", 3697);
         BSONObject data = new BasicBSONObject("element", elem);
@@ -91,16 +89,67 @@ public class IDMapperTest {
             }
         );
 
-        Text id = new Text("data.element.id");
+        IdFieldEmittableKey id = new IdFieldEmittableKey();
+        id.setFieldNames(fields);
+        mapper.map(id, entity, collector, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testMapTenantAndIdKey() throws Exception {
+
+        String[] fields = { "metaData.tenantId", "data.element.id" };
+
+        BSONObject elem = new BasicBSONObject("id", 90210);
+        BSONObject data = new BasicBSONObject("element", elem);
+        final BSONObject entity = new BasicBSONObject("data", data);
+
+        BSONObject tenantId = new BasicBSONObject("tenantId", "Midgar");
+        entity.put("metaData", tenantId);
+
+        IDMapper mapper = new IDMapper(TenantAndIdEmittableKey.class, fields);
+
+        OutputCollector<EmittableKey, BSONObject> collector = Mockito.mock(OutputCollector.class);
+
+        PowerMockito.when(collector, "collect", Matchers.any(TenantAndIdEmittableKey.class), Matchers.any(BSONObject.class)).thenAnswer(
+            new Answer<BSONObject>() {
+
+                @Override
+                public BSONObject answer(InvocationOnMock invocation) throws Throwable {
+
+                    Object[] args = invocation.getArguments();
+
+                    assertNotNull(args);
+                    assertEquals(args.length, 2);
+
+                    assertTrue(args[0] instanceof TenantAndIdEmittableKey);
+                    assertTrue(args[1] instanceof BSONObject);
+
+                    TenantAndIdEmittableKey id = (TenantAndIdEmittableKey) args[0];
+                    assertEquals(id.getIdField().toString(), "data.element.id");
+                    Text idValue = id.getId();
+                    assertEquals(Long.parseLong(idValue.toString()), 90210);
+
+                    assertEquals(id.getTenantIdField().toString(), "metaData.tenantId");
+                    idValue = id.getTenantId();
+                    assertEquals(idValue.toString(), "Midgar");
+
+                    BSONObject e = (BSONObject) args[1];
+                    assertEquals(e, entity);
+
+                    return null;
+                }
+            }
+        );
+
+        TenantAndIdEmittableKey id = new TenantAndIdEmittableKey();
+        id.setFieldNames(fields);
         mapper.map(id, entity, collector, null);
     }
 
     @Test
-    public void testMapTenantAndIdKey() throws IOException {
-    }
-
-    @Test
     public void testGetLeaf() throws InstantiationException, IllegalAccessException {
+        String[] fields = { "data.element.id" };
 
         // root.body.profile.name.first = George
         BSONObject root = new BasicBSONObject();

@@ -39,7 +39,7 @@ public class IdFieldEmittableKey extends EmittableKey {
     }
 
     public Text getIdField() {
-        return super.getFieldNames()[0];
+        return super.getFieldName();
     }
 
     public Text getId() {
