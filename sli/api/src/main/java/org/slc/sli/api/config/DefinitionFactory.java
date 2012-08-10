@@ -197,7 +197,7 @@ public class DefinitionFactory {
         public EntityDefinition build() {
 
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments, this.readRight, this.writeRight);
+                    collectionName, treatments, this.readRight, this.writeRight, this.repo);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
                     supportsAggregates);
@@ -396,7 +396,7 @@ public class DefinitionFactory {
 
             BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean(
                     "basicAssociationService", collectionName, treatments, source.getDefn(), source.getKey(),
-                    target.getDefn(), target.getKey());
+                    target.getDefn(), target.getKey(), this.repo);
 
             source.setLinkToAssociation(this.relNameFromSource);
             target.setLinkToAssociation(this.relNameFromTarget);

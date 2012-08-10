@@ -44,6 +44,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -648,7 +649,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                            ResourceUtil.getLinks(entityDefs,
+                                    EntityNames.SEARCH.equals(entityDef.getType()) ? entityDefs.lookupByEntityType((String) entityBody.get("type")) : entityDef, entityBody, uriInfo));
 
                     results.add(entityBody);
                 }

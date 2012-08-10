@@ -27,10 +27,13 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -70,6 +73,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     @Autowired
     private SchemaRepository repo;
+
+
+    @Autowired
+    @Qualifier("searchRepo")
+    private Repository<Entity> searchRepo;
 
     @Override
     public EntityDefinition lookupByResourceName(String resourceName) {
@@ -137,6 +145,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
         factory.makeEntity(EntityNames.REPORT_CARD, ResourceNames.REPORT_CARDS).buildAndRegister(this);
         factory.makeEntity(EntityNames.ADMIN_DELEGATION, ResourceNames.ADMIN_DELEGATION).buildAndRegister(this);
+
+        factory.makeEntity(EntityNames.SEARCH, ResourceNames.SEARCH).storeIn(searchRepo).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")

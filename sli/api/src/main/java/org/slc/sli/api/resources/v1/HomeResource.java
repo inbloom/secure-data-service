@@ -21,10 +21,13 @@ package org.slc.sli.api.resources.v1;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -37,8 +40,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
@@ -61,9 +66,20 @@ public class HomeResource {
 
     final EntityDefinitionStore entityDefs;
 
+    final DefaultCrudResource defaultCrudResource;
     @Autowired
     HomeResource(EntityDefinitionStore entityDefs) {
+        defaultCrudResource = new DefaultCrudResource(entityDefs, ResourceNames.SEARCH) { };
         this.entityDefs = entityDefs;
+
+    }
+
+    @GET
+    @Path(ResourceNames.SEARCH)
+    public Response searchHome(@Context HttpHeaders headers, @Context final UriInfo uriInfo,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit) {
+        return defaultCrudResource.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
