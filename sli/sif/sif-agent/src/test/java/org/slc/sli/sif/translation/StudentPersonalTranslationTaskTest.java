@@ -45,12 +45,14 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
+import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
@@ -67,6 +69,12 @@ public class StudentPersonalTranslationTaskTest {
        
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
+
+    @Mock
+    YesNoUnknownConverter mockYesNoUnknownConverter;
+
+    @Mock
+    GenderConverter mockGenderConverter;
 
     @Mock
     RaceListConverter mockRaceListConverter;
@@ -112,6 +120,29 @@ public class StudentPersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
     }
 
+    @Test
+    public void testBasics() throws SifTranslationException {
+        StudentPersonal info = new StudentPersonal();
+        Demographics demographics = new Demographics();
+        RaceList raceList = new RaceList();
+        demographics.setRaceList(raceList);
+        info.setDemographics(demographics);
+        
+        
+        
+        
+        
+        
+        
+        List<String> race = new ArrayList<String>();
+        Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
+
+        List<StudentEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        StudentEntity entity = result.get(0);
+        Assert.assertEquals(race, entity.getRace());
+    }
+    
     @Test
     public void testRaceList() throws SifTranslationException {
         StudentPersonal info = new StudentPersonal();

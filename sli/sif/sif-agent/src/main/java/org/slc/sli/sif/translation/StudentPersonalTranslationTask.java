@@ -32,12 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
+import org.slc.sli.sif.domain.converter.GenderConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
+import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -47,6 +49,12 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  *
  */
 public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    YesNoUnknownConverter yesNoUnknownConverter;
+    
+    @Autowired
+    GenderConverter genderConverter;
     
     @Autowired
     RaceListConverter raceListConverter;
@@ -91,6 +99,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         StudentEntity e = new StudentEntity();
         //convert properties
         e.setStudentUniqueStateId(sp.getStateProvinceId());
+        e.setEconomicDisadvantaged(yesNoUnknownConverter.convert(sp.getEconomicDisadvantage()));
         e.setName(nameConverter.convert(sp.getName()));
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
         
@@ -99,6 +108,8 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
             e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
+            e.setSexType(genderConverter.convert(demographics.getGender()));
+            e.setHispanicLatinoEthnicity(yesNoUnknownConverter.convert(demographics.getHispanicLatino()));
         }
         if (mostRecent != null) {
             e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
