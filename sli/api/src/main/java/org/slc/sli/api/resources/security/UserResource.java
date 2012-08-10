@@ -23,6 +23,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -31,12 +38,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -61,9 +62,6 @@ public class UserResource {
     @Value("${sli.feature.enableSamt:false}")
     private boolean enableSamt;
 
-    @Value("${sli.sandbox.enabled")
-    private String sandboxEnabled;
-
     @Autowired
     private SuperAdminService adminService;
 
@@ -78,7 +76,7 @@ public class UserResource {
             return result;
         }
         newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
-        
+
         newUser.setStatus(User.Status.SUBMITTED);
 
         try {
@@ -491,10 +489,6 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
-    private boolean isSLCOperator(User user) {
-        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
-    }
-
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
             RoleInitializer.SANDBOX_ADMINISTRATOR };
@@ -660,23 +654,6 @@ public class UserResource {
             return roles;
         }
 
-        public String getRole(String group) {
-            if (this.groupToRoleMap.containsKey(group)) {
-                return this.groupToRoleMap.get(group);
-            }
-            return null;
-        }
-
-        public String getGroup(String role) {
-            if (this.roleToGroupMap.containsKey(role)) {
-                return this.roleToGroupMap.get(role);
-            }
-            return null;
-        }
-    }
-
-    public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
-        this.secUtil = proxy;
     }
 
     public void setRealm(String realm) {
