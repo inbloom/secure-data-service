@@ -34,13 +34,20 @@ public class User {
     }
 
     public void setFullName(String fullName) {
-        this.setGivenName(fullName.split(" ")[0]);
-
-        String[] split = fullName.split(" ", 2);
-        if (split.length == 2) {
-            this.setSn(split[1]);
-        } else {
+        if (fullName == null) {
             this.setSn(null);
+            this.setGivenName(null);
+        } else {
+            fullName = fullName.replaceAll("\\s+", " ");
+            fullName = fullName.trim();
+            this.setGivenName(fullName.split(" ")[0]);
+
+            String[] split = fullName.split(" ", 2);
+            if (split.length == 2) {
+                this.setSn(split[1]);
+            } else {
+                this.setSn(null);
+            }
         }
     }
 
@@ -120,7 +127,8 @@ public class User {
         if (getGivenName() == null && getSn() == null) {
             return null;
         }
-        return this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
+        String fullName = this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
+        return fullName.trim();
     }
 
     public String getSn() {

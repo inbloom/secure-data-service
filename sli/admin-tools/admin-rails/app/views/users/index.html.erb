@@ -42,7 +42,7 @@
     <tbody>
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
-        <%@elementIdPrefix= user.fullName %>
+        <%@elementIdPrefix= user.fullName.strip %>
         <tr id='<%= user.uid%>'>
         <td id="<%= @elementIdPrefix%>_full_name"><%= user.fullName%></td>
         <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>
