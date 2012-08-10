@@ -258,7 +258,7 @@ def swap_realm_ids()
 
       update_count = 0
       custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
-        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}}) 
+        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}})
         update_count = update_count + 1
       end
       puts "\tUpdated #{update_count} custom roles."
@@ -336,6 +336,7 @@ end
 
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
+  require 'securerandom'
   allLeaAllowApp("SLC Dashboards")
   allLeaAllowApp("SLC Data Browser")
 end
@@ -492,7 +493,9 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :samtEmailNotificationTests,:adminWebTests] do
+task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
+                          :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
+                          :samtEmailNotificationTests, :adminWebTests, :adminWelcomeEmail] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -698,9 +701,11 @@ task :samtEmailNotificationTests do
 runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
 end
 
-
-
-
+desc "Run Admin Welcome Email Production Tests"
+task :adminWelcomeEmail do
+  @tags ||= ["~wip", "~@sandbox"]
+  runTests("test/features/admintools/Admin_Welcome_Email.feature")
+end
 
 ###########################################################
 # Super Admin Management Tools Tests end
@@ -744,9 +749,12 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifSchoolInfoTest,
-                   :sifSEAInfoTest,
-                   :sifLEAInfoTest] do
+task :sifTests => [:sifIntegratedTest,
+                   :sifSchoolInfoTest,
+                   :sifLEAInfoTest,
+                   :sifStudentSchoolEnrollmentTest,
+                   :sifStudentLEARelationshipTest
+                   ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

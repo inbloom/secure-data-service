@@ -136,8 +136,8 @@ When /^the developer click "([^"]*)"$/ do |button|
 end
 
 Then /^the developer is directed to an acknowledgement page\.$/ do
-  assertText("Thank You")
-  assertText("Be on the lookout for a confirmation email.")
+  assertText("Registration Complete")
+  assertText("Email Confirmation")
 end
 
 Then /^a verification email is sent to "([^"]*)"$/ do |email_address|

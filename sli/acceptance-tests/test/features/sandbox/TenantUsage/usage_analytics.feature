@@ -4,6 +4,7 @@ Feature: Sandbox usage analytics
 Background:
   Given I have an open web browser
 
+@wip
 Scenario: As a SLC Operator I can determine how many tenants are using the sandbox environment,
 the total mongo entity count and data size (in Kb) for all sandbox tenants, and mongo entity
 count and data size (in Kb) for each sandbox tenant.
@@ -21,7 +22,7 @@ count and data size (in Kb) for each sandbox tenant.
     | T2@slidev.org  |  49   | 0    |
     | T3@slidev.org  | 533   | 0    |
 
-
+@wip
 Scenario: As a SLC Operator I can determine mongo entity count and data size (in Kb) for each collection for a single tenant
     Given I go to the "Tenant Usage Admin Tool"
         Then I was redirected to the "Simple" IDP Login page

@@ -22,7 +22,12 @@ require 'selenium-webdriver'
 And /^there are "([^"]*)" Tabs$/ do |tabCount|
   allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   tab = allTabs.find_elements(:tag_name, "li")
-  assert(tabCount.to_i == tab.length, "Actual Tab Count: " + tab.length.to_s)
+  tabsToIgnore = 0
+  # dashboard builder has the "+" tab that we need to ignore
+  if (@driver.current_url.include? "builder")
+    tabsToIgnore = 1
+  end
+  assert(tabCount.to_i == tab.length - tabsToIgnore, "Actual Tab Count: " + tab.length.to_s)
 end
 
 Given /^Tab "([^"]*)" is titled "([^"]*)"$/ do |tabIndex, tabTitle|
@@ -119,7 +124,6 @@ def checkPageOrder(expectedPages, extraTabsToIgnore = 0)
   for index in 0..actual.length - 1 - extraTabsToIgnore.to_i  
     page = actual[index]
     pageText = page.find_element(:tag_name,"a").text
-    puts pageText
     assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
   end
 end

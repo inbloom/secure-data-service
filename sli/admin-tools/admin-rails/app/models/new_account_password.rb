@@ -18,10 +18,17 @@ limitations under the License.
 
 class NewAccountPassword < ForgotPassword 
 
-  validates_presence_of :token, :agree_to_tou
+  validates_presence_of :token
   validates :new_pass, :confirmation => true #password_confirmation attr
-  validate :confirm_new 
+  validate :confirm_new
+  validate :accept_tou
   
   # attributes passed to the template to render 
-  attr_accessor :inviter, :edorg, :agree_to_tou
+  attr_accessor :inviter, :edorg, :terms_and_conditions
+
+  def accept_tou
+    if APP_CONFIG['is_sandbox'] && self.terms_and_conditions != "1"
+      self.errors[:terms_and_conditions] << "must be accepted"
+    end
+  end
 end
