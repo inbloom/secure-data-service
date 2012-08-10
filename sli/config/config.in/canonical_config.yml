@@ -883,6 +883,8 @@ local:
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
+        sli.mongo.tracking: true
+
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
@@ -1394,6 +1396,7 @@ nxteam:
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
+        sli.mongo.tracking: true
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
@@ -1456,6 +1459,7 @@ local-maestro:
         sli.ingestion.nodeType: maestro
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
+        sli.mongo.tracking: true
     data-access:
         <<: *DATA-ACCESS-LOCAL
         sli.ingestion.staging.clearOnCompletion: transformed
@@ -1473,6 +1477,7 @@ local-pit:
         sli.ingestion.nodeType: pit
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
+        sli.mongo.tracking: true
     data-access:
         <<: *DATA-ACCESS-LOCAL
     misc:
