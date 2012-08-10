@@ -6,6 +6,8 @@ import java.util.List;
 import openadk.library.common.Email;
 import openadk.library.common.EmailList;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 
 /**
@@ -17,7 +19,7 @@ import org.slc.sli.sif.domain.slientity.ElectronicMail;
  * @author jtully
  *
  */
-
+@Component
 public class EmailListConverter {
 
     public List<ElectronicMail> convert(EmailList list) {

@@ -23,6 +23,9 @@ import java.util.Map;
 
 import openadk.library.common.OtherNames;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.OtherName;
 
 /**
@@ -31,6 +34,7 @@ import org.slc.sli.sif.domain.slientity.OtherName;
  * @author jtully
  *
  */
+@Component
 public class OtherNamesConverter {
 
     private static final Map<String, String> NAME_TYPE_MAP = new HashMap<String, String>();
@@ -43,6 +47,7 @@ public class OtherNamesConverter {
         NAME_TYPE_MAP.put("08", "Other Name");
     }
 
+    @Autowired
     private NameConverter nameConverter;
 
     public List<OtherName> convert(OtherNames sifOtherNames) {
