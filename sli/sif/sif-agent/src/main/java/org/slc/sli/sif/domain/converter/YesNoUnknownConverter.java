@@ -38,8 +38,8 @@ public class YesNoUnknownConverter
     }
 
     public Boolean convert(String value) {
-        return BOOLEAN_MAP.get(value);
+        return value == null ? null : BOOLEAN_MAP.get(value);
     }
-    
+
 }
 

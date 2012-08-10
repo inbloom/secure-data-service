@@ -28,8 +28,10 @@ import openadk.library.common.EnglishProficiency;
 import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.Language;
 import openadk.library.common.LanguageCode;
 import openadk.library.common.LanguageList;
+import openadk.library.common.LanguageType;
 import openadk.library.common.NameType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.RaceList;
@@ -240,6 +242,11 @@ public class StudentPersonalTranslationTaskTest {
         LanguageList languageList = new LanguageList();
         languageList.addLanguage(LanguageCode.ENGLISH);
         languageList.addLanguage(LanguageCode.CHINESE);
+        // there is no way to setLanguageType
+        // the following error appears:
+        // Element "Language" is already a child of another element
+        //languageList.getLanguage(LanguageCode.CHINESE).setLanguageType(LanguageType.HOME);
+        
         demographics.setLanguageList(languageList);
         info.setDemographics(demographics);
         

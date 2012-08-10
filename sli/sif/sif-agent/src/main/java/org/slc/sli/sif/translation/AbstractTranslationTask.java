@@ -49,6 +49,7 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends
         this.sifPrototype = sifPrototype;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<E> translate(SIFDataObject sifData) throws SifTranslationException {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
