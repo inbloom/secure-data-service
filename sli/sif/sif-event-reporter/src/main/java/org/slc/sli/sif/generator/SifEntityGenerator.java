@@ -44,6 +44,7 @@ import openadk.library.common.ResidencyStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
@@ -73,6 +74,7 @@ public class SifEntityGenerator {
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
+        info.setChanged(false);
         info.setRefId(TEST_SCHOOLINFO_REFID);
         info.setStateProvinceId("Daybreak West High");
         info.setNCESId("421575003045");
@@ -122,6 +124,7 @@ public class SifEntityGenerator {
 
     public static LEAInfo generateTestLEAInfo() {
         LEAInfo info = new LEAInfo();
+        info.setChanged(false);
         info.setRefId(TEST_LEAINFO_REFID);
         info.setStateProvinceId("IL-DAYBREAK");
         info.setNCESId("4215750");
@@ -167,6 +170,7 @@ public class SifEntityGenerator {
 
     public static SEAInfo generateTestSEAInfo() {
         SEAInfo info = new SEAInfo();
+        info.setChanged(false);
         info.setRefId(TEST_SEAINFO_REFID);
         info.setSEAName("Illinois State Board of Education");
         info.setSEAURL("http://IL.edu");
@@ -200,6 +204,7 @@ public class SifEntityGenerator {
 
     public static StudentSchoolEnrollment generateTestStudentSchoolEnrollment() {
         StudentSchoolEnrollment retVal = new StudentSchoolEnrollment();
+        retVal.setChanged(false);
         retVal.setRefId(TEST_STUDENTSCHOOLENROLLMENT_REFID);
         retVal.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
         retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
@@ -225,6 +230,7 @@ public class SifEntityGenerator {
 
     public static StudentLEARelationship generateTestStudentLeaRelationship() {
         StudentLEARelationship retVal = new StudentLEARelationship();
+        retVal.setChanged(false);
         retVal.setRefId(TEST_STUDENTLEARELATIONSHIP_REFID);
         retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
         retVal.setLEAInfoRefId(TEST_LEAINFO_REFID);
@@ -249,6 +255,7 @@ public class SifEntityGenerator {
 
     public static StudentPersonal generateTestStudentPersonal() {
         StudentPersonal studentPersonal = new StudentPersonal();
+        studentPersonal.setChanged(false);
         studentPersonal.setRefId(TEST_STUDENTPERSONAL_REFID);
         Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
         name.setMiddleName("");
@@ -288,6 +295,7 @@ public class SifEntityGenerator {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
         studentPersonal.setPhoneNumberList(phoneNumberList);
+        studentPersonal.setMigrant(YesNoUnknown.NO);
 
         return studentPersonal;
     }
