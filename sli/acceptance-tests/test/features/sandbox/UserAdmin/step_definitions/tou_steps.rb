@@ -41,23 +41,23 @@ Then /^I am not shown a checkbox with term\-of\-use$/ do
 end
 
 Then /^I have to enter my password$/ do
-  @driver.find_element(:id, "submitForgotPasswordButton").click
+  @explicitWait.until{@driver.find_element(:id, "submitForgotPasswordButton")}.click
   assertWithWait("No error for password not being set") {@driver.find_element(:id, "password_error_explanation")}
 end
 
 Then /^I have to check the terms\-of\-use to submit the form$/ do
-  @driver.find_element(:id, "submitForgotPasswordButton").click
+  @explicitWait.until{@driver.find_element(:id, "submitForgotPasswordButton")}.click
   assertWithWait("No error for Terms of Use not checked") {@driver.find_element(:xpath, "//li[starts-with(text(), 'Terms and conditions')]")}
   @tou_required = true
 end
 
 When /^I submit the form$/ do
-  @driver.find_element(:id, "new_account_password_new_pass").send_keys("s@r@h")
-  @driver.find_element(:id, "new_account_password_confirmation").send_keys("s@r@h")
+  @explicitWait.until{@driver.find_element(:id, "new_account_password_new_pass")}.send_keys("s@r@h")
+  @explicitWait.until{@driver.find_element(:id, "new_account_password_confirmation")}.send_keys("s@r@h")
   if @tou_required
-    @driver.find_element(:id, "terms_and_conditions").click
+    @explicitWait.until{@driver.find_element(:id, "terms_and_conditions")}.click
   end
-  @driver.find_element(:id, "submitForgotPasswordButton").click
+  @explicitWait.until{@driver.find_element(:id, "submitForgotPasswordButton")}.click
 end
 
 Then /^the password is saved$/ do
