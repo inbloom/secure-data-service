@@ -24,6 +24,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+/**
+ * Utility class to handle command ling arguments
+ *
+ * @author vmcglaughlin
+ *
+ */
 public class PropertyUtils {
 
     private static final String FLAG_ZONE_URL = "u";
@@ -38,7 +44,7 @@ public class PropertyUtils {
     public static final String KEY_SCRIPT = "script";
     public static final String KEY_WAIT_TIME = "wait_time";
 
-    final public static Options OPTIONS = new Options();
+    public static final Options OPTIONS = new Options();
 
     private static final String DEFAULT_AGENT_ID = "test.publisher.agent";
     private static final String DEFAULT_ZONE_URL = "http://10.163.6.73:50002/TestZone";

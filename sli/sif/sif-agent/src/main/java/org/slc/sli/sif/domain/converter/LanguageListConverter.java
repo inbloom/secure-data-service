@@ -40,12 +40,11 @@ import openadk.library.common.LanguageList;
  * Spanish
  * Other languages
  * Other
- * 
+ *
  * @author slee
  *
  */
-public class LanguageListConverter
-{
+public class LanguageListConverter {
     private static final Map<LanguageCode, String> LANGUAGE_TYPE_MAP = new HashMap<LanguageCode, String>();
     static {
         LANGUAGE_TYPE_MAP.put(LanguageCode.CHECHEN, "Other languages");
@@ -71,7 +70,7 @@ public class LanguageListConverter
 
         return toSliLanguageList(languageList.getLanguages());
     }
-    
+
     private List<String> toSliLanguageList(openadk.library.common.Language[] languages) {
         List<String> list = new ArrayList<String>(languages.length);
         for (openadk.library.common.Language language : languages) {

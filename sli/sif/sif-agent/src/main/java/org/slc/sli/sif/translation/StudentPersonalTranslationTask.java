@@ -20,16 +20,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import openadk.library.common.Demographics;
+import openadk.library.common.Language;
+import openadk.library.common.LanguageList;
+import openadk.library.common.LanguageType;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentPersonal;
 
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.LanguageListConverter;
+import org.slc.sli.sif.domain.converter.NameConverter;
+import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Translation task for translating StudentPersonal SIF data objects to Student SLI entities.
@@ -37,8 +44,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author slee
  *
  */
-public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> 
-{
+public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
+    
+    @Autowired
+    NameConverter nameConverter;
+    
+    @Autowired
+    OtherNamesConverter otherNameConverter;
+    
+    @Autowired
+    LanguageListConverter languageListConverter;
+    
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
 
@@ -55,27 +71,47 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
 
-    public StudentPersonalTranslationTask()
-    {
+    public StudentPersonalTranslationTask() {
         super(StudentPersonal.class);
     }
 
     @Override
-    public List<StudentEntity> doTranslate(StudentPersonal sifData)
-    {
+    public List<StudentEntity> doTranslate(StudentPersonal sifData) {
         StudentPersonal sp = sifData;
         MostRecent mostRecent = sp.getMostRecent();
         Demographics demographics = sp.getDemographics();
         StudentEntity e = new StudentEntity();
         //convert properties
-        if (mostRecent!=null) {
-            e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
+        e.setStudentUniqueStateId(sp.getStateProvinceId());
+        e.setName(nameConverter.convert(sp.getName()));
+        e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
+        
+        if (demographics!=null) {
+            e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
+            e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
         }
+        if (mostRecent != null) {
+            e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
+            e.setSchoolId(mostRecent.getSchoolLocalId());
+        }
+        
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convert(sp.getPhoneNumberList()));
 
         return Arrays.asList(e);
+    }
+    
+    private List<String> getHomeLanguages(LanguageList languageList) {
+        Language[] languages = languageList==null ? null : languageList.getLanguages();
+        if (languages==null) return null;
+        LanguageList homeList = new LanguageList();
+        for (Language language : languages) {
+            if (language.getLanguageType()!=null && LanguageType.HOME.valueEquals(language.getLanguageType())) {
+                homeList.add(language);
+            }
+        }
+        return homeList.size()==0 ? null : languageListConverter.convert(homeList);
     }
 
 }

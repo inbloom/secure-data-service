@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.OtherName;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Converts a SIF otherName list to an SLI otherName list.

@@ -25,8 +25,7 @@ import java.util.Date;
  * @author slee
  *
  */
-public class BirthData
-{
+public class BirthData {
     //required fields
     private Date birthDate;
     //optional fields

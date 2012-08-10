@@ -22,8 +22,7 @@ package org.slc.sli.sif.domain.slientity;
  * @author slee
  *
  */
-public class Name
-{
+public class Name {
     //required fields
     private String firstName;
     private String lastName;

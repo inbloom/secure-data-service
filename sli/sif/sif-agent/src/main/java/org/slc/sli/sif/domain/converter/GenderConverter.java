@@ -14,27 +14,31 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.domain.slientity;
+package org.slc.sli.sif.domain.converter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
 
 /**
- * Corresponding to the otherName defined in SLI schema.
+ * A custom converter to convert SIF Gender to SLI SexType.
  *
- * @author slee
+ * @author syau
  *
  */
-public class OtherName extends Name {
-    //otherName-only fields
-    private String otherNameType;
+@Component
+public class GenderConverter {
 
-    public OtherName() {
-        super();
+    private static final Map<String, String> GENDER_TYPE_MAP = new HashMap<String, String>();
+    static {
+        GENDER_TYPE_MAP.put("M", "Male");
+        GENDER_TYPE_MAP.put("F", "Female");
+        //GENDER_TYPE_MAP.put("U", ""); // There is no "unknown" sex in sli
     }
 
-    public String getOtherNameType() {
-        return this.otherNameType;
+    public String convert(String gender) {
+        return GENDER_TYPE_MAP.get(gender);
     }
 
-    public void setOtherNameType(String otherNameType) {
-        this.otherNameType = otherNameType;
-    }
 }
