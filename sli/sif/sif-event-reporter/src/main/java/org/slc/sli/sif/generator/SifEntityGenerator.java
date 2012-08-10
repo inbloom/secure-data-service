@@ -30,6 +30,7 @@ import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitTypeCode;
+import openadk.library.common.Gender;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.MembershipType;
@@ -250,7 +251,8 @@ public class SifEntityGenerator {
     public static StudentPersonal generateTestStudentPersonal() {
         StudentPersonal studentPersonal = new StudentPersonal();
         studentPersonal.setRefId(TEST_STUDENTPERSONAL_REFID);
-        Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
+        studentPersonal.setStateProvinceId("IL-DAYBREAK-54321");
+        Name name = new Name(NameType.NAME_OF_RECORD, "Smith", "Joe");
         name.setMiddleName("");
         name.setPreferredName("Joe");
         studentPersonal.setName(name);
@@ -265,6 +267,7 @@ public class SifEntityGenerator {
         demographics.setCitizenshipStatus(CitizenshipStatus.USCITIZEN);
         demographics.setCountryOfBirth(CountryCode.US);
         demographics.setStateOfBirth(StatePrCode.AK);
+        demographics.setGender(Gender.MALE);
         studentPersonal.setDemographics(demographics);
         Address address = new Address();
         address.setCity("Salt Lake City");
