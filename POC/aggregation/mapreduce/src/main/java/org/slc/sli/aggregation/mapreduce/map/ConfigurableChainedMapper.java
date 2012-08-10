@@ -221,8 +221,8 @@ public class ConfigurableChainedMapper extends ChainMapper {
         // First one to finish wins; the remaining tasks are terminated.
         mapperConf.setSpeculativeExecution(true);
         mapperConf.setJarByClass(mapper);
-        mapperConf.setUseNewMapper(true);
-        mapperConf.setUseNewReducer(true);
+        mapperConf.setUseNewMapper(false);
+        mapperConf.setUseNewReducer(false);
         MongoConfigUtil.setQuery(mapperConf, query);
         MongoConfigUtil.setFields(mapperConf, fields);
         MongoConfigUtil.setInputKey(mapperConf, keyField);
