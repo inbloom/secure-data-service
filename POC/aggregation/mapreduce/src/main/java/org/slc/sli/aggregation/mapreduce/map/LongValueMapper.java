@@ -31,21 +31,20 @@ class LongValueMapper extends ValueMapper {
     private Logger log = Logger.getLogger("LongValueMapper");
 
     public LongValueMapper(String fieldName) {
-        super(fieldName);
+        this.fieldName = fieldName;
     }
 
     @Override
-    public Writable getValue(Object entity) {
+    public Writable getValue(BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue((BSONObject) entity, fieldName);
-
+            value = BSONValueLookup.getValue(entity, fieldName);
             if (value != null) {
                 rval = new LongWritable(Long.parseLong(value.toString()));
             }
         } catch (NumberFormatException e) {
-            log.severe(String.format("Failed to convert value {%s} to Long", value));
+            log.severe(String.format("Failed to convert value {'%s'} to Long", value));
         }
         return rval;
     }

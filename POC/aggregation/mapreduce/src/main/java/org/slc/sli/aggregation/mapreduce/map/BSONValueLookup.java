@@ -23,11 +23,11 @@ import org.bson.BSONObject;
  * mongo dot notation field name.
  */
 public class BSONValueLookup {
-
+    
     /**
      * Given a dot-separated field, return the resulting value if it exists in the entity.
      * If the value does not exist, return null;
-     *
+     * 
      * @param entity
      *            Entity to query
      * @param field
@@ -36,7 +36,7 @@ public class BSONValueLookup {
      */
     public static String getValue(BSONObject entity, final String field) {
         String rval = null;
-
+        
         BSONObject node = entity;
         String[] fieldPath = field.toString().split("\\.");
         for (String path : fieldPath) {

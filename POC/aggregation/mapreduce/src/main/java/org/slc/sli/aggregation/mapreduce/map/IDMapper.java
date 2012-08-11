@@ -29,38 +29,40 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
  * IDMapper
- *
+ * 
  * A basic mapper that emits the unique identifiers for a provided collection.
- *
+ * 
  * Map input / output:
- *    EmittableKey - Input key type. Defines the fields that represent a key in the entity.
- *    BSONOBject - Entity to examine.
- *    EmittableKey - Output key for the mapper.
- *    BSONObject -- The entity the key corresponds to.
+ * EmittableKey - Input key type. Defines the fields that represent a key in the entity.
+ * BSONOBject - Entity to examine.
+ * EmittableKey - Output key for the mapper.
+ * BSONObject -- The entity the key corresponds to.
  */
-public class IDMapper extends MapReduceBase implements Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
-
+public class IDMapper extends MapReduceBase implements
+    Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
+    
     protected EmittableKey identifier;
-
+    
     /**
      * IDMapper Constructor - Construct a new IDMapper and initialize the identifier.
-     *
+     * 
      * @param cls
      *            EmittableKey class to instantiate. The class must implement a no-argument
      *            constructor.
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields) throws InstantiationException, IllegalAccessException {
+    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields)
+        throws InstantiationException, IllegalAccessException {
         super();
         identifier = keyType.newInstance();
         identifier.setFieldNames(keyFields);
     }
-
+    
     @Override
-    public void map(EmittableKey id, BSONObject entity, OutputCollector<EmittableKey, BSONObject> context,
-        Reporter reporter) throws IOException {
-
+    public void map(EmittableKey id, BSONObject entity,
+        OutputCollector<EmittableKey, BSONObject> context, Reporter reporter) throws IOException {
+        
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();
         for (Text field : idFieldNames) {

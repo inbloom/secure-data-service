@@ -79,8 +79,8 @@ public class TenantAndIdEmittableKey extends EmittableKey {
 
     @Override
     public String toString() {
-        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId().toString() + ", " + getTenantIdField() + "="
-            + getTenantId().toString() + "]";
+        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId().toString() + ", "
+            + getTenantIdField() + "=" + getTenantId().toString() + "]";
     }
 
     @Override
@@ -101,9 +101,6 @@ public class TenantAndIdEmittableKey extends EmittableKey {
 
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (getClass() != obj.getClass()) {
             return false;
         }
@@ -119,6 +116,11 @@ public class TenantAndIdEmittableKey extends EmittableKey {
 
     @Override
     public int compareTo(EmittableKey other) {
-        return getId().toString().compareTo(other.get(getIdField()).toString());
+        if (other instanceof TenantAndIdEmittableKey) {
+            TenantAndIdEmittableKey obj = (TenantAndIdEmittableKey) other;
+            return this.getId().compareTo(obj.getId());
+        } else {
+            return -1;
+        }
     }
 }

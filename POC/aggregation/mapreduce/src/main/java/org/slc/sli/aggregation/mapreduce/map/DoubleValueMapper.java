@@ -27,20 +27,20 @@ import org.bson.BSONObject;
  * DoubleValueMapper - mongo value mapper that emits double values.
  */
 class DoubleValueMapper extends ValueMapper {
-
+    
     private Logger log = Logger.getLogger("DoubleValueMapper");
-
+    
     public DoubleValueMapper(String fieldName) {
-        super(fieldName);
+        this.fieldName = fieldName;
     }
-
+    
     @Override
-    public Writable getValue(Object entity) {
+    public Writable getValue(BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue((BSONObject) entity, fieldName);
-
+            value = BSONValueLookup.getValue(entity, fieldName);
+            
             if (value != null) {
                 rval = new DoubleWritable(Double.parseDouble(value.toString()));
             }

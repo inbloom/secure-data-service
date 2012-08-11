@@ -26,34 +26,33 @@ import org.bson.BSONObject;
 /**
  * EnumValueMapper - mongo value mapper that emits the enumerated value for the given value.
  *
- * @param <T> Enum type.
+ * @param <T>
+ *            Enum type.
  */
 class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
 
-    Enum<T> e = null;
-
     private Logger log = Logger.getLogger("EnumValueMapper");
 
+    Class<T> enumClass = null;
 
-    public EnumValueMapper(String fieldName, Enum<T> e) {
-        super(fieldName);
-        this.e = e;
+    public EnumValueMapper(String fieldName, Class<T> v) {
+        this.fieldName = fieldName;
+        this.enumClass = v;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Writable getValue(Object entity) {
+    public Writable getValue(BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue((BSONObject) entity, fieldName);
+            value = BSONValueLookup.getValue(entity, fieldName);
             if (value != null) {
-                value = Enum.valueOf(e.getClass(), value).toString();
+                value = Enum.valueOf(enumClass, value).toString();
                 rval = new Text(value);
             }
-       } catch (IllegalArgumentException e) {
-           log.severe(String.format("Failed to convert value {%s} to Enum", value));
-       }
+        } catch (IllegalArgumentException e) {
+            log.severe(String.format("Failed to convert value {%s} to Enum", value));
+        }
         return rval;
     }
 }

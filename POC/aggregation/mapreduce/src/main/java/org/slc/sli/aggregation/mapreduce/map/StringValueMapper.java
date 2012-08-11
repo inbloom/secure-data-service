@@ -25,21 +25,18 @@ import org.bson.BSONObject;
  * StringValueMapper - mongo value mapper that emits String values.
  */
 class StringValueMapper extends ValueMapper {
-
+    
     public StringValueMapper(String fieldName) {
-        super(fieldName);
+        this.fieldName = fieldName;
     }
-
+    
     @Override
-    public Writable getValue(Object entity) {
+    public Writable getValue(BSONObject entity) {
         Writable rval = NullWritable.get();
-
-        if (entity instanceof BSONObject) {
-            String value = BSONValueLookup.getValue((BSONObject) entity, fieldName);
-
-            if (value != null && value instanceof String) {
-                rval = new Text(value);
-            }
+        
+        String value = BSONValueLookup.getValue(entity, fieldName);
+        if (value != null && value instanceof String) {
+            rval = new Text(value);
         }
         return rval;
     }

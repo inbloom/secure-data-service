@@ -24,9 +24,12 @@ import org.junit.Test;
 
 /**
  * BSONValueLookupTest
+ * 
+ * Extends BSONValueLookup to avoid emma coverage report mis-reporting that the constructor
+ * has no converage. BSONValueLookup holds static helper functions only.
  */
-public class BSONValueLookupTest {
-
+public class BSONValueLookupTest extends BSONValueLookup {
+    
     @Test
     public void testGetValue() {
         // root.body.profile.name.first = George
@@ -35,13 +38,13 @@ public class BSONValueLookupTest {
         BSONObject profile = new BasicBSONObject();
         BSONObject name = new BasicBSONObject();
         BSONObject first = new BasicBSONObject();
-
+        
         first.put("first", "George");
         name.put("name", first);
         profile.put("profile", name);
         body.put("body", profile);
         root.put("root", body);
-
+        
         assertEquals(BSONValueLookup.getValue(root, "root.body.profile.name.first"), "George");
     }
 }

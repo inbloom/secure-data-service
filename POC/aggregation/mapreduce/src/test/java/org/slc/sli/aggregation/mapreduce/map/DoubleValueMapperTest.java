@@ -55,4 +55,15 @@ public class DoubleValueMapperTest {
         Writable value = mapper.getValue(entity);
         assertTrue(value instanceof NullWritable);
     }
+
+    @Test
+    public void testGetValueNotDouble() {
+        BSONObject field = new BasicBSONObject("field", "Bob");
+        BSONObject entity = new BasicBSONObject("double", field);
+
+        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
+
+        Writable value = mapper.getValue(entity);
+        assertTrue(value instanceof NullWritable);
+    }
 }
