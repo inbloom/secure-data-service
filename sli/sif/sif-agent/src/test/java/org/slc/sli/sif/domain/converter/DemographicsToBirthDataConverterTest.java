@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.domain.converter;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +35,7 @@ import org.slc.sli.sif.domain.slientity.BirthData;
  *
  */
 public class DemographicsToBirthDataConverterTest extends ADKTest {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private DemographicsToBirthDataConverter converter = new DemographicsToBirthDataConverter();
 
@@ -132,8 +134,8 @@ public class DemographicsToBirthDataConverterTest extends ADKTest {
             Assert.assertEquals(placeOfBirth, sliBirthData.getCityOfBirth());
             Assert.assertEquals(countryOfBirth, sliBirthData.getCountryOfBirthCode());
             Assert.assertEquals(state, sliBirthData.getStateOfBirthAbbreviation());
-            Assert.assertEquals(birthDate.getTime(), sliBirthData.getBirthDate());
-            Assert.assertEquals(countryArrivalDate.getTime(), sliBirthData.getDateEnteredUS());
+            Assert.assertEquals(dateFormat.format(birthDate.getTime()), sliBirthData.getBirthDate());
+            Assert.assertEquals(dateFormat.format(countryArrivalDate.getTime()), sliBirthData.getDateEnteredUS());
         }
 
         //check invalid state codes are not mapped

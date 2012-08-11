@@ -62,7 +62,7 @@ import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
-import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
+import org.slc.sli.sif.domain.slientity.PersonalTelephone;
 import org.slc.sli.sif.domain.slientity.StudentEntity;
 
 /**
@@ -325,15 +325,15 @@ public class StudentPersonalTranslationTaskTest {
         StudentPersonal info = new StudentPersonal();
         info.setPhoneNumberList(phoneNumberList);
 
-        List<InstitutionTelephone> telephones = new ArrayList<InstitutionTelephone>();
+        List<PersonalTelephone> telephones = new ArrayList<PersonalTelephone>();
 
-        Mockito.when(mockPhoneNumberListConverter.convert(phoneNumberList)).thenReturn(telephones);
+        Mockito.when(mockPhoneNumberListConverter.convertPersonalTelephone(phoneNumberList)).thenReturn(telephones);
 
         List<StudentEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 
-        Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
+        Mockito.verify(mockPhoneNumberListConverter).convertPersonalTelephone(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
     }
 }

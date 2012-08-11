@@ -36,7 +36,7 @@ public class StudentEntity extends SliEntity {
     // optional fields
     private List<OtherName> otherName;
     private List<Address> address;
-    private List<InstitutionTelephone> telephone;
+    private List<PersonalTelephone> telephone;
     private List<ElectronicMail> electronicMail;
     private List<String> race; // Demographics
     private String limitedEnglishProficiency;
@@ -166,11 +166,11 @@ public class StudentEntity extends SliEntity {
         this.address = address;
     }
 
-    public List<InstitutionTelephone> getTelephone() {
+    public List<PersonalTelephone> getTelephone() {
         return this.telephone;
     }
 
-    public void setTelephone(List<InstitutionTelephone> telephone) {
+    public void setTelephone(List<PersonalTelephone> telephone) {
         this.telephone = telephone;
     }
 

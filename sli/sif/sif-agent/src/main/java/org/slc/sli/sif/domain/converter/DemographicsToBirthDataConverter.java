@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.domain.converter;
 
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ import org.slc.sli.sif.domain.slientity.BirthData;
  */
 @Component
 public class DemographicsToBirthDataConverter {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     //SIF state codes are a subset of SLI state codes
     private static final Set<String> SLI_STATE_CODES = new HashSet<String>();
@@ -104,11 +106,11 @@ public class DemographicsToBirthDataConverter {
         }
 
         if (sifDemographics.getBirthDate() != null) {
-            sliBirthData.setBirthDate(sifDemographics.getBirthDate().getTime());
+            sliBirthData.setBirthDate(dateFormat.format(sifDemographics.getBirthDate().getTime()));
         }
 
         if (sifDemographics.getCountryArrivalDate() != null) {
-            sliBirthData.setDateEnteredUS(sifDemographics.getCountryArrivalDate().getTime());
+            sliBirthData.setDateEnteredUS(dateFormat.format(sifDemographics.getCountryArrivalDate().getTime()));
         }
 
         return sliBirthData;

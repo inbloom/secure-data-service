@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.util.Date;
 
 /**
  * Corresponding to the birthData defined in SLI schema.
@@ -27,12 +26,12 @@ import java.util.Date;
  */
 public class BirthData {
     //required fields
-    private Date birthDate;
+    private String birthDate;
     //optional fields
     private String cityOfBirth;
     private String stateOfBirthAbbreviation;
     private String countryOfBirthCode;
-    private Date dateEnteredUS;
+    private String dateEnteredUS;
     //unmatched fields
     private boolean multipleBirthStatus;
 
@@ -40,19 +39,19 @@ public class BirthData {
 
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return this.birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
-    public Date getDateEnteredUS() {
+    public String getDateEnteredUS() {
         return this.dateEnteredUS;
     }
 
-    public void setDateEnteredUS(Date dateEnteredUS) {
+    public void setDateEnteredUS(String dateEnteredUS) {
         this.dateEnteredUS = dateEnteredUS;
     }
 
