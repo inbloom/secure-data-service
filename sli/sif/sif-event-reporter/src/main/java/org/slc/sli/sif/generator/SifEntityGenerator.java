@@ -290,7 +290,7 @@ public class SifEntityGenerator {
         addressList.add(address);
         studentPersonal.setAddressList(addressList);
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        phoneNumberList.addPhoneNumber(PhoneNumberType.SIF1x_HOME_PHONE, "(312) 555-1234");
         studentPersonal.setPhoneNumberList(phoneNumberList);
         studentPersonal.setMigrant(YesNoUnknown.NO);
 
