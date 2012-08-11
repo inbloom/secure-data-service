@@ -138,8 +138,8 @@ Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
 end
 
 Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
-  drop_down = @explicitWait.until{find_element(:id, "user_primary_role")}
-  option = drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")
+  drop_down = @explicitWait.until{@driver.find_element(:id, "user_primary_role")}
+  option = @explicitWait.until{drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")}
   assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected}")
 end
 
@@ -223,7 +223,7 @@ Then /^the user has Roles as "(.*?)"$/ do |roles|
   end
   roles_list.sort!
   tr=@explicitWait.until{@driver.find_element(:id, @user_unique_id)}
-  td=tr.find_element(:id, "#{@user_full_name}_role")
+  td=@explicitWait.until{tr.find_element(:id, "#{@user_full_name}_role")}
   displayed = td.text().split(",")
   displayed.each do |str|
     str.strip!
@@ -320,11 +320,11 @@ Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choic
     #drop_down.click
     for i in choices.split(",")  do
         i.strip!
-        option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
+        option = @explicitWait.until{drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")}
         assert(option != nil)
     end
 
-    options = drop_down.find_elements(:xpath, ".//option")
+    options = @explicitWait.until{drop_down.find_elements(:xpath, ".//option")}
     assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces") 
    
     select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id, "user_primary_role")})
