@@ -22,7 +22,10 @@
 
 SLC.namespace('SLC.attendanceCalendar', (function () {
 
-	var util = SLC.util;
+	var util = SLC.util,
+		monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+		weekDayFormat = ["S", "M", "T", "W", "T", "F", "S"];
+
 
 	/*
 	 *	SLC attendanceCalendar plugin
@@ -36,7 +39,7 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			var options;
 
 			options = {
-				dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
+				dayNamesMin: weekDayFormat,
 				hideIfNoPrevNext: true
 			};
 
@@ -55,29 +58,28 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 
 		var calendarOptions,
 			absentData = [],
-			minDate,
-			maxDate,
 			startDate,
 			endDate,
-			i,
-			util = SLC.util;
+			i;
 
 		if (panelData === null || panelData === undefined || panelData.length < 1) {
 			return false;
 		}
 
-		if(panelData.attendanceList.length === 0) {
+		if(panelData.attendanceList.length === 0 || !panelData.startDate || !panelData.endDate) {
 			return false;
 		}
 
 		absentData = panelData.attendanceList;
-		startDate = panelData.startDate;
-		endDate = panelData.endDate;
+		startDate = new Date(util.parseISO8601(panelData.startDate));
+		endDate = new Date(util.parseISO8601(panelData.endDate));
 
-		function setMinMaxDates() {
-			var newDate = startDate.split("-");
-			minDate = newDate[0] + "," + newDate[1] + "," + newDate[2];
-			maxDate = newDate[0] + ",12," + newDate[2];
+		function getMinDate() {
+			return new Date(monthNames[startDate.getMonth()] + " " + startDate.getDate() + ", " + startDate.getFullYear());
+		}
+
+		function getMaxDate() {
+			return new Date(monthNames[endDate.getMonth()] + " " + endDate.getDate() + ", " + endDate.getFullYear());
 		}
 
 		function absentDays(date) {
@@ -93,7 +95,7 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			}
 
 			// if the date is greater than end date, it should be grayed out
-			if (formattedDate > endDate) {
+			if (date < startDate || date > endDate) {
 				return [false, 'disableDays'];
 			}
 
@@ -107,13 +109,10 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			return noWeekend[0] ? absentDays(date) : noWeekend;
 		}
 
-
-		setMinMaxDates();
-
 		calendarOptions = {
 			numberOfMonths: [3, 4],
-			minDate: new Date(minDate),
-			maxDate: new Date(maxDate),
+			minDate: getMinDate(),
+			maxDate: getMaxDate(),
 			beforeShowDay: formatDays
 		};
 
