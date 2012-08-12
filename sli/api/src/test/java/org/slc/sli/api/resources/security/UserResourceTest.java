@@ -208,8 +208,9 @@ public class UserResourceTest {
         newUser.setUid(UUID2);
         newUser.setFullName("Robb Stark");
         newUser.setEmail("robbstark@winterfell.gov");
-        newUser.setUid("robbstark");
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(newUser);
         Response res = resource.update(newUser);
+        Mockito.verify(ldap).getUser(REALM, newUser.getUid());
         Mockito.verify(ldap).updateUser(REALM, newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
