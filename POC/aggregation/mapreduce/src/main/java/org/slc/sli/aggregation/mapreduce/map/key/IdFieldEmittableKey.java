@@ -107,7 +107,12 @@ public class IdFieldEmittableKey extends EmittableKey {
 
     @Override
     public int compareTo(EmittableKey other) {
-        return this.getId().toString().compareTo(other.get(getIdField()).toString());
+        if (other instanceof IdFieldEmittableKey) {
+            IdFieldEmittableKey obj = (IdFieldEmittableKey) other;
+            return this.getId().compareTo(obj.getId());
+        } else {
+            return -1;
+        }
     }
 
 }

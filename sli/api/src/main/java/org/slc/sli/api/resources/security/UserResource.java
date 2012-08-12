@@ -62,9 +62,6 @@ public class UserResource {
     @Value("${sli.feature.enableSamt:false}")
     private boolean enableSamt;
 
-    @Value("${sli.sandbox.enabled")
-    private String sandboxEnabled;
-
     @Autowired
     private SuperAdminService adminService;
 
@@ -498,10 +495,6 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
-    private boolean isSLCOperator(User user) {
-        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
-    }
-
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
             RoleInitializer.SANDBOX_ADMINISTRATOR };
@@ -667,23 +660,6 @@ public class UserResource {
             return roles;
         }
 
-        public String getRole(String group) {
-            if (this.groupToRoleMap.containsKey(group)) {
-                return this.groupToRoleMap.get(group);
-            }
-            return null;
-        }
-
-        public String getGroup(String role) {
-            if (this.roleToGroupMap.containsKey(role)) {
-                return this.roleToGroupMap.get(role);
-            }
-            return null;
-        }
-    }
-
-    public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
-        this.secUtil = proxy;
     }
 
     public void setRealm(String realm) {

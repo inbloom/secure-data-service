@@ -38,7 +38,6 @@ import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
  */
 public class ConfigurableChainedMapperTest {
 
-
     String multipleMapperConf = null;
 
     @Test
@@ -63,10 +62,12 @@ public class ConfigurableChainedMapperTest {
         Stringifier<JobConf> stringifier = new DefaultStringifier<JobConf>(conf, JobConf.class);
         JobConf mapperConf = stringifier.fromString(tmp);
         assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class), Text.class);
-        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class), BSONObject.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class),
+            BSONObject.class);
 
         String query = MongoConfigUtil.getQuery(mapperConf).toString();
-        assertEquals(query, "{ \"body.assessmentIdentificationCode.ID\" : \"Grade 7 2011 State Math\"}");
+        assertEquals(query,
+            "{ \"body.assessmentIdentificationCode.ID\" : \"Grade 7 2011 State Math\"}");
     }
 
     @Test
@@ -84,25 +85,28 @@ public class ConfigurableChainedMapperTest {
         assertEquals(conf.getMapOutputKeyClass(), TenantAndIdEmittableKey.class);
         assertEquals(conf.getMapOutputValueClass(), BSONObject.class);
 
-
         assertEquals(conf.getClass("chain.mapper.mapper.class.0", Object.class), IDMapper.class);
         String tmp = conf.get("chain.mapper.mapper.config.0");
         assertNotNull(tmp);
 
         Stringifier<JobConf> stringifier = new DefaultStringifier<JobConf>(conf, JobConf.class);
         JobConf mapperConf = stringifier.fromString(tmp);
-        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class), TenantAndIdEmittableKey.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class),
+            TenantAndIdEmittableKey.class);
 
         String query = MongoConfigUtil.getQuery(mapperConf).toString();
-        assertEquals(query, "{ \"body.assessmentIdentificationCode.ID\" : \"Grade 7 2011 State Math\"}");
+        assertEquals(query,
+            "{ \"body.assessmentIdentificationCode.ID\" : \"Grade 7 2011 State Math\"}");
 
         assertEquals(conf.getClass("chain.mapper.mapper.class.1", Object.class), IDMapper.class);
         tmp = conf.get("chain.mapper.mapper.config.1");
         assertNotNull(tmp);
 
         mapperConf = stringifier.fromString(tmp);
-        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class), TenantAndIdEmittableKey.class);
-        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class), BSONObject.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class),
+            TenantAndIdEmittableKey.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class),
+            BSONObject.class);
 
         query = MongoConfigUtil.getQuery(mapperConf).toString();
         assertEquals(query, "{ \"body.assessmentId\" : \"$INPUT_KEY.getId()\"}");
@@ -112,11 +116,152 @@ public class ConfigurableChainedMapperTest {
         assertNotNull(tmp);
 
         mapperConf = stringifier.fromString(tmp);
-        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class), TenantAndIdEmittableKey.class);
-        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class), BSONObject.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.key.class", Object.class),
+            TenantAndIdEmittableKey.class);
+        assertEquals(mapperConf.getClass("chain.mapper.input.value.class", Object.class),
+            BSONObject.class);
 
         query = MongoConfigUtil.getQuery(mapperConf).toString();
         assertEquals(query, "{ \"_id\" : \"$INPUT_KEY.getId()\"}");
+    }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoCollection() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NoCollection.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoFields() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NoFields.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoKeyField() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NoKeyField.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoQuery() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NoQuery.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNotAMapper() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NotAMapper.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnknownMapper() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("UnknownMapper.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMissingClasses() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("MissingClasses.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMissingRootKey() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("MissingRootKey.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConfigFile() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("NotJson.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoChainConf() throws Exception {
+
+        InputStream s = getClass().getClassLoader().getResourceAsStream("ChainedMapper.json");
+        String chainedMapperConf = IOUtils.toString(s, "UTF-8");
+
+        JobConf conf = new JobConf();
+        conf.set("some_other_key", chainedMapperConf);
+
+        ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
+        mapper.configure(conf);
+    }
+
+    @Test
+    public void testChainedMapperEntry() {
+        ConfigurableChainedMapper.mapper_entry e =
+            ConfigurableChainedMapper.mapper_entry.READ_FROM_SECONDARIES;
+        assertEquals(e.toString(), "read_from_secondaries");
+
+        e = ConfigurableChainedMapper.mapper_entry.parseValue("Read_From_Secondaries");
+        assertEquals(e, ConfigurableChainedMapper.mapper_entry.READ_FROM_SECONDARIES);
     }
 }

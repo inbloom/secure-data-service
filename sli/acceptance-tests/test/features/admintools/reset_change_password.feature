@@ -65,6 +65,7 @@ Feature: Reset and Change Password
     Then I click on "submitChangePasswordButton"
     Then I check for message  "Your password has been successfully modified."
 
+    @wip
 @LDAP_Reset_sunsetadmin
   Scenario: Force Change Password
     

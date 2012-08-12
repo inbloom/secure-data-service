@@ -64,8 +64,8 @@ When /^I navigate to the User Management Page$/ do
 end
 
 Then /^I enter Full Name "(.*?)" and Email "(.*?)" into the required fields$/ do |fullName, email|
-  @driver.find_element(:name, 'user[fullName]').send_keys fullName
-  @driver.find_element(:name, 'user[email]').send_keys email
+  @explicitWait.until{@driver.find_element(:name, 'user[fullName]')}.send_keys fullName
+  @explicitWait.until{@driver.find_element(:name, 'user[email]')}.send_keys email
 end
 
 Then /^a verify email notification is sent to user$/ do

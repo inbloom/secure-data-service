@@ -495,7 +495,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
                           :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
-                          :samtEmailNotificationTests, :adminWebTests, :adminWelcomeEmail] do
+                          :samtEmailNotificationTests,:samtResetPasswordTests, :adminWebTests, :adminWelcomeEmail] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -689,6 +689,7 @@ end
 task :sandboxUserAdminTests do
 @tags ||= ["~@wip", "@sandbox"]
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+runTests("test/features/sandbox/UserAdmin/TOU_displayed.feature")
 end
 
 task :sandboxSamtEmailNotificationTests do
@@ -705,6 +706,13 @@ desc "Run Admin Welcome Email Production Tests"
 task :adminWelcomeEmail do
   @tags ||= ["~wip", "~@sandbox"]
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
+end
+
+desc "Run samt reset password Production Tests"
+task :samtResetPasswordTests do
+   @tags ||= ["~wip", "~@sandbox"]
+   Rake::Task["importSandboxData"].execute
+  runTests("test/features/sandbox/UserAdmin/samt_reset_password_prod.feature")
 end
 
 ###########################################################
