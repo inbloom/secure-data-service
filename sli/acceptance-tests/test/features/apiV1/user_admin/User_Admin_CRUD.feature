@@ -156,7 +156,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @production
+  @production @ycao 
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -178,6 +178,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
   Examples:
     |USER              |PASSWORD            |ADMIN_ROLE             |REALM    |CREATE_ADMIN_ROLE   |ACTION    |CODE|READ_CODE|Number   |Full_Name     |User_Name  |Email_Address        |Additional_Role |Tenant|Ed_Org     |
+    |operator          |operator1234        |SLC Operator           |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User7 |Ingestion_User7 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |201 |200      |1 or more|SLC Operator2 |SLC_Operator2     |SLC_Operator@test.com|               |      |           |
     |operator          |operator1234        |SLC Operator           |SLI      |SEA Administrator   |POST      |201 |200      |1 or more|SEA Administrator2 |SEA_Administrator2 |SEA_Administrator@test.com|    |Midgar| IL|
     |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator2 |LEA_Administrator2 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
@@ -207,13 +208,13 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |PUT      |204 |200      |1 or more|LEA Administrator7 |LEA_Administrator7 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator7 |Realm_Administrator7 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User7 |Ingestion_User7 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SLC Operator        |PUT      |403 |200      |0         |SLC Operator8 |SLC_Operator8     |SLC_Operator@test.com|               |      |           |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SLC Operator        |PUT      |400 |200      |0         |SLC Operator8 |SLC_Operator8     |SLC_Operator@test.com|               |      |           |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |PUT      |204 |200      |1 or more|SEA Administrator8 |SEA_Administrator8 |SEA_Administrator@test.com|    |Midgar| IL|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |PUT      |204 |200      |1 or more|LEA Administrator8 |LEA_Administrator8 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator8 |Realm_Administrator8 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User8 |Ingestion_User8 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |PUT      |403 |200      |0        |SLC Operator9   |SLC_Operator9   |SLC_Operator@test.com|               |      |           | 
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |PUT      |403 |200      |0        |SEA Administrator9 |SEA_Administrator9 |SEA_Administrator@test.com|    |Midgar| IL|
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |PUT      |400 |200      |0        |SLC Operator9   |SLC_Operator9   |SLC_Operator@test.com|               |      |           | 
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |PUT      |400 |200      |0        |SEA Administrator9 |SEA_Administrator9 |SEA_Administrator@test.com|    |Midgar| IL|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator9 |Realm_Administrator9 |Realm_Administrator@test.com|Ingestion User    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User9 |Ingestion_User9 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetrealmadmin  |sunsetrealmadmin1234 |Realm Administrator   |SLI      |SLC Operator        |PUT      |403 |403      |0        |SLC Operator10 |SLC_Operator10     |SLC_Operator@test.com|               |      |           |
@@ -319,7 +320,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator2 |Sandbox_Administrator2|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|PUT      |204 |200     |1 or more|Application Developer2 |Application_Developer2|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User2 |Ingestion_User2|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
-  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |PUT      |403 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |PUT      |400 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator3 |Sandbox_Administrator3|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Application Developer|PUT      |204 |200     |1 or more|Application Developer3 |Application_Developer3|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User3 |Ingestion_User3|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |

@@ -232,8 +232,38 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        // create and update shared the same validators
-        Response result = validateUserCreate(user, tenant);
+
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
+        if (result != null) {
+            return result;
+        }
+
+        User userInLdap = ldapService.getUser(realm, user.getUid());
+        if (userInLdap == null) {
+            return composeBadDataResponse("can not update user that does not exist");
+        }
+
+        if (userInLdap.getGroups() != null) {
+            result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
+                    RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
+            for(String group : userInLdap.getGroups()) {
+                info("user group: "+group);
+            }
+            for(String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
+                info("group allowd: "+group);
+            }
+            if (result != null) {
+                error("result is not null ");
+                return result;
+            }
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()), user);
         if (result != null) {
             return result;
         }
@@ -356,7 +386,7 @@ public class UserResource {
 
     private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(secUtil.getUid())) {
-            return composeBadDataResponse("not allowed execute this operation on self");
+            return composeBadDataResponse("not allowed to execute this operation on self");
         }
         return null;
     }
@@ -399,7 +429,6 @@ public class UserResource {
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
 
-        //do not explicitly reset tenant and edorgs to null as empty strings are valid for slc operator
         if ("".equals(user.getTenant())) {
             user.setTenant(null);
         }
@@ -495,6 +524,13 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
+    /*
+     * Determines if the specified user has SLC operator permission
+     */
+    private boolean isSLCOperator(User user) {
+        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
+    }
+
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
             RoleInitializer.SANDBOX_ADMINISTRATOR };
@@ -510,6 +546,8 @@ public class UserResource {
 
     static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed,
             final Collection<String> userGroups) {
+        //info ("user groups size: "+ userGroups.size());
+        //info ("groups allowed size: "+groupsAllowed.size());
         if (!groupsAllowed.containsAll(userGroups)) {
             return composeForbiddenResponse("You are not allowed to access this resource");
         }
