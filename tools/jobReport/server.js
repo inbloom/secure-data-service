@@ -11,6 +11,7 @@ server.use(restify.bodyParser());
 
 // Empty schema for now
 var schema = new Schema({
+  _id: String
 });
 
 // create model object for newBatchJob
@@ -25,9 +26,9 @@ function getJob(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); 
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-  NewBatchJob.find().execFind(function (arr,data) {
-    console.log('DATA: %s', data);
-    res.send(data);
+  NewBatchJob.find({}, function (err,docs) {
+    console.log('newBatchJob docs: %s', docs);
+    res.send(docs);
   });
 }
 
