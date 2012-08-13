@@ -2,69 +2,6 @@
 Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
-	
-	@production @wip
-	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
-	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
-	And I have a role "<ADMIN_ROLE>"
-	Then I <SHOULD> see SAMT on my list of allowed apps
-	Examples:
-		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|
-		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|
-		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
-		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
-		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
-		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
-		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
-		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
-		
-	
-  @wip
-  @production
-  Scenario Outline: As a admin I am able to read all Tenants
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <Tenant_URI>
-    Then I should receive a return code of <CODE>
-    And I should receive a list of tenants and <Tenant> is in the list
-  Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |CODE|Tenant         |
-    |SLC_Operator           |Shared Learning Collaborative|200 |IL             |
-    |SEA_Super_Administrator|IL                           |200 |IL             |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |200 |IL             |
-    |Realm_Administrator    |IL-DAYBREAK                  |401 |               |
-    |Ingestion_Administrator|IL-DAYBREAK                  |401 |               |
-
-  #sandbox
-  @wip
-  Scenario Outline: As a admin I am able to read all Tenants on sandbox
-    Given I have a <ADMIN_ROLE> with <ALLOWED_RIGHTS> on <TENANT_ID>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <Tenants_URI>
-    Then I should receive a return code of <CODE>
-    And I should receive a list of tenants and <Tenant> is in the list
-  Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |ALLOWED_RIGHTS       |CODE|Tenant           |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |200 |testuser@test.com|
-    |Application_Developer  |IL                           |SB_ACCOUNT_MANAGEMENT|401 |                 |
-    |Application_Developer  |IL-DAYBREAK                  |DEFAULT              |401 |                 |
-
-  @wip
-  Scenario Outline: As a admin I am able to read all Ed-Orgs at my level or below me in a tenancy
-    Given I have a "<ADMIN_ROLE>"
-    When I am authenticated on "<ADMIN_REALM>"
-    And I navigate to GET "/users"
-    And the "Tenant" is "<Tenant>"
-    Then I should receive a return code of <CODE>
-    And I should receive a list of Ed-Org and "<EdOrg>" is in the list
-  Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |CODE|Tenant         |EdOrg         |
-    |SLC_Operator           |Shared Learning Collaborative|200 |IL             |              |
-    |SEA_Super_Administrator|IL                           |200 |IL             |IL            |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |200 |IL             |IL-DAYBREAK   |
-    |Realm_Administrator    |IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
-    |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
   @production
   Scenario Outline:  As an admin, I can only see users I'm allowed to see
@@ -366,7 +303,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
 
-  #@sandbox
+  #sandbox
   Scenario Outline:  As a admin on sandbox I am able to delete admin accounts in my tenancy
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
