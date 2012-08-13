@@ -1,29 +1,40 @@
+//Copyright 2012 Shared Learning Collaborative, LLC
 //
-//  OAuthViewController.m
-//  Authentication Sample
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
 //
-//  Created by Ryan Latta on 5/14/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//http://www.apache.org/licenses/LICENSE-2.0
 //
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
 
 #import "OAuthViewController.h"
 #import "SBJson.h"
+#import "AppDelegate.h"
 
 
-@implementation OAuthViewController
+@implementation OAuthViewController 
+{
+    AppDelegate *delegate;
+    NSBundle *mainBundle;
+}
 @synthesize web;
 @synthesize code;
 
 +(BOOL) isAuthenticated {
-    NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-    if([token length] > 0) {
+    NSString *token = [self getToken];
+    if(token != nil && [token length] > 0) {
         return YES;
     }
     return NO;
 }
 
 +(NSString *) getToken {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+    return (NSString *)[[[UIApplication sharedApplication] delegate] performSelector:@selector(token)];
 }
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,11 +45,14 @@
     self.web = [[[UIWebView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)] autorelease];
     self.view = web;
     self.web.delegate = self;
+    
+    mainBundle = [NSBundle mainBundle];
+    delegate = [[UIApplication sharedApplication] delegate];
+    NSString *url = [NSString stringWithFormat:@"%@oauth/authorize?redirect_uri=%@&client_id=%@", [mainBundle objectForInfoDictionaryKey:@"apiAuthBase"], [mainBundle objectForInfoDictionaryKey:@"redirectUrl"], [mainBundle objectForInfoDictionaryKey:@"clientId"]];
+    NSLog(@"Sending url for authorization %@", url);
+    [self.web loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:url]]];
 }
 
-- (void) viewDidLoad {
-    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/oauth/authorize?redirect_uri=https://localhost&client_id=vd7j8fyCuD"]]];
-}
 
 - (void)viewDidUnload
 {
@@ -56,12 +70,13 @@
  * Method that parses the OAuth token out of the response.
  */
 - (void) getOauthToken {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.sandbox.slcedu.org/api/oauth/token?client_id=vd7j8fyCuD&client_secret=ALZz9p6ByBj72E25ixp7ZKkJjljQXMfdtj5NmgXQWihjGWOd&code=%@&redirect_uri=NONCE", self.code]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@oauth/token?client_id=%@&client_secret=%@&code=%@&redirect_uri=%@", [mainBundle objectForInfoDictionaryKey:@"apiAuthBase"], [mainBundle objectForInfoDictionaryKey:@"clientId"], [mainBundle objectForInfoDictionaryKey:@"clientSecret"],  self.code, [mainBundle objectForInfoDictionaryKey:@"redirectUrl"]]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request startSynchronous];
-    NSLog(@"Got a response of %@", [request responseString]);
     NSDictionary *token = [[request responseString] JSONValue];
-    [[NSUserDefaults standardUserDefaults] setObject:[token objectForKey:@"access_token"] forKey:@"token"];
+    NSLog(@"Authentication token received, ready to make API calls");
+    
+    delegate.token = [token objectForKey:@"access_token"];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
@@ -81,7 +96,7 @@
     NSString *response = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
     if([requestURL hasSuffix:@"saml/sso/post"])
     {
-        NSLog(@"The auth code request is %@", response);
+        NSLog(@"Authentication code has been received");
         self.code = [[response JSONValue] objectForKey:@"authorization_code"];
         [self getOauthToken];
         
