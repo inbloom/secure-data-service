@@ -52,7 +52,7 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password = ForgotPassword.new(params[:forgot_password])
     @forgot_password.errors.clear
     respond_to do |format|
-      if @forgot_password.set_password
+      if @forgot_password.set_password {|emailAddress, fullName| ApplicationMailer.notify_password_change(emailAddress, fullName).deliver}
         format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
         format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else
