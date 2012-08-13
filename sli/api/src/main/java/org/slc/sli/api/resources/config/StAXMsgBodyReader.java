@@ -77,11 +77,7 @@ public class StAXMsgBodyReader {
                 reader.next();
                 switch (reader.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT : {
-                        if (body == null) {
-                            body = readDocumentElement(reader);
-                        } else {
-                            throw new XMLStreamException("Reassignment to entity body");
-                        }
+                        body = readDocumentElement(reader);
                     }
                     case XMLStreamConstants.END_DOCUMENT : {
                         return body;

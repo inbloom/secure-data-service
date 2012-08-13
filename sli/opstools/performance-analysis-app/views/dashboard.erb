@@ -28,9 +28,11 @@
                     title: 'Response Time for each end point',
                     legend: 'none',
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
-                    hAxis : {title: 'Api endpoints',textPosition: 'none'}
+                    hAxis : {title: 'Api endpoints',textPosition: 'none'},
+                    seriesType: "bars",
+                    series: {1: {type: "line"}}
                 };
-                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);
                 google.visualization.events.addListener(chart, 'select', function() {
                     var tableRow = chart.getSelection();
@@ -55,9 +57,12 @@
                     title: 'Response Time for '+endPoint,
                     legend: 'none',
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
-                    hAxis : {title: 'Jenkins build ',textPosition: 'none'}
+                    hAxis : {title: 'Jenkins build ',textPosition: 'none'},
+                    seriesType: "bars",
+                    series: {1: {type: "line"}}
+
                 };
-                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);
                 google.visualization.events.addListener(chart, 'select', function() {
                     var tableRow = chart.getSelection();

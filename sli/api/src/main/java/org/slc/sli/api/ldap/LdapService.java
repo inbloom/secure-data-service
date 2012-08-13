@@ -38,4 +38,6 @@ public interface LdapService {
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant);
 
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs);
+
+    public Collection<User> findUsersByGroups(String realm, Collection<String> allowedGroupNames, Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs);
 }

@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
+import org.bson.BasicBSONObject;
 
 /**
  * EmittableKey for holding both a tenant identifier and an object id
@@ -28,95 +29,86 @@ import org.bson.BSONObject;
  */
 public class TenantAndIdEmittableKey extends EmittableKey {
 
-    protected Text tenantFieldName = null;
-    protected IdFieldEmittableKey idKey = null;
+    private static final int TENANT_FIELD = 0;
+    private static final int ID_FIELD = 1;
 
     public TenantAndIdEmittableKey() {
-        this("_id", "metaData.tenantId");
+        this("metaData.tenantId", "_id");
     }
 
     public TenantAndIdEmittableKey(final String tenantIdFieldName, final String idFieldName) {
-        String[] fields = { idFieldName, tenantIdFieldName };
-        setFieldNames(fields);
-
-        tenantFieldName = new Text(tenantIdFieldName);
-        this.idKey = new IdFieldEmittableKey(idFieldName);
+        String[] fieldNames = { tenantIdFieldName, idFieldName };
+        setFieldNames(fieldNames);
     }
 
     public Text getTenantId() {
-        return (Text) get(tenantFieldName);
+        return (Text) get(fieldNames[TENANT_FIELD]);
     }
 
     public void setTenantId(final Text id) {
-        put(tenantFieldName, id);
+        put(fieldNames[TENANT_FIELD], id);
     }
 
-    public String getTenantIdField() {
-        return tenantFieldName.toString();
+    public Text getTenantIdField() {
+        return fieldNames[TENANT_FIELD];
     }
 
     public Text getId() {
-        return idKey.getId();
+        return (Text) get(fieldNames[ID_FIELD]);
     }
 
     public void setId(final Text id) {
-        idKey.setId(id);
+        put(fieldNames[ID_FIELD], id);
     }
 
     public Text getIdField() {
-        return idKey.getIdField();
+        return fieldNames[ID_FIELD];
     }
 
     @Override
     public void readFields(DataInput data) throws IOException {
-        idKey.readFields(data);
         setTenantId(new Text(data.readLine()));
+        setId(new Text(data.readLine()));
     }
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(idKey.getId().toString());
         data.writeBytes(getTenantId().toString());
+        data.writeBytes(getId().toString());
     }
 
     @Override
     public String toString() {
-        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId().toString() + ", " + getTenantIdField() + "="
-            + getTenantId().toString() + "]";
+        return "TenantAndIdEmittableKey [" + getIdField() + "=" + getId().toString() + ", "
+            + getTenantIdField() + "=" + getTenantId().toString() + "]";
     }
 
     @Override
     public BSONObject toBSON() {
-        BSONObject rval = idKey.toBSON();
-        rval.put(getTenantIdField(), getTenantId().toString());
-        return rval;
+        BSONObject bson = new BasicBSONObject();
+        bson.put(getTenantIdField().toString(), getTenantId().toString());
+        bson.put(getIdField().toString(), getId().toString());
+        return bson;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((getTenantId() == null) ? 0 : getTenantId().hashCode());
+        int result = getId().hashCode();
+        result = prime * result + getTenantId().hashCode();
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (getClass() != obj.getClass()) {
             return false;
         }
         TenantAndIdEmittableKey other = (TenantAndIdEmittableKey) obj;
-        if (!(getTenantId().equals(other.getTenantId()))) {
+        if (!other.getId().equals(getId())) {
             return false;
         }
-        if (getTenantId() == null) {
-            if (other.getTenantId() != null) {
-                return false;
-            }
-        } else if (!getTenantId().equals(other.getTenantId())) {
+        if (!other.getTenantId().equals(getTenantId())) {
             return false;
         }
         return true;
@@ -124,6 +116,11 @@ public class TenantAndIdEmittableKey extends EmittableKey {
 
     @Override
     public int compareTo(EmittableKey other) {
-        return getId().toString().compareTo(other.get(getIdField()).toString());
+        if (other instanceof TenantAndIdEmittableKey) {
+            TenantAndIdEmittableKey obj = (TenantAndIdEmittableKey) other;
+            return this.getId().compareTo(obj.getId());
+        } else {
+            return -1;
+        }
     }
 }

@@ -7,6 +7,9 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.DoubleWritable;
 import org.bson.BSONObject;
@@ -18,21 +21,21 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-
+/**
+ * ScoreMapperTest - Test the highest ever score mapper using known values.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ScoreMapperTest {
     private ScoreMapper mapper = new ScoreMapper();
     @Mock
     private ScoreMapper.Context context;
     private Configuration config = new Configuration();
-    
+
     @Before
     public void setUp() {
         config.setStrings(ScoreMapper.SCORE_TYPE, "Scale Score");
     }
-    
+
     @Test
     public void test() throws IOException, InterruptedException {
         BSONObject percentile = BasicDBObjectBuilder.start("assessmentReportingMethod", "Percentile")

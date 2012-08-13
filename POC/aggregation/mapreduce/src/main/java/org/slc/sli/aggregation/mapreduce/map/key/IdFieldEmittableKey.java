@@ -39,7 +39,7 @@ public class IdFieldEmittableKey extends EmittableKey {
     }
 
     public Text getIdField() {
-        return super.getFieldNames()[0];
+        return super.getFieldName();
     }
 
     public Text getId() {
@@ -107,7 +107,12 @@ public class IdFieldEmittableKey extends EmittableKey {
 
     @Override
     public int compareTo(EmittableKey other) {
-        return this.getId().toString().compareTo(other.get(getIdField()).toString());
+        if (other instanceof IdFieldEmittableKey) {
+            IdFieldEmittableKey obj = (IdFieldEmittableKey) other;
+            return this.getId().compareTo(obj.getId());
+        } else {
+            return -1;
+        }
     }
 
 }

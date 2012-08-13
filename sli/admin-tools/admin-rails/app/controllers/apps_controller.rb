@@ -45,12 +45,7 @@ class AppsController < ApplicationController
   # GET /apps/1
   # GET /apps/1.json
   def show
-    @app = App.find(params[:id])
-  
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @app }
-    end
+    redirect_to apps_url
   end
 
   # GET /apps/new
