@@ -8,7 +8,7 @@ Scenario: Check table headers
 Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
+When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
