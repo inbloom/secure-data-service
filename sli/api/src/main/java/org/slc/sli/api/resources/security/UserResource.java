@@ -246,14 +246,7 @@ public class UserResource {
         if (userInLdap.getGroups() != null) {
             result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
                     RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
-            for(String group : userInLdap.getGroups()) {
-                info("user group: "+group);
-            }
-            for(String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
-                info("group allowd: "+group);
-            }
             if (result != null) {
-                error("result is not null ");
                 return result;
             }
         }
@@ -546,8 +539,6 @@ public class UserResource {
 
     static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed,
             final Collection<String> userGroups) {
-        //info ("user groups size: "+ userGroups.size());
-        //info ("groups allowed size: "+groupsAllowed.size());
         if (!groupsAllowed.containsAll(userGroups)) {
             return composeForbiddenResponse("You are not allowed to access this resource");
         }
