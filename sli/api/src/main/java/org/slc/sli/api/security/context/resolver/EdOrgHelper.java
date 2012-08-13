@@ -104,27 +104,7 @@ public class EdOrgHelper {
         return toReturn;
     }
     
-    /**
-     * Get an ordered list of the parents of an edorg.
-     * 
-     * The order of the list starts with the direct parent of the edorg
-     * and ends with the SEA
-     * 
-     * @param edOrg
-     * @return
-     */
-    public List<String> getParentEdOrgs(Entity edOrg) {
-        List<String> toReturn = new ArrayList<String>();
-        Entity curEdOrg = edOrg;
-        while (curEdOrg.getBody().get("parentEducationAgencyReference") != null) {
-            String parentId = (String) curEdOrg.getBody().get("parentEducationAgencyReference");
-            toReturn.add(parentId);
-            curEdOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
-        }
-        return toReturn;
-    }
-    
-    public List<String> getDirectEdOrgAssociations(Entity principal) {
+    private List<String> getDirectEdOrgAssociations(Entity principal) {
         List<String> ids = new ArrayList<String>();
         if (isTeacher(principal)) {
             ids.addAll(helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)));
@@ -159,7 +139,7 @@ public class EdOrgHelper {
     }
     
     @SuppressWarnings("unchecked")
-    public boolean isLEA(Entity entity) {
+    private boolean isLEA(Entity entity) {
         List<String> category = (List<String>) entity.getBody().get("organizationCategories");
 
         if (category.contains("Local Education Agency"))
@@ -168,7 +148,7 @@ public class EdOrgHelper {
     }
     
     @SuppressWarnings("unchecked")
-    public boolean isSEA(Entity entity) {
+    private boolean isSEA(Entity entity) {
         List<String> category = (List<String>) entity.getBody().get("organizationCategories");
 
         if (category.contains("State Education Agency"))
@@ -177,7 +157,7 @@ public class EdOrgHelper {
     }
     
     @SuppressWarnings("unchecked")
-    public boolean isSchool(Entity entity) {
+    private boolean isSchool(Entity entity) {
         List<String> category = (List<String>) entity.getBody().get("organizationCategories");
 
         if (category.contains("School"))
