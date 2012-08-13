@@ -22,6 +22,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -30,10 +34,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -48,14 +48,10 @@ public class ApplicationAuthorizationValidator {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-    
+
     @Autowired
     private EdOrgHelper helper;
-    
-    @Autowired
-    @Value("${sli.sandbox.enabled}")
-    private boolean sandboxEnabled;
-    
+
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
      *
@@ -69,15 +65,15 @@ public class ApplicationAuthorizationValidator {
      */
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
-        
+
         boolean isHostedUser = SecurityUtil.isHostedUser(repo, principal);
-        
+
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
         List<Entity> districts = isHostedUser ? new ArrayList<Entity>() : findUsersDistricts(principal);
-        
+
         Set<String> bootstrapApps = getDefaultAllowedApps();
         Set<String> results = isHostedUser ? new HashSet<String>() : getDefaultAuthorizedApps();
-                
+
         for (Entity district : districts) {
             debug("User is in district {}.", district.getEntityId());
 
@@ -87,39 +83,39 @@ public class ApplicationAuthorizationValidator {
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
             if (authorizedApps != null) {
-                
+
                 NeutralQuery districtQuery = new NeutralQuery(0);
                 districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
-                
+
                 Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
-                
+
                 for (String id : repo.findAllIds("application", districtQuery)) {
                     vendorAppsEnabledForEdorg.add(id);
                 }
-                
+
                 //Intersection
                 vendorAppsEnabledForEdorg.retainAll((List<String>) authorizedApps.getBody().get("appIds"));
-                
+
                 results.addAll(vendorAppsEnabledForEdorg);
             }
         }
-        
+
         if (isHostedUser) {
-            
+
             NeutralQuery adminVisible = new NeutralQuery(0);
             adminVisible.addCriteria(new NeutralCriteria("admin_visible", "=", true));
             for (String id : repo.findAllIds("application", adminVisible)) {
                 results.add(id);
             }
-            
+
         }
- 
+
         return new ArrayList<String>(results);
     }
-    
+
     /**
      * These are the apps that are auto-authorized, i.e. the district admin doesn't
-     * need to manually authorize the application. 
+     * need to manually authorize the application.
      * @return
      */
     private Set<String> getDefaultAuthorizedApps() {
@@ -127,13 +123,13 @@ public class ApplicationAuthorizationValidator {
         NeutralQuery autoAuthQuery = new NeutralQuery(0);
         autoAuthQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", "=", true));
         Iterable<Entity> autoAuthApps = repo.findAll("application", autoAuthQuery);
-        
+
         for (Entity currentApp : autoAuthApps) {
             toReturn.add(currentApp.getEntityId());
         }
         return toReturn;
     }
-    
+
     /**
      * These are apps that are auto-allowed, i.e. the app developer doesn't need
      * to select the districts that can use the app.
@@ -144,13 +140,13 @@ public class ApplicationAuthorizationValidator {
         NeutralQuery bootstrapQuery = new NeutralQuery(0);
         bootstrapQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", "=", true));
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
-        
+
         for (Entity currentApp : bootstrapApps) {
             toReturn.add(currentApp.getEntityId());
         }
         return toReturn;
     }
-    
+
 
     /**
      * Looks up the user's LEA entity.
@@ -159,21 +155,21 @@ public class ApplicationAuthorizationValidator {
      * In the case there's a hierarchy of LEAs, all are returned in no particular order.
      *
      * Don't expect this to work for hosted users (they'll end up resolving to everything).
-     * 
+     *
      * @param principal
      * @return a list of accessible LEAs
      */
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        
+
         List<String> leaIds = helper.getDistricts(principal.getEntity());
-        
+
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             toReturn.add(entity);
         }
-       
+
         return toReturn;
     }
 

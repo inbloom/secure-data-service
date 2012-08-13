@@ -271,7 +271,12 @@ public class SamlFederationResource {
             principal.setName(attributes.getFirst("userName"));
         }
 
-        principal.setRoles(attributes.get("roles"));
+        List<String> roles = attributes.get("roles");
+        if (roles == null || roles.isEmpty()) {
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user. No roles specified for user.");
+        }
+        
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
@@ -282,19 +287,14 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user.");
         }
 
-        if (principal.getRoles() == null || principal.getRoles().isEmpty()) {
-            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No roles specified for user.");
-        }
-
-        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), principal.getRoles());
+        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles);
         List<String> sliRoleList = new ArrayList<String>();
         for (Role role : sliRoleSet) {
             sliRoleList.add(role.getName());
         }
-        principal.setSliRoles(sliRoleList);
+        principal.setRoles(sliRoleList);
 
-        if (principal.getSliRoles().isEmpty()) {
+        if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
             throw new AccessDeniedException("Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
         }

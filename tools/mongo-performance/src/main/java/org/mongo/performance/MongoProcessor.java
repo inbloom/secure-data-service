@@ -23,18 +23,23 @@ public class MongoProcessor {
     public int size;
     public int chunkSize;
     public Map<String, Object> dataRecord;
+    public String operationsEnabled;
+    public String dropCollectionFlag;
     
     private int totalExecutors;
     private CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
     
-    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, Map<String, Object> dataRecord) {
+    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, Map<String, Object> dataRecord, String operationsEnabled, String dropCollectionFlag) {
         this.da = da;
         this.size = size;
         this.chunkSize = chunkSize;
         this.dataRecord = dataRecord;
+        this.operationsEnabled = operationsEnabled;
         this.totalExecutors = executorCount;
         
-        this.setup("profiledCollection");
+        if ("Y".equals(dropCollectionFlag)) {
+            this.setup("profiledCollection");
+        }
         
         List<FutureTask<Boolean>> futureTaskList = processOperationsInFuture(this.totalExecutors);
         boolean errors = false;
@@ -89,7 +94,7 @@ public class MongoProcessor {
         this.opCounts = new CopyOnWriteArrayList<Pair<String, Integer>>();
         
         for (int i = 0; i < count; i++) {
-            Callable<Boolean> callable = new MongoCompositeTest(i, size, chunkSize, da, dataRecord, this.opCounts);
+            Callable<Boolean> callable = new MongoCompositeTest(i, size, chunkSize, da, dataRecord, this.opCounts, this.operationsEnabled);
             FutureTask<Boolean> futureTask = MongoExecutor.execute(callable);
             futureTaskList.add(futureTask);
         }

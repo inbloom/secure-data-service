@@ -12,8 +12,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 
 /**
@@ -35,7 +35,7 @@ public class SchoolProficiency extends Configured implements Tool {
 
         Configuration conf = getConf();
 
-        // track the assessment ID
+        // track the assessment idField
         conf.set("AssessmentIdCode", assmtIDCode);
 
         // The value to aggregate
@@ -59,7 +59,7 @@ public class SchoolProficiency extends Configured implements Tool {
         job.setMapperClass(SchoolProficiencyMapper.class);
         job.setReducerClass(SchoolProficiencyReducer.class);
 
-        job.setMapOutputKeyClass(TenantAndID.class);
+        job.setMapOutputKeyClass(TenantAndIdEmittableKey.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setOutputFormatClass(MongoAggFormatter.class);
