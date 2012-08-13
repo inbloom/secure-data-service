@@ -116,6 +116,7 @@ Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ d
   @format = "application/json"
   restHttpPost("/users", user.to_json)
   assert(@res.code == 201, "Could not create user: #{@res}")
+  @created_user = user
 end
 
 Then /^I (should|should not) see user "(.*?)"$/ do |should, uid|
@@ -257,6 +258,15 @@ Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg|
   restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
 end 
 
+Then /^I try to update this new user as "(.*?)"$/ do |roles|
+  user = @created_user
+  roles = roles.split(/,/).map { |r| r.strip }
+  user["groups"] = roles
+  puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
+  @format = "application/json"
+  restHttpPut("/users", user.to_json)
+  @response_code = @res.code
+end
 
 def get_user(uid)
 =begin
