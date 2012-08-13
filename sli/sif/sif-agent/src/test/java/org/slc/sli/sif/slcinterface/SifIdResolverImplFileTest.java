@@ -18,10 +18,10 @@ package org.slc.sli.sif.slcinterface;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -31,8 +31,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.Answer; 
-import org.mockito.invocation.InvocationOnMock; 
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClientException;
@@ -55,28 +56,37 @@ public class SifIdResolverImplFileTest {
     Entity dummyStudentEntity;
     Entity dummySchoolEntity;
     Map<String, Object> dummyStudentData;
-    
+
     @Before
     public void beforeTests() throws URISyntaxException, IOException, SLIClientException {
         MockitoAnnotations.initMocks(this);
 
         dummyStudentData = new HashMap<String, Object>();
         dummyStudentData.put("studentUniqueStateId", "bootstrapturner");
-        
+
         dummyStudentEntity = new Entity() {
+            @Override
             public Map<String, Object> getData() { return dummyStudentData; }
+            @Override
             public String getEntityType() { return "student"; }
+            @Override
             public String getId() { return "id-of-dummy-student"; }
+            @Override
             public List<Link> getLinks() { return new ArrayList<Link>(); }
         };
         dummySchoolEntity = new Entity() {
+            @Override
             public Map<String, Object> getData() { return null; }
+            @Override
             public String getEntityType() { return "educationOrganization"; }
+            @Override
             public String getId() { return "id-of-dummy-school"; }
+            @Override
             public List<Link> getLinks() { return new ArrayList<Link>(); }
         };
-        
+
         Mockito.doAnswer(new Answer<Void>() {
+            @Override
             public Void answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
                 List<Entity> l = (List<Entity>) args[0];
@@ -88,8 +98,10 @@ public class SifIdResolverImplFileTest {
                     l.add(dummySchoolEntity);
                 }
                 return null;
-            }}).when(slcInterface).read(Mockito.any(List.class), 
-                                        Mockito.anyString(), 
+            }
+        }
+        ).when(slcInterface).read(Mockito.any(List.class),
+                                        Mockito.anyString(),
                                         Mockito.any(Query.class));
 
         resolver.idmap = "default-idmap.csv";
@@ -99,13 +111,13 @@ public class SifIdResolverImplFileTest {
 
     @Test
     public void testGetSliGuid() {
-        String sliGuid = resolver.getSliGuid("201208089D75101A8C3D00AA001A1652"); // flying dutchman school. 
+        String sliGuid = resolver.getSliGuid("201208089D75101A8C3D00AA001A1652"); // flying dutchman school.
         Assert.assertEquals(sliGuid, "id-of-dummy-school");
     }
 
     @Test
     public void testGetSliEntity() {
-        Entity entity = resolver.getSliEntity("20120808934983498C3D00AA00495948"); // bootstrap turner student 
+        Entity entity = resolver.getSliEntity("20120808934983498C3D00AA00495948"); // bootstrap turner student
         Assert.assertNotNull(entity);
         Map<String, Object> data = entity.getData();
         Assert.assertNotNull(data);
@@ -115,7 +127,7 @@ public class SifIdResolverImplFileTest {
 
     @Test
     public void testGetNonExistent() {
-        Entity entity = resolver.getSliEntity("XYZ");  
+        Entity entity = resolver.getSliEntity("XYZ");
         Assert.assertNull(entity);
     }
 
