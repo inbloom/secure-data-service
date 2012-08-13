@@ -107,13 +107,27 @@ class ApplicationMailer < ActionMailer::Base
     Rails.logger.debug("groups = #{groups}")
     @firstName = firstName
     @is_admin = !(["SLC Operator", "SEA Administrator", "LEA Administrator", "Sandbox SLC Operator", "Sandbox Administrator"] & groups).empty?
-    @is_ingestion = groups.include?("Ingestion User")
-    @is_app_dev = groups.include?("Application Developer")
+    @is_ingestion = groups.include?("ingestion_user")
+    @is_app_dev = groups.include?("application_developer")
     @is_realm_admin = groups.include?("Realm Administrator")
+    @is_slc_operator = groups.include?("SLC Operator")
+    @is_sea_admin = groups.include?("SEA Administrator")
+    @is_lea_admin = groups.include?("LEA Administrator")
     @portal_link = APP_CONFIG["portal_url"]
     @app_dev_documentation_link = APP_CONFIG['app_dev_documentation_link']
     @support_email = APP_CONFIG["support_email"]
     @admin_documentation_link = APP_CONFIG["admin_documentation_link"]
+    if(@is_slc_operator)
+      @account_type = "SLC Operator"
+    elsif(@is_sea_admin)
+      @account_type = "SEA Administrator"
+    elsif(@is_lea_admin)
+      @account_type = "LEA Administrator"
+    elsif(@is_realm_admin)
+      @account_type = "Realm Administrator"
+    elsif(@is_ingestion)
+      @account_type = "Ingestion User"
+    end
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"] ? SAMT_WELCOME_SANDBOX : SAMT_WELCOME_PROD))
   end
 end

@@ -494,8 +494,8 @@ end
 
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
-                          :samtEmailNotificationTests,:samtResetPasswordTests, :adminWebTests, :adminWelcomeEmail] do
+                          :provisionIntegrationTests, :tenantMetricsTests, :sandboxUserAdminTests,
+                          :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -704,7 +704,7 @@ end
 
 desc "Run Admin Welcome Email Production Tests"
 task :adminWelcomeEmail do
-  @tags ||= ["~wip", "~@sandbox"]
+  @tags ||= ["~@wip", "~@sandbox"]
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
 end
 
