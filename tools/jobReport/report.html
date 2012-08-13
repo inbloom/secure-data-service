@@ -39,7 +39,31 @@
       chart.draw(data, {title: 'Stage Breakdown: ' + jobs[0]._id, width: 1024, height: 768});
     }
 
-    </script>
+  </script>
+
+  <script>
+    google.load("visualization","1",{packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);    
+
+    function drawChart() {
+        var chartData = {
+            'cols': [
+                { label: 'Entity', type: 'string'},
+                { label: '# of Records', type: 'number'},
+                { label: 'Total Time', type: 'number'} 
+            ],
+            'rows': []
+        };
+        var jsonData = $.ajax({
+          url: "http://localhost:8080/stage",
+          dataType:"json",
+          async: false
+      }).responseText;
+
+        var jobs = jQuery.parseJSON(jsonData);
+
+    }
+  </script>
   </head>
 
   <body>
