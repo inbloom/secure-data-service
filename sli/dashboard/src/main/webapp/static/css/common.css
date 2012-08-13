@@ -1359,7 +1359,7 @@ text-decoration: none;
 .ui-datepicker-multi .ui-datepicker-group table { width: 100%; border-right: 1px solid #d8d8d8; }
 .ui-datepicker .ui-state-default { background: none !important;}
 .ui-datepicker .ui-datepicker-unselectable { opacity: 1.0 !important; filter: none;}
-.ui-datepicker .ui-datepicker-unselectable span.ui-state-default { color: #ccc; font-weight: bold; }
+.ui-datepicker .ui-datepicker-unselectable span.ui-state-default { color: #999; font-weight: bold; }
 .ui-datepicker .ui-datepicker-week-end span.ui-state-default { color: #D8D8D8; font-weight: normal; }
 .ui-datepicker td { padding:0; border-bottom: solid 1px #d8d8d8; border-left: solid 1px #d8d8d8; }
 .ui-datepicker td span {}
