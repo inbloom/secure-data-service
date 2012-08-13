@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-
-require 'rubygems'
 require 'mongo'
 require "benchmark"
 require "set"

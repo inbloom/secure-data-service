@@ -10,9 +10,21 @@
     google.load('visualization', '1', {'packages':['corechart']});
       
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(listJobs);
+
+    function listJobs() {
+      var jsonData = $.ajax({
+          url: "http://localhost:8080/job",
+          dataType:"json",
+          async: false
+          }).responseText;
+      var jobs = jQuery.parseJSON(jsonData);
+      $.each(jobs, function(key, val) {
+        $('#job_chooser').append('<a href="#" onclick="drawChart(\''+val._id+'\')">'+val._id+'</a><br/>');
+      });
+    }
       
-    function drawChart() {
+    function drawChart(jobId) {
       var chartData = { 
         'cols': [ 
           { label: 'Stage Name', type: 'string'},
@@ -21,13 +33,13 @@
         'rows': [] };
 
       var jsonData = $.ajax({
-          url: "http://localhost:8080/job",
+          url: "http://localhost:8080/job/"+jobId,
           dataType:"json",
           async: false
           }).responseText;
 
-      var jobs = jQuery.parseJSON(jsonData);
-      $.each(jobs[0].stages, function(key, val) {
+      var job = jQuery.parseJSON(jsonData);
+      $.each(job.stages, function(key, val) {
         chartData.rows.push( { c:[ {v: val.stageName}, {v: val.elapsedTime, f: val.elapsedTime/1000 + ' seconds' } ] });
       });
 
@@ -36,7 +48,7 @@
 
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, {title: 'Stage Breakdown: ' + jobs[0]._id, width: 1024, height: 768});
+      chart.draw(data, {title: 'Stage Breakdown: ' + job._id, width: 1024, height: 768});
     }
 
   </script>
@@ -67,6 +79,10 @@
   </head>
 
   <body>
+    <div id="job_chooser">
+      <h3>Available Jobs:</h3>
+    </div>
+
     <!--Div that will hold the pie chart-->
     <div id="chart_div"></div>
   </body>
