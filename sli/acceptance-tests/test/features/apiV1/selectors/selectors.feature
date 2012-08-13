@@ -11,146 +11,166 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | sex                                   |
-    | studentCharacteristics                |
-    | economicDisadvantaged                 |
-    | hispanicLatinoEthnicity               |
-    | disabilities                          |
-    | cohortYears                           |
-    | section504Disabilities                |
-    | race                                  |
-    | programParticipations                 |
-    | languages                             |
-    | studentUniqueStateId                  |
-    | name                                  |
+    | address                               |
+    | assessments                           |
+    | attendances                           |
     | birthData                             |
-    | otherName                             |
-    | studentIndicators                     |
+    | cohortYears                           |
+    | cohorts                               |
+    | courseTranscripts                     |
+    | disabilities                          |
+    | disciplineActions                     |
+    | disciplineIncidents                   |
+    | displacementStatus                    |
+    | economicDisadvantaged                 |
+    | electronicMail                        |
+    | entityType                            |
+    | hispanicLatinoEthnicity               |
     | homeLanguages                         |
+    | id                                    |
+    | languages                             |
     | learningStyles                        |
     | limitedEnglishProficiency             |
-    | studentIdentificationCode             |
-    | address                               |
-    | electronicMail                        |
+    | links                                 |
+    | name                                  |
+    | otherName                             |
+    | parents                               |
+    | programParticipations                 |
+    | programs                              |
+    | race                                  |
+    | reportCards                           |
     | schoolFoodServicesEligibility         |
-    | telephone                             |
-    | displacementStatus                    |
+    | schools                               |
+    | section504Disabilities                |
+    | sections                              |
+    | sex                                   |
+    | studentAcademicRecords                |
     | studentAssessments                    |
+    | studentCharacteristics                |
     | studentCohortAssociations             |
     | studentDisciplineIncidentAssociations |
+    | studentGradebookEntries               |
+    | studentIdentificationCode             |
+    | studentIndicators                     |
     | studentParentAssociations             |
+    | studentProgramAssociations            |
     | studentSchoolAssociations             |
     | studentSectionAssociations            |
-    | id                                    |
-    | entityType                            |
-    | links                                 |
+    | studentUniqueStateId                  |
+    | telephone                             |
     Given selector "(.)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | sex                           |
-    | studentCharacteristics        |
-    | economicDisadvantaged         |
-    | hispanicLatinoEthnicity       |
-    | disabilities                  |
-    | cohortYears                   |
-    | section504Disabilities        |
-    | race                          |
-    | programParticipations         |
-    | languages                     |
-    | studentUniqueStateId          |
-    | name                          |
+    | address                       |
     | birthData                     |
-    | otherName                     |
-    | studentIndicators             |
+    | cohortYears                   |
+    | disabilities                  |
+    | displacementStatus            |
+    | economicDisadvantaged         |
+    | electronicMail                |
+    | entityType                    |
+    | hispanicLatinoEthnicity       |
     | homeLanguages                 |
+    | id                            |
+    | languages                     |
     | learningStyles                |
     | limitedEnglishProficiency     |
-    | studentIdentificationCode     |
-    | address                       |
-    | electronicMail                |
+    | links                         |
+    | name                          |
+    | otherName                     |
+    | programParticipations         |
+    | race                          |
     | schoolFoodServicesEligibility |
-    | telephone                     |
-    | displacementStatus            |
+    | section504Disabilities        |
+    | sex                           |
+    | studentCharacteristics        |
+    | studentIdentificationCode     |
+    | studentIndicators             |
     | studentSchoolAssociations     |
     | studentSectionAssociations    |
-    | id                            |
-    | entityType                    |
-    | links                         |
+    | studentUniqueStateId          |
+    | telephone                     |
 
   Scenario: Applying selectors on base level fields
     Given selector "(name,sex,birthData)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | sex        |
-    | name       |
     | birthData  |
-    | id         |
     | entityType |
+    | id         |
     | links      |
+    | name       |
+    | sex        |
 
   Scenario: Applying selectors on nested fields
     Given selector "(name,sectionAssociations:(*))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
+    | entityType                 |
+    | id                         |
+    | links                      |
     | name                       |
     | studentSectionAssociations |
-    | id                         |
-    | entityType                 |
-    | links                      |
     And in "studentSectionAssociations" I should see the following fields only:
-    | sectionId  |
-    | studentId  |
-    | sections   |
-    | students   |
-    | id         |
-    | entityType |
+    | entityType          |
+    | grades              |
+    | id                  |
+    | sectionId           |
+    | sections            |
+    | studentCompetencies |
+    | studentId           |
+    | students            |
     Given selector "(name,sectionAssociations:(section:(*)))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
+    | entityType                 |
+    | id                         |
+    | links                      |
     | name                       |
     | studentSectionAssociations |
-    | id                         |
-    | entityType                 |
-    | links                      |
     And in "studentSectionAssociations" I should see the following fields only:
     | id         |
     | entityType |
     | sections   |
     | studentId  |
     And in "studentSectionAssociations=>sections" I should see the following fields only:
+    | assessments                |
     | availableCredit            |
     | courseOfferingId           |
+    | courseOfferings            |
     | educationalEnvironment     |
+    | entityType                 |
+    | gradebookEntries           |
+    | id                         |
     | mediumOfInstruction        |
     | populationServed           |
     | programReference           |
+    | programs                   |
     | schoolId                   |
+    | schools                    |
     | sequenceOfCourse           |
     | sessionId                  |
-    | uniqueSectionCode          |
-    | studentSectionAssociations |
-    | teacherSectionAssociations |
-    | courseOfferings            |
     | sessions                   |
-    | schools                    |
-    | teachers                   |
+    | studentGradebookEntries    |
+    | studentSectionAssociations |
     | students                   |
-    | id                         |
-    | entityType                 |
+    | teacherSectionAssociations |
+    | teachers                   |
+    | uniqueSectionCode          |
 
   Scenario: Applying selectors on 1, 3 and 4 part URIs
     Given selector "(name)"
     When I navigate to GET "/v1/students"
     Then I should receive a return code of 200
     And in the response body for all entities I should see the following fields only:
-    | name       |
-    | id         |
     | entityType |
+    | id         |
     | links      |
+    | name       |
     Given selector "(section)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>/studentSectionAssociations"
     Then I should receive a return code of 200
@@ -163,8 +183,8 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>/studentSectionAssociations/sections"
     Then I should receive a return code of 200
     And in the response body for all entities I should see the following fields only:
-    | id                        |
     | entityType                |
+    | id                        |
     | links                     |
     | sequenceOfCourse          |
     | studentSectionAssociation |
@@ -174,33 +194,33 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | studentCharacteristics        |
-    | economicDisadvantaged         |
-    | hispanicLatinoEthnicity       |
-    | disabilities                  |
-    | section504Disabilities        |
-    | race                          |
-    | programParticipations         |
-    | languages                     |
-    | studentUniqueStateId          |
-    | name                          |
+    | address                       |
     | birthData                     |
-    | otherName                     |
-    | studentIndicators             |
+    | disabilities                  |
+    | displacementStatus            |
+    | economicDisadvantaged         |
+    | electronicMail                |
+    | entityType                    |
+    | hispanicLatinoEthnicity       |
     | homeLanguages                 |
+    | id                            |
+    | languages                     |
     | learningStyles                |
     | limitedEnglishProficiency     |
-    | studentIdentificationCode     |
-    | address                       |
-    | electronicMail                |
+    | links                         |
+    | name                          |
+    | otherName                     |
+    | programParticipations         |
+    | race                          |
     | schoolFoodServicesEligibility |
-    | telephone                     |
-    | displacementStatus            |
+    | section504Disabilities        |
+    | studentCharacteristics        |
+    | studentIdentificationCode     |
+    | studentIndicators             |
     | studentSchoolAssociations     |
     | studentSectionAssociations    |
-    | id                            |
-    | entityType                    |
-    | links                         |
+    | studentUniqueStateId          |
+    | telephone                     |
 
   Scenario: Applying empty selector
     Given selector "()"
@@ -218,6 +238,25 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | entityType |
     | studentId  |
 
+  Scenario: Sad path - include and exclude a field at the same time
+    Given selector "(name,sex:true,sex:false)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    And in the response body I should see the following fields only:
+    | entityType                    |
+    | id                            |
+    | links                         |
+    | name                          |
+    Given selector "(name,sex:false,sex:true)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    And in the response body I should see the following fields only:
+    | entityType                    |
+    | id                            |
+    | links                         |
+    | name                          |
+    | sex                           |
+
   Scenario: Sad path - '$' as selector field
     Given selector "($)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
@@ -233,71 +272,3 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
-
-  @wip
-  Scenario: Sad path - include and exclude a field at the same time
-    Given selector "(.,sex:true,sex:false)"
-    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
-    Then I should receive a return code of 200
-    And in the response body I should see the following fields only:
-    | studentCharacteristics        |
-    | economicDisadvantaged         |
-    | hispanicLatinoEthnicity       |
-    | cohortYears                   |
-    | disabilities                  |
-    | section504Disabilities        |
-    | race                          |
-    | programParticipations         |
-    | languages                     |
-    | studentUniqueStateId          |
-    | name                          |
-    | birthData                     |
-    | otherName                     |
-    | studentIndicators             |
-    | homeLanguages                 |
-    | learningStyles                |
-    | limitedEnglishProficiency     |
-    | studentIdentificationCode     |
-    | address                       |
-    | electronicMail                |
-    | schoolFoodServicesEligibility |
-    | telephone                     |
-    | displacementStatus            |
-    | studentSchoolAssociations     |
-    | studentSectionAssociations    |
-    | id                            |
-    | entityType                    |
-    | links                         |
-    Given selector "(.,sex:false,sex:true)"
-    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
-    Then I should receive a return code of 200
-    And in the response body I should see the following fields only:
-    | studentCharacteristics        |
-    | economicDisadvantaged         |
-    | hispanicLatinoEthnicity       |
-    | cohortYears                   |
-    | disabilities                  |
-    | section504Disabilities        |
-    | race                          |
-    | programParticipations         |
-    | languages                     |
-    | studentUniqueStateId          |
-    | name                          |
-    | birthData                     |
-    | otherName                     |
-    | studentIndicators             |
-    | homeLanguages                 |
-    | learningStyles                |
-    | limitedEnglishProficiency     |
-    | studentIdentificationCode     |
-    | address                       |
-    | electronicMail                |
-    | schoolFoodServicesEligibility |
-    | telephone                     |
-    | displacementStatus            |
-    | studentSchoolAssociations     |
-    | studentSectionAssociations    |
-    | id                            |
-    | entityType                    |
-    | links                         |
-

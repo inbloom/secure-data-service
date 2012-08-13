@@ -84,14 +84,16 @@ end
 
 def check_contains_fields(body, table)
   table.cells_rows.each do |field|
-    assert(body.has_key?(field.value(0)), "Response does not contain the field #{field.value(0)}\nFields return: #{body.keys}")
+    assert(body.has_key?(field.value(0)), "Response does not contain the field #{field.value(0)}" +
+        "\n>>>>Diff=#{get_fields_diffs(table.cells_rows, body.keys)}")
   end
 end
 
 def check_number_of_fields(body, table)
   num_of_fields = table.cells_rows.size
   assert(body.keys.size == num_of_fields,
-         "Number of fields returned doesn't match: received #{body.keys.size}, expected #{num_of_fields}\nFields return: #{body.keys}")
+         "Number of fields returned doesn't match: received #{body.keys.size}, expected #{num_of_fields}" +
+             "\n>>>>Diff=#{get_fields_diffs(table.cells_rows, body.keys)}")
 end
 
 def get_hash_recursively(body, key)
@@ -113,4 +115,17 @@ def get_hash_recursively(body, key)
       end
     end
   end
+end
+
+def get_fields_diffs(table_cells, received)
+  expected = []
+  table_cells.each do |cell|
+    expected << cell.value(0)
+  end
+  if expected.size > received.size
+    diff = expected - received
+  else
+    diff = received - expected
+  end
+  diff
 end
