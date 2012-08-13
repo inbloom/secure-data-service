@@ -43,12 +43,12 @@ Given the following collections are clean and bootstrapped in datastore:
 And I want to POST a(n) "sifEvent_StudentPersonal_add_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
-#Then I should see following map of entry counts in the corresponding collections:
-#     | collectionName   | count |
-#     | student          | 0     |
-#   And I check to find if record is in collection:
-#     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
-#     | student          | 0                   | body.studentUniqueStateId | WB0025       | string     |
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName   | count |
+     | student          | 0     |
+   And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
+     | student          | 0                   | body.studentUniqueStateId | WB0025       | string     |
 
 Scenario: Negative Testing - Update a Student which doesn't exist
 Given the following collections are clean and bootstrapped in datastore:
@@ -58,9 +58,9 @@ And the fixture data "sif_lea_fixture" has been imported into collection "educat
 And I want to POST a(n) "sifEvent_StudentPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
-#Then I should see following map of entry counts in the corresponding collections:
-#     | collectionName  | count |
-#     | student         | 0     |
-#   And I check to find if record is in collection:
-#     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
-#     | student          | 0                   | body.studentUniqueStateId | WB0025       | string     |
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName  | count |
+     | student         | 0     |
+   And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
+     | student          | 0                   | body.studentUniqueStateId | WB0025       | string     |
