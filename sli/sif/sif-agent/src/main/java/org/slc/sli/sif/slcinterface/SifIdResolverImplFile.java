@@ -45,11 +45,11 @@ public class SifIdResolverImplFile implements SifIdResolver {
     private static final Logger LOG = LoggerFactory.getLogger(SifIdResolverImplFile.class);
 
     @Value("${sli.sif-agent.idmap}")
-    private String idmap; // TODO: This is temporary; when we have a clear and approved sif id
-                          // resolution strategy this can get swapped out
+    String idmap; // TODO: This is temporary; when we have a clear and approved sif id
+                  // resolution strategy this can get swapped out
     @Value("${sli.sif-agent.zonemap}")
-    private String zonemap; // TODO: This is temporary; when we have a clear and approved sif id
-                            // resolution strategy this can get swapped out
+    String zonemap; // TODO: This is temporary; when we have a clear and approved sif id
+                    // resolution strategy this can get swapped out
 
     @Autowired
     private SlcInterface slcInterface;

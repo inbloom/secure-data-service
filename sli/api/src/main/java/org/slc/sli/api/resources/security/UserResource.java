@@ -106,8 +106,14 @@ public class UserResource {
             edorgs.addAll(adminService.getAllowedEdOrgs(tenant, edorg));
         }
 
+        Set<String> groupsToIgnore = new HashSet<String>();
+        if (isLeaAdmin()) {
+            groupsToIgnore.add(RoleInitializer.SLC_OPERATOR);
+            groupsToIgnore.add(RoleInitializer.SEA_ADMINISTRATOR);
+        }
+
         Collection<User> users = ldapService.findUsersByGroups(realm,
-                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(), edorgs);
+                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), groupsToIgnore, secUtil.getTenantId(), edorgs);
 
         // filtering peer LEAs
         Collection<User> filteredUsers = new LinkedList<User>();
@@ -226,8 +232,31 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        // create and update shared the same validators
-        Response result = validateUserCreate(user, tenant);
+
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
+        if (result != null) {
+            return result;
+        }
+
+        User userInLdap = ldapService.getUser(realm, user.getUid());
+        if (userInLdap == null) {
+            return composeBadDataResponse("can not update user that does not exist");
+        }
+
+        if (userInLdap.getGroups() != null) {
+            result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
+                    RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
+            if (result != null) {
+                return result;
+            }
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()), user);
         if (result != null) {
             return result;
         }
@@ -350,7 +379,7 @@ public class UserResource {
 
     private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(secUtil.getUid())) {
-            return composeBadDataResponse("not allowed execute this operation on self");
+            return composeBadDataResponse("not allowed to execute this operation on self");
         }
         return null;
     }
@@ -393,7 +422,6 @@ public class UserResource {
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
 
-        //do not explicitly reset tenant and edorgs to null as empty strings are valid for slc operator
         if ("".equals(user.getTenant())) {
             user.setTenant(null);
         }
@@ -487,6 +515,13 @@ public class UserResource {
      */
     private boolean isUserLeaAdmin(User user) {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
+    }
+
+    /*
+     * Determines if the specified user has SLC operator permission
+     */
+    private boolean isSLCOperator(User user) {
+        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
     }
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,

@@ -34,5 +34,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>apiBase</key>
+	<string>https://api.sandbox.slcedu.org/api/rest/v1/</string>
+	<key>apiAuthBase</key>
+	<string>https://api.sandbox.slcedu.org/api/</string>
+	<key>clientId</key>
+	<string></string>
+	<key>clientSecret</key>
+	<string></string>
+	<key>redirectUrl</key>
+	<string>NONCE</string>
 </dict>
 </plist>

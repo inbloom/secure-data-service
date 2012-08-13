@@ -41,7 +41,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
 
     @Test
     public void testNullObject() {
-        List<InstitutionTelephone> result = converter.convert(null);
+        List<InstitutionTelephone> result = converter.convertInstitutionTelephone(null);
         Assert.assertNull("Telephone list should be null", result);
     }
 
@@ -49,7 +49,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
     public void testEmptyList() {
         PhoneNumberList list = new PhoneNumberList();
         list.setPhoneNumbers(new PhoneNumber[0]);
-        List<InstitutionTelephone> result = converter.convert(list);
+        List<InstitutionTelephone> result = converter.convertInstitutionTelephone(list);
         Assert.assertEquals(0, result.size());
     }
 
@@ -58,7 +58,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
         PhoneNumberList list = new PhoneNumberList();
         PhoneNumber original = new PhoneNumber();
         list.add(original);
-        List<InstitutionTelephone> result = converter.convert(list);
+        List<InstitutionTelephone> result = converter.convertInstitutionTelephone(list);
 
         Assert.assertEquals(1, result.size());
 
@@ -101,7 +101,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
         map.put(PhoneNumberType.VOICE_MAIL, "Other");
 
         PhoneNumberList list = getPhoneNumberList();
-        List<InstitutionTelephone> results = converter.convert(list);
+        List<InstitutionTelephone> results = converter.convertInstitutionTelephone(list);
 
         Assert.assertEquals(list.size(), results.size());
 

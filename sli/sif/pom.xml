@@ -20,6 +20,7 @@
 
    <modules>
       <module>sif-agent</module>
+      <module>sif-event-reporter</module>
       <module>mock-zis</module>
    </modules>
 

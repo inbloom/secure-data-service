@@ -140,11 +140,10 @@ Given /^in Status it says "([^"]*)"$/ do |arg1|
   
   rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   rows.each do |curRow|
-    if curRow.text.length > 0
+    if curRow.displayed?
       @appRow = curRow
     end
   end
-  puts("The app row is #{@appRow.text}")
   actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
@@ -174,13 +173,11 @@ end
 Then /^is put on the top of the table$/ do
   rows = @driver.find_elements(:xpath, ".//tbody/tr/td/..")
   rows.each do |curRow|
-    if curRow.text.length > 0
+    if curRow.displayed?
       @row = curRow
-      puts("The curRow is #{curRow.text}")
       break
     end
   end
-  puts("The final row is #{@row}")
   assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 

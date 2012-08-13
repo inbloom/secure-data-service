@@ -24,6 +24,7 @@ import java.util.Map;
 import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
 import openadk.library.common.Street;
+import openadk.library.student.StudentAddressList;
 
 import org.springframework.stereotype.Component;
 
@@ -73,6 +74,14 @@ public class AddressListConverter {
     }
 
     public List<Address> convert(AddressList addressList) {
+        if (addressList == null) {
+            return null;
+        }
+
+        return toSliAddressList(addressList.getAddresses());
+    }
+
+    public List<Address> convert(StudentAddressList addressList) {
         if (addressList == null) {
             return null;
         }

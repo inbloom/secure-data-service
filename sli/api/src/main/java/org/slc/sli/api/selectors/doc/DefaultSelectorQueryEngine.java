@@ -16,21 +16,20 @@
 
 package org.slc.sli.api.selectors.doc;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.selectors.model.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.IncludeAllSelectorElement;
-import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Default query engine
@@ -40,9 +39,6 @@ import java.util.Map;
  */
 @Component
 public class DefaultSelectorQueryEngine implements SelectorQueryEngine, SelectorQueryVisitor {
-
-    @Autowired
-    private ModelProvider modelProvider;
 
     @Override
     public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector) {

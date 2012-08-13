@@ -17,11 +17,13 @@
 
 package org.slc.sli.validation.strategy;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,19 +45,7 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
     @Override
     @PostConstruct
     protected void init() {
-        String regex = "(";
-
-        if (inputCollection != null) {
-            for (String entry : inputCollection) {
-                regex += entry + "|";
-            }
-        }
-
-        if (regex.endsWith("|")) {
-            regex = regex.substring(0, regex.length() - 1);
-        }
-
-        regex += ")";
+        String regex = "(" + StringUtils.join(inputCollection == null ? new ArrayList<String>() : inputCollection, "|") + ")";
 
         pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
     }
