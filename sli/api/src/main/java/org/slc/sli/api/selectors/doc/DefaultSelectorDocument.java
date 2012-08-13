@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -57,7 +58,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
 
     }
 
@@ -67,7 +68,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types) {
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
@@ -101,13 +102,13 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
 
-            Iterable<EntityBody> entities = executeQuery(currentType, constraint);
+            Iterable<EntityBody> entities = executeQuery(currentType, constraint, first);
             results.addAll((List<EntityBody>) entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);
@@ -115,6 +116,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             results = filterFields(results, plan);
             results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
+
+            first = false;
         }
 
         return results;
@@ -163,7 +166,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             criteria.setKey(key);
         }
 
-        return (List<EntityBody>) executeQuery(currentType, constraint);
+        return (List<EntityBody>) executeQuery(currentType, constraint, false);
     }
 
     protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
@@ -303,13 +306,28 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint) {
-        Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
+    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first) {
 
-        constraint.setLimit(0);
-        constraint.setOffset(0);
+        if (first) {
+            Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
 
-        return results;
+            constraint.setLimit(0);
+            constraint.setOffset(0);
+
+            return results;
+        } else {
+            try {
+                EntityDefinition entityDefinition = getEntityDefinition(type);
+                if (entityDefinition == null) {
+                    return new ArrayList<EntityBody>();
+                }
+                return entityDefinition.getService().list(constraint);
+            } catch (AccessDeniedException ade) {
+                return new ArrayList<EntityBody>();
+            }
+
+        }
+
     }
 
 

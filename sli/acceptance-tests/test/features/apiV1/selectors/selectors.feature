@@ -87,8 +87,6 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentCharacteristics        |
     | studentIdentificationCode     |
     | studentIndicators             |
-    | studentSchoolAssociations     |
-    | studentSectionAssociations    |
     | studentUniqueStateId          |
     | telephone                     |
 
@@ -217,8 +215,6 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentCharacteristics        |
     | studentIdentificationCode     |
     | studentIndicators             |
-    | studentSchoolAssociations     |
-    | studentSectionAssociations    |
     | studentUniqueStateId          |
     | telephone                     |
 
