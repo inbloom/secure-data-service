@@ -1,89 +1,141 @@
 <html>
-  <head>
-    <title>Ingestion Job Report</title>
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript">
-    
-    // Load the Visualization API and the piechart package.
-    google.load('visualization', '1', {'packages':['corechart']});
-      
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(listJobs);
+    <head>
+        <title>Ingestion Job Report</title>
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            // Load the Visualization API and the piechart package.
+            google.load('visualization', '1', {
+                'packages' : ['corechart']
+            });
 
-    function listJobs() {
-      var jsonData = $.ajax({
-          url: "http://localhost:8080/job",
-          dataType:"json",
-          async: false
-          }).responseText;
-      var jobs = jQuery.parseJSON(jsonData);
-      $.each(jobs, function(key, val) {
-        $('#job_chooser').append('<a href="#" onclick="drawChart(\''+val._id+'\')">'+val._id+'</a><br/>');
-      });
-    }
-      
-    function drawChart(jobId) {
-      var chartData = { 
-        'cols': [ 
-          { label: 'Stage Name', type: 'string'},
-          { label: 'Elapsed Time', type: 'number'}
-        ],
-        'rows': [] };
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.setOnLoadCallback(listJobs);
 
-      var jsonData = $.ajax({
-          url: "http://localhost:8080/job/"+jobId,
-          dataType:"json",
-          async: false
-          }).responseText;
+            function listJobs() {
+                var jsonData = $.ajax({
+                    url : "http://localhost:8080/job",
+                    dataType : "json",
+                    async : false
+                }).responseText;
+                var jobs = jQuery.parseJSON(jsonData);
+                $.each(jobs, function(key, val) {
+                    $('#job_chooser').append('<a href="#" onclick="drawChart(\'' + val._id + '\')">' + val._id + '</a><br/>');
+                });
+            }
 
-      var job = jQuery.parseJSON(jsonData);
-      $.each(job.stages, function(key, val) {
-        chartData.rows.push( { c:[ {v: val.stageName}, {v: val.elapsedTime, f: val.elapsedTime/1000 + ' seconds' } ] });
-      });
+            function drawChart(jobId) {
+                var chartData = {
+                    'cols' : [{
+                        label : 'Stage Name',
+                        type : 'string'
+                    }, {
+                        label : 'Elapsed Time',
+                        type : 'number'
+                    }],
+                    'rows' : []
+                };
 
-      // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(chartData);
+                var jsonData = $.ajax({
+                    url : "http://localhost:8080/job/" + jobId,
+                    dataType : "json",
+                    async : false
+                }).responseText;
 
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, {title: 'Stage Breakdown: ' + job._id, width: 1024, height: 768});
-    }
+                var job = jQuery.parseJSON(jsonData);
+                $.each(job.stages, function(key, val) {
+                    chartData.rows.push({
+                        c : [{
+                            v : val.stageName
+                        }, {
+                            v : val.elapsedTime,
+                            f : val.elapsedTime / 1000 + ' seconds'
+                        }]
+                    });
+                });
+                // Create our data table out of JSON data loaded from server.
+                var data = new google.visualization.DataTable(chartData);
 
-  </script>
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                chart.draw(data, {
+                    title : 'Stage Breakdown: ' + job._id,
+                    width : 1024,
+                    height : 768
+                });
 
-  <script>
-    google.load("visualization","1",{packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);    
+                var persistenceChartData = [['Entity', '# of Records', 'Total Time']];
+                var transformationChartData = [['Entity', '# of Records', 'Total Time']];
 
-    function drawChart() {
-        var chartData = {
-            'cols': [
-                { label: 'Entity', type: 'string'},
-                { label: '# of Records', type: 'number'},
-                { label: 'Total Time', type: 'number'} 
-            ],
-            'rows': []
-        };
-        var jsonData = $.ajax({
-          url: "http://localhost:8080/stage",
-          dataType:"json",
-          async: false
-      }).responseText;
+                var persistenceJsonData = $.ajax({
+                    url : "http://localhost:8080/job/" + jobId + "/stage",
+                    dataType : "json",
+                    async : false
+                }).responseText;
 
-        var jobs = jQuery.parseJSON(jsonData);
+                Array.prototype.indexOfField = function(index, value) {
+                    for(var i = 0; i < this.length; i++)
+                    if(this[i][index] === value)
+                        return i;
+                    return -1;
+                }
+                var persistenceJobs = jQuery.parseJSON(persistenceJsonData);
+                $.each(persistenceJobs, function(key, val) {
+                    var info = val.processingInformation;
+                    if( typeof (val.processingInformation) != 'undefined') {
 
-    }
-  </script>
-  </head>
+                        var entity = val.processingInformation.split(",")[0].split("=")[1];
+                        if(persistenceChartData.indexOfField(0, entity) == -1) {
+                            persistenceChartData.push([entity, 0, 0]);
+                        }
 
-  <body>
-    <div id="job_chooser">
-      <h3>Available Jobs:</h3>
-    </div>
+                        if(transformationChartData.indexOfField(0, entity) == -1) {
+                            transformationChartData.push([entity, 0, 0]);
+                        }
 
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-  </body>
+                        var persIndex = persistenceChartData.indexOfField(0, entity);
+                        var xformIndex = transformationChartData.indexOfField(0, entity);
+                        if(val.stageName == "PersistenceProcessor") {
+                            val.metrics.forEach(function(mVal, index) {
+                                persistenceChartData[persIndex][1] += mVal.recordCount;
+                            });
+                            persistenceChartData[persIndex][2] += val.elapsedTime;
+                        } else if(val.stageName == "TransformationProcessor") {
+                            val.metrics.forEach(function(mVal, index) {
+                                transformationChartData[xformIndex][1] += mVal.recordCount;
+                            });
+                            transformationChartData[xformIndex][2] += val.elapsedTime;
+                        }
+
+                    }
+                });
+                var persData = new google.visualization.arrayToDataTable(persistenceChartData);
+                var xformData = new google.visualization.arrayToDataTable(transformationChartData);
+
+                var persistenceChart = new google.visualization.BarChart(document.getElementById('persistence_div'));
+                persistenceChart.draw(persData, {
+                    title : 'Entity Persistence Performance',
+                    width : 1800,
+                    height : 2000
+                });
+
+                var xformationChart = new google.visualization.BarChart(document.getElementById('xformation_div'));
+                xformationChart.draw(xformData, {
+                    title : 'Entity Transformation Performance',
+                    width : 1800,
+                    height : 2000
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div id="job_chooser">
+            <h3>Available Jobs:</h3>
+        </div>
+        <!--Div that will hold the pie chart-->
+        <div id="chart_div"></div>
+        <div id="persistence_div"></div>
+        <div id="xformation_div"></div>
+    </body>
 </html>
