@@ -23,6 +23,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -31,12 +38,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -61,9 +62,6 @@ public class UserResource {
     @Value("${sli.feature.enableSamt:false}")
     private boolean enableSamt;
 
-    @Value("${sli.sandbox.enabled")
-    private String sandboxEnabled;
-
     @Autowired
     private SuperAdminService adminService;
 
@@ -78,7 +76,7 @@ public class UserResource {
             return result;
         }
         newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
-        
+
         newUser.setStatus(User.Status.SUBMITTED);
 
         try {
@@ -108,8 +106,14 @@ public class UserResource {
             edorgs.addAll(adminService.getAllowedEdOrgs(tenant, edorg));
         }
 
+        Set<String> groupsToIgnore = new HashSet<String>();
+        if (isLeaAdmin()) {
+            groupsToIgnore.add(RoleInitializer.SLC_OPERATOR);
+            groupsToIgnore.add(RoleInitializer.SEA_ADMINISTRATOR);
+        }
+
         Collection<User> users = ldapService.findUsersByGroups(realm,
-                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(), edorgs);
+                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), groupsToIgnore, secUtil.getTenantId(), edorgs);
 
         // filtering peer LEAs
         Collection<User> filteredUsers = new LinkedList<User>();
@@ -228,8 +232,38 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        // create and update shared the same validators
-        Response result = validateUserCreate(user, tenant);
+
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
+        if (result != null) {
+            return result;
+        }
+
+        User userInLdap = ldapService.getUser(realm, user.getUid());
+        if (userInLdap == null) {
+            return composeBadDataResponse("can not update user that does not exist");
+        }
+
+        if (userInLdap.getGroups() != null) {
+            result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
+                    RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
+            for(String group : userInLdap.getGroups()) {
+                info("user group: "+group);
+            }
+            for(String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
+                info("group allowd: "+group);
+            }
+            if (result != null) {
+                error("result is not null ");
+                return result;
+            }
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()), user);
         if (result != null) {
             return result;
         }
@@ -352,7 +386,7 @@ public class UserResource {
 
     private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(secUtil.getUid())) {
-            return composeBadDataResponse("not allowed execute this operation on self");
+            return composeBadDataResponse("not allowed to execute this operation on self");
         }
         return null;
     }
@@ -395,7 +429,6 @@ public class UserResource {
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
 
-        //do not explicitly reset tenant and edorgs to null as empty strings are valid for slc operator
         if ("".equals(user.getTenant())) {
             user.setTenant(null);
         }
@@ -491,6 +524,9 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
+    /*
+     * Determines if the specified user has SLC operator permission
+     */
     private boolean isSLCOperator(User user) {
         return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
     }
@@ -510,6 +546,8 @@ public class UserResource {
 
     static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed,
             final Collection<String> userGroups) {
+        //info ("user groups size: "+ userGroups.size());
+        //info ("groups allowed size: "+groupsAllowed.size());
         if (!groupsAllowed.containsAll(userGroups)) {
             return composeForbiddenResponse("You are not allowed to access this resource");
         }
@@ -660,23 +698,6 @@ public class UserResource {
             return roles;
         }
 
-        public String getRole(String group) {
-            if (this.groupToRoleMap.containsKey(group)) {
-                return this.groupToRoleMap.get(group);
-            }
-            return null;
-        }
-
-        public String getGroup(String role) {
-            if (this.roleToGroupMap.containsKey(role)) {
-                return this.roleToGroupMap.get(role);
-            }
-            return null;
-        }
-    }
-
-    public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
-        this.secUtil = proxy;
     }
 
     public void setRealm(String realm) {

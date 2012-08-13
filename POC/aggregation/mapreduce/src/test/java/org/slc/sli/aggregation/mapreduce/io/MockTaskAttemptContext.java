@@ -26,12 +26,12 @@ import org.apache.hadoop.mapreduce.TaskAttemptID;
  * MockTaskAttemptContext - mock for a mongo hadoop task context instance.
  */
 public class MockTaskAttemptContext extends TaskAttemptContext {
-
+    
     public MockTaskAttemptContext() throws IOException {
-            super(new Configuration(), new TaskAttemptID());
-
-            conf.set(MongoAggFormatter.KEY_FIELD, "_id");
-            conf.set(MongoAggFormatter.UPDATE_FIELD, "body.name");
-            conf.set("mongo.output.uri", "mongodb://test.server:27017/test.collection");
+        super(new Configuration(), new TaskAttemptID());
+        
+        conf.set(MongoAggFormatter.KEY_FIELD, "_id");
+        conf.set(MongoAggFormatter.UPDATE_FIELD, "body.name");
+        conf.set("mongo.output.uri", "mongodb://test.server:27017/test.collection");
     }
 }
