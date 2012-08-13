@@ -255,9 +255,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
                 List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
-                if (!subList.isEmpty()) {
-                    body.put(exposeName, subList);
-                }
+                body.put(exposeName, subList);
             }
         }
 
