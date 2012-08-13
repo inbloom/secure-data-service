@@ -78,12 +78,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             inputFileName = fileForControlFile.getName();
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
-//            if (!batchJobDAO.attemptLockForFile(fileForControlFile, newBatchJob.getId(), newBatchJob.getTopLevelSourceId())) {
-//                handleExceptions(exchange, batchJobId, new IllegalArgumentException("Could not lock the file " + inputFileName), inputFileName);
-//            }
-
             moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
-
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);
             if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
