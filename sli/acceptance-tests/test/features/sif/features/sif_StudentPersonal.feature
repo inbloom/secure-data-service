@@ -26,15 +26,15 @@ Scenario: Update a student
 Given I want to POST a(n) "sifEvent_StudentPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
-#Then I should see following map of entry counts in the corresponding collections:
-#     | collectionName   | count |
-#     | student          | 1     |
-#   And I check to find if record is in collection:
-#     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
-#     | student          | 1                   | body.studentUniqueStateId | WB0025       | string     |
-#   And I check that the record contains all of the expected values:
-#     | collectionName   | searchParameter           | searchValue  | searchType | expectedValuesFile              |
-#     | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_change |
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName   | count |
+     | student          | 1     |
+   And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
+     | student          | 1                   | body.studentUniqueStateId | WB0025       | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName   | searchParameter           | searchValue  | searchType | expectedValuesFile              |
+     | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_change |
 
 Scenario: Negative Testing - Add a Student which is missing SLI required fields
 Given the following collections are clean and bootstrapped in datastore:

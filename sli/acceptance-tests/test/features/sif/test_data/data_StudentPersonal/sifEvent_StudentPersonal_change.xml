@@ -20,7 +20,7 @@
         <StudentPersonal RefId="222222222222222A8C3D00AA001A1652">
           <LocalId>P00001</LocalId> 
           <Name Type="04"> 
-            <LastName>Student</LastName> 
+            <LastName>Jones</LastName> 
             <FirstName>Joe</FirstName> 
             <MiddleName /> 
             <PreferredName>Joe</PreferredName> 
