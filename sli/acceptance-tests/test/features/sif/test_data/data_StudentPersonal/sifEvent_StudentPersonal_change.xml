@@ -25,9 +25,13 @@
             <MiddleName /> 
             <PreferredName>Joe</PreferredName> 
           </Name> 
-          <Demographics> 
-            <Gender>F</Gender> 
-          </Demographics> 
+          <Demographics>
+            <Gender>M</Gender>
+            <BirthDate>1981-12-20</BirthDate>
+            <StateOfBirth>AK</StateOfBirth>
+            <CountryOfBirth>US</CountryOfBirth>
+            <CitizenshipStatus>1017</CitizenshipStatus>
+          </Demographics>
           <Title1>No</Title1>
           <EconomicDisadvantage>No</EconomicDisadvantage>
         </StudentPersonal>
