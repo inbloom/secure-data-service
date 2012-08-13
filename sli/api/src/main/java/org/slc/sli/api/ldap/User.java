@@ -152,11 +152,11 @@ public class User {
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = new Date(createTime.getTime());
     }
 
     public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+        this.modifyTime = new Date(modifyTime.getTime());
     }
 
     public String getCreateTime() {

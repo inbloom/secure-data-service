@@ -61,7 +61,7 @@ public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
                 }
 
                 char c = (char) Integer.parseInt(charStr, 16);
-                characterSet.add(new Character(c));
+                characterSet.add(Character.valueOf(c));
 
             } catch (NumberFormatException e) {
                 continue;
