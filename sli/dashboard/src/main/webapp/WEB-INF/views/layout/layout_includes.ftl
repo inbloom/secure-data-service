@@ -103,6 +103,7 @@
 	document.title = SLC.dataProxy.getLayoutName();
 
 	setTimeout(SLC.util.placeholderFix, 500);
+
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">

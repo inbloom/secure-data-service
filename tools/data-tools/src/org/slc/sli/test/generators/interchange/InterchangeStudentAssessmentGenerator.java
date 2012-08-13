@@ -116,19 +116,25 @@ public class InterchangeStudentAssessmentGenerator {
         long startTime = System.currentTimeMillis();
         long count = 0;
         
-        for (StudentAssessment studentAssessment : studentAssessmentMetas) {
-            if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT) == 0) {
-                StudentObjectiveAssessment studentObjectiveAssessment;
-                
-                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentObjectiveAssessment = null;
-                } else {
-                    studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
+        // Don't generate any student objective assessments if the inverse probability is negative
+        if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT >= 0) {
+            
+            for (StudentAssessment studentAssessment : studentAssessmentMetas) {
+                if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT) == 0) {
+                    StudentObjectiveAssessment studentObjectiveAssessment;
+                    
+                    if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                        studentObjectiveAssessment = null;
+                    } else {
+                        studentObjectiveAssessment = StudentObjectiveAssessmentGenerator
+                                .generateLowFi(studentAssessment);
+                    }
+                    
+                    writer.marshal(studentObjectiveAssessment);
+                    count++;
                 }
-                
-                writer.marshal(studentObjectiveAssessment);
-                count++;
             }
+
         }
 
         System.out.println("generated " + count + " StudentObjectiveAssessment objects in: "
@@ -142,23 +148,27 @@ public class InterchangeStudentAssessmentGenerator {
         long startTime = System.currentTimeMillis();
         long count = 0;
 
-        for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
-            if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
-                StudentAssessmentItem studentAssessmentItem;
-
-                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentAssessmentItem = null;
-                } else {
-                    AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
-                    AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
-                    aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
-                    airt.setAssessmentItemIdentity(aiit);
-                    studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+"."+count, airt);
+        if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM < 0) {
+            for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
+                if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
+                    StudentAssessmentItem studentAssessmentItem;
+                    
+                    if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                        studentAssessmentItem = null;
+                    } else {
+                        AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
+                        AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
+                        aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                        airt.setAssessmentItemIdentity(aiit);
+                        studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(
+                                studentAssessmentMeta.getId() + "." + count, airt);
+                    }
+                    
+                    writer.marshal(studentAssessmentItem);
+                    count++;
                 }
-
-                writer.marshal(studentAssessmentItem);
-                count++;
             }
+            
         }
 
         System.out.println("generated " + count + " StudentAssessmentItem objects in: "

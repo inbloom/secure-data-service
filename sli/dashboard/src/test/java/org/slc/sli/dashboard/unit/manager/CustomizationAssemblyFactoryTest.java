@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.unit.manager;
 
 import java.util.Arrays;
@@ -33,12 +32,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Item;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.ModelAndViewConfig;
 import org.slc.sli.dashboard.manager.Manager.EntityMapping;
 import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
 import org.slc.sli.dashboard.manager.component.impl.CustomizationAssemblyFactoryImpl;
 import org.slc.sli.dashboard.util.DashboardException;
+import org.slc.sli.dashboard.util.JsonConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -78,12 +79,18 @@ public class CustomizationAssemblyFactoryTest {
     
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;
+    private static GenericEntity simpleCacheData;
     
     private static Map<String, Config> configMap;
     
     private static Map<String, GenericEntity> sampleEntityMap;
     
     private static GenericEntity simpleNoGenderInfoStudentEntity;
+    
+    private static final String CACHE_TEST_JSON = "{\"id\":\"section\",\"parentId\":\"section\",\"name\":\"SLC - Section Profile\",\"type\":\"LAYOUT\",\"data\":{\"entity\":\"sectionInfo\",\"cacheKey\":\"sectionInfo\",\"lazy\":true},\"items\":[{\"id\":\"tab3\",\"parentId\":\"tab3\",\"name\":\"List of Students\",\"type\":\"TAB\",\"items\":[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"type\":\"PANEL\"}]},{\"id\":\"tab4\",\"name\":\"LOS\",\"type\":\"TAB\",\"items\":[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"type\":\"PANEL\"}]}]}";
+    private static final String LIST_OF_STUDENTS_JSON = "{ id : \"listOfStudents\", type : \"PANEL\", data :{ lazy: true, entity: \"listOfStudents\", cacheKey: \"listOfStudents\" }, root: 'students', items : [ {name: \"Default View\", items: [ {name: \"Student\", width: 150, field: \"name.fullName\", formatter:restLink, style:'ui-ellipsis', params: {link:'student', target:\"_self\"}}, {name: \"\", width: 60, field: \"programParticipation\", formatter: Lozenge}, {name: \"Grade\", field: \"score.grade\", width:50, formatter: TearDrop}, {name: \"Absence Count\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}, {name: \"Tardy Count\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}} ] } ] }";
+    private static final String LIST_OF_STUDENTS_ENTITY = "{\"students\":[{\"studentGradebookEntries\":[],\"sex\":\"Male\",\"studentCharacteristics\":[],\"hispanicLatinoEthnicity\":false,\"disabilities\":[],\"cohortYears\":[],\"section504Disabilities\":[],\"studentSectionAssociation\":[{\"id\":\"2012rh-0c7659b7-e000-11e1-9f3b-3c07546832b4\",\"sectionId\":\"2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4\",\"studentId\":\"2012zv-0665ebcb-e000-11e1-9f3b-3c07546832b4\",\"entityType\":\"studentSectionAssociation\"}],\"race\":[],\"programParticipations\":[],\"id\":\"2012zv-0665ebcb-e000-11e1-9f3b-3c07546832b4\",\"studentUniqueStateId\":\"800000025\",\"languages\":[],\"attendances\":{\"tardyRate\":0,\"attendanceRate\":95,\"tardyCount\":0,\"absenceCount\":4},\"name\":{\"middleName\":\"Joseph\",\"generationCodeSuffix\":\"Jr\",\"lastSurname\":\"Sollars\",\"fullName\":\"Matt Sollars\",\"firstName\":\"Matt\"},\"birthData\":{\"birthDate\":\"2000-04-23\"},\"otherName\":[],\"studentIndicators\":[],\"homeLanguages\":[],\"limitedEnglishProficiency\":\"Limited\",\"studentIdentificationCode\":[],\"address\":[],\"electronicMail\":[{\"emailAddress\":\"m.sollars@gmail.com\",\"emailAddressType\":\"Other\"}],\"gradeLevel\":\"Eighth grade\",\"schoolId\":\"2012ye-0b0a45f5-e000-11e1-9f3b-3c07546832b4\",\"telephone\":[{\"telephoneNumber\":\"309-555-2449\",\"primaryTelephoneNumberIndicator\":true,\"telephoneNumberType\":\"Home\"}],\"previousSemester\":[{\"letterGrade\":\"A-\",\"courseTitle\":\"ELA 6A\"}]}]}";
+    private static final String SECTION_ENTITY = "{\"id\":\"2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4\",\"sessionId\":\"2012yw-0b7a6d39-e000-11e1-9f3b-3c07546832b4\",\"courseOfferingId\":\"2012wq-0ba85b67-e000-11e1-9f3b-3c07546832b4\",\"populationServed\":\"Regular Students\",\"sequenceOfCourse\":3,\"uniqueSectionCode\":\"6th Grade English - Sec 4\",\"mediumOfInstruction\":\"Independent study\",\"programReference\":[],\"links\":[{\"linkName\":\"self\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"custom\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4/custom\"},{\"linkName\":\"getSchool\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/schools/2012ye-0b0a45f5-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getEducationOrganization\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/educationOrganizations/2012ye-0b0a45f5-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getSession\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sessions/2012yw-0b7a6d39-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getCourseOffering\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/courseOfferings/2012wq-0ba85b67-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getGradebookEntries\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/gradebookEntries?sectionId\u003d2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getStudentGradebookEntries\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/studentGradebookEntries?sectionId\u003d2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4\"},{\"linkName\":\"getStudentSectionAssociations\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4/studentSectionAssociations\"},{\"linkName\":\"getStudents\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4/studentSectionAssociations/students\"},{\"linkName\":\"getTeacherSectionAssociations\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4/teacherSectionAssociations\"},{\"linkName\":\"getTeachers\",\"resource\":\"http://local.slidev.org:8080/api/rest/v1/sections/2012pd-0bb098cf-e000-11e1-9f3b-3c07546832b4/teacherSectionAssociations/teachers\"}],\"schoolId\":\"2012ye-0b0a45f5-e000-11e1-9f3b-3c07546832b4\",\"sectionName\":\"6th Grade English - Sec 4\",\"teacherName\":{\"verification\":\"Life insurance policy\",\"lastSurname\":\"Kim\",\"personalTitlePrefix\":\"Mrs\",\"firstName\":\"Linda\"},\"courseTitle\":\"6th Grade English\",\"subjectArea\":\"English Language and Literature\"}";
     
     /**
      * Expose some methods
@@ -280,6 +287,8 @@ public class CustomizationAssemblyFactoryTest {
         configMap.put("deep", gson.fromJson(DEFAULT_LAYOUT_TOO_DEEP_JSON, Config.class));
         configMap.put("panelException", gson.fromJson(DEFAULT_PANEL_EXCEPTION_JSON, Config.class));
         configMap.put("dynamicHeaders", gson.fromJson(PANEL_WITH_DYNAMIC_HEADERS, Config.class));
+        configMap.put("test", gson.fromJson(CACHE_TEST_JSON, Config.class));
+        configMap.put("listOfStudents", gson.fromJson(LIST_OF_STUDENTS_JSON, Config.class));
         
         simpleMaleStudentEntity = new GenericEntity();
         simpleMaleStudentEntity.put("id", "1");
@@ -294,10 +303,17 @@ public class CustomizationAssemblyFactoryTest {
         simpleNoGenderInfoStudentEntity.put("id", "3");
         simpleNoGenderInfoStudentEntity.put("gradeNumeric", 7);
         
+        simpleCacheData = new GenericEntity();
+        simpleCacheData.put("id", "testEntityKey");
+        simpleCacheData.put("data", "testData1");
+        
         sampleEntityMap = new HashMap<String, GenericEntity>();
         sampleEntityMap.put(simpleMaleStudentEntity.getString("id"), simpleMaleStudentEntity);
         sampleEntityMap.put(simpleFemaleStudentEntity.getString("id"), simpleFemaleStudentEntity);
         sampleEntityMap.put(simpleNoGenderInfoStudentEntity.getString("id"), simpleNoGenderInfoStudentEntity);
+        sampleEntityMap.put(simpleCacheData.getString("id"), simpleCacheData);
+        sampleEntityMap.put("section", JsonConverter.fromJson(SECTION_ENTITY, GenericEntity.class));
+        sampleEntityMap.put("listOfStudents", JsonConverter.fromJson(LIST_OF_STUDENTS_ENTITY, GenericEntity.class));
     }
     
     @Before
@@ -443,5 +459,52 @@ public class CustomizationAssemblyFactoryTest {
         Config.Item[] items = customizationAssemblyFactory.getUpdatedDynamicHeaderTemplate(panel, entity);
         Assert.assertEquals("AAA", items[0].getName());
         Assert.assertEquals("Funky ID", items[1].getName());
+    }
+    
+    @Test
+    public void testCache() {
+        ApplicationContext goodContext = new AnnotationConfigApplicationContext(
+                new Class<?>[] { ContextConfigurationWithGoodMananger.class });
+        customizationAssemblyFactory.setApplicationContext(goodContext);
+        ModelAndViewConfig modelAndViewConfig = customizationAssemblyFactory.getModelAndViewConfig("test", "section",
+                true);
+        Config testConfig = modelAndViewConfig.getConfig().get("test");
+        Assert.assertEquals("section", testConfig.getId());
+        Assert.assertEquals("section", testConfig.getParentId());
+        Assert.assertEquals("SLC - Section Profile", testConfig.getName());
+        Assert.assertEquals("LAYOUT", testConfig.getType().toString());
+        Item[] items = testConfig.getItems();
+        Assert.assertEquals(2, items.length);
+        Assert.assertEquals("tab3", items[0].getId());
+        Assert.assertEquals("List of Students", items[0].getName());
+        Item[] itemA = items[0].getItems();
+        Assert.assertEquals(1, itemA.length);
+        Assert.assertEquals("listOfStudents", itemA[0].getId());
+        Item[] itemAA = itemA[0].getItems();
+        Assert.assertEquals(1, itemAA.length);
+        Assert.assertEquals("Default View", itemAA[0].getName());
+        Item[] itemAAA = itemAA[0].getItems();
+        Assert.assertEquals(5, itemAAA.length);
+        Assert.assertEquals("Student", itemAAA[0].getName());
+        Assert.assertEquals("", itemAAA[1].getName());
+        Assert.assertEquals("Grade", itemAAA[2].getName());
+        Assert.assertEquals("Absence Count", itemAAA[3].getName());
+        Assert.assertEquals("Tardy Count", itemAAA[4].getName());
+        
+        Assert.assertEquals("tab4", items[1].getId());
+        Assert.assertEquals("LOS", items[1].getName());
+        Item[] itemB = items[1].getItems();
+        Assert.assertEquals(1, itemB.length);
+        Assert.assertEquals("listOfStudents", itemB[0].getId());
+        Item[] itemBA = itemB[0].getItems();
+        Assert.assertEquals(1, itemBA.length);
+        Assert.assertEquals("Default View", itemBA[0].getName());
+        Item[] itemBAA = itemBA[0].getItems();
+        Assert.assertEquals(5, itemBAA.length);
+        Assert.assertEquals("Student", itemBAA[0].getName());
+        Assert.assertEquals("", itemBAA[1].getName());
+        Assert.assertEquals("Grade", itemBAA[2].getName());
+        Assert.assertEquals("Absence Count", itemBAA[3].getName());
+        Assert.assertEquals("Tardy Count", itemBAA[4].getName());
     }
 }

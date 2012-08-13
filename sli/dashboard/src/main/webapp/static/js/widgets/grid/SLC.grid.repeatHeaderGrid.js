@@ -56,8 +56,7 @@ SLC.namespace('SLC.grid.repeatHeaderGrid', (function () {
 			    }
 			    for (i = 0; i < panelData.length; i++) {
 					var tableID = tableId + "_" + i;
-					document.write("<div class='ui-widget-no-border p10'><table id=" + tableID + "></table></div>");
-					
+					document.write("<div class='ui-widget-no-border repeatHeaderTable" + (i+1) + " p10'><table id=" + tableID + "></table></div>");
 					gridOptions.data = [panelData[i]];
 					$("#" + tableID).slcGrid(columnItems, gridOptions); 
 					

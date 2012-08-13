@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
@@ -1360,4 +1361,91 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
+
+    
+    /**
+     * Retrieves attendance in a sorted order, removes all events where the student is present.
+     * Returns a GenericEntity with startDate, endDate, and attendanceList.
+     */
+	@Override
+	public GenericEntity getStudentAttendanceForCalendar(String token,
+			Object studentId, Data config) {
+		List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
+		GenericEntity firstWrapper = attendanceList.get(0);
+		List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+		
+		//Comparator, sort by "schoolYear" descending order
+		Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
+		    @Override
+            public int compare(Map<String,Object> arg0, Map<String,Object> arg1) {
+		        Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
+		        Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
+		        if(schoolYearObj0 == null || schoolYearObj1 == null) {
+		            return 0;
+		        }
+		        String schoolYear0 = schoolYearObj0.toString();
+		        String schoolYear1 = schoolYearObj1.toString();
+		        return schoolYear1.compareTo(schoolYear0);
+		    }
+        };
+        Collections.sort(schoolYearAttendance,schoolYearAttendanceComparator);
+        
+		Map<String, Object> secondWrapper = (Map<String, Object>)schoolYearAttendance.get(0);
+		List<Map> attList = (List)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Comparator<Map> c = new Comparator() {
+
+			@Override
+			public int compare(Object arg0, Object arg1) {
+				Map<String, String> map1, map2;
+				
+				if((arg0 instanceof Map) && (arg1 instanceof Map)) {
+					map1 = (Map<String, String>) arg0;
+					map2 = (Map<String, String>) arg1;
+				} else {
+					return -1;
+				}
+
+				Date date1, date2;
+				try {
+					date1 = sdf.parse((String)map1.get(Constants.ATTR_ATTENDANCE_DATE));
+					date2 = sdf.parse((String)map2.get(Constants.ATTR_ATTENDANCE_DATE));
+					return date1.compareTo(date2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					return 0;
+				}
+			}
+		};
+		
+		
+		
+		
+		LinkedList<Map> absentList = new LinkedList<Map>();
+		GenericEntity ge = new GenericEntity();
+		String startDate = null;
+		String endDate = null;
+		
+		try {
+			Collections.sort(attList, c);
+			startDate = (String) attList.get(0).get(Constants.ATTR_ATTENDANCE_DATE);
+			endDate = (String) attList.get(attList.size()-1).get(Constants.ATTR_ATTENDANCE_DATE);
+			
+			for (Map attEvent : attList) {
+				String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+				if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+					String strippedWhiteSpaceEvent = ((String)attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY)).replace(" ", "");
+					attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
+					absentList.addLast(attEvent);
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
+		ge.put(Constants.ATTR_START_DATE, startDate);
+		ge.put(Constants.ATTR_END_DATE, endDate);
+		return ge;
+	}
 }

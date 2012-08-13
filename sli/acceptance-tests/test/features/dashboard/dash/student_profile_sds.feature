@@ -34,10 +34,6 @@ And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And in "Middle School Overview" tab, there are "2" Panels
-And in "Attendance and Discipline" tab, there are "1" Panels
-And in "Assessments" tab, there are "2" Panels
-And in "Grades and Credits" tab, there are "1" Panels
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
