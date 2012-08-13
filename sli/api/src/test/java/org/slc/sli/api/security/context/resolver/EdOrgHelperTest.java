@@ -53,7 +53,7 @@ public class EdOrgHelperTest {
     Entity staff1 = null;   //directly associated with lea1
     Entity staff2 = null;   //directly associated with lea2
     Entity staff3 = null;   //directly associated with lea3
-    Entity staff4 = null;   //directly associated with sea1
+    Entity staff4 = null;   //directly associated with lea4
     Entity sea1 = null;
     Entity lea1 = null;
     Entity lea2 = null;
@@ -68,9 +68,6 @@ public class EdOrgHelperTest {
     
     @Before
     public void setup() {
-        
-        repo.deleteAll("educationOrganization");
-        repo.deleteAll("staff");
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");
@@ -242,22 +239,6 @@ public class EdOrgHelperTest {
         
         List<String> seas = helper.getSEAs(teacher3);
         assertTrue("teacher3 must see sea1", seas.contains(sea1.getEntityId()));
-    }
-    
-    @Test
-    public void testParents() {
-        List<String> edorgs = helper.getParentEdOrgs(school3);
-        assertEquals(sea1.getEntityId(), edorgs.get(3));
-        assertEquals(lea1.getEntityId(), edorgs.get(2));
-        assertEquals(lea2.getEntityId(), edorgs.get(1));
-        assertEquals(lea3.getEntityId(), edorgs.get(0));
-        assertEquals(4, edorgs.size());   
-    }
-    
-    @Test
-    public void testParentsOfSea() {
-        List<String> edorgs = helper.getParentEdOrgs(sea1);
-        assertEquals(0, edorgs.size());   
     }
 
 }
