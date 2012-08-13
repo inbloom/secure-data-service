@@ -5736,13 +5736,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationId" type="reference">
+			<xs:element name="sectionId" type="reference">
 				<xs:annotation>
-					<xs:documentation>Association to the student-section association
-						with which the grade is awarded.
+					<xs:documentation>Section with which the grade is awarded.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
+						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
