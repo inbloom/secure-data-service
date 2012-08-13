@@ -1359,18 +1359,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="courseOfferingId"
-				type="reference">
-				<xs:annotation>
-					<xs:documentation>The course offering associated with the section. This
-						reference is required.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>courseOffering</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="courseId" type="reference" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Reference to the course of the section.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>course</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="assessmentReferences" type="reference"
                 minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
@@ -1483,62 +1480,6 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="courseOffering">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a course
-				with a session during which the course is offered.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>courseOffering</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="localCourseCode" type="localCourseCode">
-				<xs:annotation>
-					<xs:documentation>The local code assigned by the School that
-						identifies the course offering provided for the instruction of
-						students.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="localCourseTitle" type="courseTitle">
-				<xs:annotation>
-					<xs:documentation>The descriptive name given to a course of study
-						offered in the school, if different from the CourseTitle.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The school that offers the course.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="courseId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the course that is offered.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>course</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the session the course is offered.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
