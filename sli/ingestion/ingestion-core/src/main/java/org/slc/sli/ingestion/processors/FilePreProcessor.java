@@ -78,9 +78,9 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             inputFileName = fileForControlFile.getName();
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
-            if (!batchJobDAO.attemptLockForFile(fileForControlFile, newBatchJob.getId(), newBatchJob.getTopLevelSourceId())) {
-                handleExceptions(exchange, batchJobId, new IllegalArgumentException("Could not lock the file " + inputFileName), inputFileName);
-            }
+//            if (!batchJobDAO.attemptLockForFile(fileForControlFile, newBatchJob.getId(), newBatchJob.getTopLevelSourceId())) {
+//                handleExceptions(exchange, batchJobId, new IllegalArgumentException("Could not lock the file " + inputFileName), inputFileName);
+//            }
 
             moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
 
@@ -89,8 +89,8 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
                 exchange.getIn().setHeader("fileType", FileFormat.CONTROL_FILE.getExtension());
             } else if (inputFileName.endsWith(FileFormat.ZIP_FILE.getExtension())) {
-				exchange.getIn().setHeader("fileType", FileFormat.ZIP_FILE.getExtension());
-			}
+                exchange.getIn().setHeader("fileType", FileFormat.ZIP_FILE.getExtension());
+            }
 
         } catch (IOException ioException) {
             handleExceptions(exchange, batchJobId, ioException, inputFileName);

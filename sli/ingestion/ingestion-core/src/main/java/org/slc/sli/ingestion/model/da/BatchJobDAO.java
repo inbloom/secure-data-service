@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.model.da;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -117,8 +116,4 @@ public interface BatchJobDAO {
     boolean removeAllPersistedStagedEntitiesFromJob(String jobId);
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
-
-    boolean attemptLockForFile(File jobFile, String jobId, String topLevelSourceId);
-
-    void releaseLockForFile(String batchJobId, String topLevelSourceId);
 }
