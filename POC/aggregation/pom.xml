@@ -27,6 +27,7 @@
         <junit.version>4.9</junit.version>
         <mockito.version>1.8.5</mockito.version>
         <powermock.version>1.4.12</powermock.version>
+        <emma.version>1.2</emma.version>
 
         <hadoop-core.version>1.0.3</hadoop-core.version>
         <mongo-hadoop-core.version>1.0.0</mongo-hadoop-core.version>
@@ -210,6 +211,12 @@
                         <storepass>${sli.sign.storepass}</storepass>
                     </configuration>
                 </plugin>
+                
+                <plugin>
+                    <groupId>org.sonatype.maven.plugin</groupId>
+                    <artifactId>emma-maven-plugin</artifactId>
+                    <version>${emma.version}</version>
+                </plugin>
 
             </plugins>
         </pluginManagement>
@@ -292,6 +299,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
+            
+            <plugin>
+                <groupId>org.sonatype.maven.plugin</groupId>
+                <artifactId>emma-maven-plugin</artifactId>
+            </plugin>            
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

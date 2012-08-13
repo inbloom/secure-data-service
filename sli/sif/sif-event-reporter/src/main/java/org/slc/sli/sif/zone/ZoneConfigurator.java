@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.reporting;
+package org.slc.sli.sif.zone;
 
-import java.util.Properties;
-
-import openadk.library.Event;
+import openadk.library.Zone;
 
 /**
- *  Event generator interface
+ * Interface for zone configuration classes
  */
-public interface EventGenerator {
+public interface ZoneConfigurator {
 
-    public static final String MESSAGE_FILE = "MESSAGE_FILE";
+    void configure(Zone[] allZones);
 
-    public Event generateEvent(Properties eventProps);
 }

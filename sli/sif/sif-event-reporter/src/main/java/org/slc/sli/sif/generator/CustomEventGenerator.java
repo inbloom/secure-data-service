@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.reporting;
+package org.slc.sli.sif.generator;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import openadk.library.ADKException;
+import openadk.library.ADKParsingException;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.SIFDataObject;
+import openadk.library.SIFException;
 import openadk.library.SIFParser;
 import openadk.library.SIFVersion;
 
@@ -31,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Custom event generator.
+ *
+ * @author vmcglaughlin
  */
 public class CustomEventGenerator implements EventGenerator {
 
@@ -38,7 +43,9 @@ public class CustomEventGenerator implements EventGenerator {
 
     @Override
     public Event generateEvent(Properties eventProps) {
-        String messageFile = eventProps.getProperty(CustomEventGenerator.MESSAGE_FILE);
+        String messageFile = eventProps.getProperty(EventGenerator.MESSAGE_FILE);
+        String eventActionStr = eventProps.getProperty(EventGenerator.EVENT_ACTION, EventAction.ADD.toString());
+        EventAction eventAction = EventAction.valueOf(eventActionStr);
         FileReader in = null;
         Event event = null;
         try {
@@ -56,8 +63,14 @@ public class CustomEventGenerator implements EventGenerator {
             }
             // Parse it
             SIFDataObject generic = (SIFDataObject) p.parse(xml.toString(), null, 0, SIFVersion.SIF23);
-            event = new Event(generic, EventAction.ADD);
-        } catch (Exception e) {
+            event = new Event(generic, eventAction);
+        } catch (SIFException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (ADKParsingException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (ADKException e) {
+            LOG.error("Caught exception trying to load entity from file", e);
+        } catch (IOException e) {
             LOG.error("Caught exception trying to load entity from file", e);
         } finally {
             if (in != null) {

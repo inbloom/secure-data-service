@@ -17,6 +17,7 @@
 package org.slc.sli.aggregation.mapreduce.map.key;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -31,7 +32,8 @@ public class TenantAndIdEmittableKeyTest {
 
     @Test
     public void testToBSON() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         key.setTenantId(new Text("Midgar"));
         key.setId(new Text("1234"));
 
@@ -55,19 +57,22 @@ public class TenantAndIdEmittableKeyTest {
 
     @Test
     public void testGetTenantIdField() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         assertEquals(key.getTenantIdField().toString(), "meta.data.tenantId");
     }
 
     @Test
     public void testGetIdField() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         assertEquals(key.getIdField().toString(), "test.id.key.field");
     }
 
     @Test
     public void testSetGetTenantId() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         key.setTenantId(new Text("Midgar"));
 
         Text tenantId = key.getTenantId();
@@ -76,7 +81,8 @@ public class TenantAndIdEmittableKeyTest {
 
     @Test
     public void testSetGetId() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         key.setId(new Text("1234"));
 
         Text id = key.getId();
@@ -85,10 +91,67 @@ public class TenantAndIdEmittableKeyTest {
 
     @Test
     public void testToString() {
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
         key.setTenantId(new Text("Midgar"));
         key.setId(new Text("1234"));
 
-        assertEquals(key.toString(), "TenantAndIdEmittableKey [test.id.key.field=1234, meta.data.tenantId=Midgar]");
+        assertEquals(key.toString(),
+            "TenantAndIdEmittableKey [test.id.key.field=1234, meta.data.tenantId=Midgar]");
+    }
+
+    @Test
+    public void testHash() {
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        key.setTenantId(new Text("tenant1"));
+        key.setId(new Text("abcd"));
+
+        TenantAndIdEmittableKey key2 =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        key2.setTenantId(new Text("tenant1"));
+        key2.setId(new Text("abcd"));
+
+        assertEquals(key.hashCode(), key2.hashCode());
+
+        key.setId(null);
+        assertFalse(key.hashCode() == key2.hashCode());
+    }
+
+
+    @Test
+    public void testCompareAndEqual() {
+        TenantAndIdEmittableKey key =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        key.setTenantId(new Text("tenant1"));
+        key.setId(new Text("abcd"));
+
+        TenantAndIdEmittableKey key2 =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field2");
+        key2.setTenantId(new Text("tenant1"));
+        key2.setId(new Text("1234"));
+
+        TenantAndIdEmittableKey key3 =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field2");
+        key3.setTenantId(new Text("tenant1"));
+        key3.setId(new Text("1234"));
+
+        assertTrue(key.compareTo(key2) > 0);
+        assertTrue(key2.compareTo(key) < 0);
+        assertTrue(key2.compareTo(key3) == 0);
+        assertTrue(key.compareTo(new IdFieldEmittableKey()) == -1);
+
+        assertTrue(key.equals(key));
+        assertTrue(key2.equals(key3));
+        assertFalse(key.equals(key2));
+        assertFalse(key.equals(null));
+        assertFalse(key.equals(Boolean.TRUE));
+
+        key2.setId(null);
+        assertFalse(key3.equals(key2));
+
+        key3.setId(null);
+        assertTrue(key2.equals(key3));
+
     }
 }

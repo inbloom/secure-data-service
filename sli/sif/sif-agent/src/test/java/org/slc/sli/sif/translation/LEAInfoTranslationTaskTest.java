@@ -139,13 +139,13 @@ public class LEAInfoTranslationTaskTest {
 
         List<InstitutionTelephone> telephones = new ArrayList<InstitutionTelephone>();
 
-        Mockito.when(mockPhoneNumberListConverter.convert(phoneNumberList)).thenReturn(telephones);
+        Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
         List<LEAEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 
-        Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
+        Mockito.verify(mockPhoneNumberListConverter).convertInstitutionTelephone(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
     }
 
