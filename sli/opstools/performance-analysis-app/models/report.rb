@@ -11,10 +11,9 @@ class Report
   def self.generate_latest_report
     initialize_parameters
     buildTag = ""
-    @db['apiResponse'].find.sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
+    @db['apiResponse'].find({'processed'=>true}).sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
        buildTag = record['body']['buildNumber']
     end
-    buildTag = 'jenkins-api-27'
     finalQuery = {"build_tag"=>buildTag}
 
     create_report('end_point','avg',finalQuery)
@@ -62,6 +61,13 @@ class Report
        response = "{" + @col%["endPoint","responseTime","80%density"]
 
        @log.info "Iterating sections with query: "+query.to_s
+       bench_mark = String.new
+       avarage = String.new
+       if collection == 'apiResponse'
+         doc = @db['apiResponseStat'].find_one({'$and'=>[{'end_point'=>query['body.resource']},{'build_tag'=>query['body.buildNumber']}]})
+         bench_mark=doc['br']
+         avarage = doc['avg']
+       end
 
           @db[collection].find(query, @basic_options) do |cur|
             cur.each do |record|
@@ -69,6 +75,7 @@ class Report
               if collection == 'apiResponse'
                 hAxisVal = record['body'][hAxis]
                 responseTime = record['body'][yAxis]
+                cutOff = bench_mark
               else
                 hAxisVal = record[hAxis]
                 responseTime = record[yAxis]

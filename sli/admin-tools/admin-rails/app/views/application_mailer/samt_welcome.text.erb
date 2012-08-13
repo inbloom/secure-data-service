@@ -40,7 +40,7 @@ applications and to manage data ingestion for your sandbox.
 Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your
 education organization. Click the Admin link in the upper right corner of SLC portal to open the Admin
 page and access this feature:
-<%= @portal_link %>
+            <%= @portal_link %>
 
 While you develop SLC-compatible applications, refer to the documentation available at:
             <%= @app_dev_documentation_link %>
@@ -66,11 +66,15 @@ When you are ready to register your application, select Application Registration
 Admin page. You can access the Admin page using the Admin link in the upper right of the portal:
             <%= @portal_link %>
 <% end %>
-<% else %> <%# PRODUCTION %>
+<% else %>
+Your <%= @account_type %> account is ready.
 
-Your <%= @account_type %>  account is ready.
+<% if (@is_slc_operator) %>
+You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:
+            <%= @portal_link %>
 
-<% if (@is_sea_admin || @is_lea_admin) %>
+Use this feature to create new administrative accounts.
+<% elsif (@is_sea_admin || @is_lea_admin) && @is_realm_admin && @is_ingestion %>
 You can access several administrative features from the Admin page in upper right of SLC portal at:
             <%= @portal_link %>
 
@@ -78,21 +82,39 @@ These features include:
 * Admin Account Management - Use this feature to create new administrative accounts.
 * Realm Administration - Use this feature to create and manage realms for your education organization.
 * Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.
-<% elsif @is_realm_admin %>
+<% elsif (@is_sea_admin || @is_lea_admin) && @is_realm_admin %>
+You can access several administrative features from the Admin page in upper right of SLC portal at:
+            <%= @portal_link %>
+
+These features include:
+* Admin Account Management - Use this feature to create new administrative accounts.
+* Realm Administration - Use this feature to create and manage realms for your education organization.
+<% elsif (@is_sea_admin || @is_lea_admin) && @is_ingestion %>
+You can access several administrative features from the Admin page in upper right of SLC portal at:
+            <%= @portal_link %>
+
+These features include:
+* Admin Account Management - Use this feature to create new administrative accounts.
+* Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.
+<% elsif (@is_sea_admin || @is_lea_admin) %>
+You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:
+            <%= @portal_link %>
+
+Use this feature to create new administrative accounts.
+<% elsif (@is_realm_admin) %>
 You can access the Realm Administration feature from the Admin page in the right corner of SLC portal at:
             <%= @portal_link %>
 
   Use this feature to create and manage realms for your education organization.
-<% elsif @is_ingestion %>
+<% elsif (@is_ingestion) %>
 You can access the Provision Landing Zone feature from the Admin page in the right corner of SLC portal at:
             <%= @portal_link %>
 
 Use this feature for managing landing zones, required for ingesting data for your education organization.
 <% end %>
 
-    For more about how to perform administrative tasks, refer to <%= @admin_documentation_link %>.  For support questions contact <%= @support_email %>.
+For more about how to perform administrative tasks, refer to <%= @admin_documentation_link %>.  For support questions contact <%= @support_email %>.
 <% end %>
 
 Thank you,
-
 The Shared Learning Collaborative

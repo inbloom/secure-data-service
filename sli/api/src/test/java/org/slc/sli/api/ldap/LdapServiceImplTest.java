@@ -14,7 +14,6 @@ import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.ldap.User.Status;
@@ -94,7 +93,6 @@ public class LdapServiceImplTest {
     }
 
     @Test
-    @Ignore
     public void testCRUDUser() throws UnknownHostException, NameAlreadyBoundException {
 
         // test create
