@@ -1,18 +1,2 @@
 [
-	{
-		"type" : "specificType",
-		"selector" : ":(selector)"
-	},
-	{
-		"type" : "specificType2",
-		"selector" : ":(*)"
-	},
-    {
-        "type" : "Student",
-        "selector" : ":($,sectionAssociations,schoolAssociations)"
-    },
-    {
-        "type" : "StudentSectionAssociation",
-        "selector" : ":($)"
-    }
 ]

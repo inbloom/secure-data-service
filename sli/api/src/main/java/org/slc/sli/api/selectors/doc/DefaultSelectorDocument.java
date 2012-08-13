@@ -35,9 +35,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
-import org.springframework.security.access.AccessDeniedException;
-
-import java.util.Collections;
 
 
 /**
@@ -263,7 +260,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected String getExposeName(Type type) {
-        if (type == null) return null;
+        if (type == null) {
+            return null;
+        }
 
         EntityDefinition definition = getEntityDefinition(type);
 
@@ -305,24 +304,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint) {
-        Iterable<EntityBody> results = Collections.EMPTY_LIST;
+        Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
 
-        try {
-            try {
-                EntityDefinition definition = getEntityDefinition(type);
-
-                if (definition != null) {
-                    results = getEntityDefinition(type).getService().list(constraint);
-                }
-            } catch (AccessDeniedException ade) {
-                //users might not have access to all associations.
-                //If this happens catch the AccessDeniedException and move along.
-                warn("Selectors : Access denied to type[" + type + "]");
-            }
-        } finally {
-            constraint.setLimit(0);
-            constraint.setOffset(0);
-        }
+        constraint.setLimit(0);
+        constraint.setOffset(0);
 
         return results;
     }
