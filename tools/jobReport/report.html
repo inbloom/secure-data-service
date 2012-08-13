@@ -7,48 +7,114 @@
     <script type="text/javascript">
     
     // Load the Visualization API and the piechart package.
-    google.load('visualization', '1', {'packages':['corechart']});
+    google.load('visualization', '1', {'packages':['corechart','treemap']});
       
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(listJobs);
 
-    function listJobs() {
+    function getApiResource(url) {
       var jsonData = $.ajax({
-          url: "http://localhost:8080/job",
-          dataType:"json",
-          async: false
-          }).responseText;
-      var jobs = jQuery.parseJSON(jsonData);
+        url: url,
+        dataType:"json",
+        async: false
+      }).responseText;
+      return jQuery.parseJSON(jsonData);
+    }
+
+    function listJobs() {
+
+      var jobs = getApiResource('http://localhost:8080/job');
+
       $.each(jobs, function(key, val) {
-        $('#job_chooser').append('<a href="#" onclick="drawChart(\''+val._id+'\')">'+val._id+'</a><br/>');
+        $('#job_chooser').append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a><br/>');
       });
     }
-      
-    function drawChart(jobId) {
+
+    function jobSummary(jobId) {
+      $('#job_summary').empty().append('<h4>Job Summary: ' + jobId + '</h4>');
+
+      var job = getApiResource('http://localhost:8080/job/' + jobId);
+
+      var recordCount = getRecordCountForJob(job);
+
+      var startDate = new Date(job.jobStartTimestamp);
+      var stopDate = new Date(job.jobStopTimestamp);
+      var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
+
+      $('#job_summary')
+        .append('Job Status: ' + job.status + '<br/>')
+        .append('EdFi Record Count: ' +recordCount + '<br/>')
+        .append('Total Job Time: ' + jobTime  + ' seconds.' + '<br/>')
+        .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
+
+      var errors = getApiResource('http://localhost:8080/job/' + jobId + '/error');
+      $('#job_summary')
+        .append('Errors: ' + errors.length);
+
+      drawStageBreakdownPieChart(job);
+
+      drawStageBreakdownTreeMap(job);
+
+    }
+
+    function getRecordCountForJob(job) {
+      var recordCount = 0;
+      $.each(job.stages, function(key, val) {
+        if (val.stageName == 'EdFiProcessor') {
+          $.each(val.metrics, function(metricsKey, metricsVal) {
+            recordCount += metricsVal.recordCount;
+          });
+        }
+      });
+      return recordCount;
+    }
+
+    function drawStageBreakdownPieChart(job) {
       var chartData = { 
         'cols': [ 
           { label: 'Stage Name', type: 'string'},
           { label: 'Elapsed Time', type: 'number'}
         ],
-        'rows': [] };
+        'rows': []
+      };
 
-      var jsonData = $.ajax({
-          url: "http://localhost:8080/job/"+jobId,
-          dataType:"json",
-          async: false
-          }).responseText;
-
-      var job = jQuery.parseJSON(jsonData);
       $.each(job.stages, function(key, val) {
-        chartData.rows.push( { c:[ {v: val.stageName}, {v: val.elapsedTime, f: val.elapsedTime/1000 + ' seconds' } ] });
+        chartData.rows.push( { c:[ {v: val.stageName}, {v: val.elapsedTime, f: val.elapsedTime/1000 + ' seconds.' } ] });
       });
 
-      // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(chartData);
+      var dataTable = new google.visualization.DataTable(chartData);
+      var chartOptions = {
+        title: 'Stage Breakdown: ' + job._id,
+        pieSliceText: 'label',
+        sliceVisibilityThreshold: 0,
+        width: 1024,
+        height: 768
+      };
 
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, {title: 'Stage Breakdown: ' + job._id, width: 1024, height: 768});
+      var chart = new google.visualization.PieChart(document.getElementById('stage_breakdown_piechart_div'));
+      chart.draw(dataTable, chartOptions);
+    }
+
+    function drawStageBreakdownTreeMap(job) {
+      var dataArray = [
+        ['Stage Name', 'Parent Stage', 'Elapsed Time', 'Optional Color'],
+        ['Global', null, 0, 0],
+      ];
+
+      $.each(job.stages, function(key, val) {
+        dataArray.push( [ val.stageName, 'Global', val.elapsedTime, val.elapsedTime ]);
+      });
+
+      var dataTable = google.visualization.arrayToDataTable(dataArray);
+      var tree = new google.visualization.TreeMap(document.getElementById('stage_breakdown_treemap_div'));
+      tree.draw(dataTable, {
+        maxColor: '#f00',
+        midColor: '#ddd',
+        minColor: '#0d0',
+        headerHeight: 15,
+        fontColor: 'black',
+        showScale: true
+      });
     }
 
     </script>
@@ -59,7 +125,10 @@
       <h3>Available Jobs:</h3>
     </div>
 
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
+    <div id="job_summary"></div>
+
+    <div id="stage_breakdown_piechart_div"></div>
+
+    <div id="stage_breakdown_treemap_div"></div>
   </body>
 </html>
