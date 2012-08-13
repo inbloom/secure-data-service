@@ -1,13 +1,17 @@
 @RALLY_US3047
 Feature: SIF LEAInfo Test
 
+Background: Set my data store
+Given the data store is "data_LEAInfo"
+
 Scenario: Add an LEA
 Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
-When I POST the message to the ZIS
 And I wait for "10" seconds
+When I POST the message to the ZIS
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |
@@ -22,7 +26,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Update an LEA 1
 Given I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |
@@ -40,7 +44,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Update an LEA 2
 Given I want to POST a(n) "sifEvent_LEAInfo_change_2" SIF message
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |
@@ -59,7 +63,7 @@ And the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 1     |
@@ -74,7 +78,7 @@ And the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
 When I POST the message to the ZIS
-And I wait for "10" seconds
+And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 1     |

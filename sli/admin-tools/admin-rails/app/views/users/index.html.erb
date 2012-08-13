@@ -9,6 +9,8 @@
 
 <script type="text/javascript" charset="utf-8">
   var is_lea = <%= @is_lea%> 
+  var is_operator = <%= @is_operator%> 
+  var is_sea = <%= @is_sea%> 
   var my_edorg = '<%= @login_user_edorg_name -%>'
   var self_editing = false
 </script>
@@ -18,6 +20,9 @@
 
 <% if flash[:notice]%>  
 <p id="notice"><%= flash[:notice] %></p>
+<%end%>
+<% if flash[:error]%>
+<p id="error_notice"><%=flash[:error] %></p>
 <%end%>
 
 <table id="Users_Management_Table" class="table table-striped">
@@ -37,7 +42,7 @@
     <tbody>
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
-        <%@elementIdPrefix= user.fullName %>
+        <%@elementIdPrefix= user.fullName.strip %>
         <tr id='<%= user.uid%>'>
         <td id="<%= @elementIdPrefix%>_full_name"><%= user.fullName%></td>
         <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>

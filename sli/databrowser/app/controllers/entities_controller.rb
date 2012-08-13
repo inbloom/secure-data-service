@@ -29,15 +29,6 @@ require "active_resource/base"
 class EntitiesController < ApplicationController
   before_filter :set_url
 
-  rescue_from ActiveResource::ForbiddenAccess do |exception|
-    flash[:notice] = "No accessible entries found."
-    if !request.headers['referer'].nil? and !request.headers['referer'].include?(request.host)  
-      redirect_to :back
-    else
-      raise exception
-    end
-  end
-
   # What we see mostly here is that we are looking for searh parameters.
   # Now, we also try to simply set up the search field and then remove it
   # from the parameters so that we don't confuse the API by passing it

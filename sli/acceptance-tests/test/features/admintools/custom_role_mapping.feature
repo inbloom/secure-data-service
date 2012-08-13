@@ -137,7 +137,6 @@ Then the group "Educator" contains the rights "Read General Public and Aggregate
 And the group "Educator" contains the roles "Educator"
 
 @sandbox
-@wip
 Scenario: Developer modifies roles in their tenant without affecting other tenant
 When I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
@@ -156,7 +155,6 @@ And the user "linda.kim" in tenant "developer-email" can access the API with rig
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 
 @sandbox
-@wip
 Scenario: Sandbox reset to defaults
 When I submit the credentials "sandboxdeveloper" "sandboxdeveloper1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
@@ -170,6 +168,7 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+And I wait for 5 seconds
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
 

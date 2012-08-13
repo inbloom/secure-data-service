@@ -3767,6 +3767,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <!-- 
 			<xs:element name="graduationPlan" type="graduationPlan"
 				minOccurs="0">
 				<xs:annotation>
@@ -3776,6 +3777,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+             -->
 		</xs:sequence>
 	</xs:complexType>
 

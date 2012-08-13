@@ -15,7 +15,7 @@
       <PostalCode>00000</PostalCode>
     </Address>
   </StateEducationAgency>
-
+<!--
   <LocalEducationAgency>
     <StateOrganizationId>IL-BOOTSTRAP</StateOrganizationId>
     <NameOfInstitution>Bootstrap School District</NameOfInstitution>
@@ -37,7 +37,7 @@
   </LocalEducationAgency>
 
   <School>
-    <StateOrganizationId>BOOTSTRAP-SCH</StateOrganizationId>
+    <StateOrganizationId>Flying Dutchman</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>Flying Dutchman School</ID>
     </EducationOrgIdentificationCode>
@@ -68,5 +68,5 @@
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
-
+-->
 </InterchangeEducationOrganization>

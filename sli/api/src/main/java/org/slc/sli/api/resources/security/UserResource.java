@@ -62,9 +62,6 @@ public class UserResource {
     @Value("${sli.feature.enableSamt:false}")
     private boolean enableSamt;
 
-    @Value("${sli.sandbox.enabled")
-    private String sandboxEnabled;
-
     @Autowired
     private SuperAdminService adminService;
 
@@ -79,11 +76,9 @@ public class UserResource {
             return result;
         }
         newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
-        if (!Boolean.parseBoolean(sandboxEnabled)) {
-            // only sandbox mode needs to go to submitted state before EULA acceptance
-            // production can go to approved
-            newUser.setStatus(User.Status.APPROVED);
-        }
+
+        newUser.setStatus(User.Status.SUBMITTED);
+
         try {
             ldapService.createUser(realm, newUser);
         } catch (NameAlreadyBoundException e) {
@@ -111,8 +106,14 @@ public class UserResource {
             edorgs.addAll(adminService.getAllowedEdOrgs(tenant, edorg));
         }
 
+        Set<String> groupsToIgnore = new HashSet<String>();
+        if (isLeaAdmin()) {
+            groupsToIgnore.add(RoleInitializer.SLC_OPERATOR);
+            groupsToIgnore.add(RoleInitializer.SEA_ADMINISTRATOR);
+        }
+
         Collection<User> users = ldapService.findUsersByGroups(realm,
-                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(), edorgs);
+                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), groupsToIgnore, secUtil.getTenantId(), edorgs);
 
         // filtering peer LEAs
         Collection<User> filteredUsers = new LinkedList<User>();
@@ -231,8 +232,43 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        // create and update shared the same validators
-        Response result = validateUserCreate(user, tenant);
+
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
+        if (result != null) {
+            return result;
+        }
+
+        User userInLdap = ldapService.getUser(realm, user.getUid());
+        if (userInLdap == null) {
+            return composeBadDataResponse("can not update user that does not exist");
+        }
+
+        if (userInLdap.getGroups() != null) {
+            result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
+                    RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
+            for(String group : userInLdap.getGroups()) {
+                info("user group: "+group);
+            }
+            for(String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
+                info("group allowd: "+group);
+            }
+            if (result != null) {
+                error("result is not null ");
+                return result;
+            }
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()), user);
+        if (result != null) {
+            return result;
+        }
+
+        result = validateCannotChangeSelfPrimaryAdminRole(user);
         if (result != null) {
             return result;
         }
@@ -295,17 +331,33 @@ public class UserResource {
                 && !userToModify.getUid().equals(secUtil.getUid())) { //only blocking peer LEA
 
             if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
-                EntityBody body = new EntityBody();
-                body.put("response", "not allowed to execute this operation on peer admin users");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
+                return composeBadDataResponse("not allowed to execute this operation on peer admin users");
             }
         }
 
         return null;
     }
 
-    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
 
+    private Response validateCannotChangeSelfPrimaryAdminRole(User user) {
+        if (secUtil.getUid().equals(user.getUid())) {
+            User currentUser = ldapService.getUser(realm, secUtil.getUid());
+
+            Set<String> currentRoles = new HashSet<String>(Arrays.asList(ADMIN_ROLES));
+            currentRoles.retainAll(currentUser.getGroups());
+            Set<String> toBeAssignedRoles = new HashSet<String>(Arrays.asList(ADMIN_ROLES));
+            toBeAssignedRoles.retainAll(user.getGroups());
+
+            if (!currentRoles.equals(toBeAssignedRoles)) {
+                return composeBadDataResponse("not allowed to change primary admin roles");
+            }
+        }
+
+        return null;
+    }
+
+
+    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
         if (isLeaAdmin() && user.getUid().equals(secUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, secUtil.getUid());
 
@@ -325,9 +377,7 @@ public class UserResource {
             }
 
             if (error != null) {
-                EntityBody body = new EntityBody();
-                body.put("response", error);
-                return Response.status(Status.FORBIDDEN).entity(body).build();
+                return composeBadDataResponse(error);
             }
         }
 
@@ -336,9 +386,7 @@ public class UserResource {
 
     private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(secUtil.getUid())) {
-            EntityBody body = new EntityBody();
-            body.put("response", "not allowed execute this operation on self");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+            return composeBadDataResponse("not allowed to execute this operation on self");
         }
         return null;
     }
@@ -360,9 +408,7 @@ public class UserResource {
             throw new RuntimeException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not authorized to access this resource.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+            return composeForbiddenResponse("You are not authorized to access this resource.");
         }
         return null;
     }
@@ -382,6 +428,7 @@ public class UserResource {
     }
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
+
         if ("".equals(user.getTenant())) {
             user.setTenant(null);
         }
@@ -396,6 +443,9 @@ public class UserResource {
             if (user.getTenant() != null || user.getEdorg() != null) {
                 return composeBadDataResponse("SLC Operator can not have tenant/edorg");
             }
+            //explicitly set tenancy and edorg to empty string as they are already null
+            user.setTenant("");
+            user.setEdorg("");
         } else if (user.getGroups().contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
             // tenant should not be null of SB Admin
             if (user.getTenant() == null) {
@@ -474,6 +524,13 @@ public class UserResource {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
+    /*
+     * Determines if the specified user has SLC operator permission
+     */
+    private boolean isSLCOperator(User user) {
+        return user.getGroups().contains(RoleInitializer.SLC_OPERATOR);
+    }
+
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
             RoleInitializer.SANDBOX_ADMINISTRATOR };
@@ -482,19 +539,17 @@ public class UserResource {
         Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(ADMIN_ROLES));
         adminRoles.retainAll(roles);
         if (adminRoles.size() > 1) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You cannot assign more than one admin role to a user");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+            return composeForbiddenResponse("You cannot assign more than one admin role to a user");
         }
         return null;
     }
 
     static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed,
             final Collection<String> userGroups) {
+        //info ("user groups size: "+ userGroups.size());
+        //info ("groups allowed size: "+groupsAllowed.size());
         if (!groupsAllowed.containsAll(userGroups)) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not allowed to access this resource");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+            return composeForbiddenResponse("You are not allowed to access this resource");
         }
         return null;
     }
@@ -643,23 +698,6 @@ public class UserResource {
             return roles;
         }
 
-        public String getRole(String group) {
-            if (this.groupToRoleMap.containsKey(group)) {
-                return this.groupToRoleMap.get(group);
-            }
-            return null;
-        }
-
-        public String getGroup(String role) {
-            if (this.roleToGroupMap.containsKey(role)) {
-                return this.roleToGroupMap.get(role);
-            }
-            return null;
-        }
-    }
-
-    public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
-        this.secUtil = proxy;
     }
 
     public void setRealm(String realm) {

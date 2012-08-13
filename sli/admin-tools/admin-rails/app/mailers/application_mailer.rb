@@ -29,7 +29,9 @@ class ApplicationMailer < ActionMailer::Base
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
   FORGOT_PASSWORD_SUBJECT = "SLC Notification - Forgot Password"
   SAMT_VERIFY_SUBJECT_SANDBOX = "SLC Sandbox Account - Email Confirmation"
-  SAMT_VERIFY_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
+  SAMT_VERIFY_SUBJECT_PROD = "SLC Administrator Account - Email Confirmation"
+  SAMT_WELCOME_SANDBOX = "Welcome to the SLC Developer Sandbox"
+  SAMT_WELCOME_PROD = "Shared Learning Collaborative - Administrator Account"
 
   def welcome_email(user)
     @firstName = user[:first]
@@ -48,7 +50,12 @@ class ApplicationMailer < ActionMailer::Base
   def notify_reset_password(email, key)
     user = APP_LDAP_CLIENT.read_user(email)
     @fullName = user[:first] + " " + user[:last]
-    @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    logger.info("user status is: #{user[:status]}")
+    if user[:status]=="submitted"
+     @resetPasswordUrl=APP_CONFIG['email_replace_uri']+"/resetPassword/newAccount/"+key
+     else
+     @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    end
     mail(:to => user[:emailAddress], :subject => FORGOT_PASSWORD_SUBJECT )
   end
   
@@ -88,11 +95,25 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
   
-  def samt_verify_email(email_address, firstName, groups,reset_password_link)
+  def samt_verify_email(email_address, firstName, primary_role,reset_password_link)
   logger.info {"samt verification email is sent to: #{email_address}"}
   @firstName = firstName
   @reset_password_link = reset_password_link
-  @groups = groups
+  @primary_role = primary_role
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?SAMT_VERIFY_SUBJECT_SANDBOX : SAMT_VERIFY_SUBJECT_PROD)) 
+  end
+
+  def samt_welcome(email_address, firstName, groups)
+    Rails.logger.debug("groups = #{groups}")
+    @firstName = firstName
+    @is_admin = !(["SLC Operator", "SEA Administrator", "LEA Administrator", "Sandbox SLC Operator", "Sandbox Administrator"] & groups).empty?
+    @is_ingestion = groups.include?("Ingestion User")
+    @is_app_dev = groups.include?("Application Developer")
+    @is_realm_admin = groups.include?("Realm Administrator")
+    @portal_link = APP_CONFIG["portal_url"]
+    @app_dev_documentation_link = APP_CONFIG['app_dev_documentation_link']
+    @support_email = APP_CONFIG["support_email"]
+    @admin_documentation_link = APP_CONFIG["admin_documentation_link"]
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"] ? SAMT_WELCOME_SANDBOX : SAMT_WELCOME_PROD))
   end
 end

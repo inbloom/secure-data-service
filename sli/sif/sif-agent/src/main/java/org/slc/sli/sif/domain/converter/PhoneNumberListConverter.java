@@ -28,6 +28,7 @@ import openadk.library.common.PhoneNumberType;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
+import org.slc.sli.sif.domain.slientity.PersonalTelephone;
 
 /**
  * A customized converter to convert SIF PhoneNumberList to SLI telephone list.
@@ -46,54 +47,85 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 @Component
 public class PhoneNumberListConverter {
 
-    private static final Map<PhoneNumberType, String> PHONE_NUMBER_TYPE_MAP = new HashMap<PhoneNumberType, String>();
+    private static final Map<PhoneNumberType, String> INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP = new HashMap<PhoneNumberType, String>();
+    private static final Map<PhoneNumberType, String> PERSONAL_PHONE_NUMBER_TYPE_MAP = new HashMap<PhoneNumberType, String>();
     static {
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ALT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.APPOINTMENT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.BEEPER, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.FAX, "Fax");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.INSTANT_MESSAGING, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.MEDIA_CONFERENCE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.PRIMARY, "Main");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ALT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ANSWERING_SERVICE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_BEEPER, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_EXT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_PHONE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_PHONE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_CELL, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_PHONE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEMAIL, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEMAIL, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ALT, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.APPOINTMENT, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.BEEPER, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.FAX, "Fax");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.INSTANT_MESSAGING, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.MEDIA_CONFERENCE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.PRIMARY, "Main");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ALT, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ANSWERING_SERVICE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_BEEPER, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_EXT, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_PHONE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_PHONE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_CELL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_PHONE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEMAIL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEX, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEMAIL, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEX, "Other");
+        INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Other");
+
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ALT, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.APPOINTMENT, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.BEEPER, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.FAX, "Fax");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.INSTANT_MESSAGING, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.MEDIA_CONFERENCE, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.PRIMARY, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ALT, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ANSWERING_SERVICE, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_BEEPER, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_EXT, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_PHONE, "Home");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_PHONE, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_CELL, "Mobile");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_PHONE, "Home");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEMAIL, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEX, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "Work");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEMAIL, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEX, "Other");
+        PERSONAL_PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Other");
     }
 
     /**
-     * Converts the SIF PhoneNumberList into an SLI telephone list
+     * Converts the SIF PhoneNumberList into an SLI Institution Telephone list
      *
      * @param phoneNumberList
      * @return
      */
-    public List<InstitutionTelephone> convert(PhoneNumberList phoneNumberList) {
+    public List<InstitutionTelephone> convertInstitutionTelephone(PhoneNumberList phoneNumberList) {
         if (phoneNumberList == null) {
             return null;
         }
 
-        return toSliTelephoneList(phoneNumberList.getPhoneNumbers());
+        return toSliInstitutionTelephoneList(phoneNumberList.getPhoneNumbers());
     }
 
-    private List<InstitutionTelephone> toSliTelephoneList(PhoneNumber[] phoneNumbers) {
+    private List<InstitutionTelephone> toSliInstitutionTelephoneList(PhoneNumber[] phoneNumbers) {
         List<InstitutionTelephone> list = new ArrayList<InstitutionTelephone>(phoneNumbers.length);
         for (PhoneNumber phoneNumber : phoneNumbers) {
             InstitutionTelephone phone = new InstitutionTelephone();
@@ -107,7 +139,39 @@ public class PhoneNumberListConverter {
     }
 
     private String toSliInstitutionTelephoneNumberType(PhoneNumberType phoneNumberType) {
-        String mapped = PHONE_NUMBER_TYPE_MAP.get(phoneNumberType);
+        String mapped = INSTITUTIONAL_PHONE_NUMBER_TYPE_MAP.get(phoneNumberType);
+        return mapped == null ? "Other" : mapped;
+    }
+
+    /**
+     * Converts the SIF PhoneNumberList into an SLI Personal Telephone list
+     *
+     * @param phoneNumberList
+     * @return
+     */
+    public List<PersonalTelephone> convertPersonalTelephone(PhoneNumberList phoneNumberList) {
+        if (phoneNumberList == null) {
+            return null;
+        }
+
+        return toSliPersonalTelephoneList(phoneNumberList.getPhoneNumbers());
+    }
+
+    private List<PersonalTelephone> toSliPersonalTelephoneList(PhoneNumber[] phoneNumbers) {
+        List<PersonalTelephone> list = new ArrayList<PersonalTelephone>(phoneNumbers.length);
+        for (PhoneNumber phoneNumber : phoneNumbers) {
+            PersonalTelephone phone = new PersonalTelephone();
+            phone.setTelephoneNumber(phoneNumber.getNumber());
+
+            String mappedType = toSliPersonalTelephoneNumberType(PhoneNumberType.wrap(phoneNumber.getType()));
+            phone.setTelephoneNumberType(mappedType);
+            list.add(phone);
+        }
+        return list;
+    }
+
+    private String toSliPersonalTelephoneNumberType(PhoneNumberType phoneNumberType) {
+        String mapped = PERSONAL_PHONE_NUMBER_TYPE_MAP.get(phoneNumberType);
         return mapped == null ? "Other" : mapped;
     }
 }

@@ -116,59 +116,86 @@ public class StateEdFiXmlGenerator {
 //        
 //      	propertyPath = args[0];
         
-        if (args.length >0 && !"low".equals(args[0]) && !"medium".equals(args[0]) && !"high".equals(args[0])) {
-        	propertyPath = args[0];
-        }
-        else if (args.length >0 && ("low".equals(args[0]) || "medium".equals(args[0]))) {
-        	fidelityOfData = args[0];
-        }
-        
-        if (args.length >1 && ! "low".equals(args[1]) && !"medium".equals(args[1]) && !"high".equals(args[0])) {
-        	rootOutputPath = args[1];
-        }
-        else if (args.length >1 && ("low".equals(args[1]) || "medium".equals(args[1]))) {
-        	fidelityOfData = args[1];
+        if (args.length == 0) {
+            System.out.println("Optional arguments: ");
+            System.out.println("  [<properties_file>] : properties file specifying configuration for the generated data (must end with .properties) ");
+            System.out.println("  [<output_dir>] : where the xml, ctl, and count files will be written (e.g. ./data)");
+            System.out.println("  [low|medium] : to set fidelity (not fully implemented yet)");
         }
         
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            
+            if ("low".equalsIgnoreCase(arg) || "medium".equalsIgnoreCase(arg)) {
+                fidelityOfData = arg;
+            } else if (arg.endsWith(".properties")) {
+                propertyPath = arg;
+            } else {
+                rootOutputPath = arg;
+            }
+        }
+        
+
         if (new File(rootOutputPath).mkdirs()) {
             System.out.println("created directory: " + rootOutputPath);
         }
         System.out.println("root output path: " + rootOutputPath);
         
-        if (args.length > 2 && ("low".equals(args[2]) || "medium".equals(args[2]))) {
-               fidelityOfData = args[2];
-        }
-  
     }
 
     private static void generateAndMarshalInterchanges() throws Exception {
 
-       
-       edOrg();
-       
-       edOrgCalendar();
-       
-       masterSchedule();
-
-       staffAssociation();
-
-       studentParent();
-
-       studentEnrollment();
-
-       studentProgram();
-
-       studentCohort();
-
-       studentDiscipline();
-
-       studentAttendance();
-
-       assessmentMetaData();
-
-       studentAssessment();
-
-       studentGrade();
+        if (MetaRelations.INTERCHANGE_ED_ORG) {
+            edOrg();
+        }
+        
+        if (MetaRelations.INTERCHANGE_ED_ORG_CALENDAR) {
+            edOrgCalendar();
+        }
+        
+        if (MetaRelations.INTERCHANGE_MASTER_SCHEDULE) {
+            masterSchedule();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STAFF_ASSOCIATION) {
+            staffAssociation();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
+            studentParent();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
+            studentEnrollment();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
+            studentProgram();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
+            studentCohort();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
+            studentDiscipline();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
+            studentAttendance();
+        }
+        
+        if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
+            assessmentMetaData();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
+            studentAssessment();
+        }
+        
+        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
+            studentGrade();
+        }
 
     }
 

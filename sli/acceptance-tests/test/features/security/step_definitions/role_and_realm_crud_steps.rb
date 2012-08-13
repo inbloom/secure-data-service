@@ -203,4 +203,15 @@ Then /^I should see that my custom role document is the default with (realm "[^"
   assert(data["customRights"] == default["customRights"], "Custom rights info from custom role document did not match")
 end
 
+When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group, role, right|
+  restHttpGet("/customRoles/")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  puts("\n\nThe data is #{data.inspect}")
+  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right]}
+  data["roles"].push(newGroup)
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
 

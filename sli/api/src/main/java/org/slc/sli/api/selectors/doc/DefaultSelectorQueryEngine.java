@@ -26,6 +26,11 @@ import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
@@ -33,13 +38,8 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**

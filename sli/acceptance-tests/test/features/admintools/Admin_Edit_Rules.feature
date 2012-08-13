@@ -1,4 +1,3 @@
-@wip
 @RALLY_US3409
 Feature: Admin users of SAMT can only update certain fields of existing accounts via the UI
 
@@ -94,11 +93,38 @@ Then I can navigate to the User Management Page with that production user
 Then I am redirected to "Admin Account Management" page 
 When I click the "edit" link for "SAMT Test"
 Then I am redirected to "Update a User" page
-#And all fields are editable
+#And all fields are editable except primary role
 And I can delete text in "Full Name" field 
 And I can delete text in "Email" field 
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
-And I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+And I do not see an option to change my primary admin role
+#And I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+And I can also check "Realm Administrator" Role 
+And I can also check "Ingestion User" Role 
+
+#unhappy path 
+And I click button "Update"
+And a "can't be blank" message is displayed 
+
+Then I can update the "Full Name" field to "SAMT Changed"
+Then I can update the "Email" field to "samt_email@random.net"
+
+And I click button "Update"
+Then I am redirected to "Admin Account Management" page 
+And a "Success" message is displayed 
+
+Scenario: As a SEA Admin I am able to edit any field for my account
+Given there is a production "SEA Administrator" with tenancy "Midgar" and in "IL"
+Then I can navigate to the User Management Page with that production user
+Then I am redirected to "Admin Account Management" page 
+When I click the "edit" link for "SAMT Test"
+Then I am redirected to "Update a User" page
+#And all fields are editable except primary role
+And I can delete text in "Full Name" field 
+And I can delete text in "Email" field 
+And I can change the EdOrg dropdown to "IL-DAYBREAK"
+And I do not see an option to change my primary admin role
+#And I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 
 
@@ -165,7 +191,7 @@ And the user has Roles as "<NEW_ROLE>"
     |Prod EditAdmin_hostname     |Realm Administrator |hostname_prodtestuser@testwgen.net  |                        |Ingestion User      |random4@4.net |
 
 
-Scenario:  LEA can modify limited fields on their own account
+Scenario Outline:  LEA and SLC Operator can modify limited fields on their own account
 Given there is a production "LEA Administrator" with tenancy "Midgar" and in "IL"
 Then I can navigate to the User Management Page with that production user
 Then I am redirected to "Admin Account Management" page 
@@ -178,6 +204,11 @@ And I click button "Update"
 Then I am redirected to "Admin Account Management" page 
 And a "Success" message is displayed 
 And the user has "Email" updated to "samt_changed@testwgen.net" 
+
+    Examples:
+    |USER_ROLE          |TENANCY             |EDORG         |
+    |SLC Operator       |                    |              |
+    |LEA Administrator  |Midgar              |IL            |
 
 Scenario Outline: LEA can modify all fields for LEAs below my edorg
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server

@@ -50,20 +50,13 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -74,6 +67,13 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -111,6 +111,9 @@ public class SamlFederationResource {
 
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
+    
+    @Autowired
+    private RealmHelper realmHelper;
 
     @Context
     private HttpServletRequest httpServletRequest;
@@ -271,30 +274,36 @@ public class SamlFederationResource {
             principal.setName(attributes.getFirst("userName"));
         }
 
-        principal.setRoles(attributes.get("roles"));
+        List<String> roles = attributes.get("roles");
+        if (roles == null || roles.isEmpty()) {
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user. No roles specified for user.");
+        }
+        
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
+        
+        boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
 
-        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
+        if ("-133".equals(principal.getEntity().getEntityId()) && !isAdminRealm) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
             throw new AccessDeniedException("Invalid user.");
         }
-
-        if (principal.getRoles() == null || principal.getRoles().isEmpty()) {
-            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No roles specified for user.");
+        
+        if (!isAdminRealm && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
+            throw new AccessDeniedException("User is not associated with realm.");
         }
 
-        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), principal.getRoles());
+        Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles);
         List<String> sliRoleList = new ArrayList<String>();
         for (Role role : sliRoleSet) {
             sliRoleList.add(role.getName());
         }
-        principal.setSliRoles(sliRoleList);
+        principal.setRoles(sliRoleList);
 
-        if (principal.getSliRoles().isEmpty()) {
+        if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
             throw new AccessDeniedException("Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
         }
@@ -312,7 +321,7 @@ public class SamlFederationResource {
         } else {
             debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
         }
-
+        
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
@@ -351,6 +360,7 @@ public class SamlFederationResource {
                     .location(redirect).build();
         }
     }
+
     private void generateSamlValidationError(String message) {
         error(message);
         throw new AccessDeniedException("Authorization could not be verified.");

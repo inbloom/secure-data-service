@@ -8,7 +8,7 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * Aggregate Math scores and at the school level based on scale score.
@@ -26,12 +26,12 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
  * @author asaarela
  */
 public class SchoolProficiencyReducer
-        extends Reducer<TenantAndID, Text, TenantAndID, MapWritable> {
+        extends Reducer<TenantAndIdEmittableKey, Text, TenantAndIdEmittableKey, MapWritable> {
 
     MapWritable counts = new MapWritable();
 
     @Override
-    public void reduce(final TenantAndID pKey,
+    public void reduce(final TenantAndIdEmittableKey pKey,
                        final Iterable<Text> pValues,
                        final Context context)
             throws IOException, InterruptedException {
