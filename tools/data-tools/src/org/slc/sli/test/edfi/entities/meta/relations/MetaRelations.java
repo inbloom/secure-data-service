@@ -142,6 +142,10 @@ public final class MetaRelations {
     public static final String SEA_PREFIX = "CAP";
     public static final String FIRST_TEACHER_ID = "lroslin";
     
+    public static final boolean RUN_FLAG = true;
+    
+    public static String ID_DELIMITER = "-";
+    
 //    public static String propertyPath = ".\\db-datagen-approach\\ref-configurations\\reference_config.properties";
     /**
      * used to determine the output directory for generated interchange and control files
@@ -267,6 +271,8 @@ public final class MetaRelations {
 				.getProperty("StaffEducationOrgAssignment_Ref").trim());
 		GradingPeriod_Ref = Boolean.parseBoolean(properties
 				.getProperty("GradingPeriod_Ref").trim());
+		
+		ID_DELIMITER = properties.getProperty("ID_DELIMITER");
 		
 		String fidelity = properties.getProperty("fidelityOfData");
 		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {

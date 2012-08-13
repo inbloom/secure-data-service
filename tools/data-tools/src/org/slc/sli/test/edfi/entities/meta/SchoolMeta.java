@@ -17,6 +17,8 @@
 
 package org.slc.sli.test.edfi.entities.meta;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class SchoolMeta {
 
     public final String id;
@@ -27,7 +29,7 @@ public class SchoolMeta {
     public String programId;
 
     public SchoolMeta(String id, LeaMeta leaMeta) {
-        this.id = leaMeta.id + "-" + id;
+        this.id = leaMeta.id + MetaRelations.ID_DELIMITER + id;
         this.leaId = leaMeta.id;
 
         this.simpleId = id;

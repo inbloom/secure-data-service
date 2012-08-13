@@ -20,6 +20,8 @@ package org.slc.sli.test.edfi.entities.meta;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class SessionMeta {
     public final String id;
     public final String schoolId;
@@ -30,7 +32,7 @@ public class SessionMeta {
     //public List<String> gradingPeriodList = new ArrayList<String>();
 
     public SessionMeta(String id, SchoolMeta schoolMeta) {
-        this.id = schoolMeta.id + "-" + id;
+        this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id;
         this.schoolId = schoolMeta.id;
 
         this.simpleId = id;
