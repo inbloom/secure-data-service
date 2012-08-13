@@ -56,6 +56,7 @@ Then I can select "SLC Operator" from a choice between "SLC Operator, SEA Admini
 And the "Tenant" textbox is disabled 
 
 
+@wip
 Scenario: As a SEA Admin I can only create certain roles
 Given I have a valid account as a SEA Administrator
 Given the prod testing user does not already exists in LDAP
