@@ -2648,12 +2648,18 @@
 			</xs:element>
             <xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>
-                        Report cards for the student.
+                    <xs:documentation>Report cards for the student.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-		</xs:sequence>
+            <xs:element name="academicRecords" type="studentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Academic Records for the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentAcademicRecord">
@@ -2666,22 +2672,10 @@
 				end of a semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentAcademicRecord</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The student who was enrolled for
-						the session.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="sessionId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Grades for the classes
@@ -2831,7 +2825,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-		</xs:sequence>
+            <xs:element name="courseTranscript" type="courseTranscript" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The course transcripts of the academic record.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentAssessmentAssociation">
@@ -3972,13 +3972,12 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="studentTranscriptAssociation">
+	<xs:complexType name="courseTranscript">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4095,24 +4094,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation>Association to the student academic record for the current course transcript.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>studentAcademicRecord</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-            <xs:element name="studentId" type="reference" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Association to a student for the current course transcript.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>student</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
