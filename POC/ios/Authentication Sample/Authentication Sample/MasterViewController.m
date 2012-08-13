@@ -1,10 +1,16 @@
+//Copyright 2012 Shared Learning Collaborative, LLC
 //
-//  MasterViewController.m
-//  Authentication Sample
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
 //
-//  Created by Ryan Latta on 5/14/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//http://www.apache.org/licenses/LICENSE-2.0
 //
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
 
 #import "MasterViewController.h"
 
@@ -59,7 +65,8 @@
         [modal release];
     }
     else {
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/rest/v1/students"]];
+        NSString *url = [NSString stringWithFormat:@"%@students", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"apiBase"]];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
         [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
         [request setDelegate:self];
         [request startAsynchronous];
@@ -148,7 +155,7 @@
  * ASIHTTP Request Delegate
  */
 - (void) requestFinished:(ASIHTTPRequest *)request {
-    NSLog(@"Student list: %@", [request responseString]);
+    NSLog(@"Student list received");
     _objects = [[request responseString] JSONValue];
     [self.tableView reloadData];
 }
