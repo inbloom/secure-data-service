@@ -17,6 +17,8 @@
 
 package org.slc.sli.test.edfi.entities.meta;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class StaffMeta {
     public final String id;
     public final String edOrgId;
@@ -30,7 +32,7 @@ public class StaffMeta {
     }
 
     public static StaffMeta createWithChainedId(String id, SeaMeta seaMeta) {
-        return new StaffMeta(seaMeta.id + "-" + id, seaMeta.id);
+        return new StaffMeta(seaMeta.id + MetaRelations.ID_DELIMITER + id, seaMeta.id);
     }
 
     @Override

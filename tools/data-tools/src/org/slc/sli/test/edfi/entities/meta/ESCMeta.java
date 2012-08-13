@@ -17,6 +17,8 @@
 
 package org.slc.sli.test.edfi.entities.meta;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class ESCMeta {
 
     public final String id;
@@ -25,7 +27,7 @@ public class ESCMeta {
     public final String simpleId;
 
     public ESCMeta(String id, SeaMeta seaMeta) {
-        this.id = seaMeta.id + "-" + id;
+        this.id = seaMeta.id + MetaRelations.ID_DELIMITER + id;
         this.seaId = seaMeta.id;
 
         this.simpleId = id;
