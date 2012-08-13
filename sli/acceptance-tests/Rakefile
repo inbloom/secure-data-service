@@ -708,13 +708,6 @@ task :adminWelcomeEmail do
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
 end
 
-desc "Run samt reset password Production Tests"
-task :samtResetPasswordTests do
-   @tags ||= ["~wip", "~@sandbox"]
-   Rake::Task["importSandboxData"].execute
-  runTests("test/features/sandbox/UserAdmin/samt_reset_password_prod.feature")
-end
-
 ###########################################################
 # Super Admin Management Tools Tests end
 ############################################################
