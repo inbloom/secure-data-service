@@ -298,10 +298,12 @@ public class SchoolGenerator {
         	eort.setRef(leaRef);
         	school.setLocalEducationAgencyReference(eort);
         
-        	Ref programRef = new Ref(programId);
-        	ProgramReferenceType prt = new ProgramReferenceType();
-			prt.setRef(programRef);
-			school.getProgramReference().add(prt);
+			if (programId != null) {
+				Ref programRef = new Ref(programId);
+				ProgramReferenceType prt = new ProgramReferenceType();
+				prt.setRef(programRef);
+				school.getProgramReference().add(prt);
+			}
 			
 		} else {
 			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
@@ -312,12 +314,13 @@ public class SchoolGenerator {
 
 			school.setLocalEducationAgencyReference(leaRef);
 			
-			
-			ProgramIdentityType pit = new ProgramIdentityType();
-			pit.setProgramId(programId);
-			ProgramReferenceType prt = new ProgramReferenceType();
-			prt.setProgramIdentity(pit);
-			school.getProgramReference().add(prt);
+			if (programId != null) {
+				ProgramIdentityType pit = new ProgramIdentityType();
+				pit.setProgramId(programId);
+				ProgramReferenceType prt = new ProgramReferenceType();
+				prt.setProgramIdentity(pit);
+				school.getProgramReference().add(prt);
+			}
 		}
 
         return school;
