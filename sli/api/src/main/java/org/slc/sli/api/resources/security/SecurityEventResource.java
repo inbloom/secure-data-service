@@ -100,7 +100,7 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
     	if (auth != null) {
     		SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
     		if(principal != null) {
-    			List<String> roles = principal.getSliRoles();
+    			List<String> roles = principal.getRoles();
     			if(roles != null &&  (
     					roles.contains(RoleInitializer.SEA_ADMINISTRATOR)   || 
     					roles.contains(RoleInitializer.LEA_ADMINISTRATOR) || 

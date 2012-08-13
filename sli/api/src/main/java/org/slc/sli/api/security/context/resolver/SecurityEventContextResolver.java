@@ -83,7 +83,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 		if (auth != null) {
 			SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
 			if(principal != null) {
-				List<String> roles = principal.getSliRoles();
+				List<String> roles = principal.getRoles();
 				if(roles != null) {
 					if (roles.contains(RoleInitializer.SLC_OPERATOR)) {
 						NeutralQuery or = new NeutralQuery();
