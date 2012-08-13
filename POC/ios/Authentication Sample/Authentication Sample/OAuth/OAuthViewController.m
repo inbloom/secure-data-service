@@ -49,7 +49,7 @@
     mainBundle = [NSBundle mainBundle];
     delegate = [[UIApplication sharedApplication] delegate];
     NSString *url = [NSString stringWithFormat:@"%@oauth/authorize?redirect_uri=%@&client_id=%@", [mainBundle objectForInfoDictionaryKey:@"apiAuthBase"], [mainBundle objectForInfoDictionaryKey:@"redirectUrl"], [mainBundle objectForInfoDictionaryKey:@"clientId"]];
-    NSLog(@"Sending url for authorization %@", url);
+    NSLog(@"Sending url for authorization");
     [self.web loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:url]]];
 }
 
