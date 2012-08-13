@@ -1381,6 +1381,13 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="gradeBookEntries" type="gradebookEntry" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Grade book entries for the section.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3785,44 +3792,20 @@
 		<xs:annotation>
 			<xs:documentation>
 				StudentGradebookEntry
-				This entity holds a
-				student’s grade or competency level for a
-				GradeBookEntry.
-				Associations: Student, Section, GradebookEntry
+				This entity holds a student’s grade or competency level for a GradeBookEntry.
+				Associations: Student
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradebookEntryId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The GradebookEntry for which the performance is
-						recorded.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>gradebookEntry</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The student who received the grade
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The section the grade counts towards
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5775,20 +5758,11 @@
 	<xs:complexType name="gradebookEntry">
 		<xs:annotation>
 			<xs:documentation>GradebookEntry
-				This entity represents a teacher’s
-				assignment, homework, or classroom
-				assessment to be recorded in a
-				gradebook.
-				Associations: studentGradebookEntry, section.
-				This
-				is similar to a studentGradebookEntry, but this entity
-				represents the
-				assessment/evaluation, not the grade a student
-				received.
+				This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
+				This is similar to a studentGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received.
 				Limitations: None
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>gradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -5825,16 +5799,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Section where gradebook entry was recorded.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="studentGradebookEntries" type="studentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Student grades for the grade book entry.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
