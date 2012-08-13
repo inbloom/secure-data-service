@@ -348,7 +348,7 @@ public class SifEntityGeneratorTest {
         Assert.assertEquals(1, phoneNumberList.size());
 
         PhoneNumber phoneNumber = phoneNumberList.get(0);
-        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
+        Assert.assertEquals(PhoneNumberType.SIF1x_HOME_PHONE.getValue(), phoneNumber.getType());
         Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
     }
 }
