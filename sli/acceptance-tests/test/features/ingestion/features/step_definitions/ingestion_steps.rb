@@ -1120,6 +1120,10 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
   runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
 end
 
+When /^an ingestion service "([^"]*)" running with pid "([^"]*)" stops$/ do |instance_name, pid|
+    Process.kill(9, pid.to_i)
+end
+
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
    #uri = URI(INGESTION_HEALTHCHECK_URL)
    #req = Net::HTTP::Get.new(uri.request_uri)
