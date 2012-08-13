@@ -757,7 +757,8 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifIntegratedTest,
+task :sifTests => [:sifSmokeTests,
+                   :sifIntegratedTest,
                    :sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
