@@ -216,7 +216,11 @@ class Analyser
   def notify
     if @build_perf_hash.empty? == false
       @build_perf_hash.each {|key,val|
-        puts "Build Number #{key} has the following notifications #{val}"
+        puts ""
+        puts "***********Build Number #{key} ****************"
+        val.each{|ep|
+          puts "#{ep}"
+        }
       }
     end
   end
