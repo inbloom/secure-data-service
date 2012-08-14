@@ -95,13 +95,10 @@ public class TenantMongoDA implements TenantDA {
             List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
             if (landingZones != null) {
                 for (Map<String, String> landingZone : landingZones) {
-//                    String ingestionServer = landingZone.get(INGESTION_SERVER);
-//                    if (targetIngestionServer.equals(ingestionServer)) {
-                        String path = landingZone.get(PATH);
-                        if (path != null) {
-                            tenantPaths.add(path);
-                        }
-//                    }
+                    String path = landingZone.get(PATH);
+                    if (path != null) {
+                        tenantPaths.add(path);
+                    }
                 }
             }
         }
