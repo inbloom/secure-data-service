@@ -156,7 +156,7 @@ public class ApprovedApplicationResource {
             return true;
         } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             //We need to figure out if any districts have delegated to us
-            return delegationUtil.getDelegateEdOrgs().size() > 0;
+            return delegationUtil.getAppApprovalDelegateEdOrgs().size() > 0;
         }
         return false;
     }
