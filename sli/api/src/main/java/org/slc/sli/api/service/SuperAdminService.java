@@ -3,16 +3,16 @@ package org.slc.sli.api.service;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Implements logic needed by the SAMT Users resource.
@@ -49,6 +49,10 @@ public class SuperAdminService {
         Set<String> edOrgIds = new HashSet<String>();
         for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             edOrgIds.add((String) e.getBody().get("stateOrganizationId"));
+        }
+        
+        if (secUtil.hasRole(RoleInitializer.SEA_ADMINISTRATOR) && !edOrgIds.contains(secUtil.getEdOrg())) {
+            edOrgIds.add(secUtil.getEdOrg());
         }
         return edOrgIds;
     }

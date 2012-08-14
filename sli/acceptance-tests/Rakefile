@@ -494,7 +494,7 @@ end
 
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
-                          :provisionIntegrationTests, :tenantMetricsTests, :sandboxUserAdminTests,
+                          :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
                           :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
@@ -750,11 +750,12 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifIntegratedTest,
-                   :sifSchoolInfoTest,
+task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
-                   :sifStudentLEARelationshipTest
+                   :sifStudentLEARelationshipTest,
+                   :sifSmokeTests,
+                   :sifIntegratedTest
                    ] do
   displayFailureReport()
   if $SUCCESS
