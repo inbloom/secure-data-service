@@ -5,12 +5,10 @@
   <xs:include schemaLocation="ComplexTypes-R1.xsd" />
 
   <!-- The top-level elements for the SLI database schema representation. -->
-  <!-- These elements correspond 1:1 with MongoDB collections. -->
 
   <xs:element name="assessment" type="assessment" />
   <xs:element name="cohort" type="cohort" />
   <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
-  <xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
   <xs:element name="course" type="course" />
   <xs:element name="gradingPeriod" type="gradingPeriod" />
   <xs:element name="graduationPlan" type="graduationPlan" />
@@ -25,8 +23,6 @@
   <xs:element name="student" type="student" />
   <xs:element name="studentCompetency" type="studentCompetency" />
   <xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
-  <xs:element name="studentCTEProgramAssociation" type="studentCTEProgramAssociation" />
-  <xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
   <xs:element name="teacher" type="teacher" />
 
 </xs:schema>
