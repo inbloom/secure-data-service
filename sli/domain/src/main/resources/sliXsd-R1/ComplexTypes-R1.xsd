@@ -1214,9 +1214,7 @@
 				teachers or other staff members, may be delivered in person or via a
 				different medium.
 
-				Associations: TeacherSectionAssociation,
-				StudentSectionAssociation,
-				SectionAssessmentAssociation
+				Associations: SectionAssessmentAssociation
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
@@ -1382,6 +1380,18 @@
                 <xs:annotation>
                     <xs:documentation>
                         Grade book entries for the section.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Students associated with the section.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="teacherAssociations" type="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Teachers associated with the section.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -3447,7 +3457,6 @@
 				student is assigned to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3458,16 +3467,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The section the student is enrolled in.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4021,7 +4020,6 @@
 				assigned to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4032,16 +4030,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>teacher</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The section the teacher is assigned to.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
