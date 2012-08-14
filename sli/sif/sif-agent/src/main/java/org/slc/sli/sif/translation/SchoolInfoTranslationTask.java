@@ -87,7 +87,7 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
         result.setSchoolCategories(schoolTypeConverter.convertAsList(SchoolLevelType.wrap(schoolInfo.getSchoolType())));
-        result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
+        result.setTelephone(phoneNumberListConverter.convertInstitutionTelephone(schoolInfo.getPhoneNumberList()));
 
         TitleIPartASchoolDesignation schoolType = titleIPartASchoolDesignationConverter.convert(Title1Status
                 .wrap(schoolInfo.getTitle1Status()));

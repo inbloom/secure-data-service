@@ -182,6 +182,11 @@ task :dashboardSdsDashboardBuilderTests do
   runTests("test/features/dashboard/dash/dashboard_builder.feature")
 end
 
+desc "Run dashboard attendance calendar tests"
+task :dashboardSdsAttendanceCalendarTests do
+  runTests("test/features/dashboard/dash/attendance_calendar.feature")
+end
+
 desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"
 task :dashboardSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]

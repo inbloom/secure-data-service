@@ -396,7 +396,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -495,7 +495,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
                           :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
-                          :samtEmailNotificationTests, :adminWebTests, :adminWelcomeEmail] do
+                          :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   Rake::Task["realmInit"].execute
   displayFailureReport()
@@ -579,6 +579,7 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardAssessmentTests,
                          :dashboardSdsSectionProfileTests,
                          :dashboardSdsTeacherProfileTests,
+                         :dashboardSdsAttendanceCalendarTests,
                          :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
@@ -689,6 +690,7 @@ end
 task :sandboxUserAdminTests do
 @tags ||= ["~@wip", "@sandbox"]
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+runTests("test/features/sandbox/UserAdmin/TOU_displayed.feature")
 end
 
 task :sandboxSamtEmailNotificationTests do
@@ -703,7 +705,7 @@ end
 
 desc "Run Admin Welcome Email Production Tests"
 task :adminWelcomeEmail do
-  @tags ||= ["~wip", "~@sandbox"]
+  @tags ||= ["~@wip", "~@sandbox"]
   runTests("test/features/admintools/Admin_Welcome_Email.feature")
 end
 
@@ -749,11 +751,12 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifIntegratedTest,
-                   :sifSchoolInfoTest,
+task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
-                   :sifStudentLEARelationshipTest
+                   :sifStudentLEARelationshipTest,
+                   :sifSmokeTests,
+                   :sifIntegratedTest
                    ] do
   displayFailureReport()
   if $SUCCESS

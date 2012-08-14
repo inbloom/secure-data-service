@@ -17,6 +17,7 @@
 package org.slc.sli.aggregation.mapreduce.map.key;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -60,15 +61,56 @@ public class IdFieldEmittableKeyTest {
         assertEquals(id.toString(), "1234");
     }
 
-    /**
-     * Test method for {@link org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey#toString()}.
-     */
     @Test
     public void testToString() {
         IdFieldEmittableKey key = new IdFieldEmittableKey("test.id.key.field");
         key.setId(new Text("1234"));
 
         assertEquals(key.toString(), "IdFieldEmittableKey [test.id.key.field=1234]");
+    }
+
+    @Test
+    public void testHash() {
+        IdFieldEmittableKey key = new IdFieldEmittableKey("test.id.key.field");
+        key.setId(new Text("1234"));
+
+        IdFieldEmittableKey key2 = new IdFieldEmittableKey();
+        key2.setId(new Text("1234"));
+
+        assertEquals(key.hashCode(), key2.hashCode());
+
+        key.setId(new Text(""));
+        assertFalse(key.hashCode() == key2.hashCode());
+    }
+
+    @Test
+    public void testCompareAndEqual() {
+        IdFieldEmittableKey key = new IdFieldEmittableKey("test.id.key.field");
+        key.setId(new Text("abc"));
+
+        IdFieldEmittableKey key2 = new IdFieldEmittableKey("test.id.key.field2");
+        key2.setId(new Text("123"));
+
+        IdFieldEmittableKey key3 = new IdFieldEmittableKey("test.id.key.field2");
+        key3.setId(new Text("123"));
+
+        assertTrue(key.compareTo(key2) > 0);
+        assertTrue(key2.compareTo(key) < 0);
+        assertTrue(key2.compareTo(key3) == 0);
+        assertTrue(key.compareTo(new TenantAndIdEmittableKey()) == -1);
+
+        assertTrue(key.equals(key));
+        assertTrue(key2.equals(key3));
+        assertFalse(key.equals(key2));
+        assertFalse(key.equals(key2));
+        assertFalse(key.equals(null));
+        assertFalse(key.equals(Boolean.TRUE));
+
+        key2.setId(new Text(""));
+        assertFalse(key3.equals(key2));
+
+        key3.setId(new Text(""));
+        assertTrue(key2.equals(key3));
     }
 
 }

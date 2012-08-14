@@ -96,8 +96,32 @@ public class AttendanceEventGenerator {
 		case 5 : 
 			return AttendanceEventCategoryType.fromValue(attendance[1]);
 		case 6:
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 7 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);		
+		case 8 :
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 9 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);		
+		case 10 :
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 11 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);		
+		case 12 :
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 13 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);		
+		case 14 :
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 15 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);
+		case 16 :
+			return AttendanceEventCategoryType.fromValue(attendance[2]);
+		case 17 :
+			return AttendanceEventCategoryType.fromValue(attendance[1]);
+		case 18:
 			return AttendanceEventCategoryType.fromValue(attendance[3]);
-		case 7:
+		case 19:
 			return AttendanceEventCategoryType.fromValue(attendance[4]);
 		default : 
 			return AttendanceEventCategoryType.fromValue(attendance[0]);

@@ -64,7 +64,6 @@ public class SchoolResourceTest {
 
     private final String schoolResourceName = "SchoolResource";
     private final String teacherResourceName = "TeacherResource";
-    private final String sessionResourceName = "SessionResource";
     private final String studentResourceName = "StudentResource";
     private final String sectionResourceName = "SectionResource";
     private final String teacherSchoolAssociationResourceName = "TeacherSchoolAssociationResource";
@@ -178,15 +177,23 @@ public class SchoolResourceTest {
 
     @Test
     public void testGetSectionsForSchool() {
-        Response createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        
+        //make the school
+        Map<String, Object> schoolMap = ResourceTestUtil.createTestEntity(schoolResourceName);
+        EntityBody schoolEntityBody = new EntityBody(schoolMap);
+        Response createSchoolResponse = schoolResource.create(schoolEntityBody, httpHeaders, uriInfo);
+        String schoolId = ResourceTestUtil.parseIdFromLocation(createSchoolResponse);
+        
+        //make the section with a reference to the school
         Map<String, Object> map = ResourceTestUtil.createTestEntity(sectionResourceName);
         map.put(ParameterConstants.SCHOOL_ID, schoolId);
-        sectionResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
+        Response createSectionResponse = sectionResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createSectionResponse);
+        
+        //lookup all sections for the specified school
         Response response = schoolResource.getSectionsForSchool(schoolId, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);
-        assertEquals("School IDs should equal", schoolId, body.get(ParameterConstants.SCHOOL_ID));
+        assertEquals("Expected section not returned", sectionId, body.get("id"));
     }
+    
 }

@@ -113,7 +113,7 @@ public class ApplicationAuthorizationResourceTest {
     public void testBadCreate() {   //authId doesn't match principal
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("OTHER-DISTRICT");
-        Mockito.when(delegationUtil.getDelegateEdOrgs()).thenReturn(new ArrayList<String>());
+        Mockito.when(delegationUtil.getAppApprovalDelegateEdOrgs()).thenReturn(new ArrayList<String>());
         Response resp = resource.createAuthorization(auth, uriInfo);
     }
 

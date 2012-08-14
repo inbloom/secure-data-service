@@ -15,191 +15,158 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
-
-require 'rubygems'
 require 'selenium-webdriver'
-#require_relative '/../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../utils/sli_utils.rb'
 
-
-
-Given /^an admin user Demo exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
-  
-
+When /^I navigate to the Portal home page$/ do
+  @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 10)  
 end
 
-Given /^a normal user Educator exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
-  
-  #User.new(:username => username, :password => password, :password_confirmation => password).save! unless User.exists?(:username => username)
- # User.exists?(:username => username)
+Then /^I should see Admin link$/ do
+  @driver.find_element(:link_text, "Admin")
 end
 
-Then /^I am on the Realm selection page$/ do
-  @driver.navigate.to "https://devlr2.slidev.org"
+Then /^I should not see Admin link$/ do
+  adminLink = @driver.find_elements(:link_text,"Admin")
+  assert(adminLink.length == 0, "Admin link was found")
 end
 
-Then /^I select "([^\"]*)"$/ do |text|
-
-a=@driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
-options=a.find_elements(:tag_name=>"option") # all the options of that select tag will be selected
-options.each do |g|
-  if g.text == text
-    g.click
-    break
-  end
-end
-ele=@driver.find_element(:id, "go")
-ele.click
-
-  #select(text, :from => 'realmId') 
+Then /^I click on log out$/ do
+  menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
+  menu = menuList.find_element(:id,"menulink")
+  menu.click
+  menuList.find_element(:link_text, "Logout").click
+  assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
 end
 
-
-Then /^I select "([^\"]*)" from "([^\"]*)"$/ do |text,field|
- a=@driver.find_element(:id, field)
- options=a.find_elements(:tag_name=>"option")
- options.each do |g|
-  if g.text == text
-    g.click
-    break
-  end
- end
-end
-
-
-
-Then /^I click "([^\"]*)"$/ do |btn_text|
-  ele=@driver.find_element(:id, "go")
-  ele.click
-  #@driver.find_element(:xpath, "//form/input[@value=#{btn_text}]").click
-end 
-
-Given /^EULA has been accepted$/ do
-
-end
-
-When /^I go to the login page$/ do
- @driver.navigate.to "https://devlr2.slidev.org"
-begin
-a=@driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
-ele=true
-rescue
-ele=false
-end
-if ele == true
-options=a.find_elements(:tag_name=>"option") # all the options of that select tag will be selected
-options.each do |g|
-  if g.text == 'Shared Learning Infrastructure'
-    g.click
-    break
+# TODO, look for something now in eula, if found proceed
+Then /^I should be on Portal home page$/ do
+  home = @driver.find_elements(:class, "sli_home_title")
+  assert(home.length == 1, "User is not on the portal home page")
+  if (@driver.page_source.include?("d_popup"))
+    accept = @driver.find_element(:xpath, "//input[@value='Agree']")
+    puts "EULA is present"
+    accept.click
+  else
+    puts "EULA has already been accepted"
   end
 end
 
-ele=@driver.find_element(:id, "go")
-ele.click
-end
-
-  #visit "https://devlr2.slidev.org"
- # select('Shared Learning Infrastructure', :from => 'realmId')
-  #click_button('Go')
-end
-
-
-
-
-Then /^I should logged out$/ do
-  @driver.find_element(:link, 'Logout').click
-  #click_link('Logout')
-end
-
-Then /^I should be on the home page$/ do
-  @driver.find_element(:link, 'Logout').displayed? ||   @driver.find_element(:link, 'Sign out').displayed?
-
-end
-
-
-
-#Then /^(?:|I )should be on (.+)$/ do |page_name|
-#  current_path = URI.parse(current_url).select(:path, :query).compact.join('?')
-#  if defined?(Spec::Rails::Matchers)
-#    current_path.should == path_to(page_name)
-#  else
-#    assert_equal path_to(page_name), current_path
-#  end
-#end
-
-Given /^I should remove all cookies$/ do
- @driver.manage.delete_all_cookies
-end
-
-When /^I login with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
-  @driver.manage.delete_all_cookies
-  element = @driver.find_element(:id, 'IDToken1') #the username field id is IDToken1
-  element.send_keys username
-
-  element = @driver.find_element(:id, 'IDToken2') #the username field id is IDToken2
-  element.send_keys password
-  element=@driver.find_element(:class, "Btn1Def")
-  element.click
-  #wait = Selenium::WebDriver::Wait.new(:timeout => 100) # seconds
- # wait.until { driver.find_element(:link => "Logout") }
-end
 Then /^I should be on the authentication failed page$/ do
- @driver.navigate.to "https://devopenam1.slidev.org:80/idp2/UI/Login"
+   @driver.page_source.include?('Invalid')
 end
 
-Then /^I click button "([^\"]*)"$/ do |text|
-  @driver.find_element(:xpath, "//span/input[@value='#{text}']").click 
-end
-
-
-Then /^It open a popup$/ do
- @driver.navigate.to "https://devlr2.slidev.org/web/guest/report-a-problem"
-end
-
-
-Then /^I fill "([^"]*)" from "([^"]*)"$/ do |arg1, arg2|
-  @driver.find_element(:id, arg2).send_keys arg1
-end
-
-Then /^I close the browser$/ do
- @driver.quit
+Then /^I should be on the admin page$/ do
+  title = @driver.find_element(:class, "sli_home_title").text
+  assert(title == "ADMIN", "User is not in the admin page")
 end
 
 Then /^(?:|I )should see "([^\"]*)"$/ do |text|
-  begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
-   link=true
-  rescue
-   link=false
-  end
-  link 
-  #page.should have_content(text)
+  body = @driver.find_element(:tag_name, "body")
+  assert((body.attribute('innerHTML').include? text) == true, "Body doesn't contain #{text}")
 end
 
 Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
+  body = @driver.find_element(:tag_name, "body")
+  assert((body.attribute('innerHTML').include? text) == false, "Body contains #{text}")
+end
+
+When /^I click on Admin$/ do
+  clickOnLink("Admin")
+end
+
+And /^I should see logo$/ do 
+  logo = @driver.find_element(:class, "company-logo")
+  text = @driver.find_element(:class, "sli_logo_main").text
+  assert(text == "SLC", "Expected: SLC, Actual: {#text}")
+end
+
+And /^I should see footer$/ do
+  footer = @driver.find_element(:class, "portlet-body")
+end
+
+And /^I should see username "([^"]*)"$/ do |expectedName|
+  name = @driver.find_element(:class, "first_item").text
+  assert(name == expectedName, "Expected: #{expectedName} Actual: #{name}")
+end
+
+Then /^under System Tools, I click on "(.*?)"$/ do |link|
+  clickOnLink(link)
+end
+
+Then /^under Application Configuration, I click on "(.*?)"$/ do |link|
+  clickOnLink(link)
+end
+
+Then /^under My Applications, I click on "(.*?)"$/ do |link|
+  links = @driver.find_elements(:tag_name, "a")
+  links.each do |availableLinks|
+    if (availableLinks.text.include? link)
+      availableLinks.click
+      break
+    end
+  end
+end
+
+Then /^under Application Configuration, I see the following: "(.*?)"$/ do |links|
+  section = @driver.find_element(:id, "column-5")
+  verifyItemsInSections(links, section, "Application Configuration")
+end
+
+Then /^under System Tools, I see the following "(.*?)"$/ do |links|
+  section = @driver.find_element(:id, "column-4")
+  verifyItemsInSections(links, section, "System Tools")
+end
+
+Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
+  myApps = @driver.find_element(:id, "column-4")
+  verifyItemsInSections(apps, myApps, "My Applications")
+end
+
+Then /^I switch to the iframe$/ do
+  wait = Selenium::WebDriver::Wait.new(:timeout => 15) 
+  wait.until{(iframe = isIframePresent()) != nil}
+end
+
+def isIframePresent()
+  #TODO figure out how to determine when page is loaded instead of using sleep
+  sleep 2
+  @driver.switch_to.default_content
   begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
-   link=true
-  rescue
-   link=false
+    iframe = @driver.find_element(:tag_name, "iframe")
+    puts "iframe found"
+    @driver.switch_to.frame(iframe.attribute('id'))
+    puts "iframe switched"
+    @driver.find_element(:id,"notice")
+    puts "iframe contents appears to be loaded"
+    return iframe
+  rescue  
+    puts "iframe not fully loaded yet"
+    @driver.switch_to.default_content
+    return nil
   end 
-  link
-
-#  page.should_not have_content(text)
-end
-When /^(?:|I )follow "([^\"]*)"$/ do |link|
-  @driver.find_element(:link, link).click
-  #click_link(link)
 end
 
+def clickOnLink(linkText)
+  @driver.find_element(:link, linkText).click
+end
 
-#Then /^(?:|I )should be on (.+)$/ do |page_name|
-#  current_path = URI.parse(current_url).select(:path, :query).compact.join('?')
-#  if defined?(Spec::Rails::Matchers)
-#    current_path.should == path_to(page_name)
-#  else
-#    assert_equal path_to(page_name), current_path
-#  end
-#end
+def verifyItemsInSections(expectedItems, section, sectionTitle)
+  listOfItems = expectedItems.split(';')
+  title = section.find_element(:class, "portlet-title-text")
+  assert(title.text == sectionTitle, "Expected: #{sectionTitle} Actual: #{title}")
+  all_trs = section.find_element(:class, "portlet-body").find_elements(:tag_name, "tr")
+  listOfItems.each do |item|
+    found = false
+    all_trs.each do |tr|
+      if (tr.text.include? item)
+        found = true
+        break
+      end
+    end
+    assert(found,"#{item} was not found in My Applications")
+  end
+end
+

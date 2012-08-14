@@ -80,10 +80,14 @@
 
   <#assign id = getDivId(gridId)>
   <br/>
+  <div id="repeatHeaderGrid${id}">
     <script type="text/javascript">
       <#-- make grid -->
-      SLC.grid.repeatHeaderGrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+      $(function() {
+         SLC.grid.repeatHeaderGrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+      });
     </script>
+  </div>
 
 </#macro>
 
@@ -103,6 +107,7 @@
 	document.title = SLC.dataProxy.getLayoutName();
 
 	setTimeout(SLC.util.placeholderFix, 500);
+
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">

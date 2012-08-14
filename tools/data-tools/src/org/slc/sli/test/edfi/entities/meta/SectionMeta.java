@@ -17,6 +17,8 @@
 
 package org.slc.sli.test.edfi.entities.meta;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class SectionMeta {
     public final String id;
     public final String schoolId;
@@ -33,7 +35,7 @@ public class SectionMeta {
         String sessionIdNoAlpha = courseMeta.simpleId.replaceAll("[a-z]", "");
         String courseIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
 
-        this.id = schoolIdNoAlpha + "-" + sessionIdNoAlpha + "-" + courseIdNoAlpha + "-" + id;
+        this.id = schoolIdNoAlpha + MetaRelations.ID_DELIMITER + sessionIdNoAlpha + MetaRelations.ID_DELIMITER + courseIdNoAlpha + MetaRelations.ID_DELIMITER + id;
         this.schoolId = schoolMeta.id;
         this.courseId = courseMeta.id;
         this.sessionId = sessionMeta.id;

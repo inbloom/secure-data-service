@@ -27,6 +27,7 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,6 +204,7 @@ public class Login {
             // if a user with this userId exists, get his info and roles/groups and
             // log that information as a failed login attempt.
             String edOrg = "UnknownEdOrg";
+            String tenant = "UnknownTenant";
             List<String> userRoles = Collections.emptyList();
             try {
                 User unauthenticatedUser = userService.getUser(realm, userId);
@@ -210,6 +212,7 @@ public class Login {
                     Map<String, String> attributes = unauthenticatedUser.getAttributes();
                     if (attributes != null) {
                         edOrg = attributes.get("edOrg");
+                        tenant = attributes.get("tenant");
                     }
                 }
                 userRoles = userService.getUserGroups(realm, userId);
@@ -218,7 +221,7 @@ public class Login {
             } catch (Exception exception) {
                 LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
             }
-            writeLoginSecurityEvent(false, userId, userRoles, edOrg, request);
+            writeLoginSecurityEvent(false, userId, userRoles, edOrg, tenant, request);
             return mav;
         }
 
@@ -260,7 +263,7 @@ public class Login {
         	SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
         			user.getAttributes(), requestInfo);
 
-	        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
+	        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
 
 	        httpSession.setAttribute(USER_SESSION_KEY, user);
 
@@ -277,13 +280,14 @@ public class Login {
     }
 
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
-            HttpServletRequest request) {
+            String tenant, HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
 
         event.setUser(userId);
         event.setTargetEdOrg(edOrg);
         event.setRoles(roles);
-
+        event.setTenantId(tenant);
+        
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {

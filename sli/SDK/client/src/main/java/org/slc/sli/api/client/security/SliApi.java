@@ -80,7 +80,7 @@ public class SliApi extends DefaultApi20 {
     /**
      * TODO: add javadoc
      */
-    public class TokenResponse {
+    public static class TokenResponse {
         private Token token;
         private Response oauthResponse;
         public Token getToken() {

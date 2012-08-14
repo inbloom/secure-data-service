@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -32,7 +31,6 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StaffCohortAssociationResource;
 import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociationResource;
 import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -99,13 +97,13 @@ public class StaffResourceTest {
     private HttpHeaders httpHeaders;
 
     private final String firstStaffId = "1234";
-    private final String secondStaffId = "5678";
+    //private final String secondStaffId = "5678";
     private final String edOrgId = "2345";
     private final String edOrgAssociationId = "3456";
     private final String cohortId = "4567";
     private final String cohortAssociationId = "5678";
     private final String cohortAssnBeginDate = "2012-02-02";
-    private final String secondName = "Dua";
+    //private final String secondName = "Dua";
     private final String uniqueStateId = "9876";
     private final String staffClassification = "orange";
     private final String cohortType = "Unua Type";
@@ -133,28 +131,6 @@ public class StaffResourceTest {
         entity.put(StaffResource.SEX, "Female");
         entity.put(StaffResource.HISPANIC_LATINO_ETHNICITY, "true");
         entity.put(StaffResource.EDUCATION_LEVEL, "PhD");
-        return entity;
-    }
-
-    private Map<String, Object> createTestUpdateEntity() {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.STAFF_ID, firstStaffId);
-        entity.put(StaffResource.UNIQUE_STATE_ID, uniqueStateId);
-        entity.put(StaffResource.NAME, secondName);
-        entity.put(StaffResource.SEX, "Female");
-        entity.put(StaffResource.HISPANIC_LATINO_ETHNICITY, "true");
-        entity.put(StaffResource.EDUCATION_LEVEL, "PhD");
-        return entity;
-    }
-
-    private Map<String, Object> createTestSecondaryEntity() {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.STAFF_ID, secondStaffId);
-        entity.put(StaffResource.UNIQUE_STATE_ID, uniqueStateId);
-        entity.put(StaffResource.NAME, "Tria");
-        entity.put(StaffResource.SEX, "Male");
-        entity.put(StaffResource.HISPANIC_LATINO_ETHNICITY, "false");
-        entity.put(StaffResource.EDUCATION_LEVEL, "HS Diploma");
         return entity;
     }
 
@@ -189,114 +165,6 @@ public class StaffResourceTest {
         return entity;
     }
 
-    @Test
-    public void testCreate() {
-        Response response = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-
-        String id = ResourceTestUtil.parseIdFromLocation(response);
-        assertNotNull("ID should not be null", id);
-    }
-
-    @Test
-    public void testRead() {
-        //create one entity
-        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        Response response = staffResource.read(id, httpHeaders, uriInfo);
-
-        Object responseEntityObj = null;
-
-        if (response.getEntity() instanceof EntityResponse) {
-            EntityResponse resp = (EntityResponse) response.getEntity();
-            responseEntityObj = resp.getEntity();
-        } else {
-            fail("Should always return EntityResponse: " + response);
-        }
-
-        if (responseEntityObj instanceof EntityBody) {
-            assertNotNull(responseEntityObj);
-        } else if (responseEntityObj instanceof List<?>) {
-            @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have one entity", results.size() == 1);
-        } else {
-            fail("Response entity not recognized: " + response);
-        }
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testDelete() {
-        //create one entity
-        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //delete it
-        Response response = staffResource.delete(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unused")
-        Response getResponse = staffResource.read(id, httpHeaders, uriInfo);
-    }
-
-    @Test
-    public void testUpdate() {
-        //create one entity
-        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //update it
-        Response response = staffResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        //try to get it
-        Response getResponse = staffResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
-        EntityBody body = (EntityBody) entityResponse.getEntity();
-        assertNotNull("Should return an entity", body);
-        assertEquals(ParameterConstants.STAFF_ID + " should be " + firstStaffId, firstStaffId, body.get(ParameterConstants.STAFF_ID));
-        assertEquals(StaffResource.NAME + " should be " + secondName, secondName, body.get(StaffResource.NAME));
-        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-    }
-
-    @Test
-    public void testReadAll() {
-        //create two entities
-        staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        staffResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-
-        //read everything
-        Response response = staffResource.readAll(0, 100, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unchecked")
-        EntityResponse entityResponse = (EntityResponse) response.getEntity();
-        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
-        assertNotNull("Should return entities", results);
-        assertTrue("Should have at least two entities", results.size() >= 2);
-    }
-
-    @Test
-    public void testReadCommaSeparatedResources() {
-        Response response = staffResource.read(getIDList(ResourceNames.STAFF), httpHeaders, uriInfo);
-        assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unchecked")
-        EntityResponse entityResponse = (EntityResponse) response.getEntity();
-        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
-        assertEquals("Should get 2 entities", 2, results.size());
-
-        EntityBody body1 = results.get(0);
-        assertNotNull("Should not be null", body1);
-        assertEquals(ParameterConstants.STAFF_ID + " should be " + firstStaffId, firstStaffId, body1.get(ParameterConstants.STAFF_ID));
-        assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
-
-        EntityBody body2 = results.get(1);
-        assertNotNull("Should not be null", body2);
-        assertEquals(ParameterConstants.STAFF_ID + " should be " + secondStaffId, secondStaffId, body2.get(ParameterConstants.STAFF_ID));
-        assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
-    }
 
     @Test
     public void testGetEdOrgAssociations() {
@@ -599,13 +467,5 @@ public class StaffResourceTest {
         assertNotNull("Should return an entity", body);
         assertEquals("studentUniqueStateId should be 1001", "1001", body.get("programId"));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-    }
-
-    private String getIDList(String resource) {
-        //create more resources
-        Response createResponse1 = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        Response createResponse2 = staffResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-
-        return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

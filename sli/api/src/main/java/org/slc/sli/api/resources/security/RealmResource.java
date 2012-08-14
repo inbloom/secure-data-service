@@ -38,6 +38,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -55,11 +60,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -82,16 +82,16 @@ public class RealmResource {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-    
+
     @Autowired
     private IdConverter idConverter;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-    
+
     @Autowired
     private RoleInitializer roleInitializer;
-    
+
     @Autowired
     private RealmHelper realmHelper;
 
@@ -190,10 +190,10 @@ public class RealmResource {
         newRealm.put("edOrg", SecurityUtil.getEdOrg());
 
         String id = service.create(newRealm);
-        
+
         //Also create custom roles
         roleInitializer.dropAndBuildRoles(id);
-        
+
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                 + newRealm.get("name") + "] created!"));
         String uri = uriToString(uriInfo) + "/" + id;
@@ -224,7 +224,7 @@ public class RealmResource {
 
             if (curEntity == null) {
                 continue;
-            } 
+            }
 
             if (realm.length() == 0) {
                 curEntity.put("link", info.getBaseUri() + info.getPath().replaceAll("/$", "") + "/" + id);
@@ -275,7 +275,8 @@ public class RealmResource {
             @Override
             public Entity execute() {
                 return repo.findOne("realm", displayNameQuery);
-            }});
+            }
+        });
 
         if (entity != null) {
             debug("name: {}", entity.getBody().get("name"));

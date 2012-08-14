@@ -20,6 +20,8 @@ package org.slc.sli.test.edfi.entities.meta;
 import java.util.Set;
 import java.util.HashSet;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class DisciplineActionMeta {
 
     public Set<String> incidentIds;
@@ -31,7 +33,7 @@ public class DisciplineActionMeta {
     public final String id;
 
     public DisciplineActionMeta(String id, SchoolMeta schoolMeta) {
-        this.id = schoolMeta.id + "-" + id;
+        this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id;
 
         incidentIds = new HashSet<String>();
         staffIds = new HashSet<String>();
