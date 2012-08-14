@@ -2582,6 +2582,12 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="assessmentAssociations" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Assessments associated with the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
 	</xs:complexType>
 
@@ -2764,7 +2770,6 @@
 				that represents a student's performance on a set of items on a test.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -2911,17 +2916,6 @@
 						to
 						assessment items.
 					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="studentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the student associated with the
-						assessment.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="assessmentId" type="reference">
