@@ -51,7 +51,7 @@ public class LdapServiceImpl implements LdapService {
 
     private static final String USER_ID_NUMBER = "500";
     private static final String GROUP_ID_NUMBER = "113";
-    private static final String LOGIN_SHELL = "/bin/bash";
+    private static final String LOGIN_SHELL = "/sbin/nologin";
 
     public LdapServiceImpl() {
     }
