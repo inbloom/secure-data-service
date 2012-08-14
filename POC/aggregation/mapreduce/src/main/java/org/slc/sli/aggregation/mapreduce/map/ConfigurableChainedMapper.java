@@ -69,7 +69,7 @@ public class ConfigurableChainedMapper extends ChainMapper {
     enum mapper_entry {
         DESCRIPTION, MAP_CLASS, INPUT_COLLECTION, INPUT_KEY_FIELD, INPUT_KEY_TYPE,
         INPUT_VALUE_TYPE, READ_FROM_SECONDARIES, OUTPUT_KEY_TYPE, OUTPUT_VALUE_TYPE, BY_VALUE,
-        QUERY, FIELDS, HADOOP_OPTIONS;
+        QUERY, FIELDS, HADOOP_OPTIONS, COMMAND_LINE_QUERY_PROPERTIES;
 
         @Override
         public String toString() {
