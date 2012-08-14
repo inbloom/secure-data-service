@@ -1823,7 +1823,6 @@
 				with a program.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1834,16 +1833,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="programId" type="reference" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The program associated to the staff.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -3437,7 +3426,6 @@
 				student participates in or is served by.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3448,16 +3436,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="programId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The program associated with the student.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6927,6 +6905,18 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Academic Records for the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="studentAssociations" type="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Academic Records for the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
