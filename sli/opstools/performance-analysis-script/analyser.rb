@@ -230,7 +230,7 @@ class Analyser
           elsif ep.include?"Max"
             puts blue("#{ep}")
           else
-            puts "#{ep}"  
+            puts "#{ep}"
           end
         }
       }
