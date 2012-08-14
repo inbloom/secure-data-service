@@ -258,23 +258,32 @@ When /^I confirm the delete action$/ do
 end
 
 Then /^that user is removed from LDAP$/ do
- if @test_env == "sandbox"
-   idpRealmLogin("sandboxoperator", nil)
+  if @test_env == "sandbox"
+    idpRealmLogin("sandboxoperator", nil)
   else
-  idpRealmLogin("operator", nil)
+    idpRealmLogin("operator", nil)
   end
   sessionId = @sessionId
   format = "application/json"
-  restHttpGet("/users",format,sessionId)
-  notFound = true
-  result = JSON.parse(@res.body)
-  result.each do |user|
-  if user["fullName"] == @userFullName
-  notFound = false 
+  found = false
+  30.times do
+    restHttpGet("/users",format,sessionId)
+    found = false
+    result = JSON.parse(@res.body)
+    result.each do |user|
+      if user["fullName"] == @userFullName
+        found = true
+        break
+      end
+      puts user["fullName"]
+    end
+    if !found
+      break
+    else
+      sleep 1
+    end
   end
-  puts user["fullName"]
-  end
-  assert(notFound,"the user #{@userFullName} is not removed from LDAP") 
+  assert(!found,"the user #{@userFullName} is not removed from LDAP")
 end
 
 Then /^the user entry is removed from the table$/ do
