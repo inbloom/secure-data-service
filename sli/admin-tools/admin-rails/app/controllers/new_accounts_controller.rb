@@ -46,8 +46,8 @@ class NewAccountsController < ForgotPasswordsController
     @new_account_password.confirmation = params[:new_account_password][:confirmation]
     @new_account_password.terms_and_conditions = params[:terms_and_conditions]
     respond_to do |format|
-      # re-render the form if not valid otherwise redirect to the target page 
-      if @new_account_password.set_password
+      # re-render the form if not valid otherwise redirect to the target page
+      if @new_account_password.set_password {|emailAddress, fullName| ApplicationMailer.samt_welcome(@user[:emailAddress], @user[:first], APP_LDAP_CLIENT.get_user_groups(@user[:email])).deliver}
         @user[:status] = 'approved'
         APP_LDAP_CLIENT.update_status(@user)
         format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}

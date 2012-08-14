@@ -16,16 +16,32 @@ var schema = new Schema({
 
 // create model object for newBatchJob
 // Mongoose#model(name, [schema], [collection], [skipInit])
+var Error = mongoose.model('Error', schema, 'error'); 
 var NewBatchJob = mongoose.model('NewBatchJob', schema, 'newBatchJob'); 
 var BatchJobStage = mongoose.model('BatchJobStage', schema, 'batchJobStage'); 
 var StagedEntities = mongoose.model('StagedEntities', schema, 'stagedEntities'); 
 
 // map of our model vars for generic route lookup
 var routeMap = {
-  'job': NewBatchJob, 
-  'stage': BatchJobStage,
-  'stagedentities': StagedEntities
+  'error': { 'model': Error, 'joinFunc': findJoinBatchJobId },
+  'job': { 'model': NewBatchJob },
+  'stage': { 'model': BatchJobStage, 'joinFunc': findJoinJobId  },
+  'stagedentities': { 'model': StagedEntities, 'joinFunc': findJoinJobId  }
 };
+
+function findJoinJobId(model, docId, res) {
+  model.find({ 'jobId': docId }, function (err,joinDoc) {
+    console.log('jobId(%s) join doc: %s', docId, joinDoc);
+    res.send(joinDoc);
+  });
+}
+
+function findJoinBatchJobId(model, docId, res) {
+  model.find({ 'batchJobId': docId}, function (err,joinDoc) {
+    console.log('batchJobId(%s) join doc: %s', docId, joinDoc);
+    res.send(joinDoc);
+  });
+}
 
 function genericFind(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); 
@@ -35,31 +51,40 @@ function genericFind(req, res, next) {
 
   if (routeMap[req.params[0]] != null) {
 
+    var firstModel = routeMap[req.params[0]].model;
+
     if (req.params[1] == null) {
-      // find all query
-      routeMap[req.params[0]].find({}, function (err,docs) {
+
+      // find all query (only one param)
+      firstModel.find({}, function (err,docs) {
         console.log('docs: %s', docs);
         res.send(docs);
       });
-    }  else {
+    } else {
 
-      routeMap[req.params[0]].findOne({'_id':req.params[1]}, function (err,doc) {
-        // find by id query
-        console.log('doc: %s', doc);
-        if (req.params[2] == null) {
+      if (req.params[2] == null) {
+
+        // find by _id query (params: /resource/id)
+        firstModel.findOne({'_id':req.params[1]}, function (err,doc) {
+          console.log('doc: %s', doc);
           res.send(doc);
-        } else if (routeMap[req.params[2]] != null) {
-          // join with additional resource
-          console.log('attempting to join with: $s using id $s', req.params[2], doc._id);
-          routeMap[req.params[2]].find({'jobId':doc._id}, function (err,joinDoc) {
-            console.log('joinDoc: %s', joinDoc);
-            res.send(joinDoc);
-          });
+        });
+      } else {
+
+        // join first resource with second (params: /resource1/id/resource2)
+        if (routeMap[req.params[2]] != null) {
+          console.log('attempting to join with: %s using id %s', req.params[2], req.params[1]);
+
+          var secondModel = routeMap[req.params[2]].model;
+          
+          // lookup a defined join function to use - can't provide the id field of the query as a variable for some reason
+          routeMap[req.params[2]].joinFunc(secondModel, req.params[1], res);
+
         } else {
           console.log('unregistered model requested in join: %s', req.params[2]);
           res.send(404);
         }
-      });
+      }
     }
   } else {
     console.log('unregistered model requested: %s', req.params[2]);

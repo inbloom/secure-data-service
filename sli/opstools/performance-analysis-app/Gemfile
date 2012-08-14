@@ -1,4 +1,9 @@
 source :rubygems
+gem 'rake'
 gem 'sinatra'
 gem 'mongo'
-gem 'bson_ext'
+
+group :development do
+    gem "warbler"
+    gem 'trinidad'
+end

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.CourseCode;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class CourseMeta {
     public final String id;
@@ -31,7 +32,7 @@ public class CourseMeta {
     public final List<CourseCode> courseCodes = new ArrayList<CourseCode>();
 
     public CourseMeta(String id, SchoolMeta schoolMeta) {
-        this.id = schoolMeta.id + "-" + id;
+        this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id;
         this.schoolId = schoolMeta.id;
 
         this.simpleId = id;
