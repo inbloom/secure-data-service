@@ -2552,18 +2552,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradeLevel" type="gradeLevelType"
-				minOccurs="0" maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation>Current grade level</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolId" type="xs:string" minOccurs="0"
-				maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation>Current school</xs:documentation>
-				</xs:annotation>
-			</xs:element>
             <xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Report cards for the student.
