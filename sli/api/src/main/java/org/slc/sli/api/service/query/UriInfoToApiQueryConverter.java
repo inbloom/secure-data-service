@@ -152,7 +152,7 @@ public class UriInfoToApiQueryConverter {
                 }
             }
         }
-
+        
         return apiQuery;
     }
 

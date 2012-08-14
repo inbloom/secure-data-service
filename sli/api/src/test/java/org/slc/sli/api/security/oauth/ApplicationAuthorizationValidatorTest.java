@@ -17,8 +17,9 @@
 
 package org.slc.sli.api.security.oauth;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,10 +28,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,7 +36,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
+/**
+ * Tests authorized applications.
+ *
+ *
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -64,31 +72,31 @@ public class ApplicationAuthorizationValidatorTest {
     Entity notAuthorizedApp = null;
     Entity leaRealm = null;
     Entity sliRealm = null;
-    
+
     @Before
     public void setup() {
 
         HashMap<String, Object> body = null;
-        
+
         //Create edorgs
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("State Education Agency"));
-        sea1 = repo.create("educationOrganization", body);   
-        
+        sea1 = repo.create("educationOrganization", body);
+
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", sea1.getEntityId());
         lea1 = repo.create("educationOrganization", body);
-        
+
         //Create a staff associated with the LEA
         body.put("staffUniqueStateId", "staff1");
         staff1 = repo.create("staff", body);
-        
+
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea1.getEntityId());
         body.put("staffReference", staff1.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
-        
+
         //Create an app admin app - admin_visible = true
         body = new HashMap<String, Object>();
         body.put("name", "Admin App");
@@ -96,7 +104,7 @@ public class ApplicationAuthorizationValidatorTest {
         body.put("allowed_for_all_edorgs", false);
         body.put("admin_visible", true);
         adminApp = repo.create("application", body);
-        
+
         //Create an auto allowed/authorized app
         body = new HashMap<String, Object>();
         body.put("name", "Auto App");
@@ -104,41 +112,41 @@ public class ApplicationAuthorizationValidatorTest {
         body.put("allowed_for_all_edorgs", true);
         body.put("admin_visible", false);
         autoApp = repo.create("application", body);
-        
+
         //Create a normal app that's approved and authorized
         body = new HashMap<String, Object>();
         body.put("name", "Approved App");
         body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
         approvedApp = repo.create("application", body);
-        
+
         //Create a normal app that's authorized by the edorg but not approved by developer
         body = new HashMap<String, Object>();
         body.put("name", "App No EdOrgs");
         body.put("authorized_ed_orgs", new ArrayList());
         nonApprovedApp = repo.create("application", body);
-        
+
         //Create a normal app that's approved by the developer but not authorized by edorg
         body = new HashMap<String, Object>();
         body.put("name", "App No EdOrgs");
         body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
         notAuthorizedApp = repo.create("application", body);
-        
+
         //Create a normal app that's not authorized for any edorgs and not authorized by any edorgs
         body = new HashMap<String, Object>();
         body.put("name", "App No Auth");
         body.put("authorized_ed_orgs", new ArrayList());
         noAuthApp = repo.create("application", body);
-        
+
         body = new HashMap<String, Object>();
         body.put("authId", lea1.getEntityId());
         body.put("authType", "EDUCATION_ORGANIZATION");
         body.put("appIds", Arrays.asList(approvedApp.getEntityId(), nonApprovedApp.getEntityId()));
-  
+
         repo.create("applicationAuthorization", body);
-        
+
         body = new HashMap<String, Object>();
         leaRealm = repo.create("realm", body);
-        
+
         body = new HashMap<String, Object>();
         body.put("admin", true);
         sliRealm = repo.create("realm", body);
@@ -151,7 +159,7 @@ public class ApplicationAuthorizationValidatorTest {
         principal.setEdOrg(lea1.getEntityId());
         principal.setRealm(leaRealm.getEntityId());
         List<String> ids = validator.getAuthorizedApps(principal);
-        
+
         assertTrue("Can see autoApp", ids.contains(autoApp.getEntityId()));
         assertTrue("Can see approvedApp", ids.contains(approvedApp.getEntityId()));
         assertFalse("Cannot see adminApp", ids.contains(adminApp.getEntityId()));
@@ -159,7 +167,7 @@ public class ApplicationAuthorizationValidatorTest {
         assertFalse("Cannot see nonApprovedApp", ids.contains(nonApprovedApp.getEntityId()));
         assertFalse("Cannot see notAuthorizedApp", ids.contains(notAuthorizedApp.getEntityId()));
     }
-    
+
     @Test
     public void testAdminUser() throws InterruptedException {
         SLIPrincipal principal = new SLIPrincipal();
@@ -167,7 +175,7 @@ public class ApplicationAuthorizationValidatorTest {
         principal.setEdOrg("SOMETHING");
         principal.setRealm(sliRealm.getEntityId());
         List<String> ids = validator.getAuthorizedApps(principal);
-        
+
         assertFalse("Cannot see autoApp", ids.contains(autoApp.getEntityId()));
         assertFalse("Cannot see approvedApp", ids.contains(approvedApp.getEntityId()));
         assertTrue("Can see adminApp", ids.contains(adminApp.getEntityId()));

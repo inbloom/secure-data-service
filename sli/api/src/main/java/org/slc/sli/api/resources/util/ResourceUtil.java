@@ -45,6 +45,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -243,9 +244,11 @@ public class ResourceUtil {
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
         try {
-            CalculatedData aggregateData = defn.getService().getCalculatedValues(id);
+            CalculatedData<?> aggregateData = defn.getService().getCalculatedValues(id);
             return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
         } catch (AccessDeniedException e) {
+            return false;
+        } catch (EntityNotFoundException enfe) {
             return false;
         }
     }

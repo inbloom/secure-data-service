@@ -27,17 +27,16 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
+import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
-import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -68,6 +67,9 @@ public class DefaultLogicalEntityTest {
     @Mock
     private EntityDefinitionStore entityDefinitionStore;
 
+    @Mock
+    private ApiQuery apiQuery;
+
     @InjectMocks
     private LogicalEntity logicalEntity = new DefaultLogicalEntity();
 
@@ -82,16 +84,20 @@ public class DefaultLogicalEntityTest {
         when(mockEntityDefinition.getType()).thenReturn("TEST");
         when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(mockEntityDefinition);
         @SuppressWarnings("unchecked")
-        final Map<Type, SelectorQueryPlan> mockPlan = mock(Map.class);
+        final SelectorQuery mockPlan = mock(SelectorQuery.class);
         when(selectorQueryEngine.assembleQueryPlan(any(SemanticSelector.class))).thenReturn(mockPlan);
 
         final Constraint mockConstraint = mock(Constraint.class);
+
+        final ApiQuery apiQuery = mock(ApiQuery.class);
+        when(apiQuery.getSelector()).thenReturn(new HashMap<String, Object>());
+
         @SuppressWarnings("unchecked")
         final List<EntityBody> mockEntityList = mock(List.class);
-        when(selectorDocument.aggregate(mockPlan, mockConstraint)).thenReturn(mockEntityList);
+        when(selectorDocument.aggregate(mockPlan, apiQuery)).thenReturn(mockEntityList);
 
         final List<EntityBody> entityList =
-                logicalEntity.createEntities(new HashMap<String, Object>(), mockConstraint, "TEST");
+                logicalEntity.getEntities(apiQuery, mockConstraint, "TEST");
 
         assertEquals(mockEntityList, entityList);
     }

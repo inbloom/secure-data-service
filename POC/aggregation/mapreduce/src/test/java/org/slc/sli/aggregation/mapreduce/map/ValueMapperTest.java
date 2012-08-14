@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.hadoop.fs.ContentSummary;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.junit.Test;
@@ -60,8 +60,8 @@ public class ValueMapperTest {
         BSONObject entity = new BasicBSONObject("found", "data");
 
         @SuppressWarnings("unchecked")
-        OutputCollector<EmittableKey, Writable> collector = Mockito.mock(OutputCollector.class);
-        PowerMockito.when(collector, "collect", Matchers.any(EmittableKey.class),
+        Context context = Mockito.mock(Context.class);
+        PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
             @Override
@@ -87,7 +87,7 @@ public class ValueMapperTest {
             }
         });
 
-        m.map(key, entity, collector, null);
+        m.map(key, entity, context);
     }
 
     @Test
@@ -97,8 +97,8 @@ public class ValueMapperTest {
         BSONObject entity = new BasicBSONObject("not_found", "data");
 
         @SuppressWarnings("unchecked")
-        OutputCollector<EmittableKey, Writable> collector = Mockito.mock(OutputCollector.class);
-        PowerMockito.when(collector, "collect", Matchers.any(EmittableKey.class),
+        Context context = Mockito.mock(Context.class);
+        PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
             @Override
@@ -116,6 +116,6 @@ public class ValueMapperTest {
             }
         });
 
-        m.map(key, entity, collector, null);
+        m.map(key, entity, context);
     }
 }

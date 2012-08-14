@@ -79,7 +79,7 @@ public class IdFieldEmittableKeyTest {
 
         assertEquals(key.hashCode(), key2.hashCode());
 
-        key.setId(null);
+        key.setId(new Text(""));
         assertFalse(key.hashCode() == key2.hashCode());
     }
 
@@ -106,10 +106,10 @@ public class IdFieldEmittableKeyTest {
         assertFalse(key.equals(null));
         assertFalse(key.equals(Boolean.TRUE));
 
-        key2.setId(null);
+        key2.setId(new Text(""));
         assertFalse(key3.equals(key2));
 
-        key3.setId(null);
+        key3.setId(new Text(""));
         assertTrue(key2.equals(key3));
     }
 

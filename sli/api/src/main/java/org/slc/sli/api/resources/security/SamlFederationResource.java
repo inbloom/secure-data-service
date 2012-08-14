@@ -63,7 +63,6 @@ import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -96,7 +95,7 @@ public class SamlFederationResource {
 
     @Autowired
     private SamlAttributeTransformer transformer;
-    
+
     @Autowired
     private RolesToRightsResolver resolver;
 
@@ -247,7 +246,7 @@ public class SamlFederationResource {
             tenant = samlTenant;
             if (tenant == null) {
                 generateSamlValidationError(
-                        MessageFormat.format("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer,inResponseTo));
+                        MessageFormat.format("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer, inResponseTo));
             }
         } else {
             Object temp = realm.getBody().get("admin");
@@ -276,7 +275,7 @@ public class SamlFederationResource {
             debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
-        
+
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));

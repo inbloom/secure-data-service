@@ -31,17 +31,6 @@ import com.sun.jersey.core.util.Base64;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -57,9 +46,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+
 /**
  * Controller for Discovery Service
- * 
+ *
  * @author dkornishev
  */
 @Controller
@@ -80,7 +81,7 @@ public class AuthController {
 
     /**
      * Returns the Entity Service that will make calls to the realm collection.
-     * 
+     *
      * @return Entity Service.
      */
     public EntityService getRealmEntityService() {
@@ -90,7 +91,7 @@ public class AuthController {
 
     /**
      * Calls api to list available realms and injects into model
-     * 
+     *
      * @param model
      *            spring injected model
      * @return name of the template to use
@@ -100,8 +101,8 @@ public class AuthController {
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri,
             @RequestParam(value = "Realm", required = false) final String realmUniqueId,
-            @RequestParam(value = "client_id", required = true) final String clientId, 
-            @RequestParam(value = "state", required = false) final String state, 
+            @RequestParam(value = "client_id", required = true) final String clientId,
+            @RequestParam(value = "state", required = false) final String state,
             @CookieValue(value = "_tla", required = false) final String sessionId,
             final HttpServletResponse res, final Model model) throws IOException {
 
@@ -115,7 +116,7 @@ public class AuthController {
             }
         }
 
-        Object result = 
+        Object result =
                 SecurityUtil.runWithAllTenants(new SecurityTask<Object>() {
 
                     @Override
@@ -140,11 +141,12 @@ public class AuthController {
                                 return map;
                             }
                         });
-                    }});
- 
+                    }
+                });
+
 
         if (result instanceof EntityBody) {
-            return ssoInit( ((EntityBody) result).get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
+            return ssoInit(((EntityBody) result).get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
         }
 
         Map<String, String> map = (Map<String, String>) result;
@@ -161,11 +163,11 @@ public class AuthController {
     }
 
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, 
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode,
             @RequestParam("redirect_uri") String redirectUri,
             @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, 
-            @RequestParam("client_secret") String clientSecret, 
+            @RequestParam("client_id") String clientId,
+            @RequestParam("client_secret") String clientSecret,
             Model model) throws BadCredentialsException {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
@@ -206,17 +208,17 @@ public class AuthController {
 
     /**
      * Redirects user to the sso init url given valid id
-     * 
+     *
      * @param realmId
      *            id of the realm
      * @return directive to redirect to sso init page
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex, 
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex,
             @RequestParam(value = "sessionId", required = false) final String sessionId,
-            @RequestParam(value = "redirect_uri", required = false) String redirectUri, 
-            @RequestParam(value = "clientId", required = true) final String clientId, 
+            @RequestParam(value = "redirect_uri", required = false) String redirectUri,
+            @RequestParam(value = "clientId", required = true) final String clientId,
             @RequestParam(value = "state", required = false) final String state,
             HttpServletResponse res, Model model) throws IOException {
 

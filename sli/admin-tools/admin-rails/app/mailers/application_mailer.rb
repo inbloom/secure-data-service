@@ -46,26 +46,26 @@ class ApplicationMailer < ActionMailer::Base
     @fullName = fullName
     mail(:to => email_address, :subject => PASSWORD_CHANGE_SUBJECT )
   end
-  
+
   def notify_reset_password(email, key)
     user = APP_LDAP_CLIENT.read_user(email)
     @fullName = user[:first] + " " + user[:last]
     logger.info("user status is: #{user[:status]}")
     if user[:status]=="submitted"
-     @resetPasswordUrl=APP_CONFIG['email_replace_uri']+"/resetPassword/newAccount/"+key
-     else
-     @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+      @resetPasswordUrl=APP_CONFIG['email_replace_uri']+"/resetPassword/newAccount/"+key
+    else
+      @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
     end
     mail(:to => user[:emailAddress], :subject => FORGOT_PASSWORD_SUBJECT )
   end
-  
+
   def verify_email(email_address, firstName, userEmailValidationLink)
     @firstName = firstName
     @userEmailValidationLink=userEmailValidationLink
     @supportEmail=APP_CONFIG["support_email"]
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?VERIFY_EMAIL_SUBJECT_SANDBOX : VERIFY_EMAIL_SUBJECT_PROD))
   end
-  
+
   def provision_email(email_address, firstName, serverName, edorgId)
     @firstName = firstName
     @serverName = serverName
@@ -74,7 +74,7 @@ class ApplicationMailer < ActionMailer::Base
     @redirect_email = APP_CONFIG['redirect_slc_url']
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
-  
+
   def notify_operator(support_email, app, first_name, dev_name)
     @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
     @firstName = first_name
@@ -84,7 +84,7 @@ class ApplicationMailer < ActionMailer::Base
       mail(:to => support_email, :subject => 'SLC - New Application Notification')
     end
   end
-  
+
   def notify_developer(app, first_name)
     logger.debug {"Mailing to: #{app.metaData.createdBy}"}
     @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
@@ -94,13 +94,13 @@ class ApplicationMailer < ActionMailer::Base
       mail(:to => app.metaData.createdBy, :subject => 'SLC - Your Application Is Approved')
     end
   end
-  
+
   def samt_verify_email(email_address, firstName, primary_role,reset_password_link)
-  logger.info {"samt verification email is sent to: #{email_address}"}
-  @firstName = firstName
-  @reset_password_link = reset_password_link
-  @primary_role = primary_role
-  mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?SAMT_VERIFY_SUBJECT_SANDBOX : SAMT_VERIFY_SUBJECT_PROD)) 
+    logger.info {"samt verification email is sent to: #{email_address}"}
+    @firstName = firstName
+    @reset_password_link = reset_password_link
+    @primary_role = primary_role
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?SAMT_VERIFY_SUBJECT_SANDBOX : SAMT_VERIFY_SUBJECT_PROD))
   end
 
   def samt_welcome(email_address, firstName, groups)

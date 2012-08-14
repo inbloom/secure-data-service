@@ -109,7 +109,7 @@ public class ConfigurableChainedMapperTest {
             BSONObject.class);
 
         query = MongoConfigUtil.getQuery(mapperConf).toString();
-        assertEquals(query, "{ \"body.assessmentId\" : \"$INPUT_KEY.getId()\"}");
+        assertEquals(query, "{ \"body.assessmentId\" : \"getId()\"}");
 
         assertEquals(conf.getClass("chain.mapper.mapper.class.2", Object.class), IDMapper.class);
         tmp = conf.get("chain.mapper.mapper.config.2");
@@ -122,7 +122,7 @@ public class ConfigurableChainedMapperTest {
             BSONObject.class);
 
         query = MongoConfigUtil.getQuery(mapperConf).toString();
-        assertEquals(query, "{ \"_id\" : \"$INPUT_KEY.getId()\"}");
+        assertEquals(query, "{ \"_id\" : \"getId()\"}");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -223,7 +223,7 @@ public class ConfigurableChainedMapperTest {
         String chainedMapperConf = IOUtils.toString(s, "UTF-8");
 
         JobConf conf = new JobConf();
-        conf.set(ConfigurableChainedMapper.CHAIN_CONF, chainedMapperConf);
+        conf.set("Bad", chainedMapperConf);
 
         ConfigurableChainedMapper mapper = new ConfigurableChainedMapper();
         mapper.configure(conf);

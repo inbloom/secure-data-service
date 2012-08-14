@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class SelectorQueryPlan {
     private ClassType type;
-    private NeutralQuery query;
+    private NeutralQuery query = new NeutralQuery();
     private List<String> parseFields = new ArrayList<String>();
     private List<String> includeFields = new ArrayList<String>();
     private List<String> excludeFields = new ArrayList<String>();
