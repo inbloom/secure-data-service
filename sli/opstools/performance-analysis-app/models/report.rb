@@ -14,6 +14,7 @@ class Report
     @db['apiResponse'].find({'processed'=>true}).sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
        buildTag = record['body']['buildNumber']
     end
+    buildTag = 'jenkins-NxAPI-752'
     finalQuery = {"build_tag"=>buildTag}
 
     create_report('end_point','avg',finalQuery)
