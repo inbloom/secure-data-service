@@ -18,11 +18,44 @@
 
         $.each(jobs, function(key, val) {
           $('#job_chooser')
-            .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
-        });
+          .append('<input type="checkbox" name="'+val._id+'" />')
+          .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
+            });
+        $('#job_chooser').append('<input type="button" name="select" value="Select" onclick="jobCompare()">')
+      } 
+
+      function jobCompare() {
+        var inputs = document.getElementsByTagName("input");
+        var processorPerf = [ ['BatchJob'] ];
+        var checkedboxes = [];
+        
+        for (var i = 0; i < inputs.length; i++) {
+            if(inputs[i].type == "checkbox" && inputs[i].checked){
+                checkedboxes.push(inputs[i]);
+                //$('#job_summary').append('inputs:' +inputs[i].name + '');
+                var job = getApiResource('/job/' + inputs[i].name);
+                var chartData = drawStageBreakdownPieChart(job)['rows'];
+                //The element to be pushed
+                var elem = [inputs[i].name];
+                for(var j = 0; j < chartData.length; j++) {
+                        var stage = chartData[j]['c'][0]['v'].split(' ')[0];
+                        var index = processorPerf[0].indexOf(stage);
+                        
+                        if( index== -1){
+                            processorPerf[0].push(stage);
+                            index = processorPerf[0].indexOf(stage);
+                        }   
+                        elem[index] = chartData[j]['c'][1]['v'];
+                    
+                }
+              processorPerf.push(elem);
+            }
+        }
+        drawComboChart(processorPerf);
+        
       }
 
-      function jobSummary(jobId) {
+     function jobSummary(jobId) {
         $('#job_summary').empty().append('<h4>Job Summary: ' + jobId + '</h4>');
 
         var job = getApiResource('/job/' + jobId);
@@ -44,9 +77,11 @@
         var errors = getApiResource('/job/' + jobId + '/error');
         $('#job_summary').append('Errors: ' + errors.length);
 
-        drawStageBreakdownPieChart(job);
+        var chartData = drawStageBreakdownPieChart(job);
+        drawPieChart(chartData);
 
-        drawTransformPersistChars(job);
+        var res = drawTransformPersistChars(job);
+        drawPXCharts(res);
 
       }
 
@@ -66,8 +101,14 @@
               {v: val.elapsedTime}
           ] });
         });
+        return chartData;
+      }
 
-        var dataTable = new google.visualization.DataTable(chartData);
+      function drawPieChart(chartData) {
+        var dataTable;
+        if(chartData instanceof Array) {
+            dataTable = new google.visualization.arrayToDataTable(chartData)
+        } else dataTable = new google.visualization.DataTable(chartData);
         var chartOptions = {
           pieSliceText: 'percent',
           sliceVisibilityThreshold: 0, // zero, otherwise it groups small slices into one
@@ -83,6 +124,34 @@
         chart.draw(dataTable, chartOptions);
       }
 
+      function drawComboChart(chartData) {
+        var dataTable;
+        if(chartData instanceof Array) {
+            dataTable = new google.visualization.arrayToDataTable(chartData)
+        } else dataTable = new google.visualization.DataTable(chartData);
+        var chartOptions = {
+          title : 'Cross Job Processor Performance',
+          vAxis: {title: "MillSeconds"},
+          hAxis: {title: "BatchJob"},
+          seriesType: "bars",
+          width : 1500,
+          height: 600,
+          legend: { textStyle: { color: '#eecc88' }},
+          backgroundColor: '#333333'
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('stage_breakdown_linechart_div'));
+        chart.draw(dataTable, chartOptions);
+      }
+
+
+      Array.prototype.indexOfField = function(index, value) {
+          for(var i = 0; i < this.length; i++)
+          if(this[i][index] === value)
+              return i;
+          return -1;
+      }
+
       function drawTransformPersistChars(job) {
           var persistenceChartData = [['Entity', 'Records', 'Time (ms)']];
           var transformationChartData = [['Entity', 'Records', 'Time (ms)']];
@@ -92,12 +161,6 @@
               'TransformationProcessor': transformationChartData
           };
 
-          Array.prototype.indexOfField = function(index, value) {
-              for(var i = 0; i < this.length; i++)
-              if(this[i][index] === value)
-                  return i;
-              return -1;
-          }
           
           var stagesForJob = getApiResource('/job/' + job._id + '/stage');
 
@@ -137,9 +200,15 @@
 
           persistenceChartData.sort(sortByTotalTime);
           transformationChartData.sort(sortByTotalTime);
+          var res = {};
+          res['persistenceChartData'] = persistenceChartData;
+          res['transformationChartData'] = transformationChartData;
+          return res;
           
-          var persData = new google.visualization.arrayToDataTable(persistenceChartData);
-          var xformData = new google.visualization.arrayToDataTable(transformationChartData);
+      }
+        function drawPXCharts(chartData) {
+          var persData = new google.visualization.arrayToDataTable(chartData['persistenceChartData']);
+          var xformData = new google.visualization.arrayToDataTable(chartData['transformationChartData']);
 
           var chartOptions = {
               titleTextStyle: { color: '#eecc88' },
@@ -153,7 +222,6 @@
               height : 1200,
               backgroundColor: '#333333'
           };
-          
           var persistenceChart = new google.visualization.BarChart(document.getElementById('persistence_div'));
           chartOptions.title = 'Entity Persistence Performance',
           persistenceChart.draw(persData, chartOptions);
@@ -200,6 +268,7 @@
         </div>
         <div id="job_summary"></div>
         <div id="stage_breakdown_piechart_div"></div>
+        <div id="stage_breakdown_linechart_div"></div>
         <div id="stage_breakdown_treemap_div"></div>
         <div id="persistence_div"></div>
         <div id="xformation_div"></div>
