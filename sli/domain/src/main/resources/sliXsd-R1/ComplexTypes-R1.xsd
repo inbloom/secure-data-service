@@ -4860,7 +4860,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-    
+
 	<xs:complexType name="credential">
 		<xs:annotation>
 			<xs:documentation>The legal document or authorization giving
