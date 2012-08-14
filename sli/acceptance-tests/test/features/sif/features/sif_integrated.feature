@@ -1,4 +1,4 @@
-@RALLY_US3047
+@RALLY_US3047 @RALLY_US3370
 Feature: SIF Integrated Test
 
 Background: Set my data store
@@ -76,9 +76,39 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName        | searchParameter          | searchValue                   | searchType | expectedValuesFile           |
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_change_1 |
 
+Scenario: Add a Student
+Given the following collections are clean and bootstrapped in datastore:
+     | collectionName    |
+     | student           |
+And I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName   | count |
+     | student          | 1     |
+   And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
+     | student          | 1                   | body.studentUniqueStateId | WB0025       | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName   | searchParameter           | searchValue  | searchType | expectedValuesFile           |
+     | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_add |
+
+Scenario: Update a student
+Given I want to POST a(n) "sifEvent_StudentPersonal_change" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName   | count |
+     | student          | 1     |
+   And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter           | searchValue  | searchType |
+     | student          | 1                   | body.studentUniqueStateId | WB0025       | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName   | searchParameter           | searchValue  | searchType | expectedValuesFile              |
+     | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_change |
+
 Scenario: Add a StudentLEARelationship
-Given the fixture data "sif_student_fixture" has been imported into collection "student"
-And I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
+Given I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -86,7 +116,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1     |
    And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
-     | studentSchoolAssociation | 1                   | body.studentId       | 2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f  | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-16                                   | string     |
@@ -100,7 +129,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1     |
    And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
-     | studentSchoolAssociation | 1                   | body.studentId       | 2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f  | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
@@ -114,7 +142,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 2     |
    And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
-     | studentSchoolAssociation | 2                   | body.studentId       | 2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f  | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
@@ -130,7 +157,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 2     |
    And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
-     | studentSchoolAssociation | 2                   | body.studentId       | 2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f  | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |

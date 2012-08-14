@@ -750,11 +750,12 @@ end
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"
-task :sifTests => [:sifIntegratedTest,
-                   :sifSchoolInfoTest,
+task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
-                   :sifStudentLEARelationshipTest
+                   :sifStudentLEARelationshipTest,
+                   :sifSmokeTests,
+                   :sifIntegratedTest
                    ] do
   displayFailureReport()
   if $SUCCESS
