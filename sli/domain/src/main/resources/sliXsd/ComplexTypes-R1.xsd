@@ -1640,7 +1640,6 @@
 				with a cohort of students.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1652,17 +1651,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the cohort associated with the
-						staff.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>cohort</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -3050,7 +3038,6 @@
 				student is designated for.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3061,17 +3048,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="cohortId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the cohort associated with the
-						student.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>cohort</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6038,6 +6014,18 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="staffAssociations" type="staffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Staff associated with the cohort.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="studentAssociations" type="studentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Students associated with the cohort.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6907,13 +6895,13 @@
 			</xs:element>
             <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>Academic Records for the student.
+                    <xs:documentation>Staff associated with the program.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="studentAssociations" type="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>Academic Records for the student.
+                    <xs:documentation>Students associated with the program.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
