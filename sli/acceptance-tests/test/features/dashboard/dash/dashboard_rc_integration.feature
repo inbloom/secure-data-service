@@ -6,7 +6,7 @@ Given I have an open web browser
 When I navigate to the Portal home page
 
 Scenario: Admin Logs into dashboard from portal
-When I select "Illinois Daybreak School District 4529" and click go
+When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
 Then I should be on Portal home page
@@ -44,7 +44,7 @@ And I delete Page "District"
 And I click on log out
 
 Scenario: Educator Logs into dashboard from portal
-When I select "Illinois Daybreak School District 4529" and click go
+When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
