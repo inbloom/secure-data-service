@@ -31,7 +31,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slc.sli.api.config.EntityDefinitionStore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -42,13 +49,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -70,10 +70,6 @@ public class ApprovedApplicationResource {
  "name", "vendor", "version", "is_admin", "behavior", "endpoints"
     };
 
-
-    @Autowired
-    private EntityDefinitionStore store;
-
     @Autowired
     private ApplicationAuthorizationValidator appValidator;
 
@@ -84,25 +80,24 @@ public class ApprovedApplicationResource {
     @Autowired
     private DelegationUtil delegationUtil;
 
-    @SuppressWarnings("unchecked")
     @GET
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        
+
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", "in", allowedApps, false));       
+        query.addCriteria(new NeutralCriteria("_id", "in", allowedApps, false));
 
         for (Entity result : repo.findAll("application", query)) {
-            
+
             EntityBody body = new EntityBody(result.getBody());
             if (!shouldFilterApp(body, adminFilter)) {
 
                 filterAttributes(body);
                 results.add(body);
             }
-            
+
         }
         return Response.status(Status.OK).entity(results).build();
     }
@@ -161,7 +156,7 @@ public class ApprovedApplicationResource {
             return true;
         } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             //We need to figure out if any districts have delegated to us
-            return delegationUtil.getDelegateEdOrgs().size() > 0;
+            return delegationUtil.getAppApprovalDelegateEdOrgs().size() > 0;
         }
         return false;
     }

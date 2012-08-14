@@ -14,8 +14,8 @@
   <% end %>
 
   <div> 
-    <% if !APP_CONFIG["is_sandbox"]%>
-      You've been invited by <%= @new_account_password.inviter %>, to be a member of <%= @new_account_password.edorg %>. 
+    <% if !APP_CONFIG["is_sandbox"]&&@new_account_password.edorg!=nil&&@new_account_password.edorg!=""%>
+      You've been invited to be a member of <%= @new_account_password.edorg %>. 
     <%end %>
   </div>
   <div>
@@ -30,7 +30,7 @@
                 <%= f.password_field :new_pass %>
             </td>
             <% if @new_account_password.errors[:new_pass].any? %>
-                <td id="error_explanation">
+                <td id="password_error_explanation">
                   <ul>
                   <% @new_account_password.errors[:new_pass].each do |msg| %>
                     <li><%= msg %></li>
@@ -44,7 +44,7 @@
                 <%= f.password_field :confirmation %>
              </td>
              <% if @new_account_password.errors[:confirmation].any? %>
-                <td id="error_explanation">
+                <td id="confirmation_error_explanation">
                   <ul>
                   <% @new_account_password.errors[:confirmation].each do |msg| %>
                     <li><%= msg %></li>
@@ -56,7 +56,7 @@
     </table>
   </div>
 
-  <% if APP_CONFIG['is_sandbox'] %>
+  <% if @new_account_password.tou_required %>
     <br/>
     <div>
       <label class="checkbox">

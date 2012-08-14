@@ -8,12 +8,12 @@ import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * Maps a SAA to a double score
  */
-public class ScoreMapper extends Mapper<String, BSONObject, TenantAndID, DoubleWritable> {
+public class ScoreMapper extends Mapper<String, BSONObject, TenantAndIdEmittableKey, DoubleWritable> {
 
     public static final String SCORE_TYPE = "ScoreType";
 
@@ -32,7 +32,7 @@ public class ScoreMapper extends Mapper<String, BSONObject, TenantAndID, DoubleW
         for (Map<String, Object> result : scoreResults) {
             String scoreString = (String) result.get("result");
             double score = Double.parseDouble(scoreString);
-            context.write(new TenantAndID(studentId, tenant), new DoubleWritable(score));
+            context.write(new TenantAndIdEmittableKey(studentId, tenant), new DoubleWritable(score));
         }
     }
 }

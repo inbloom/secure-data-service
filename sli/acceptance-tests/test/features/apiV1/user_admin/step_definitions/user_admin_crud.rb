@@ -85,6 +85,56 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
 
 end
 
+Then /^I (should|should not) see "(.*?)"$/ do |should, uid|
+  @res.code.should == 200
+  should_see = should.downcase == "should"
+  found = false
+  @result.each do |user|
+    if user["uid"] == uid
+      assert(false, "User should not have been returned: #{uid}") unless should_see
+      found = true
+      break
+    end
+  end
+  assert(found, "User was not returned: #{uid}") if should_see
+end
+
+Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ do |roles, uid, tenant, edorg|
+  roles = roles.split(/,/).map { |r| r.strip }
+  user = {}
+  user["groups"] = roles
+  user["fullName"] = "AT Generated User"
+  user["uid"] = uid
+  user["email"] = "at_email@doesnot.exist"
+  user["tenant"] = tenant
+  user["edorg"] = edorg
+  user["homeDir"] = "/dev/null"
+  user["password"] = "Mark Abernathy is my hero"
+  user = append_hostname(user)
+  puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
+  restHttpDelete("/users/#{user['uid']}")
+  @format = "application/json"
+  restHttpPost("/users", user.to_json)
+  assert(@res.code == 201, "Could not create user: #{@res}")
+  @created_user = user
+end
+
+Then /^I (should|should not) see user "(.*?)"$/ do |should, uid|
+  should_find = should.downcase == "should"
+  uid = append_hostname(uid)
+  @format = "application/json"
+  step "I navigate to GET \"/users\""
+  users = @result
+  found = false
+  users.each do |user|
+    if user["uid"] == uid
+      found = true
+      break
+    end
+  end
+  assert(found == should_find, "User #{should} be visible: #{uid}")
+end
+
 Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |fullName, uid, email, createTime, modifyTime|
   @user_with_wanted_admin_role.each {|user|
     assert_not_nil(user[fullName], "The following user has no #{fullName}: #{user}")
@@ -208,6 +258,15 @@ Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg|
   restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
 end 
 
+Then /^I try to update this new user as "(.*?)"$/ do |roles|
+  user = @created_user
+  roles = roles.split(/,/).map { |r| r.strip }
+  user["groups"] = roles
+  puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
+  @format = "application/json"
+  restHttpPut("/users", user.to_json)
+  @response_code = @res.code
+end
 
 def get_user(uid)
 =begin
@@ -242,12 +301,16 @@ def print_administrator_comma_separated
 end
 
 def append_hostname(user )
-  oldUid = user["uid"]
-  if (oldUid != nil)
-    newUid = oldUid+"_"+Socket.gethostname
-    user.merge!({"uid" => newUid})
+  if user.is_a? Hash
+    oldUid = user["uid"]
+    if (oldUid != nil)
+      newUid = oldUid+"_"+Socket.gethostname
+      user.merge!({"uid" => newUid})
+    end
+    return user
+  else
+    return user + "_" + Socket.gethostname
   end
-  return user
 end
 
 def remove_user(user)

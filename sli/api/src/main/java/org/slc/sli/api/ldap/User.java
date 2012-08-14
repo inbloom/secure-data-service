@@ -34,13 +34,20 @@ public class User {
     }
 
     public void setFullName(String fullName) {
-        this.setGivenName(fullName.split(" ")[0]);
-
-        String[] split = fullName.split(" ", 2);
-        if (split.length == 2) {
-            this.setSn(split[1]);
+        if (fullName == null) {
+            this.sn = null;
+            this.givenName = null;
         } else {
-            this.setSn(null);
+            fullName = fullName.replaceAll("\\s+", " ");
+            fullName = fullName.trim();
+            this.givenName = fullName.split(" ")[0];
+
+            String[] split = fullName.split(" ", 2);
+            if (split.length == 2) {
+                this.sn = split[1];
+            } else {
+                this.sn = null;
+            }
         }
     }
 
@@ -120,7 +127,8 @@ public class User {
         if (getGivenName() == null && getSn() == null) {
             return null;
         }
-        return this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
+        String fullName = this.getGivenName() + (this.getSn() == null ? "" : " " + this.getSn());
+        return fullName.trim();
     }
 
     public String getSn() {
@@ -128,7 +136,9 @@ public class User {
     }
 
     public void setSn(String sn) {
-        this.sn = sn;
+        if (this.sn == null) {
+            this.sn = sn;
+        }
     }
 
     public String getGivenName() {
@@ -136,15 +146,17 @@ public class User {
     }
 
     public void setGivenName(String givenName) {
-        this.givenName = givenName;
+        if (this.givenName == null) {
+            this.givenName = givenName;
+        }
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = new Date(createTime.getTime());
     }
 
     public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+        this.modifyTime = new Date(modifyTime.getTime());
     }
 
     public String getCreateTime() {

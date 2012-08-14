@@ -1,6 +1,8 @@
 package org.slc.sli.sandbox.idp.aspect;
 
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.logging.LoggerCarrier;
@@ -28,7 +30,9 @@ public aspect LoggerCarrierAspect {
         event.setTimeStamp(DateTimeUtil.getNowInUTC());
         event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
         
-        LoggerCarrierAspect.aspectOf().getRepo().create("securityEvent", event.getProperties());
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("tenantId", event.getTenantId());        
+        LoggerCarrierAspect.aspectOf().getRepo().create("securityEvent", event.getProperties(), metadata, "securityEvent");
         switch (event.getLogLevel()) {
         case TYPE_DEBUG:
             LOG.debug(event.toString());
