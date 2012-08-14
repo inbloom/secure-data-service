@@ -31,7 +31,7 @@ Before do
 end
 
 After do |scenario|
-  #cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
@@ -223,8 +223,8 @@ def check_email(subject_substring = nil, content_substring)
       messages.each do |message|
         content = message.attr["BODY[TEXT]"]
         subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || content.include?(content_substring)) &&
-            (subject_substring.nil?) || subject.include?(subject_substring))
+        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
+            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
           return content
         end
       end
