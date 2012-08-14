@@ -1,5 +1,4 @@
 { 
-  "description": "Calculate the highest ever score per student for a given assessment.",
   "description" : "Given an assessment id, lookup all student assessment associations (SAA) and emit the student id, tenantId, and SAA entity.",
   "map_class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
   "input_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
@@ -11,5 +10,8 @@
   "query" : "{ \"body.assessmentId\" : \"@ID@\" }",
   "fields" : "{ \"metaData.tenantId\" : 1, \"body.studentId\" : 1 }",
   "output_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
-  "output_value_type" : "org.bson.BSONObject"  
+  "output_value_type" : "org.bson.BSONObject",
+  "lookupParams" : {"as": "ID", "collection": "assessment", 
+                    "key": "body.assessmentIdentificationCode.ID", 
+                    "value": "Grade 7 2011 State Math"}
 }

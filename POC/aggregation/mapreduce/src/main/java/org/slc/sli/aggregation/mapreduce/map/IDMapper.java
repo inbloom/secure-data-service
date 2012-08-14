@@ -21,14 +21,13 @@ import java.io.IOException;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
-
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
  * IDMapper
- *
+ * 
  * A basic mapper that emits the unique identifiers for a provided collection.
- *
+ * 
  * Map input / output:
  * EmittableKey - Input key type. Defines the fields that represent a key in the entity.
  * BSONOBject - Entity to examine.
@@ -36,28 +35,27 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * BSONObject -- The entity the key corresponds to.
  */
 public class IDMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
-
+    
     protected EmittableKey identifier;
-
+    
     /**
      * IDMapper Constructor - Construct a new IDMapper and initialize the identifier.
-     *
+     * 
      * @param cls
      *            EmittableKey class to instantiate. The class must implement a no-argument
      *            constructor.
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields)
-        throws InstantiationException, IllegalAccessException {
+    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields) throws InstantiationException,
+            IllegalAccessException {
         super();
         identifier = keyType.newInstance();
         identifier.setFieldNames(keyFields);
     }
-
+    
     @Override
-    public void map(EmittableKey id, BSONObject entity, Context context) throws IOException, InterruptedException {
-
+    protected void map(EmittableKey id, BSONObject entity, Context context) throws IOException, InterruptedException {
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();
         for (Text field : idFieldNames) {
