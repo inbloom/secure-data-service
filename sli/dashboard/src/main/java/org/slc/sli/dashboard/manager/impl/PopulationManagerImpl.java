@@ -897,7 +897,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
-    
+
     @Override
     public GenericEntity getTeacher(String token, Object teacherId, Config.Data config) {
         return getApiClient().getTeacher(token, (String) teacherId);
@@ -905,21 +905,21 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     @Override
     public GenericEntity getTeachersForSchool(String token, Object schoolId, Config.Data config) {
-    	List<GenericEntity> teachers = getApiClient().getTeachersForSchool(token, (String) schoolId);
-    	
-    	if (teachers != null) {
+        List<GenericEntity> teachers = getApiClient().getTeachersForSchool(token, (String) schoolId);
+
+        if (teachers != null) {
             for (GenericEntity teacher : teachers) {
-            	addFullName(teacher);
+                addFullName(teacher);
             }
-    	}
+        }
 
         GenericEntity result = new GenericEntity();
 
         result.put(Constants.ATTR_TEACHERS, teachers);
-        
-    	return result;
+
+        return result;
     }
-    
+
     /*
      * (non-Javadoc)
      *
@@ -1362,90 +1362,152 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
 
-    
+
     /**
      * Retrieves attendance in a sorted order, removes all events where the student is present.
      * Returns a GenericEntity with startDate, endDate, and attendanceList.
      */
-	@Override
-	public GenericEntity getStudentAttendanceForCalendar(String token,
-			Object studentId, Data config) {
-		List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
-		GenericEntity firstWrapper = attendanceList.get(0);
-		List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
-		
-		//Comparator, sort by "schoolYear" descending order
-		Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
-		    @Override
+    @Override
+    public GenericEntity getStudentAttendanceForCalendar(String token,
+            Object studentId, Data config) {
+
+        GenericEntity ge = new GenericEntity();
+
+        List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
+        if (attendanceList == null || attendanceList.size() < 1) {
+            return ge;
+        }
+
+        GenericEntity firstWrapper = attendanceList.get(0);
+        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+        if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
+            return ge;
+        }
+
+        //Comparator, sort by "schoolYear" descending order
+        Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
+            @Override
             public int compare(Map<String,Object> arg0, Map<String,Object> arg1) {
-		        Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
-		        Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
-		        if(schoolYearObj0 == null || schoolYearObj1 == null) {
-		            return 0;
-		        }
-		        String schoolYear0 = schoolYearObj0.toString();
-		        String schoolYear1 = schoolYearObj1.toString();
-		        return schoolYear1.compareTo(schoolYear0);
-		    }
+                Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
+                Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
+                if(schoolYearObj0 == null || schoolYearObj1 == null) {
+                    return 0;
+                }
+                String schoolYear0 = schoolYearObj0.toString();
+                String schoolYear1 = schoolYearObj1.toString();
+                return schoolYear1.compareTo(schoolYear0);
+            }
         };
         Collections.sort(schoolYearAttendance,schoolYearAttendanceComparator);
-        
-		Map<String, Object> secondWrapper = (Map<String, Object>)schoolYearAttendance.get(0);
-		List<Map> attList = (List)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Comparator<Map> c = new Comparator() {
 
-			@Override
-			public int compare(Object arg0, Object arg1) {
-				Map<String, String> map1, map2;
-				
-				if((arg0 instanceof Map) && (arg1 instanceof Map)) {
-					map1 = (Map<String, String>) arg0;
-					map2 = (Map<String, String>) arg1;
-				} else {
-					return -1;
-				}
+        Map<String, Object> secondWrapper = schoolYearAttendance.get(0);
+        List<Map> attList = (List<Map>)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+        if (attList == null) {
+            return ge;
+        }
 
-				Date date1, date2;
-				try {
-					date1 = sdf.parse((String)map1.get(Constants.ATTR_ATTENDANCE_DATE));
-					date2 = sdf.parse((String)map2.get(Constants.ATTR_ATTENDANCE_DATE));
-					return date1.compareTo(date2);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					return 0;
-				}
-			}
-		};
-		
-		
-		
-		
-		LinkedList<Map> absentList = new LinkedList<Map>();
-		GenericEntity ge = new GenericEntity();
-		String startDate = null;
-		String endDate = null;
-		
-		try {
-			Collections.sort(attList, c);
-			startDate = (String) attList.get(0).get(Constants.ATTR_ATTENDANCE_DATE);
-			endDate = (String) attList.get(attList.size()-1).get(Constants.ATTR_ATTENDANCE_DATE);
-			
-			for (Map attEvent : attList) {
-				String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-				if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-					String strippedWhiteSpaceEvent = ((String)attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY)).replace(" ", "");
-					attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
-					absentList.addLast(attEvent);
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		
-		ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
-		ge.put(Constants.ATTR_START_DATE, startDate);
-		ge.put(Constants.ATTR_END_DATE, endDate);
-		return ge;
-	}
+        LinkedList<Map> absentList = new LinkedList<Map>();
+        List<String> currentYearDates = null;
+
+        try {
+            // get begin/end dates for the current school year
+            currentYearDates = getCurrentYearDates(token);
+
+            // filter out 'In Attendance' events, remove whitespace
+            for (Map attEvent : attList) {
+                String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+                if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+                    String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY)).replace(" ", "");
+                    attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
+                    absentList.addLast(attEvent);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
+        ge.put(Constants.ATTR_START_DATE, currentYearDates.get(0));
+        ge.put(Constants.ATTR_END_DATE, currentYearDates.get(1));
+        return ge;
+    }
+
+
+    /**
+     * Returns the begin and end dates of the current school year.
+     * The current school year is determined by comparing the current date to
+     * the begin/end dates for sessions the user can see. If the current date
+     * is not in any session, it returns the most recent session.
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    private List<String> getCurrentYearDates(String token) throws Exception {
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<GenericEntity> sessions = getApiClient().getSessions(token, null);
+
+        // sort sessions latest to earliest
+        Comparator<Map> c = new Comparator<Map>() {
+
+            @Override
+            public int compare(Map arg0, Map arg1) {
+                Map<String, String> map1, map2;
+
+                map1 = arg0;
+                map2 = arg1;
+
+                Date date1, date2;
+                try {
+                    date1 = sdf.parse(map1.get(Constants.ATTR_BEGIN_DATE));
+                    date2 = sdf.parse(map2.get(Constants.ATTR_BEGIN_DATE));
+                    return date2.compareTo(date1);
+                } catch (ParseException e) {
+                    return 0;
+                }
+            }
+        };
+
+        Collections.sort(sessions, c);
+
+        // find the current year
+        String schoolYear = null;
+        for (GenericEntity session : sessions) {
+            Date currentDate = new Date();
+            Date sessionStart = sdf.parse(session.getString(Constants.ATTR_BEGIN_DATE));
+            Date sessionEnd = sdf.parse(session.getString(Constants.ATTR_END_DATE));
+            if (sessionStart != null && sessionStart.before(currentDate) &&
+                sessionEnd != null && sessionEnd.after(currentDate)) {
+                schoolYear = session.getString(Constants.ATTR_SCHOOL_YEAR);
+                break;
+            } else if (sessionEnd.before(currentDate)) {
+                schoolYear = session.getString(Constants.ATTR_SCHOOL_YEAR);
+                break;
+            }
+        }
+
+        Date startDate = null;
+        Date endDate = null;
+
+        // find all sessions for current school year, find earliest start date, latest end date
+        for (GenericEntity session : sessions) {
+            if (session.getString(Constants.ATTR_SCHOOL_YEAR).equals(schoolYear)) {
+
+                Date sessionStart = sdf.parse(session.getString(Constants.ATTR_BEGIN_DATE));
+                Date sessionEnd = sdf.parse(session.getString(Constants.ATTR_END_DATE));
+                if (startDate == null || sessionStart.before(startDate)) {
+                    startDate = sessionStart;
+                }
+                if (endDate == null || sessionEnd.after(endDate)) {
+                    endDate = sessionEnd;
+                }
+            }
+        }
+
+        List<String> ret = new ArrayList<String>();
+        ret.add(sdf.format(startDate));
+        ret.add(sdf.format(endDate));
+        return ret;
+    }
 }

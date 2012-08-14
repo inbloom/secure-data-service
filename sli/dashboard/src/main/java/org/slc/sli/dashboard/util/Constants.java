@@ -193,6 +193,7 @@ public final class Constants {
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
     public static final String ATTR_START_DATE = "startDate";
+    public static final String ATTR_BEGIN_DATE = "beginDate";
     public static final String ATTR_END_DATE = "endDate";
 
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
