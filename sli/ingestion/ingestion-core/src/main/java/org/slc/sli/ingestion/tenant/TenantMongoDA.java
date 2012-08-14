@@ -88,8 +88,7 @@ public class TenantMongoDA implements TenantDA {
     private List<String> findTenantPathsByIngestionServer(String targetIngestionServer) {
         List<String> tenantPaths = new ArrayList<String>();
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("landingZone.ingestionServer", "=", targetIngestionServer));
-        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION , query);
+        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION);
 
         for (Entity entity : entities) {
             List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
