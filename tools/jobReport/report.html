@@ -16,6 +16,7 @@
 
     function listJobs() {
         $('#job_chooser').empty();
+        $('#job_chooser_toggle').empty();
         clearJobSpecificDivs();
 
         MONGO_HOST_PORT = $('#mongo_host').val(); // initialize
@@ -23,8 +24,8 @@
         var jobs = getApiResource('/jobids');
 
         if (jobs != null) {
-          $('#job_chooser')
-            .append('<h4>' + jobs.length + ' Available Jobs:</h4>');
+          $('#job_chooser_toggle')
+            .append('<h4>' + jobs.length + ' Available Jobs (<a href="#" onclick="toggleJobChooser()">show/hide</a>):');
 
           $.each(jobs, function(key, val) {
             $('#job_chooser')
@@ -68,6 +69,8 @@
       }
 
       function jobSummary(jobId) {
+        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
+
         clearJobSpecificDivs();
         $('#job_summary').append('<h4>Job Summary: ' + jobId + '</h4>');
 
@@ -283,6 +286,14 @@
         $('#xformation_div').empty();
       }
 
+      function toggleJobChooser() {
+        if($('#job_chooser').is(':visible')) {
+          $('#job_chooser').hide('slow');
+        } else {
+          $('#job_chooser').show('slow');
+        }
+      }
+
     </script>
     </head>
     <body>
@@ -292,6 +303,7 @@
             <input type='submit'/>
           </form>
         </div>
+        <div id="job_chooser_toggle"></div>
         <div id="job_chooser"></div>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
