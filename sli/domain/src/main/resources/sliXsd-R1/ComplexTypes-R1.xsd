@@ -4860,48 +4860,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
-	<xs:complexType name="academicWeek">
-		<xs:annotation>
-			<xs:documentation>This entity represents the academic weeks for a
-				school year, optionally captured to support analyses.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="weekIdentifier" type="weekIdentifier">
-				<xs:annotation>
-					<xs:documentation>The school label for the week.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="beginDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The start date for the academic week.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The end date for the academic week.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="totalInstructionalDays" type="xs:int">
-				<xs:annotation>
-					<xs:documentation>The total instructional days during the academic
-						week.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="calendarDateReference" type="reference"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Days associated with the grading period.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
+    
 	<xs:complexType name="credential">
 		<xs:annotation>
 			<xs:documentation>The legal document or authorization giving
