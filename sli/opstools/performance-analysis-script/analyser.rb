@@ -198,31 +198,60 @@ class Analyser
   end
   def generate_notification(stat)
     buildTag = stat['build_tag']
-    notify = Hash.new
+    notify = "For endpoint : %s potential performance issue: "
     sendNotification = false
     if stat["coeffVar"] > 100.0
       sendNotification = true
+      notify = notify + "co-efficient of variance is "+stat["coeffVar"].to_s  
     elsif (stat["Max"] - stat["Min"]) >50
       sendNotification = true
-    elsif stat["avg"] > stat["br"]
+      notify = notify + "Max response time is more than 50ms than Min response time "
+    elsif (stat["avg"] - stat["br"]) >5
       sendNotification = true
+      notify = notify + "avg is : #{stat['avg']} and benchmarked at : #{stat['br']}"
     end 
     if sendNotification
       if @build_perf_hash[buildTag].nil?
         @build_perf_hash[buildTag] = Array.new
       end
-      @build_perf_hash[buildTag].push(stat["end_point"])
+      @build_perf_hash[buildTag].push(notify%[stat["end_point"]])
     end
   end
   def notify
     if @build_perf_hash.empty? == false
       @build_perf_hash.each {|key,val|
         puts ""
-        puts "***********Build Number #{key} ****************"
+        puts red("***********Build Number #{key} ****************")
         val.each{|ep|
-          puts "#{ep}"
+          if ep.include?"co-efficient"
+            puts yellow("#{ep}")
+          elsif ep.include?"benchmarked"
+            puts magenta("#{ep}")
+          elsif ep.include?"Max"
+            puts blue("#{ep}")
+          else
+            puts "#{ep}"  
+          end
         }
       }
     end
+  end
+  def colorize(text, color_code)
+      "\e[#{color_code}m#{text}\e[0m"
+  end
+  def red(text)
+    colorize(text, 31)
+  end
+  def green(text)
+    colorize(text, 32)
+  end
+  def yellow(text)
+    colorize(text, 33)
+  end
+  def blue(text)
+    colorize(text, 34)
+  end
+  def magenta(text)
+    colorize(text, 35)
   end
 end
