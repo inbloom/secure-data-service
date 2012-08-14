@@ -61,7 +61,7 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEA
         e.setNameOfInstitution(leaInfo.getLEAName());
         e.setOperationalStatus(operationalStatusConverter.convert(OperationalStatus.wrap(leaInfo.getOperationalStatus())));
         e.setAddress(addressListConverter.convert(leaInfo.getAddressList()));
-        e.setTelephone(phoneNumberListConverter.convert(leaInfo.getPhoneNumberList()));
+        e.setTelephone(phoneNumberListConverter.convertInstitutionTelephone(leaInfo.getPhoneNumberList()));
 
         List<LEAEntity> list = new ArrayList<LEAEntity>(1);
         list.add(e);

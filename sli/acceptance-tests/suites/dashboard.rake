@@ -182,6 +182,11 @@ task :dashboardSdsDashboardBuilderTests do
   runTests("test/features/dashboard/dash/dashboard_builder.feature")
 end
 
+desc "Run dashboard attendance calendar tests"
+task :dashboardSdsAttendanceCalendarTests do
+  runTests("test/features/dashboard/dash/attendance_calendar.feature")
+end
+
 desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"
 task :dashboardSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
@@ -194,6 +199,17 @@ task :dashboardQunitTests do
   runTests("test/features/dashboard/dash/qunit_tests.feature")
 end
 
+
+############################################################
+# Dashboard local dev environmnet
+############################################################
+
+desc "Setup local dashboard dev enviroment"
+task :dashboardSetup  => [:realmInitNoPeople] do
+  OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
+  Rake::Task["addBootstrapAppAuths"].execute
+end
 
 ############################################################
 # Dashboard tests end

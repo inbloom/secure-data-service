@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * Reducer to get the highest value
@@ -12,10 +13,10 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
  * @author nbrown
  *
  */
-public class Highest extends Reducer<TenantAndID, DoubleWritable, TenantAndID, DoubleWritable> {
+public class Highest extends Reducer<TenantAndIdEmittableKey, DoubleWritable, TenantAndIdEmittableKey, DoubleWritable> {
 
     @Override
-    protected void reduce(TenantAndID id, Iterable<DoubleWritable> scoreResults, Context context)
+    protected void reduce(TenantAndIdEmittableKey id, Iterable<DoubleWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
         Double highest = null;
         for (DoubleWritable scoreResult: scoreResults) {

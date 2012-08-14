@@ -88,7 +88,7 @@ public class UserResourceTest {
         Mockito.when(secUtil.getAllRights()).thenReturn(rights);
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
-        newUser.setFullName("Eddard", "Stark");
+        newUser.setFullName("Eddard Stark");
         newUser.setEmail("nedstark@winterfell.gov");
         newUser.setUid("nedstark");
         Response res = resource.create(newUser);
@@ -143,7 +143,7 @@ public class UserResourceTest {
         userWithNoMail.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
         userWithNoMail.setEdorg(EDORG1);
         userWithNoMail.setTenant(TENANT);
-        userWithNoMail.setFullName("Mance", "Rayder");
+        userWithNoMail.setFullName("Mance Rayder");
         userWithNoMail.setUid("mrayder");
         userWithNoMail.setPassword("fr33folk");
         Response response = resource.create(userWithNoMail);
@@ -191,7 +191,7 @@ public class UserResourceTest {
         userWithNoId.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
         userWithNoId.setEdorg(EDORG1);
         userWithNoId.setTenant(TENANT);
-        userWithNoId.setFullName("Arya", "Stark");
+        userWithNoId.setFullName("Arya Stark");
         userWithNoId.setPassword("@ry@");
         userWithNoId.setEmail("arya@winterfell.org");
         assertEquals(400, resource.create(userWithNoId).getStatus());
@@ -206,10 +206,11 @@ public class UserResourceTest {
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
         newUser.setUid(UUID2);
-        newUser.setFullName("Robb", "Stark");
+        newUser.setFullName("Robb Stark");
         newUser.setEmail("robbstark@winterfell.gov");
-        newUser.setUid("robbstark");
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(newUser);
         Response res = resource.update(newUser);
+        Mockito.verify(ldap).getUser(REALM, newUser.getUid());
         Mockito.verify(ldap).updateUser(REALM, newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
@@ -243,7 +244,8 @@ public class UserResourceTest {
 
         List<User> users = Arrays.asList(new User(), new User());
         Mockito.when(
-                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class), Mockito.anyString(),
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                        Mockito.anyCollectionOf(String.class), Mockito.anyString(),
                         (Collection<String>) Mockito.isNull())).thenReturn(users);
 
         Response res = resource.readAll();

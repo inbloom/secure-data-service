@@ -173,6 +173,35 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
   end
 end
 
+When /^I have navigated to the "(.*?)" listing of the Data Browser$/ do |arg1|
+  @driver.get PropLoader.getProps['databrowser_server_url'] + '/entities/schools'
+end
+
+When /^I click on "(.*?)" in the list of schools$/ do |arg1|
+  @row = @driver.find_element(:xpath, "//td[text()=\"#{arg1}\"]/..")
+  @row.click
+end
+
+When /^then click on the "(.*?)" link$/ do |arg1|
+  # 
+  @driver.find_element(:xpath, "/html/body/div/div[2]/div/div/table/tbody/tr[22]/td/div/div[4]/ul/li[13]/a").click
+end
+
+Then /^I see a "(.*?)" alert box$/ do |arg1|
+  flash = @driver.find_element(:css, 'div#flash')
+  assert(!flash.nil?, "We should see an alert box")
+end
+
+Then /^I click the X$/ do
+  @driver.find_element(:css, 'div#flash').find_element(:link_text, "X").click
+  
+end
+
+Then /^the error is dismissed$/ do
+  assertWithWait("The error should be dismissed") {@driver.find_element(:css, 'div#flash').displayed? == false}
+end
+
+
 Then /^I should click on the Home link and be redirected back$/ do
   #Ignored, should be verified in previous steps
 end

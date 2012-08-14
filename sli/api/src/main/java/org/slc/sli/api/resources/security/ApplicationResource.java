@@ -18,7 +18,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -56,6 +54,7 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -80,15 +79,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     private EntityDefinitionStore store;
 
     @Autowired
-    @Value("${sli.sandbox.autoRegisterApps}")
+    @Value("${sli.autoRegisterApps}")
     private boolean autoRegister;
-    
+
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
 
     private EntityService service;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -106,17 +105,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String LOCATION = "Location";
 
     private static final String CREATED_BY = "created_by";
-    
+
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
 
     public void setAutoRegister(boolean register) {
         autoRegister = register;
-    }
-
-    private boolean hasRight(Right required) {
-        Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return rights.contains(required);
     }
 
     @Autowired
@@ -134,7 +128,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        if (!hasRight(Right.DEV_APP_CRUD)) {
+        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -144,7 +138,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         // Destroy the ed-orgs
         newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
 
@@ -162,7 +156,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (autoRegister) {
             registration.put(APPROVAL_DATE, System.currentTimeMillis());
             registration.put(STATUS, "APPROVED");
-            registration.put(APPROVAL_DATE, System.currentTimeMillis());
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
@@ -200,19 +193,19 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
-    
-    
+
+
 
     @Override
     protected void addAdditionalCritera(NeutralQuery query) {
-        
 
-        
+
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
+        if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
             query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
-            
+        } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
+
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
             NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
@@ -220,11 +213,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             for (String id : ids) {
                 idList.add(id);
             }
-            
+
             newQuery = new NeutralQuery(0);
             newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
             newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
-            
+
             ids = repo.findAllIds("application", newQuery);
             for (String id : ids) {
                 idList.add(id);
@@ -273,12 +266,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
                 //only see client id and secret if you're an app developer and it's approved
-                if (hasRight(Right.DEV_APP_CRUD)) {
+                if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
                     if (!reg.get("status").equals("APPROVED")) {
                         appMap.remove(CLIENT_ID);
                         appMap.remove(CLIENT_SECRET);
                     }
-                } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
+                } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
                     appMap.remove(CLIENT_ID);
                     appMap.remove(CLIENT_SECRET);
                 }
@@ -291,7 +284,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
 
-        if (!hasRight(Right.DEV_APP_CRUD)) {
+        if (!SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
             body.put("message", "You cannot delete this application");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -353,7 +346,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         changedKeys.remove("metaData");
 
         // Operator - can only change registration status
-        if (hasRight(Right.SLC_APP_APPROVE)) {
+        if (SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to alter applications.");
@@ -376,7 +369,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
 
-        } else if (hasRight(Right.DEV_APP_CRUD)) {  // App Developer
+        } else if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {  // App Developer
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to register applications.");
@@ -397,12 +390,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
 
 
-            if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
+            if (sandboxEnabled && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
-                
+
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
-                if (sandboxEnabled && !edOrgsBelongToTenant(edOrgs)) {
+                if (!edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
                     body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
                     return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -500,7 +493,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         return false;
     }
-    
+
     private boolean missingRequiredUrls(EntityBody body) {
         String redirectUrl = (String) body.get("redirect_uri");
         String applicationUrl = (String) body.get("application_url");
@@ -514,7 +507,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 return false;
             }
         }
-        
+
         return true;
     }
+
+
 }

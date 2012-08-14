@@ -31,7 +31,8 @@ public class UserContextMapper implements ContextMapper {
     public Object mapFromContext(Object ctx) {
         DirContextAdapter context = (DirContextAdapter) ctx;
         User user = new User();
-        user.setFullName(context.getStringAttribute("givenName"), context.getStringAttribute("sn"));
+        user.setSn(context.getStringAttribute("sn"));
+        user.setGivenName(context.getStringAttribute("givenName"));
         user.setUid(context.getStringAttribute("uid"));
         user.setEmail(context.getStringAttribute("mail"));
         user.setHomeDir(context.getStringAttribute("homeDirectory"));
@@ -54,8 +55,7 @@ public class UserContextMapper implements ContextMapper {
                 pairs = description.split(" ");
             }
             for (String pair : pairs) {
-                pair = pair.trim();
-                String[] pairArray = pair.split("=", 2);
+                String[] pairArray = pair.trim().split("=", 2);
                 if (pairArray.length == 2) {
                     String key = pairArray[0].trim();
                     String value = pairArray[1].trim();

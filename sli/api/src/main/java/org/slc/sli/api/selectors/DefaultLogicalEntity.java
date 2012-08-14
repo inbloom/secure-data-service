@@ -16,24 +16,25 @@
 
 package org.slc.sli.api.selectors;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
+import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
-import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author jstokes
@@ -56,11 +57,22 @@ public class DefaultLogicalEntity implements LogicalEntity {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    public List<EntityBody> createEntities(final Map<String, Object> selector, final Constraint constraint,
+    private static final List<String> UNSUPPORTED_RESOURCE_LIST = new ArrayList<String>();
+    static {
+        UNSUPPORTED_RESOURCE_LIST.add("application");
+        UNSUPPORTED_RESOURCE_LIST.add("tenant");
+    }
+
+    @Override
+    public List<EntityBody> getEntities(final ApiQuery apiQuery, final Constraint constraint,
                                                   final String resourceName) {
 
-        if (selector == null) throw new NullPointerException("selector");
-        if (constraint == null) throw new NullPointerException("constraint");
+        if (apiQuery == null) {
+            throw new NullPointerException("apiQuery");
+        }
+        if (constraint == null) {
+            throw new NullPointerException("constraint");
+        }
 
         final EntityDefinition typeDef = entityDefinitionStore.lookupByResourceName(resourceName);
         // TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME
@@ -68,10 +80,15 @@ public class DefaultLogicalEntity implements LogicalEntity {
         // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
 
-        final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
-        final Map<Type, SelectorQueryPlan> selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
+        if (UNSUPPORTED_RESOURCE_LIST.contains(resourceName)) {
+            throw new UnsupportedSelectorException("Selector is not supported yet for this resource");
+        }
 
-        return selectorDocument.aggregate(selectorQuery, constraint);
+        final SemanticSelector semanticSelector = selectorSemanticModel.parse(apiQuery.getSelector(), entityType);
+        final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
+
+        return selectorDocument.aggregate(selectorQuery, apiQuery);
     }
+
 }
 

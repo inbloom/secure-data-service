@@ -24,6 +24,7 @@ import openadk.library.ADKException;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StudentPersonal;
 import openadk.library.student.Title1Status;
 
 import org.junit.Before;
@@ -77,6 +78,17 @@ public class SifTranslationTest {
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization",
                 "educationOrganization", entities.get(0).entityType());
+    }
+
+    @Test
+    public void shouldTranslateStudentPersonalToStudent() {
+        StudentPersonal info = new StudentPersonal();
+        List<SliEntity> entities = translationManager.translate(info);
+
+        Assert.assertEquals("Should create a single SLI student entity", 1, entities.size());
+        Assert.assertNotNull("NULL sli entity", entities.get(0));
+        Assert.assertEquals("Mapped SLI entitiy should be of type student",
+                "student", entities.get(0).entityType());
     }
 
     private SchoolInfo createSchoolInfo() {

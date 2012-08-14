@@ -2,69 +2,30 @@
 Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
-	
-	@production @wip
-	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
-	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
-	And I have a role "<ADMIN_ROLE>"
-	Then I <SHOULD> see SAMT on my list of allowed apps
-	Examples:
-		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|
-		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|
-		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
-		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
-		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
-		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
-		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
-		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
-		
-	
-  @wip
+
   @production
-  Scenario Outline: As a admin I am able to read all Tenants
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <Tenant_URI>
-    Then I should receive a return code of <CODE>
-    And I should receive a list of tenants and <Tenant> is in the list
+  Scenario Outline:  As an admin, I can only see users I'm allowed to see
+  Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
+  And I have a role "<ADMIN_ROLE>"
+  When I navigate to GET "/users"
+  Then I <SHOULD> see "<USER_ID>"
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |CODE|Tenant         |
-    |SLC_Operator           |Shared Learning Collaborative|200 |IL             |
-    |SEA_Super_Administrator|IL                           |200 |IL             |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |200 |IL             |
-    |Realm_Administrator    |IL-DAYBREAK                  |401 |               |
-    |Ingestion_Administrator|IL-DAYBREAK                  |401 |               |
-
-  #sandbox
-  @wip
-  Scenario Outline: As a admin I am able to read all Tenants on sandbox
-    Given I have a <ADMIN_ROLE> with <ALLOWED_RIGHTS> on <TENANT_ID>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <Tenants_URI>
-    Then I should receive a return code of <CODE>
-    And I should receive a list of tenants and <Tenant> is in the list
-  Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |ALLOWED_RIGHTS       |CODE|Tenant           |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |200 |testuser@test.com|
-    |Application_Developer  |IL                           |SB_ACCOUNT_MANAGEMENT|401 |                 |
-    |Application_Developer  |IL-DAYBREAK                  |DEFAULT              |401 |                 |
-
-  @wip
-  Scenario Outline: As a admin I am able to read all Ed-Orgs at my level or below me in a tenancy
-    Given I have a "<ADMIN_ROLE>"
-    When I am authenticated on "<ADMIN_REALM>"
-    And I navigate to GET "/users"
-    And the "Tenant" is "<Tenant>"
-    Then I should receive a return code of <CODE>
-    And I should receive a list of Ed-Org and "<EdOrg>" is in the list
-  Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |CODE|Tenant         |EdOrg         |
-    |SLC_Operator           |Shared Learning Collaborative|200 |IL             |              |
-    |SEA_Super_Administrator|IL                           |200 |IL             |IL            |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |200 |IL             |IL-DAYBREAK   |
-    |Realm_Administrator    |IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
-    |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
+	|USER		|PASSWORD		|ADMIN_ROLE			|REALM		|SHOULD			|USER_ID			|
+	# |operator   |operator1234	|SLC Operator		|SLI		|should			|operator			|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|iladmin			|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetadmin		|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetingestionuser|
+	|operator   |operator1234	|SLC Operator		|SLI		|should			|sunsetrealmadmin	|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should not		|operator			|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|iladmin			|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetadmin		|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetingestionuser|
+	|iladmin	|iladmin1234	|SEA Administrator	|SLI		|should			|sunsetrealmadmin	|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should not		|operator			|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should not		|iladmin			|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetadmin		|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetingestionuser|
+	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetrealmadmin	|
 
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users. 
@@ -132,7 +93,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @production
+  @production @ycao 
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -154,6 +115,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
   Examples:
     |USER              |PASSWORD            |ADMIN_ROLE             |REALM    |CREATE_ADMIN_ROLE   |ACTION    |CODE|READ_CODE|Number   |Full_Name     |User_Name  |Email_Address        |Additional_Role |Tenant|Ed_Org     |
+    |operator          |operator1234        |SLC Operator           |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User7 |Ingestion_User7 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |201 |200      |1 or more|SLC Operator2 |SLC_Operator2     |SLC_Operator@test.com|               |      |           |
     |operator          |operator1234        |SLC Operator           |SLI      |SEA Administrator   |POST      |201 |200      |1 or more|SEA Administrator2 |SEA_Administrator2 |SEA_Administrator@test.com|    |Midgar| IL|
     |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator2 |LEA_Administrator2 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
@@ -183,13 +145,13 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |PUT      |204 |200      |1 or more|LEA Administrator7 |LEA_Administrator7 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator7 |Realm_Administrator7 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User7 |Ingestion_User7 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SLC Operator        |PUT      |403 |200      |0         |SLC Operator8 |SLC_Operator8     |SLC_Operator@test.com|               |      |           |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SLC Operator        |PUT      |400 |200      |0         |SLC Operator8 |SLC_Operator8     |SLC_Operator@test.com|               |      |           |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |PUT      |204 |200      |1 or more|SEA Administrator8 |SEA_Administrator8 |SEA_Administrator@test.com|    |Midgar| IL|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |PUT      |204 |200      |1 or more|LEA Administrator8 |LEA_Administrator8 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator8 |Realm_Administrator8 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User8 |Ingestion_User8 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |PUT      |403 |200      |0        |SLC Operator9   |SLC_Operator9   |SLC_Operator@test.com|               |      |           | 
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |PUT      |403 |200      |0        |SEA Administrator9 |SEA_Administrator9 |SEA_Administrator@test.com|    |Midgar| IL|
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |PUT      |400 |200      |0        |SLC Operator9   |SLC_Operator9   |SLC_Operator@test.com|               |      |           | 
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |PUT      |400 |200      |0        |SEA Administrator9 |SEA_Administrator9 |SEA_Administrator@test.com|    |Midgar| IL|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator9 |Realm_Administrator9 |Realm_Administrator@test.com|Ingestion User    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User9 |Ingestion_User9 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetrealmadmin  |sunsetrealmadmin1234 |Realm Administrator   |SLI      |SLC Operator        |PUT      |403 |403      |0        |SLC Operator10 |SLC_Operator10     |SLC_Operator@test.com|               |      |           |
@@ -295,7 +257,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator2 |Sandbox_Administrator2|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|PUT      |204 |200     |1 or more|Application Developer2 |Application_Developer2|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User2 |Ingestion_User2|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
-  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |PUT      |403 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |PUT      |400 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator3 |Sandbox_Administrator3|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Application Developer|PUT      |204 |200     |1 or more|Application Developer3 |Application_Developer3|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User3 |Ingestion_User3|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
@@ -341,7 +303,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
 
-  #@sandbox
+  #sandbox
   Scenario Outline:  As a admin on sandbox I am able to delete admin accounts in my tenancy
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -372,3 +334,22 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
+
+  @production
+  Scenario: Unhappy path:  LEA cannot see SEA who has same edorg
+  Given I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  And I create a new "SEA Administrator, Ingestion User" "il2admin" with tenant "Midgar" and edorg "IL-SUNSET"
+  When I have logged in to realm "SLI" using "operator" "operator1234"
+  Then I should see user "il2admin"
+  When I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  Then I should see user "il2admin"
+  When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
+  Then I should not see user "il2admin"
+
+  @production
+  Scenario: Unhappy path:  LEA cannot update SEA with an incomplete group list
+  Given I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  And I create a new "SEA Administrator, Ingestion User" "il2admin" with tenant "Midgar" and edorg "IL-SUNSET"
+  When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
+  And I try to update this new user as "Realm Administrator"
+  Then I should receive a return code "403"

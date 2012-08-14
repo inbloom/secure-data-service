@@ -6,7 +6,7 @@ Background:
 Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 
-@RALLY_US2817
+@RALLY_US2817 @integration
 Scenario: View section's profile
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go

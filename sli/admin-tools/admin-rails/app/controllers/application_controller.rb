@@ -77,7 +77,11 @@ class ApplicationController < ActionController::Base
         set_session
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
-        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        @url = oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        respond_to do |format|
+          format.html {redirect_to @url}
+          format.js { render 'layouts/redirect_to_login', :layout => false}
+        end
       end
     else
       logger.info { "OAuth disabled."}
