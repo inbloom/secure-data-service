@@ -6,6 +6,5 @@
 <script>
 	$(function() {
 	    SLC.attendanceCalendar.create("${id}", SLC.dataProxy.getData("studentAttendanceCalendar"));
-	    $("#${id}").appendTo(".repeatHeaderTable1");
 	});
 </script>
