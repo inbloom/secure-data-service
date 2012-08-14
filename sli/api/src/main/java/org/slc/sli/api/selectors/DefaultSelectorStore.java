@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
-import org.apache.commons.io.IOUtils;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorParseException;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
@@ -19,18 +21,23 @@ import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.SelectionConverter;
 import org.slc.sli.api.service.query.Selector2MapOfMaps;
 import org.slc.sli.modeling.uml.ClassType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
+/**
+ * Stores the default selector for each resource API endpoint. Intended for situations where the
+ * API user does not specify a selector. If a resource does not have a default configured, this
+ * will return the default selector, which is just the base entity as it is normally read.
+ *
+ *
+ * @author kmyers
+ *
+ */
 @Component("defaultSelectorRepository")
 public class DefaultSelectorStore implements SelectorRepository {
-    
+
     public static final String DEFAULT_SELECTOR_TYPE_KEY = "type";
     public static final String DEFAULT_SELECTOR_VALUE_KEY = "selector";
     public static final String DEFAULT_SELECTOR_RESOURCE_FILENAME = "/config/defaultSelectors.json";
-    
+
     private Map<String, SemanticSelector> defaultSelectors;
 
     @Autowired
@@ -43,7 +50,7 @@ public class DefaultSelectorStore implements SelectorRepository {
     static {
         FALLBACK_SELECTOR.put("$", true);
     }
-    
+
     public DefaultSelectorStore() {
     }
 
@@ -51,24 +58,24 @@ public class DefaultSelectorStore implements SelectorRepository {
     protected void init() throws IOException {
         this.defaultSelectors = readDefaultSelectorsFromFile(DEFAULT_SELECTOR_RESOURCE_FILENAME);
     }
-    
+
     /**
      * Parses the specified resource file and returns a map of Strings to selectors. Selectors
      * are just maps of Strings to true/false.
-     * 
+     *
      * @param filename resource JSON file to load containing an array of type/selector docs
      * @return a map of the parsed file
-     * @throws IOException 
+     * @throws IOException
      * @throws SelectorParseException
      */
     protected Map<String, SemanticSelector> readDefaultSelectorsFromFile(String filename) throws IOException, SelectorParseException {
-        
+
         String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(filename));
-        
+
         SelectionConverter selectionConverter = new Selector2MapOfMaps(false);
-        
+
         Map<String, SemanticSelector> retVal = new HashMap<String, SemanticSelector>();
-        
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode element = mapper.readValue(fileAsString, JsonNode.class);
         if (element instanceof ArrayNode) {
@@ -88,10 +95,10 @@ public class DefaultSelectorStore implements SelectorRepository {
                     warn("Default selector entry missing 'type' or 'selector' field(s): " + jsonNode.toString());
                 } catch (SelectorParseException spe) {
                     warn("Default selector failed to parse: " + spe.getMessage());
-                } 
+                }
             }
         }
-        
+
         return retVal;
     }
 
@@ -104,7 +111,7 @@ public class DefaultSelectorStore implements SelectorRepository {
 
         return null;
     }
-    
+
     @Override
     public SemanticSelector getSelector(String type) {
         return defaultSelectors.containsKey(type) ? defaultSelectors.get(type) : getFallBackSelector(type);

@@ -37,7 +37,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -57,6 +56,7 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -202,12 +202,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> entityBodyList = null;
                 try {
                     entityBodyList = logicalEntity.getEntities(apiQuery, new Constraint(key, valueList), entityDef.getResourceName());
+                } catch (UnsupportedSelectorException e) {
+                    entityBodyList = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
-                catch (UnsupportedSelectorException e) {
-                    entityBodyList = (List<EntityBody>)entityDef.getService().list(apiQuery);
-                }
-                
-                
+
+
 
                 // list all entities matching query parameters and iterate over results
                 for (EntityBody entityBody : entityBodyList) {
@@ -221,7 +220,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
 
-                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(),apiQuery);
+                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), apiQuery);
                     return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                             pagingHeaderTotalCount, uriInfo).build();
             }
@@ -305,11 +304,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     List<EntityBody> entityBodyList = null;
                     try {
                         entityBodyList = logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids), resolutionResourceName);
+                    } catch (UnsupportedSelectorException e) {
+                        entityBodyList = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
                     }
-                    catch (UnsupportedSelectorException e) {
-                        entityBodyList = (List<EntityBody>)endpointEntity.getService().list(endpointNeutralQuery);
-                    }
-                    
+
                     for (EntityBody result : entityBodyList) {
                         if (associations.get(result.get("id")) != null) {
                             // direct self reference don't need to include association in response
@@ -390,12 +388,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 apiQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults= null;
+                List<EntityBody> finalResults = null;
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
-                }
-                catch (UnsupportedSelectorException e) {
-                    finalResults = (List<EntityBody>)entityDef.getService().list(apiQuery);
+                } catch (UnsupportedSelectorException e) {
+                    finalResults = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
 
                 for (EntityBody result : finalResults) {
@@ -642,8 +639,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 } else {
                     try {
                         entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
-                    }
-                    catch (UnsupportedSelectorException e) {
+                    } catch (UnsupportedSelectorException e) {
                         entityBodies = entityDef.getService().list(apiQuery);
                     }
                 }

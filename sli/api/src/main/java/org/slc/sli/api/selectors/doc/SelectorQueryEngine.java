@@ -17,9 +17,6 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.modeling.uml.Type;
-
-import java.util.Map;
 
 /**
  * Selector query engine

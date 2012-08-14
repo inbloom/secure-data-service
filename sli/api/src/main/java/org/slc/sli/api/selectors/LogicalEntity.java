@@ -16,12 +16,11 @@
 
 package org.slc.sli.api.selectors;
 
+import java.util.List;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.query.ApiQuery;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author jstokes

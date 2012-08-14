@@ -6,42 +6,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+
 import org.slc.sli.api.selectors.model.SelectorParseException;
 
+/**
+ * Tests the ability to parse a String into a map of maps representing a selector. Contains both
+ * success and error checking.
+ *
+ *
+ *
+ * @author kmyers
+ *
+ */
 public class Selector2MapOfMapsTest {
-    
+
     private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testDollarSignThrowsExceptionWhenNotExpected() {
         this.selectionConverter.convert(":($)");
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testNestedDollarSignThrowsExceptionWhenNotExpected() {
         this.selectionConverter.convert(":(foo:($))");
     }
-    
+
 
     @Test
     public void testDollarSignDoesNotThrowExceptionWhenExpected() {
         SelectionConverter mySelectionConverter = new Selector2MapOfMaps(false);
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("$", true);
-        
+
         Map<String, Object> convertResult = mySelectionConverter.convert(":($)");
 
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
-    
-    
+
+
     @Test
     public void testBasicWildcard() throws SelectorParseException {
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("*", true);
         Map<String, Object> convertResult = this.selectionConverter.convert(":( * )".replaceAll(" ", ""));
-        
+
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
@@ -52,7 +62,7 @@ public class Selector2MapOfMapsTest {
         expectedResult.put("name", true);
         expectedResult.put("sectionAssociations", true);
         Map<String, Object> convertResult = this.selectionConverter.convert(":( name, sectionAssociations )".replaceAll(" ", ""));
-        
+
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
@@ -67,26 +77,26 @@ public class Selector2MapOfMapsTest {
         Map<String, Object> sectionAssociationsMap = new HashMap<String, Object>();
         sectionAssociationsMap.put("studentId", true);
         sectionAssociationsMap.put("sectionId", sectionIdMap);
-        
+
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("name", true);
         expectedResult.put("sectionAssociations", sectionAssociationsMap);
-        
+
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
-    
+
     @Test
     public void testExcludingFeaturesFromWildcardSelection() throws SelectorParseException {
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("*", true);
         expectedResult.put("sequenceOfCourse", false);
         Map<String, Object> convertResult = this.selectionConverter.convert(":( *, sequenceOfCourse:false )".replaceAll(" ", ""));
-        
+
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
-    
+
     @Test
     public void veryNestedTest() throws SelectorParseException {
         String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false),foo4:(bar4:(*,foobar5:false)))";
@@ -106,19 +116,19 @@ public class Selector2MapOfMapsTest {
         expectedResult.put("foo2", foo2Map);
         expectedResult.put("foo3", foo3Map);
         expectedResult.put("foo4", foo4Map);
-        
+
         Map<String, Object> convertResult = this.selectionConverter.convert(selectorString);
-        
-        
+
+
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
-    
+
     @Test(expected = SelectorParseException.class)
     public void testInvalidSyntax() throws SelectorParseException {
         this.selectionConverter.convert(":(");
     }
-    
+
     @Test(expected = SelectorParseException.class)
     public void testEmptyStrings() throws SelectorParseException {
         this.selectionConverter.convert(":(,,)");
@@ -152,5 +162,5 @@ public class Selector2MapOfMapsTest {
         String selectorString = ":(someField:tru)"; //some guy spelled "true" wrong
         this.selectionConverter.convert(selectorString);
     }
-    
+
 }

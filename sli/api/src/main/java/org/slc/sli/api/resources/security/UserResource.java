@@ -246,11 +246,11 @@ public class UserResource {
         if (userInLdap.getGroups() != null) {
             result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
                     RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
-            for(String group : userInLdap.getGroups()) {
-                info("user group: "+group);
+            for (String group : userInLdap.getGroups()) {
+                info("user group: " + group);
             }
-            for(String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
-                info("group allowd: "+group);
+            for (String group : (RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()))) {
+                info("group allowd: " + group);
             }
             if (result != null) {
                 error("result is not null ");

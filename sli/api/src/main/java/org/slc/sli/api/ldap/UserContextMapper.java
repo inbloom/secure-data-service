@@ -55,8 +55,7 @@ public class UserContextMapper implements ContextMapper {
                 pairs = description.split(" ");
             }
             for (String pair : pairs) {
-                pair = pair.trim();
-                String[] pairArray = pair.split("=", 2);
+                String[] pairArray = pair.trim().split("=", 2);
                 if (pairArray.length == 2) {
                     String key = pairArray[0].trim();
                     String value = pairArray[1].trim();

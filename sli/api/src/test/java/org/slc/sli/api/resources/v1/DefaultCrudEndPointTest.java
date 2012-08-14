@@ -156,7 +156,7 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
             EntityResponse entityResponse = (EntityResponse) response.getEntity();
-            
+
             List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertEquals("Should get 2 entities", results.size(), 2);
 
@@ -231,8 +231,6 @@ public class DefaultCrudEndPointTest {
                 fail("should have thrown EntityNotFoundException");
             } catch (EntityNotFoundException e) {
                 return;
-            } catch (Exception e) {
-                fail("threw wrong exception: " + e);
             }
         }
     }
@@ -254,9 +252,7 @@ public class DefaultCrudEndPointTest {
             Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
             EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
-            
-            System.out.println("KM2: entity respone: " + entityResponse.toString());
-            
+
             EntityBody body = (EntityBody) entityResponse.getEntity();
             assertNotNull("Should return an entity", body);
             assertEquals("studentUniqueStateId should be 1234", body.get("studentUniqueStateId"), 1234);
@@ -277,7 +273,7 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
             EntityResponse entityResponse = (EntityResponse) response.getEntity();
-            
+
             List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);

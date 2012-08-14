@@ -6,23 +6,11 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.model.ModelProvider;
-import org.slc.sli.api.selectors.model.SelectorParseException;
-import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
-import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
-import org.slc.sli.api.selectors.model.elem.SelectorElement;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.ModelElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,6 +19,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.modeling.uml.ClassType;
+
+/**
+ * Tests the expected loading and analysis of XMI into selectors.
+ *
+ *
+ *
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -83,7 +87,7 @@ public class DefaultSelectorStoreTest {
         element = elements.get(0);
         assertTrue("Should be true", element instanceof IncludeXSDSelectorElement);
     }
-    
+
     @Test
     public void assertGracefulHandlingOfInvalidTypeDefaultSelector() {
         assertNull("Should be null", defaultSelectorRepository.getSelector("type1"));

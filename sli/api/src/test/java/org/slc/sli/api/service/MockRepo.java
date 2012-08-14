@@ -217,7 +217,7 @@ public class MockRepo implements Repository<Entity> {
                     String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
                             criteria.canBePrefixed()));
 
-                    List<String> validValues = (List<String>) toList(criteria.getValue());
+                    List<String> validValues = toList(criteria.getValue());
                     if (validValues.contains(entityValue)) {
                         results2.put(idAndEntity.getKey(), idAndEntity.getValue());
                     }
@@ -627,7 +627,7 @@ public class MockRepo implements Repository<Entity> {
 
     protected List<String> toList(Object obj) {
         if (String.class.isInstance(obj)) {
-            return Arrays.asList((String)obj);
+            return Arrays.asList((String) obj);
         }
 
         return (List<String>) obj;
