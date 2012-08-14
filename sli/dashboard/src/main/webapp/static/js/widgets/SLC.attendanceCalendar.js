@@ -23,9 +23,7 @@
 SLC.namespace('SLC.attendanceCalendar', (function () {
 
 	var util = SLC.util,
-		monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
 		weekDayFormat = ["S", "M", "T", "W", "T", "F", "S"];
-
 
 	/*
 	 *	SLC attendanceCalendar plugin
@@ -60,33 +58,32 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			absentData = [],
 			startDate,
 			endDate,
+			startEndDateFormat = 'MM dd,yy', // Example: August 08,2012
+			dateFormatFromServer = 'yy-mm-dd',
 			i;
 
 		if (panelData === null || panelData === undefined || panelData.length < 1) {
 			return false;
 		}
 
-		if(panelData.attendanceList.length === 0 || !panelData.startDate || !panelData.endDate) {
+		if(panelData.attendanceList === null || panelData.attendanceList === undefined || panelData.attendanceList.length === 0 || !panelData.startDate || !panelData.endDate) {
 			return false;
 		}
 
 		absentData = panelData.attendanceList;
-		startDate = new Date(util.parseISO8601(panelData.startDate));
-		endDate = new Date(util.parseISO8601(panelData.endDate));
+		startDate = $.datepicker.parseDate(dateFormatFromServer, panelData.startDate);
+		endDate = $.datepicker.parseDate(dateFormatFromServer, panelData.endDate);
 
 		function getMinDate() {
-			return new Date(monthNames[startDate.getMonth()] + " " + startDate.getDate() + ", " + startDate.getFullYear());
+			return new Date($.datepicker.formatDate(startEndDateFormat, startDate));
 		}
 
 		function getMaxDate() {
-			return new Date(monthNames[endDate.getMonth()] + " " + endDate.getDate() + ", " + endDate.getFullYear());
+			return new Date($.datepicker.formatDate(startEndDateFormat, endDate));
 		}
 
 		function absentDays(date) {
-			var m = util.pad2(parseInt(date.getMonth(), 10)+1),
-				d = util.pad2(parseInt(date.getDate(), 10)),
-				y = date.getFullYear(),
-				formattedDate = y + '-' + (m) + '-' + d;
+			var formattedDate = $.datepicker.formatDate(dateFormatFromServer, date);
 
 			for (i = 0; i < absentData.length; i++) {
 				if(formattedDate === absentData[i].date) {
@@ -104,7 +101,7 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 
 		// Check the type of day: weekend/weekday
 		function formatDays(date) {
-			var noWeekend = jQuery.datepicker.noWeekends(date);
+			var noWeekend = $.datepicker.noWeekends(date);
 			// If it's a weekday, check for special formatting
 			return noWeekend[0] ? absentDays(date) : noWeekend;
 		}
@@ -118,6 +115,10 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 
 		if (options) {
 			calendarOptions = $.extend(calendarOptions, options);
+		}
+
+		if($(".repeatHeaderTable1:last").length > 0) {
+			$("#" + calendarId).appendTo(".repeatHeaderTable1:last");
 		}
 
 		return $("#" + calendarId).attendanceCalendar(calendarOptions);

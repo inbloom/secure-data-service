@@ -1,5 +1,6 @@
 package org.mongo.performance;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
 
 public class MongoCompositeTest implements Callable<Boolean> {
 
@@ -21,6 +28,7 @@ public class MongoCompositeTest implements Callable<Boolean> {
     public int id;
     public int operationCount;
     public int chunkSize;
+    public String operationsEnabled;
     public CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
     
     public Map<String, Object> dataRecord;
@@ -29,13 +37,14 @@ public class MongoCompositeTest implements Callable<Boolean> {
         
     }
     
-    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, Map<String, Object> dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts) {
+    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, Map<String, Object> dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts, String operationsEnabled) {
         this.id = id;
         this.operationCount = operationCount;
         this.chunkSize = chunkSize;
         this.da = da;
         this.dataRecord = dataRecord;
         this.opCounts = opCounts;
+        this.operationsEnabled = operationsEnabled;
     }
 
     @Override
@@ -52,13 +61,67 @@ public class MongoCompositeTest implements Callable<Boolean> {
         int iterations = operationCount / this.chunkSize;
         
         for (int i = 0; i < iterations; i++) {
-            if (Math.random() > 2) {
-                this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
-            } else {
+            if (this.operationsEnabled.contains("D")) {
+                this.profileBatchedInsertsDriver(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+            
+            if (this.operationsEnabled.contains("B")) {
                 this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
             }
             
-            this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            if (this.operationsEnabled.contains("W")) {
+                this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+            
+            if (this.operationsEnabled.contains("T")) {
+                this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+            
+            if (this.operationsEnabled.contains("R")) {
+                this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+            }
+        }
+
+    }
+    
+    
+    private void profileBatchedInsertsDriver(int operationCount, String profiledCollectionName, int chunkSize, int iterationNumber) {
+        List<DBObject> records = new ArrayList<DBObject>();
+        
+        for (int i = 0; i < chunkSize; i++) {
+            Map<String, Object> innerObject = new HashMap<String, Object>(this.dataRecord);
+            innerObject.remove("studentUniqueStateId");
+            innerObject.put("studentUniqueStateId", "" + this.id + "-" + iterationNumber + "-" + i);
+            
+            BasicDBObject dbObj = new BasicDBObject();
+            dbObj.put("body", innerObject);
+            dbObj.put("metaData", "");
+
+            records.add(dbObj);
+        }
+
+        try {
+            Mongo m = new Mongo("localhost", 27017);
+            DB db = m.getDB("sli");
+            db.setWriteConcern(WriteConcern.SAFE);
+            
+            DBCollection profiledCollection = db.getCollection("profiledCollection");
+
+            long startTime = System.currentTimeMillis();
+            profiledCollection.insert(records);
+            long elapsed = System.currentTimeMillis() - startTime;
+            
+            System.out.println("ID = " + this.id +
+                    " INSERTS BATCHD  " + chunkSize + " = " + String.format("%1$6s", elapsed) + " ms." + 
+                    "          Average = " + String.format("%1$10s", (float) ((float) (elapsed) / (float) chunkSize)) + " ms/record." + 
+                    "          RPS = " + Math.floor((float) ((float) chunkSize / (float)(elapsed)) * 1000));
+            
+            this.opCounts.add(Pair.of("INSERT_BATCHD", new Integer((int) elapsed)));
+            
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (MongoException e) {
+            e.printStackTrace();
         }
 
     }
@@ -142,7 +205,7 @@ public class MongoCompositeTest implements Callable<Boolean> {
         }
 
         System.out.println("ID = " + this.id +
-                " SELECTS BATCH     " + chunkSize + " = " + String.format("%1$6s", elapsed) + " ms." + 
+                " SELECTS BATCH   " + chunkSize + " = " + String.format("%1$6s", elapsed) + " ms." + 
                 "          Average = " + String.format("%1$10s", (float) ((float) (elapsed) / (float) chunkSize)) + " ms/record." + 
                 "          RPS = " + Math.floor((float) ((float) chunkSize / (float)(elapsed)) * 1000));
         

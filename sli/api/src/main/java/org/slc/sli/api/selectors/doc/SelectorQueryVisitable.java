@@ -24,6 +24,6 @@ package org.slc.sli.api.selectors.doc;
  */
 public interface SelectorQueryVisitable {
 
-    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor);
+    public SelectorQueryPlan accept(SelectorQueryVisitor selectorQueryVisitor);
 
 }

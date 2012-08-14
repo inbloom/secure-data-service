@@ -16,7 +16,17 @@
 
 package org.slc.sli.api.selectors.doc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
 import org.codehaus.plexus.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
@@ -26,14 +36,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Stack;
 
 
 /**
@@ -54,9 +56,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
     @Override
-    public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        return executeQueryPlan(queryMap, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
 
     }
 
@@ -65,11 +67,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryPlan, Constraint constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types) {
+    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
-        for (Map.Entry<Type, SelectorQueryPlan> entry : queryPlan.entrySet()) {
+        for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
             Type currentType = entry.getKey();
@@ -78,7 +80,6 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             if (!previousEntities.isEmpty() && previousType != null) {
                 String key = getKey(currentType, previousType);
-                constraint.setKey(key);
                 plan.getParseFields().add(key);
 
                 String extractKey = getExtractionKey(currentType, previousType);
@@ -90,25 +91,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     if (connectingType != null) {
                         types.push(connectingType);
 
-                        connectingEntities = getConnectingEntities(connectingType, previousType,
-                                toList(constraint.getValue()));
+                        connectingEntities = getConnectingEntities(connectingType, previousType, constraint);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
                 }
 
-                constraint.setValue(ids);
+                constraint = constructConstrainQuery(key, ids);
             }
 
             //add the current type
             types.push(currentType);
 
-            Iterable<EntityBody> entities = executeQuery(currentType, plan.getQuery(), constraint, true);
+            Iterable<EntityBody> entities = executeQuery(currentType, constraint, first);
             results.addAll((List<EntityBody>) entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, types);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);
@@ -116,9 +116,18 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             results = filterFields(results, plan);
             results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
+
+            first = false;
         }
 
         return results;
+    }
+
+    protected NeutralQuery constructConstrainQuery(String key, List<String> ids) {
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, ids));
+
+        return constraint;
     }
 
     protected List<EntityBody> updateConnectingEntities(List<EntityBody> results, List<EntityBody> connectingEntities, Type connectingType, Type currentType, Type previousType) {
@@ -150,62 +159,73 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, List<String> ids) {
+    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint) {
         String key = getKey(currentType, previousType);
-        Constraint constraint = new Constraint(key, ids);
 
-        return (List<EntityBody>) executeQuery(currentType, new NeutralQuery(), constraint, true);
+        for (NeutralCriteria criteria : constraint.getCriteria()) {
+            criteria.setKey(key);
+        }
+
+        return (List<EntityBody>) executeQuery(currentType, constraint, false);
     }
 
-    protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        List<EntityBody> returnList = new ArrayList<EntityBody>(results);
+    protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
+        return defaults.contains(key) || plan.getParseFields().contains(key);
+    }
 
-        if (!plan.getExcludeFields().isEmpty()) {
-            returnList.clear();
-            for (EntityBody body : results) {
-                EntityBody newBody = new EntityBody();
+    protected List<EntityBody> filterExcludeFields(List<EntityBody> results, SelectorQueryPlan plan) {
 
-                for (String key : body.keySet()) {
-                    if (!plan.getExcludeFields().contains(key) && body.containsKey(key)) {
-                        newBody.put(key, body.get(key));
-                    }
+        for (EntityBody body : results) {
+            for (String exclude : plan.getExcludeFields()) {
+                if (!isDefaultOrParse(exclude, plan)) {
+                    body.remove(exclude);
+                    body.remove(getExposeName(modelProvider.getClassType(exclude)));
                 }
-
-                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
-            }
-        } else if (!plan.getIncludeFields().isEmpty()) {
-            returnList.clear();
-            for (EntityBody body : results) {
-                EntityBody newBody = new EntityBody();
-
-                for (String include : plan.getIncludeFields()) {
-                    if (body.containsKey(include)) {
-                        newBody.put(include, body.get(include));
-                    }
-                }
-
-                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
             }
         }
 
-        return returnList;
+        return results;
     }
 
-    protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody newBody) {
+    protected List<EntityBody> filterIncludeFields(List<EntityBody> results, SelectorQueryPlan plan) {
+        List<EntityBody> filteredList = new ArrayList<EntityBody>();
+
+        for (EntityBody body : results) {
+            EntityBody filtered = new EntityBody();
+            for (String include : plan.getIncludeFields()) {
+                if (body.containsKey(include)) {
+                    filtered.put(include, body.get(include));
+                }
+            }
+            filteredList.add(addDefaultsAndParseFields(plan, body, filtered));
+        }
+
+
+        return  filteredList;
+    }
+
+    protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
+        results = filterIncludeFields(results, plan);
+        results = filterExcludeFields(results, plan);
+
+        return results;
+    }
+
+    protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody filteredBody) {
 
         for (String defaultString : defaults) {
             if (body.containsKey(defaultString)) {
-                newBody.put(defaultString, body.get(defaultString));
+                filteredBody.put(defaultString, body.get(defaultString));
             }
         }
 
         for (String parseField : plan.getParseFields()) {
             if (body.containsKey(parseField)) {
-                newBody.put(parseField, body.get(parseField));
+                filteredBody.put(parseField, body.get(parseField));
             }
         }
 
-        return newBody;
+        return filteredBody;
     }
 
     protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
@@ -226,15 +246,15 @@ public class DefaultSelectorDocument implements SelectorDocument {
         String exposeName = getExposeName(nextType);
         key = key.equals("_id") ? "id" : key;
 
-        //make sure we save the field we just added
-        plan.getParseFields().add(exposeName);
+        if (exposeName != null) {
+            //make sure we save the field we just added
+            plan.getParseFields().add(exposeName);
 
-        for (EntityBody body : results) {
-            String id = (String) body.get(extractionKey);
+            for (EntityBody body : results) {
+                String id = (String) body.get(extractionKey);
 
-            List<EntityBody> subList = getEntitySubList(entityList, key, id);
+                List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
-            if (!subList.isEmpty()) {
                 body.put(exposeName, subList);
             }
         }
@@ -243,9 +263,13 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected String getExposeName(Type type) {
-        EntityDefinition def = getEntityDefinition(type);
+        if (type == null) {
+            return null;
+        }
 
-        return PathConstants.TEMP_MAP.get(def.getResourceName());
+        EntityDefinition definition = getEntityDefinition(type);
+
+        return (definition != null) ? PathConstants.TEMP_MAP.get(definition.getResourceName()) : null;
     }
 
     protected String getExtractionKey(Type currentType, Type previousType) {
@@ -282,13 +306,28 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
-        query.addCriteria(new NeutralCriteria(constraint.getKey(),
-                NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
+    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first) {
 
-        Iterable<EntityBody> results = getEntityDefinition(type).getService().list(query);
+        if (first) {
+            Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
 
-        return results;
+            constraint.setLimit(0);
+            constraint.setOffset(0);
+
+            return results;
+        } else {
+            try {
+                EntityDefinition entityDefinition = getEntityDefinition(type);
+                if (entityDefinition == null) {
+                    return new ArrayList<EntityBody>();
+                }
+                return entityDefinition.getService().list(constraint);
+            } catch (AccessDeniedException ade) {
+                return new ArrayList<EntityBody>();
+            }
+
+        }
+
     }
 
 
@@ -322,14 +361,4 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         return results;
     }
-
-    protected List<String> toList(Object obj) {
-        if (String.class.isInstance(obj)) {
-            return Arrays.asList((String)obj);
-        }
-
-        return (List<String>) obj;
-    }
-
-
 }

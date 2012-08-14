@@ -18,8 +18,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 
 /**
@@ -69,7 +69,7 @@ public class HighestEver extends Configured implements Tool {
 
         job.setInputFormatClass(MongoInputFormat.class);
 
-        job.setOutputKeyClass(TenantAndID.class);
+        job.setOutputKeyClass(TenantAndIdEmittableKey.class);
         job.setOutputValueClass(DoubleWritable.class);
         job.setOutputFormatClass(MongoAggFormatter.class);
 
@@ -83,7 +83,7 @@ public class HighestEver extends Configured implements Tool {
         DB db = m.getDB("sli");
         DBCollection assessments = db.getCollection("assessment");
         DBObject assmt = assessments.findOne(new BasicDBObject("body.assessmentIdentificationCode.ID", assmtIDCode));
-        String assmtId = (String) assmt.get("_id");
+        String assmtId = (String) assmt.get("idField");
         return assmtId;
     }
 }

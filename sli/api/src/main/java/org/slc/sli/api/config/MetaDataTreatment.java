@@ -17,15 +17,12 @@
 
 package org.slc.sli.api.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.CustomRoleResource;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * Add the "updated" and "created" fields to the response body.
@@ -35,10 +32,6 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class MetaDataTreatment implements Treatment {
-
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
 
     public static final String METADATA = "metaData";
 

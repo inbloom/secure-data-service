@@ -64,7 +64,7 @@ class ForgotPassword
         response =  APP_LDAP_CLIENT.update_user_info(update_info)
         emailAddress = user[:emailAddress]
         fullName = user[:first] + " " + user[:last]
-        ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
+        yield(emailAddress, fullName)
         return true
       rescue InvalidPasswordException => e
         APP_CONFIG['password_policy'].each { |msg|  errors.add(:new_pass, msg) }

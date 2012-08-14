@@ -26,8 +26,8 @@ require 'date'
 class NewAccountsController < ForgotPasswordsController
   
   skip_filter :handle_oauth
-  before_filter :set_model
   before_filter :get_user
+  before_filter :set_model
   before_filter :token_still_valid
   
   def index
@@ -46,8 +46,8 @@ class NewAccountsController < ForgotPasswordsController
     @new_account_password.confirmation = params[:new_account_password][:confirmation]
     @new_account_password.terms_and_conditions = params[:terms_and_conditions]
     respond_to do |format|
-      # re-render the form if not valid otherwise redirect to the target page 
-      if @new_account_password.set_password
+      # re-render the form if not valid otherwise redirect to the target page
+      if @new_account_password.set_password {|emailAddress, fullName| ApplicationMailer.samt_welcome(@user[:emailAddress], @user[:first], APP_LDAP_CLIENT.get_user_groups(@user[:email])).deliver}
         @user[:status] = 'approved'
         APP_LDAP_CLIENT.update_status(@user)
         format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
@@ -59,12 +59,12 @@ class NewAccountsController < ForgotPasswordsController
   end
 
   def set_model
+    puts @user
     token = params[:key]
-    # TODO get the username of the inviter and the edorg 
-    inviter, edorg = "jdoe", "Fictitious School District"
+    edorg = @user[:edorg]
     @new_account_password = NewAccountPassword.new
     @new_account_password.token = token
-    @new_account_password.inviter = inviter
     @new_account_password.edorg = edorg
+    @new_account_password.tou_required = APP_CONFIG['is_sandbox'] && @user[:status] == "submitted"
   end 
 end

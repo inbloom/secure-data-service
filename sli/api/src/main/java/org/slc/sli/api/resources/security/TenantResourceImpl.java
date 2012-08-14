@@ -52,7 +52,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
@@ -62,7 +61,6 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
@@ -81,16 +79,16 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     private RoleInitializer roleInitializer;
-    
+
     @Value("${sli.tenant.landingZoneMountPoint}")
     private String landingZoneMountPoint;
 
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
-    
+
     @Autowired
     private RealmHelper realmHelper;
 
@@ -197,7 +195,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         for (String id : tenantService.listIds(query)) {
             existingIds.add(id);
         }
-                
+
         // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
@@ -211,7 +209,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
-            
+
             //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
@@ -265,15 +263,15 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         allLandingZones.add(newLandingZone);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);        
+        tenantService.update(existingTenantId, existingBody);
         return existingTenantId;
     }
-    
+
     /**
      * TODO: add javadoc
      *
      */
-    class MutableInt {
+    static class MutableInt {
       int value = 0;
       public void increment() {
           ++value;

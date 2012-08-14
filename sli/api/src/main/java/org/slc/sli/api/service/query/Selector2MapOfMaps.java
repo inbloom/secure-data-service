@@ -16,6 +16,17 @@ public class Selector2MapOfMaps implements SelectionConverter {
     public static final String SELECTOR_REGEX_STRING = ":\\((.*)\\)";
     public static final Pattern SELECTOR_PATTERN = Pattern.compile(SELECTOR_REGEX_STRING);
     
+    /* Whether a key of "$" should cause an exception to be thrown */
+    private boolean errorOnDollarSign;
+    
+    public Selector2MapOfMaps() {
+        this(true);
+    }
+    
+    public Selector2MapOfMaps(boolean errorOnDollarSign) {
+        this.errorOnDollarSign = errorOnDollarSign;
+    }
+    
     public Map<String, Object> convert(String selectorString) throws SelectorParseException {
         Map<String, Object> converted = new HashMap<String, Object>();
         
@@ -93,7 +104,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
      * @param keyWithOptionalValue key, key:true, or key:false. key defaults to key:true
      * @param map map to add key and boolean value to
      */
-    private static void parseKeyAndAddValueToMap(String keyWithOptionalValue, Map<String, Object> map) throws SelectorParseException {
+    private void parseKeyAndAddValueToMap(String keyWithOptionalValue, Map<String, Object> map) throws SelectorParseException {
         String key = keyWithOptionalValue;
         Boolean value = true;
         
@@ -112,7 +123,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
         addKeyValueToMap(key, value, map);
     }
 
-    private static void addKeyValueToMap(String key, Object value, Map<String, Object> map) throws SelectorParseException {
+    private void addKeyValueToMap(String key, Object value, Map<String, Object> map) throws SelectorParseException {
         if (key == null) {
             throw new SelectorParseException("Cannot select null key");
         } else if (value == null) {
@@ -123,7 +134,12 @@ public class Selector2MapOfMaps implements SelectionConverter {
             throw new SelectorParseException("Cannot use parentheses in keys");
         } else if (key.isEmpty()) {
             throw new SelectorParseException("Cannot use empty string as a key");
-        } 
+        } else if (this.errorOnDollarSign) {
+            if (key.equals("$")) {
+                throw new SelectorParseException("Dollar sign not valid selector syntax");
+            }
+        }
+        
         
         map.put(key, value);
     }

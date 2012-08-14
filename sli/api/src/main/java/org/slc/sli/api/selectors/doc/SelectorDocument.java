@@ -16,11 +16,10 @@
 
 package org.slc.sli.api.selectors.doc;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.modeling.uml.Type;
-
 import java.util.List;
-import java.util.Map;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Represents a selector document to be returned
@@ -30,6 +29,6 @@ import java.util.Map;
  */
 public interface SelectorDocument {
 
-    public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint);
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint);
 
 }
