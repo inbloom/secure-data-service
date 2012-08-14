@@ -14,7 +14,7 @@
       google.setOnLoadCallback(listJobs);
 
       function listJobs() {
-        var jobs = getApiResource('/job');
+        var jobs = getApiResource('/jobids');
 
         $.each(jobs, function(key, val) {
           $('#job_chooser')
