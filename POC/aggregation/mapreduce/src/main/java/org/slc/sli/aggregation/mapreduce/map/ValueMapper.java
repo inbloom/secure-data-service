@@ -19,10 +19,7 @@ package org.slc.sli.aggregation.mapreduce.map;
 import java.io.IOException;
 
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.Mapper;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
@@ -31,23 +28,21 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * ValueMapper - Lookup the value of a mongo collection field for each input value. If found,
  * emit the value using type Writable. If not found, emit NullWritable.
  */
-public abstract class ValueMapper extends MapReduceBase implements
-    Mapper<EmittableKey, BSONObject, EmittableKey, Writable> {
-    
+public abstract class ValueMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, Writable> {
+
     protected String fieldName = null;
-    
+
     @Override
-    public void map(EmittableKey key, BSONObject entity,
-        OutputCollector<EmittableKey, Writable> output, Reporter reporter) throws IOException {
-        
+    public void map(EmittableKey key, BSONObject entity, Context context) throws InterruptedException, IOException {
+
         Writable value = getValue(entity);
-        output.collect(key, value);
+        context.write(key, value);
     }
-    
+
     /**
      * getValue - Attempt to lookup the field in the entity and covert it to an appropriate
      * Writable. If the field does not exist or is the wrong type, return NullWritable.
-     * 
+     *
      * @param fieldValue
      *            - Value of the field to convert.
      * @return Writable instance of the field, or NullWritable if the field does not exist
