@@ -19,6 +19,8 @@ package org.slc.sli.dashboard.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,13 +69,22 @@ public class ErrorController extends GenericLayoutController {
         Map<String, String> exceptionMap = new HashMap<String, String>();
         
         ErrorDescriptor error = ErrorDescriptor.DEFAULT;
+        if (errorType == null) {
+            String message = response.toString();
+            Pattern pattern = Pattern.compile("^\\S+\\s+(\\d+)");
+            Matcher matcher = pattern.matcher(message);
+            if(matcher.find()) {
+                errorType = matcher.group(1);
+                
+            }
+        }
         if (errorType != null) {
             ErrorDescriptor specificError = ErrorDescriptor.findByType(errorType);
             if (specificError != null) {
                 error = specificError;
             }
         }
-        
+   
         model.addAttribute(Constants.ATTR_ERROR_HEADING, error.getHeading());
         model.addAttribute(Constants.ATTR_ERROR_CONTENT, error.getContent());
         
