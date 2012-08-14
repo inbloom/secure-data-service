@@ -1,0 +1,38 @@
+{
+    "type": "student",
+    "body": {
+        "studentUniqueStateId": "WB0025",
+        "sex": "ESTRING:3vOcMrQ5d+OUiY9KrE/VBQ==",
+        "economicDisadvantaged": false,
+        "hispanicLatinoEthnicity": false,
+        "address": [
+            {
+                "postalCode": "ESTRING:epX1LXOwnx1/OmpNYclpHw==",
+                "streetNumberName": "ESTRING:x+OkhO3RiigKzfq8DQFCOQ==",
+                "stateAbbreviation": "ESTRING:9bf8VbYs7dRbhGibBJWgKw==",
+                "countryCode": "ESTRING:HhH6VUCRRXqx71k1xVvshA==",
+                "addressType": "ESTRING:wrDQM2ppmDinKc0xlgGIfQ==",
+                "city": "ESTRING:qHXy4YoCS4eu2y7uyJxc6Q=="
+            }
+        ],
+        "electronicMail": [
+            {
+                "emailAddress": "ESTRING:eYEXrq2DPoZXMiEotzSrWpaIBHjvLG22emeupUimWnI="
+            }
+        ],
+        "name": {
+            "lastSurname": "ESTRING:x8swkqvw/53R7sl1eMFSsQ==",
+            "firstName": "ESTRING:M+FlLVsqRiH8CbAomRno7g=="
+        },
+        "telephone": [
+            {
+                "telephoneNumberType": "ESTRING:DCaqMgPRST/PrZvgDyDrUA==",
+                "telephoneNumber": "ESTRING:t/Z0XDus3ZJ1ZFhrYifRaw=="
+            }
+        ],
+        "birthData": {
+            "countryOfBirthCode": "ESTRING:HhH6VUCRRXqx71k1xVvshA==",
+            "birthDate": "ESTRING:wr48aeCRiQnLDeVve/CPlA=="
+        }
+    }
+}
