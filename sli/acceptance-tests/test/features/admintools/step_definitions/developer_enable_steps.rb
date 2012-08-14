@@ -89,5 +89,5 @@ def check_app(arg1)
   @test_app = get_app(arg1)
   total_count = @test_app.find_elements(:css, "input:checked[type='checkbox']").count
   district_count = total_count - 1
-  assert("All districts should be enabled.", total_count == district_count)
+  assert(total_count == district_count, "All districts should be enabled.")
 end
