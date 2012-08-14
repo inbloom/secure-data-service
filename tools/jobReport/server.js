@@ -142,3 +142,7 @@ server.get(/^\/([a-zA-Z0-9_\.~-]+)/, genericFind);
 server.listen(8080, function() {
   console.log('%s jobReport server started and listening at %s', server.name, server.url);
 });
+
+process.on('uncaughtException', function(err) {
+  console.log('uncaught exception: ' + err);
+});
