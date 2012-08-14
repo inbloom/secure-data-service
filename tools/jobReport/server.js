@@ -56,10 +56,15 @@ function findAll(model, res) {
 }
 
 function findAllIds(model, res) {
-  model.find({}, '_id jobStartTimestamp', function (err,docs) {
-    //console.log('docs: %s', docs);
-    res.send(docs);
-  });
+  model.find(
+    {},
+    '_id jobStartTimestamp',
+    { sort:{ jobStartTimestamp: -1 }},
+    function (err,docs) {
+      //console.log('docs: %s', docs);
+      res.send(docs);
+    }
+  );
 }
 
 function findJoinJobId(model, docId, res) {
