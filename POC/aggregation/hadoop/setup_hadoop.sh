@@ -42,16 +42,16 @@ fi
 
 brew --version
 if [ $? != 0 ]; then
-    echo "homebrew not installed, exiting..." 
+    echo "homebrew not installed, exiting..."
     exit
 fi
 
-brew info hadoop 2>/dev/null | grep "Not installed" 
+brew info hadoop 2>/dev/null | grep "Not installed"
 if [ $? -eq 0 ]; then
     echo "install hadoop..."
-    brew install hadoop 
+    brew install hadoop
 fi
-echo "hadoop already installed..." 
+echo "hadoop already installed..."
 
 if [ "${NO_HADOOP_CONFIG}" == "false" ]; then
 
@@ -62,16 +62,16 @@ if [ "${NO_HADOOP_CONFIG}" == "false" ]; then
     echo "Configuration folder for hadoop: ${HADOOP_CONF_DIR}"
     echo "backup hadoop configuration folder to : ${HADOOP_CONF_DIR}_bak"
     cp -pr ${HADOOP_CONF_DIR} ${HADOOP_CONF_DIR}_bak
-    
+
     echo "Install configuration files for hadoop"
     sed "s,{SLI_POC_HOME},$SLI_POC_AGG_HOME," templates/core-site.xml.template > $HADOOP_CORE_CONF
     cp templates/hdfs-site.xml.template ${HADOOP_CONF_DIR}/hdfs-site.xml
     cp templates/mapred-site.xml.template ${HADOOP_CONF_DIR}/mapred-site.xml
-    
+
     test -d ../app/hadoop/tmp || mkdir -p ../app/hadoop/tmp
-    
+
     echo "format hadoop..."
-    echo "Y" | hadoop namenode -format 
+    echo "Y" | hadoop namenode -format
 fi
 
 if [ "${NO_SSH_CONFIG}" == "false" ]; then
@@ -80,7 +80,7 @@ if [ "${NO_SSH_CONFIG}" == "false" ]; then
         echo "generating ssh key pair..."
         ssh-keygen -t rsa -P ""
     fi
-    
+
     echo "Update localhost's authorized keys to include public key..."
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 

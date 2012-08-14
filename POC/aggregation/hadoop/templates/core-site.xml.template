@@ -12,7 +12,7 @@
 
 <property>
   <name>fs.default.name</name>
-  <value>hdfs://localhost:54310</value>
+  <value>hdfs://localhost:9000</value>
   <description>The name of the default file system.  A URI whose
   scheme and authority determine the FileSystem implementation.  The
   uri's scheme determines the config property (fs.SCHEME.impl) naming
