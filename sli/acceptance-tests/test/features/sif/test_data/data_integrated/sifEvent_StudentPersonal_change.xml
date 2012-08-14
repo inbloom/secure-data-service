@@ -17,7 +17,7 @@
     </SIF_Header>
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="StudentPersonal" Action="Change">
-        <StudentPersonal RefId="222222222222222A8C3D00AA001A1652">
+        <StudentPersonal RefId="20120808934983498C3D00AA00495948">
           <LocalId>P00001</LocalId> 
           <Name Type="04"> 
             <LastName>Jones</LastName> 
