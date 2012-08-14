@@ -41,33 +41,6 @@ SLC.namespace('SLC.util', (function () {
 				return b-a; 
 			}
 		}
-
-		// pad a number to two digits
-		function pad2(number) {
-			return (number < 10 ? '0' : '') + number;
-		}
-
-		/**Parses string formatted as YYYY-MM-DD to a Date object.
-		 * If the supplied string does not match the format, an
-		 * invalid Date (value NaN) is returned.
-		 * @param {string} dateStringInRange format YYYY-MM-DD, with year in
-		 * range of 0000-9999, inclusive.
-		 * @return {Date} Date object representing the string.
-		 */
-		function parseISO8601(dateStringInRange) {
-			var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
-				date = new Date(NaN), month,
-				parts = isoExp.exec(dateStringInRange);
-
-			if(parts) {
-				month = +parts[2];
-				date.setFullYear(parts[1], month - 1, parts[3]);
-				if(month !== date.getMonth() + 1) {
-					date.setTime(NaN);
-				}
-			}
-			return date;
-		}
 		
 		function getElementFontSize(element) {
 		    var elemStyle = this.getStyleDeclaration(element);
@@ -358,8 +331,6 @@ SLC.namespace('SLC.util', (function () {
 		return {
 			counter: counter,
 			compareInt: compareInt,
-			pad2: pad2,
-			parseISO8601: parseISO8601,
 			compareIntReverse: compareIntReverse,
 			getElementFontSize: getElementFontSize,
 			getElementColor: getElementColor,
