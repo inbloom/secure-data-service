@@ -23,11 +23,11 @@ var StagedEntities = mongoose.model('StagedEntities', schema, 'stagedEntities');
 
 // map of our model vars for generic route lookup
 var routeMap = {
-  'error': { 'model': Error, 'queryFunc': findJoinBatchJobId },
-  'job': { 'model': NewBatchJob, 'queryFunc':  findAll },
-  'jobids': { 'model': NewBatchJob, 'queryFunc':  findAllIds },
-  'stage': { 'model': BatchJobStage, 'queryFunc': findJoinJobId  },
-  'stagedentities': { 'model': StagedEntities, 'queryFunc': findJoinJobId  }
+  'error': { 'model': Error, 'allQuery': findAll, 'jobJoinQuery': findJoinBatchJobId },
+  'job': { 'model': NewBatchJob, 'allQuery':  findAll },
+  'jobids': { 'model': NewBatchJob, 'allQuery':  findAllIds },
+  'stage': { 'model': BatchJobStage, 'allQuery':  findAll, 'jobJoinQuery': findJoinJobId  },
+  'stagedentities': { 'model': StagedEntities, 'allQuery':  findAll, 'jobJoinQuery': findJoinJobId  }
 };
 
 function findAll(model, res) {
@@ -38,9 +38,12 @@ function findAll(model, res) {
 }
 
 function findAllIds(model, res) {
-  model.find({}, '_id jobStartTimestamp', function (err,docs) {
-    //console.log('docs: %s', docs);
-    res.send(docs);
+  mongoose.disconnect( function () {
+    db = mongoose.connect('mongodb://nxmongo5.slidev.org:27017/ingestion_batch_job'),
+    model.find({}, '_id jobStartTimestamp', function (err,docs) {
+      //console.log('docs: %s', docs);
+      res.send(docs);
+    });
   });
 }
 
@@ -58,6 +61,13 @@ function findJoinBatchJobId(model, docId, res) {
   });
 }
 
+function findById(model, docId, res) {
+  model.findById(docId, function (err,doc) {
+    //console.log('doc: %s', doc);
+    res.send(doc);
+  });
+}
+
 function genericFind(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); 
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -70,18 +80,15 @@ function genericFind(req, res, next) {
 
     if (req.params[1] == null) {
       // find all query (only one param)
-      routeMap[req.params[0]].queryFunc(firstModel, res);
+      routeMap[req.params[0]].allQuery(firstModel, res);
 
     } else {
       var reqId = req.params[1];
 
       if (req.params[2] == null) {
-
         // find by _id query (params: /resource/id)
-        firstModel.findById(reqId, function (err,doc) {
-          //console.log('doc: %s', doc);
-          res.send(doc);
-        });
+        findById(firstModel, reqId, res);
+        
       } else {
         var joinResource = req.params[2];
 
@@ -92,7 +99,7 @@ function genericFind(req, res, next) {
           var secondModel = routeMap[joinResource].model;
 
           // lookup a defined join function to use - can't provide the id field of the query as a variable for some reason
-          routeMap[joinResource].queryFunc(secondModel, reqId, res);
+          routeMap[joinResource].jobJoinQuery(secondModel, reqId, res);
 
         } else {
           console.log('unregistered model requested in join: %s', joinResource);
