@@ -51,6 +51,7 @@ public class LdapServiceImpl implements LdapService {
 
     private static final String USER_ID_NUMBER = "500";
     private static final String GROUP_ID_NUMBER = "113";
+    private static final String LOGIN_SHELL = "/bin/bash";
 
     public LdapServiceImpl() {
     }
@@ -321,6 +322,7 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("uid", user.getUid());
         context.setAttributeValue("uidNumber", USER_ID_NUMBER);
         context.setAttributeValue("gidNumber", GROUP_ID_NUMBER);
+        context.setAttributeValue("loginShell", LOGIN_SHELL);
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
         if (user.getStatus() != null && user.getStatus().getStatusString() != null) {
