@@ -140,7 +140,7 @@ And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And in "Middle School Overview" tab, there are "2" Panels
-And in "Attendance and Discipline" tab, there are "1" Panels
+And in "Attendance and Discipline" tab, there are "2" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And I look at the panel "Contact Information"
@@ -276,7 +276,6 @@ And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And in "Elementary School Overview" tab, there are "2" Panels
-And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And I look at the panel "Contact Information"
 And there are "3" email addresses
@@ -406,7 +405,6 @@ And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And in "High School Overview" tab, there are "2" Panels
-And in "Attendance and Discipline" tab, there are "1" Panels
 #And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And I look at the panel "Contact Information"

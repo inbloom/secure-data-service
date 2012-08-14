@@ -130,5 +130,18 @@ public interface PopulationManager {
     @EntityMapping("sectionInfo")
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
     
+    
+    /**
+     * Retrieves attendance for student for the current year. Returns a generic entity,
+     * with startDate, endDate, and a list of absent and tardy events.
+     * @param token
+     * @param studentId
+     * @param config
+     * @return
+     */
+    @EntityMapping("studentAttendanceCalendar")
+    public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Config.Data config);
+    
+    
 }
 
