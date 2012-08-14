@@ -1700,22 +1700,10 @@
 				school of service.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffReference" type="reference">
-				<xs:annotation>
-					<xs:documentation>The staff assigned to the education
-						organization.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="educationOrganizationReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
@@ -2208,6 +2196,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="edOrgAssociations" type="staffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Education organization associations of the staff member.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3954,21 +3948,10 @@
 				instructional services to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>teacherSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="teacherId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The teacher providing services to the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.
@@ -4010,6 +3993,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="schoolAssociations" type="teacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>School associations of the teacher.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
