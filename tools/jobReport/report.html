@@ -8,18 +8,27 @@
     <script type="text/javascript">
 
       var API_URL = 'http://localhost:8080';
+      var MONGO_HOST_PORT = null; // defaults and set in html input
       
       google.load('visualization', '1', {'packages':['corechart']});
 
       google.setOnLoadCallback(listJobs);
 
       function listJobs() {
+        $('#job_chooser').empty();
+
+        MONGO_HOST_PORT = $('#mongo_host').val(); // initialize
+        
         var jobs = getApiResource('/jobids');
 
-        $.each(jobs, function(key, val) {
-          $('#job_chooser')
-            .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
-        });
+        if (jobs != null) {
+          $('#job_chooser').append('<h4>' + jobs.length + ' Available Jobs:</h4>');
+
+          $.each(jobs, function(key, val) {
+            $('#job_chooser')
+              .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
+          });
+        }
       }
 
       function jobSummary(jobId) {
@@ -166,7 +175,9 @@
       function getApiResource(url) {
         var jsonData = $.ajax({
           url: API_URL + url,
-          dataType:"json",
+          type: 'GET',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
           async: false
         }).responseText;
         return jQuery.parseJSON(jsonData);
@@ -193,9 +204,13 @@
     </script>
     </head>
     <body>
-        <div id="job_chooser">
-            <h4>Available Jobs</h4>
+        <div id="mongo_chooser">
+          <form onsubmit='listJobs();return false;'>
+            (mongo_host:port) <input id="mongo_host" type="text" value="localhost:27017" size="30"/>
+            <input type='submit'/>
+          </form>
         </div>
+        <div id="job_chooser"></div>
         <div id="job_summary"></div>
         <div id="stage_breakdown_piechart_div"></div>
         <div id="stage_breakdown_treemap_div"></div>

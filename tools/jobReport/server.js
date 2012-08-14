@@ -89,7 +89,8 @@ function genericFind(req, res, next) {
   console.log('GET request: %s', req);
 
   // get mongo host:port from request headers, defaulting to localhost:27017
-  var mongo = req.header('mongo', 'localhost:27017');
+  // X-Api-Version because there is some problem with custom headers and jquery/restify
+  var mongo = req.header('X-Api-Version', 'localhost:27017');
   console.log('Request: %s/%s/%s/%s', mongo, req.params[0], req.params[1], req.params[2]);
 
   var routeMap = getOrCreateConnection(mongo).routeMap;
