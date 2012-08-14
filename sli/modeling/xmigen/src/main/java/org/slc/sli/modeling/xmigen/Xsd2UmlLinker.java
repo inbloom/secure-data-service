@@ -149,6 +149,10 @@ final class Xsd2UmlLinker {
     
     private static final boolean hasNavigation(final Type source, final Type target,
             final Map<Type, Map<String, AssociationEnd>> navigations, final AssociationEnd excludeEnd) {
+        return false;
+        /* there's some type of issue if navigations exist and are returned to makeAssociations.
+           If a navigation exists then you will get duplicate IDs in the xmi, making it unusable.  
+
         if (navigations.containsKey(source)) {
             final Map<String, AssociationEnd> attributes = navigations.get(source);
             for (final String name : attributes.keySet()) {
@@ -166,6 +170,7 @@ final class Xsd2UmlLinker {
             // There aren't even any navigations from the source type.
             return false;
         }
+        */
     }
     
     private static final AssociationEnd getNavigation(final Type source, final Type target,
@@ -273,10 +278,10 @@ final class Xsd2UmlLinker {
         } else if (name.endsWith(SUFFIX_IDS)) {
             return name.substring(0, name.length() - SUFFIX_IDS.length());
         } else if (name.endsWith(SUFFIX_REFERENCE)) {
-            reportIllegalSuffix(classType, attribute);
+            // reportIllegalSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCE.length());
         } else if (name.endsWith(SUFFIX_REFERENCES)) {
-            reportIllegalSuffix(classType, attribute);
+            // reportIllegalSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
             reportIllegalSuffix(classType, attribute);
