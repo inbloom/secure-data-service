@@ -5,6 +5,8 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
+
+        var API_URL = 'http://localhost:8080';
         
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1', {'packages':['corechart','treemap']});
@@ -33,7 +35,7 @@
         function jobSummary(jobId) {
           $('#job_summary').empty().append('<h4>Job Summary: ' + jobId + '</h4>');
 
-          var job = getApiResource('http://localhost:8080/job/' + jobId);
+          var job = getApiResource(API_URL + '/job/' + jobId);
 
           var recordCount = getRecordCountForJob(job);
 
@@ -47,13 +49,13 @@
             .append('Total Job Time: ' + jobTime  + ' seconds.' + '<br/>')
             .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
 
-          var errors = getApiResource('http://localhost:8080/job/' + jobId + '/error');
+          var errors = getApiResource(API_URL + '/job/' + jobId + '/error');
           $('#job_summary')
             .append('Errors: ' + errors.length);
 
           drawStageBreakdownPieChart(job);
 
-          drawStageBreakdownTreeMap(job);
+          //drawStageBreakdownTreeMap(job);
 
           drawTransformPersistChars(job);
 
@@ -90,7 +92,8 @@
             pieSliceText: 'label',
             sliceVisibilityThreshold: 0,
             width: 1024,
-            height: 768
+            height: 768,
+            chartArea:{left:0,top:0,width:"100%",height:"100%"}
           };
 
           var chart = new google.visualization.PieChart(document.getElementById('stage_breakdown_piechart_div'));
@@ -122,18 +125,17 @@
         //Function to sort the element by total time, decreasing 
         function sortByTotalTime(a, b) {
             if(typeof(a[2]) == 'string') return -1;
-            return a[2] < b[2];
+            return b[2] - a[2];
         }
 
         function drawTransformPersistChars(job) {
             var persistenceChartData = [['Entity', '# of Records', 'Total Time']];
             var transformationChartData = [['Entity', '# of Records', 'Total Time']];
 
-            var persistenceJsonData = $.ajax({
-                url : "http://localhost:8080/job/" + job._id + "/stage",
-                dataType : "json",
-                async : false
-            }).responseText;
+            var processorChartMap = {
+                'PersistenceProcessor': persistenceChartData,
+                'TransformationProcessor': transformationChartData
+            };
 
             Array.prototype.indexOfField = function(index, value) {
                 for(var i = 0; i < this.length; i++)
@@ -142,36 +144,29 @@
                 return -1;
             }
             
-            var persistenceJobs = jQuery.parseJSON(persistenceJsonData);
-            $.each(persistenceJobs, function(key, val) {
+            var stagesForJob = getApiResource(API_URL + '/job/' + job._id + '/stage');
+
+            $.each(stagesForJob, function(key, val) {
                 var info = val.processingInformation;
                 //Need to handle those records without processingInformation
-                if( typeof (val.processingInformation) != 'undefined') {
+                if(typeof (val.processingInformation) != 'undefined') {
 
                     var entity = val.processingInformation.split(",")[0].split("=")[1];
-                    //Initializing if dont exist
-                    if(persistenceChartData.indexOfField(0, entity) == -1) {
-                        persistenceChartData.push([entity, 0, 0]);
-                    }
 
-                    if(transformationChartData.indexOfField(0, entity) == -1) {
-                        transformationChartData.push([entity, 0, 0]);
-                    }
+                    var chartData = processorChartMap[val.stageName];
+                    if (chartData != null) {
+                        //Initializing if dont exist
+                        if(chartData.indexOfField(0, entity) == -1) {
+                            chartData.push([entity, 0, 0]);
+                        }
 
-                    var persIndex = persistenceChartData.indexOfField(0, entity);
-                    var xformIndex = transformationChartData.indexOfField(0, entity);
-                    
-                    //summing up all the time and number of records
-                    if(val.stageName == "PersistenceProcessor") {
+                        var persIndex = chartData.indexOfField(0, entity);
+                        
+                        //summing up all the time and number of records
                         val.metrics.forEach(function(mVal, index) {
-                            persistenceChartData[persIndex][1] += mVal.recordCount;
+                            chartData[persIndex][1] += mVal.recordCount;
                         });
-                        persistenceChartData[persIndex][2] += val.elapsedTime;
-                    } else if(val.stageName == "TransformationProcessor") {
-                        val.metrics.forEach(function(mVal, index) {
-                            transformationChartData[xformIndex][1] += mVal.recordCount;
-                        });
-                        transformationChartData[xformIndex][2] += val.elapsedTime;
+                        chartData[persIndex][2] += val.elapsedTime;
                     }
                 }
             }); 
@@ -216,7 +211,7 @@
 
             var compChart = new google.visualization.ColumnChart(document.getElementById('compare_div'));
             compChart.draw(compData, {
-                title : 'Entity Transformation Performance',
+                title : 'Transformation / Persistence Comparison',
                 width : 1800,
                 height : 2000
             });
