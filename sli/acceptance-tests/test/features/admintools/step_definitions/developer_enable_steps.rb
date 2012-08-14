@@ -27,11 +27,11 @@ require_relative '../../utils/selenium_common.rb'
 # end
 
 Then /^I see the list of \(only\) my applications$/ do
-  assert("Should be more than one application listed", @driver.find_elements(:xpath, "//tr").count > 0)
+  assert(@driver.find_elements(:xpath, "//tr").count > 0, "Should be more than one application listed")
 end
 
 Then /^I can see the on\-boarded states\/districts$/ do
-  assert("One district should be enabled already", @driver.find_elements(:css, 'input:enabled[type="checkbox"]').count > 1)
+  assert(@driver.find_elements(:css, 'input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
 end
 
 Then /^I check the Districts$/ do
