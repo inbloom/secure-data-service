@@ -83,11 +83,18 @@
         var stopDate = new Date(job.jobStopTimestamp);
         var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
 
+        var hours = Math.floor(jobTime / 3600);
+        var min_divisor = jobTime % (3600);
+        var minutes = Math.floor(min_divisor / 60);
+        var sec_divisor = min_divisor % 60;
+        var seconds = Math.ceil(sec_divisor);
+        var jobTimeDisplay = hours + ':' + minutes + ':' + seconds;
+
         $('#job_summary')
           .css({'color': 'white'})
           .append('Job Status: ' + job.status + '<br/>')
           .append('EdFi Record Count: ' +recordCount + '<br/>')
-          .append('Total Job Time: ' + jobTime  + ' seconds' + '<br/>')
+          .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
           .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
 
         var errors = getApiResource('/job/' + jobId + '/error');
