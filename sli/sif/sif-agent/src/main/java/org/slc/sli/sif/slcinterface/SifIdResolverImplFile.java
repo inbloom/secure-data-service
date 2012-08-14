@@ -101,15 +101,6 @@ public class SifIdResolverImplFile implements SifIdResolver {
         return digUpSliEntity(sliId);
     }
 
-    @Override
-    public String getZoneSea(String zoneId) {
-        // check if it is in the map
-        if (!zoneIdToSliIdMap.containsKey(zoneId)) {
-            return null;
-        }
-        SliId sliId = zoneIdToSliIdMap.get(zoneId);
-        return digUpSliGuid(sliId);
-    }
 
     // dig up the SLI Guid from the api given a SliId.
     private String digUpSliGuid(SliId sliId) {

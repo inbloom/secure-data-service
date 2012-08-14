@@ -46,12 +46,12 @@ public interface SifIdResolver {
      * @param sifZoneId
      * @return The SLI guid of the SEA associated with the Zone, null if none exist
      */
-    public String getZoneSea(String sifZoneId);
+    //public String getZoneSea(String sifZoneId);
 
     /**
-     * Given a sif reference id and the guid and type of the corresponding entity, 
+     * Given a sif reference id and the guid and type of the corresponding entity,
      * saves the association
-     * 
+     *
      * @param sifId
      * @param sliType
      * @param sliId

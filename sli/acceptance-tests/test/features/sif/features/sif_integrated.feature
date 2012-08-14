@@ -11,6 +11,7 @@ And the following collections are clean and bootstrapped in datastore:
      | educationOrganization    |
      | student                  |
      | studentSchoolAssociation |
+     | custom_entities          |
 And I wait for "10" seconds
 When I POST the message to the ZIS
 And I wait for "3" seconds
@@ -77,10 +78,7 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_change_1 |
 
 Scenario: Add a Student
-Given the following collections are clean and bootstrapped in datastore:
-     | collectionName    |
-     | student           |
-And I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
+Given I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:

@@ -33,10 +33,10 @@ public class SifIdResolverImplDummy implements SifIdResolver {
         return null;
     }
 
-    @Override
-    public String getZoneSea(String zoneId) {
-        return null;
-    }
+//    @Override
+//    public String getZoneSea(String zoneId) {
+//        return null;
+//    }
 
     @Override
     public void putSliGuid(String sifId, String sliType, String sliId) {

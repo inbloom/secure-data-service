@@ -113,7 +113,7 @@ public class SifSubscriber implements Subscriber {
     }
 
     private void changeEntities(SIFDataObject sifData) {
-        //TODO, we can potentially get multiple matched entities
+        // TODO, we can potentially get multiple matched entities
         Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId());
 
         if (matchedEntity == null) {
