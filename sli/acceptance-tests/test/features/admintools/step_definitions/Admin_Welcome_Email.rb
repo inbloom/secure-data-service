@@ -224,7 +224,7 @@ def check_email(subject_substring = nil, content_substring)
         content = message.attr["BODY[TEXT]"]
         subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
         if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil?) || (!subject.nil? && subject.include?(subject_substring)))
+            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
           return content
         end
       end
