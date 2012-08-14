@@ -2588,6 +2588,12 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Attendance records of the student per school.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
 	</xs:complexType>
 
@@ -6302,22 +6308,10 @@
 				unique per school year attendance.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>
-						The student associated with this attendance.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
             <xs:element name="schoolId" type="reference">
               <xs:annotation>
                 <xs:documentation>
