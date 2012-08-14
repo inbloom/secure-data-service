@@ -121,6 +121,12 @@ When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep(Integer(secs))
 end
 
+# Combines Given and When steps
+When /^I POST a\(n\) "(.*?)" SIF message to the ZIS$/ do |identifier|
+  @message = getMessageForIdentifier(identifier)
+  postMessage(@message)
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################

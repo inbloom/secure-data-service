@@ -1,38 +1,43 @@
-@wip
 @RALLY_US3459
 
 Feature: Tailored welcome email, user is able to log in
 
+  Background:
+    Given I have an open web browser
+
   @production
   Scenario Outline: When I set my password, I get a welcome email and I am able to log in
-    Given I have a new <account_type> account
+    Given I have a new account with <groups> in "production"
     When I set my password
-    Then I get an email of <template_type>
-    When I click on the portal link in the email
-    Then I am redirected to the portal
-    When I enter my username and password
-    Then I can log in the portal
+    Then I get a welcome email of <template_type>
+    And the email has a link to "portal"
+    And I can log in with my username and password
   Examples:
-    |account_type          |template_type  |
-    |LEA Administrator     |LEA or SEA type|
-    |SEA Administrator     |LEA or SEA type|
-    |Ingestion User        |Ingestion Admin|
-    |Realm Admin           |Realm Admin    |
+    |groups                                |template_type                 |
+    |SLC Operator                          |SLC Operator                  |
+    |LEA Administrator                     |LEA or SEA only               |
+    |SEA Administrator                     |LEA or SEA only               |
+    |LEA Administrator, Realm Administrator|(LEA or SEA) and Realm Admin  |
+    |LEA Administrator, Ingestion User     |(LEA or SEA) and Ingestion    |
+    |SEA Administrator, Realm Administrator|(LEA or SEA) and Realm Admin  |
+    |SEA Administrator, Ingestion User     |(LEA or SEA) and Ingestion    |
+    |Ingestion User                        |Ingestion only                |
+    |Realm Administrator                   |Realm Admin only              |
 
   @sandbox
   Scenario Outline: When I set my password on sandbox account, I get a welcome email and I am able to log in
-    Given I have a new <account_type> account
+    Given I have a new account with <groups> in "sandbox"
     When I set my password
-    Then I get an email of <template_type>
-    When I click on the portal link in the email
-    Then I am redirected to the portal
-    When I enter my username and password
-    Then I can log in the portal
+    Then I get a welcome email of <template_type>
+    And the email has a link to "portal"
+    And I can log in with my username and password
   Examples:
-    |account_type               |template_type        |
-    |Sandbox Admin              |Admin Rights         |
-    |Ingestion Admin            |Ingestion Rights     |
-    |Application Developer      |Application Developer|
-    |Admin and Ingestion        |MIXED 1              |
-    |All Rights                 |MIXED 2              |
-    |App Developer and Ingestion|MIXED 3              |
+    |groups                                                          |template_type                              |
+    |Sandbox Administrator                                           |Sandbox Admin only                         |
+    |Ingestion User                                                  |Sandbox Ingestion only                     |
+    |Application Developer                                           |Application Developer only                 |
+    |Sandbox Administrator, Ingestion User                           |Sandbox Admin and Sandbox Ingestion        |
+    |Sandbox Administrator, Ingestion User, Application Developer    |Sandbox all rights                         |
+    |Sandbox SLC Operator, Ingestion User                            |Sandbox Admin and Sandbox Ingestion        |
+    |Sandbox SLC Operator, Ingestion User, Application Developer     |Sandbox all rights                         |
+    |Application Developer, Ingestion User                           |Application Developer and Sandbox Ingestion|

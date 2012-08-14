@@ -21,6 +21,12 @@ task :importSifBootstrapData do
   setMultipleFixtureFiles(testHash)
 end
 
+desc "Run SIF Smoke Tests"
+task :sifSmokeTests => [:realmInit] do
+  Rake::Task["importSifBootstrapData"].execute
+  runTests("test/features/sif/features/sif_smoke.feature")
+end
+
 desc "Run SIF Integrated Tests"
 task :sifIntegratedTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute

@@ -14,7 +14,7 @@
   <% end %>
 
   <div> 
-    <% if !APP_CONFIG["is_sandbox"]%>
+    <% if !APP_CONFIG["is_sandbox"]&&@new_account_password.edorg!=nil&&@new_account_password.edorg!=""%>
       You've been invited to be a member of <%= @new_account_password.edorg %>. 
     <%end %>
   </div>

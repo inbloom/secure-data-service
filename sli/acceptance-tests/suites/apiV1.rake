@@ -295,6 +295,7 @@ end
 
 desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   setFixture("securityEvent", "securityEvent_fixture.json")
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end

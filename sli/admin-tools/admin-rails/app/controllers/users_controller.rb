@@ -81,9 +81,9 @@ class UsersController < ApplicationController
     @is_operator = is_operator?
     @is_lea = is_lea_admin?
     @is_sea = is_sea_admin?
-   set_edorg_options
-   set_role_options
-   get_login_tenant
+    set_edorg_options
+    set_role_options
+    get_login_tenant
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
@@ -103,54 +103,49 @@ class UsersController < ApplicationController
     @user.errors.clear
     if @user.valid? == false || validate_email==false || validate_tenant_edorg==false
       validate_tenant_edorg
-     resend = true 
-     else
-    begin  
-    @user.save
-    rescue ActiveResource::ResourceConflict
-      resend = true
-      @user.errors[:email] << @@EXISTING_EMAIL_MSG
-     rescue ActiveResource::BadRequest
-     resend =true
-     @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "Please check EdOrg selection"
+      resend = true 
+    else
+      begin  
+        @user.save
+      rescue ActiveResource::ResourceConflict
+        resend = true
+        @user.errors[:email] << @@EXISTING_EMAIL_MSG
+      rescue ActiveResource::BadRequest
+        resend =true
+        @user.errors[:tenant] << "tenant and edorg mismatch"
+        @user.errors[:edorg] << "Please check EdOrg selection"
+      end
     end
     
-   
-    
+    if resend==nil || resend==false
+      begin
+        reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
+        ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
+      rescue =>e
+        logger.error "Could not send email to #{@user.email}."
+        @email_error_message = "Failed to send notification email to #{@user.email}"
+      end
     end
     
-    if resend==nil ||resend==false
-    begin
-   reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
-   ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
-
-   rescue =>e
-     logger.error "Could not send email to #{@user.email}."
-     @email_error_message = "Failed to send notification email to #{@user.email}"
-   end
-    end
-    
-     respond_to do |format|
-       if resend
-         set_edorg_options
-         set_role_options
-         set_roles
-         get_login_tenant
-         @is_operator = is_operator?
-         @is_lea = is_lea_admin?
-         @is_sea = is_sea_admin?
-         @user.errors[:edorg] << "tenant and edorg mismatch"
-         format.html {render "new"}
-       else
+    respond_to do |format|
+      if resend
+        set_edorg_options
+        set_role_options
+        set_roles
+        get_login_tenant
+        @is_operator = is_operator?
+        @is_lea = is_lea_admin?
+        @is_sea = is_sea_admin?
+        @user.errors[:edorg] << "tenant and edorg mismatch"
+        format.html {render "new"}
+      else
         flash[:notice]=  'Success! You have added a new user'
         if @email_error_message !=nil
         flash[:error] = @email_error_message
-        end
+      end
         format.html { redirect_to "/users" } 
-       end
-     end
-    
+      end
+    end
   end
   
   # GET /users/1/edit

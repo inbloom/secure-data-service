@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
+require 'rubygems'
 require 'mongo'
 require "benchmark"
 require "set"
@@ -140,8 +140,8 @@ class Analyser
     coll =  @db.collection('apiResponseStat')
     count = 0
     begin
-      count = count+1
       @stat_hash.each { |key,value|
+        count = count +1
         buildTag = value['build_tag']
         endPoint = value['end_point']
         doc = @db.collection('apiResHistory').find_one({'end_point'=>endPoint})
@@ -156,6 +156,7 @@ class Analyser
     rescue =>e
       puts "excepton receive after inserting " +count.to_s+" records with message " + e.message
     end
+    puts "updated #{count.to_s} records"
   end
   def calculate_stat
     @stat_hash.each {|key,value|
@@ -216,7 +217,11 @@ class Analyser
   def notify
     if @build_perf_hash.empty? == false
       @build_perf_hash.each {|key,val|
-        puts "Build Number #{key} has the following notifications #{val}"
+        puts ""
+        puts "***********Build Number #{key} ****************"
+        val.each{|ep|
+          puts "#{ep}"
+        }
       }
     end
   end

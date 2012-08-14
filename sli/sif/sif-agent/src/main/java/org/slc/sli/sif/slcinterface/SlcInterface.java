@@ -78,6 +78,7 @@ public class SlcInterface {
 
     public String create(final Entity e) {
         try {
+            LOG.info("POST " + e.toString());
             return client.create(e);
         } catch (IOException e1) {
             LOG.error("  " + e1.getMessage(), e1);
