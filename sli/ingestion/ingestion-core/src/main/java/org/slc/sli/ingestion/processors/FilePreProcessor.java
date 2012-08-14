@@ -108,7 +108,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
             List<IngestionFileEntry> entries = controlFile.getFileEntries();
             for (IngestionFileEntry entry : entries) {
-                FileUtils.renameFile(new File(lzFile +  "\\" + entry.getFileName()), new File(lzFile +  "\\.done\\" + entry.getFileName()));
+                FileUtils.renameFile(new File(lzFile +  File.separator + entry.getFileName()), new File(lzFile +  File.separator + ".done" + File.separator + entry.getFileName()));
             }
         }
     }
