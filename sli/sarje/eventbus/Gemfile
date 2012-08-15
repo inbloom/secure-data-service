@@ -6,4 +6,4 @@ gem 'mongo'
 gem 'stomp'
 gem 'systemu'
 gem 'daemons'
-
+gem 'uuid'
