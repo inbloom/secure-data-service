@@ -1,18 +1,11 @@
 package org.slc.sli.aggregation;
 
-import static org.mockito.Mockito.verify;
-
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
-import org.apache.hadoop.io.DoubleWritable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * HighestTest - Test the Highest Ever Map/Reduce job using known values.
@@ -25,10 +18,11 @@ public class HighestTest {
     @Test
     public void testReduceBSONWritableIterableOfDoubleWritableContext() throws IOException, InterruptedException {
         Highest reducer = new Highest();
-        List<DoubleWritable> scoreResults = Arrays.asList(new DoubleWritable(15.0), new DoubleWritable(42.0), new DoubleWritable(12.0));
-        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey("student123", "tenant");
-        reducer.reduce(key, scoreResults, context);
-        verify(context).write(key, new DoubleWritable(42.0));
+
+ //       List<BSONWritable> scoreResults = Arrays.asList(new BSONWritable().put(key, value), new BSONWritable(42.0), new BSONWritable(12.0));
+ //       IdFieldEmittableKey key = new IdFieldEmittableKey("student123");
+ //       reducer.reduce(key, scoreResults, context);
+ //       verify(context).write(key, new DoubleWritable(42.0));
     }
 
 }

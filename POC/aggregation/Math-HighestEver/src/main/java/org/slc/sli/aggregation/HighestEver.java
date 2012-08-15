@@ -10,11 +10,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
+import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
@@ -23,7 +23,7 @@ import org.apache.hadoop.util.ToolRunner;
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
 import org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat;
 import org.slc.sli.aggregation.mapreduce.map.ConfigurableMapper;
-import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 
 
 /**
@@ -66,8 +66,8 @@ public class HighestEver extends Configured implements Tool {
         job.setReducerClass(Highest.class);
 
         job.setInputFormatClass(MongoIdInputFormat.class);
-        job.setOutputKeyClass(TenantAndIdEmittableKey.class);
-        job.setOutputValueClass(DoubleWritable.class);
+        job.setOutputKeyClass(IdFieldEmittableKey.class);
+        job.setOutputValueClass(BSONWritable.class);
         job.setOutputFormatClass(MongoAggFormatter.class);
 
         boolean success = job.waitForCompletion(true);

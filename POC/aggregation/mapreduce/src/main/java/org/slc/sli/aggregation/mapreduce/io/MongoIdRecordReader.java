@@ -18,24 +18,28 @@ package org.slc.sli.aggregation.mapreduce.io;
 
 import com.mongodb.hadoop.input.MongoInputSplit;
 import com.mongodb.hadoop.input.MongoRecordReader;
+import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.bson.BSONObject;
 
+import org.slc.sli.aggregation.mapreduce.map.BSONValueLookup;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 
 /**
  * MongoAggReader
  *
  */
-public class MongoIdRecordReader extends RecordReader<IdFieldEmittableKey, BSONObject> {
+public class MongoIdRecordReader extends RecordReader<IdFieldEmittableKey, BSONWritable> {
 
     protected MongoRecordReader privateReader = null;
+    protected String keyField;
 
     public MongoIdRecordReader(MongoInputSplit split) {
         privateReader = new MongoRecordReader(split);
+        this.keyField = split.getKeyField();
     }
 
     @Override
@@ -45,16 +49,19 @@ public class MongoIdRecordReader extends RecordReader<IdFieldEmittableKey, BSONO
 
     @Override
     public IdFieldEmittableKey getCurrentKey() {
-        String id = (String) privateReader.getCurrentKey();
+        BSONObject obj = privateReader.getCurrentValue();
 
-        IdFieldEmittableKey rval = new IdFieldEmittableKey();
+        // TODO -- generalize this class to support any EmittableKey key type.
+        String id = BSONValueLookup.getValue(obj, keyField);
+
+        IdFieldEmittableKey rval = new IdFieldEmittableKey(keyField);
         rval.setId(new Text(id));
         return rval;
     }
 
     @Override
-    public BSONObject getCurrentValue() {
-        return privateReader.getCurrentValue();
+    public BSONWritable getCurrentValue() {
+        return new BSONWritable(privateReader.getCurrentValue());
     }
 
     @Override

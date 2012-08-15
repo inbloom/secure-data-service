@@ -4,22 +4,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * Maps a SAA to a double score
  */
-public class ScoreMapper extends Mapper<String, BSONObject, TenantAndIdEmittableKey, DoubleWritable> {
+public class ScoreMapper extends Mapper<String, BSONWritable, TenantAndIdEmittableKey, DoubleWritable> {
 
     public static final String SCORE_TYPE = "ScoreType";
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void map(String id, BSONObject studentAssessment, Context context) throws IOException,
+    protected void map(String id, BSONWritable studentAssessment, Context context) throws IOException,
             InterruptedException {
 
         Map<String, Object> metaData = (Map<String, Object>) studentAssessment.get("metaData");

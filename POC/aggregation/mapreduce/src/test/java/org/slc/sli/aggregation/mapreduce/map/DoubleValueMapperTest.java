@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
@@ -35,7 +37,8 @@ public class DoubleValueMapperTest {
     @Test
     public void testGetValue() {
         BSONObject field = new BasicBSONObject("field", 1.312D);
-        BSONObject entity = new BasicBSONObject("double", field);
+        BSONObject entry = new BasicBSONObject("double", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         DoubleValueMapper mapper = new DoubleValueMapper("double.field");
 
@@ -48,7 +51,8 @@ public class DoubleValueMapperTest {
     @Test
     public void testValueNotFound() {
         BSONObject field = new BasicBSONObject("field", 1.312D);
-        BSONObject entity = new BasicBSONObject("double", field);
+        BSONObject entry = new BasicBSONObject("double", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         DoubleValueMapper mapper = new DoubleValueMapper("double.missing_field");
 
@@ -59,7 +63,8 @@ public class DoubleValueMapperTest {
     @Test
     public void testGetValueNotDouble() {
         BSONObject field = new BasicBSONObject("field", "Bob");
-        BSONObject entity = new BasicBSONObject("double", field);
+        BSONObject entry = new BasicBSONObject("double", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         DoubleValueMapper mapper = new DoubleValueMapper("double.field");
 
