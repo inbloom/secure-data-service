@@ -224,9 +224,9 @@ class Analyser
         puts red("***********Build Number #{key} ****************")
         val.each{|ep|
           if ep.include?"co-efficient"
-            puts yellow("#{ep}")
-          elsif ep.include?"benchmarked"
             puts magenta("#{ep}")
+          elsif ep.include?"benchmarked"
+            puts yellow("#{ep}")
           elsif ep.include?"Max"
             puts blue("#{ep}")
           else
