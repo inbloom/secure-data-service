@@ -118,9 +118,11 @@
         }
         
         normalization(entityPersistencePerf);
+        normalization(entityXformPerf);
         
         drawComboChart('Cross Job Processor Performance', 'MilliSeconds', 'BatchJob', 'stage_breakdown_linechart_div',processorPerf);
         drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'BatchJob', 'entity_persistence_linechart_div', entityPersistencePerf);
+        drawComboChart('Cross Job Transformation Entity Performance', 'RPS', 'BatchJob', 'entity_xform_linechart_div', entityXformPerf);
       }
 
       function jobSummary(jobId) {
@@ -373,5 +375,6 @@
         <div id="persistence_div"></div>
         <div id="xformation_div"></div>
         <div id="entity_persistence_linechart_div"></div>
+        <div id="entity_xform_linechart_div"></div>
     </body>
 </html>
