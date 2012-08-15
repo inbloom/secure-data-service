@@ -149,7 +149,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("startTime", timeFormatter.print(new DateTime(startTime)));
             body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("responseTime", String.valueOf(elapsed));
-            perfRepo.create("apiResponse", body, "apiResponseData");
+            perfRepo.create("apiResponse", body, "apiResponse");
         }
 
     }
