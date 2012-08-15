@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.bson.BSONObject;
@@ -57,7 +59,9 @@ public class IDMapperTest {
 
         BSONObject elem = new BasicBSONObject("id", 3697);
         BSONObject data = new BasicBSONObject("element", elem);
-        final BSONObject entity = new BasicBSONObject("data", data);
+        final BSONObject entry = new BasicBSONObject("data", data);
+        BSONWritable entity = new BSONWritable(entry);
+
         IDMapper mapper = new IDMapper(IdFieldEmittableKey.class, fields);
 
         IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
@@ -81,7 +85,7 @@ public class IDMapperTest {
                 assertEquals(Long.parseLong(idValue.toString()), 3697);
 
                 BSONObject e = (BSONObject) args[1];
-                assertEquals(e, entity);
+                assertEquals(e, entry);
 
                 return null;
             }
@@ -100,7 +104,9 @@ public class IDMapperTest {
 
         BSONObject elem = new BasicBSONObject("id", 90210);
         BSONObject data = new BasicBSONObject("element", elem);
-        final BSONObject entity = new BasicBSONObject("data", data);
+        final BSONObject entry = new BasicBSONObject("data", data);
+        BSONWritable entity = new BSONWritable(entry);
+
 
         BSONObject tenantId = new BasicBSONObject("tenantId", "Midgar");
         entity.put("metaData", tenantId);
@@ -131,7 +137,7 @@ public class IDMapperTest {
                 assertEquals(idValue.toString(), "Midgar");
 
                 BSONObject e = (BSONObject) args[1];
-                assertEquals(e, entity);
+                assertEquals(e, entry);
 
                 return null;
             }

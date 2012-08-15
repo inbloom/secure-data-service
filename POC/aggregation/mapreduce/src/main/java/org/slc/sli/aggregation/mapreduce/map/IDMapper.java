@@ -18,9 +18,10 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
@@ -35,7 +36,7 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * EmittableKey - Output key for the mapper.
  * BSONObject -- The entity the key corresponds to.
  */
-public class IDMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
+public class IDMapper extends Mapper<EmittableKey, BSONWritable, EmittableKey, BSONWritable> {
 
     protected EmittableKey identifier;
 
@@ -56,7 +57,7 @@ public class IDMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, BSO
     }
 
     @Override
-    public void map(EmittableKey id, BSONObject entity, Context context) throws IOException, InterruptedException {
+    public void map(EmittableKey id, BSONWritable entity, Context context) throws IOException, InterruptedException {
 
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();

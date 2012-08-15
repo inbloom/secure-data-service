@@ -20,20 +20,20 @@ import java.util.List;
 
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.input.MongoInputSplit;
+import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
-import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 
 /**
  * MongoIdInputFormat
  */
-public class MongoIdInputFormat extends InputFormat<IdFieldEmittableKey, BSONObject> {
+public class MongoIdInputFormat extends InputFormat<IdFieldEmittableKey, BSONWritable> {
 
     protected MongoInputFormat privateFormat = new MongoInputFormat();
 

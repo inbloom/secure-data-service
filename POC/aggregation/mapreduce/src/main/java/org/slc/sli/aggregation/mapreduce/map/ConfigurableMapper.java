@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.bson.BSONObject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -61,7 +61,7 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * mapper 2 configuration }, ... ] }"
  *
  */
-public class ConfigurableMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, BSONObject> {
+public class ConfigurableMapper extends Mapper<EmittableKey, BSONWritable, EmittableKey, BSONWritable> {
 
     static ObjectMapper om = new ObjectMapper();
     static Logger log = Logger.getLogger("ConfigurableMapper");
@@ -215,8 +215,9 @@ public class ConfigurableMapper extends Mapper<EmittableKey, BSONObject, Emittab
         // First one to finish wins; the remaining tasks are terminated.
         mapperConf.setSpeculativeExecution(true);
 
-        if (query.contains("$ID$")) {
-            query.replace("$ID$", conf.get("$ID$"));
+        String id = conf.get("@ID@");
+        if (query.indexOf("@ID@") > 0 && id != null) {
+            query = query.replace("@ID@", id);
         }
 
         MongoConfigUtil.setQuery(mapperConf, query);
@@ -269,5 +270,12 @@ public class ConfigurableMapper extends Mapper<EmittableKey, BSONObject, Emittab
         mapperConf.setClass(MongoConfigUtil.JOB_MAPPER, mapper, Mapper.class);
 
         return mapperConf;
+    }
+
+    @Override
+    protected void map(EmittableKey key, BSONWritable value,
+        org.apache.hadoop.mapreduce.Mapper.Context context) throws IOException,
+        InterruptedException {
+        super.map(key, value, context);
     }
 }

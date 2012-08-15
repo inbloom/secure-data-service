@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.DoubleWritable;
@@ -47,7 +48,8 @@ public class ScoreMapperTest {
         when(context.getConfiguration()).thenReturn(config);
         BasicDBObject studentAssessment = new BasicDBObject("body", saa);
         studentAssessment.put("metaData", new BasicDBObject("tenantId", "tenantId"));
-        mapper.map("student123", studentAssessment, context);
+        BSONWritable val = new BSONWritable(studentAssessment);
+        mapper.map("student123", val, context);
         verify(context).write(eq(new TenantAndIdEmittableKey("student123", "tenantId")), eq(new DoubleWritable(42.0)));
     }
 }
