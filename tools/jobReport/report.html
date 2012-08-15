@@ -105,7 +105,9 @@
       }
 
       function jobCompare() {
+        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
         clearJobSpecificDivs();
+
         var inputs = document.getElementsByTagName("input");
         var processorPerf = [ ['BatchJob'] ];
         var entityPersistencePerf = [ ['BatchJob'] ];
@@ -216,9 +218,12 @@
         } else dataTable = new google.visualization.DataTable(chartData);
         var chartOptions = {
           title : myTitle,
-          vAxis: {title: vTitle},
-          hAxis: {title: hTitle},
+          titleTextStyle: { color: '#eecc88' },
+          vAxis: {title: vTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, baseline: 0, baselineColor: 'white' },
+          hAxis: {title: hTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, slantedText: 'true', slantedTextAngle: 45 },
           seriesType: "lines",
+          pointSize: 3,
+          lineWidth: 1,
           width : 1500,
           height: 600,
           legend: { textStyle: { color: '#eecc88' }},
