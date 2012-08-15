@@ -18,29 +18,30 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.util.logging.Logger;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
-import org.bson.BSONObject;
 
 /**
  * DoubleValueMapper - mongo value mapper that emits double values.
  */
 class DoubleValueMapper extends ValueMapper {
-    
+
     private Logger log = Logger.getLogger("DoubleValueMapper");
-    
+
     public DoubleValueMapper(String fieldName) {
         this.fieldName = fieldName;
     }
-    
+
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(BSONWritable entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {
             value = BSONValueLookup.getValue(entity, fieldName);
-            
+
             if (value != null) {
                 rval = new DoubleWritable(Double.parseDouble(value.toString()));
             }

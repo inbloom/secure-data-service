@@ -1043,12 +1043,12 @@ tagging educational resources on the
 web. </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ShortDescription">
+					<xs:element name="ShortDescription" type="ShortDescription">
 						<xs:annotation>
 							<xs:documentation>A short name or written representation of the education content.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Description" minOccurs="0">
+					<xs:element name="Description" type="Description" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>An extended written representation of the education content.</xs:documentation>
 						</xs:annotation>
@@ -3522,12 +3522,12 @@ Met standard
 					<xs:documentation>The EdOrg member in the network</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StartDate" minOccurs="0">
+			<xs:element name="StartDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date on which the EdOrg joined this network.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" minOccurs="0">
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date on which the EdOrg left this network.</xs:documentation>
 				</xs:annotation>
@@ -3549,12 +3549,12 @@ Met standard
 					<xs:documentation>The InterventionPrescription being made available by the EdOrg.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" minOccurs="0">
+			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The begin date of the period during which the InterventionPrescription is available.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EndDate" minOccurs="0">
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The end date of the period during which the InterventionPrescription is available.</xs:documentation>
 				</xs:annotation>
@@ -3777,7 +3777,7 @@ Volunteer/no contract
 					<xs:documentation>The month, day, and year on which the student was removed as  part of the cohort.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionReference" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The cohort representing the subdivision of students within one or more sections. For example, a group of students may be given additional instruction and tracked as a cohort.</xs:documentation>
 				</xs:annotation>
@@ -4881,7 +4881,7 @@ Second grade
 				<xs:annotation>
 					<xs:documentation>Encapsulate the attributes that can be used to lookup the education content by unique identification.</xs:documentation>
 				</xs:annotation>
-				<xs:element name="ContentIdentifier">
+				<xs:element name="ContentIdentifier" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>A unique identifier for the content.</xs:documentation>
 					</xs:annotation>
@@ -4898,7 +4898,7 @@ tagging educational resources on the
 web. </xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ShortDescription" minOccurs="0">
+				<xs:element name="ShortDescription" type="ShortDescription" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A short name or written representation of the education content.</xs:documentation>
 					</xs:annotation>
@@ -5193,12 +5193,12 @@ web. </xs:documentation>
 					<xs:documentation>The start date for the intervention implementation.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="InterventionClass" minOccurs="0">
+			<xs:element name="InterventionClass" type="InterventionClassType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The way in which an intervention is used: curriculum, supplement, or practice.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DeliveryMethod" minOccurs="0">
+			<xs:element name="DeliveryMethod" type="DeliveryMethodType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The way in which an intervention was implemented: individual, small group, whole class, or whole school.</xs:documentation>
 				</xs:annotation>
@@ -5227,12 +5227,12 @@ web. </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EducationContentReference" type="EducationContentReferenceType" maxOccurs="unbounded"/>
-			<xs:element name="InterventionClass" minOccurs="0">
+			<xs:element name="InterventionClass" type="InterventionClassType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The way in which an intervention is used: curriculum, supplement, or practice.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DeliveryMethod" minOccurs="0">
+			<xs:element name="DeliveryMethod" type="DeliveryMethodType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The way in which an intervention was implemented: individual, small group, whole class, or whole school.</xs:documentation>
 				</xs:annotation>
@@ -6825,13 +6825,13 @@ tagging educational resources on the
 web.</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element name="LearningResourceMetadataURI">
+			<xs:element name="LearningResourceMetadataURI" type="URI">
 				<xs:annotation>
 					<xs:documentation>The URI (typical a URL) pointing to the metadata entry in a LRMI metadata repository, which describes this content item.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:sequence>
-				<xs:element name="AdditionalAuthorsIndicator" minOccurs="0">
+				<xs:element name="AdditionalAuthorsIndicator" type="xs:string" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Indicates whether there are additional un-named authors. In a research report, this is often marked by the abbreviation "et al".</xs:documentation>
 					</xs:annotation>

@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -35,7 +37,8 @@ public class StringValueMapperTest {
     @Test
     public void testGetValue() {
         BSONObject field = new BasicBSONObject("field", "testing123");
-        BSONObject entity = new BasicBSONObject("string", field);
+        BSONObject entry = new BasicBSONObject("string", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         StringValueMapper mapper = new StringValueMapper("string.field");
 
@@ -48,7 +51,8 @@ public class StringValueMapperTest {
     @Test
     public void testValueNotFound() {
         BSONObject field = new BasicBSONObject("field", "testing123");
-        BSONObject entity = new BasicBSONObject("string", field);
+        BSONObject entry = new BasicBSONObject("string", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         StringValueMapper mapper = new StringValueMapper("string.missing_field");
 

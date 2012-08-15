@@ -20,10 +20,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.fs.ContentSummary;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.junit.Test;
@@ -44,7 +46,7 @@ public class ValueMapperTest {
     private class MockValueMapper extends ValueMapper {
 
         @Override
-        public Writable getValue(BSONObject entity) {
+        public Writable getValue(BSONWritable entity) {
             if (entity.containsField("found")) {
                 return new ContentSummary(1, 2, 3);
             } else {
@@ -53,15 +55,16 @@ public class ValueMapperTest {
         }
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMap() throws Exception {
         IdFieldEmittableKey key = new IdFieldEmittableKey();
         ValueMapper m = new MockValueMapper();
-        BSONObject entity = new BasicBSONObject("found", "data");
+        BSONObject entry = new BasicBSONObject("found", "data");
+        BSONWritable entity = new BSONWritable(entry);
 
-        @SuppressWarnings("unchecked")
-        OutputCollector<EmittableKey, Writable> collector = Mockito.mock(OutputCollector.class);
-        PowerMockito.when(collector, "collect", Matchers.any(EmittableKey.class),
+        Context context = Mockito.mock(Context.class);
+        PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
             @Override
@@ -87,18 +90,19 @@ public class ValueMapperTest {
             }
         });
 
-        m.map(key, entity, collector, null);
+        m.map(key, entity, context);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMapValueNotFound() throws Exception {
         IdFieldEmittableKey key = new IdFieldEmittableKey();
         ValueMapper m = new MockValueMapper();
-        BSONObject entity = new BasicBSONObject("not_found", "data");
+        BSONObject entry = new BasicBSONObject("not_found", "data");
+        BSONWritable entity = new BSONWritable(entry);
 
-        @SuppressWarnings("unchecked")
-        OutputCollector<EmittableKey, Writable> collector = Mockito.mock(OutputCollector.class);
-        PowerMockito.when(collector, "collect", Matchers.any(EmittableKey.class),
+        Context context = Mockito.mock(Context.class);
+        PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
             @Override
@@ -116,6 +120,6 @@ public class ValueMapperTest {
             }
         });
 
-        m.map(key, entity, collector, null);
+        m.map(key, entity, context);
     }
 }

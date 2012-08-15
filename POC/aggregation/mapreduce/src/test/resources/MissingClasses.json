@@ -8,7 +8,6 @@
     "input_value_type" : "org.bson.Unknown",
     "input_key_field" : "body.assessmentId",
     "read_from_secondaries" : true,
-    "by_value" : false,
     "fields" : "{ \"metaData.tenantId\" : 1, \"body.studentId\" : 1 }",
     "output_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.Unknown",
     "output_value_type" : "org.bson.Unknown"  
