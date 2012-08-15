@@ -230,7 +230,8 @@ public class SecurityUtil {
             @Override
             public Entity execute() {
                 return repo.findById("realm", realmId);
-            }});
+            }
+        });
 
 
         if (entity != null) {

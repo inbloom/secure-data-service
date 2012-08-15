@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
+import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

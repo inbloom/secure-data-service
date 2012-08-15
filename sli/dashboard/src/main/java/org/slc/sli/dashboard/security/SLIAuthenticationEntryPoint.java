@@ -212,7 +212,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                         String decryptedCookie = null;
                         try {
                             String s = URLDecoder.decode(c.getValue(), "UTF-8");
-                            decryptedCookie = propDecryptor.getDecryptedStringFromCSByteString(s);
+                            decryptedCookie = propDecryptor.decrypt(s);
                         } catch (Exception e) {
                             LOG.error(e.getMessage());
                         }
@@ -250,7 +250,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         // DE883 Encrypt the cookie and save it in the header.
         try {
-            encryptedToken = propDecryptor.getEncryptedByteCSString(token);
+            encryptedToken = propDecryptor.encrypt(token);
             headerString = DASHBOARD_COOKIE + "=" + URLEncoder.encode(encryptedToken, "UTF-8") + ";path=/;domain="
                     + request.getServerName() + ";HttpOnly";
 

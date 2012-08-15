@@ -33,6 +33,9 @@ SLC.namespace('SLC.grid.repeatHeaderGrid', (function () {
 		 */
 		function create(tableId, columnItems, panelData, options) {
 			var gridOptions,
+				repeatHeaderGridWrapper = "#repeatHeaderGrid" + tableId,
+				tableID,
+				repeatHeaderGridSection,
 				i;
 			
 			if (columnItems.root && panelData !== null && panelData !== undefined) {
@@ -55,9 +58,9 @@ SLC.namespace('SLC.grid.repeatHeaderGrid', (function () {
 					gridOptions = $.extend(gridOptions, options);
 			    }
 			    for (i = 0; i < panelData.length; i++) {
-					var tableID = tableId + "_" + i;
-					document.write("<div class='ui-widget-no-border p10'><table id=" + tableID + "></table></div>");
-					
+					tableID = tableId + "_" + i;
+					repeatHeaderGridSection = "<div class='ui-widget-no-border repeatHeaderTable" + (i+1) + " p10'><table id=" + tableID + "></table></div>";
+					$(repeatHeaderGridSection).appendTo(repeatHeaderGridWrapper);
 					gridOptions.data = [panelData[i]];
 					$("#" + tableID).slcGrid(columnItems, gridOptions); 
 					

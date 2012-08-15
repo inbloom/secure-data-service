@@ -207,10 +207,10 @@ default:
         dashboard.log.level: warn
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
+        oauth.client.id: 4FFF0D5C8DA3B7F62159DEAFAEEBF20A
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
+        oauth.client.secret: 8024CF919AC8CC65A1DB18281D6AA9014F74A4A6F27E79A34B50DDDFA86C80BFA947474EF56C432B910FA05CE515891A57A2D2D65D536975E960723B26A2E6B1
 
         # oauth security parameter (only used in dashboard)
         oauth.redirect: http://local.slidev.org:8888/dashboard/callback
@@ -712,8 +712,8 @@ devjuggernauts:
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
-        oauth.client.id: 65,91,79,-17,45,5,-49,-97,41,-49,-13,77,-90,86,-67,48
-        oauth.client.secret: 111,60,86,23,24,6,110,41,114,-30,46,127,6,-93,29,14,28,87,-5,-21,54,-128,-52,86,73,-12,-100,101,-2,63,-102,63,11,-56,82,35,83,64,-104,-125,56,8,-93,89,66,-41,6,-120,66,100,81,66,-100,-125,97,95,-34,113,-106,49,72,-41,-82,-116
+        oauth.client.id: CD02AAA8361D240617C98DFFA6B83C01
+        oauth.client.secret: 10FA774C06CBF589F5E4B4EA810C1B8FFEA04B3141AEE305069F33096E59CBD1D3B8560F9210293D5FD53D33B8746C1D57A2D2D65D536975E960723B26A2E6B1
 
         oauth.redirect: https://devjuggernauts.slidev.org/dashboard/callback
 
@@ -994,9 +994,9 @@ local-acceptance-tests:
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         # K2e7Dwhq55
-        oauth.client.id: 58,40,16,19,-32,-66,33,35,-38,52,-101,18,70,13,-102,-23
+        oauth.client.id: 4FFF0D5C8DA3B7F62159DEAFAEEBF20A
         # evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
-        oauth.client.secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
+        oauth.client.secret: 8024CF919AC8CC65A1DB18281D6AA9014F74A4A6F27E79A34B50DDDFA86C80BFA947474EF56C432B910FA05CE515891A57A2D2D65D536975E960723B26A2E6B1
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
 
     apps:
@@ -1054,7 +1054,7 @@ team:
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -1143,8 +1143,8 @@ team:
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
-        oauth.client.id: 93,-42,-41,122,-19,-51,-47,-70,21,-8,-18,125,-128,-47,-87,-98
-        oauth.client.secret: -68,-29,17,-23,93,-116,49,56,61,-28,-123,-30,-122,-73,117,84,-62,-33,11,-32,-58,-40,81,-72,70,-124,-1,27,48,-29,-119,-36,12,-43,-3,71,-25,-10,-102,102,106,-105,-42,100,-45,-98,38,53,70,-80,-81,26,-17,-45,33,-59,-77,88,-9,62,46,-58,-84,126
+        oauth.client.id: 7E184E161B63E561E4AA70BC67A5E3F8
+        oauth.client.secret: C060D6BCA12B9AFD202E3E105DEF1B1CD349203DB9A306C89CC953055D8D5D69C636611846AE11810D209D766299EF6157A2D2D65D536975E960723B26A2E6B1
         oauth.redirect: https://${sli.dev.subdomain}.slidev.org/dashboard/callback
 
 

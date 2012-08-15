@@ -53,13 +53,13 @@ public class ValueMapperTest {
         }
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMap() throws Exception {
         IdFieldEmittableKey key = new IdFieldEmittableKey();
         ValueMapper m = new MockValueMapper();
         BSONObject entity = new BasicBSONObject("found", "data");
 
-        @SuppressWarnings("unchecked")
         Context context = Mockito.mock(Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
@@ -90,13 +90,13 @@ public class ValueMapperTest {
         m.map(key, entity, context);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMapValueNotFound() throws Exception {
         IdFieldEmittableKey key = new IdFieldEmittableKey();
         ValueMapper m = new MockValueMapper();
         BSONObject entity = new BasicBSONObject("not_found", "data");
 
-        @SuppressWarnings("unchecked")
         Context context = Mockito.mock(Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {

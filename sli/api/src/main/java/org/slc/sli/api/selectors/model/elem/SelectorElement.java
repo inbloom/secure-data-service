@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.selectors.model.elem;
 
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitable;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -29,6 +29,12 @@ public interface SelectorElement extends SelectorQueryVisitable {
      * Sentinel value for including all attributes
      */
     public static final String INCLUDE_ALL = "*";
+
+    public static final String INCLUDE_XSD = "$";
+
+    public static final String INCLUDE_DEFAULT = ".";
+
+    public static final String EMPTY = "";
 
     /**
      *
