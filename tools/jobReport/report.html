@@ -48,19 +48,17 @@
         var processorPerf = [ ['BatchJob'] ];
         var entityPersistencePerf = [ ['BatchJob'] ];
         var entityXformPerf = [ ['BatchJob'] ];
-        var checkedboxes = [];
 
-        for (var i = 0; i < inputs.length; i++) {
-          if (inputs[i].type == "checkbox" && inputs[i].checked) {
-            checkedboxes.push(inputs[i]);
-            //$('#job_summary').append('inputs:' +inputs[i].name + '');
+        $.each(inputs, function(key, val) {
+          if (val.type == "checkbox" && val.checked) {
             
-            var job = getApiResource('/job/' + inputs[i].name);
+            var job = getApiResource('/job/' + val.name);
 
             calProcessorPerf(processorPerf, job);
+            
             calXformPersistence(entityPersistencePerf, entityXformPerf, job);
           }
-        }
+        });
 
         normalization(entityPersistencePerf);
         normalization(entityXformPerf);
