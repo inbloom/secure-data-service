@@ -55,7 +55,7 @@
             var job = getApiResource('/job/' + val.name);
 
             calProcessorPerf(processorPerf, job);
-            
+
             calXformPersistence(entityPersistencePerf, entityXformPerf, job);
           }
         });
@@ -100,8 +100,8 @@
         var errors = getApiResource('/job/' + jobId + '/error');
         $('#job_summary').append('Errors: ' + errors.length);
 
-        var stageChartData = getStageBreakdownPieChartData(job);
-        drawPieChart(stageChartData);
+        var stageDataTable = getStagePieChartDataTable(job);
+        drawPieChart(stageDataTable);
 
         var transformPersistChartData = getTransformPersistChartData(job);
         drawPXCharts(transformPersistChartData);
@@ -185,11 +185,21 @@
         return chartData;
       }
 
-      function drawPieChart(chartData) {
-        var dataTable;
-        if(chartData instanceof Array) {
-            dataTable = new google.visualization.arrayToDataTable(chartData)
-        } else dataTable = new google.visualization.DataTable(chartData);
+      function getStagePieChartDataTable(job) {
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Stage Name');
+        dataTable.addColumn('number', 'Elapsed Time');
+
+        $.each(job.stages, function(key, val) {
+          var elapsedSeconds = val.elapsedTime/1000;
+          var stageSummary = val.stageName + ' ' + elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
+
+          dataTable.addRow([stageSummary, val.elapsedTime]);
+        });
+        return dataTable;
+      }
+
+      function drawPieChart(dataTable) {
         var chartOptions = {
           pieSliceText: 'percent',
           sliceVisibilityThreshold: 0, // zero, otherwise it groups small slices into one
