@@ -188,7 +188,7 @@ default:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
         
                 
-        #Used to access hudson build number       
+        #Used to limit the total number of errors or warnings being printed   
         sli.ingestion.staging.errorsCountPerInterchange: 1
         sli.ingestion.staging.warningsCountPerInterchange: 1
 
