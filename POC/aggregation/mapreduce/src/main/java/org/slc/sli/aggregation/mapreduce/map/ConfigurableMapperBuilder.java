@@ -90,11 +90,11 @@ public class ConfigurableMapperBuilder {
     
     public static final String CHAIN_CONF = "mapDefn";
     
-    public Job makeJob(Configuration conf, Map<String, Object> configInput) {
+    public Job makeJob(Configuration conf, Map<String, Object> mapDefn) {
         
         try {
-            setMongoOptions(conf, configInput);
-            return parseMapper(conf, configInput);
+            setMongoOptions(conf, mapDefn);
+            return parseMapper(conf, mapDefn);
         } catch (IOException e) {
             log.severe("Invalid map/reduce configuration detected : parsing failed : " + e.toString());
             throw new IllegalArgumentException(
@@ -106,11 +106,11 @@ public class ConfigurableMapperBuilder {
         }
     }
     
-    private void setMongoOptions(Configuration job, Map<String, Object> config) {
-        MongoConfigUtil.setQuery(job, buildQuery(config));
-        MongoConfigUtil.setInputKey(job, (String) config.get("input_key_field"));
-        MongoConfigUtil.setInputURI(job, "mongodb://" + (String) config.get("input_collection"));
-        MongoConfigUtil.setReadSplitsFromSecondary(job, (Boolean) config.get("read_from_secondaries"));
+    private void setMongoOptions(Configuration jobConfig, Map<String, Object> mapDefn) {
+        MongoConfigUtil.setQuery(jobConfig, buildQuery(mapDefn));
+        MongoConfigUtil.setInputKey(jobConfig, (String) mapDefn.get("input_key_field"));
+        MongoConfigUtil.setInputURI(jobConfig, "mongodb://" + (String) mapDefn.get("input_collection"));
+        MongoConfigUtil.setReadSplitsFromSecondary(jobConfig, (Boolean) mapDefn.get("read_from_secondaries"));
         
         /**
          * Configure how hadoop calculates splits.
@@ -127,9 +127,9 @@ public class ConfigurableMapperBuilder {
          * on how well data is distributed by _id. Setting the key pattern gives finer grained
          * control over how splits are calculated.
          */
-        MongoConfigUtil.setCreateInputSplits(job, true);
-        MongoConfigUtil.setShardChunkSplittingEnabled(job, false);
-        MongoConfigUtil.setReadSplitsFromShards(job, false);
+        MongoConfigUtil.setCreateInputSplits(jobConfig, true);
+        MongoConfigUtil.setShardChunkSplittingEnabled(jobConfig, false);
+        MongoConfigUtil.setReadSplitsFromShards(jobConfig, false);
     }
     
     private String buildQuery(Map<String, Object> config) {
