@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -39,7 +41,8 @@ public class EnumValueMapperTest {
     public void testGetValue() {
 
         BSONObject field = new BasicBSONObject("field", "TEST1");
-        BSONObject entity = new BasicBSONObject("enum", field);
+        BSONObject entry = new BasicBSONObject("enum", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
 
@@ -53,7 +56,8 @@ public class EnumValueMapperTest {
     public void testGetValueNotFound() {
 
         BSONObject field = new BasicBSONObject("field", "Unknown");
-        BSONObject entity = new BasicBSONObject("enum", field);
+        BSONObject entry = new BasicBSONObject("enum", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
 

@@ -18,9 +18,10 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
@@ -28,12 +29,12 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * ValueMapper - Lookup the value of a mongo collection field for each input value. If found,
  * emit the value using type Writable. If not found, emit NullWritable.
  */
-public abstract class ValueMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, Writable> {
+public abstract class ValueMapper extends Mapper<EmittableKey, BSONWritable, EmittableKey, Writable> {
 
     protected String fieldName = null;
 
     @Override
-    public void map(EmittableKey key, BSONObject entity, Context context) throws InterruptedException, IOException {
+    public void map(EmittableKey key, BSONWritable entity, Context context) throws InterruptedException, IOException {
 
         Writable value = getValue(entity);
         context.write(key, value);
@@ -48,5 +49,5 @@ public abstract class ValueMapper extends Mapper<EmittableKey, BSONObject, Emitt
      * @return Writable instance of the field, or NullWritable if the field does not exist
      *         or contains incompatible values.
      */
-    public abstract Writable getValue(BSONObject entity);
+    public abstract Writable getValue(BSONWritable entity);
 }

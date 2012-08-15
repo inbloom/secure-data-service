@@ -18,10 +18,11 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.util.logging.Logger;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.bson.BSONObject;
 
 /**
  * EnumValueMapper - mongo value mapper that emits the enumerated value for the given value.
@@ -41,7 +42,7 @@ class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
     }
 
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(BSONWritable entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {
