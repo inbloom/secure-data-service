@@ -41,9 +41,9 @@ public class EnumValueMapperTest {
         BSONObject field = new BasicBSONObject("field", "TEST1");
         BSONObject entity = new BasicBSONObject("enum", field);
 
-        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
+        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>(Testing.class);
 
-        Writable value = m.getValue(entity);
+        Writable value = m.getValue("enum.field", entity);
         assertFalse(value instanceof NullWritable);
         assertTrue(value instanceof Text);
         assertEquals(((Text) value).toString(), Testing.TEST1.toString());
@@ -55,9 +55,9 @@ public class EnumValueMapperTest {
         BSONObject field = new BasicBSONObject("field", "Unknown");
         BSONObject entity = new BasicBSONObject("enum", field);
 
-        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
+        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>(Testing.class);
 
-        Writable value = m.getValue(entity);
+        Writable value = m.getValue("enum.field", entity);
         assertTrue(value instanceof NullWritable);
     }
 }

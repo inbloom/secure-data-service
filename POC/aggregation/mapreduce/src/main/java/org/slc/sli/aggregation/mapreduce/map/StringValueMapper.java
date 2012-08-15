@@ -26,12 +26,8 @@ import org.bson.BSONObject;
  */
 class StringValueMapper extends ValueMapper {
     
-    public StringValueMapper(String fieldName) {
-        this.fieldName = fieldName;
-    }
-    
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(String fieldName, BSONObject entity) {
         Writable rval = NullWritable.get();
         
         String value = BSONValueLookup.getValue(entity, fieldName);

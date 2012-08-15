@@ -37,9 +37,9 @@ public class LongValueMapperTest {
         BSONObject field = new BasicBSONObject("field", 123L);
         BSONObject entity = new BasicBSONObject("long", field);
 
-        LongValueMapper mapper = new LongValueMapper("long.field");
+        LongValueMapper mapper = new LongValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("long.field", entity);
         assertFalse(value instanceof NullWritable);
         assertTrue(value instanceof LongWritable);
         assertEquals(((LongWritable) value).get(), 123L);
@@ -50,9 +50,9 @@ public class LongValueMapperTest {
         BSONObject field = new BasicBSONObject("field", 123L);
         BSONObject entity = new BasicBSONObject("long", field);
 
-        LongValueMapper mapper = new LongValueMapper("long.missing_field");
+        LongValueMapper mapper = new LongValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("long.missing_field", entity);
         assertTrue(value instanceof NullWritable);
     }
 
@@ -61,9 +61,9 @@ public class LongValueMapperTest {
         BSONObject field = new BasicBSONObject("field", true);
         BSONObject entity = new BasicBSONObject("long", field);
 
-        LongValueMapper mapper = new LongValueMapper("long.field");
+        LongValueMapper mapper = new LongValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("long.field", entity);
         assertTrue(value instanceof NullWritable);
     }
 }

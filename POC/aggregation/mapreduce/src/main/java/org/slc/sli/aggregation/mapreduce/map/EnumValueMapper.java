@@ -35,13 +35,12 @@ class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
 
     Class<T> enumClass = null;
 
-    public EnumValueMapper(String fieldName, Class<T> v) {
-        this.fieldName = fieldName;
+    public EnumValueMapper(Class<T> v) {
         this.enumClass = v;
     }
 
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(String fieldName, BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {

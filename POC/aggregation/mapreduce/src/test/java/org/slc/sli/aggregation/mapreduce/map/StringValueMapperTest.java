@@ -37,9 +37,9 @@ public class StringValueMapperTest {
         BSONObject field = new BasicBSONObject("field", "testing123");
         BSONObject entity = new BasicBSONObject("string", field);
 
-        StringValueMapper mapper = new StringValueMapper("string.field");
+        StringValueMapper mapper = new StringValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("string.field", entity);
         assertFalse(value instanceof NullWritable);
         assertTrue(value instanceof Text);
         assertEquals(value.toString(), "testing123");
@@ -50,9 +50,9 @@ public class StringValueMapperTest {
         BSONObject field = new BasicBSONObject("field", "testing123");
         BSONObject entity = new BasicBSONObject("string", field);
 
-        StringValueMapper mapper = new StringValueMapper("string.missing_field");
+        StringValueMapper mapper = new StringValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("string.missing_field", entity);
         assertTrue(value instanceof NullWritable);
     }
 }

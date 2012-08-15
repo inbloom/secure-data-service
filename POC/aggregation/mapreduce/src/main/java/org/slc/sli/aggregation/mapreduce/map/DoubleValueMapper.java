@@ -30,12 +30,8 @@ class DoubleValueMapper extends ValueMapper {
     
     private Logger log = Logger.getLogger("DoubleValueMapper");
     
-    public DoubleValueMapper(String fieldName) {
-        this.fieldName = fieldName;
-    }
-    
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(String fieldName, BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {

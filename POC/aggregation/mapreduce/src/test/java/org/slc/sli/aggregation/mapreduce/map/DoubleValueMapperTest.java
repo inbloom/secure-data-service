@@ -37,9 +37,9 @@ public class DoubleValueMapperTest {
         BSONObject field = new BasicBSONObject("field", 1.312D);
         BSONObject entity = new BasicBSONObject("double", field);
 
-        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
+        DoubleValueMapper mapper = new DoubleValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("double.field", entity);
         assertFalse(value instanceof NullWritable);
         assertTrue(value instanceof DoubleWritable);
         assertEquals(((DoubleWritable) value).get(), 1.312D, 0.05);
@@ -50,9 +50,9 @@ public class DoubleValueMapperTest {
         BSONObject field = new BasicBSONObject("field", 1.312D);
         BSONObject entity = new BasicBSONObject("double", field);
 
-        DoubleValueMapper mapper = new DoubleValueMapper("double.missing_field");
+        DoubleValueMapper mapper = new DoubleValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("double.missing_field", entity);
         assertTrue(value instanceof NullWritable);
     }
 
@@ -61,9 +61,9 @@ public class DoubleValueMapperTest {
         BSONObject field = new BasicBSONObject("field", "Bob");
         BSONObject entity = new BasicBSONObject("double", field);
 
-        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
+        DoubleValueMapper mapper = new DoubleValueMapper();
 
-        Writable value = mapper.getValue(entity);
+        Writable value = mapper.getValue("double.field", entity);
         assertTrue(value instanceof NullWritable);
     }
 }

@@ -30,12 +30,8 @@ class LongValueMapper extends ValueMapper {
 
     private Logger log = Logger.getLogger("LongValueMapper");
 
-    public LongValueMapper(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(String fieldName, BSONObject entity) {
         Writable rval = NullWritable.get();
         String value = null;
         try {

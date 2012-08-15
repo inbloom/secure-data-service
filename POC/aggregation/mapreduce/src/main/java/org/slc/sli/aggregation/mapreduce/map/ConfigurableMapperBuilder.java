@@ -109,7 +109,7 @@ public class ConfigurableMapperBuilder {
     private void setMongoOptions(Configuration jobConfig, Map<String, Object> mapDefn) {
         MongoConfigUtil.setQuery(jobConfig, buildQuery(mapDefn));
         MongoConfigUtil.setInputKey(jobConfig, (String) mapDefn.get("input_key_field"));
-        MongoConfigUtil.setInputURI(jobConfig, "mongodb://" + (String) mapDefn.get("input_collection"));
+        MongoConfigUtil.setInputURI(jobConfig, "mongodb://localhost/" + (String) mapDefn.get("input_collection"));
         MongoConfigUtil.setReadSplitsFromSecondary(jobConfig, (Boolean) mapDefn.get("read_from_secondaries"));
         
         /**
@@ -202,7 +202,7 @@ public class ConfigurableMapperBuilder {
                 }
             }
         }
-        
+        conf.set("fields", fields);
         Job job = new Job(conf);
         job.setMapperClass(mapper);
         job.setInputFormatClass(MongoInputFormat.class);

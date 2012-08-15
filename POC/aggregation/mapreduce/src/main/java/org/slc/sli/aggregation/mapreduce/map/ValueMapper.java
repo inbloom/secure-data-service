@@ -30,12 +30,12 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  */
 public abstract class ValueMapper extends Mapper<EmittableKey, BSONObject, EmittableKey, Writable> {
 
-    protected String fieldName = null;
+    private String fieldName = null;
 
     @Override
     public void map(EmittableKey key, BSONObject entity, Context context) throws InterruptedException, IOException {
 
-        Writable value = getValue(entity);
+        Writable value = getValue(context.getConfiguration().get("fields"), entity);
         context.write(key, value);
     }
 
@@ -48,5 +48,5 @@ public abstract class ValueMapper extends Mapper<EmittableKey, BSONObject, Emitt
      * @return Writable instance of the field, or NullWritable if the field does not exist
      *         or contains incompatible values.
      */
-    public abstract Writable getValue(BSONObject entity);
+    public abstract Writable getValue(String fieldName, BSONObject entity);
 }
