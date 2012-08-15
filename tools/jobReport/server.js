@@ -59,7 +59,7 @@ function findAllIds(model, res) {
   model.find(
     {},
     '_id jobStartTimestamp',
-    { sort:{ jobStartTimestamp: -1 }},
+    { sort:{ jobStartTimestamp: 1 }},
     function (err,docs) {
       //console.log('docs: %s', docs);
       res.send(docs);
