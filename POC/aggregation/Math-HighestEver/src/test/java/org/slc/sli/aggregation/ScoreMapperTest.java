@@ -38,12 +38,10 @@ public class ScoreMapperTest {
 
     @Test
     public void test() throws IOException, InterruptedException {
-        BSONObject percentile = BasicDBObjectBuilder.start("assessmentReportingMethod", "Percentile")
-                .add("result", "98").get();
         BSONObject scaleScore = BasicDBObjectBuilder.start("assessmentReportingMethod", "Scale Score")
                 .add("result", "42").get();
         BSONObject saa = BasicDBObjectBuilder.start("studentId", "student123").add("assessmentId", "ACT")
-                .add("scoreResults", Arrays.asList(percentile, scaleScore)).get();
+                .add("scoreResults", Arrays.asList(scaleScore)).get();
         when(context.getConfiguration()).thenReturn(config);
         BasicDBObject studentAssessment = new BasicDBObject("body", saa);
         studentAssessment.put("metaData", new BasicDBObject("tenantId", "tenantId"));
