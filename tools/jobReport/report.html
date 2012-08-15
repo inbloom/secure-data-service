@@ -36,13 +36,62 @@
           $('#job_chooser')
             .append('<input type="button" name="select" value="Select" onclick="jobCompare()">');
         }
-      } 
+      }
+      
+    function calXformPersistence(entityPersistencePerf, entityXformPerf, job){
+              var PXTRes = drawTransformPersistChars(job);
+              var PerElem = [job._id];
+              var XformElem = [job._id];
+              var processorChartMap = {
+                  'persistenceChartData': entityPersistencePerf,
+                  'transformationChartData': entityXformPerf
+              };
+              var processingChartElem = {
+                  'persistenceChartData': PerElem,
+                  'transformationChartData': XformElem
+              };
+              for(var processor in PXTRes) {
+                  var perf = processorChartMap[processor];
+                  var entities;
+                  if(PXTRes.hasOwnProperty(processor)) {
+                       entities = PXTRes[processor];
+                       if(entities.length == 0) continue;
+                      for(var entityI = 1; entityI < entities.length; entityI++){
+                          var entity = entities[entityI][0].split(' ')[0];
+                          var index = perf[0].indexOf(entity);
+                          if(index == -1){
+                              perf[0].push(entity);
+                              index = perf[0].indexOf(entity);
+                          }
+                          if(entities[entityI][1] != 0)
+                            processingChartElem[processor][index] = entities[entityI][2] / entities[entityI][1];
+                          else 
+                            processingChartElem[processor][index] = 0;
+                      }
+                  }
+            }
+           entityPersistencePerf.push(PerElem);
+           entityXformPerf.push(XformElem);
+      }
+
+      function normalization(data){
+          var length = data[0].length;
+          for (var i = 1; i < data.length; i++) {
+              var diff = length - data[i].length;
+              while(diff > 0) {
+                  data[i].push(0);
+                  --diff;
+              } 
+          }
+      }
 
       function jobCompare() {
         var inputs = document.getElementsByTagName("input");
         var processorPerf = [ ['BatchJob'] ];
+        var entityPersistencePerf = [ ['BatchJob'] ];
+        var entityXformPerf = [ ['BatchJob'] ];
         var checkedboxes = [];
-        
+
         for (var i = 0; i < inputs.length; i++) {
             if(inputs[i].type == "checkbox" && inputs[i].checked){
                 checkedboxes.push(inputs[i]);
@@ -60,12 +109,18 @@
                             index = processorPerf[0].indexOf(stage);
                         }   
                         elem[index] = chartData[j]['c'][1]['v'];
-                    
                 }
               processorPerf.push(elem);
+              
+              calXformPersistence(entityPersistencePerf, entityXformPerf, job);
+              
             }
         }
-        drawComboChart(processorPerf);
+        
+        normalization(entityPersistencePerf);
+        
+        drawComboChart('Cross Job Processor Performance', 'MilliSeconds', 'BatchJob', 'stage_breakdown_linechart_div',processorPerf);
+        drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'BatchJob', 'entity_persistence_linechart_div', entityPersistencePerf);
       }
 
       function jobSummary(jobId) {
@@ -147,15 +202,15 @@
         chart.draw(dataTable, chartOptions);
       }
 
-      function drawComboChart(chartData) {
+      function drawComboChart(myTitle, vTitle, hTitle, div, chartData) {
         var dataTable;
         if(chartData instanceof Array) {
             dataTable = new google.visualization.arrayToDataTable(chartData)
         } else dataTable = new google.visualization.DataTable(chartData);
         var chartOptions = {
-          title : 'Cross Job Processor Performance',
-          vAxis: {title: "MillSeconds"},
-          hAxis: {title: "BatchJob"},
+          title : myTitle,
+          vAxis: {title: vTitle},
+          hAxis: {title: hTitle},
           seriesType: "lines",
           width : 1500,
           height: 600,
@@ -163,7 +218,7 @@
           backgroundColor: '#333333'
         };
 
-        var chart = new google.visualization.ComboChart(document.getElementById('stage_breakdown_linechart_div'));
+        var chart = new google.visualization.ComboChart(document.getElementById(div));
         chart.draw(dataTable, chartOptions);
       }
 
@@ -317,5 +372,6 @@
         <div id="stage_breakdown_piechart_div"></div>
         <div id="persistence_div"></div>
         <div id="xformation_div"></div>
+        <div id="entity_persistence_linechart_div"></div>
     </body>
 </html>
