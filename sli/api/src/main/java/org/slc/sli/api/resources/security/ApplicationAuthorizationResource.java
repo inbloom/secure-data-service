@@ -199,7 +199,7 @@ public class ApplicationAuthorizationResource {
                 }
             }
         } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
+            List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
             for (String curEdOrg : delegateEdOrgs) {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
@@ -233,7 +233,7 @@ public class ApplicationAuthorizationResource {
             throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
         }
 
-        List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
+        List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
         if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
             throw new AccessDeniedException("User can only access " + edOrgId);
         }

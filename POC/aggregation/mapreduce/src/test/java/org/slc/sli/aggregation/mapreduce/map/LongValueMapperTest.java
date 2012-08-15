@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
@@ -35,7 +37,8 @@ public class LongValueMapperTest {
     @Test
     public void testGetValue() {
         BSONObject field = new BasicBSONObject("field", 123L);
-        BSONObject entity = new BasicBSONObject("long", field);
+        BSONObject entry = new BasicBSONObject("long", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         LongValueMapper mapper = new LongValueMapper("long.field");
 
@@ -48,7 +51,8 @@ public class LongValueMapperTest {
     @Test
     public void testValueNotFound() {
         BSONObject field = new BasicBSONObject("field", 123L);
-        BSONObject entity = new BasicBSONObject("long", field);
+        BSONObject entry = new BasicBSONObject("long", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         LongValueMapper mapper = new LongValueMapper("long.missing_field");
 
@@ -59,7 +63,8 @@ public class LongValueMapperTest {
     @Test
     public void testValueNotLong() {
         BSONObject field = new BasicBSONObject("field", true);
-        BSONObject entity = new BasicBSONObject("long", field);
+        BSONObject entry = new BasicBSONObject("long", field);
+        BSONWritable entity = new BSONWritable(entry);
 
         LongValueMapper mapper = new LongValueMapper("long.field");
 

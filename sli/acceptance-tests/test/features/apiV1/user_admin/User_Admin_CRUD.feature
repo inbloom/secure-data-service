@@ -345,3 +345,11 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   Then I should see user "il2admin"
   When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
   Then I should not see user "il2admin"
+
+  @production
+  Scenario: Unhappy path:  LEA cannot update SEA with an incomplete group list
+  Given I have logged in to realm "SLI" using "iladmin" "iladmin1234"
+  And I create a new "SEA Administrator, Ingestion User" "il2admin" with tenant "Midgar" and edorg "IL-SUNSET"
+  When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
+  And I try to update this new user as "Realm Administrator"
+  Then I should receive a return code "403"

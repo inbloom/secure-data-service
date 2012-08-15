@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
+require 'rubygems'
 require 'mongo'
 require "benchmark"
 require "set"
@@ -31,7 +31,7 @@ class Analyser
     @frequency_hash = Hash.new
     @build_perf_hash = Hash.new
     @stat_hash = Hash.new
-    @basic_options = {:timeout => false, :batch_size => 200}
+    @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
     @log.level = Logger::WARN if logger.nil?
     @key = " %s|%s" 
@@ -140,8 +140,8 @@ class Analyser
     coll =  @db.collection('apiResponseStat')
     count = 0
     begin
-      count = count+1
       @stat_hash.each { |key,value|
+        count = count +1
         buildTag = value['build_tag']
         endPoint = value['end_point']
         doc = @db.collection('apiResHistory').find_one({'end_point'=>endPoint})
@@ -150,12 +150,13 @@ class Analyser
         else
           doc['buildStat'][buildTag.to_s]=value['br']
         end
-        @db.collection('apiResHistory').save doc          
+        @db.collection('apiResHistory').save doc
         coll.save value
       }
     rescue =>e
       puts "excepton receive after inserting " +count.to_s+" records with message " + e.message
     end
+    puts "updated #{count.to_s} records"
   end
   def calculate_stat
     @stat_hash.each {|key,value|
@@ -197,27 +198,60 @@ class Analyser
   end
   def generate_notification(stat)
     buildTag = stat['build_tag']
-    notify = Hash.new
+    notify = "For endpoint : %s potential performance issue: "
     sendNotification = false
     if stat["coeffVar"] > 100.0
       sendNotification = true
+      notify = notify + "co-efficient of variance is "+stat["coeffVar"].to_s  
     elsif (stat["Max"] - stat["Min"]) >50
       sendNotification = true
-    elsif stat["avg"] > stat["br"]
+      notify = notify + "Max response time is more than 50ms than Min response time "
+    elsif (stat["avg"] - stat["br"]) >5
       sendNotification = true
+      notify = notify + "avg is : #{stat['avg']} and benchmarked at : #{stat['br']}"
     end 
     if sendNotification
       if @build_perf_hash[buildTag].nil?
         @build_perf_hash[buildTag] = Array.new
       end
-      @build_perf_hash[buildTag].push(stat["end_point"])
+      @build_perf_hash[buildTag].push(notify%[stat["end_point"]])
     end
   end
   def notify
     if @build_perf_hash.empty? == false
       @build_perf_hash.each {|key,val|
-        puts "Build Number #{key} has the following notifications #{val}"
+        puts ""
+        puts red("***********Build Number #{key} ****************")
+        val.each{|ep|
+          if ep.include?"co-efficient"
+            puts magenta("#{ep}")
+          elsif ep.include?"benchmarked"
+            puts yellow("#{ep}")
+          elsif ep.include?"Max"
+            puts blue("#{ep}")
+          else
+            puts "#{ep}"
+          end
+        }
       }
     end
+  end
+  def colorize(text, color_code)
+      "\e[#{color_code}m#{text}\e[0m"
+  end
+  def red(text)
+    colorize(text, 31)
+  end
+  def green(text)
+    colorize(text, 32)
+  end
+  def yellow(text)
+    colorize(text, 33)
+  end
+  def blue(text)
+    colorize(text, 34)
+  end
+  def magenta(text)
+    colorize(text, 35)
   end
 end

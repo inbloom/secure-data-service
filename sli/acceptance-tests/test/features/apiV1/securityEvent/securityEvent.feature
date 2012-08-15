@@ -36,10 +36,32 @@ Scenario: Read all entities as SLC Operator
     And I should receive a collection of "6" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
 
-Scenario: Read all entities as SLC Operator
+Scenario: Read all entities as NonAdmin User
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/vnd.slc+json"
     And parameter "limit" is "0"
     When I navigate to GET "<ENTITY URI>"
     Then I should receive a return code of 403
+
+Scenario: Setup admin delegation as LEA Admin(SecurityEventDelegation is disabled)
+    Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+    When I POST a new admin delegation
+    Then I should receive a return code of 201
+
+Scenario: Enable delegation of SecurityEvents as LEA Admin
+    Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
+    And I have a valid admin delegation entity
+    And I change "viewSecurityEventsEnabled" to true
+    When I PUT to admin delegation
+    Then I should receive a return code of 204
+
+Scenario: Read securityEvents as SEA Admin. 4 Events. Sunsetadmin(2) And Iladmin(2)
+    Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    And format "application/vnd.slc+json"
+    And parameter "limit" is "0"
+    When I navigate to GET "<ENTITY URI>"
+    Then I should receive a return code of 200
+    And I should receive a collection of "4" entities
+    And each entity's "entityType" should be "<ENTITY TYPE>"
+    Then each entity's "targetEdOrg" should be in the array "<IL_OR_IL_SUNSET>"
 

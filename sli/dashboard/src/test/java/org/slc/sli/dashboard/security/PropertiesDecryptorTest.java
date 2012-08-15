@@ -43,8 +43,8 @@ public class PropertiesDecryptorTest {
     public void testEncryptionDecryption() throws Exception {
         String toEncrypt = "Ragnar Danneskjold";
         PropertiesDecryptor propDec = (PropertiesDecryptor) applicationContext.getBean("propertiesDecryptor");
-        String encrypted = propDec.getEncryptedByteCSString(toEncrypt);
-        String decrypted = propDec.getDecryptedStringFromCSByteString(encrypted);
+        String encrypted = propDec.encrypt(toEncrypt);
+        String decrypted = propDec.decrypt(encrypted);
         org.junit.Assert.assertNotSame(toEncrypt, encrypted);
         assertEquals(toEncrypt, decrypted);
     }

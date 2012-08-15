@@ -32,9 +32,13 @@
             <MiddleName /> 
             <PreferredName>Joe</PreferredName> 
           </Name> 
-          <Demographics> 
-            <Gender>M</Gender> 
-          </Demographics> 
+          <Demographics>
+            <Gender>M</Gender>
+            <BirthDate>1981-12-20</BirthDate>
+            <StateOfBirth>AK</StateOfBirth>
+            <CountryOfBirth>US</CountryOfBirth>
+            <CitizenshipStatus>1017</CitizenshipStatus>
+          </Demographics>
           <AddressList> 
             <Address Type="0123"> 
               <Street> 

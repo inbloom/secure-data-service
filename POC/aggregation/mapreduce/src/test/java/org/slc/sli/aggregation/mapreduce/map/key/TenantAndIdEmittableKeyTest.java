@@ -114,7 +114,7 @@ public class TenantAndIdEmittableKeyTest {
 
         assertEquals(key.hashCode(), key2.hashCode());
 
-        key.setId(null);
+        key.setId(new Text(""));
         assertFalse(key.hashCode() == key2.hashCode());
     }
 
@@ -144,13 +144,13 @@ public class TenantAndIdEmittableKeyTest {
         assertTrue(key.equals(key));
         assertTrue(key2.equals(key3));
         assertFalse(key.equals(key2));
-        assertFalse(key.equals(null));
+        assertFalse(key.equals(new Text("")));
         assertFalse(key.equals(Boolean.TRUE));
 
-        key2.setId(null);
+        key2.setId(new Text(""));
         assertFalse(key3.equals(key2));
 
-        key3.setId(null);
+        key3.setId(new Text(""));
         assertTrue(key2.equals(key3));
 
     }

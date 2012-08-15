@@ -51,7 +51,6 @@ public class StudentAcademicRecordResource extends DefaultCrudResource {
     @Autowired
     public StudentAcademicRecordResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_ACADEMIC_RECORDS);
-        debug("Initialized a new {}", StudentAcademicRecordResource.class);
     }
 
 }

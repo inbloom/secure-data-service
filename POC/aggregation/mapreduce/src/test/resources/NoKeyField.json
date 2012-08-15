@@ -8,7 +8,6 @@
     "input_value_type" : "org.bson.BSONObject",
     "input_collection" : "sli.student",
     "read_from_secondaries" : true,
-    "by_value" : false,
     "query" : "{ \"_id\" : \"$INPUT_KEY.getId()\" }",
     "fields" : "{ \"metaData.tenantId\" : 1, \"_id\" : 1, \"body.gender\" : 1 }",
     "hadoop_options" : "[ {\"biz\" : \"bar\"} ]",
