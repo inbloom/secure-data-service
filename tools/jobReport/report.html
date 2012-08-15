@@ -74,6 +74,25 @@
            entityXformPerf.push(XformElem);
       }
 
+    function calProcessorPerf(processorPerf, job){
+            var chartData = drawStageBreakdownPieChart(job)['rows'];
+            //The element to be pushed
+            var elem = [job._id];
+            for(var j = 0; j < chartData.length; j++) {
+                    var stage = chartData[j]['c'][0]['v'].split(' ')[0];
+                    var index = processorPerf[0].indexOf(stage);
+                    
+                    if( index== -1){
+                        processorPerf[0].push(stage);
+                        index = processorPerf[0].indexOf(stage);
+                    }   
+                    elem[index] = chartData[j]['c'][1]['v'];
+            }
+          processorPerf.push(elem);
+          
+    }
+
+      //Normalize the data, in case users compare batch jobs with difference entities
       function normalization(data){
           var length = data[0].length;
           for (var i = 1; i < data.length; i++) {
@@ -86,6 +105,7 @@
       }
 
       function jobCompare() {
+        clearJobSpecificDivs();
         var inputs = document.getElementsByTagName("input");
         var processorPerf = [ ['BatchJob'] ];
         var entityPersistencePerf = [ ['BatchJob'] ];
@@ -97,23 +117,8 @@
                 checkedboxes.push(inputs[i]);
                 //$('#job_summary').append('inputs:' +inputs[i].name + '');
                 var job = getApiResource('/job/' + inputs[i].name);
-                var chartData = drawStageBreakdownPieChart(job)['rows'];
-                //The element to be pushed
-                var elem = [inputs[i].name];
-                for(var j = 0; j < chartData.length; j++) {
-                        var stage = chartData[j]['c'][0]['v'].split(' ')[0];
-                        var index = processorPerf[0].indexOf(stage);
-                        
-                        if( index== -1){
-                            processorPerf[0].push(stage);
-                            index = processorPerf[0].indexOf(stage);
-                        }   
-                        elem[index] = chartData[j]['c'][1]['v'];
-                }
-              processorPerf.push(elem);
-              
-              calXformPersistence(entityPersistencePerf, entityXformPerf, job);
-              
+                calProcessorPerf(processorPerf, job);
+                calXformPersistence(entityPersistencePerf, entityXformPerf, job);
             }
         }
         
@@ -348,6 +353,8 @@
         $('#stage_breakdown_linechart_div').empty();
         $('#persistence_div').empty();
         $('#xformation_div').empty();
+        $('#entity_persistence_linechart_div').empty();
+        $('#entity_xform_linechart_div').empty();
       }
 
       function toggleJobChooser() {
