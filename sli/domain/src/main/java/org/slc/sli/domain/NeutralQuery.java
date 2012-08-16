@@ -173,8 +173,9 @@ public class NeutralQuery {
         this.addCriteria(neutralCriteria);
     }
 
-    public void addOrQuery(NeutralQuery orQuery) {
+    public NeutralQuery addOrQuery(NeutralQuery orQuery) {
         this.orQueries.add(orQuery);
+        return this;
     }
 
     public List<NeutralQuery> getOrQueries() {
@@ -187,8 +188,9 @@ public class NeutralQuery {
      *
      * @param criteria neutral criteria that must be satisfied for query results
      */
-    public void addCriteria(NeutralCriteria criteria) {
+    public NeutralQuery addCriteria(NeutralCriteria criteria) {
         this.queryCriteria.add(criteria);
+        return this;
     }
 
     /**
@@ -196,8 +198,9 @@ public class NeutralQuery {
      *
      * @param criteria neutral criteria that must be satisfied for query results
      */
-    public void prependCriteria(NeutralCriteria criteria) {
+    public NeutralQuery prependCriteria(NeutralCriteria criteria) {
         this.queryCriteria.add(0, criteria);
+        return this;
     }
 
     /**
@@ -213,16 +216,18 @@ public class NeutralQuery {
         return includeFields;
     }
 
-    public void setIncludeFields(List<String> includeFields) {
+    public NeutralQuery setIncludeFields(List<String> includeFields) {
         this.includeFields = includeFields;
+        return this;
     }
 
     public List<String> getExcludeFields() {
         return excludeFields;
     }
 
-    public void setExcludeFields(List<String> excludeFields) {
+    public NeutralQuery setExcludeFields(List<String> excludeFields) {
         this.excludeFields = excludeFields;
+        return this;
     }
 
     @Deprecated
@@ -251,28 +256,34 @@ public class NeutralQuery {
         return this.sortOrder;
     }
 
-    public void setLimit(int newLimit) {
+    public NeutralQuery setLimit(int newLimit) {
         this.limit = newLimit;
+        return this;
     }
 
-    public void setOffset(int newOffset) {
+    public NeutralQuery setOffset(int newOffset) {
         this.offset = newOffset;
+        return this;
     }
 
-    public void setIncludeFieldString(String newIncludeFields) {
+    public NeutralQuery setIncludeFieldString(String newIncludeFields) {
         this.includeFields = Arrays.asList(newIncludeFields.split(","));
+        return this;
     }
 
-    public void setExcludeFieldString(String newExcludeFields) {
+    public NeutralQuery setExcludeFieldString(String newExcludeFields) {
         this.excludeFields = Arrays.asList(newExcludeFields.split(","));
+        return this;
     }
 
-    public void setSortBy(String newSortBy) {
+    public NeutralQuery setSortBy(String newSortBy) {
         this.sortBy = newSortBy;
+        return this;
     }
 
-    public void setSortOrder(SortOrder newSortOrder) {
+    public NeutralQuery setSortOrder(SortOrder newSortOrder) {
         this.sortOrder = newSortOrder;
+        return this;
     }
 
     @Override
