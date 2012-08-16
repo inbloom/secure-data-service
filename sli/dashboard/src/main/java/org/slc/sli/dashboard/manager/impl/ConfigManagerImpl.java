@@ -383,7 +383,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         
         // add DriverConfig to a returning object
-        allConfigs.put("driverConfig", driverConfigs);
+        allConfigs.put("default", driverConfigs);
         
         // read edOrg custom config recursively
         APIClient apiClient = getApiClient();
