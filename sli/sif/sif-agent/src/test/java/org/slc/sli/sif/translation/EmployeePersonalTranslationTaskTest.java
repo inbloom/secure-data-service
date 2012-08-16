@@ -30,6 +30,7 @@ import openadk.library.common.PhoneNumberList;
 import openadk.library.common.RaceList;
 import openadk.library.common.YesNo;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrOtherIdList;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +44,7 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
+import org.slc.sli.sif.domain.converter.HrOtherIdListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
@@ -52,6 +54,7 @@ import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.PersonalTelephone;
 import org.slc.sli.sif.domain.slientity.StaffEntity;
+import org.slc.sli.sif.domain.slientity.StaffIdentificationCode;
 
 /**
  * EmployeePersonal to StaffEntity unit tests
@@ -78,6 +81,9 @@ public class EmployeePersonalTranslationTaskTest {
 
     @Mock
     NameConverter mockNameConverter;
+
+    @Mock
+    HrOtherIdListConverter mockHrOtherIdListConverter;
 
     @Mock
     EmailListConverter mockEmailListConverter;
@@ -176,6 +182,21 @@ public class EmployeePersonalTranslationTaskTest {
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(name, entity.getName());
+    }
+
+    @Test
+    public void testStaffIdentificationCode() throws SifTranslationException {
+        EmployeePersonal info = new EmployeePersonal();
+        HrOtherIdList original = new HrOtherIdList();
+        info.setOtherIdList(original);
+
+        List<StaffIdentificationCode> list = new ArrayList<StaffIdentificationCode>();
+        Mockito.when(mockHrOtherIdListConverter.convert(original)).thenReturn(list);
+
+        List<StaffEntity> result = translator.translate(info, "");
+        Assert.assertEquals(1, result.size());
+        StaffEntity entity = result.get(0);
+        Assert.assertEquals(list, entity.getStaffIdentificationCode());
     }
 
     @Test
