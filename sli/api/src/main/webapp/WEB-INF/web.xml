@@ -32,7 +32,7 @@
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
-         <param-value>org.slc.sli.api.resources.config.ResourceRegisterConfig</param-value>
+         <param-value>org.slc.sli.api.resources.generic.config.ResourceRegisterConfig</param-value>
       </init-param>
 
       <load-on-startup>1</load-on-startup>

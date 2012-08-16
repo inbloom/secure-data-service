@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.config;
+package org.slc.sli.api.resources.generic.config;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.modeling.rest.Application;

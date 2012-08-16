@@ -37,7 +37,7 @@ public class DefaultResourceService implements ResourceService {
     public String postEntity(String resource, EntityBody entity) {
         EntityDefinition definition = getEntityDefinition(resource);
 
-        return definition.getService().create(entity);  //To change body of implemented methods use File | Settings | File Templates.
+        return definition.getService().create(entity);
     }
 
     public EntityDefinition getEntityDefinition(String resource) {

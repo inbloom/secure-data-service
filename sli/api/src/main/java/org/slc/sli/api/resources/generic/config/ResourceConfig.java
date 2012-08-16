@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.generic;
+package org.slc.sli.api.resources.generic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
