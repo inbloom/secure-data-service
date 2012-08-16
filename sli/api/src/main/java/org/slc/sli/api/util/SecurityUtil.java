@@ -98,13 +98,11 @@ public class SecurityUtil {
 
         try {
             TenantContext.setTenantId(null);
-            LOG.debug("Temporarily set tenant context from {} to {}", tenantContext.get(), TenantContext.getTenantId());
             toReturn = task.execute();
         } finally {
             TenantContext.setTenantId(tenantContext.get());
             tenantContext.remove();
             inTenantBlock.set(false);
-            LOG.debug("Set tenant context back to {}.", TenantContext.getTenantId());
         }
 
         return toReturn;
@@ -232,7 +230,8 @@ public class SecurityUtil {
             @Override
             public Entity execute() {
                 return repo.findById("realm", realmId);
-            }});
+            }
+        });
 
 
         if (entity != null) {

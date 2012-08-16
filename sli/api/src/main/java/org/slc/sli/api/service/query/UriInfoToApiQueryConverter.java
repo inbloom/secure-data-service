@@ -38,7 +38,7 @@ import org.slc.sli.domain.QueryParseException;
 public class UriInfoToApiQueryConverter {
 
     private SelectionConverter selectionConverter = new Selector2MapOfMaps();
-    
+
     /**
      * Keywords that the API handles through specific bindings in a NeutralQuery.
      *
@@ -138,6 +138,7 @@ public class UriInfoToApiQueryConverter {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
                                 apiQuery.addCriteria(neutralCriteria);
                             }
@@ -148,10 +149,10 @@ public class UriInfoToApiQueryConverter {
                 } catch (RuntimeException re) {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
                     throw new QueryParseException(re.getMessage(), queryString);
-                } 
+                }
             }
         }
-
+        
         return apiQuery;
     }
 

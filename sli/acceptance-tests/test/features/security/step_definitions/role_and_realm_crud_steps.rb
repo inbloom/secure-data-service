@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require 'json'
+require 'mongo'
 
 require_relative '../../utils/sli_utils.rb'
 
@@ -25,6 +26,13 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id = "e5c12cb0-1bad-4606-a936-097b30bd47fe" if arg1 == "IL-Sunset"
   id = "4cfcbe8d-832d-40f2-a9ba-0a6f1daf3741" if arg1 == "Fake Realm"
   id = "45b03fa0-1bad-4606-a936-09ab71af37fe" if arg1 == "Another Fake Realm"
+  if arg1 == "Sandbox"
+    conn = Mongo::Connection.new('localhost')
+    db = conn.db('sli')
+    coll = db.collection('realm')
+    sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "SandboxIDP"})
+    id = sandboxRealm["_id"]
+  end
   id
 end
 
@@ -182,4 +190,28 @@ Then /^I should receive a new ID for my new custom role doc$/ do
   assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
 end
 
+When /^I GET my custom role doc$/ do
+  restHttpGet("/customRoles/")
+  assert(@res != nil, "Response from custom role request is nil")
+end
+
+Then /^I should see that my custom role document is the default with (realm "[^"]*")$/ do |realm|
+  data = JSON.parse(@res.body)[0]
+  assert(data["realmId"] == realm, "Realm received from custom role document did not match")
+  default = DataProvider.getValidCustomRoleData()
+  assert(data["roles"] == default["roles"], "Roles info from custom role document did not match")
+  assert(data["customRights"] == default["customRights"], "Custom rights info from custom role document did not match")
+end
+
+When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group, role, right|
+  restHttpGet("/customRoles/")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  puts("\n\nThe data is #{data.inspect}")
+  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right]}
+  data["roles"].push(newGroup)
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
 

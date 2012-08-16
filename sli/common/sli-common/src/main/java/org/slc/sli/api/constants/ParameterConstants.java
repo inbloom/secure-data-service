@@ -103,8 +103,17 @@ public class ParameterConstants {
     public static final String INCLUDE_CUSTOM = "includeCustom";
     public static final String DEFAULT_INCLUDE_CUSTOM = "false";
 
+    /**
+     * Query parameter for inclusion of calculated values
+     */
     public static final String INCLUDE_CALCULATED = "includeCalculatedValues";
     public static final String DEFAULT_INCLUDE_CALCULATED = "false";
+
+    /**
+     * Query parameter for inclusion of aggregate values
+     */
+    public static final String INCLUDE_AGGREGATES = "includeAggregates";
+    public static final String DEFAULT_INCLUDE_AGGREGATES = "false";
 
     /**
      * Optional Fields

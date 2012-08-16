@@ -60,7 +60,8 @@
          "description":"Create custom roles and control how roles from the IDP are mapped to SLC rights.",
          "url":"${bootstrap.app.admin.url}/custom_roles/",
          "roles":[
-           "Realm Administrator"
+           "Realm Administrator", 
+           "Application Developer"
          ]
       },
       {
@@ -107,18 +108,6 @@
             "LEA Administrator",
             "SEA Administrator",
             "Application Developer"
-            ]
-      },
-      {
-      "name":"Super Admin Account Management",
-         "description":"Manage SLI administrative users",
-         "url":"${bootstrap.app.admin.url}/users",
-         "roles":[
-            "SLC Operator",
-            "Sandbox SLC Operator",
-            "LEA Administrator",
-            "SEA Administrator",
-            "Sandbox Administrator"
             ]
       }
    ]

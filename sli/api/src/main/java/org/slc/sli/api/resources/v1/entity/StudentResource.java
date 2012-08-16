@@ -65,10 +65,10 @@ public class StudentResource extends DefaultCrudResource {
     /*
      * Constants for readWithGrade
      */
-    private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
-    private static final String ENTRY_DATE = "entryDate";
-    private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
-    private static final String GRADE_LEVEL = "gradeLevel";
+    //private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
+    //private static final String ENTRY_DATE = "entryDate";
+    //private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    //private static final String GRADE_LEVEL = "gradeLevel";
 
     @Autowired
     public StudentResource(EntityDefinitionStore entityDefs) {

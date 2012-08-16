@@ -18,7 +18,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
-import org.slc.sli.aggregation.mapreduce.TenantAndID;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * Map state math assessment scores and aggregate them at the school level based on scale score.
@@ -35,7 +35,7 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
  * 
  * @author asaarela
  */
-public class SchoolProficiencyMapper extends Mapper<String, BSONObject, TenantAndID, Text> {
+public class SchoolProficiencyMapper extends Mapper<String, BSONObject, TenantAndIdEmittableKey, Text> {
     
     public static final String SCORE_TYPE = "ProficiencyCounts";
     
@@ -104,7 +104,7 @@ public class SchoolProficiencyMapper extends Mapper<String, BSONObject, TenantAn
             } else {
                 code.set("-");
             }
-            context.write(new TenantAndID(schoolId, tenantId), code);
+            context.write(new TenantAndIdEmittableKey(schoolId, tenantId), code);
         }
     }
     
@@ -114,7 +114,7 @@ public class SchoolProficiencyMapper extends Mapper<String, BSONObject, TenantAn
         
         BasicDBObject query = new BasicDBObject();
         
-        String schoolId = (String) school.get("_id");
+        String schoolId = (String) school.get("idField");
         
         Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
         String tenantId = (String) metaData.get("tenantId");
@@ -136,7 +136,7 @@ public class SchoolProficiencyMapper extends Mapper<String, BSONObject, TenantAn
         fields.put("calculatedValues.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
         
         query = new BasicDBObject();
-        query.put("_id", new BasicDBObject("$in", ids));
+        query.put("idField", new BasicDBObject("$in", ids));
         query.put("metaData.tenantId", tenantId);
         
         DBCursor studentCursor = studentColl.find(query, fields);

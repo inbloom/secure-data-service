@@ -4,6 +4,9 @@ class TenantMetricsController < ApplicationController
   # GET /tenant_metrics
   # GET /tenant_metrics.json
   def index
+    if is_developer?
+      return render_403
+    end
     @tenant_metrics = get_metrics(params)
 
     respond_to do |format|
@@ -23,7 +26,6 @@ class TenantMetricsController < ApplicationController
       format.json { render json: @tenant_metrics.metrics() }
     end
   end
-
 
   def check_roles(all = false)
 

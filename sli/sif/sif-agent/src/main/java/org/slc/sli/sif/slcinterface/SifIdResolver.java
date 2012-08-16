@@ -22,29 +22,39 @@ import org.slc.sli.api.client.Entity;
  * Mapping between SIF id and SLI ids. File implementation
  */
 public interface SifIdResolver {
-    
+
     /**
      * Given a sif reference id, returns the sli guid of the corresponding entity
-     * 
+     *
      * @param sifId
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
-    public String getSLIGuid(String sifId);
+    public String getSliGuid(String sifId);
 
-    
+
     /**
      * Given a sif reference id, returns corresponding sli entity
-     * 
+     *
      * @param sifId
      * @return The SLI entity if the entity exists in SLI, null otherwise
      */
-    public Entity getSLIEntity(String sifId);
+    public Entity getSliEntity(String sifId);
 
     /**
      * Given a sif Zone, returns the sli guid of the corresponding SEA
-     * 
+     *
      * @param sifZoneId
      * @return The SLI guid of the SEA associated with the Zone, null if none exist
      */
-    public String getZoneSEA(String sifZoneId);
+    public String getZoneSea(String sifZoneId);
+
+    /**
+     * Given a sif reference id and the guid and type of the corresponding entity, 
+     * saves the association
+     * 
+     * @param sifId
+     * @param sliType
+     * @param sliId
+     */
+    public void putSliGuid(String sifId, String sliType, String sliId);
 }

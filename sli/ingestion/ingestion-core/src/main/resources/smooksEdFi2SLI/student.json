@@ -1,4 +1,5 @@
 {
+  "keyFields" : ["body.studentUniqueStateId"],
   "piiFields" : {
                   "loginId" : true,
                   "studentIdentificationCode" : {

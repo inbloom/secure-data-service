@@ -1,5 +1,28 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.selectors.model;
 
+import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +33,7 @@ import java.util.Map;
 /**
  * Default implementation of semantic model of the selectors
  *
- * @author srupasinghe
+ * @author jstokes
  *
  */
 @Component
@@ -24,6 +47,10 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
         if (selectors == null) throw new NullPointerException("selectors");
 
         final SemanticSelector selector = new SemanticSelector();
+        if (selectors.isEmpty()) {
+            selector.addSelector(type, new EmptySelectorElement(type));
+        }
+
         for (final Map.Entry<String, Object> entry : selectors.entrySet()) {
             final String key = entry.getKey();
             final Object value = entry.getValue();
@@ -40,6 +67,10 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
         if (key.equals(SelectorElement.INCLUDE_ALL)) {
             elem = new IncludeAllSelectorElement(type);
+        } else if (key.equals(SelectorElement.INCLUDE_XSD)) {
+            elem = new IncludeXSDSelectorElement(type);
+        } else if (key.equals(SelectorElement.INCLUDE_DEFAULT)) {
+            elem = new IncludeDefaultSelectorElement(type);
         } else if (modelProvider.isAssociation(type, key) || modelProvider.isAttribute(type, key)) {
             elem = parseEntry(value, element, keyType);
         } else {
@@ -63,5 +94,9 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
     private boolean isMap(final Object obj) {
         return obj instanceof Map;
+    }
+
+    protected void setModelProvider(final ModelProvider provider) {
+        this.modelProvider = provider;
     }
 }

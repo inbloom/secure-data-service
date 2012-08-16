@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.selectors.doc;
 
 import org.junit.After;
@@ -10,8 +26,8 @@ import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,13 +37,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests
@@ -100,9 +112,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(student1.getEntityId());
         ids.add(student2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getSelectorQueryPlan()), constraint);
@@ -142,9 +153,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(section1.getEntityId());
         ids.add(section2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Section",
                 getDirectRefQueryPlan()), constraint);
@@ -169,9 +179,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(student1.getEntityId());
         ids.add(student2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getAssociationSkipPlan()), constraint);
@@ -187,8 +196,122 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", 2, sectionsList.size());
     }
 
-    private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {
-        Map<Type, SelectorQueryPlan> result = new HashMap<Type, SelectorQueryPlan>();
+    @Test
+    public void testFilterFields() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        List<EntityBody> results = createResults();
+
+        plan.getIncludeFields().add("field1");
+        List<EntityBody> out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        EntityBody body = out.get(0);
+        assertTrue("Should be true", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getIncludeFields().add("field1");
+        plan.getIncludeFields().add("field2");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertTrue("Should be true", body.containsKey("field1"));
+        assertTrue("Should be true", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().add("field1");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().clear();
+        plan.getExcludeFields().add("field1");
+        plan.getIncludeFields().add("field1");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().clear();
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+    }
+
+    @Test
+    public void testIncludeXSDSelector() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(student1.getEntityId());
+
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getIncludeXSDPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 1, results.size());
+
+        EntityBody body = results.get(0);
+        assertEquals("Should match", 3, body.keySet().size());
+        assertTrue("Should be true", body.containsKey("name"));
+    }
+
+    @Test
+    public void testEmptySelector() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(student1.getEntityId());
+
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getEmptyPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 1, results.size());
+
+        EntityBody body = results.get(0);
+        assertEquals("Should match", 2, body.keySet().size());
+    }
+
+    private List<EntityBody> createResults() {
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        EntityBody body = new EntityBody();
+
+        body.put("field1", "value1");
+        body.put("field2", "value2");
+        body.put("field3", "value3");
+
+        results.add(body);
+
+        return results;
+    }
+
+    private SelectorQuery createQueryPlan(String type, SelectorQueryPlan queryPlan) {
+        SelectorQuery result = new SelectorQuery();
 
         result.put(provider.getClassType(type), queryPlan);
 
@@ -220,7 +343,7 @@ public class DefaultSelectorDocumentTest {
         plan.getIncludeFields().add("sectionId");
         plan.getChildQueryPlans().addAll(childQueries);
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("StudentSectionAssociation"), plan);
 
         list.add(map);
@@ -237,7 +360,7 @@ public class DefaultSelectorDocumentTest {
         plan.setQuery(query);
         plan.getIncludeFields().add("sectionName");
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Section"), plan);
 
         list.add(map);
@@ -266,7 +389,7 @@ public class DefaultSelectorDocumentTest {
         plan.setQuery(query);
         plan.getIncludeFields().add("sessionName");
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Session"), plan);
 
         list.add(map);
@@ -294,12 +417,26 @@ public class DefaultSelectorDocumentTest {
         SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.setQuery(query);
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Section"), plan);
 
         list.add(map);
 
         return list;
+    }
+
+    private SelectorQueryPlan getIncludeXSDPlan() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        NeutralQuery query = new NeutralQuery();
+
+        plan.setQuery(query);
+        plan.getIncludeFields().add("name");
+
+        return plan;
+    }
+
+    private SelectorQueryPlan getEmptyPlan() {
+        return new SelectorQueryPlan();
     }
 
     private EntityBody createStudentEntity(String studentUniqueStateId) {

@@ -68,10 +68,7 @@ public class StudentProgramAssociationGenerator {
         for (String studentId : studentIds) {
         	StudentProgramAssociation retVal = generateLowFi(studentId, programId, schoolId);
             
-            QName qName = new QName("http://ed-fi.org/0100", "StudentProgramAssociation");
-            JAXBElement<StudentProgramAssociation> jaxbElement = new JAXBElement<StudentProgramAssociation>(qName,StudentProgramAssociation.class, retVal);
-
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(retVal);
             count++;
         }
         return count;

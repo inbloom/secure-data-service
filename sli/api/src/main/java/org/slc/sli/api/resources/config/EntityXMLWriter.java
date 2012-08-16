@@ -35,10 +35,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -52,9 +50,6 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 @Component
 @Produces({ MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
-
-    @Autowired
-    private EntityDefinitionStore entityDefs;
 
     private static final String TYPE = "type";
     private static final String HREF = "href";

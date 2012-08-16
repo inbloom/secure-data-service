@@ -89,9 +89,19 @@ public interface PopulationManager {
      * @param teacherId 
      * @return
      */
-    
     @EntityMapping("teacherInfo")
     public abstract GenericEntity getTeacher(String token, Object studentId, Config.Data config);
+    
+    /**
+     * Get list of teachers for a school
+     *
+     * @param token
+     * @param schoolId 
+     * @return
+     */    
+    @EntityMapping("teacherList")
+    public abstract GenericEntity getTeachersForSchool(String token, Object schoolId, Config.Data config);
+    
     /**
      * Get enriched student entity
      *
@@ -119,6 +129,19 @@ public interface PopulationManager {
     
     @EntityMapping("sectionInfo")
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
+    
+    
+    /**
+     * Retrieves attendance for student for the current year. Returns a generic entity,
+     * with startDate, endDate, and a list of absent and tardy events.
+     * @param token
+     * @param studentId
+     * @param config
+     * @return
+     */
+    @EntityMapping("studentAttendanceCalendar")
+    public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Config.Data config);
+    
     
 }
 

@@ -79,7 +79,7 @@ public class PathConstants {
 
     public static final String CUSTOM_ENTITIES = "custom";
 
-    public static final String AGGREGATES = "aggregates";
+    public static final String AGGREGATES = "calculatedValues";
 
    /**
      * Paths to various helper functions

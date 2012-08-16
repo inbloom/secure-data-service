@@ -184,6 +184,7 @@ public final class Constants {
     public static final String ATTR_ATTENDANCE_RATE = "attendanceRate";
     public static final String ATTR_TARDY_RATE = "tardyRate";
     public static final String ATTR_STUDENTS = "students";
+    public static final String ATTR_TEACHERS = "teachers";
     public static final String ATTR_TRANSCRIPT = "transcript";
     public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
@@ -191,6 +192,9 @@ public final class Constants {
     public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
+    public static final String ATTR_START_DATE = "startDate";
+    public static final String ATTR_BEGIN_DATE = "beginDate";
+    public static final String ATTR_END_DATE = "endDate";
 
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
 
@@ -300,6 +304,7 @@ public final class Constants {
     public static final String ATTENDANCE_HISTORY_UNEXCUSED = "unexcusedAbsenceCount";
     public static final String ATTENDANCE_HISTORY_TARDY = "tardyCount";
     public static final String ATTENDANCE_EARLY_DEPARTURE = "earlyDepartureCount";
+    public static final String ATTR_ATTENDANCE_LIST = "attendanceList";
 
     /**
      * Contains the possible values for FRE participation

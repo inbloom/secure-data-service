@@ -31,13 +31,19 @@ import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -45,14 +51,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit Tests for Security Event Resource class.
@@ -209,19 +208,6 @@ public class SecurityEventResourceTest {
     }
 
 
-    // @Test
-    // public void testSecurityEventResource() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testCreateSecurityEvent() {
-    // fail("Not yet implemented");
-    // }
-
-    //TODO: unit test for SeaAdmin and LeaAdmin are not available at this time because
-    //      the "IN" operation of NeutralCriteria is not correctly mocked.
-
     @Test
     public void testSLCOperatorOffsetGetSecurityEvents() {
         injector.setOperatorContext();
@@ -336,8 +322,8 @@ public class SecurityEventResourceTest {
 
         Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
 
-        if (!(response.getEntity() instanceof ErrorResponse)) {
-            fail("Should not have any return results: " + response);
+        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
+            fail("Developer shoudd be forbidden from accessing SecurityEvent. " + response);
         }
     }
 
@@ -347,8 +333,8 @@ public class SecurityEventResourceTest {
 
         Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
 
-        if (!(response.getEntity() instanceof ErrorResponse)) {
-            fail("Should not have any return results: " + response);
+        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
+            fail("Realm Admin shoudd be forbidden from accessing SecurityEvent. " + response);
         }
     }
 
@@ -358,24 +344,10 @@ public class SecurityEventResourceTest {
 
         Response response = resource.getSecurityEvents(0, 100, httpHeaders, uriInfo);
 
-        if (!(response.getEntity() instanceof ErrorResponse)) {
-            fail("Should not have any return results: " + response);
+        if (response.getStatus() != Status.FORBIDDEN.getStatusCode()) {
+            fail("Educator shoudd be forbidden from accessing SecurityEvent. " + response);
         }
     }
 
-    // @Test
-    // public void testGetSecurityEvent() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testDeleteSecurityEvent() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testUpdateSecurityEventn() {
-    // fail("Not yet implemented");
-    // }
 
 }

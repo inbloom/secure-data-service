@@ -33,6 +33,18 @@ When /^I should enter "([^"]*)" into the Display Name field$/ do |newRealmName|
   @driver.find_element(:id, "realm_name").send_keys newRealmName
 end
 
+Then /^I should enter "(.*?)" into IDP URL$/ do |url|
+  @driver.find_element(:name, 'realm[idp][id]').send_keys url
+end
+
+Then /^I should enter "(.*?)" into Redirect Endpoint$/ do |url|
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
+end
+
+Then /^I should enter "(.*?)" into Realm Identifier$/ do |identifier|
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys identifier
+end
+
 When /^I should click the "([^"]*)" button$/ do |buttonText|
   @driver.find_elements(:xpath, ".//input[@value='#{buttonText}']")[0].click
 end

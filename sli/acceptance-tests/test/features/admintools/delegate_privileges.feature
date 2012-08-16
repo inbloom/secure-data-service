@@ -69,3 +69,15 @@ Scenario: State Administrator gets access to app approval for one district
   And the Approve button next to it is disabled
   And the Deny button next to it is enabled
 	
+
+ Scenario: LEA Super Administrator delegating access to security event logs
+  Given I have an open web browser
+  When I hit the delegation url
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page
+    And I am redirected to the delegation page for my district
+    And "View Security Events" is unchecked
+    And I check the "View Security Events"
+    And I should click the "Save" button
+  Then I am redirected to the delegation page for my district
+    And "View Security Events" is checked

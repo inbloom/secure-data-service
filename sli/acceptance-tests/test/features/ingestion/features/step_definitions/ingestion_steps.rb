@@ -35,6 +35,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
+INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
@@ -52,8 +53,9 @@ TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 Before do
 
   @conn = Mongo::Connection.new(INGESTION_DB)
-  @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-  ensureBatchJobIndexes(@conn)
+  @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
+  @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
+  ensureBatchJobIndexes(@batchConn)
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
@@ -602,7 +604,7 @@ Given /^the following collections are empty in datastore:$/ do |table|
 end
 
 Given /^the following collections are empty in batch job datastore:$/ do |table|
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
 
@@ -616,7 +618,7 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  ensureBatchJobIndexes(@conn)
+  ensureBatchJobIndexes(@batchConn)
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
@@ -924,7 +926,7 @@ end
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   old_db = @db
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
@@ -1177,7 +1179,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
 
@@ -1231,8 +1233,28 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
+Then /^I check to find if complex record is in batch job collection:$/ do |table|
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+
+    @entity_count = @entity_collection.find({row["searchParameter"] => { "$type" => 3 }}).count().to_s
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record " + row["searchParameter"]
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+end
+
 Then /^I check to find if record is in batch job collection:$/ do |table|
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
 
@@ -1567,7 +1589,7 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
 end
 
 Then /^the jobs ran concurrently$/ do
-  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
 
   latestStartTime = nil
@@ -1680,6 +1702,19 @@ Then /^the following collections counts are the same:$/ do |table|
   end
 end
 
+Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
+  @db = @conn[INGESTION_DB_NAME]
+  appColl = @db.collection("application")
+  
+  application = appColl.find({"_id" => arg1})
+  
+  application.each do |app|
+    numEdorg = app['body']['authorized_ed_orgs'].size
+    assert(arg2.to_i == numEdorg, "there should be #{arg2} authorized edorgs, but found #{numEdorg}")
+  end
+  
+end
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -1687,6 +1722,7 @@ end
 After do
   cleanTenants()
   @conn.close if @conn != nil
+  @batchConn.close if @batchConn != nil
 end
 
 # Set FAILFAST=1 in the acceptance test running environment to exit the tests after

@@ -42,10 +42,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * System resource class for security session context.
@@ -56,9 +52,6 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecuritySessionResource {
-
-    @Autowired
-    private RoleRightAccess roleAccessor;
 
     @Autowired
     private OauthSessionManager sessionManager;
@@ -112,8 +105,6 @@ public class SecuritySessionResource {
             throw new InsufficientAuthenticationException("User must be logged in");
         }
 
-        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-        principal.setSliRoles(principal.getRoles());
         return SecurityContextHolder.getContext();
     }
 
@@ -145,15 +136,6 @@ public class SecuritySessionResource {
             sessionDetails.put("external_id", principal.getExternalId());
             sessionDetails.put("email", getUserEmail(principal));
 
-            List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
-                @Override
-                public List<Role> execute() {
-                    return roleAccessor.fetchAllRoles();
-                }
-            });
-
-            sessionDetails.put("all_roles", allRoles);
-
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", realmPage);
@@ -169,7 +151,7 @@ public class SecuritySessionResource {
         }
         Map<String, Object> body = principal.getEntity().getBody();
         if (!body.containsKey("electronicMail")) {
-            return "";
+            return null;
         }
         List emails = (List) body.get("electronicMail");
         if (emails.size() == 1) {
@@ -178,25 +160,25 @@ public class SecuritySessionResource {
         }
 
         String address = getEmailAddressByType(emails, "Work");
-        if (address.length() != 0) {
+        if (address != null) {
             return address;
         }
 
         address = getEmailAddressByType(emails, "Organization");
-        if (address.length() != 0) {
+        if (address != null) {
             return address;
         }
 
         address = getEmailAddressByType(emails, "Other");
-        if (address.length() != 0) {
+        if (address != null) {
             return address;
         }
 
         address = getEmailAddressByType(emails, "Home/Personal");
-        if (address.length() != 0) {
+        if (address != null) {
             return address;
         }
-        return "";
+        return null;
     }
 
     private String getEmailAddressByType(List emails, String checkedType) {
@@ -208,7 +190,7 @@ public class SecuritySessionResource {
                 return address;
             }
         }
-        return "";
+        return null;
     }
 
     /**

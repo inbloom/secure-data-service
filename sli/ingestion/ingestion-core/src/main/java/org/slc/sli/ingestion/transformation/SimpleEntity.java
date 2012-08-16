@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.util.Map;
@@ -91,7 +90,12 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public CalculatedData getCalculatedValues() {
-        return new CalculatedData();
+    public CalculatedData<String> getCalculatedValues() {
+        return new CalculatedData<String>();
+    }
+
+    @Override
+    public CalculatedData<Map<String, Integer>> getAggregates() {
+        return new CalculatedData<Map<String, Integer>>();
     }
 }

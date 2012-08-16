@@ -17,51 +17,98 @@
 package org.slc.sli.sif.domain.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import openadk.library.common.AddressList;
+import openadk.library.common.AddressType;
+import openadk.library.common.Street;
+import openadk.library.student.StudentAddressList;
 
-import org.dozer.DozerConverter;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.Address;
 
 /**
- * A customized Dozer converter to convert SIF AddressList to SLI Address list.
+ * A custom converter to convert SIF AddressList to SLI Address list.
+ *
+ * Valid SLI values:
+ * Home
+ * Physical
+ * Billing
+ * Mailing
+ * Other
+ * Temporary
+ * Work
  *
  * @author slee
  *
  */
-public class AddressListConverter extends DozerConverter<AddressList, List<Address>>
-{
-    public AddressListConverter() {
-        super(AddressList.class, (Class<List<Address>>)new ArrayList<Address>().getClass());
+@Component
+public class AddressListConverter {
+
+    private static final Map<AddressType, String> ADDRESS_TYPE_MAP = new HashMap<AddressType, String>();
+    static {
+        ADDRESS_TYPE_MAP.put(AddressType._0369_CAMPUS, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_EMPLOYER, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_EMPLOYMENT, "Work");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_MAILING, "Mailing");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_ORGANIZATION, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_OTHER, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_PERMANENT, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.EMPLOYERS, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.EMPLOYMENT, "Work");
+        ADDRESS_TYPE_MAP.put(AddressType.MAILING, "Mailing");
+        ADDRESS_TYPE_MAP.put(AddressType.OTHER_HOME, "Home");
+        ADDRESS_TYPE_MAP.put(AddressType.OTHER_ORGANIZATION, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.PHYSICAL_LOCATION, "Physical");
+        ADDRESS_TYPE_MAP.put(AddressType.SHIPPING, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_CAMPUS, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_EMPLOYER, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_EMPLOYMENT, "Work");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_MAILING, "Mailing");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_ORGANIZATION, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_OTHER, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_PERMANENT, "Other");
     }
 
-    @Override
-    public List<Address> convertTo(AddressList source, List<Address> destination)
-    {
-        if (source==null) {
+    public List<Address> convert(AddressList addressList) {
+        if (addressList == null) {
             return null;
         }
-        openadk.library.common.Address[] addresses = source.getAddresses();
+
+        return toSliAddressList(addressList.getAddresses());
+    }
+
+    public List<Address> convert(StudentAddressList addressList) {
+        if (addressList == null) {
+            return null;
+        }
+
+        return toSliAddressList(addressList.getAddresses());
+    }
+
+    private List<Address> toSliAddressList(openadk.library.common.Address[] addresses) {
         List<Address> list = new ArrayList<Address>(addresses.length);
         for (openadk.library.common.Address address : addresses) {
             Address sliAddr = new Address();
-            sliAddr.setStreetNumberName(address.getStreet().getStreetNumber()+" "+address.getStreet().getStreetName());
+            Street street = address.getStreet();
+            if (street != null) {
+                sliAddr.setStreetNumberName(street.getStreetNumber() + " " + street.getStreetName());
+            }
             sliAddr.setCity(address.getCity());
             sliAddr.setCountryCode(address.getCountry());
             sliAddr.setPostalCode(address.getPostalCode());
             sliAddr.setStateAbbreviation(address.getStateProvince());
-            sliAddr.setAddressType(SchoolMappings.toSliAddressType(address.getType()));
+            sliAddr.setAddressType(toSliAddressType(AddressType.wrap(address.getType())));
             list.add(sliAddr);
         }
         return list;
     }
 
-    @Override
-    public AddressList convertFrom(List<Address> source, AddressList destination)
-    {
-        return null;
+    private String toSliAddressType(AddressType addressType) {
+        String mapping = ADDRESS_TYPE_MAP.get(addressType);
+        return mapping == null ? "Other" : mapping;
     }
-
 }

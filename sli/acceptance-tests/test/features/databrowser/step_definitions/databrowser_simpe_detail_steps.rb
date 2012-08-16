@@ -139,7 +139,7 @@ When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
 end
 
 Then /^I am redirected to a page that page lists all of the "([^"]*)" entity's fields$/ do |arg1|
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='#{arg1}']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='#{arg1}']")}
 end
 
 Then /^I am redirected to the particular associations Simple View$/ do
@@ -151,7 +151,7 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Detention']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Detention']")}
 end
 
 When /^I click on any of the entity IDs$/ do
@@ -172,6 +172,35 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
 
   end
 end
+
+When /^I have navigated to the "(.*?)" listing of the Data Browser$/ do |arg1|
+  @driver.get PropLoader.getProps['databrowser_server_url'] + '/entities/schools'
+end
+
+When /^I click on "(.*?)" in the list of schools$/ do |arg1|
+  @row = @driver.find_element(:xpath, "//td[text()=\"#{arg1}\"]/..")
+  @row.click
+end
+
+When /^then click on the "(.*?)" link$/ do |arg1|
+  # 
+  @driver.find_element(:xpath, "/html/body/div/div[2]/div/div/table/tbody/tr[22]/td/div/div[4]/ul/li[13]/a").click
+end
+
+Then /^I see a "(.*?)" alert box$/ do |arg1|
+  flash = @driver.find_element(:css, 'div#flash')
+  assert(!flash.nil?, "We should see an alert box")
+end
+
+Then /^I click the X$/ do
+  @driver.find_element(:css, 'div#flash').find_element(:link_text, "X").click
+  
+end
+
+Then /^the error is dismissed$/ do
+  assertWithWait("The error should be dismissed") {@driver.find_element(:css, 'div#flash').displayed? == false}
+end
+
 
 Then /^I should click on the Home link and be redirected back$/ do
   #Ignored, should be verified in previous steps

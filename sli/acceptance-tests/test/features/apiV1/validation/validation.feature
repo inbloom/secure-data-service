@@ -148,25 +148,25 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links
 
-  Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 404
+  Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 200 
     Given format "application/json"
     And I create a valid base level school object
     When I navigate to POST "/v1/schools"
     Then I should receive a return code of 201
     And I should receive an ID for the newly created school
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200 
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
 
-  Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 404
+  Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 200 
     Given format "application/json"
     And I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     When I navigate to GET "/v1/sections/<'Valid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
     And a collection of size 1
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
 
   Scenario Outline: Given a valid JSON document for an entity, when I POST it multiple times I should only find one record
     Given format "application/json"

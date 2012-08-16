@@ -19,9 +19,11 @@ limitations under the License.
 
 require 'rubygems'
 require 'mongo'
+require 'json'
 require 'pp'
 require 'rest-client'
 require 'uuidtools'
+require 'fileutils'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -34,7 +36,8 @@ SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
-BOOTSTRAPPED_GUIDS = ["2012rq-d60cae46-d66d-11e1-a5ad-406c8f06bd30", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]
+BOOTSTRAPPED_GUIDS = ["2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]
+MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 ############################################################
 # STEPS: BEFORE
@@ -42,7 +45,7 @@ BOOTSTRAPPED_GUIDS = ["2012rq-d60cae46-d66d-11e1-a5ad-406c8f06bd30", "2012kn-524
 
 Before do
   @conn = Mongo::Connection.new(SIF_DB)
-  @mdb = @conn.db(SIF_DB_NAME)
+  @db = @conn.db(SIF_DB_NAME)
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
@@ -54,12 +57,12 @@ end
 # STEPS: GIVEN
 ############################################################
 
+Given /^the data store is "(.*?)"$/ do |dataStore|
+  @local_file_store_path = @local_file_store_path + dataStore + "/"
+end
+
 # Doesn't remove entities where _id is in BOOTSTRAPPED_GUIDS
-Given /^the following collections are clean in datastore:$/ do |table|
-  @conn = Mongo::Connection.new(SIF_DB)
-
-  @db   = @conn[SIF_DB_NAME]
-
+Given /^the following collections are clean and bootstrapped in datastore:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
@@ -76,7 +79,7 @@ Given /^the following collections are clean in datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
-When /^I want to POST a\(n\) "(.*?)" SIF message$/ do |identifier|
+Given /^I want to POST a\(n\) "(.*?)" SIF message$/ do |identifier|
   @message = getMessageForIdentifier(identifier)
 end
 
@@ -87,6 +90,15 @@ def getMessageForIdentifier(identifier)
   uuid = UUIDTools::UUID.random_create
   message = message.sub("***SUB SIF MSG ID***", uuid.to_s)
   return message
+end
+
+Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do |identifier, collection|
+  setFixture(collection, "#{identifier}.json", "test/data/sif")
+end
+
+def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
+  success = system("#{MONGO_BIN}mongoimport -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 
 ############################################################
@@ -107,6 +119,12 @@ end
 
 When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep(Integer(secs))
+end
+
+# Combines Given and When steps
+When /^I POST a\(n\) "(.*?)" SIF message to the ZIS$/ do |identifier|
+  @message = getMessageForIdentifier(identifier)
+  postMessage(@message)
 end
 
 ############################################################
@@ -134,24 +152,12 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @db   = @conn[SIF_DB_NAME]
-
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-
-    if row["searchType"] == "integer"
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "boolean"
-        if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-        else
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-        end
-    else
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    end
+    entities = getEntitiesForParameters(row)
+    @entity_count = 0
+    @entity_count = entities.size unless entities.nil?
 
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
@@ -161,6 +167,48 @@ Then /^I check to find if record is in collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+end
+
+def getEntitiesForParameters(row)
+  @entity_collection = @db.collection(row["collectionName"])
+
+  if row["searchType"] == "integer"
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+  elsif row["searchType"] == "boolean"
+    if row["searchValue"] == "false"
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    else
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    end
+  else
+    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+  end
+
+end
+
+Then /^I check that the record contains all of the expected values:$/ do |table|
+  table.hashes.map do |row|
+    identifier = row["expectedValuesFile"]
+    entities = getEntitiesForParameters(row)
+
+    assert(!entities.nil?, "Received nil entities for search parameters")
+    assert(entities.size == 1, "Expected one entity, received #{entities.size}")
+
+    entity = entities[0];
+
+    file = File.open(@local_file_store_path + identifier + ".json", "r")
+    expectedJson = file.read
+    file.close
+
+    expectedMap = JSON.parse(expectedJson)
+    expectedMap.each do |key, expected|
+      actual = entity[key]
+      assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
+    end
+
+    # must match at this point
+    puts "Row matches values in " + identifier + ".json"
+  end
 end
 
 ############################################################

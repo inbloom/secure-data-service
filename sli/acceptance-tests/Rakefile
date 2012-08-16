@@ -258,7 +258,7 @@ def swap_realm_ids()
 
       update_count = 0
       custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
-        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}}) 
+        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}})
         update_count = update_count + 1
       end
       puts "\tUpdated #{update_count} custom roles."
@@ -334,6 +334,13 @@ task :appInit do
   swap_app_ids()
 end
 
+task :addBootstrapAppAuths do
+  require_relative 'test/features/utils/rakefile_common.rb'
+  require 'securerandom'
+  allLeaAllowApp("SLC Dashboards")
+  allLeaAllowApp("SLC Data Browser")
+end
+
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
   #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
@@ -389,7 +396,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -410,7 +417,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -486,8 +493,11 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :adminWebTests] do
+task :adminToolsTests => [:realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
+                          :provisionIntegrationTests, :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
+                          :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["realmInit"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -537,7 +547,6 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-                         :dashboardTeacherProfileTests,
                          :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
@@ -568,7 +577,9 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests,
+                         :dashboardSdsSectionProfileTests,
+                         :dashboardSdsTeacherProfileTests,
+                         :dashboardSdsAttendanceCalendarTests,
                          :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
@@ -679,9 +690,24 @@ end
 task :sandboxUserAdminTests do
 @tags ||= ["~@wip", "@sandbox"]
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+runTests("test/features/sandbox/UserAdmin/TOU_displayed.feature")
 end
 
+task :sandboxSamtEmailNotificationTests do
+@tags ||= ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
 
+task :samtEmailNotificationTests do
+@tags ||= ["~@wip", "~@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
+
+desc "Run Admin Welcome Email Production Tests"
+task :adminWelcomeEmail do
+  @tags ||= ["~@wip", "~@sandbox"]
+  runTests("test/features/admintools/Admin_Welcome_Email.feature")
+end
 
 ###########################################################
 # Super Admin Management Tools Tests end
@@ -726,8 +752,12 @@ end
 ############################################################
 desc "Run SIF Tests"
 task :sifTests => [:sifSchoolInfoTest,
-                   :sifSEAInfoTest,
-                   :sifLEAInfoTest] do
+                   :sifLEAInfoTest,
+                   :sifStudentSchoolEnrollmentTest,
+                   :sifStudentLEARelationshipTest,
+                   :sifSmokeTests,
+                   :sifIntegratedTest
+                   ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -780,6 +810,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",

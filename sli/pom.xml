@@ -199,6 +199,7 @@
 		<module>api</module>
 		<module>scaffold</module>
 		<module>ingestion</module>
+		<module>encryption-tool</module>
 		<module>dashboard</module>
 		<module>simple-idp</module>
 		<module>sif</module>
@@ -842,6 +843,13 @@
                 <configuration>
                     <XnoInline>true</XnoInline>
                     <complianceLevel>1.6</complianceLevel>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<action><ignore /></action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
                 </configuration>
                 <executions>
                     <execution>

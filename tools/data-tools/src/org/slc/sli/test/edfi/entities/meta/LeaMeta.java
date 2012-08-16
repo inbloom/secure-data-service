@@ -20,6 +20,8 @@ package org.slc.sli.test.edfi.entities.meta;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public class LeaMeta {
 
     public final String id;
@@ -32,7 +34,7 @@ public class LeaMeta {
     public String programId;
 
     public LeaMeta(String id, SeaMeta seaMeta) {
-        this.id = seaMeta.id + "-" + id;
+        this.id = seaMeta.id + MetaRelations.ID_DELIMITER + id;
         this.seaId = seaMeta.id;
 
         this.simpleId = id;

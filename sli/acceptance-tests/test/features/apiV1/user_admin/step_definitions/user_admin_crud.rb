@@ -48,9 +48,7 @@ Given /^the new\/update user has$/ do
 end
 
 Given /^"(.*?)" is "(.*?)"$/ do |key, value|
-  if key == "fullName" && value!= ""
-    @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
-  elsif key!="role" && key!="additional_role"&&value!=""
+  if key!="role" && key!="additional_role"&&value!=""
     @new_update_user.merge!({key => value})
   elsif key=="role" && value!=""
     @new_update_user.merge!({"groups" => [value]})
@@ -73,14 +71,68 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
  # puts @new_update_user
   @append_host=true
   if action == "POST"
-    restHttpDelete(link+"/"+@new_update_user["uid"])
+    if @new_update_user["uid"] != nil
+      restHttpDelete(link+"/"+@new_update_user["uid"])
+    end
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
   elsif action=="PUT"
     restHttpDelete(link+"/"+@new_update_user["uid"])
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
     restHttpPut(link,@new_update_user.to_json)
   end
 
+end
+
+Then /^I (should|should not) see "(.*?)"$/ do |should, uid|
+  @res.code.should == 200
+  should_see = should.downcase == "should"
+  found = false
+  @result.each do |user|
+    if user["uid"] == uid
+      assert(false, "User should not have been returned: #{uid}") unless should_see
+      found = true
+      break
+    end
+  end
+  assert(found, "User was not returned: #{uid}") if should_see
+end
+
+Given /^I create a new "(.*?)" "(.*?)" with tenant "(.*?)" and edorg "(.*?)"$/ do |roles, uid, tenant, edorg|
+  roles = roles.split(/,/).map { |r| r.strip }
+  user = {}
+  user["groups"] = roles
+  user["fullName"] = "AT Generated User"
+  user["uid"] = uid
+  user["email"] = "at_email@doesnot.exist"
+  user["tenant"] = tenant
+  user["edorg"] = edorg
+  user["homeDir"] = "/dev/null"
+  user["password"] = "Mark Abernathy is my hero"
+  user = append_hostname(user)
+  puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
+  restHttpDelete("/users/#{user['uid']}")
+  @format = "application/json"
+  restHttpPost("/users", user.to_json)
+  assert(@res.code == 201, "Could not create user: #{@res}")
+  @created_user = user
+end
+
+Then /^I (should|should not) see user "(.*?)"$/ do |should, uid|
+  should_find = should.downcase == "should"
+  uid = append_hostname(uid)
+  @format = "application/json"
+  step "I navigate to GET \"/users\""
+  users = @result
+  found = false
+  users.each do |user|
+    if user["uid"] == uid
+      found = true
+      break
+    end
+  end
+  assert(found == should_find, "User #{should} be visible: #{uid}")
 end
 
 Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |fullName, uid, email, createTime, modifyTime|
@@ -142,6 +194,7 @@ When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_r
   format = "application/json"
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
+  sleep(1)
 
   idpRealmLogin(@user, nil)
   sessionIdTestAdmin = @sessionId
@@ -175,6 +228,46 @@ Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
   end
 end
 
+Given /^there is another LEA with "(.*?)" in my "(.*?)" and "(.*?)"$/ do |full_name, tenant, edorg|
+  uid=full_name.gsub(" ", "_")
+  groups = Array.new
+  groups.push("LEA Administrator")
+  @given_user=build_user(uid, groups, tenant, edorg)
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+  restHttpPost("/users", @given_user.to_json, format, sessionId)
+end         
+    
+Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg| 
+  @result.each do |other|
+    if (other['groups'].index("LEA Administrator") != nil) 
+      if (other['edorg'] == edorg) 
+        assert(other['uid'] == @user, "@user is not the only LEA in EdOrg #{edorg}, #{other['uid']} is also LEA")
+      end
+    end 
+  end
+
+  #clean up 
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+end 
+
+Then /^I try to update this new user as "(.*?)"$/ do |roles|
+  user = @created_user
+  roles = roles.split(/,/).map { |r| r.strip }
+  user["groups"] = roles
+  puts "User: #{JSON.pretty_generate user}" if $SLI_DEBUG
+  @format = "application/json"
+  restHttpPut("/users", user.to_json)
+  @response_code = @res.code
+end
+
 def get_user(uid)
 =begin
 @result.each { |user|
@@ -197,7 +290,7 @@ def print_administrator_comma_separated
   @result.each { |user|
     if((administrators & user['groups']).length > 0)
       user['groups'].each { |group|
-        out << "#{user['uid']},#{group},#{user['firstName']},#{user['lastName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
+        out << "#{user['uid']},#{group},#{user['fullName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
       }
     end
   }
@@ -208,10 +301,16 @@ def print_administrator_comma_separated
 end
 
 def append_hostname(user )
-  oldUid = user["uid"]
-  newUid = oldUid+"_"+Socket.gethostname
-  user.merge!({"uid" => newUid})
-  return user
+  if user.is_a? Hash
+    oldUid = user["uid"]
+    if (oldUid != nil)
+      newUid = oldUid+"_"+Socket.gethostname
+      user.merge!({"uid" => newUid})
+    end
+    return user
+  else
+    return user + "_" + Socket.gethostname
+  end
 end
 
 def remove_user(user)
@@ -222,8 +321,7 @@ def build_user(uid, groups, tenant, edorg)
   new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => "Test",
-      "lastName" => "User",
+      "fullName" => "Test User",
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,

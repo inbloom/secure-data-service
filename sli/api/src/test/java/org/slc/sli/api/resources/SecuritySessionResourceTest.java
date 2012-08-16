@@ -16,6 +16,9 @@
 
 package org.slc.sli.api.resources;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,16 +28,17 @@ import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Unit tests for SessionResource
@@ -44,46 +48,31 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class SecuritySessionResourceTest {
-    
+
     @Autowired
     SecurityContextInjector injector;
-    
+
     @Autowired
     SecuritySessionResource resource;
 
     @Test
-    public void testLogoutUser() throws Exception {
-
-    }
-
-    @Test
-    public void testGetSecurityContext() throws Exception {
-
-    }
-
-    @Test
-    public void testSessionCheck() throws Exception {
-
-    }
-    
-    @Test
     public void testSessionEmails() throws Exception {
         buildWithEmailType(Arrays.asList("Work"));
         Map<String, Object> response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Work@Work.com".equals(response.get("email")));
-        
+        assertEquals("Work@Work.com", response.get("email"));
+
         buildWithEmailType(Arrays.asList("Organization"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Organization@Organization.com".equals(response.get("email")));
-        
+        assertEquals("Organization@Organization.com", response.get("email"));
+
         buildWithEmailType(Arrays.asList("Organization", "Work", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Work@Work.com".equals(response.get("email")));
-        
+        assertEquals("Work@Work.com", response.get("email"));
+
         buildWithEmailType(Arrays.asList("Organization", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("Organization@Organization.com".equals(response.get("email")));
-        
+        assertEquals("Organization@Organization.com", response.get("email"));
+
         EntityBody body = new EntityBody();
         body.put("name", new ArrayList<String>());
         Entity e = Mockito.mock(Entity.class);
@@ -91,10 +80,10 @@ public class SecuritySessionResourceTest {
         injector.setCustomContext("MerpTest", "Merp Test", "IL", Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR), e,
                 "merpmerpmerp");
         response = (Map<String, Object>) resource.sessionCheck();
-        assert ("".equals(response.get("email")));
+        assertNull(response.get("email"));
 
     }
-    
+
     private void buildWithEmailType(List<String> types) {
         EntityBody body = new EntityBody();
         Entity e = Mockito.mock(Entity.class);

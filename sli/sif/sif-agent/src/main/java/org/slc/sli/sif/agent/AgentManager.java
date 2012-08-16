@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.agent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,12 @@ import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
 import openadk.library.datamodel.DatamodelDTD;
 import openadk.library.student.StudentDTD;
+import openadk.library.common.CommonDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
@@ -46,13 +48,18 @@ import org.slc.sli.sif.subscriber.SifSubscriber;
  * Manages a SIFAgent and its SifSubscriber
  *
  */
-@Component
 public class AgentManager {
 
     private SifAgent agent;
 
     @Autowired
     private SifSubscriber subscriber;
+
+    @Value("${log.path}")
+    private String logPath;
+
+    @Value("${sli.sif-agent.adk.logFile}")
+    private String adkLogFile;
 
     private String subscriberZoneName;
 
@@ -91,6 +98,8 @@ public class AgentManager {
      * @throws Exception
      */
     public void setup() throws Exception {
+        // set the adk.log.file property, which is used in ADK.initialize()
+        System.setProperty("adk.log.file", logPath + File.separator + adkLogFile);
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
         agent.startAgent();
@@ -116,17 +125,24 @@ public class AgentManager {
         Map<String, ElementDef> datamodelDtdMap = new HashMap<String, ElementDef>();
         DatamodelDTD datamodelDTD = new DatamodelDTD();
         datamodelDTD.addElementMappings(datamodelDtdMap);
+        Map<String, ElementDef> commonDtdMap = new HashMap<String, ElementDef>();
+        CommonDTD commonDTD = new CommonDTD();
+        commonDTD.addElementMappings(commonDtdMap);
 
         Zone zone = agent.getZoneFactory().getZone(subscriberZoneName);
 
         for (String dataTypeString : subscribeTypeList) {
             ElementDef studentDataTypeDef = studentDtdMap.get(dataTypeString);
             ElementDef datamodelDataTypeDef = datamodelDtdMap.get(dataTypeString);
+            ElementDef commonDataTypeDef = commonDtdMap.get(dataTypeString);
             if (studentDataTypeDef != null) {
                 zone.setSubscriber(subscriber, studentDataTypeDef, new SubscriptionOptions());
                 LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
             } else if (datamodelDataTypeDef != null) {
                 zone.setSubscriber(subscriber, datamodelDataTypeDef, new SubscriptionOptions());
+                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
+            } else if (commonDataTypeDef != null) {
+                zone.setSubscriber(subscriber, commonDataTypeDef, new SubscriptionOptions());
                 LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
             } else {
                 LOG.error("Unable to find SIF ADK datatype " + dataTypeString);
@@ -157,4 +173,21 @@ public class AgentManager {
     public SifAgent getAgent() {
         return this.agent;
     }
+
+    public String getLogPath() {
+        return logPath;
+    }
+
+    public void setLogPath(String logPath) {
+        this.logPath = logPath;
+    }
+
+    public String getAdkLogFile() {
+        return adkLogFile;
+    }
+
+    public void setAdkLogFile(String adkLogFile) {
+        this.adkLogFile = adkLogFile;
+    }
+
 }
