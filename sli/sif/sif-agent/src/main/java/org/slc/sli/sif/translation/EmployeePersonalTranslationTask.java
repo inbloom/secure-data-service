@@ -28,6 +28,7 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
+import org.slc.sli.sif.domain.converter.HrOtherIdListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
@@ -57,6 +58,10 @@ public class EmployeePersonalTranslationTask extends AbstractTranslationTask<Emp
     @Autowired
     NameConverter nameConverter;
 
+    @Autowired
+    HrOtherIdListConverter hrOtherIdListConverter;
+
+    @Autowired
     PhoneNumberListConverter phoneNumberListConverter;
 
     @Autowired
@@ -77,7 +82,7 @@ public class EmployeePersonalTranslationTask extends AbstractTranslationTask<Emp
         //convert properties
         e.setStaffUniqueStateId(ep.getStateProvinceId());
         e.setName(nameConverter.convert(ep.getName()));
-//        e.setOtherName(otherNameConverter.convert(ep.getOtherNames()));
+        e.setStaffIdentificationCode(hrOtherIdListConverter.convert(ep.getOtherIdList()));
 
         if (demographics != null) {
             e.setBirthData(birthDataConverter.convert(demographics));

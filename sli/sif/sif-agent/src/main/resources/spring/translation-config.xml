@@ -65,6 +65,28 @@
         </constructor-arg>
     </bean>
 
+    <bean id="staffPersonalTranslationTask" class="org.slc.sli.sif.translation.StaffPersonalTranslationTask" />
+
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="StaffPersonalTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="staffPersonalTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="employeePersonalTranslationTask" class="org.slc.sli.sif.translation.EmployeePersonalTranslationTask" />
+
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="EmployeePersonalTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employeePersonalTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
     <util:map id="translationMap" key-type="java.lang.String"
         value-type="org.slc.sli.sif.translation.TranslationTask">
         <entry key="SchoolInfo">
@@ -81,6 +103,12 @@
         </entry>
         <entry key="StudentPersonal">
             <ref bean="StudentPersonalTranslationTaskList" />
+        </entry>
+        <entry key="StaffPersonal">
+            <ref bean="StaffPersonalTranslationTaskList" />
+        </entry>
+        <entry key="EmployeePersonal">
+            <ref bean="EmployeePersonalTranslationTaskList" />
         </entry>
     </util:map>
 

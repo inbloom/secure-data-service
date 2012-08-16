@@ -21,9 +21,11 @@ import java.util.List;
 import junit.framework.Assert;
 import openadk.library.ADK;
 import openadk.library.ADKException;
+import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.Title1Status;
 
@@ -91,6 +93,28 @@ public class SifTranslationTest {
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type student",
                 "student", entities.get(0).entityType());
+    }
+
+    @Test
+    public void shouldTranslateStaffPersonalToStaff() {
+        StaffPersonal info = new StaffPersonal();
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+
+        Assert.assertEquals("Should create a single SLI staff entity", 1, entities.size());
+        Assert.assertNotNull("NULL sli entity", entities.get(0));
+        Assert.assertEquals("Mapped SLI entitiy should be of type staff",
+                "staff", entities.get(0).entityType());
+    }
+
+    @Test
+    public void shouldTranslateEmployeePersonalToStaff() {
+        EmployeePersonal info = new EmployeePersonal();
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+
+        Assert.assertEquals("Should create a single SLI staff entity", 1, entities.size());
+        Assert.assertNotNull("NULL sli entity", entities.get(0));
+        Assert.assertEquals("Mapped SLI entitiy should be of type staff",
+                "staff", entities.get(0).entityType());
     }
 
     private SchoolInfo createSchoolInfo() {
