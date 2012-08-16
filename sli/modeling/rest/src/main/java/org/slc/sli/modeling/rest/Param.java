@@ -23,6 +23,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * @author dholmes
+ */
 public class Param extends WadlElement {
     private final String name;
     private final ParamStyle style;

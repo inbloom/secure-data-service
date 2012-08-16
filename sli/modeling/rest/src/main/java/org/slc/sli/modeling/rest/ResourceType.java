@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author dholmes
+ */
 public class ResourceType extends WadlElement {
     private final String id;
     private final List<Param> params;
