@@ -58,7 +58,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
+        int count = 0;
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, count);
 
     }
 
@@ -68,7 +69,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first
+                                          int count) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
@@ -108,10 +110,13 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false, count);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);
+
+                count += list.size();
+                System.out.println ("count = " + count);
             }
 
             results = filterFields(results, plan);
