@@ -17,6 +17,7 @@
 package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,7 @@ public class ConfigController extends GenericLayoutController {
     private static final String DASHBOARD_CONFIG_FTL = "dashboard_config.ftl";
     private static final String CONFIG_URL = "/service/config";
     private static final String CONFIG_SAVE_URL = "/service/config/ajaxSave";
+    private static final String CONFIG_ALL = "/s/c/allCfg";
     
     private UserEdOrgManager userEdOrgManager;
     private ConfigManager configManager;
@@ -73,11 +75,13 @@ public class ConfigController extends GenericLayoutController {
     /**
      * Generic layout handler
      * 
+     * @deprecated retiring method
      * @param id
      * @param request
      * @return
      * @throws IllegalAccessException
      */
+    @Deprecated
     @RequestMapping(value = CONFIG_URL, method = RequestMethod.GET)
     public ModelAndView getConfig(HttpServletRequest request) throws IllegalAccessException {
         ModelMap model = new ModelMap();
@@ -124,6 +128,13 @@ public class ConfigController extends GenericLayoutController {
         throw new IllegalAccessException("Access Denied");
     }
     
+    /**
+     * 
+     * @deprecated retiring method
+     * @param configMap
+     * @return
+     */
+    @Deprecated
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
     @ResponseBody
     public String saveConfig(@RequestBody @Valid ConfigMap configMap) {
@@ -187,4 +198,29 @@ public class ConfigController extends GenericLayoutController {
         return "Success";
     }
     
+    /**
+     * Controller for client side Config pulls without overwriting waterfall logic.
+     * The 'params' parameter contains a map of url query parameters. The parameters are matched
+     * to the attributes in the JSON config files.
+     * 
+     * @param configType
+     * @param request
+     * @param response
+     * @return DriverConfig and all EdOrg hierarchy JSON. 
+     */
+    @RequestMapping(value = CONFIG_ALL, method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Collection<Config>> handleConfigPanels(
+            @RequestParam(value = "type", required = false) String configType, final HttpServletRequest request,
+            HttpServletResponse response) {
+        
+        String token = SecurityUtil.getToken();
+        Boolean isAdmin = SecurityUtil.isAdmin();
+        
+        if (isAdmin != null && isAdmin.booleanValue()) {
+            return configManager.getAllConfigByType(token, userEdOrgManager.getUserEdOrg(token), configType);
+        }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return null;
+    }
 }

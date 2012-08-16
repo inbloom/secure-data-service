@@ -19,6 +19,7 @@ package org.slc.sli.dashboard.manager;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
@@ -89,4 +90,21 @@ public interface ConfigManager {
      */
     Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs);
 
+    /**
+     * Get configs matching a set of attribute values
+     * @param token
+     * @param edOrgKey
+     * @param params
+     * @param overwriteCustomConfig
+     * @return
+     */
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs, boolean overwriteCustomConfig);
+    
+    /**
+     * Get all custom for EdOrg hierarchy and Driver config
+     * @param edOrg
+     * @param attrs
+     * @return
+     */
+    Map<String,Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey,String type);
 }
