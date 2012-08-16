@@ -246,7 +246,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find("td:eq(0)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
