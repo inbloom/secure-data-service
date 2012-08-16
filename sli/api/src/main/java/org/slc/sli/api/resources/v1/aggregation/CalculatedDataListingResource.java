@@ -28,13 +28,14 @@ import org.slc.sli.domain.CalculatedDatum;
  * Resource for displaying aggregate listings
  *
  * @author nbrown
+ * @param <T> type of data to return
  *
  */
-public class CalculatedValueListingResource {
+public class CalculatedDataListingResource<T> {
 
-    private final CalculatedData<String> data;
+    private final CalculatedData<T> data;
 
-    public CalculatedValueListingResource(CalculatedData<String> data) {
+    public CalculatedDataListingResource(CalculatedData<T> data) {
         super();
         this.data = data;
     }
@@ -51,7 +52,7 @@ public class CalculatedValueListingResource {
     @GET
     public Response getCalculatedValues(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
+        List<CalculatedDatum<T>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 

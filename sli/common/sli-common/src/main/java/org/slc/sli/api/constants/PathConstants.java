@@ -81,6 +81,8 @@ public class PathConstants {
 
     public static final String CALCULATED_VALUES = "calculatedValues";
 
+    public static final String AGGREGATIONS = "aggregations";
+
    /**
      * Paths to various helper functions
      */

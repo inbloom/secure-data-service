@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -21,17 +22,17 @@ import org.slc.sli.domain.CalculatedDatum;
  */
 public class AggregateListingResourceTest {
 
-    private CalculatedValueListingResource resource;
+    private CalculatedDataListingResource cVResource;
 
     @Before
     public void setup() {
-        Map<String, Map<String, Map<String, Map<String, Object>>>> aggregateMap = new HashMap<String, Map<String, Map<String, Map<String, Object>>>>();
-        Map<String, Map<String, Map<String, Object>>> assessments = new HashMap<String, Map<String, Map<String, Object>>>();
-        Map<String, Map<String, Object>> act = new HashMap<String, Map<String, Object>>();
-        Map<String, Object> highestEver = new HashMap<String, Object>();
-        Map<String, Map<String, Map<String, Object>>> attendance = new HashMap<String, Map<String, Map<String, Object>>>();
-        Map<String, Map<String, Object>> mathClass = new HashMap<String, Map<String, Object>>();
-        Map<String, Object> lastSemester = new HashMap<String, Object>();
+        Map<String, Map<String, Map<String, Map<String, String>>>> aggregateMap = new HashMap<String, Map<String, Map<String, Map<String, String>>>>();
+        Map<String, Map<String, Map<String, String>>> assessments = new HashMap<String, Map<String, Map<String, String>>>();
+        Map<String, Map<String, String>> act = new HashMap<String, Map<String, String>>();
+        Map<String, String> highestEver = new HashMap<String, String>();
+        Map<String, Map<String, Map<String, String>>> attendance = new HashMap<String, Map<String, Map<String, String>>>();
+        Map<String, Map<String, String>> mathClass = new HashMap<String, Map<String, String>>();
+        Map<String, String> lastSemester = new HashMap<String, String>();
         highestEver.put("ScaleScore", "28.0");
         act.put("HighestEver", highestEver);
         assessments.put("ACT", act);
@@ -40,21 +41,31 @@ public class AggregateListingResourceTest {
         mathClass.put("LastSemester", lastSemester);
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
-        CalculatedData data = new CalculatedData(aggregateMap);
-        resource = new CalculatedValueListingResource(data);
+        CalculatedData<String> cvData = new CalculatedData<String>(aggregateMap);
+        cVResource = new CalculatedDataListingResource(cvData);
 
     }
 
     /**
      * Test method for
-     * {@link org.slc.sli.api.resources.v1.aggregation.CalculatedValueListingResource#getAvailableAggregates()}
+     * {@link org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource#getAvailableAggregates()}
      * .
      */
     @Test
+    public void testGetAvailableCalculatedValues() {
+        CalculatedDatum<String> actScore = new CalculatedDatum<String>("assessments", "HighestEver", "ACT",
+                "ScaleScore", "28.0");
+        CalculatedDatum<String> mathScore = new CalculatedDatum<String>("attendance", "LastSemester", "MathClass",
+                "PercentInClass", "90%");
+        @SuppressWarnings("unchecked")
+        List<CalculatedDatum<String>> expected = Arrays.asList(actScore, mathScore);
+        assertEquals(expected, cVResource.getCalculatedValues(null, null, null, null)
+                .getEntity());
+    }
+
+    @Test
     public void testGetAvailableAggregates() {
-        assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0"),
-                new CalculatedDatum("attendance", "LastSemester", "MathClass", "PercentInClass", "90%")), resource
-                .getCalculatedValues(null, null, null, null).getEntity());
+
     }
 
 }
