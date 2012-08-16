@@ -16,6 +16,8 @@
 
 package org.slc.sli.sif.subscriber;
 
+import java.util.List;
+
 import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
@@ -25,6 +27,8 @@ import openadk.library.Zone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.impl.GenericEntity;
+import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slc.sli.sif.translation.SifTranslationManager;
 /**
  * Sif Subscriber implementation
@@ -35,10 +39,17 @@ public class SifSubscriber implements Subscriber {
     @Autowired
     SifTranslationManager translationManager;
 
+    @Autowired
+    SlcInterface slcInterface;
+
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
 
-        translationManager.translate(event.getData().readDataObject(), zone.getZoneId());
+        List<GenericEntity> translatedEntities = translationManager.translate(event.getData().readDataObject(), zone.getZoneId());
+
+        for( GenericEntity entity : translatedEntities){
+            slcInterface.create(entity);
+        }
 
     }
 
