@@ -29,7 +29,7 @@ import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
-import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.ApiQuery;
