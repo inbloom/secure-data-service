@@ -50,7 +50,6 @@ public class ErrorController extends GenericLayoutController {
     public static final String TEMPLATE_NAME = "error";
     public static final String TEMPLATE_FILE = "error.ftl";
     public static final String URL_PARAM_ERROR_TYPE = "errorType";
-    private static final Pattern httpStatusCodePattern = Pattern.compile("^\\S+\\s+(\\d+)");
     
     /**
      * Controller for SLI Exceptions
@@ -70,15 +69,13 @@ public class ErrorController extends GenericLayoutController {
         Map<String, String> exceptionMap = new HashMap<String, String>();
         
         ErrorDescriptor error = ErrorDescriptor.DEFAULT;
-        
-        //if errorType is null, then read status code from http header.
-        //format will should be HTTP/1.1 ### http response message..
-        //httpStatusCodePattern will parse out ### status code
         if (errorType == null) {
-            String header = response.toString();
-            Matcher matcher = httpStatusCodePattern.matcher(header);
+            String message = response.toString();
+            Pattern pattern = Pattern.compile("^\\S+\\s+(\\d+)");
+            Matcher matcher = pattern.matcher(message);
             if(matcher.find()) {
                 errorType = matcher.group(1);
+                
             }
         }
         if (errorType != null) {
