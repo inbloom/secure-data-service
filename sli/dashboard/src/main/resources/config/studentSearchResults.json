@@ -6,6 +6,9 @@ data : {
     entity: "studentSearch",
     cacheKey: "studentSearch"
     },
+    params: {
+       layout: ["studentSearch"]
+    },
     
     root: "students",
     

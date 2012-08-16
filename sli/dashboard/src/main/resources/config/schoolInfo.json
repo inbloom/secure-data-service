@@ -4,5 +4,8 @@
   data :{
     entity: "schoolInfo",
     cacheKey: "schoolInfo"
+  },
+  params: {
+      layout: ["school"]
   }
 }

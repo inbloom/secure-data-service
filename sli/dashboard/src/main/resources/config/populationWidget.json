@@ -4,5 +4,8 @@
   data :{
     entity: "userEdOrg",
     cacheKey: "userEdOrg"
-  } 
+  },
+  params: {
+      layout: ["school","section","teacher"]
+  }
 }

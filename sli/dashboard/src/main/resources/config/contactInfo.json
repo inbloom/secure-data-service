@@ -5,5 +5,8 @@
   data :{
     entity: "student",
     cacheKey: "student"
+  },
+  params: {
+       layout: ["student"]
   }
 }

@@ -6,6 +6,9 @@
     entity: "listOfStudents",
     cacheKey: "listOfStudents"
   },
+  params: {
+      layout: ["section"]
+  },
   root: 'students',
   items : [
     {name: "Default View", 

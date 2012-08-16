@@ -6,6 +6,9 @@
         entity: "transcriptHistory",
         cacheKey: "transcriptHistory"
     },
+    params: {
+      layout: ["student"]
+    },
     root : "transcriptHistory",
     items : [
         {id : "year", name : "Year", type : "FIELD", datatype : "string", field : "schoolYear", width : 90},

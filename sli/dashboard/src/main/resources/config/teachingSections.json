@@ -6,6 +6,9 @@
 		entity: "teacherInfo",
 		cacheKey: "teacherInfo"
 	},
+        params: {
+            layout: ["teacher"]
+        },
 	root:"sections",
 	items: [{
 		items:[
