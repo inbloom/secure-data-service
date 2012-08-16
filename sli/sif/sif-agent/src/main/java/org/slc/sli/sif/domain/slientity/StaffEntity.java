@@ -42,6 +42,7 @@ public class StaffEntity extends SliEntity {
     private List<PersonalTelephone> telephone;
     private List<ElectronicMail> electronicMail;
     private List<String> race; // Demographics
+    private List<StaffIdentificationCode> staffIdentificationCode;
 
     // The following optional fields are supposed to be mapped from SIF EmployeeCredential
 //    private List<Credential> credentials;//
@@ -102,6 +103,14 @@ public class StaffEntity extends SliEntity {
 
     public void setRace(List<String> race) {
         this.race = race;
+    }
+
+    public List<StaffIdentificationCode> getStaffIdentificationCode() {
+        return this.staffIdentificationCode;
+    }
+
+    public void setStaffIdentificationCode(List<StaffIdentificationCode> staffIdentificationCode) {
+        this.staffIdentificationCode = staffIdentificationCode;
     }
 
     public boolean getHispanicLatinoEthnicity() {

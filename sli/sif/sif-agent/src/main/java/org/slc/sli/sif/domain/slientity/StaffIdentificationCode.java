@@ -14,31 +14,37 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.slcinterface;
-
-import org.slc.sli.api.client.Entity;
+package org.slc.sli.sif.domain.slientity;
 
 /**
- * Mapping between SIF id and SLI ids. Dummy implementation
+ * Corresponding to the staffIdentificationCode defined in SLI schema.
+ *
+ * @author slee
+ *
  */
-public class SifIdResolverImplDummy implements SifIdResolver {
+public class StaffIdentificationCode {
+    private String ID;
+    private String identificationSystem;
 
-    @Override
-    public String getSliGuid(String sifId, String zoneId) {
-        return null;
+    public StaffIdentificationCode() {
+
     }
 
-    @Override
-    public Entity getSliEntity(String sifId, String zoneId) {
-        return null;
+    public String getID() {
+        return this.ID;
     }
 
-    @Override
-    public String getZoneSea(String zoneId) {
-        return null;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
-    @Override
-    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId) {
+    public String getIdentificationSystem() {
+        return this.identificationSystem;
+    }
+
+    public void setIdentificationSystem(
+            String identificationSystem) {
+        this.identificationSystem = identificationSystem;
     }
 }
+

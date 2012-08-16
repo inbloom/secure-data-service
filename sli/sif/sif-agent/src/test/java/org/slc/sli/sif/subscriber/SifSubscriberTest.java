@@ -124,7 +124,7 @@ public class SifSubscriberTest {
         GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
         Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
 
-        Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
+        Mockito.when(mockTranslationManager.translate(mockSchoolInfo, "zoneId")).thenReturn(mockSliEntities);
         Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
         Mockito.when(mockSlcInterface.create(Mockito.any(GenericEntity.class))).thenReturn("5678");
 
@@ -156,10 +156,10 @@ public class SifSubscriberTest {
         Map<String, Object> mockBody = new HashMap<String, Object>();
         Mockito.when(mockSliEntity.createBody()).thenReturn(mockBody);
 
-        Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
+        Mockito.when(mockTranslationManager.translate(mockSchoolInfo, "zoneId")).thenReturn(mockSliEntities);
         Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
-        GenericEntity mockEntity = new GenericEntity(Mockito.any(String.class), mockBody);
-        Mockito.when(sifIdResolver.getSliEntity("1234")).thenReturn(mockEntity);
+        GenericEntity mockEntity = new GenericEntity("type", mockBody);
+        Mockito.when(sifIdResolver.getSliEntity("1234", "zoneId")).thenReturn(mockEntity);
 
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 

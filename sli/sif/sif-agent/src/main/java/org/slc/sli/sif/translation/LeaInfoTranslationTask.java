@@ -39,7 +39,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  *
  */
 @Component
-public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LeaEntity> {
+public class LeaInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LeaEntity> {
     @Autowired
     OperationalStatusConverter operationalStatusConverter;
 
@@ -52,12 +52,12 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, Lea
     @Autowired
     SifIdResolver sifIdResolver;
 
-    public LEAInfoTranslationTask() {
+    public LeaInfoTranslationTask() {
         super(LEAInfo.class);
     }
 
     @Override
-    public List<LeaEntity> doTranslate(LEAInfo leaInfo) {
+    public List<LeaEntity> doTranslate(LEAInfo leaInfo, String zoneId) {
         LeaEntity e = new LeaEntity();
         // covert properties
         e.setStateOrganizationId(leaInfo.getStateProvinceId());
@@ -67,7 +67,7 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, Lea
         e.setAddress(addressListConverter.convert(leaInfo.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convertInstitutionTelephone(leaInfo.getPhoneNumberList()));
 
-        String seaGuid = sifIdResolver.getZoneSea(null);
+        String seaGuid = sifIdResolver.getZoneSea(zoneId);
         if (seaGuid != null) {
             e.setParentEducationAgencyReference(seaGuid);
         }

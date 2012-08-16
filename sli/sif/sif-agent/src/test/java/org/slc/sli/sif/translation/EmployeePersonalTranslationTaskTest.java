@@ -30,6 +30,7 @@ import openadk.library.common.PhoneNumberList;
 import openadk.library.common.RaceList;
 import openadk.library.common.YesNo;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrOtherIdList;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +44,7 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
+import org.slc.sli.sif.domain.converter.HrOtherIdListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
@@ -52,6 +54,7 @@ import org.slc.sli.sif.domain.slientity.BirthData;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.PersonalTelephone;
 import org.slc.sli.sif.domain.slientity.StaffEntity;
+import org.slc.sli.sif.domain.slientity.StaffIdentificationCode;
 
 /**
  * EmployeePersonal to StaffEntity unit tests
@@ -80,6 +83,9 @@ public class EmployeePersonalTranslationTaskTest {
     NameConverter mockNameConverter;
 
     @Mock
+    HrOtherIdListConverter mockHrOtherIdListConverter;
+
+    @Mock
     EmailListConverter mockEmailListConverter;
 
     @Mock
@@ -100,7 +106,7 @@ public class EmployeePersonalTranslationTaskTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<StaffEntity> result = translator.translate(new EmployeePersonal());
+        List<StaffEntity> result = translator.translate(new EmployeePersonal(), "");
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -120,12 +126,14 @@ public class EmployeePersonalTranslationTaskTest {
         Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
         Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
-        Assert.assertEquals("StaffUniqueStateId is expected to be '" + stateProvinceId + "'", stateProvinceId, entity.getStaffUniqueStateId());
-        Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
+        Assert.assertEquals("StaffUniqueStateId is expected to be '" + stateProvinceId + "'", stateProvinceId,
+                entity.getStaffUniqueStateId());
+        Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false,
+                entity.getHispanicLatinoEthnicity());
         Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSex());
     }
 
@@ -140,7 +148,7 @@ public class EmployeePersonalTranslationTaskTest {
         List<String> race = new ArrayList<String>();
         Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(race, entity.getRace());
@@ -155,7 +163,7 @@ public class EmployeePersonalTranslationTaskTest {
         BirthData birthData = new BirthData();
         Mockito.when(mockBirthDataConverter.convert(demographics)).thenReturn(birthData);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(birthData, entity.getBirthData());
@@ -170,10 +178,25 @@ public class EmployeePersonalTranslationTaskTest {
         org.slc.sli.sif.domain.slientity.Name name = new org.slc.sli.sif.domain.slientity.Name();
         Mockito.when(mockNameConverter.convert(original)).thenReturn(name);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(name, entity.getName());
+    }
+
+    @Test
+    public void testStaffIdentificationCode() throws SifTranslationException {
+        EmployeePersonal info = new EmployeePersonal();
+        HrOtherIdList original = new HrOtherIdList();
+        info.setOtherIdList(original);
+
+        List<StaffIdentificationCode> list = new ArrayList<StaffIdentificationCode>();
+        Mockito.when(mockHrOtherIdListConverter.convert(original)).thenReturn(list);
+
+        List<StaffEntity> result = translator.translate(info, "");
+        Assert.assertEquals(1, result.size());
+        StaffEntity entity = result.get(0);
+        Assert.assertEquals(list, entity.getStaffIdentificationCode());
     }
 
     @Test
@@ -186,7 +209,7 @@ public class EmployeePersonalTranslationTaskTest {
 
         Mockito.when(mockEmailListConverter.convert(emailList)).thenReturn(emails);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -202,10 +225,9 @@ public class EmployeePersonalTranslationTaskTest {
 
         List<Address> address = new ArrayList<Address>();
 
-        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
-               address);
+        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -224,7 +246,7 @@ public class EmployeePersonalTranslationTaskTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertPersonalTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<StaffEntity> result = translator.translate(info);
+        List<StaffEntity> result = translator.translate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -232,4 +254,3 @@ public class EmployeePersonalTranslationTaskTest {
         Assert.assertEquals(telephones, entity.getTelephone());
     }
 }
-

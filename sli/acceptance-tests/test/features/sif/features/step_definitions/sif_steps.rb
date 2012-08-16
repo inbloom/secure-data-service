@@ -189,6 +189,7 @@ end
 Then /^I check that the record contains all of the expected values:$/ do |table|
   table.hashes.map do |row|
     identifier = row["expectedValuesFile"]
+    puts "Checking match for identifier " + identifier
     entities = getEntitiesForParameters(row)
 
     assert(!entities.nil?, "Received nil entities for search parameters")
@@ -201,9 +202,20 @@ Then /^I check that the record contains all of the expected values:$/ do |table|
     file.close
 
     expectedMap = JSON.parse(expectedJson)
-    expectedMap.each do |key, expected|
-      actual = entity[key]
-      assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
+
+    # check type
+    assert(expectedMap["type"] == entity["type"], "Type doesn't match - Expected: " + expectedMap["type"] + " Actual: " + entity["type"])
+
+    # check body
+    expectedMap["body"].each do |key, expected|
+      actual = entity["body"][key]
+
+      if (expected == ("${exists}"))
+        result = !actual.nil? and !actual.empty?
+        assert(result == true, "Value is nil or empty for key: #{key}")
+      else
+        assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
+      end
     end
 
     # must match at this point

@@ -10,6 +10,7 @@ Given the following collections are clean and bootstrapped in datastore:
      | educationOrganization    |
      | student                  |
      | studentSchoolAssociation |
+     | custom_entities          |
 And I wait for "10" seconds
 When I POST a(n) "sifEvent_LEAInfo_add" SIF message to the ZIS
 And I POST a(n) "sifEvent_SchoolInfo_add" SIF message to the ZIS

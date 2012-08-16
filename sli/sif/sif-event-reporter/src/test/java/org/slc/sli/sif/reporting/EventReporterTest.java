@@ -34,10 +34,15 @@ import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNoUnknown;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentDTD;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
@@ -83,33 +88,28 @@ public class EventReporterTest extends AdkTest {
 
     @Test
     public void testConstructor() throws ADKException {
-        Mockito.verify(zone, Mockito.times(5)).setPublisher(
-                Mockito.eq(eventReporter), Mockito.any(ElementDef.class),
-                Mockito.any(PublishingOptions.class));
+        ElementDef[] expectedPublishingTypes = {
+                StudentDTD.SCHOOLINFO,
+                StudentDTD.LEAINFO,
+                StudentDTD.STUDENTPERSONAL,
+                StudentDTD.STUDENTSCHOOLENROLLMENT,
+                CommonDTD.STUDENTLEARELATIONSHIP,
+                StudentDTD.STAFFPERSONAL,
+                HrfinDTD.EMPLOYEEPERSONAL
+        };
 
-        Mockito.verify(zone, Mockito.times(1)).setPublisher(
-                Mockito.eq(eventReporter), Mockito.eq(StudentDTD.SCHOOLINFO),
-                Mockito.any(PublishingOptions.class));
-        Mockito.verify(zone, Mockito.times(1)).setPublisher(
-                Mockito.eq(eventReporter), Mockito.eq(StudentDTD.LEAINFO),
-                Mockito.any(PublishingOptions.class));
-        Mockito.verify(zone, Mockito.times(1)).setPublisher(
-                Mockito.eq(eventReporter),
-                Mockito.eq(StudentDTD.STUDENTPERSONAL),
-                Mockito.any(PublishingOptions.class));
-        Mockito.verify(zone, Mockito.times(1)).setPublisher(
-                Mockito.eq(eventReporter),
-                Mockito.eq(StudentDTD.STUDENTSCHOOLENROLLMENT),
-                Mockito.any(PublishingOptions.class));
-        Mockito.verify(zone, Mockito.times(1)).setPublisher(
-                Mockito.eq(eventReporter),
-                Mockito.eq(CommonDTD.STUDENTLEARELATIONSHIP),
-                Mockito.any(PublishingOptions.class));
+        Mockito.verify(zone, Mockito.times(expectedPublishingTypes.length)).setPublisher(Mockito.eq(eventReporter),
+                Mockito.any(ElementDef.class), Mockito.any(PublishingOptions.class));
+
+        for (ElementDef publishingType : expectedPublishingTypes) {
+            Mockito.verify(zone, Mockito.times(1)).setPublisher(Mockito.eq(eventReporter), Mockito.eq(publishingType),
+                    Mockito.any(PublishingOptions.class));
+        }
     }
 
     @Test
-    public void testRunReportScript() throws IllegalArgumentException,
-            IllegalAccessException, InvocationTargetException, ADKException {
+    public void testRunReportScript() throws IllegalArgumentException, IllegalAccessException,
+            InvocationTargetException, ADKException {
         Map<Class<? extends SIFDataObject>, List<EventAction>> testMap;
         testMap = new LinkedHashMap<Class<? extends SIFDataObject>, List<EventAction>>();
 
@@ -121,34 +121,43 @@ public class EventReporterTest extends AdkTest {
         testMap.put(LEAInfo.class, addChangeDeleteEventActionList);
         testMap.put(SchoolInfo.class, addChangeDeleteEventActionList);
         testMap.put(StudentPersonal.class, addChangeDeleteEventActionList);
-        testMap.put(StudentLEARelationship.class,
-                addChangeDeleteEventActionList);
-        testMap.put(StudentSchoolEnrollment.class,
-                addChangeDeleteEventActionList);
+        testMap.put(StudentLEARelationship.class, addChangeDeleteEventActionList);
+        testMap.put(StudentSchoolEnrollment.class, addChangeDeleteEventActionList);
 
-        String script = GeneratorScriptEvent.KEY_LEA_INFO_ADD + ","
-                + GeneratorScriptEvent.KEY_LEA_INFO_CHANGE + ","
-                + GeneratorScriptEvent.KEY_LEA_INFO_DELETE + ","
-                + GeneratorScriptEvent.KEY_SCHOOL_INFO_ADD + ","
-                + GeneratorScriptEvent.KEY_SCHOOL_INFO_CHANGE + ","
-                + GeneratorScriptEvent.KEY_SCHOOL_INFO_DELETE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_PERSONAL_ADD + ","
-                + GeneratorScriptEvent.KEY_STUDENT_PERSONAL_CHANGE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD + ","
-                + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD + ","
-                + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE + ","
-                + GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE;
+        String[] scriptArray = {
+                GeneratorScriptEvent.KEY_LEA_INFO_ADD,
+                GeneratorScriptEvent.KEY_LEA_INFO_CHANGE,
+                GeneratorScriptEvent.KEY_LEA_INFO_DELETE,
+                GeneratorScriptEvent.KEY_SCHOOL_INFO_ADD,
+                GeneratorScriptEvent.KEY_SCHOOL_INFO_CHANGE,
+                GeneratorScriptEvent.KEY_SCHOOL_INFO_DELETE,
+                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_ADD,
+                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_CHANGE,
+                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE,
+                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD,
+                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE,
+                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE,
+                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD,
+                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE,
+                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE,
+                GeneratorScriptEvent.KEY_STAFF_PERSONAL_ADD,
+                GeneratorScriptEvent.KEY_STAFF_PERSONAL_CHANGE,
+                GeneratorScriptEvent.KEY_STAFF_PERSONAL_DELETE,
+                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_ADD,
+                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE,
+                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE
+        };
+
+        String script = "";
+        for (String item : scriptArray) {
+            script += item + ",";
+        }
         long waitTime = 0;
 
-        List<Event> eventsSent = eventReporter
-                .runReportScript(script, waitTime);
-        Mockito.verify(zone, Mockito.times(15)).reportEvent(
-                Mockito.any(Event.class));
+        List<Event> eventsSent = eventReporter.runReportScript(script, waitTime);
+        Mockito.verify(zone, Mockito.times(scriptArray.length)).reportEvent(Mockito.any(Event.class));
 
-        Assert.assertEquals(15, eventsSent.size());
+        Assert.assertEquals(scriptArray.length, eventsSent.size());
 
         int index = 0;
         for (Class<? extends SIFDataObject> expectedClass : testMap.keySet()) {
@@ -159,8 +168,7 @@ public class EventReporterTest extends AdkTest {
         }
     }
 
-    private void checkScriptedEvent(Event event,
-            Class<? extends SIFDataObject> expectedClass,
+    private void checkScriptedEvent(Event event, Class<? extends SIFDataObject> expectedClass,
             EventAction expectedAction) throws ADKException {
         SIFDataObject dataObject = event.getData().readDataObject();
         Assert.assertTrue(dataObject.getClass().isAssignableFrom(expectedClass));
@@ -174,20 +182,17 @@ public class EventReporterTest extends AdkTest {
 
         EventAction eventAction = EventAction.ADD;
         Event sentEvent = eventReporter.reportLeaInfoEvent(eventAction);
-        LEAInfo dataObject = (LEAInfo) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, false);
+        LEAInfo dataObject = (LEAInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals("http://IL-DAYBREAK.edu", dataObject.getLEAURL());
 
         eventAction = EventAction.CHANGE;
         sentEvent = eventReporter.reportLeaInfoEvent(eventAction);
-        dataObject = (LEAInfo) runDataObjectEventTest(sentEvent, eventAction,
-                expectedClass, expectedId, true);
+        dataObject = (LEAInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
         Assert.assertEquals("http://www.example.com", dataObject.getLEAURL());
 
         eventAction = EventAction.DELETE;
         sentEvent = eventReporter.reportLeaInfoEvent(eventAction);
-        dataObject = (LEAInfo) runDataObjectEventTest(sentEvent, eventAction,
-                expectedClass, expectedId, false);
+        dataObject = (LEAInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals("http://IL-DAYBREAK.edu", dataObject.getLEAURL());
     }
 
@@ -198,21 +203,18 @@ public class EventReporterTest extends AdkTest {
 
         EventAction eventAction = EventAction.ADD;
         Event sentEvent = eventReporter.reportSchoolInfoEvent(eventAction);
-        SchoolInfo dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, false);
+        SchoolInfo dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId,
+                false);
         Assert.assertEquals("http://IL-DAYBREAK.edu", dataObject.getSchoolURL());
 
         eventAction = EventAction.CHANGE;
         sentEvent = eventReporter.reportSchoolInfoEvent(eventAction);
-        dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, true);
-        Assert.assertEquals("http://www.IL-DAYBREAK.edu",
-                dataObject.getSchoolURL());
+        dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals("http://www.IL-DAYBREAK.edu", dataObject.getSchoolURL());
 
         eventAction = EventAction.DELETE;
         sentEvent = eventReporter.reportSchoolInfoEvent(eventAction);
-        dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, false);
+        dataObject = (SchoolInfo) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals("http://IL-DAYBREAK.edu", dataObject.getSchoolURL());
     }
 
@@ -223,21 +225,18 @@ public class EventReporterTest extends AdkTest {
 
         EventAction eventAction = EventAction.ADD;
         Event sentEvent = eventReporter.reportStudentPersonalEvent(eventAction);
-        StudentPersonal dataObject = (StudentPersonal) runDataObjectEventTest(
-                sentEvent, eventAction, expectedClass, expectedId, false);
+        StudentPersonal dataObject = (StudentPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
         Assert.assertEquals(YesNoUnknown.NO.getValue(), dataObject.getMigrant());
 
         eventAction = EventAction.CHANGE;
         sentEvent = eventReporter.reportStudentPersonalEvent(eventAction);
-        dataObject = (StudentPersonal) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, true);
-        Assert.assertEquals(YesNoUnknown.UNKNOWN.getValue(),
-                dataObject.getMigrant());
+        dataObject = (StudentPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals(YesNoUnknown.UNKNOWN.getValue(), dataObject.getMigrant());
 
         eventAction = EventAction.DELETE;
         sentEvent = eventReporter.reportStudentPersonalEvent(eventAction);
-        dataObject = (StudentPersonal) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, false);
+        dataObject = (StudentPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals(YesNoUnknown.NO.getValue(), dataObject.getMigrant());
     }
 
@@ -247,75 +246,111 @@ public class EventReporterTest extends AdkTest {
         String expectedId = SifEntityGenerator.TEST_STUDENTLEARELATIONSHIP_REFID;
 
         EventAction eventAction = EventAction.ADD;
-        Event sentEvent = eventReporter
-                .reportStudentLeaRelationshipEvent(eventAction);
-        StudentLEARelationship dataObject = (StudentLEARelationship) runDataObjectEventTest(
-                sentEvent, eventAction, expectedClass, expectedId, false);
-        Assert.assertEquals(GradeLevelCode._10.getValue(), dataObject
-                .getGradeLevel().getCode());
+        Event sentEvent = eventReporter.reportStudentLeaRelationshipEvent(eventAction);
+        StudentLEARelationship dataObject = (StudentLEARelationship) runDataObjectEventTest(sentEvent, eventAction,
+                expectedClass, expectedId, false);
+        Assert.assertEquals(GradeLevelCode._10.getValue(), dataObject.getGradeLevel().getCode());
 
         eventAction = EventAction.CHANGE;
-        sentEvent = eventReporter
-                .reportStudentLeaRelationshipEvent(eventAction);
-        dataObject = (StudentLEARelationship) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, true);
-        Assert.assertEquals(GradeLevelCode._09.getValue(), dataObject
-                .getGradeLevel().getCode());
+        sentEvent = eventReporter.reportStudentLeaRelationshipEvent(eventAction);
+        dataObject = (StudentLEARelationship) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId,
+                true);
+        Assert.assertEquals(GradeLevelCode._09.getValue(), dataObject.getGradeLevel().getCode());
 
         eventAction = EventAction.DELETE;
-        sentEvent = eventReporter
-                .reportStudentLeaRelationshipEvent(eventAction);
-        dataObject = (StudentLEARelationship) runDataObjectEventTest(sentEvent,
-                eventAction, expectedClass, expectedId, false);
-        Assert.assertEquals(GradeLevelCode._10.getValue(), dataObject
-                .getGradeLevel().getCode());
+        sentEvent = eventReporter.reportStudentLeaRelationshipEvent(eventAction);
+        dataObject = (StudentLEARelationship) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId,
+                false);
+        Assert.assertEquals(GradeLevelCode._10.getValue(), dataObject.getGradeLevel().getCode());
     }
 
     @Test
-    public void runReportStudentSchoolEnrollmentEventTests()
-            throws ADKException {
+    public void runReportStudentSchoolEnrollmentEventTests() throws ADKException {
         Class<? extends SIFDataObject> expectedClass = StudentSchoolEnrollment.class;
         String expectedId = SifEntityGenerator.TEST_STUDENTSCHOOLENROLLMENT_REFID;
 
         EventAction eventAction = EventAction.ADD;
-        Event sentEvent = eventReporter
-                .reportStudentSchoolEnrollmentEvent(eventAction);
-        StudentSchoolEnrollment dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(
-                sentEvent, eventAction, expectedClass, expectedId, false);
-        Assert.assertEquals(
-                ExitTypeCode._3502_NOT_ENROLLED_ELIGIBLE_TO.getValue(),
-                dataObject.getExitType().getCode());
+        Event sentEvent = eventReporter.reportStudentSchoolEnrollmentEvent(eventAction);
+        StudentSchoolEnrollment dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(sentEvent, eventAction,
+                expectedClass, expectedId, false);
+        Assert.assertEquals(ExitTypeCode._3502_NOT_ENROLLED_ELIGIBLE_TO.getValue(), dataObject.getExitType().getCode());
 
         eventAction = EventAction.CHANGE;
-        sentEvent = eventReporter
-                .reportStudentSchoolEnrollmentEvent(eventAction);
-        dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(
-                sentEvent, eventAction, expectedClass, expectedId, true);
-        Assert.assertEquals(
-                ExitTypeCode._1923_DIED_OR_INCAPACITATED.getValue(), dataObject
-                        .getExitType().getCode());
+        sentEvent = eventReporter.reportStudentSchoolEnrollmentEvent(eventAction);
+        dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, true);
+        Assert.assertEquals(ExitTypeCode._1923_DIED_OR_INCAPACITATED.getValue(), dataObject.getExitType().getCode());
 
         eventAction = EventAction.DELETE;
-        sentEvent = eventReporter
-                .reportStudentSchoolEnrollmentEvent(eventAction);
-        dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(
-                sentEvent, eventAction, expectedClass, expectedId, false);
-        Assert.assertEquals(
-                ExitTypeCode._3502_NOT_ENROLLED_ELIGIBLE_TO.getValue(),
-                dataObject.getExitType().getCode());
+        sentEvent = eventReporter.reportStudentSchoolEnrollmentEvent(eventAction);
+        dataObject = (StudentSchoolEnrollment) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        Assert.assertEquals(ExitTypeCode._3502_NOT_ENROLLED_ELIGIBLE_TO.getValue(), dataObject.getExitType().getCode());
     }
 
-    private SIFDataObject runDataObjectEventTest(Event sentEvent,
-            EventAction action, Class<? extends SIFDataObject> expectedClass,
-            String expectedId, boolean expectedChanged) throws ADKException {
-        Mockito.verify(zone, Mockito.times(1)).reportEvent(
-                Mockito.eq(sentEvent));
+    @Test
+    public void runReportStaffPersonalEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = StaffPersonal.class;
+        String expectedId = SifEntityGenerator.TEST_STAFFPERSONAL_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportStaffPersonalEvent(eventAction);
+        StaffPersonal dataObject = (StaffPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        String emailAddress = dataObject.getEmailList().get(0).getValue();
+        Assert.assertEquals("chuckw@imginc.com", emailAddress);
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportStaffPersonalEvent(eventAction);
+        dataObject = (StaffPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        emailAddress = dataObject.getEmailList().get(0).getValue();
+        Assert.assertEquals("chuckyw@imginc.com", emailAddress);
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportStaffPersonalEvent(eventAction);
+        dataObject = (StaffPersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        emailAddress = dataObject.getEmailList().get(0).getValue();
+        Assert.assertEquals("chuckw@imginc.com", emailAddress);
+    }
+
+    @Test
+    public void runReportEmployeePersonalEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = EmployeePersonal.class;
+        String expectedId = SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportEmployeePersonalEvent(eventAction);
+        EmployeePersonal dataObject = (EmployeePersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        OtherId otherId = dataObject.getOtherIdList().get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId.getType());
+        Assert.assertEquals("333333333", otherId.getValue());
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportEmployeePersonalEvent(eventAction);
+        dataObject = (EmployeePersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        otherId = dataObject.getOtherIdList().get(0);
+        Assert.assertEquals(OtherIdType.CERTIFICATE.getValue(), otherId.getType());
+        Assert.assertEquals("certificate", otherId.getValue());
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportEmployeePersonalEvent(eventAction);
+        dataObject = (EmployeePersonal) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        otherId = dataObject.getOtherIdList().get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId.getType());
+        Assert.assertEquals("333333333", otherId.getValue());
+    }
+
+    private SIFDataObject runDataObjectEventTest(Event sentEvent, EventAction action,
+            Class<? extends SIFDataObject> expectedClass, String expectedId, boolean expectedChanged)
+            throws ADKException {
+        Mockito.verify(zone, Mockito.times(1)).reportEvent(Mockito.eq(sentEvent));
 
         Assert.assertEquals(action, sentEvent.getAction());
         SIFDataObject dataObject = sentEvent.getData().readDataObject();
         Assert.assertTrue(dataObject.getClass().isAssignableFrom(expectedClass));
         Assert.assertEquals(expectedId, dataObject.getRefId());
-//        Assert.assertEquals(expectedChanged, dataObject.isChanged());
+        // Assert.assertEquals(expectedChanged, dataObject.isChanged());
 
         return dataObject;
     }
