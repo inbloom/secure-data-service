@@ -19,6 +19,7 @@ package org.slc.sli.modeling.uml;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
+import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,13 +31,12 @@ public class AttributeTest {
 
     private Attribute attribute;
     private Identifier identifier = Identifier.random();
-    private Range range = new Range(Occurs.ZERO, Occurs.ONE);
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
         attribute = new Attribute(identifier, "TestAttribute", identifier,
-                new Multiplicity(range), ModelElement.EMPTY_TAGGED_VALUES);
+                TestUtils.zeroToOne, ModelElement.EMPTY_TAGGED_VALUES);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class AttributeTest {
     public void testToString() {
         String string1 = attribute.toString();
         String string2 = "{id: " + identifier.toString() + ", name: TestAttribute, type: " + identifier
-                + ", multiplicity: " + new Multiplicity(range) + "}";
+                + ", multiplicity: " + TestUtils.zeroToOne + "}";
         assertEquals(string1, string2);
     }
 }
