@@ -9,6 +9,7 @@ Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
+     | custom_entities       |
 And I wait for "10" seconds
 When I POST the message to the ZIS
 And I wait for "3" seconds
@@ -77,6 +78,7 @@ Given I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName        |
      | educationOrganization |
+     | custom_entities       |
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:

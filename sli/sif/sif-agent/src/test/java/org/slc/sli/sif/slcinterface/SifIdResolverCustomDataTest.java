@@ -13,32 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.sif.slcinterface;
 
-import org.slc.sli.api.client.Entity;
+public class SifIdResolverCustomDataTest {
 
-/**
- * Mapping between SIF id and SLI ids. Dummy implementation
- */
-public class SifIdResolverImplDummy implements SifIdResolver {
 
-    @Override
-    public String getSliGuid(String sifId, String zoneId) {
-        return null;
-    }
 
-    @Override
-    public Entity getSliEntity(String sifId, String zoneId) {
-        return null;
-    }
 
-    @Override
-    public String getZoneSea(String zoneId) {
-        return null;
-    }
 
-    @Override
-    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId) {
-    }
+
 }

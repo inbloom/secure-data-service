@@ -73,7 +73,7 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
     }
 
     @Override
-    public List<SchoolEntity> doTranslate(SchoolInfo sifData) {
+    public List<SchoolEntity> doTranslate(SchoolInfo sifData, String zoneId) {
         SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 
@@ -99,7 +99,7 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
             result.setSchoolType(schoolType.getText());
         }
 
-        String leaGuid = sifIdResolver.getSliGuid(schoolInfo.getLEAInfoRefId());
+        String leaGuid = sifIdResolver.getSliGuid(schoolInfo.getLEAInfoRefId(), zoneId);
         if (leaGuid != null) {
             result.setParentEducationAgencyReference(leaGuid);
         }

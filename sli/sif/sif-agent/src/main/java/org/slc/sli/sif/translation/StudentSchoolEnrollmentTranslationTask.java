@@ -62,15 +62,15 @@ public class StudentSchoolEnrollmentTranslationTask extends
     }
 
     @Override
-    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData) {
+    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData, String zoneId) {
         StudentSchoolEnrollment sse = sifData;
         StudentSchoolAssociationEntity result = new StudentSchoolAssociationEntity();
 
         String sifStudentRefId = sse.getStudentPersonalRefId();
-        String sliStudentGuid = sifIdResolver.getSliGuid(sifStudentRefId);
+        String sliStudentGuid = sifIdResolver.getSliGuid(sifStudentRefId, zoneId);
         result.setStudentId(sliStudentGuid);
         String sifSchoolRefId = sse.getSchoolInfoRefId();
-        String sliSchoolGuid = sifIdResolver.getSliGuid(sifSchoolRefId);
+        String sliSchoolGuid = sifIdResolver.getSliGuid(sifSchoolRefId, zoneId);
         result.setSchoolId(sliSchoolGuid);
 
         Integer schoolYear = sse.getSchoolYear();
