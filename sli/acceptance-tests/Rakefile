@@ -810,6 +810,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
