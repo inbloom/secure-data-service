@@ -149,11 +149,22 @@ public class ResourceUtil {
                 PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES).toString());
     }
 
-    public static EmbeddedLink getAggregateLink(final UriInfo uriInfo, final String entityId,
+    /**
+     * Create a link to calculated values
+     *
+     * @param uriInfo
+     *            uri info to get the base uri from
+     * @param entityId
+     *            the id of the entity
+     * @param defn
+     *            the entity definition
+     * @return
+     */
+    public static EmbeddedLink getCalculatedValuesLink(final UriInfo uriInfo, final String entityId,
             final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.CALCULATED_VALUE_REL, ResourceConstants.CALCULATED_VALUE_TYPE, getURI(uriInfo,
-                PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
-                PathConstants.AGGREGATES).toString());
+        return new EmbeddedLink(ResourceConstants.CALCULATED_VALUE_REL, ResourceConstants.CALCULATED_VALUE_TYPE,
+                getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
+                        PathConstants.CALCULATED_VALUES).toString());
     }
 
     /**
@@ -235,7 +246,7 @@ public class ResourceUtil {
             links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
             if (areAggregatesPresent(defn, id)) {
-                links.add(getAggregateLink(uriInfo, id, defn));
+                links.add(getCalculatedValuesLink(uriInfo, id, defn));
             }
         }
 

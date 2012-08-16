@@ -49,7 +49,7 @@ public class CalculatedValueListingResource {
      * @return
      */
     @GET
-    public Response getAggregates(@QueryParam("type") String type, @QueryParam("window") String window,
+    public Response getCalculatedValues(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
         List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();

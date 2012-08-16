@@ -683,7 +683,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return new CustomEntityResource(id, entityDef);
     }
 
-    @Path("{id}/" + PathConstants.AGGREGATES)
+    @Path("{id}/" + PathConstants.CALCULATED_VALUES)
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
     @Override
     public CalculatedValueListingResource getCalculatedValueListings(@PathParam("id") String id) {

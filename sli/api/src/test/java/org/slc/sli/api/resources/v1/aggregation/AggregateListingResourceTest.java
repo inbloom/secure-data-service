@@ -54,7 +54,7 @@ public class AggregateListingResourceTest {
     public void testGetAvailableAggregates() {
         assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0"),
                 new CalculatedDatum("attendance", "LastSemester", "MathClass", "PercentInClass", "90%")), resource
-                .getAggregates(null, null, null, null).getEntity());
+                .getCalculatedValues(null, null, null, null).getEntity());
     }
 
 }
