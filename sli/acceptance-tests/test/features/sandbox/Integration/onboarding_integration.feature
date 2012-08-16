@@ -56,7 +56,6 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>"
 
 @production
-@wip
 Scenario: Vendor registers on a production environment
 Given I go to the production account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database

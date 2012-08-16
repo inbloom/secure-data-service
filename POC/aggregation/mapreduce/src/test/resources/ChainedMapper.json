@@ -1,0 +1,46 @@
+{ 
+  "description": "Sample JSON configuration for a chained mapper used in unit tests.",
+  "map_chain" : 
+  [{
+    "description" : "Lookup an assessment by identification code and emit the entity ID and TenantId",
+    "map_class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+    "input_collection" : "sli.assessment",
+    "input_key_field" : "_id",
+    "input_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "input_value_type" : "org.bson.BSONObject",
+    "read_from_secondaries" : true,
+    "query" : "{ \"body.assessmentIdentificationCode.ID\" : \"Grade 7 2011 State Math\" }",
+    "fields" : "{ \"metaData.tenantId\" : 1, \"_id\" : 1 }",
+    "output_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "output_value_type" : "org.bson.BSONObject"
+  },
+   
+  {
+    "description" : "Given an assessment._id and tenantId, lookup all student assessment associations (SAA) and emit the student id and SAA entity.",
+    "map_class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+    "input_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "input_value_type" : "org.bson.BSONObject",
+    "input_collection" : "sli.studentAssessmentAssociation",
+    "input_key_field" : "body.assessmentId",
+    "read_from_secondaries" : true,
+    "query" : "{ \"body.assessmentId\" : \"getId()\" }",
+    "fields" : "{ \"metaData.tenantId\" : 1, \"body.studentId\" : 1 }",
+    "output_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "output_value_type" : "org.bson.BSONObject"  
+  },
+  
+  {
+    "description" : "Given a student ID, tenant, and student assessment association entity, emit the student ID and scale score.",
+    "map_class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+    "input_key_field" : "_id",
+    "input_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "input_value_type" : "org.bson.BSONObject",
+    "input_collection" : "sli.student",
+    "read_from_secondaries" : true,
+    "query" : "{ \"_id\" : \"getId()\" }",
+    "fields" : "{ \"metaData.tenantId\" : 1, \"_id\" : 1, \"body.gender\" : 1 }",
+    "hadoop_options" : "[ {\"biz\" : \"bar\"} ]",
+    "output_key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+    "output_value_type" : "org.bson.BSONObject"
+  }] 
+}

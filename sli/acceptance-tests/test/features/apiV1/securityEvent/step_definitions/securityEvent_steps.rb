@@ -24,6 +24,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../../security/step_definitions/admin_delegation_crud_steps.rb'
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
@@ -31,8 +32,9 @@ require_relative '../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   #securityEvent data
-  id = "securityEvent"                          if human_readable_id == "ENTITY TYPE"
-  id = "/securityEvent"                         if human_readable_id == "ENTITY URI"
+  id = "securityEvent"                              if human_readable_id == "ENTITY TYPE"
+  id = "/securityEvent"                             if human_readable_id == "ENTITY URI"
+  id = ["IL", "IL-SUNSET"]                          if human_readable_id == "IL_OR_IL_SUNSET"
   #return the translated value
   id
 end

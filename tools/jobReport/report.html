@@ -1,0 +1,399 @@
+<html>
+  <head>
+    <title>Ingestion Job Report</title>
+
+    <link rel="stylesheet" type="text/css" href="report.css" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+
+      //var API_URL = 'http://localhost:8080';
+      var API_URL = 'http://devgalactus.slidev.org:9090/';
+      var MONGO_HOST_PORT = null; // defaults and set in html input
+      
+      google.load('visualization', '1', {'packages':['corechart']});
+
+      google.setOnLoadCallback(listJobs);
+
+      function listJobs() {
+        $('#job_chooser').empty();
+        $('#job_chooser_toggle').empty();
+        clearJobSpecificDivs();
+
+        MONGO_HOST_PORT = $('#mongo_host').val(); // initialize
+        
+        var jobs = getApiResource('/jobids');
+
+        if (jobs != null) {
+          $('#job_chooser_toggle')
+            .append('<h4>' + jobs.length + ' Available Jobs (<a href="#" onclick="toggleJobChooser()">show/hide</a>):');
+
+          $.each(jobs, function(key, val) {
+            $('#job_chooser')
+              .append('<input type="checkbox" name="'+val._id+'" />')
+              .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
+          });
+
+          $('#job_chooser')
+            .append('<input type="button" name="select" value="Select" onclick="jobCompare()">');
+        }
+      }
+
+      // cross-job comparison
+      function jobCompare() {
+        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
+        clearJobSpecificDivs();
+
+        var inputs = document.getElementsByTagName("input");
+        var processorPerf = [ ['BatchJob'] ];
+        var entityPersistencePerf = [ ['BatchJob'] ];
+        var entityXformPerf = [ ['BatchJob'] ];
+        var checkedboxes = [];
+
+        for (var i = 0; i < inputs.length; i++) {
+          if (inputs[i].type == "checkbox" && inputs[i].checked) {
+            checkedboxes.push(inputs[i]);
+            //$('#job_summary').append('inputs:' +inputs[i].name + '');
+            
+            var job = getApiResource('/job/' + inputs[i].name);
+
+            calProcessorPerf(processorPerf, job);
+            calXformPersistence(entityPersistencePerf, entityXformPerf, job);
+          }
+        }
+
+        normalization(entityPersistencePerf);
+        normalization(entityXformPerf);
+
+        drawComboChart('Cross Job Processor Performance', 'MilliSeconds', 'BatchJob', 'stage_breakdown_linechart_div', processorPerf);
+        drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'BatchJob', 'entity_persistence_linechart_div', entityPersistencePerf);
+        drawComboChart('Cross Job Transformation Entity Performance', 'RPS', 'BatchJob', 'entity_xform_linechart_div', entityXformPerf);
+      }
+
+      function jobSummary(jobId) {
+        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
+
+        clearJobSpecificDivs();
+        $('#job_summary').append('<h4>Job Summary: ' + jobId + '</h4>');
+
+        var job = getApiResource('/job/' + jobId);
+
+        var recordCount = getRecordCountForJob(job);
+        job.recordCount = recordCount;
+
+        var startDate = new Date(job.jobStartTimestamp);
+        var stopDate = new Date(job.jobStopTimestamp);
+        var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
+
+        var hours = Math.floor(jobTime / 3600);
+        var min_divisor = jobTime % (3600);
+        var minutes = Math.floor(min_divisor / 60);
+        var sec_divisor = min_divisor % 60;
+        var seconds = Math.ceil(sec_divisor);
+        var jobTimeDisplay = hours + ':' + minutes + ':' + seconds;
+
+        $('#job_summary')
+          .css({'color': 'white'})
+          .append('Job Status: ' + job.status + '<br/>')
+          .append('EdFi Record Count: ' +recordCount + '<br/>')
+          .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
+          .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
+
+        var errors = getApiResource('/job/' + jobId + '/error');
+        $('#job_summary').append('Errors: ' + errors.length);
+
+        var stageChartData = getStageBreakdownPieChartData(job);
+        drawPieChart(stageChartData);
+
+        var transformPersistChartData = getTransformPersistChartData(job);
+        drawPXCharts(transformPersistChartData);
+      }
+
+      function calProcessorPerf(processorPerf, job) {
+        var chartData = getStageBreakdownPieChartData(job)['rows'];
+        //The element to be pushed
+        var elem = [job._id];
+        for (var j = 0; j < chartData.length; j++) {
+          var stage = chartData[j]['c'][0]['v'].split(' ')[0];
+          var index = processorPerf[0].indexOf(stage);
+
+          if (index == -1) {
+            processorPerf[0].push(stage);
+            index = processorPerf[0].indexOf(stage);
+          }
+          elem[index] = chartData[j]['c'][1]['v'];
+        }
+        processorPerf.push(elem);
+      }
+      
+      function calXformPersistence(entityPersistencePerf, entityXformPerf, job) {
+        var PXTRes = getTransformPersistChartData(job);
+        var PerElem = [job._id];
+        var XformElem = [job._id];
+        var processorChartMap = {
+          'persistenceChartData': entityPersistencePerf,
+          'transformationChartData': entityXformPerf
+        };
+        var processingChartElem = {
+          'persistenceChartData': PerElem,
+          'transformationChartData': XformElem
+        };
+        for (var processor in PXTRes) {
+          var perf = processorChartMap[processor];
+          var entities;
+          if (PXTRes.hasOwnProperty(processor)) {
+            entities = PXTRes[processor];
+
+            if (entities.length == 0) 
+              continue;
+
+            for (var entityI = 1; entityI < entities.length; entityI++) {
+              var entity = entities[entityI][0].split(' ')[0];
+              var index = perf[0].indexOf(entity);
+
+              if (index == -1) {
+                perf[0].push(entity);
+                index = perf[0].indexOf(entity);
+              }
+
+              if (entities[entityI][1] != 0) {
+                processingChartElem[processor][index] = entities[entityI][2] / entities[entityI][1];
+              } else {
+                processingChartElem[processor][index] = 0;
+              }
+            }
+          }
+        }
+        entityPersistencePerf.push(PerElem);
+        entityXformPerf.push(XformElem);
+      }
+
+      function getStageBreakdownPieChartData(job) {
+        var chartData = { 
+          'cols': [ 
+            { label: 'Stage Name', type: 'string'},
+            { label: 'Elapsed Time', type: 'number'}
+          ],
+          'rows': []
+        };
+
+        $.each(job.stages, function(key, val) {
+          var elapsedSeconds = val.elapsedTime/1000;
+          chartData.rows.push({ c:[
+              {v: val.stageName + '  ' + elapsedSeconds + 's  ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps'},
+              {v: val.elapsedTime}
+          ] });
+        });
+        return chartData;
+      }
+
+      function drawPieChart(chartData) {
+        var dataTable;
+        if(chartData instanceof Array) {
+            dataTable = new google.visualization.arrayToDataTable(chartData)
+        } else dataTable = new google.visualization.DataTable(chartData);
+        var chartOptions = {
+          pieSliceText: 'percent',
+          sliceVisibilityThreshold: 0, // zero, otherwise it groups small slices into one
+          width : 1500,
+          height: 600,
+          chartArea: { left:0, top:0, width:"100%", height:"100%"},
+          legend: { textStyle: { color: '#eecc88' }},
+          backgroundColor: '#333333',
+          is3D: 'true'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('stage_breakdown_piechart_div'));
+        chart.draw(dataTable, chartOptions);
+      }
+
+      function drawComboChart(myTitle, vTitle, hTitle, div, chartData) {
+        var dataTable;
+        if(chartData instanceof Array) {
+          dataTable = new google.visualization.arrayToDataTable(chartData)
+        } else { 
+          dataTable = new google.visualization.DataTable(chartData);
+        }
+
+        var chartOptions = {
+          title : myTitle,
+          titleTextStyle: { color: '#eecc88' },
+          vAxis: {title: vTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, baseline: 0, baselineColor: 'white' },
+          hAxis: {title: hTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, slantedText: 'true', slantedTextAngle: 45 },
+          seriesType: "lines",
+          pointSize: 3,
+          lineWidth: 1,
+          width : 1500,
+          height: 600,
+          legend: { textStyle: { color: '#eecc88' }},
+          backgroundColor: '#333333'
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById(div));
+        chart.draw(dataTable, chartOptions);
+      }
+
+      Array.prototype.indexOfField = function(index, value) {
+          for(var i = 0; i < this.length; i++)
+          if(this[i][index] === value)
+              return i;
+          return -1;
+      }
+
+      function getTransformPersistChartData(job) {
+        var persistenceChartData = [['Entity', 'Records', 'Time (ms)']];
+        var transformationChartData = [['Entity', 'Records', 'Time (ms)']];
+
+        var processorChartMap = {
+          'PersistenceProcessor': persistenceChartData,
+          'TransformationProcessor': transformationChartData
+        };
+        
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, val) {
+          var info = val.processingInformation;
+          //Need to handle those records without processingInformation
+          if(typeof (val.processingInformation) != 'undefined') {
+
+            var entity = val.processingInformation.split(",")[0].split("=")[1];
+
+            var chartData = processorChartMap[val.stageName];
+            if (chartData != null) {
+              //Initializing if dont exist
+              if(chartData.indexOfField(0, entity) == -1) {
+                chartData.push([entity, 0, 0]);
+              }
+
+              var persIndex = chartData.indexOfField(0, entity);
+              
+              //summing up all the time and number of records
+              val.metrics.forEach(function(mVal, index) {
+                chartData[persIndex][1] += mVal.recordCount;
+              });
+              chartData[persIndex][2] += val.elapsedTime;
+            }
+          }
+        });
+
+        // add rps info to data label
+        $.each(processorChartMap, function(key, val) {
+          $.each(val, function(key2, val2) {
+            if (typeof val2[1] == 'number' && typeof val2[2] == 'number') {
+              val2[0] = val2[0] + ' (' + val2[1] + '/' + (val2[2]/1000) + ') = ' + Math.ceil(val2[1] / (val2[2]/1000));   
+            }
+          });
+        });
+
+        persistenceChartData.sort(sortByTotalTime);
+        transformationChartData.sort(sortByTotalTime);
+        var res = {};
+        res['persistenceChartData'] = persistenceChartData;
+        res['transformationChartData'] = transformationChartData;
+        return res;
+      }
+
+      function drawPXCharts(chartData) {
+        var persData = new google.visualization.arrayToDataTable(chartData['persistenceChartData']);
+        var xformData = new google.visualization.arrayToDataTable(chartData['transformationChartData']);
+
+        var chartOptions = {
+          titleTextStyle: { color: '#eecc88' },
+          fontName: 'Arial Narrow',
+          series: [{color:'#4466ff'},{color:'#ee0077'}],
+          chartArea: {left: 0, width: '90%', height: '95%'},
+          legend: {position: 'right', alignment: 'start', textStyle: { color: '#eecc88' }},
+          hAxis: {textPosition: 'out', gridlines: { count: 0 }, textStyle: { color: 'white' } }, 
+          vAxis: {textPosition: 'in', textStyle: { color: 'white' }},
+          width : 1500,
+          height : 1200,
+          backgroundColor: '#333333'
+        };
+        var persistenceChart = new google.visualization.BarChart(document.getElementById('persistence_div'));
+        chartOptions.title = 'Entity Persistence Performance',
+        persistenceChart.draw(persData, chartOptions);
+
+        var xformationChart = new google.visualization.BarChart(document.getElementById('xformation_div'));
+        chartOptions.title = 'Entity Transformation Performance',
+        xformationChart.draw(xformData, chartOptions);
+      }
+
+      function getApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'GET',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+        return jQuery.parseJSON(jsonData);
+      }
+
+      function getRecordCountForJob(job) {
+        var recordCount = 0;
+        $.each(job.stages, function(key, val) {
+          if (val.stageName == 'EdFiProcessor') {
+            $.each(val.metrics, function(metricsKey, metricsVal) {
+              recordCount += metricsVal.recordCount;
+            });
+          }
+        });
+        return recordCount;
+      }
+
+      //Function to sort the element by total time, decreasing 
+      function sortByTotalTime(a, b) {
+        if(typeof(a[2]) == 'string') return -1;
+        return b[2] - a[2];
+      }
+
+      //Normalize the data, in case users compare batch jobs with difference entities
+      function normalization(data) {
+        var length = data[0].length;
+        for (var i = 1; i < data.length; i++) {
+          var diff = length - data[i].length;
+          while (diff > 0) {
+            data[i].push(0);
+            --diff;
+          }
+        }
+      }
+
+      function clearJobSpecificDivs() {
+        $('#job_summary').empty();
+        $('#stage_breakdown_piechart_div').empty();
+        $('#stage_breakdown_linechart_div').empty();
+        $('#persistence_div').empty();
+        $('#xformation_div').empty();
+        $('#entity_persistence_linechart_div').empty();
+        $('#entity_xform_linechart_div').empty();
+      }
+
+      function toggleJobChooser() {
+        if($('#job_chooser').is(':visible')) {
+          $('#job_chooser').hide('slow');
+        } else {
+          $('#job_chooser').show('slow');
+        }
+      }
+
+    </script>
+    </head>
+    <body>
+        <div id="mongo_chooser">
+          <form onsubmit='listJobs();return false;'>
+            (mongo_host:port) <input id="mongo_host" type="text" value="localhost:27017" size="30"/>
+            <input type='submit'/>
+          </form>
+        </div>
+        <div id="job_chooser_toggle"></div>
+        <div id="job_chooser"></div>
+        <div id="stage_breakdown_linechart_div"></div>
+        <div id="job_summary"></div>
+        <div id="stage_breakdown_piechart_div"></div>
+        <div id="persistence_div"></div>
+        <div id="xformation_div"></div>
+        <div id="entity_persistence_linechart_div"></div>
+        <div id="entity_xform_linechart_div"></div>
+    </body>
+</html>

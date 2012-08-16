@@ -68,6 +68,7 @@ import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CalculatedDatum;
@@ -113,29 +114,26 @@ public class DefaultCrudEndPointTest {
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
 
         // expand this list
-        resourceList.add(ResourceNames.SCHOOLS);
+        resourceList.add(ResourceNames.STUDENTS);
     }
 
     public Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", "1");
-        entity.put("field2", 2);
+        entity.put("sex", "Male");
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
 
     public Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 8);
-        entity.put("field2", 2);
+        entity.put("sex", "Female");
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
 
     public Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 5);
-        entity.put("field2", 6);
+        entity.put("sex", "Female");
         entity.put("studentUniqueStateId", 5678);
         return entity;
     }
@@ -158,6 +156,7 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
             EntityResponse entityResponse = (EntityResponse) response.getEntity();
+
             List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertEquals("Should get 2 entities", results.size(), 2);
 
@@ -207,7 +206,7 @@ public class DefaultCrudEndPointTest {
         for (String resource : resourceList) {
             // create one entity
             crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-            Response response = crudEndPoint.read(resource, "field1", "1", httpHeaders, uriInfo);
+            Response response = crudEndPoint.read(resource, "sex", "Male", httpHeaders, uriInfo);
 
             EntityResponse entityResponse = (EntityResponse) response.getEntity();
             List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
@@ -216,7 +215,6 @@ public class DefaultCrudEndPointTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
             // create one entity
@@ -233,8 +231,6 @@ public class DefaultCrudEndPointTest {
                 fail("should have thrown EntityNotFoundException");
             } catch (EntityNotFoundException e) {
                 return;
-            } catch (Exception e) {
-                fail("threw wrong exception: " + e);
             }
         }
     }
@@ -256,10 +252,11 @@ public class DefaultCrudEndPointTest {
             Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
             EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+
             EntityBody body = (EntityBody) entityResponse.getEntity();
             assertNotNull("Should return an entity", body);
             assertEquals("studentUniqueStateId should be 1234", body.get("studentUniqueStateId"), 1234);
-            assertEquals("studentUniqueStateId should be 8", body.get("field1"), 8);
+            assertEquals("sex should be Female", body.get("sex"), "Female");
             assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
         }
     }
@@ -276,6 +273,7 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
             EntityResponse entityResponse = (EntityResponse) response.getEntity();
+
             List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);
@@ -328,8 +326,8 @@ public class DefaultCrudEndPointTest {
     public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
 
         NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.setIncludeFields("field1,field2");
-        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setIncludeFieldString("field1,field2");
+        neutralQuery1.setExcludeFieldString("field3,field4");
         neutralQuery1.setLimit(5);
         neutralQuery1.setOffset(4);
         neutralQuery1.setSortBy("field5");
@@ -348,7 +346,7 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testAddTypeCriteria() {
         EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.TEACHERS);
-        NeutralQuery query = new NeutralQuery();
+        ApiQuery query = new ApiQuery();
 
         query = crudEndPoint.addTypeCriteria(def, query);
 
@@ -364,7 +362,7 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testAddTypeCriteriaNoChange() {
         EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
-        NeutralQuery query = new NeutralQuery();
+        ApiQuery query = new ApiQuery();
 
         query = crudEndPoint.addTypeCriteria(def, query);
 
@@ -374,12 +372,12 @@ public class DefaultCrudEndPointTest {
 
     @Test
     public void testAddTypeCriteriaNullValues() {
-        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
-        NeutralQuery query = null;
+        //EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
+        ApiQuery query = null;
 
         assertNull("Should be null", crudEndPoint.addTypeCriteria(null, null));
 
-        query = new NeutralQuery();
+        query = new ApiQuery();
         query = crudEndPoint.addTypeCriteria(null, query);
         List<NeutralCriteria> criteriaList = query.getCriteria();
         assertEquals("Should match", 0, criteriaList.size());
@@ -420,15 +418,15 @@ public class DefaultCrudEndPointTest {
         body.put("id", "42");
         schoolResource.addAggregates(body, mockSchoolDef);
         assertEquals(null, pullAggregate(body));
+        assertEquals(aggregate.getCalculatedValues(), schoolResource.getAggregationListings("42").getCalculatedValues(null, null, null, null).getEntity());
         DefaultCrudEndpoint studentResource = new DefaultCrudEndpoint(mockStore, "student");
         studentResource.setIncludeAggregates("true");
         body = new EntityBody();
         body.put("id", "42");
         studentResource.addAggregates(body, mockStudentDef);
         assertEquals(null, pullAggregate(body));
+        assertEquals(null, studentResource.getAggregationListings("42"));
     }
-
-
 
     @SuppressWarnings("unchecked")
     private List<CalculatedDatum<Map<String, Integer>>> pullAggregate(EntityBody result) {

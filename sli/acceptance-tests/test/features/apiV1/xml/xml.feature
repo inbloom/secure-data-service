@@ -33,9 +33,9 @@ Background: Nothing yet
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 17              |
-    | schools                     | school                     | 27               |
+    | schools                     | school                     | 27              |
     | students                    | student                    | 83              |
-    | studentSectionAssociations  | studentSectionAssociation  | 264             |
+    | studentSectionAssociations  | studentSectionAssociation  | 263             |
     | courseOfferings             | courseOffering             | 95              |
 
 Scenario: Getting response from POST - Create (school)
@@ -107,13 +107,13 @@ Scenario: Applying optional fields
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should see "<entityType>" is "studentTranscriptAssociation" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
-  And I should find 2 "<studentSectionAssociations>" under "<transcript>"
+  And I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should see "<entityType>" is "section" for it
   And I should find "<sessions>" under it
   And I should see "<entityType>" is "session" for it
-  Then I should find 2 "<studentSectionAssociations>" under "<transcript>"
+  Then I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should find "<courses>" under it
@@ -163,13 +163,13 @@ Scenario: Applying optional fields - single student view
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should see "<entityType>" is "studentTranscriptAssociation" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
-  And I should find 2 "<studentSectionAssociations>" under "<transcript>"
+  And I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should see "<entityType>" is "section" for it
   And I should find "<sessions>" under it
   And I should see "<entityType>" is "session" for it
-  Then I should find 2 "<studentSectionAssociations>" under "<transcript>"
+  Then I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should find "<courses>" under it

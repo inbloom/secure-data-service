@@ -100,7 +100,7 @@ public class AdminDelegationResource {
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, util.getDelegateEdOrgs()));
+            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, util.getAppApprovalDelegateEdOrgs()));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());

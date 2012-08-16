@@ -19,8 +19,6 @@ package org.slc.sli.api.resources.v1.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,7 +51,6 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -130,93 +127,6 @@ public class DisciplineActionResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentParticipationCode", "Perpetrator");
         return entity;
-    }
-
-    @Test
-    public void testCreate() {
-        Response response = disciplineActionResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-
-        String id = ResourceTestUtil.parseIdFromLocation(response);
-        assertNotNull("ID should not be null", id);
-    }
-
-    @Test
-    public void testRead() {
-        //create one entity
-        Response createResponse = disciplineActionResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        Response response = disciplineActionResource.read(id, httpHeaders, uriInfo);
-
-        Object responseEntityObj = null;
-
-        if (response.getEntity() instanceof EntityResponse) {
-            EntityResponse resp = (EntityResponse) response.getEntity();
-            responseEntityObj = resp.getEntity();
-        } else {
-            fail("Should always return EntityResponse: " + response);
-        }
-
-        if (responseEntityObj instanceof EntityBody) {
-            assertNotNull(responseEntityObj);
-        } else if (responseEntityObj instanceof List<?>) {
-            @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have one entity", results.size() == 1);
-        } else {
-            fail("Response entity not recognized: " + response);
-        }
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testDelete() {
-        //create one entity
-        Response createResponse = disciplineActionResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //delete it
-        Response response = disciplineActionResource.delete(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unused")
-        Response getResponse = disciplineActionResource.read(id, httpHeaders, uriInfo);
-    }
-
-    @Test
-    public void testUpdate() {
-        //create one entity
-        Response createResponse = disciplineActionResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //update it
-        Response response = disciplineActionResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        //try to get it
-        Response getResponse = disciplineActionResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
-        EntityBody body = (EntityBody) entityResponse.getEntity();
-        assertNotNull("Should return an entity", body);
-        assertEquals(disciplineDate + " should be " + updatedDisciplineDate, updatedDisciplineDate, body.get(disciplineDate));
-        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-    }
-
-    @Test
-    public void testReadAll() {
-        //create two entities
-        disciplineActionResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        disciplineActionResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-
-        //read everything
-        Response response = disciplineActionResource.readAll(0, 100, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unchecked")
-        EntityResponse entityResponse = (EntityResponse) response.getEntity();
-        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
-        assertNotNull("Should return entities", results);
-        assertTrue("Should have at least two entities", results.size() >= 2);
     }
 
     @Test

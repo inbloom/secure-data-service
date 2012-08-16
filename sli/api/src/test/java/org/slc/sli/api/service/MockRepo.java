@@ -200,6 +200,7 @@ public class MockRepo implements Repository<Entity> {
                     if (entityValue != null) {
                         if (entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
+                        } else if (entityValue instanceof List) { //also need to handle = for array
                         } else if (entityValue instanceof List) { // also need to handle = for array
                             for (Object arrayElement : (List) entityValue) {
                                 if (arrayElement.equals(criteria.getValue())) {
@@ -216,7 +217,7 @@ public class MockRepo implements Repository<Entity> {
                     String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
                             criteria.canBePrefixed()));
 
-                    List<String> validValues = (List<String>) criteria.getValue();
+                    List<String> validValues = toList(criteria.getValue());
                     if (validValues.contains(entityValue)) {
                         results2.put(idAndEntity.getKey(), idAndEntity.getValue());
                     }
@@ -625,6 +626,13 @@ public class MockRepo implements Repository<Entity> {
         return null;
     }
 
+    protected List<String> toList(Object obj) {
+        if (String.class.isInstance(obj)) {
+            return Arrays.asList((String) obj);
+        }
+
+        return (List<String>) obj;
+    }
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
         // TODO Auto-generated method stub

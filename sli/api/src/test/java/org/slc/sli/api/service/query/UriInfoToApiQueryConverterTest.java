@@ -117,8 +117,8 @@ public class UriInfoToApiQueryConverterTest {
             // test that the value was stored in the proper variable
             assertEquals(apiQuery.getLimit(), limit);
             assertEquals(apiQuery.getOffset(), offset);
-            assertEquals(apiQuery.getIncludeFields(), includeFields);
-            assertEquals(apiQuery.getExcludeFields(), excludeFields);
+            assertEquals(apiQuery.getIncludeFieldString(), includeFields);
+            assertEquals(apiQuery.getExcludeFieldString(), excludeFields);
             assertEquals(apiQuery.getSortBy(), sortBy);
             assertEquals(apiQuery.getSortOrder(), sortOrder);
             assertEquals(apiQuery.getSelector(), selectorMap);

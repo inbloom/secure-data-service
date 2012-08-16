@@ -16,25 +16,29 @@
 
 package org.slc.sli.api.resources;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static junit.framework.Assert.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Unit tests for SessionResource
@@ -44,10 +48,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class SecuritySessionResourceTest {
-    
+
     @Autowired
     SecurityContextInjector injector;
-    
+
     @Autowired
     SecuritySessionResource resource;
 
@@ -56,19 +60,19 @@ public class SecuritySessionResourceTest {
         buildWithEmailType(Arrays.asList("Work"));
         Map<String, Object> response = (Map<String, Object>) resource.sessionCheck();
         assertEquals("Work@Work.com", response.get("email"));
-        
+
         buildWithEmailType(Arrays.asList("Organization"));
         response = (Map<String, Object>) resource.sessionCheck();
         assertEquals("Organization@Organization.com", response.get("email"));
-        
+
         buildWithEmailType(Arrays.asList("Organization", "Work", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
         assertEquals("Work@Work.com", response.get("email"));
-        
+
         buildWithEmailType(Arrays.asList("Organization", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
         assertEquals("Organization@Organization.com", response.get("email"));
-        
+
         EntityBody body = new EntityBody();
         body.put("name", new ArrayList<String>());
         Entity e = Mockito.mock(Entity.class);
@@ -79,7 +83,7 @@ public class SecuritySessionResourceTest {
         assertNull(response.get("email"));
 
     }
-    
+
     private void buildWithEmailType(List<String> types) {
         EntityBody body = new EntityBody();
         Entity e = Mockito.mock(Entity.class);

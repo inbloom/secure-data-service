@@ -23,10 +23,13 @@
   </bean>
 
   <!-- MONGODB CONFIG -->
+   <mongo:mongo id="stagingMongo" host="${sli.ingestion.staging.mongodb.host}" port="${sli.ingestion.staging.mongodb.port}">
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true"/>
+   </mongo:mongo>
 
-  <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}" host="${sli.ingestion.staging.mongodb.host}"
-    port="${sli.ingestion.staging.mongodb.port}" />
+    <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}" mongo-ref="stagingMongo"/>
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
   <bean id="stagingEntityEncryption" class="org.slc.sli.ingestion.dal.StagingEntityEncryption">
@@ -75,8 +78,12 @@
 
   <!-- MONGODB BATCHJOB CONFIG -->
 
-  <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
-    host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}" />
+<!-- MONGODB CONFIG -->
+   <mongo:mongo id="batchjobMongo" host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}">
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true"/>
+   </mongo:mongo>
+
+  <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}" mongo-ref="batchjobMongo"/>
 
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
 

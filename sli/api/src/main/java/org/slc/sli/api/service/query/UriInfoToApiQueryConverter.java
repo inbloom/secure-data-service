@@ -85,7 +85,7 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.INCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                apiQuery.setIncludeFields((String) value);
+                apiQuery.setIncludeFieldString((String) value);
             }
         });
 
@@ -93,7 +93,7 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.EXCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                apiQuery.setExcludeFields((String) value);
+                apiQuery.setExcludeFieldString((String) value);
             }
         });
 
@@ -152,7 +152,7 @@ public class UriInfoToApiQueryConverter {
                 }
             }
         }
-
+        
         return apiQuery;
     }
 

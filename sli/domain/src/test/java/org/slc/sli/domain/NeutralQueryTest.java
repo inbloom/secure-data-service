@@ -40,8 +40,8 @@ public class NeutralQueryTest {
         assertEquals(neutralQuery.getCriteria().size(), 0);
         assertEquals(neutralQuery.getLimit(), 0);
         assertEquals(neutralQuery.getOffset(), 0);
-        assertEquals(neutralQuery.getIncludeFields(), null);
-        assertEquals(neutralQuery.getExcludeFields(), null);
+        assertEquals(neutralQuery.getIncludeFieldString(), null);
+        assertEquals(neutralQuery.getExcludeFieldString(), null);
         assertEquals(neutralQuery.getSortBy(), null);
         assertEquals(neutralQuery.getSortOrder(), null);
     }
@@ -57,8 +57,8 @@ public class NeutralQueryTest {
         NeutralQuery.SortOrder sortOrderDescending = NeutralQuery.SortOrder.descending;
 
         NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.setIncludeFields(includeFields);
-        neutralQuery1.setExcludeFields(excludeFields);
+        neutralQuery1.setIncludeFieldString(includeFields);
+        neutralQuery1.setExcludeFieldString(excludeFields);
         neutralQuery1.setLimit(limit);
         neutralQuery1.setOffset(offset);
         neutralQuery1.setSortBy(sortBy);
@@ -70,16 +70,16 @@ public class NeutralQueryTest {
 
         // change value on query 1, assert two are no longer equal,
         // then change value on query 2 to match, confirm equal again
-        neutralQuery1.setIncludeFields("");
+        neutralQuery1.setIncludeFieldString("");
         assertFalse(neutralQuery1.equals(neutralQuery2));
-        neutralQuery2.setIncludeFields("");
+        neutralQuery2.setIncludeFieldString("");
         assertTrue(neutralQuery1.equals(neutralQuery2));
 
         // change value on query 1, assert two are no longer equal,
         // then change value on query 2 to match, confirm equal again
-        neutralQuery1.setExcludeFields("");
+        neutralQuery1.setExcludeFieldString("");
         assertFalse(neutralQuery1.equals(neutralQuery2));
-        neutralQuery2.setExcludeFields("");
+        neutralQuery2.setExcludeFieldString("");
         assertTrue(neutralQuery1.equals(neutralQuery2));
 
         // change value on query 1, assert two are no longer equal,
@@ -143,8 +143,8 @@ public class NeutralQueryTest {
 
 
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setIncludeFields(includeFields);
-        neutralQuery.setExcludeFields(excludeFields);
+        neutralQuery.setIncludeFieldString(includeFields);
+        neutralQuery.setExcludeFieldString(excludeFields);
         neutralQuery.setLimit(limit);
         neutralQuery.setOffset(offset);
         neutralQuery.setSortBy(sortBy);
@@ -154,8 +154,8 @@ public class NeutralQueryTest {
         assertEquals(neutralQuery.getCriteria().size(), 0);
         assertEquals(neutralQuery.getLimit(), limit);
         assertEquals(neutralQuery.getOffset(), offset);
-        assertEquals(neutralQuery.getIncludeFields(), includeFields);
-        assertEquals(neutralQuery.getExcludeFields(), excludeFields);
+        assertEquals(neutralQuery.getIncludeFieldString(), includeFields);
+        assertEquals(neutralQuery.getExcludeFieldString(), excludeFields);
         assertEquals(neutralQuery.getSortBy(), sortBy);
         assertEquals(neutralQuery.getSortOrder(), sortOrderAscending);
 
@@ -166,14 +166,14 @@ public class NeutralQueryTest {
         assertEquals(neutralQuery.getCriteria().size(), neutralQuery2.getCriteria().size());
         assertEquals(neutralQuery.getLimit(), neutralQuery2.getLimit());
         assertEquals(neutralQuery.getOffset(), neutralQuery2.getOffset());
-        assertEquals(neutralQuery.getIncludeFields(), neutralQuery2.getIncludeFields());
-        assertEquals(neutralQuery.getExcludeFields(), neutralQuery2.getExcludeFields());
+        assertEquals(neutralQuery.getIncludeFieldString(), neutralQuery2.getIncludeFieldString());
+        assertEquals(neutralQuery.getExcludeFieldString(), neutralQuery2.getExcludeFieldString());
         assertEquals(neutralQuery.getSortBy(), neutralQuery2.getSortBy());
         assertEquals(neutralQuery.getSortOrder(), neutralQuery2.getSortOrder());
 
         //change all properties for neutral query 1
-        neutralQuery.setIncludeFields("");
-        neutralQuery.setExcludeFields("");
+        neutralQuery.setIncludeFieldString("");
+        neutralQuery.setExcludeFieldString("");
         neutralQuery.setLimit(0);
         neutralQuery.setOffset(0);
         neutralQuery.setSortBy("");
@@ -184,8 +184,8 @@ public class NeutralQueryTest {
         assertFalse(neutralQuery.getCriteria().size() == neutralQuery2.getCriteria().size());
         assertFalse(neutralQuery.getLimit() == neutralQuery2.getLimit());
         assertFalse(neutralQuery.getOffset() == neutralQuery2.getOffset());
-        assertFalse(neutralQuery.getIncludeFields().equals(neutralQuery2.getIncludeFields()));
-        assertFalse(neutralQuery.getExcludeFields().equals(neutralQuery2.getExcludeFields()));
+        assertFalse(neutralQuery.getIncludeFieldString().equals(neutralQuery2.getIncludeFieldString()));
+        assertFalse(neutralQuery.getExcludeFieldString().equals(neutralQuery2.getExcludeFieldString()));
         assertFalse(neutralQuery.getSortBy().equals(neutralQuery2.getSortBy()));
         assertFalse(neutralQuery.getSortOrder().equals(neutralQuery2.getSortOrder()));
     }
@@ -196,8 +196,8 @@ public class NeutralQueryTest {
         assertEquals(neutralQuery.getCriteria().size(), 1);
         assertEquals(neutralQuery.getLimit(), 0);
         assertEquals(neutralQuery.getOffset(), 0);
-        assertEquals(neutralQuery.getIncludeFields(), null);
-        assertEquals(neutralQuery.getExcludeFields(), null);
+        assertEquals(neutralQuery.getIncludeFieldString(), null);
+        assertEquals(neutralQuery.getExcludeFieldString(), null);
         assertEquals(neutralQuery.getSortBy(), null);
         assertEquals(neutralQuery.getSortOrder(), null);
     }
@@ -214,8 +214,8 @@ public class NeutralQueryTest {
 
 
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setIncludeFields(includeFields);
-        neutralQuery.setExcludeFields(excludeFields);
+        neutralQuery.setIncludeFieldString(includeFields);
+        neutralQuery.setExcludeFieldString(excludeFields);
         neutralQuery.setLimit(limit);
         neutralQuery.setOffset(offset);
         neutralQuery.setSortBy(sortBy);
@@ -224,8 +224,8 @@ public class NeutralQueryTest {
         assertEquals(neutralQuery.getCriteria().size(), 0);
         assertEquals(neutralQuery.getLimit(), limit);
         assertEquals(neutralQuery.getOffset(), offset);
-        assertEquals(neutralQuery.getIncludeFields(), includeFields);
-        assertEquals(neutralQuery.getExcludeFields(), excludeFields);
+        assertEquals(neutralQuery.getIncludeFieldString(), includeFields);
+        assertEquals(neutralQuery.getExcludeFieldString(), excludeFields);
         assertEquals(neutralQuery.getSortBy(), sortBy);
         assertEquals(neutralQuery.getSortOrder(), sortOrderAscending);
 

@@ -5,20 +5,19 @@ import java.io.IOException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.output.MongoRecordWriter;
 
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
-import org.bson.BSONObject;
-import org.bson.BasicBSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
- * M/R result aggregation records to mongo.  The MongoAggWriter takes an EmittableKey used to
+ * M/R result aggregation records to mongo. The MongoAggWriter takes an EmittableKey used to
  * locate the record to write to, and a BSONObject to write.
  *
  */
-public class MongoAggWriter extends MongoRecordWriter<EmittableKey, BSONObject> {
+public class MongoAggWriter extends MongoRecordWriter<EmittableKey, BSONWritable> {
 
     private final DBCollection output;
 
@@ -28,14 +27,13 @@ public class MongoAggWriter extends MongoRecordWriter<EmittableKey, BSONObject> 
     }
 
     @Override
-    public void write(EmittableKey key, BSONObject value) throws IOException {
-        BSONObject tmp = key.toBSON();
+    public void write(EmittableKey key, BSONWritable value) throws IOException {
         DBObject k = new BasicDBObject();
-        k.putAll(tmp);
+        k.putAll(key.toBSON());
 
-        tmp = new BasicBSONObject("$set", value);
         DBObject v = new BasicDBObject();
-        v.putAll(tmp);
+        v.put("$set", value);
+
         output.findAndModify(k, v);
     }
 }

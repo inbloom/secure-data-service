@@ -303,7 +303,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
         }
-        neutralQuery.setIncludeFields("_id");
+        neutralQuery.setIncludeFieldString("_id");
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
