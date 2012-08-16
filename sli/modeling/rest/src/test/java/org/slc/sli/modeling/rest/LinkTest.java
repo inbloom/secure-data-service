@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.builders.NullBuilder;
 
 /**
  * JUnit test for Link class.
