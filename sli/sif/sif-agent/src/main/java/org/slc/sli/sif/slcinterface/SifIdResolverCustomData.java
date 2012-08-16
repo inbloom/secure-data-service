@@ -177,6 +177,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
 
         String seaGuid = getZoneSea(zoneId);
 
+        LOG.info("Attempting to pull id map from SEA custom data, will cause exception if doesn't exist");
         List<Entity> list = slcInterface.read("/educationOrganizations/" + seaGuid + "/custom");
         if (list.size() > 0) {
             Map<String, Object> rawMap = list.get(0).getData();

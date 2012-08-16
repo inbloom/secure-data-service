@@ -49,7 +49,7 @@ public class SifTranslationTest {
     @Autowired
     private SifTranslationManager translationManager;
 
-    private final String ZONE_ID = "TestZone";
+    private static final String ZONE_ID = "TestZone";
 
     @Before
     public void setup() throws ADKException {

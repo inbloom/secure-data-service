@@ -67,7 +67,7 @@ public class LeaInfoTranslationTask extends AbstractTranslationTask<LEAInfo, Lea
         e.setAddress(addressListConverter.convert(leaInfo.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convertInstitutionTelephone(leaInfo.getPhoneNumberList()));
 
-        String seaGuid = sifIdResolver.getZoneSea(null);
+        String seaGuid = sifIdResolver.getZoneSea(zoneId);
         if (seaGuid != null) {
             e.setParentEducationAgencyReference(seaGuid);
         }
