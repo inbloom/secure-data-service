@@ -88,10 +88,10 @@ public class SifSubscriber implements Subscriber {
         if (sifData != null && tokenChecked && event.getAction() != null) {
             switch (event.getAction()) {
                 case ADD:
-                    addEntities(sifData,zone.getZoneId());
+                    addEntities(sifData, zone.getZoneId());
                     break;
                 case CHANGE:
-                    changeEntities(sifData,zone.getZoneId());
+                    changeEntities(sifData, zone.getZoneId());
                     break;
                 case UNDEFINED:
                 default:
@@ -101,7 +101,7 @@ public class SifSubscriber implements Subscriber {
         }
     }
 
-    private void addEntities(SIFDataObject sifData,String zoneId) {
+    private void addEntities(SIFDataObject sifData, String zoneId) {
         for (SliEntity sliEntity : translationManager.translate(sifData, zoneId)) {
             GenericEntity entity = sliEntity.createGenericEntity();
             String guid = slcInterface.create(entity);
