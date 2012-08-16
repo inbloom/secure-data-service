@@ -35,13 +35,13 @@ public class OnePartResource {
     private ResourceHelper resourceHelper;
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
+    private Map<String, Set<String>> resourceSupportedMethods;
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
         final String key = getResourceName(uriInfo, ResourceTemplate.ONE_PART_FULL);
 
-        Set<String> values = resourceSupprtedMethods.get(key);
+        Set<String> values = resourceSupportedMethods.get(key);
         if (!values.contains("GET")) {
             throw new UnsupportedOperationException("GET not supported");
         }
