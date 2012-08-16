@@ -20,7 +20,7 @@ jQuery ->
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
@@ -179,7 +179,7 @@ editRowStop = (tr) ->
 
   #Replace editable group name with normal div
   input = tr.find("td:eq(0) input")
-  div = $("<div class='groupTitle'/>").text(input.val())
+  div = $("<div class='groupTitle'></div>").text(input.val())
   input.replaceWith(div)
   saveData(getJsonData()) 
   editRowIndex = -1
@@ -245,7 +245,7 @@ getAllRoles = () ->
 
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
-  for role in data 
+  for role in data
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
