@@ -36,8 +36,14 @@ class SLCFixer
   end
 
   def measure(lable, &block)
+    Thread.current[:count] = 0
+    Thread.current[:start_time] = Time.now
     time = Benchmark.measure {block.call()}
-    @log.info "%-15s#{time}" % lable
+    @log.warn "%-15s#{time}" % lable
+    total_time = Time.now - Thread.current[:start_time]
+    @log.warn "#{lable}"
+    @log.warn "\tTotal time: #{total_time} s"
+    @log.warn "\tRPS: #{Thread.current[:count]/total_time}"
   end
 
   def start
@@ -511,6 +517,7 @@ class SLCFixer
       #TODO Add tenantId, remove multi
       @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}}, {:multi => true})
     }
+    Thread.current[:count] += 1
     @log.info "Finished: Stamping studentTranscriptAssociations"
   end
 
@@ -684,6 +691,7 @@ class SLCFixer
       id.each { |i|
         collection.update({"_id" => i, "metaData.tenantId" => tenant}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
         @count += 1
+        Thread.current[:count] += 1
         @log.info {"Stamping #{collection.name}"} if @count % 200 == 0
       }
     rescue Exception => e
