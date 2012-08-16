@@ -28,7 +28,7 @@ import openadk.library.common.OtherNames;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.OtherName;
 
 /**
@@ -37,7 +37,7 @@ import org.slc.sli.sif.domain.slientity.OtherName;
  * @author jtully
  *
  */
-public class OtherNamesConverterTest extends ADKTest {
+public class OtherNamesConverterTest extends AdkTest {
 
     OtherNamesConverter converter;
 

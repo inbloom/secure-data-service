@@ -47,7 +47,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.generator.GeneratorScriptEvent;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 
@@ -57,7 +57,7 @@ import org.slc.sli.sif.generator.SifEntityGenerator;
  * @author vmcglaughlin
  *
  */
-public class EventReporterTest extends ADKTest {
+public class EventReporterTest extends AdkTest {
 
     private EventReporter eventReporter;
 

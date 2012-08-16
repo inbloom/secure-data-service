@@ -9,7 +9,7 @@ import openadk.library.common.EmailType;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.ElectronicMail;
 
 /**
@@ -24,7 +24,7 @@ import org.slc.sli.sif.domain.slientity.ElectronicMail;
  *
  */
 
-public class EmailListConverterTest extends ADKTest {
+public class EmailListConverterTest extends AdkTest {
 
     private final EmailListConverter converter = new EmailListConverter();
 

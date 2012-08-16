@@ -19,7 +19,7 @@ package org.slc.sli.sif.slcinterface;
 import org.slc.sli.api.client.Entity;
 
 /**
- * Mapping between SIF id and SLI ids. File implementation
+ * Mapping between SIF id and SLI ids.
  */
 public interface SifIdResolver {
 
@@ -49,9 +49,9 @@ public interface SifIdResolver {
     public String getZoneSea(String sifZoneId);
 
     /**
-     * Given a sif reference id and the guid and type of the corresponding entity, 
+     * Given a sif reference id and the guid and type of the corresponding entity,
      * saves the association
-     * 
+     *
      * @param sifId
      * @param sliType
      * @param sliId

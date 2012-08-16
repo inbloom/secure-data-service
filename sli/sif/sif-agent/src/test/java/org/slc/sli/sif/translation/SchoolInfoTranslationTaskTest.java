@@ -19,8 +19,6 @@ package org.slc.sli.sif.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.AddressList;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.PhoneNumberList;
@@ -38,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
@@ -49,16 +48,20 @@ import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  *
  * SchoolInfoTranslationTask unit tests
  *
  */
-public class SchoolInfoTranslationTaskTest {
+public class SchoolInfoTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final SchoolInfoTranslationTask translator = new SchoolInfoTranslationTask();
+
+    @Mock
+    SifIdResolver mockSifIdResolver;
 
     @Mock
     AddressListConverter mockAddressConverter;
@@ -81,13 +84,10 @@ public class SchoolInfoTranslationTaskTest {
     @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
+    @Override
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
+        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -100,6 +100,11 @@ public class SchoolInfoTranslationTaskTest {
     @Test
     public void testBasicFields() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
+
+        String leaRefId = "SIF_LEAREFID";
+        String leaGuid = "SLI_LEAGUID";
+        info.setLEAInfoRefId(leaRefId);
+        Mockito.when(mockSifIdResolver.getSliGuid(leaRefId)).thenReturn(leaGuid);
 
         String stateOrgId = "stateOrgId";
         info.setStateProvinceId(stateOrgId);
@@ -122,6 +127,8 @@ public class SchoolInfoTranslationTaskTest {
         Assert.assertEquals("School", entity.getOrganizationCategories().get(0));
         Assert.assertEquals(schoolUrl, entity.getWebSite());
 
+        // This line should work once school to parent LEA id resolution is in place
+        // Assert.assertEquals(leaGuid, entity.getParentEducationAgencyReference());
     }
 
     @Test

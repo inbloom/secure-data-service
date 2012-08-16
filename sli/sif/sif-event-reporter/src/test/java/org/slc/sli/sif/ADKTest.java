@@ -26,7 +26,7 @@ import org.junit.Before;
 /**
  * ADK test.
  */
-public abstract class ADKTest {
+public abstract class AdkTest {
 
     public static final String ADK_LOG_DIR = "target" + File.separator + "logs";
     public static final String ADK_LOG_FILE = "sif-openadk.log";

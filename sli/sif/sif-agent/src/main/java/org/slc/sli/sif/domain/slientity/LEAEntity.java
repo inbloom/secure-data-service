@@ -30,7 +30,7 @@ import java.util.List;
  * @author slee
  *
  */
-public class LEAEntity extends SliEntity {
+public class LeaEntity extends SliEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *
@@ -63,7 +63,6 @@ public class LEAEntity extends SliEntity {
      * <ol>
      * <li>shortNameOfInstitution</li>
      * <li>agencyHierarchyName</li>
-     * <li>parentEducationAgencyReference</li>
      * <li>educationOrgIdentificationCode</li>
      * <li>accountabilityRatings</li>
      * <li>programReference</li>
@@ -71,15 +70,19 @@ public class LEAEntity extends SliEntity {
      */
     private String shortNameOfInstitution;
     private String agencyHierarchyName;
-    private String parentEducationAgencyReference;
     private List<String> educationOrgIdentificationCode;
     private List<String> accountabilityRatings;
     private List<String> programReference;
 
+    /*
+     * This field will get mapped to the SEA for the zone
+     */
+    private String parentEducationAgencyReference;
+
     /**
      *  Constructor
      */
-    public LEAEntity() {
+    public LeaEntity() {
         super();
         /*
          * organizationCategories is mandatory but not counterpart in SIF LEAInfo
@@ -139,6 +142,15 @@ public class LEAEntity extends SliEntity {
 
     public List<Address> getAddress() {
         return this.address;
+    }
+
+    public String getParentEducationAgencyReference() {
+        return parentEducationAgencyReference;
+    }
+
+    public void setParentEducationAgencyReference(
+            String parentEducationAgencyReference) {
+        this.parentEducationAgencyReference = parentEducationAgencyReference;
     }
 
     @Override

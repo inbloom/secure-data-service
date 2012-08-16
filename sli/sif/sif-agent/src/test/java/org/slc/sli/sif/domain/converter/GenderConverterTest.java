@@ -20,12 +20,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * GenderConverter unit tests
  */
-public class GenderConverterTest extends ADKTest {
+public class GenderConverterTest extends AdkTest {
 
     private final GenderConverter converter = new GenderConverter();
 

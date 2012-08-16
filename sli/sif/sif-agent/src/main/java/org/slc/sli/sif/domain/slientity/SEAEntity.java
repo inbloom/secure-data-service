@@ -30,7 +30,7 @@ import java.util.List;
  * @author slee
  *
  */
-public class SEAEntity extends SliEntity {
+public class SeaEntity extends SliEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *
@@ -79,7 +79,7 @@ public class SEAEntity extends SliEntity {
     /**
      *  Constructor
      */
-    public SEAEntity() {
+    public SeaEntity() {
         super();
         /*
          * organizationCategories is mandatory but not counterpart in SIF SEAInfo

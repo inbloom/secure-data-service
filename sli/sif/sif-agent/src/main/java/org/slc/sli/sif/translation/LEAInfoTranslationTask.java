@@ -28,7 +28,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
-import org.slc.sli.sif.domain.slientity.LEAEntity;
+import org.slc.sli.sif.domain.slientity.LeaEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  * An implementation for translation of a SIF LEAInfo
@@ -38,7 +39,7 @@ import org.slc.sli.sif.domain.slientity.LEAEntity;
  *
  */
 @Component
-public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEAEntity> {
+public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LeaEntity> {
     @Autowired
     OperationalStatusConverter operationalStatusConverter;
 
@@ -48,13 +49,16 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEA
     @Autowired
     AddressListConverter addressListConverter;
 
+    @Autowired
+    SifIdResolver sifIdResolver;
+
     public LEAInfoTranslationTask() {
         super(LEAInfo.class);
     }
 
     @Override
-    public List<LEAEntity> doTranslate(LEAInfo leaInfo) {
-        LEAEntity e = new LEAEntity();
+    public List<LeaEntity> doTranslate(LEAInfo leaInfo) {
+        LeaEntity e = new LeaEntity();
         // covert properties
         e.setStateOrganizationId(leaInfo.getStateProvinceId());
         e.setWebSite(leaInfo.getLEAURL());
@@ -63,7 +67,12 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEA
         e.setAddress(addressListConverter.convert(leaInfo.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convertInstitutionTelephone(leaInfo.getPhoneNumberList()));
 
-        List<LEAEntity> list = new ArrayList<LEAEntity>(1);
+        String seaGuid = sifIdResolver.getZoneSea(null);
+        if (seaGuid != null) {
+            e.setParentEducationAgencyReference(seaGuid);
+        }
+
+        List<LeaEntity> list = new ArrayList<LeaEntity>(1);
         list.add(e);
         return list;
     }

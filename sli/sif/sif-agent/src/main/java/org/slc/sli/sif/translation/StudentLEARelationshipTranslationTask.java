@@ -40,8 +40,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * to StudentSchoolAssociation SLI entities.
  */
 public class StudentLEARelationshipTranslationTask extends
-        AbstractTranslationTask<StudentLEARelationship, StudentSchoolAssociationEntity>
-{
+        AbstractTranslationTask<StudentLEARelationship, StudentSchoolAssociationEntity> {
     @Autowired
     SifIdResolver sifIdResolver;
 
@@ -62,8 +61,7 @@ public class StudentLEARelationshipTranslationTask extends
     }
 
     @Override
-    public List<StudentSchoolAssociationEntity> doTranslate(StudentLEARelationship sifData)
-    {
+    public List<StudentSchoolAssociationEntity> doTranslate(StudentLEARelationship sifData) {
         StudentLEARelationship slr = sifData;
         StudentSchoolAssociationEntity result = new StudentSchoolAssociationEntity();
 
