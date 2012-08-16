@@ -25,7 +25,7 @@ import java.util.List;
  * A <code>method</code> element describes the input to and output from an HTTP protocol method that
  * may be applied to a resource.
  */
-public final class Method extends WadlElement {
+public class Method extends WadlElement {
     /**
      * GET
      */
