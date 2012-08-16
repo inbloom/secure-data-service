@@ -44,4 +44,11 @@ public class GeneratorScriptEvent {
     public static final String KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE = "StudentSchoolEnrollmentChange";
     public static final String KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE = "StudentSchoolEnrollmentDelete";
 
+    public static final String KEY_STAFF_PERSONAL_ADD = "StaffPersonalAdd";
+    public static final String KEY_STAFF_PERSONAL_CHANGE = "StaffPersonalChange";
+    public static final String KEY_STAFF_PERSONAL_DELETE = "StaffPersonalDelete";
+
+    public static final String KEY_EMPLOYEE_PERSONAL_ADD = "EmployeePersonalAdd";
+    public static final String KEY_EMPLOYEE_PERSONAL_CHANGE = "EmployeePersonalChange";
+    public static final String KEY_EMPLOYEE_PERSONAL_DELETE = "EmployeePersonalDelete";
 }

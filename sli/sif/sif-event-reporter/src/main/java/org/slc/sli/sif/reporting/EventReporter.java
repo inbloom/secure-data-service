@@ -37,12 +37,21 @@ import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
+import openadk.library.common.Email;
+import openadk.library.common.EmailList;
+import openadk.library.common.EmailType;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNoUnknown;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentDTD;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
@@ -97,6 +106,8 @@ public class EventReporter implements Publisher {
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
             logger.error("Exception trying to report event", e);
         }
+
+        System.exit(0);
     }
 
     private static EventReporterAgent createReporterAgent(String agentId, String zoneUrl) {
@@ -140,6 +151,10 @@ public class EventReporter implements Publisher {
         public Event execute() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
             return (Event) method.invoke(executingClass, args);
         }
+
+        public String toString() {
+            return "Class: " + executingClass + "\tmethod: " + method.getName() + "\targs: " + args;
+        }
     }
 
     public EventReporter(Zone zone) throws ADKException, SecurityException, NoSuchMethodException {
@@ -149,6 +164,8 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
         this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STAFFPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYEEPERSONAL, new PublishingOptions(true));
 
         populateMethodMap();
     }
@@ -188,6 +205,20 @@ public class EventReporter implements Publisher {
         scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE, studentSchoolEnrollmentChangeMethod);
         ScriptMethod studentSchoolEnrollmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.DELETE);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE, studentSchoolEnrollmentDeleteMethod);
+
+        ScriptMethod staffPersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.ADD);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_ADD, staffPersonalAddMethod);
+        ScriptMethod staffPersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.CHANGE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_CHANGE, staffPersonalChangeMethod);
+        ScriptMethod staffPersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.DELETE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_DELETE, staffPersonalDeleteMethod);
+
+        ScriptMethod employeePersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.ADD);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_ADD, employeePersonalAddMethod);
+        ScriptMethod employeePersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.CHANGE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE, employeePersonalChangeMethod);
+        ScriptMethod employeePersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.DELETE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE, employeePersonalDeleteMethod);
     }
 
     public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -196,6 +227,7 @@ public class EventReporter implements Publisher {
         String[] eventDescriptors = script.split(",");
         for (String descriptor : eventDescriptors) {
             ScriptMethod scriptMethod = scriptMethodMap.get(descriptor);
+            LOG.info("Executing script method - " + scriptMethod.toString());
             Event eventSent = scriptMethod.execute();
             eventsSent.add(eventSent);
             try {
@@ -263,6 +295,30 @@ public class EventReporter implements Publisher {
             studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);
         }
         Event event = new Event(studentSchoolEnrollment, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportStaffPersonalEvent(EventAction action) throws ADKException {
+        LOG.info("StaffPersonal " + action.toString());
+        StaffPersonal staffPersonal = SifEntityGenerator.generateTestStaffPersonal();
+        if (action == EventAction.CHANGE) {
+            staffPersonal.setChanged();
+            staffPersonal.setEmailList(new EmailList(new Email(EmailType.PRIMARY, "chuckyw@imginc.com")));
+        }
+        Event event = new Event(staffPersonal, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmployeePersonalEvent(EventAction action) throws ADKException {
+        LOG.info("EmployeePersonal " + action.toString());
+        EmployeePersonal employeePersonal = SifEntityGenerator.generateTestEmployeePersonal();
+        if (action == EventAction.CHANGE) {
+            employeePersonal.setChanged();
+            employeePersonal.setOtherIdList(new HrOtherIdList(new OtherId(OtherIdType.CERTIFICATE, "certificate")));
+        }
+        Event event = new Event(employeePersonal, action);
         zone.reportEvent(event);
         return event;
     }
