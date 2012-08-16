@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.matchers.Null;
 
 /**
  * JUnit test for Request class.
@@ -26,12 +27,12 @@ public class RequestTest {
         request = new Request(DOC, PARAMS, REPRESENTATIONS);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullParams() {
         new Request(DOC, null, REPRESENTATIONS);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullRepresentations() {
         new Request(DOC, PARAMS, null);
     }

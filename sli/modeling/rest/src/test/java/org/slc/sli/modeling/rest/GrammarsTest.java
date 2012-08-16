@@ -25,7 +25,7 @@ public class GrammarsTest {
         grammars = new Grammars(DOC, INCLUDES);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullIncludes() {
         new Grammars(DOC, null);
     }
