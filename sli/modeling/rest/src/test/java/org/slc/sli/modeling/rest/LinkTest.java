@@ -8,9 +8,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.internal.builders.NullBuilder;
 
+/**
+ * JUnit test for Link class.
+ *
+ * @author wscott
+ *
+ */
+
 public class LinkTest {
     private Link link; // class under test
-    
+
     private static final String RESOURCE_TYPE = "resourceType";
     private static final String REL = "rel";
     private static final String REV = "rev";
@@ -20,7 +27,7 @@ public class LinkTest {
     public void setup() throws Exception {
         link = new Link(RESOURCE_TYPE, REL, REV, DOC);
     }
-    
+
     @Test (expected = NullPointerException.class)
     public void testNullResourceType() {
         new Link(null, REL, REV, DOC);
