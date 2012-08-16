@@ -39,7 +39,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * Translation task for translating StudentLEARelationship SIF data objects
  * to StudentSchoolAssociation SLI entities.
  */
-public class StudentLEARelationshipTranslationTask extends
+public class StudentLeaRelationshipTranslationTask extends
         AbstractTranslationTask<StudentLEARelationship, StudentSchoolAssociationEntity> {
     @Autowired
     SifIdResolver sifIdResolver;
@@ -56,7 +56,7 @@ public class StudentLEARelationshipTranslationTask extends
     @Autowired
     ExitTypeConverter exitTypeConverter;
 
-    public StudentLEARelationshipTranslationTask() {
+    public StudentLeaRelationshipTranslationTask() {
         super(StudentLEARelationship.class);
     }
 

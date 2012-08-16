@@ -50,9 +50,9 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
 * StudentLEARelationship unit tests
 *
 */
-public class StudentLEARelationshipTranslationTaskTest {
+public class StudentLeaRelationshipTranslationTaskTest {
     @InjectMocks
-    private final StudentLEARelationshipTranslationTask translator = new StudentLEARelationshipTranslationTask();
+    private final StudentLeaRelationshipTranslationTask translator = new StudentLeaRelationshipTranslationTask();
 
     @Mock
     SifIdResolver mockSifIdResolver;
