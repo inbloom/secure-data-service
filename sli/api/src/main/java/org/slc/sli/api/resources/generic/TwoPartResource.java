@@ -1,26 +1,20 @@
 package org.slc.sli.api.resources.generic;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,8 +41,7 @@ public class TwoPartResource {
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
         final String resource = getResourceName(uriInfo, ResourceTemplate.TWO_PART);
-        EntityBody result = resourceService.getEntity(resource, id);
-
+        final EntityBody result = resourceService.getEntity(resource, id);
         return Response.ok(result).build();
     }
 
@@ -69,7 +62,7 @@ public class TwoPartResource {
     }
 
     protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
-        return resourceHelper.grabResource(uriInfo.getRequestUri().toString(), template);
+        return resourceHelper.getResourceName(uriInfo, template);
     }
 
 }

@@ -31,7 +31,7 @@ public abstract class GenericResource {
     protected Response handle(final UriInfo uriInfo, ResourceTemplate template, ResourceMethod method,
                             final ResourceLogic logic) {
 
-        final String resourceName = getResourceName(uriInfo, ResourceTemplate.ONE_PART_FULL);
+        final String resourceName = getResourceName(uriInfo, template);
 
         Set<String> values = resourceSupportedMethods.get(resourceName);
         if (!values.contains(method.getMethod())) {
@@ -42,6 +42,6 @@ public abstract class GenericResource {
     }
 
     protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
-        return resourceHelper.grabResource(uriInfo.getRequestUri().toString(), template);
+        return resourceHelper.getResourceName(uriInfo, template);
     }
 }

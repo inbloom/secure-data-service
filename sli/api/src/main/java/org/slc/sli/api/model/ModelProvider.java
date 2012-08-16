@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.model;
 
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
