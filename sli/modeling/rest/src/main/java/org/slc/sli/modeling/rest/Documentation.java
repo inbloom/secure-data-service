@@ -31,7 +31,7 @@ import org.slc.sli.modeling.xdm.DmNode;
  * elements that form the body of the documentation. It is <em>RECOMMENDED</em> that the child
  * elements be members of the text, list or table modules of XHTML.
  */
-public final class Documentation {
+public class Documentation {
     private final String title;
     private final String language;
     // FIXME: documentation contents need to be generalized to mixed content.
