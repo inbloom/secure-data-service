@@ -168,6 +168,24 @@ public class ResourceUtil {
     }
 
     /**
+     * Create a link to calculated values
+     *
+     * @param uriInfo
+     *            uri info to get the base uri from
+     * @param entityId
+     *            the id of the entity
+     * @param defn
+     *            the entity definition
+     * @return
+     */
+    public static EmbeddedLink getAggregatesLInk(final UriInfo uriInfo, final String entityId,
+            final EntityDefinition defn) {
+        return new EmbeddedLink(ResourceConstants.AGGREGATE_VALUE_REL, ResourceConstants.AGGREGATE_VALUE_TYPE,
+                getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
+                        PathConstants.AGGREGATIONS).toString());
+    }
+
+    /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
      *
@@ -245,23 +263,41 @@ public class ResourceUtil {
 
             links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
-            if (areAggregatesPresent(defn, id)) {
+            if (areCalculatedValuesPresent(defn, id)) {
                 links.add(getCalculatedValuesLink(uriInfo, id, defn));
+            }
+
+            if (areAggregatesPresent(defn, id)) {
+                links.add(getAggregatesLInk(uriInfo, id, defn));
             }
         }
 
         return links;
     }
 
-    private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
+    private static boolean areCalculatedValuesPresent(final EntityDefinition defn, String id) {
         try {
-            CalculatedData<?> aggregateData = defn.getService().getCalculatedValues(id);
-            return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
+            CalculatedData<?> calcValues = defn.getService().getCalculatedValues(id);
+            return calcValues != null && !calcValues.getCalculatedValues().isEmpty();
         } catch (AccessDeniedException e) {
             return false;
         } catch (EntityNotFoundException enfe) {
             return false;
         }
+    }
+
+    private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
+        if (defn.supportsAggregates()) {
+            try {
+                CalculatedData<?> aggregateData = defn.getService().getAggregates(id);
+                return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
+            } catch (AccessDeniedException e) {
+                return false;
+            } catch (EntityNotFoundException enfe) {
+                return false;
+            }
+        }
+        return false;
     }
 
     private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,

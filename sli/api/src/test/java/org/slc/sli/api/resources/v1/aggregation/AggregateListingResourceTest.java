@@ -22,7 +22,7 @@ import org.slc.sli.domain.CalculatedDatum;
  */
 public class AggregateListingResourceTest {
 
-    private CalculatedDataListingResource cVResource;
+    private CalculatedDataListingResource<String> cVResource;
 
     @Before
     public void setup() {
@@ -42,7 +42,7 @@ public class AggregateListingResourceTest {
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
         CalculatedData<String> cvData = new CalculatedData<String>(aggregateMap);
-        cVResource = new CalculatedDataListingResource(cvData);
+        cVResource = new CalculatedDataListingResource<String>(cvData);
 
     }
 
