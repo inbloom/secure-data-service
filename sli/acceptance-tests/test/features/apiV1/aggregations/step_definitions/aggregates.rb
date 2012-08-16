@@ -56,7 +56,7 @@ Then /^I see the proficiency count for (.*?) is (\d+)$/ do |level, count|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   aggs = JSON.parse(@res.body)
-  assert(aggs[0]["values"][level] == count, "Aggregate values are #{@res.body}")
+  assert(aggs[0]["value"][level].to_s() == count, "Aggregate values are #{@res.body}")
 end
 
 Then /^I see the embedded proficiency count for (.*?) is (\d+)$/ do |level, count|

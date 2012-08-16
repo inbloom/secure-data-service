@@ -286,12 +286,12 @@ public class MongoQueryConverter {
 
         if (neutralQuery != null) {
             // Include fields
-            if (neutralQuery.getIncludeFields() != null) {
-                for (String includeField : neutralQuery.getIncludeFields().split(",")) {
+            if (neutralQuery.getIncludeFieldString() != null) {
+                for (String includeField : neutralQuery.getIncludeFieldString().split(",")) {
                     mongoQuery.fields().include(MONGO_BODY + includeField);
                 }
-            } else if (neutralQuery.getExcludeFields() != null) {
-                for (String excludeField : neutralQuery.getExcludeFields().split(",")) {
+            } else if (neutralQuery.getExcludeFieldString() != null) {
+                for (String excludeField : neutralQuery.getExcludeFieldString().split(",")) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }
             }

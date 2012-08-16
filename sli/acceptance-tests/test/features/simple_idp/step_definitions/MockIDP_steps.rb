@@ -53,6 +53,10 @@ When /^I want to imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
   end
 end
 
+When /^I want to impersonate a custom role of "([^"]*)"$/ do |arg1|
+    @driver.find_element(:id, "customRoles").send_keys arg1
+end
+
 Then /^I should be redirected to the databrowser web page$/ do
   assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 end
@@ -71,4 +75,16 @@ end
 
 When /^I wait for (\d+) second$/ do |arg1|
   sleep(Integer(arg1))
+end
+
+When /^I navigate to databrowsers "(.*?)" page$/ do |arg1|
+  @driver.get PropLoader.getProps['databrowser_server_url']+arg1
+end
+
+Then /^I should see my roles as "(.*?)"$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
+end
+
+Then /^I should see my rights as "(.*?)"$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end

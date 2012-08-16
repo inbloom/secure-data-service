@@ -29,22 +29,22 @@ import java.util.List;
  */
 public class NeutralQuery {
 
-    protected String includeFields;
-    protected String excludeFields;
-    protected int offset;
-    protected int limit;
-    protected String sortBy;
-    protected SortOrder sortOrder;
+    private String includeFields;
+    private String excludeFields;
+    private int offset;
+    private int limit;
+    private String sortBy;
+    private SortOrder sortOrder;
 
     /**
      *  A list of all criteria that make up this query
      */
-    protected List<NeutralCriteria> queryCriteria;
+    private List<NeutralCriteria> queryCriteria;
 
     /**
      *  A list of all criteria that make up this query
      */
-    protected List<NeutralQuery> orQueries;
+    private List<NeutralQuery> orQueries;
 
     /**
      * Sort order enumeration
@@ -179,7 +179,7 @@ public class NeutralQuery {
     public void addCriteria(NeutralCriteria criteria) {
         this.queryCriteria.add(criteria);
     }
-    
+
     /**
      * Adds a criteria to the list of criteria this neutral query tracks.
      *
@@ -198,11 +198,11 @@ public class NeutralQuery {
         return this.queryCriteria;
     }
 
-    public String getIncludeFields() {
+    public String getIncludeFieldString() {
         return this.includeFields;
     }
 
-    public String getExcludeFields() {
+    public String getExcludeFieldString() {
         return this.excludeFields;
     }
 
@@ -230,11 +230,11 @@ public class NeutralQuery {
         this.offset = newOffset;
     }
 
-    public void setIncludeFields(String newIncludeFields) {
+    public void setIncludeFieldString(String newIncludeFields) {
         this.includeFields = newIncludeFields;
     }
 
-    public void setExcludeFields(String newExcludeFields) {
+    public void setExcludeFieldString(String newExcludeFields) {
         this.excludeFields = newExcludeFields;
     }
 
@@ -284,7 +284,7 @@ public class NeutralQuery {
             stringBuffer.append(neutralCriteria.getOperator());
             stringBuffer.append(neutralCriteria.getValue());
         }
-        
+
         for (NeutralQuery query : this.orQueries) {
             stringBuffer.append("$or{");
             stringBuffer.append(query.toString());

@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require 'json'
+require 'mongo'
 require_relative '../../../../utils/sli_utils.rb'
 
 $studentHash = {
