@@ -69,7 +69,7 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
     }
 
     @Override
-    public List<SchoolEntity> doTranslate(SchoolInfo sifData) {
+    public List<SchoolEntity> doTranslate(SchoolInfo sifData, String zoneId) {
         SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 

@@ -15,13 +15,22 @@
  */
 package org.slc.sli.sif.slcinterface;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
@@ -31,15 +40,22 @@ import org.slc.sli.api.client.util.Query;
 
 public class SifIdResolverCustomData implements SifIdResolver {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SifIdResolverCustomData.class);
+
     @Autowired
     SlcInterface slcInterface;
 
     private final Object lock = new Object();
 
     // not the most configurable, but it should suit our needs
-    private final String STATE_ORG_ID = "IL";
+//    private final String STATE_ORG_ID = "IL";
 
-    private String customDataEdOrgId = null;
+
+    @Value("${sli.sif-agent.zonemap}")
+    String zonemap; // TODO: This is temporary; when we have a clear and approved sif id
+                    // resolution strategy this can get swapped out
+
+    private Map<String, SliId> zoneIdToSliIdMap;
 
     /**
      * Helper class
@@ -73,13 +89,17 @@ public class SifIdResolverCustomData implements SifIdResolver {
         }
     }
 
+    @PostConstruct
+    public void init() {
+        zoneIdToSliIdMap = readIdMapFromFile(zonemap);
+    }
+
     @Override
-    public String getSliGuid(String sifId) {
+    public String getSliGuid(String sifId, String zoneId) {
 
         synchronized (lock) {
-            ensureEdOrgId();
 
-            Map<String, Map<String, String>> idMap = getIdMap();
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId)) {
                 return null;
             }
@@ -90,13 +110,12 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
-    public Entity getSliEntity(String sifId) {
+    public Entity getSliEntity(String sifId, String zoneId) {
 
         synchronized (lock) {
-            ensureEdOrgId();
 
             // check if it is in the map
-            Map<String, Map<String, String>> idMap = getIdMap();
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId)) {
                 return null;
             }
@@ -107,52 +126,59 @@ public class SifIdResolverCustomData implements SifIdResolver {
 
     }
 
-    // @Override
-    // public String getZoneSea(String sifZoneId) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
+    @Override
+    public String getZoneSea(String zoneId) {
+        // check if it is in the map
+        if (!zoneIdToSliIdMap.containsKey(zoneId)) {
+            return null;
+        }
+        SliId sliId = zoneIdToSliIdMap.get(zoneId);
+        return digUpSliGuid(sliId);
+    }
 
     @Override
-    public void putSliGuid(String sifId, String sliType, String sliId) {
+    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId) {
 
         synchronized (lock) {
-            ensureEdOrgId();
+
+            String seaGuid = getZoneSea(zoneId);
 
             // check if it is in the map
-            Map<String, Map<String, String>> idMap = getIdMap();
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
             idMap.put(sifId, id.toMap());
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
             String guid = slcInterface.create(entity,
-                    "/educationOrganizations/2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f/custom");
+                    "/educationOrganizations/" + seaGuid + "/custom");
         }
     }
 
-    /**
-     * Ensures that an edorg has been found that can be used to store custom data
-     */
-    private void ensureEdOrgId() {
-        if (customDataEdOrgId == null) {
-            List<Entity> list = slcInterface.read("/educationOrganizations");
-            for (Entity e : list) {
-                if (STATE_ORG_ID.equals(e.getData().get("stateOrganizationId"))) {
-                    customDataEdOrgId = e.getId();
-                    break;
-                }
-            }
-            if (customDataEdOrgId == null) {
-                throw new RuntimeException("No EdOrg was found with a stateOrganizationId of '" + STATE_ORG_ID
-                        + "'. One is required to support SifIdResolver using custom data.");
-            }
-        }
-    }
+//    /**
+//     * Ensures that an edorg has been found that can be used to store custom data
+//     */
+//    private void ensureEdOrgId() {
+//        if (customDataEdOrgId == null) {
+//            List<Entity> list = slcInterface.read("/educationOrganizations");
+//            for (Entity e : list) {
+//                if (STATE_ORG_ID.equals(e.getData().get("stateOrganizationId"))) {
+//                    customDataEdOrgId = e.getId();
+//                    break;
+//                }
+//            }
+//            if (customDataEdOrgId == null) {
+//                throw new RuntimeException("No EdOrg was found with a stateOrganizationId of '" + STATE_ORG_ID
+//                        + "'. One is required to support SifIdResolver using custom data.");
+//            }
+//        }
+//    }
 
-    private Map<String, Map<String, String>> getIdMap() {
+    private Map<String, Map<String, String>> getIdMap(String zoneId) {
 
-        List<Entity> list = slcInterface.read("/educationOrganizations/" + customDataEdOrgId + "/custom");
+        String seaGuid = getZoneSea(zoneId);
+
+        List<Entity> list = slcInterface.read("/educationOrganizations/" + seaGuid + "/custom");
         if (list.size() > 0) {
             Map<String, Object> rawMap = list.get(0).getData();
             return toSpecificMap(rawMap);
@@ -206,6 +232,37 @@ public class SifIdResolverCustomData implements SifIdResolver {
             throw new RuntimeException("  SIF Ref ID Resolution error: resolves to more than one entity: " + sliId);
         }
         return retVal.get(0);
+    }
+
+    // init function helper
+    private Map<String, SliId> readIdMapFromFile(String filename) {
+        Map<String, SliId> retVal = new HashMap<String, SliId>();
+        try {
+            InputStream in = getClass().getClassLoader().getResourceAsStream(filename);
+            BufferedReader mapFileReader = new BufferedReader(new InputStreamReader(in));
+            while (true) {
+                String line = mapFileReader.readLine();
+                if (line == null) {
+                    break;
+                }
+                if (line.startsWith("#")) {
+                    continue;
+                }
+                String[] entry = line.split(",");
+                if (entry.length != 4) {
+                    continue;
+                }
+                String sifId = entry[0];
+                String sliValue = entry[1];
+                String sliType = entry[2];
+                String sliField = entry[3];
+                retVal.put(sifId, new SliId(sliType, sliValue, sliField));
+            }
+            mapFileReader.close();
+        } catch (IOException e) {
+            LOG.error("Error reading sif id resolver idMap file");
+        }
+        return retVal;
     }
 
 }

@@ -49,6 +49,8 @@ public class SifTranslationTest {
     @Autowired
     private SifTranslationManager translationManager;
 
+    private final String ZONE_ID = "TestZone";
+
     @Before
     public void setup() throws ADKException {
         try {
@@ -61,7 +63,7 @@ public class SifTranslationTest {
     @Test
     public void shouldTranslateSchoolInfoToSchool() {
         SchoolInfo info = createSchoolInfo();
-        List<SliEntity> entities = translationManager.translate(info);
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI school entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
@@ -72,7 +74,7 @@ public class SifTranslationTest {
     @Test
     public void shouldTranslateLEAInfoInfoToLEA() {
         LEAInfo info = createLEAInfo();
-        List<SliEntity> entities = translationManager.translate(info);
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI LEA entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
@@ -83,7 +85,7 @@ public class SifTranslationTest {
     @Test
     public void shouldTranslateStudentPersonalToStudent() {
         StudentPersonal info = new StudentPersonal();
-        List<SliEntity> entities = translationManager.translate(info);
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI student entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));

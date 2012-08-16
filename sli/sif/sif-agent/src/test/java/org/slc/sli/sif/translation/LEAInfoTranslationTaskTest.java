@@ -71,7 +71,7 @@ public class LEAInfoTranslationTaskTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<LEAEntity> result = translator.translate(new LEAInfo());
+        List<LEAEntity> result = translator.translate(new LEAInfo(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -89,7 +89,7 @@ public class LEAInfoTranslationTaskTest {
         String url = "LEAURL";
         info.setLEAURL(url);
 
-        List<LEAEntity> result = translator.translate(info);
+        List<LEAEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 
@@ -109,7 +109,7 @@ public class LEAInfoTranslationTaskTest {
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
                 address);
 
-        List<LEAEntity> result = translator.translate(info);
+        List<LEAEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 
@@ -123,7 +123,7 @@ public class LEAInfoTranslationTaskTest {
         LEAInfo info = new LEAInfo();
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
         Mockito.when(operationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus()))).thenReturn("Closed");
-        List<LEAEntity> result = translator.translate(info);
+        List<LEAEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 
@@ -141,7 +141,7 @@ public class LEAInfoTranslationTaskTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<LEAEntity> result = translator.translate(info);
+        List<LEAEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 

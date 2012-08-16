@@ -81,7 +81,7 @@ public class StudentLEARelationshipTranslationTaskTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<StudentSchoolAssociationEntity> result = translator.translate(new StudentLEARelationship());
+        List<StudentSchoolAssociationEntity> result = translator.translate(new StudentLEARelationship(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -96,11 +96,11 @@ public class StudentLEARelationshipTranslationTaskTest {
         slr.setEntryDate(new GregorianCalendar(2004, Calendar.FEBRUARY, 29));
         slr.setExitDate(new GregorianCalendar(2012, Calendar.DECEMBER, 29));
 
-        Mockito.when(mockSifIdResolver.getSliGuid("studentRefID")).thenReturn("SLI_StudentGUID");
-        Mockito.when(mockSifIdResolver.getSliGuid("LEAInfoRefID")).thenReturn("SLI_SchoolGUID");
+        Mockito.when(mockSifIdResolver.getSliGuid("studentRefID", null)).thenReturn("SLI_StudentGUID");
+        Mockito.when(mockSifIdResolver.getSliGuid("LEAInfoRefID", null)).thenReturn("SLI_SchoolGUID");
         Mockito.when(schoolYearConverter.convert(Integer.valueOf(2001))).thenReturn("2001");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(slr);
+        List<StudentSchoolAssociationEntity> result = translator.translate(slr, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("student Id is expected to be 'SLI_StudentGUID'", "SLI_StudentGUID", entity.getStudentId());
@@ -117,7 +117,7 @@ public class StudentLEARelationshipTranslationTaskTest {
         slr.setEntryType(entryType);
         Mockito.when(entryTypeConverter.convert(entryType)).thenReturn("Transfer from a charter school");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(slr);
+        List<StudentSchoolAssociationEntity> result = translator.translate(slr, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'", "Transfer from a charter school", entity.getEntryType());
@@ -130,7 +130,7 @@ public class StudentLEARelationshipTranslationTaskTest {
         slr.setExitType(exitType);
         Mockito.when(exitTypeConverter.convert(exitType)).thenReturn("Died or is permanently incapacitated");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(slr);
+        List<StudentSchoolAssociationEntity> result = translator.translate(slr, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'", "Died or is permanently incapacitated", entity.getExitWithdrawType());
@@ -143,7 +143,7 @@ public class StudentLEARelationshipTranslationTaskTest {
         slr.setGradeLevel(gradeLevel);
         Mockito.when(gradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(slr);
+        List<StudentSchoolAssociationEntity> result = translator.translate(slr, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getEntryGradeLevel());

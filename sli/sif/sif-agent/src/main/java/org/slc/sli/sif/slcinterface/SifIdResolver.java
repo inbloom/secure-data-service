@@ -27,18 +27,20 @@ public interface SifIdResolver {
      * Given a sif reference id, returns the sli guid of the corresponding entity
      *
      * @param sifId
+     * @param zoneId TODO
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
-    public String getSliGuid(String sifId);
+    public String getSliGuid(String sifId, String zoneId);
 
 
     /**
      * Given a sif reference id, returns corresponding sli entity
      *
      * @param sifId
+     * @param zoneId TODO
      * @return The SLI entity if the entity exists in SLI, null otherwise
      */
-    public Entity getSliEntity(String sifId);
+    public Entity getSliEntity(String sifId, String zoneId);
 
     /**
      * Given a sif Zone, returns the sli guid of the corresponding SEA
@@ -46,7 +48,7 @@ public interface SifIdResolver {
      * @param sifZoneId
      * @return The SLI guid of the SEA associated with the Zone, null if none exist
      */
-    //public String getZoneSea(String sifZoneId);
+    public String getZoneSea(String sifZoneId);
 
     /**
      * Given a sif reference id and the guid and type of the corresponding entity,
@@ -55,6 +57,7 @@ public interface SifIdResolver {
      * @param sifId
      * @param sliType
      * @param sliId
+     * @param zoneId TODO
      */
-    public void putSliGuid(String sifId, String sliType, String sliId);
+    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId);
 }

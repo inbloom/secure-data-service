@@ -24,21 +24,21 @@ import org.slc.sli.api.client.Entity;
 public class SifIdResolverImplDummy implements SifIdResolver {
 
     @Override
-    public String getSliGuid(String sifId) {
+    public String getSliGuid(String sifId, String zoneId) {
         return null;
     }
 
     @Override
-    public Entity getSliEntity(String sifId) {
+    public Entity getSliEntity(String sifId, String zoneId) {
         return null;
     }
 
-//    @Override
-//    public String getZoneSea(String zoneId) {
-//        return null;
-//    }
+    @Override
+    public String getZoneSea(String zoneId) {
+        return null;
+    }
 
     @Override
-    public void putSliGuid(String sifId, String sliType, String sliId) {
+    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId) {
     }
 }

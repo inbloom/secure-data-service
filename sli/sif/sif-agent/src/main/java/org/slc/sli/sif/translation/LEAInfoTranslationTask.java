@@ -53,7 +53,7 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEA
     }
 
     @Override
-    public List<LEAEntity> doTranslate(LEAInfo leaInfo) {
+    public List<LEAEntity> doTranslate(LEAInfo leaInfo, String zoneId) {
         LEAEntity e = new LEAEntity();
         // covert properties
         e.setStateOrganizationId(leaInfo.getStateProvinceId());

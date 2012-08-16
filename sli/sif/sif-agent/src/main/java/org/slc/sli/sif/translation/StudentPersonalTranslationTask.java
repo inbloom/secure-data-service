@@ -96,7 +96,7 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     }
 
     @Override
-    public List<StudentEntity> doTranslate(StudentPersonal sifData) {
+    public List<StudentEntity> doTranslate(StudentPersonal sifData, String zoneId) {
         StudentPersonal sp = sifData;
         MostRecent mostRecent = sp.getMostRecent();
         Demographics demographics = sp.getDemographics();
