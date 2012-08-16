@@ -110,6 +110,8 @@ class ApplicationController < ActionController::Base
   #get your name and display it in the header of the databrowser. It represents the
   #first successful call to the Api.
   def handle_oauth
+    @header = nil
+    @footer = nil
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth.nil?
@@ -119,6 +121,12 @@ class ApplicationController < ActionController::Base
     end
     if oauth.enabled?
       if oauth.token != nil
+        begin
+          @header = PortalHeader.get("")
+          @footer = PortalFooter.get("")
+        rescue Exception
+          logger.warn {"We couldn't load the portal header and footer"}
+        end
         SessionResource.access_token = oauth.token
         Check.url_type = "check"
         session[:full_name] = Check.get("")["full_name"]

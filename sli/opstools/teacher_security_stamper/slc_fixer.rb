@@ -190,6 +190,12 @@ class SLCFixer
       cursor.each { |ssa|
         teachers = @studentId_to_teachers[ssa['body']['studentId']]
         stamp_context(@db['studentSectionAssociation'],ssa,teachers)
+        @log.info "Stamping grade for studentSectionAssociation##{ssa["_id"]}"
+        @db[:grade].find({"metaData.tenantId" => ssa['metaData']['tenantId'], "body.studentSectionAssociationId" => ssa["_id"]}, @basic_options) { |cur| 
+          cur.each { |grade|
+            stamp_context(@db['grade'],grade,teachers)
+          }
+        }
 
         section_to_teachers[ssa['body']['sectionId']] ||= []
         section_to_teachers[ssa['body']['sectionId']] += teachers unless teachers.nil?
