@@ -53,6 +53,10 @@ When /^I want to imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
   end
 end
 
+When /^I want to impersonate a custom role of "([^"]*)"$/ do |arg1|
+    @driver.find_element(:id, "customRoles").send_keys arg1
+end
+
 Then /^I should be redirected to the databrowser web page$/ do
   assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 end
