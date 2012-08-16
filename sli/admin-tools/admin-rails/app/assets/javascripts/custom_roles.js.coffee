@@ -99,14 +99,16 @@ editRow = (tr) ->
   addRoleUi.fadeIn()
 
   #Turn group name into input
-  groupName = tr.find("td:eq(0) div")
-  input = $("<input type='text' id='editInput' />").val(groupName.text().trim())
+  groupName = tr.find("td:eq(1)").find(".groupTitle")
+  input = $("<input type='text' id='editInput' class='groupTitle' />").val(groupName.text().trim())
 
   if (groupName.text().trim() == "")
     input.attr("placeholder", "Enter group name")
     input.attr("id", "groupName")
   groupName.replaceWith(input)
-   
+  groupName = tr.find("td:eq(1)").find(".groupTitle")
+  td.prepend(groupName)
+
   #Add delete button to each role name
   tr.find("td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
   tr.find("td:eq(2) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
@@ -203,7 +205,10 @@ saveData = (json) ->
 getJsonData = () ->
   data = []
   $("#custom_roles tr:gt(0)").each ->
-    groupName = $(@).find("td:eq(0) div").text()
+    groupName = $(@).find("td:eq(1)").find(".groupTitle").val()
+    if groupName == ""
+      groupName = $(@).find("td:eq(1)").find(".groupTitle").text()
+
     roles = []
     $(@).find("td:eq(1) .customLabel").each ->
       roles.push($(@).text())
@@ -241,7 +246,8 @@ populateTable = (data) ->
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(0)").append($("<div></div>").text(role.groupTitle))
+    newRow.find("td:eq(0)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
+    newRow.find("td:eq(1)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
 
     for name in role.names
       div = $('<div/>')
