@@ -45,7 +45,7 @@ import org.slc.sli.modeling.uml.Visitor;
  * Usage: When parsing into a {@link Model} is complete, the model should be set on this class. The
  * object contained in the model will then be available as a graph.
  */
-public final class DefaultModelIndex implements ModelIndex {
+public class DefaultModelIndex implements ModelIndex {
     
     private static final <T> T assertNotNull(final T obj, final Identifier memo) {
         if (obj != null) {

@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * Encapsulation of the identifier implementation and for type safety.
  */
-public final class Identifier {
+public class Identifier {
     
     public static final Identifier fromString(final String id) {
         return new Identifier(id);
