@@ -131,6 +131,12 @@ public class DefaultCrudEndPointTest {
         return entity;
     }
 
+    public Map<String, Object> createTestPatchEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sex", "Female");
+        return entity;
+    }
+
     public Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Female");
@@ -245,6 +251,32 @@ public class DefaultCrudEndPointTest {
 
             // update it
             Response response = crudEndPoint.update(resource, id, new EntityBody(createTestUpdateEntity()),
+                    httpHeaders, uriInfo);
+            assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+            // try to get it
+            Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+            assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
+            EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+
+            EntityBody body = (EntityBody) entityResponse.getEntity();
+            assertNotNull("Should return an entity", body);
+            assertEquals("studentUniqueStateId should be 1234", body.get("studentUniqueStateId"), 1234);
+            assertEquals("sex should be Female", body.get("sex"), "Female");
+            assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+        }
+    }
+
+    @Test
+    public void testPatch() {
+        for (String resource : resourceList) {
+            // create one entity
+            Response createResponse = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders,
+                    uriInfo);
+            String id = parseIdFromLocation(createResponse);
+
+            // patch it
+            Response response = crudEndPoint.patch(resource, id, new EntityBody(createTestPatchEntity()),
                     httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
