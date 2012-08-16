@@ -19,6 +19,9 @@ package org.slc.sli.modeling.rest;
 
 import java.util.List;
 
+/**
+ * @author dholmes
+ */
 public class Include extends WadlElement {
     private final String href;
 
