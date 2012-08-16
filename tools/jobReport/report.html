@@ -157,7 +157,7 @@
               }
 
               if (entities[entityI][1] != 0) {
-                processingChartElem[processor][index] = entities[entityI][2] / entities[entityI][1];
+                processingChartElem[processor][index] = entities[entityI][1] / (entities[entityI][2] / 1000);
               } else {
                 processingChartElem[processor][index] = 0;
               }
