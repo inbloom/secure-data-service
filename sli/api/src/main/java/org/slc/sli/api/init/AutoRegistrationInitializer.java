@@ -29,7 +29,7 @@ import org.slc.sli.api.resources.security.ApplicationResource;
 public class AutoRegistrationInitializer {
     
     @Autowired
-    @Value("${sli.sandbox.autoRegisterApps}")
+    @Value("${sli.autoRegisterApps}")
     private boolean autoRegister;
     
     @Autowired

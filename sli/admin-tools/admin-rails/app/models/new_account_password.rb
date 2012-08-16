@@ -24,10 +24,10 @@ class NewAccountPassword < ForgotPassword
   validate :accept_tou
   
   # attributes passed to the template to render 
-  attr_accessor :inviter, :edorg, :terms_and_conditions
+  attr_accessor :inviter, :edorg, :terms_and_conditions, :tou_required
 
   def accept_tou
-    if APP_CONFIG['is_sandbox'] && self.terms_and_conditions != "1"
+    if self.tou_required && self.terms_and_conditions != "1"
       self.errors[:terms_and_conditions] << "must be accepted"
     end
   end

@@ -1,0 +1,14 @@
+[
+	{
+		"type" : "StudentSectionAssociation",
+		"selector" : ":($)"
+	},
+	{
+		"type" : "Section",
+		"selector" : ":(sequenceOfCourse)"
+	},
+    {
+        "type" : "Student",
+        "selector" : ":($,sectionAssociations)"
+    }
+]

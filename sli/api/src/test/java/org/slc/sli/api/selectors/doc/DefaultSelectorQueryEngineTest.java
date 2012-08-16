@@ -15,16 +15,34 @@
  */
 package org.slc.sli.api.selectors.doc;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.model.BooleanSelectorElement;
-import org.slc.sli.api.selectors.model.ComplexSelectorElement;
-import org.slc.sli.api.selectors.model.IncludeAllSelectorElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.selectors.model.ModelProvider;
-import org.slc.sli.api.selectors.model.SelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -35,20 +53,6 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 
 /**
@@ -97,7 +101,6 @@ public class DefaultSelectorQueryEngineTest {
     public void testIncludeAllSelector() {
         SemanticSelector selectorsWithType =  generateIncludeAllSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
 
         Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
 
@@ -106,20 +109,13 @@ public class DefaultSelectorQueryEngineTest {
         SelectorQueryPlan plan = queryPlan.get(studentType);
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
-        assertEquals("Should match", 1, plan.getChildQueryPlans().size());
-
-        @SuppressWarnings("unchecked")
-        Map<Type, SelectorQueryPlan> childQueries = (Map<Type, SelectorQueryPlan>) plan.getChildQueryPlans().get(0);
-        SelectorQueryPlan schoolAsscPlan = childQueries.get(studentSchoolAssocicationType);
-        assertNotNull("Should not be null", schoolAsscPlan);
-        assertNotNull("Should not be null", schoolAsscPlan.getQuery());
-        assertNull("Should be null", schoolAsscPlan.getQuery().getIncludeFields());
-        assertNull("Should be null", schoolAsscPlan.getQuery().getExcludeFields());
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
+        assertTrue("Should be true", plan.getExcludeFields().isEmpty());
     }
 
     @Test
     public void testExcludeSelector() {
-        //TODO
         SemanticSelector selectorsWithType =  generateExcludeSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
 
@@ -130,9 +126,9 @@ public class DefaultSelectorQueryEngineTest {
         SelectorQueryPlan plan = queryPlan.get(studentType);
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
-        assertNull("Should be null", plan.getQuery().getIncludeFields());
-        assertNull("Should be null", plan.getQuery().getExcludeFields());
-        assertEquals("Should match", 1, plan.getChildQueryPlans().size());
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertFalse("Should be false", plan.getExcludeFields().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
     }
 
     @Test
@@ -151,11 +147,10 @@ public class DefaultSelectorQueryEngineTest {
     }
 
     @Test
-    @Ignore("TODO")
     public void testSkipAssociation() {
         final SemanticSelector selector = generateSkipAssociationSelectorMap();
         final ClassType studentType = provider.getClassType("Student");
-        final ClassType studentSectionType = provider.getClassType("StudentSectionAssociation");
+        final ClassType sectionType = provider.getClassType("Section");
 
         final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
         assertNotNull(queryPlan);
@@ -169,11 +164,89 @@ public class DefaultSelectorQueryEngineTest {
         @SuppressWarnings("unchecked")
         final Map<Type, SelectorQueryPlan> studentSectionPlanMap = (Map<Type, SelectorQueryPlan>) childPlans.get(0);
         assertNotNull(studentSectionPlanMap);
-        final SelectorQueryPlan studentSectionPlan = studentSectionPlanMap.get(studentSectionType);
+        final SelectorQueryPlan studentSectionPlan = studentSectionPlanMap.get(sectionType);
         assertNotNull(studentSectionPlan);
+    }
 
-        // One query to sections
-        assertEquals(1, studentSectionPlan.getChildQueryPlans().size());
+    @Test
+    public void testDefaultSelector() {
+        final ClassType studentType = provider.getClassType("Student");
+        final ClassType studentSectionAssociationType = provider.getClassType("StudentSectionAssociation");
+        final SemanticSelector selector = generateDefaultSelectorMap();
+
+        final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
+        assertNotNull(queryPlan);
+
+        SelectorQueryPlan plan = queryPlan.get(studentType);
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertTrue("Should be true", plan.getExcludeFields().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
+
+        SelectorQuery childQuery = (SelectorQuery) plan.getChildQueryPlans().get(0);
+        SelectorQueryPlan childPlan = childQuery.get(studentSectionAssociationType);
+        assertNotNull("Should not be null", childPlan.getQuery());
+    }
+
+    @Test
+    public void testXSDSelector() {
+        final ClassType studentType = provider.getClassType("Student");
+        final SemanticSelector selector = generateXSDSelectorMap();
+
+        final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
+        assertNotNull(queryPlan);
+
+        SelectorQueryPlan plan = queryPlan.get(studentType);
+        assertFalse("should be false", plan.getIncludeFields().isEmpty());
+        assertTrue("should be true", plan.getExcludeFields().isEmpty());
+        assertTrue("should be true", plan.getChildQueryPlans().isEmpty());
+    }
+
+    @Test
+    public void testEmptySelector() {
+        final ClassType studentType = provider.getClassType("Student");
+        final SemanticSelector selector = generateEmptySelectorMap();
+
+        final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
+        assertNotNull(queryPlan);
+
+        SelectorQueryPlan plan = queryPlan.get(studentType);
+        assertTrue("should be true", plan.getIncludeFields().isEmpty());
+        assertTrue("should be true", plan.getExcludeFields().isEmpty());
+        assertTrue("should be true", plan.getChildQueryPlans().isEmpty());
+        assertNotNull("Should not be null", plan.getQuery());
+    }
+
+    private SemanticSelector generateXSDSelectorMap() {
+        final ClassType studentType = provider.getClassType("Student");
+
+        final SemanticSelector studentAttrs = new SemanticSelector();
+        final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
+        attrs.add(new IncludeXSDSelectorElement(studentType));
+        studentAttrs.put(studentType, attrs);
+
+        return studentAttrs;
+    }
+
+    private SemanticSelector generateEmptySelectorMap() {
+        final ClassType studentType = provider.getClassType("Student");
+
+        final SemanticSelector studentAttrs = new SemanticSelector();
+        final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
+        attrs.add(new EmptySelectorElement(studentType));
+        studentAttrs.put(studentType, attrs);
+
+        return studentAttrs;
+    }
+
+    private SemanticSelector generateDefaultSelectorMap() {
+        final ClassType studentType = provider.getClassType("Student");
+
+        final SemanticSelector studentAttrs = new SemanticSelector();
+        final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
+        attrs.add(new IncludeDefaultSelectorElement(studentType));
+        studentAttrs.put(studentType, attrs);
+
+        return studentAttrs;
     }
 
     private SemanticSelector generateSkipAssociationSelectorMap() {
@@ -207,16 +280,10 @@ public class DefaultSelectorQueryEngineTest {
 
     public SemanticSelector generateIncludeAllSelectorObjectMap() {
         ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
-
-        Attribute name = getMockAttribute("name");
-        Attribute economicDisadvantaged = getMockAttribute("economicDisadvantaged");
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
-        attributes1.add(new BooleanSelectorElement(name, true));
-        attributes1.add(new BooleanSelectorElement(economicDisadvantaged, true));
-        attributes1.add(new IncludeAllSelectorElement(studentSchoolAssocicationType));
+        attributes1.add(new IncludeAllSelectorElement(studentType));
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;

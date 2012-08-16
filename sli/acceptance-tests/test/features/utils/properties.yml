@@ -59,5 +59,8 @@ email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
+portal_server_address: http://local.slidev.org:7000
+portal_app_suffix: "/portal"
+
 
 

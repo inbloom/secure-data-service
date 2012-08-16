@@ -43,9 +43,8 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
 public class GradebookEntryResource extends DefaultCrudResource {
 
     @Autowired
-        public GradebookEntryResource(EntityDefinitionStore entityDefs) {
-            super(entityDefs, ResourceNames.GRADEBOOK_ENTRIES);
-        debug("Initialized a new {}", GradebookEntryResource.class);
+    public GradebookEntryResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.GRADEBOOK_ENTRIES);
     }
 
 }

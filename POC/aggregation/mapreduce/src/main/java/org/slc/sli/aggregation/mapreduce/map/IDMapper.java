@@ -17,15 +17,11 @@
 package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
+
+import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.Mapper;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
-import org.bson.BSONObject;
+import org.apache.hadoop.mapreduce.Mapper;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
@@ -35,12 +31,12 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * A basic mapper that emits the unique identifiers for a provided collection.
  *
  * Map input / output:
- *    Text - Identifier as a string
- *    BSONOBject - Entity to examine.
- *    EmittableKey - key for the entity.
- *    BSONObject -- The entity the key corresponds to.
+ * EmittableKey - Input key type. Defines the fields that represent a key in the entity.
+ * BSONOBject - Entity to examine.
+ * EmittableKey - Output key for the mapper.
+ * BSONObject -- The entity the key corresponds to.
  */
-public class IDMapper extends MapReduceBase implements Mapper<Text, BSONObject, EmittableKey, BSONObject> {
+public class IDMapper extends Mapper<EmittableKey, BSONWritable, EmittableKey, BSONWritable> {
 
     protected EmittableKey identifier;
 
@@ -53,55 +49,24 @@ public class IDMapper extends MapReduceBase implements Mapper<Text, BSONObject, 
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields) throws InstantiationException, IllegalAccessException {
+    public IDMapper(Class<? extends EmittableKey> keyType, final String[] keyFields)
+        throws InstantiationException, IllegalAccessException {
         super();
         identifier = keyType.newInstance();
         identifier.setFieldNames(keyFields);
     }
 
     @Override
-    public void map(Text id, BSONObject entity, OutputCollector<EmittableKey, BSONObject> context,
-        Reporter reporter) throws IOException {
+    public void map(EmittableKey id, BSONWritable entity, Context context) throws IOException, InterruptedException {
 
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = identifier.getFieldNames();
-        Map<Text, Text> ids = new TreeMap<Text, Text>();
         for (Text field : idFieldNames) {
-            Text value = getLeaf(entity, field);
+            String value = BSONValueLookup.getValue(entity, field.toString());
             if (value != null) {
-                ids.put(field, value);
+                identifier.put(field, new Text(value));
             }
         }
-        identifier.putAll(ids);
-        context.collect(identifier, entity);
+        context.write(identifier, entity);
     }
-
-    /**
-     * Given a dot-separated field, return the resulting value if it exists in the entity.
-     *
-     * @param entity
-     *            Entity to query
-     * @param field
-     *            Field to retrieve.
-     * @return String value of the field, or null if the field is not found.
-     */
-    protected Text getLeaf(BSONObject entity, final Text field) {
-        Text rval = null;
-
-        BSONObject node = entity;
-        String[] fieldPath = field.toString().split("\\.");
-        for (String path : fieldPath) {
-            if (node.containsField(path)) {
-                Object val = node.get(path);
-                if (val instanceof BSONObject) {
-                    node = (BSONObject) val;
-                } else {
-                    rval = new Text(String.valueOf(val));
-                    break;
-                }
-            }
-        }
-        return rval;
-    }
-
 }

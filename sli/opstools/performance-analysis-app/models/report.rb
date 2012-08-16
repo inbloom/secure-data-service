@@ -11,19 +11,18 @@ class Report
   def self.generate_latest_report
     initialize_parameters
     buildTag = ""
-    @db['apiResponse'].find.sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
+    @db['apiResponse'].find({'processed'=>true}).sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
        buildTag = record['body']['buildNumber']
     end
-    buildTag = 'jenkins-api-27'
-    finalQuery = {"_id.build_tag"=>buildTag}
+    finalQuery = {"build_tag"=>buildTag}
 
-    create_report('end_point',finalQuery)
+    create_report('end_point','avg',finalQuery)
   end
 
   def self.generate_end_point_report(endPoint)
     initialize_parameters
-    query = {"_id.end_point"=> "/"+endPoint[0].to_s}
-    create_report('build_tag',query)
+    query = {"end_point"=> "/"+endPoint[0].to_s}
+    create_report('build_tag','avg',query)
   end
   def self.generate_end_point_report_for_build(params)
       urlParams = params[0].to_s
@@ -32,7 +31,7 @@ class Report
       buildTag = urlParams[(index+10)..-1]
       initialize_parameters
       query = {"body.resource"=> "/"+endPoint,"body.buildNumber"=>buildTag}
-      create_report('url',query,'apiResponse')
+      create_report('url','responseTime',query,'apiResponse')
     end
 
   def self.initialize_parameters
@@ -52,27 +51,37 @@ class Report
       @basic_options = {:timeout => false, :batch_size => 100}
       @log = Logger.new(STDOUT)
       @col = '"cols": [{"label": "%s", "type": "string"},
-                     {"label": "%s", "type": "number"}],
+                     {"label": "%s", "type": "number"},
+                     {"label":"%s","type":"number"}],
               "rows":['
-      @row = '{"c":[{"v":"%s"},{"v":%s}]}'
+      @row = '{"c":[{"v":"%s"},{"v":%s},{"v":%s}]}'
     end
 
-  def self.create_report(hAxis,query,collection='apiResponse_stat')
-       response = "{" + @col%["endPoint","responseTime"]
+  def self.create_report(hAxis,yAxis,query,collection='apiResponseStat')
+       response = "{" + @col%["endPoint","responseTime","80%density"]
 
        @log.info "Iterating sections with query: "+query.to_s
+       bench_mark = String.new
+       avarage = String.new
+       if collection == 'apiResponse'
+         doc = @db['apiResponseStat'].find_one({'$and'=>[{'end_point'=>query['body.resource']},{'build_tag'=>query['body.buildNumber']}]})
+         bench_mark=doc['br']
+         avarage = doc['avg']
+       end
 
           @db[collection].find(query, @basic_options) do |cur|
             cur.each do |record|
 
               if collection == 'apiResponse'
                 hAxisVal = record['body'][hAxis]
-                responseTime = record['body']['responseTime']
+                responseTime = record['body'][yAxis]
+                cutOff = bench_mark
               else
-                hAxisVal = record['_id'][hAxis]
-                responseTime = record['value']['avg_time']
+                hAxisVal = record[hAxis]
+                responseTime = record[yAxis]
+                cutOff = record["br"]
               end
-              response = response + @row%[hAxisVal,responseTime.to_s] +','
+              response = response + @row%[hAxisVal,responseTime.to_s,cutOff.to_s] +','
             end
           end
           response = response[0..-2]+ "]}"

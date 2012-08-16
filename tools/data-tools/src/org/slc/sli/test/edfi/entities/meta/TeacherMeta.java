@@ -20,6 +20,8 @@ package org.slc.sli.test.edfi.entities.meta;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+
 public final class TeacherMeta {
     public final String id;
     public final List<String> schoolIds;
@@ -37,7 +39,7 @@ public final class TeacherMeta {
     }
 
     public static TeacherMeta createWithChainedId(String id, SchoolMeta schoolMeta) {
-        return new TeacherMeta(schoolMeta.id + "-" + id, schoolMeta.id);
+        return new TeacherMeta(schoolMeta.id + MetaRelations.ID_DELIMITER + id, schoolMeta.id);
     }
 
     public static TeacherMeta create(String id, SchoolMeta schoolMeta) {
