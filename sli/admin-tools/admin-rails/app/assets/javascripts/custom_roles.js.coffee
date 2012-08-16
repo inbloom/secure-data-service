@@ -20,7 +20,7 @@ jQuery ->
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
