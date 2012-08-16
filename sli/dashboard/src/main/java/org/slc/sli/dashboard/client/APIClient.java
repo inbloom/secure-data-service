@@ -583,4 +583,7 @@ public interface APIClient {
     public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token);
 
 
+    public List<GenericEntity> readEntityList(String token, String url);
+    
+    public GenericEntity readEntity(String token, String url);
 }

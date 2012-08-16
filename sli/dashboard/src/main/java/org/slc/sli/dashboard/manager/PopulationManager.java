@@ -129,6 +129,9 @@ public interface PopulationManager {
     
     @EntityMapping("sectionInfo")
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
+
+    @EntityMapping("coursesAndGrades")
+    public GenericEntity getCoursesAndGrades(String token, Object studentId, Config.Data config);
     
 }
 
