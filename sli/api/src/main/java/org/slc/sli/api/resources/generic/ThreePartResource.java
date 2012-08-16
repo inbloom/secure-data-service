@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -24,10 +25,7 @@ import java.util.List;
 public class ThreePartResource extends GenericResource {
 
     @Autowired
-    ResourceService resourceService;
-
-    @Autowired
-    ResourceHelper resourceHelper;
+    private ResourceService resourceService;
 
     @GET
     public Response get(@Context final UriInfo uriInfo,

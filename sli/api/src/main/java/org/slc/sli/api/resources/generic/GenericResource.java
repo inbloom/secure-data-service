@@ -19,7 +19,7 @@ import java.util.Set;
 public abstract class GenericResource {
 
     @Autowired
-    private ResourceHelper resourceHelper;
+    protected ResourceHelper resourceHelper;
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
@@ -28,10 +28,10 @@ public abstract class GenericResource {
         public Response run(String resourceName);
     }
 
-    protected Response handle(final UriInfo uriInfo, ResourceTemplate template, ResourceMethod method,
+    protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
                             final ResourceLogic logic) {
 
-        final String resourceName = getResourceName(uriInfo, template);
+        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
 
         Set<String> values = resourceSupportedMethods.get(resourceName);
         if (!values.contains(method.getMethod())) {
@@ -39,9 +39,5 @@ public abstract class GenericResource {
         }
 
         return logic.run(resourceName);
-    }
-
-    protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
-        return resourceHelper.getResourceName(uriInfo, template);
     }
 }
