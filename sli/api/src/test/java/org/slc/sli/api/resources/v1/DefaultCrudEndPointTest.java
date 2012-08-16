@@ -326,8 +326,8 @@ public class DefaultCrudEndPointTest {
     public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
 
         NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.setIncludeFields("field1,field2");
-        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setIncludeFieldString("field1,field2");
+        neutralQuery1.setExcludeFieldString("field3,field4");
         neutralQuery1.setLimit(5);
         neutralQuery1.setOffset(4);
         neutralQuery1.setSortBy("field5");
