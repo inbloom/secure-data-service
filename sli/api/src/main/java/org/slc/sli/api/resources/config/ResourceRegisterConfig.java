@@ -2,7 +2,6 @@ package org.slc.sli.api.resources.config;
 
 import com.sun.jersey.api.core.DefaultResourceConfig;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.GenericResource;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
@@ -12,7 +11,6 @@ import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.core.MediaType;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;

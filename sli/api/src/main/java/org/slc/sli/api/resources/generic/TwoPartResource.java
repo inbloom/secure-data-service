@@ -41,7 +41,7 @@ public class TwoPartResource {
     private ResourceHelper resourceHelper;
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
+    private Map<String, Set<String>> resourceSupportedMethods;
 
     @GET
     public Response getWithId(@PathParam("id") final String id,

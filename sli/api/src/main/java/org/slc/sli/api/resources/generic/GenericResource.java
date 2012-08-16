@@ -41,7 +41,7 @@ public class GenericResource {
     private ResourceHelper resourceHelper;
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
+    private Map<String, Set<String>> resourceSupportedMethods;
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
