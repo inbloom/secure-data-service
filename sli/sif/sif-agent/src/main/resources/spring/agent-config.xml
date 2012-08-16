@@ -54,6 +54,8 @@
             <!-- strings in this list relate to the ADK map in StudentDTD -->
             <list>
                 <value>StudentPersonal</value>
+                <value>StaffPersonal</value>
+                <value>EmployeePersonal</value>
                 <value>SchoolInfo</value>
                 <value>LEAInfo</value>
                 <value>SEAInfo</value>
