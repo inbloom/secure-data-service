@@ -47,6 +47,8 @@ import org.slc.sli.modeling.uml.Type;
 @Component
 public class DefaultSelectorDocument implements SelectorDocument {
 
+    public static final int EMBEDDED_DOCUMENT_LIMIT = 1000;
+
     @Autowired
     private ModelProvider modelProvider;
 
@@ -106,26 +108,16 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
 
-            Iterable<EntityBody> entities = executeQuery(currentType, constraint, first);
-            results.addAll((List<EntityBody>) entities);
+            List<EntityBody> entities = (List<EntityBody>) executeQuery(currentType, constraint, first);
+            results.addAll(entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                Type type = types.peek();
-
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);
-
-
-
-                if (currentType.isClassType()) {
-                    this.totalEmbeddedEntities += list.size();
-                    System.out.println("Found " + list.size() + getEntityDefinition(currentType).getResourceName() + " entities.");
-                    System.out.println ("count = " + this.totalEmbeddedEntities);
-                }
             }
 
             results = filterFields(results, plan);
@@ -270,6 +262,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
                 List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
                 body.put(exposeName, subList);
+                this.totalEmbeddedEntities += subList.size();
+                if (this.totalEmbeddedEntities > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
+                    throw new EmbeddedDocumentLimitException("Exceeded embedded document limit of " + EMBEDDED_DOCUMENT_LIMIT);
+                }
             }
         }
 
