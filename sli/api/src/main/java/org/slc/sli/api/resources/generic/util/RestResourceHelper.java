@@ -11,17 +11,23 @@ import java.util.Map;
  */
 @Component
 public class RestResourceHelper implements ResourceHelper {
-    private static final String MATCH_KEY = "resource";
-
-    @Override
-    public String grabResource(final String uri, final ResourceTemplate template) {
-        final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
-        final Map<String, String> matchList = uriTemplate.match(uri);
-        return matchList.get(MATCH_KEY);
-    }
+    private static final String RESOURCE_KEY = "resource";
+    private static final String BASE_KEY = "base";
 
     @Override
     public String getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
-        return grabResource(uriInfo.getRequestUri().toString(), template);
+        final Map<String, String> matchList = getMatchList(uriInfo, template);
+        return matchList.get(RESOURCE_KEY);
+    }
+
+    @Override
+    public String getBaseName(final UriInfo uriInfo, final ResourceTemplate template) {
+        final Map<String, String> matchList = getMatchList(uriInfo, template);
+        return matchList.get(BASE_KEY);
+    }
+
+    private Map<String, String> getMatchList(UriInfo uriInfo, ResourceTemplate template) {
+        final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
+        return uriTemplate.match(uriInfo.getRequestUri().toString());
     }
 }

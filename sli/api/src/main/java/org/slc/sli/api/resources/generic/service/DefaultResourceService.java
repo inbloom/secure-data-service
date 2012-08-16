@@ -21,16 +21,23 @@ public class DefaultResourceService implements ResourceService {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
+    @Override
     public EntityBody getEntity(String resource, String id) {
         EntityDefinition definition = getEntityDefinition(resource);
 
         return definition.getService().get(id);
     }
 
+    @Override
     public List<EntityBody> getEntities(String resource) {
         EntityDefinition definition = getEntityDefinition(resource);
 
         return (List<EntityBody>) definition.getService().list(new NeutralQuery());
+    }
+
+    @Override
+    public List<EntityBody> getEntities(String base, String id, String resource) {
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override

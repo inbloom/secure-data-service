@@ -54,8 +54,4 @@ public class OnePartResource extends GenericResource {
             }
         });
     }
-
-
-
-
 }
