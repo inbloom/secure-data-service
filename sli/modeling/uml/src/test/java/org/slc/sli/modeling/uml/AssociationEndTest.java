@@ -19,6 +19,7 @@ package org.slc.sli.modeling.uml;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
+import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,12 +31,11 @@ public class AssociationEndTest {
 
     private AssociationEnd associationEnd;
     private Identifier identifier = Identifier.random();
-    private Range range = new Range(Occurs.ZERO, Occurs.ONE);
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(new Multiplicity(range), "TestAssocEnd", false, identifier);
+        associationEnd = new AssociationEnd(TestUtils.zeroToOne, "TestAssocEnd", false, identifier);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AssociationEndTest {
     public void testToString() {
         String string1 = associationEnd.toString();
         String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + new Multiplicity(range) + "}";
+                + ", multiplicity: " + TestUtils.zeroToOne + "}";
         assertEquals(string1, string2);
     }
 
