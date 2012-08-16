@@ -61,6 +61,7 @@ public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffP
     @Autowired
     OtherNamesConverter otherNameConverter;
 
+    @Autowired
     PhoneNumberListConverter phoneNumberListConverter;
 
     @Autowired
