@@ -55,11 +55,14 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
+    private int totalEmbeddedEntities;
+
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        int count = 0;
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, count);
+        this.totalEmbeddedEntities = 0;
+
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
 
     }
 
@@ -69,8 +72,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first
-                                          int count) {
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
@@ -110,13 +112,20 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false, count);
+                Type type = types.peek();
+
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);
 
-                count += list.size();
-                System.out.println ("count = " + count);
+
+
+                if (currentType.isClassType()) {
+                    this.totalEmbeddedEntities += list.size();
+                    System.out.println("Found " + list.size() + getEntityDefinition(currentType).getResourceName() + " entities.");
+                    System.out.println ("count = " + this.totalEmbeddedEntities);
+                }
             }
 
             results = filterFields(results, plan);
