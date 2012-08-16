@@ -16,9 +16,11 @@
 
 package org.slc.sli.aggregation.mapreduce.map;
 
+import java.io.IOException;
+
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
-import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.conf.Configuration;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
@@ -29,11 +31,13 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 public class CmdLineQueryMapper extends IDMapper {
 
     @Override
-    public void configure(JobConf conf) {
-        super.configure(conf);
+    public void setup(Context context) throws InterruptedException, IOException {
+        super.setup(context);
+
+        Configuration conf = context.getConfiguration();
 
         String[] propertyNames =
-            conf.getStrings(ConfigurableChainedMapper.mapper_entry.COMMAND_LINE_QUERY_PROPERTIES
+            conf.getStrings(ConfigurableMapper.mapper_entry.COMMAND_LINE_QUERY_PROPERTIES
                 .toString());
 
         if (propertyNames == null) {

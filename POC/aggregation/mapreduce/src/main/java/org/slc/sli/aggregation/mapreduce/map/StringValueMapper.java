@@ -16,24 +16,25 @@
 
 package org.slc.sli.aggregation.mapreduce.map;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.bson.BSONObject;
 
 /**
  * StringValueMapper - mongo value mapper that emits String values.
  */
 class StringValueMapper extends ValueMapper {
-    
+
     public StringValueMapper(String fieldName) {
         this.fieldName = fieldName;
     }
-    
+
     @Override
-    public Writable getValue(BSONObject entity) {
+    public Writable getValue(BSONWritable entity) {
         Writable rval = NullWritable.get();
-        
+
         String value = BSONValueLookup.getValue(entity, fieldName);
         if (value != null && value instanceof String) {
             rval = new Text(value);

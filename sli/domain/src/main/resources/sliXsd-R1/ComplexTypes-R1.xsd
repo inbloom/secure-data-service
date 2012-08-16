@@ -1012,6 +1012,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentAssociations" type="studentParentAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Students associated with the parent.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1214,9 +1220,7 @@
 				teachers or other staff members, may be delivered in person or via a
 				different medium.
 
-				Associations: TeacherSectionAssociation,
-				StudentSectionAssociation,
-				SectionAssessmentAssociation
+				Associations: SectionAssessmentAssociation
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
@@ -1382,6 +1386,18 @@
                 <xs:annotation>
                     <xs:documentation>
                         Grade book entries for the section.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Students associated with the section.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="teacherAssociations" type="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Teachers associated with the section.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -1690,22 +1706,10 @@
 				school of service.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffReference" type="reference">
-				<xs:annotation>
-					<xs:documentation>The staff assigned to the education
-						organization.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="educationOrganizationReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
@@ -2198,6 +2202,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="edOrgAssociations" type="staffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Education organization associations of the staff member.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -2487,6 +2497,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="specialEducationAttributes" type="studentSpecialEdAttributes" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>A collection of student attributes for special education.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="displacementStatus" type="displacementStatusType"
 				minOccurs="0">
 				<xs:annotation>
@@ -3236,16 +3252,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="parentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The parent or guardian of the student.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>parent</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element minOccurs="0" name="relation" type="relationType">
 				<xs:annotation>
 					<xs:documentation>
@@ -3375,16 +3381,72 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="specialEducationAttributes" type="specialEdStudentProgramAssociationAttributes"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Optional special education attributes of a student program association.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentSectionAssociation">
+    <xs:complexType name="specialEdStudentProgramAssociationAttributes">
+        <xs:annotation>
+            <xs:documentation>
+                Special education attributes of a student program association.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
+            <xs:annotation>
+                    <xs:documentation>The setting in which a child receives special
+                        education and related services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specialEducationHoursPerWeek" type="xs:double" minOccurs="0">
+            <xs:annotation>
+                    <xs:documentation>The number of hours per week for special
+                        education instruction and therapy
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastEvaluationDate" type="xs:date" minOccurs="0">
+            <xs:annotation>
+                    <xs:documentation>The date of the last special education
+                        evaluation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="iepReviewDate" type="xs:date" minOccurs="0">
+            <xs:annotation>
+                    <xs:documentation>The date of the last IEP review.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="iepBeginDate" type="xs:date" minOccurs="0">
+            <xs:annotation>
+                    <xs:documentation>The effective date of the most recent IEP
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="iepEndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The end date of the most recent IEP
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="studentSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the course sections a
 				student is assigned to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -3395,16 +3457,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The section the student is enrolled in.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -3654,115 +3706,62 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentSpecialEdProgramAssociation">
-		<xs:annotation>
-			<xs:documentation>This association represents the special education
-				program(s) that a student participates in or receives services from.
-				The association is an extension of the StudentProgramAssociation
-				particular for special education programs.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="studentProgramAssociation">
-				<xs:sequence>
-					<xs:element name="ideaEligibility" type="ideaEligibilityType">
-						<xs:annotation>
-							<xs:documentation>Indicator of the eligibility of the student to
-								receive special education services according to the Individuals
-								with Disabilities Education Act (IDEA).
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The setting in which a child receives special
-								education and related services.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="specialEducationHoursPerWeek" type="xs:double"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The number of hours per week for special
-								education instruction and therapy
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="multiplyDisabled" type="xs:boolean"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates whether the student receiving special
-								education and related services has been designated as multiply
-								disabled by the admission, review, and dismissal committee as
-								aligned with Federal requirements.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="medicallyFragile" type="xs:boolean"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates whether the student receiving special
-								education and related services is:
-								1) in the age range of birth
-								to 22 years, and
-								2) has a serious, ongoing illness or a chronic
-								condition that has
-								lasted or is anticipated to last at least 12
-								or more months or
-								has required at least one month of
-								hospitalization, and that
-								requires daily, ongoing medical
-								treatments and monitoring by
-								appropriately trained personnel
-								which may include parents or
-								other family members, and
-								3) requires
-								the routine use of medical device or of assistive
-								technology to
-								compensate for the loss of usefulness of a body
-								function needed
-								to participate in activities of daily living,
-								and
-								4) lives with
-								ongoing threat to his or her continued well-being.
-								Aligns with
-								Federal requirements.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="lastEvaluationDate" type="xs:date"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The date of the last special education
-								evaluation.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="iepReviewDate" type="xs:date"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The date of the last IEP review.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="iepBeginDate" type="xs:date"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The effective date of the most recent IEP
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="iepEndDate" type="xs:date" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The end date of the most recent IEP
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+    <xs:complexType name="studentSpecialEdAttributes">
+        <xs:annotation>
+            <xs:documentation>Special Education attributes of a Student.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ideaEligibility" type="ideaEligibilityType">
+                <xs:annotation>
+                    <xs:documentation>Indicator of the eligibility of the student to
+                        receive special education services according to the Individuals
+                        with Disabilities Education Act (IDEA).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="multiplyDisabled" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates whether the student receiving special
+                        education and related services has been designated as multiply
+                        disabled by the admission, review, and dismissal committee as
+                        aligned with Federal requirements.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="medicallyFragile" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates whether the student receiving special
+                        education and related services is:
+                        1) in the age range of birth
+                        to 22 years, and
+                        2) has a serious, ongoing illness or a chronic
+                        condition that has
+                        lasted or is anticipated to last at least 12
+                        or more months or
+                        has required at least one month of
+                        hospitalization, and that
+                        requires daily, ongoing medical
+                        treatments and monitoring by
+                        appropriately trained personnel
+                        which may include parents or
+                        other family members, and
+                        3) requires
+                        the routine use of medical device or of assistive
+                        technology to
+                        compensate for the loss of usefulness of a body
+                        function needed
+                        to participate in activities of daily living,
+                        and
+                        4) lives with
+                        ongoing threat to his or her continued well-being.
+                        Aligns with
+                        Federal requirements.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 	<xs:complexType name="courseTranscript">
 		<xs:annotation>
@@ -3945,21 +3944,10 @@
 				instructional services to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>teacherSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="teacherId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The teacher providing services to the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.
@@ -4001,6 +3989,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="schoolAssociations" type="teacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>School associations of the teacher.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -4011,7 +4005,6 @@
 				assigned to.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -4022,16 +4015,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>teacher</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The section the teacher is assigned to.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>

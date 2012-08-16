@@ -1082,7 +1082,7 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected GenericEntity readEntity(String token, String url) {
+    public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
 
         try {
@@ -1121,7 +1121,7 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected List<GenericEntity> readEntityList(String token, String url) {
+    public List<GenericEntity> readEntityList(String token, String url) {
         List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
             List<Entity> entityList = getClient(token).read(url);

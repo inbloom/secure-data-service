@@ -1,11 +1,12 @@
 @rc
-Feature:  Portal Login 
+Feature:  RC Integration Tests
 
 Background:
 Given I have an open web browser
-When I navigate to the Portal home page
 
+#This is just a sample of how portal is integrated
 Scenario: SEA Login
+When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page    
@@ -16,9 +17,42 @@ Then I should be on the admin page
 And under System Tools, I click on "Account Approval"
 And I click on log out
 
-#TODO log in as jstevenson, make sure i dont' see dash/databrowser
+Scenario: Realm Admin Logins to create realm
+When I navigate to the Portal home page
+When I selected the realm "Shared Learning Infrastructure"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page  
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Realm Management"
+And I switch to the iframe
+And I should see that I am on the new realm page
+And all of the input fields should be blank
+And I should enter "Daybreak Test Realm" into the Display Name field
+And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into IDP URL
+And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into Redirect Endpoint
+And I should enter "IL-Daybreak" into Realm Identifier
+And I should click the "Save" button
+Then I should be redirected back to the edit page
+And I switch to the iframe
+And I should receive a notice that the realm was successfully "created"
+And I should see that I am on the "Daybreak Test Realm" edit page
+
+Scenario: User cannot access Bootstrapped Apps before approval
+When I navigate to the Portal home page
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should not see "SLC Dashboards"
+And I click on Admin
+And I should be on the admin page
+And I should not see "SLC Data Browser"
 
 Scenario:  Daybreakadmin approves Dashboard and Databrowser
+When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page    
@@ -72,7 +106,8 @@ And the Deny button next to it is enabled
 #And I click on log out
 
 Scenario: Admin Logs into databrowser from portal
-When I selected the realm "Illinois Daybreak School District 4529"
+When I navigate to the Portal home page
+When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
 Then I should be on Portal home page
@@ -82,3 +117,17 @@ Then I should be on the admin page
 And under Application Configuration, I see the following: "SLC Dashboards"
 And under System Tools, I see the following "SLC Data Browser"
 And under System Tools, I click on "SLC Data Browser"
+
+Scenario: Session sharing
+When I navigate to the dashboard page
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
+And I am redirected to the dashboard home page
+When I navigate to the databrowser page
+Then I do not see any login pages
+And I click on the logout link
+Then I should see a message that I was logged out
+And I should forced to reauthenticate to gain access
+When I navigate to the dashboard home page
+Then I should forced to reauthenticate to gain access

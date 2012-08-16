@@ -18,6 +18,7 @@ package org.slc.sli.dashboard.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Link;
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.ContactSorter;
@@ -246,7 +248,7 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
         return getApiClient().getEntity(token, type, id, params);
     }
-
+    
     /**
      * Returns a list of students, which match the search parameters
      *
@@ -314,6 +316,60 @@ public class EntityManager extends ApiClientManager {
         }
 
         return section;
+    }
+
+    
+    public GenericEntity getCurrentCoursesAndGrades(String token , String studentId) {
+    	GenericEntity student = getStudent(token, studentId);
+    	List<Link> links = student.getLinks();
+    	List<GenericEntity> toReturn = new LinkedList<GenericEntity>();
+    	try {
+    	for (Link link : links) {
+    		if (link.getLinkName().equals("getStudentSectionAssociations")) {
+    			
+    			List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString());
+    			for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
+    				GenericEntity toAdd = new GenericEntity();
+    				GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString("sectionId"));
+    				toAdd.put("sectionName", section.get("uniqueSectionCode"));
+    				Map teacher = (Map)section.get(Constants.ATTR_TEACHER_NAME);
+    				String teacherName = "";
+	    			if (teacher != null){
+    					if (teacher.containsKey("personalTitlePrefix")) {
+	    					teacherName += teacher.get("personalTitlePrefix") +". ";
+	    				}
+	    				if (teacher.containsKey("firstName")) {
+	    					teacherName += teacher.get("firstName")+" ";
+	    				}
+	    				if (teacher.containsKey("lastSurname")) {
+	    					teacherName += teacher.get("lastSurname");
+	    				}
+	    			}
+    				toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName);
+    				toAdd.put(Constants.ATTR_COURSE_TITLE, section.get(Constants.ATTR_COURSE_TITLE));
+    				toAdd.put(Constants.ATTR_SUBJECTAREA, section.get(Constants.ATTR_SUBJECTAREA));
+    				
+    				for (Link stuSecLinks : studentSectionAssociation.getLinks()) {
+    					if (stuSecLinks.getLinkName().equals("getGrades")) {
+    						List<GenericEntity> grades = getApiClient().readEntityList(token, stuSecLinks.getResourceURL().toString());
+    						for (GenericEntity grade : grades) {
+    							toAdd.put(grade.getString("gradeType"), grade.getString("letterGradeEarned"));
+    						}
+    					}
+    				}
+    				toReturn.add(toAdd);
+    			}
+    		
+    		}
+		
+    	}
+    	}catch(Exception e) {
+    		log.error(e.getMessage());
+    	}
+    	GenericEntity ge = new GenericEntity();
+    	ge.put("coursesAndGrades", toReturn);
+    	
+    	return ge;
     }
 
 }

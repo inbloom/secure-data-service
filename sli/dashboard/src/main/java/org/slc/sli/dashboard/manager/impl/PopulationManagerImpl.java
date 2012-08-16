@@ -45,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.api.client.Link;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -1362,6 +1363,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
 
+	@Override
+	public GenericEntity getCoursesAndGrades(String token, Object studentId, Data config) {
+		return entityManager.getCurrentCoursesAndGrades(token, (String)studentId);
+	}
 
     /**
      * Retrieves attendance in a sorted order, removes all events where the student is present.
