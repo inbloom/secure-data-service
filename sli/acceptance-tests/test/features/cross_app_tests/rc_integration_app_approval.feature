@@ -105,7 +105,7 @@ And the Deny button next to it is enabled
   #TODO switch context back
 #And I click on log out
 
-Scenario: Admin Logs into databrowser from portal
+Scenario: User Logs into databrowser from portal
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
@@ -118,7 +118,7 @@ And under Application Configuration, I see the following: "SLC Dashboards"
 And under System Tools, I see the following "SLC Data Browser"
 And under System Tools, I click on "SLC Data Browser"
 
-Scenario: Session sharing
+Scenario: Sessions are shared between apps
 When I navigate to the dashboard page
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
@@ -131,3 +131,15 @@ Then I should see a message that I was logged out
 And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
+
+Scenario: User accesses Developer App 
+When I navigate to the Portal home page
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
+Then I should be on Portal home page
+# Enable after we know what the dev app is
+#And under My Applications, I see the following apps: "SLC Dashboards;"
+#And under My Applications, I click on "Dev App"
+#Then I should see "app"
+	
