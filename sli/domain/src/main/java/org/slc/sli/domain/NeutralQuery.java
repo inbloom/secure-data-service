@@ -18,7 +18,10 @@
 package org.slc.sli.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -29,8 +32,8 @@ import java.util.List;
  */
 public class NeutralQuery {
 
-    private String includeFields;
-    private String excludeFields;
+    private List<String> includeFields;
+    private List<String> excludeFields;
     private int offset;
     private int limit;
     private String sortBy;
@@ -206,12 +209,30 @@ public class NeutralQuery {
         return this.queryCriteria;
     }
 
-    public String getIncludeFieldString() {
-        return this.includeFields;
+    public List<String> getIncludeFields() {
+        return includeFields;
     }
 
+    public void setIncludeFields(List<String> includeFields) {
+        this.includeFields = includeFields;
+    }
+
+    public List<String> getExcludeFields() {
+        return excludeFields;
+    }
+
+    public void setExcludeFields(List<String> excludeFields) {
+        this.excludeFields = excludeFields;
+    }
+
+    @Deprecated
+    public String getIncludeFieldString() {
+        return StringUtils.join(this.includeFields, ",");
+    }
+
+    @Deprecated
     public String getExcludeFieldString() {
-        return this.excludeFields;
+        return StringUtils.join(this.excludeFields, ",");
     }
 
     public int getOffset() {
@@ -239,11 +260,11 @@ public class NeutralQuery {
     }
 
     public void setIncludeFieldString(String newIncludeFields) {
-        this.includeFields = newIncludeFields;
+        this.includeFields = Arrays.asList(newIncludeFields.split(","));
     }
 
     public void setExcludeFieldString(String newExcludeFields) {
-        this.excludeFields = newExcludeFields;
+        this.excludeFields = Arrays.asList(newExcludeFields.split(","));
     }
 
     public void setSortBy(String newSortBy) {
