@@ -23,7 +23,7 @@ import org.slc.sli.modeling.uml.index.DefaultVisitor;
 import static org.junit.Assert.assertEquals;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for Attribute
  * @author chung
  */
 public class AttributeTest {
