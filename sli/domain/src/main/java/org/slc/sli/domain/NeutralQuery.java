@@ -85,58 +85,79 @@ public class NeutralQuery {
         this.orQueries = new ArrayList<NeutralQuery>(otherNeutralQuery.orQueries);
     }
 
+
     @Override
     public int hashCode() {
-        return super.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((excludeFields == null) ? 0 : excludeFields.hashCode());
+        result = prime * result + ((includeFields == null) ? 0 : includeFields.hashCode());
+        result = prime * result + limit;
+        result = prime * result + offset;
+        result = prime * result + ((orQueries == null) ? 0 : orQueries.hashCode());
+        result = prime * result + ((queryCriteria == null) ? 0 : queryCriteria.hashCode());
+        result = prime * result + ((sortBy == null) ? 0 : sortBy.hashCode());
+        result = prime * result + ((sortOrder == null) ? 0 : sortOrder.hashCode());
+        return result;
     }
 
     @Override
-    public boolean equals(Object o) {
-
-        if (o instanceof NeutralQuery) {
-            NeutralQuery neutralQuery = (NeutralQuery) o;
-
-            if (this.offset != neutralQuery.offset) {
-                return false;
-            }
-
-            if (this.limit != neutralQuery.limit) {
-                return false;
-            }
-
-            boolean includeFieldsMatch = this.valuesMatch(this.includeFields, neutralQuery.includeFields);
-            boolean excludeFieldsMatch = this.valuesMatch(this.excludeFields, neutralQuery.excludeFields);
-            boolean sortByFieldsMatch = this.valuesMatch(this.sortBy, neutralQuery.sortBy);
-            boolean sortOrdersMatch = this.valuesMatch(this.sortOrder, neutralQuery.sortOrder);
-
-            if (!includeFieldsMatch || !excludeFieldsMatch || !sortByFieldsMatch || !sortOrdersMatch) {
-                return false;
-            }
-
-            if (this.queryCriteria.size() != neutralQuery.queryCriteria.size()) {
-                return false;
-            }
-
-            for (NeutralCriteria nc : this.queryCriteria) {
-                if (!neutralQuery.queryCriteria.contains(nc)) {
-                    return false;
-                }
-            }
-
-            if (this.orQueries.size() != neutralQuery.orQueries.size()) {
-                return false;
-            }
-
-            for (NeutralQuery nq : this.orQueries) {
-                if (!neutralQuery.orQueries.contains(nq)) {
-                    return false;
-                }
-            }
-
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-
-        return false;
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        NeutralQuery other = (NeutralQuery) obj;
+        if (excludeFields == null) {
+            if (other.excludeFields != null) {
+                return false;
+            }
+        } else if (!excludeFields.equals(other.excludeFields)) {
+            return false;
+        }
+        if (includeFields == null) {
+            if (other.includeFields != null) {
+                return false;
+            }
+        } else if (!includeFields.equals(other.includeFields)) {
+            return false;
+        }
+        if (limit != other.limit) {
+            return false;
+        }
+        if (offset != other.offset) {
+            return false;
+        }
+        if (orQueries == null) {
+            if (other.orQueries != null) {
+                return false;
+            }
+        } else if (!orQueries.equals(other.orQueries)) {
+            return false;
+        }
+        if (queryCriteria == null) {
+            if (other.queryCriteria != null) {
+                return false;
+            }
+        } else if (!queryCriteria.equals(other.queryCriteria)) {
+            return false;
+        }
+        if (sortBy == null) {
+            if (other.sortBy != null) {
+                return false;
+            }
+        } else if (!sortBy.equals(other.sortBy)) {
+            return false;
+        }
+        if (sortOrder != other.sortOrder) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -156,19 +177,6 @@ public class NeutralQuery {
     public List<NeutralQuery> getOrQueries() {
         return this.orQueries;
     }
-
-    private boolean valuesMatch(Object value1, Object value2) {
-
-        //both null? they match
-        if (value1 == null && value2 == null) {
-            return true;
-        } else if (value1 == null || value2 == null) {
-            return false;
-        } else {
-            return value1.equals(value2);
-        }
-    }
-
 
 
     /**
@@ -246,51 +254,11 @@ public class NeutralQuery {
         this.sortOrder = newSortOrder;
     }
 
-    /**
-     * Exposes relevant fields for the neutral query.
-     */
     @Override
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer();
-
-        stringBuffer.append("offset=");
-        stringBuffer.append(this.offset);
-        stringBuffer.append("&limit=");
-        stringBuffer.append(this.limit);
-
-        if (this.includeFields != null) {
-            stringBuffer.append("&includeFields=");
-            stringBuffer.append(this.includeFields);
-        }
-
-        if (this.excludeFields != null) {
-            stringBuffer.append("&excludeFields=");
-            stringBuffer.append(this.excludeFields);
-        }
-
-        if (this.sortBy != null) {
-            stringBuffer.append("&sortBy=");
-            stringBuffer.append(this.sortBy);
-        }
-
-        if (this.sortOrder != null) {
-            stringBuffer.append("&sortOrder=");
-            stringBuffer.append(this.sortOrder);
-        }
-
-        for (NeutralCriteria neutralCriteria : this.queryCriteria) {
-            stringBuffer.append("&");
-            stringBuffer.append(neutralCriteria.getKey());
-            stringBuffer.append(neutralCriteria.getOperator());
-            stringBuffer.append(neutralCriteria.getValue());
-        }
-
-        for (NeutralQuery query : this.orQueries) {
-            stringBuffer.append("$or{");
-            stringBuffer.append(query.toString());
-            stringBuffer.append("}");
-        }
-
-        return stringBuffer.toString();
+        return "NeutralQuery [includeFields=" + includeFields + ", excludeFields=" + excludeFields + ", offset="
+                + offset + ", limit=" + limit + ", sortBy=" + sortBy + ", sortOrder=" + sortOrder + ", queryCriteria="
+                + queryCriteria + ", orQueries=" + orQueries + "]";
     }
+
 }
