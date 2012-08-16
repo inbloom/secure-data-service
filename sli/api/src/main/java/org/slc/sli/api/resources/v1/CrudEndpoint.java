@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.aggregation.CalculatedValueListingResource;
+import org.slc.sli.api.resources.v1.aggregation.CalculatedValueListingResource;
 
 /**
  * The operations a CRUD endpoint should be able to perform (Create, Read, Update, Delete)

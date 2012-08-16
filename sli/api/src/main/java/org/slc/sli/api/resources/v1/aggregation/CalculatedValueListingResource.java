@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.resources.aggregation;
+package org.slc.sli.api.resources.v1.aggregation;
 
 import java.util.List;
 

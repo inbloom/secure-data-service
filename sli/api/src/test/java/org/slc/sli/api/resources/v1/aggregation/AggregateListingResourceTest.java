@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.slc.sli.api.resources.aggregation;
+package org.slc.sli.api.resources.v1.aggregation;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,7 +47,7 @@ public class AggregateListingResourceTest {
 
     /**
      * Test method for
-     * {@link org.slc.sli.api.resources.aggregation.CalculatedValueListingResource#getAvailableAggregates()}
+     * {@link org.slc.sli.api.resources.v1.aggregation.CalculatedValueListingResource#getAvailableAggregates()}
      * .
      */
     @Test
