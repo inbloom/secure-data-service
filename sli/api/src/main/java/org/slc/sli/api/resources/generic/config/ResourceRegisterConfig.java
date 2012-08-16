@@ -1,11 +1,6 @@
 package org.slc.sli.api.resources.generic.config;
 
 import com.sun.jersey.api.core.DefaultResourceConfig;
-<<<<<<< HEAD
-=======
-import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.resources.generic.GenericResource;
->>>>>>> 935ac0a7ed349b3f4a3b9af033335c823d563b90
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
