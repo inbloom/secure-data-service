@@ -48,7 +48,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  */
 public class LeaInfoTranslationTaskTest extends AdkTest {
     @InjectMocks
-    private final LEAInfoTranslationTask translator = new LEAInfoTranslationTask();
+    private final LeaInfoTranslationTask translator = new LeaInfoTranslationTask();
 
     @Mock
     SifIdResolver mockSifIdResolver;
@@ -71,7 +71,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<LeaEntity> result = translator.translate(new LEAInfo());
+        List<LeaEntity> result = translator.translate(new LEAInfo(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -82,7 +82,8 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
         String seaRefId = "SIF_SEAREFID";
         String seaGuid = "SLI_SEAGUID";
-        Mockito.when(mockSifIdResolver.getSliGuid(seaRefId)).thenReturn(seaGuid);
+        String zoneId = "zoneId";
+        Mockito.when(mockSifIdResolver.getSliGuid(seaRefId, zoneId)).thenReturn(seaGuid);
 
         String leaOrgId = "leaOrgId";
         info.setStateProvinceId(leaOrgId);
@@ -93,7 +94,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
         String url = "LEAURL";
         info.setLEAURL(url);
 
-        List<LeaEntity> result = translator.translate(info);
+        List<LeaEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -101,10 +102,10 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
         Assert.assertEquals(name, entity.getNameOfInstitution());
         Assert.assertEquals(url, entity.getWebSite());
         // This line should work onces LEA to parent SEA id resolution is in place
-        //   Assert.assertEquals(seaGuid, entity.getParentEducationAgencyReference());
+        // Assert.assertEquals(seaGuid, entity.getParentEducationAgencyReference());
     }
 
-     @Test
+    @Test
     public void testAddressList() throws SifTranslationException {
         AddressList addressList = new AddressList();
         LEAInfo info = new LEAInfo();
@@ -112,10 +113,9 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
         List<Address> address = new ArrayList<Address>();
 
-        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
-                address);
+        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
-        List<LeaEntity> result = translator.translate(info);
+        List<LeaEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -128,8 +128,9 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
     public void testOperationalStatus() throws SifTranslationException {
         LEAInfo info = new LEAInfo();
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
-        Mockito.when(operationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus()))).thenReturn("Closed");
-        List<LeaEntity> result = translator.translate(info);
+        Mockito.when(operationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus())))
+                .thenReturn("Closed");
+        List<LeaEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -147,7 +148,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<LeaEntity> result = translator.translate(info);
+        List<LeaEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 

@@ -28,11 +28,15 @@ import openadk.library.common.AddressType;
 import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
 import openadk.library.common.Demographics;
+import openadk.library.common.ElectronicId;
+import openadk.library.common.ElectronicIdList;
+import openadk.library.common.ElectronicIdType;
 import openadk.library.common.Email;
 import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitTypeCode;
+import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
@@ -41,6 +45,9 @@ import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
@@ -50,6 +57,8 @@ import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -59,12 +68,14 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
 import openadk.library.student.TimeFrame;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -348,7 +359,125 @@ public class SifEntityGeneratorTest {
         Assert.assertEquals(1, phoneNumberList.size());
 
         PhoneNumber phoneNumber = phoneNumberList.get(0);
-        Assert.assertEquals(PhoneNumberType.SIF1x_HOME_PHONE.getValue(), phoneNumber.getType());
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
         Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
+    }
+
+    @Test
+    public void testGenerateTestStaffPersonal() {
+        StaffPersonal staffPersonal = SifEntityGenerator.generateTestStaffPersonal();
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, staffPersonal.getRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, staffPersonal.getEmployeePersonalRefId());
+
+        Assert.assertEquals("946379881", staffPersonal.getLocalId());
+        Assert.assertEquals("C2345681", staffPersonal.getStateProvinceId());
+        Assert.assertEquals("Principal", staffPersonal.getTitle());
+
+        ElectronicIdList electronicIdList = staffPersonal.getElectronicIdList();
+        Assert.assertEquals(1, electronicIdList.size());
+
+        ElectronicId electronicId = electronicIdList.get(0);
+        Assert.assertEquals(ElectronicIdType.BARCODE.getValue(), electronicId.getType());
+        Assert.assertEquals("206655", electronicId.getValue());
+
+        OtherIdList otherIdList = staffPersonal.getOtherIdList();
+        Assert.assertEquals(1, otherIdList.size());
+
+        OtherId otherId = otherIdList.get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId.getType());
+        Assert.assertEquals("333333333", otherId.getValue());
+
+        Name name = staffPersonal.getName();
+        Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());
+        Assert.assertEquals("Mr.", name.getPrefix());
+        Assert.assertEquals("Woodall", name.getLastName());
+        Assert.assertEquals("Charles", name.getFirstName());
+        Assert.assertEquals("William", name.getMiddleName());
+        Assert.assertEquals("Chuck", name.getPreferredName());
+
+        Demographics demographics = staffPersonal.getDemographics();
+        Assert.assertEquals(Gender.M.getValue(), demographics.getGender());
+
+        AddressList addressList = staffPersonal.getAddressList();
+        Assert.assertEquals(1, addressList.size());
+
+        Address address = addressList.get(0);
+        Assert.assertEquals(AddressType.MAILING.getValue(), address.getType());
+        Assert.assertEquals("Chicago", address.getCity());
+        Assert.assertEquals(StatePrCode.IL.getValue(), address.getStateProvince());
+        Assert.assertEquals(CountryCode.US.getValue(), address.getCountry());
+        Assert.assertEquals("60660", address.getPostalCode());
+
+        Street street = address.getStreet();
+        Assert.assertEquals("6799 33rd Ave.", street.getLine1());
+        Assert.assertEquals("6799", street.getStreetNumber());
+        Assert.assertEquals("33rd", street.getStreetName());
+        Assert.assertEquals("Ave.", street.getStreetType());
+
+        PhoneNumberList phoneNumberList = staffPersonal.getPhoneNumberList();
+        Assert.assertEquals(1, phoneNumberList.size());
+
+        PhoneNumber phoneNumber = phoneNumberList.get(0);
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
+        Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
+
+        EmailList emailList = staffPersonal.getEmailList();
+        Assert.assertEquals(1, emailList.size());
+
+        Email email = emailList.get(0);
+        Assert.assertEquals(EmailType.PRIMARY.getValue(), email.getType());
+        Assert.assertEquals("chuckw@imginc.com", email.getValue());
+    }
+
+    @Test
+    public void testGenerateTestEmployeePersonal() {
+        EmployeePersonal employeePersonal = SifEntityGenerator.generateTestEmployeePersonal();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, employeePersonal.getRefId());
+
+        HrOtherIdList hrOtherIdList = employeePersonal.getOtherIdList();
+        Assert.assertEquals(2, hrOtherIdList.size());
+
+        OtherId otherId1 = hrOtherIdList.get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId1.getType());
+        Assert.assertEquals("333333333", otherId1.getValue());
+
+        OtherId otherId2 = hrOtherIdList.get(1);
+        Assert.assertEquals(OtherIdType.OTHER.getValue(), otherId2.getType());
+        Assert.assertEquals("3333", otherId2.getValue());
+
+        Name name = employeePersonal.getName();
+        Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());
+        Assert.assertEquals("Woodall", name.getLastName());
+        Assert.assertEquals("Charles", name.getFirstName());
+
+        Demographics demographics = employeePersonal.getDemographics();
+        Assert.assertEquals(Gender.M.getValue(), demographics.getGender());
+
+        AddressList addressList = employeePersonal.getAddressList();
+        Assert.assertEquals(1, addressList.size());
+
+        Address address = addressList.get(0);
+        Assert.assertEquals(AddressType.MAILING.getValue(), address.getType());
+        Assert.assertEquals("Chicago", address.getCity());
+        Assert.assertEquals(StatePrCode.IL.getValue(), address.getStateProvince());
+        Assert.assertEquals(CountryCode.US.getValue(), address.getCountry());
+        Assert.assertEquals("60660", address.getPostalCode());
+
+        Street street = address.getStreet();
+        Assert.assertEquals("6799 33rd Ave.", street.getLine1());
+
+        PhoneNumberList phoneNumberList = employeePersonal.getPhoneNumberList();
+        Assert.assertEquals(1, phoneNumberList.size());
+
+        PhoneNumber phoneNumber = phoneNumberList.get(0);
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
+        Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
+
+        EmailList emailList = employeePersonal.getEmailList();
+        Assert.assertEquals(1, emailList.size());
+
+        Email email = emailList.get(0);
+        Assert.assertEquals(EmailType.PRIMARY.getValue(), email.getType());
+        Assert.assertEquals("chuckw@imginc.com", email.getValue());
     }
 }

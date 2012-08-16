@@ -70,7 +70,7 @@ public class EmployeePersonalTranslationTask extends AbstractTranslationTask<Emp
     }
 
     @Override
-    public List<StaffEntity> doTranslate(EmployeePersonal sifData) {
+    public List<StaffEntity> doTranslate(EmployeePersonal sifData, String zoneId) {
         EmployeePersonal ep = sifData;
         Demographics demographics = ep.getDemographics();
         StaffEntity e = new StaffEntity();

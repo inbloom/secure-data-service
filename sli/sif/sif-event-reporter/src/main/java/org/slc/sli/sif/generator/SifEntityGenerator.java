@@ -26,6 +26,9 @@ import openadk.library.common.AddressType;
 import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
 import openadk.library.common.Demographics;
+import openadk.library.common.ElectronicId;
+import openadk.library.common.ElectronicIdList;
+import openadk.library.common.ElectronicIdType;
 import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
@@ -38,6 +41,9 @@ import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
 import openadk.library.common.PublicSchoolResidenceStatus;
@@ -47,6 +53,8 @@ import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -56,6 +64,7 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
@@ -72,6 +81,8 @@ public class SifEntityGenerator {
     public static final String TEST_STUDENTPERSONAL_REFID = "20120808934983498C3D00AA00495948";
     public static final String TEST_STUDENTSCHOOLENROLLMENT_REFID = "A8C3D3E34B359D75101D00AA001A1652";
     public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
+    public static final String TEST_STAFFPERSONAL_REFID = "20120816934983498C3D00AA00495948";
+    public static final String TEST_EMPLOYEEPERSONAL_REFID = "1652D3E34F419D75101A8C3D00AA001A";
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
@@ -290,10 +301,114 @@ public class SifEntityGenerator {
         addressList.add(address);
         studentPersonal.setAddressList(addressList);
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.addPhoneNumber(PhoneNumberType.SIF1x_HOME_PHONE, "(312) 555-1234");
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
         studentPersonal.setPhoneNumberList(phoneNumberList);
         studentPersonal.setMigrant(YesNoUnknown.NO);
 
         return studentPersonal;
+    }
+
+    public static StaffPersonal generateTestStaffPersonal() {
+        StaffPersonal staffPersonal = new StaffPersonal();
+        staffPersonal.setRefId(TEST_STAFFPERSONAL_REFID);
+        staffPersonal.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+
+        staffPersonal.setLocalId("946379881");
+        staffPersonal.setStateProvinceId("C2345681");
+        staffPersonal.setTitle("Principal");
+
+        ElectronicId electronicId = new ElectronicId(ElectronicIdType.BARCODE, "206655");
+        ElectronicIdList electronicIdList = new ElectronicIdList(electronicId);
+        staffPersonal.setElectronicIdList(electronicIdList);
+
+        OtherId otherId = new OtherId(OtherIdType.SOCIALSECURITY, "333333333");
+        OtherIdList otherIdList = new OtherIdList(otherId);
+        staffPersonal.setOtherIdList(otherIdList);
+
+        Name name = new Name();
+        name.setType(NameType.NAME_OF_RECORD);
+        name.setPrefix("Mr.");
+        name.setLastName("Woodall");
+        name.setFirstName("Charles");
+        name.setMiddleName("William");
+        name.setPreferredName("Chuck");
+        staffPersonal.setName(name);
+
+        Demographics demographics = new Demographics();
+        demographics.setGender(Gender.M);
+        staffPersonal.setDemographics(demographics);
+
+        Address address = new Address();
+        address.setType(AddressType.MAILING);
+        address.setCity("Chicago");
+        address.setStateProvince(StatePrCode.IL);
+        address.setCountry(CountryCode.US);
+        address.setPostalCode("60660");
+
+        Street street = new Street();
+        street.setLine1("6799 33rd Ave.");
+        street.setStreetNumber("6799");
+        street.setStreetName("33rd");
+        street.setStreetType("Ave.");
+        address.setStreet(street);
+
+        AddressList addressList = new AddressList(address);
+        staffPersonal.setAddressList(addressList);
+
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        staffPersonal.setPhoneNumberList(phoneNumberList);
+
+        EmailList emailList = new EmailList();
+        emailList.addEmail(EmailType.PRIMARY, "chuckw@imginc.com");
+        staffPersonal.setEmailList(emailList);
+
+        return staffPersonal;
+    }
+
+    public static EmployeePersonal generateTestEmployeePersonal() {
+        EmployeePersonal employeePersonal = new EmployeePersonal();
+        employeePersonal.setRefId(TEST_EMPLOYEEPERSONAL_REFID);
+
+        OtherId otherId1 = new OtherId(OtherIdType.SOCIALSECURITY, "333333333");
+        OtherId otherId2 = new OtherId(OtherIdType.OTHER, "3333");
+        HrOtherIdList hrOtherIdList = new HrOtherIdList();
+        hrOtherIdList.add(otherId1);
+        hrOtherIdList.add(otherId2);
+        employeePersonal.setOtherIdList(hrOtherIdList);
+
+        Name name = new Name();
+        name.setType(NameType.NAME_OF_RECORD);
+        name.setLastName("Woodall");
+        name.setFirstName("Charles");
+        employeePersonal.setName(name);
+
+        Demographics demographics = new Demographics();
+        demographics.setGender(Gender.M);
+        employeePersonal.setDemographics(demographics);
+
+        Address address = new Address();
+        address.setType(AddressType.MAILING);
+        address.setCity("Chicago");
+        address.setStateProvince(StatePrCode.IL);
+        address.setCountry(CountryCode.US);
+        address.setPostalCode("60660");
+
+        Street street = new Street();
+        street.setLine1("6799 33rd Ave.");
+        address.setStreet(street);
+
+        AddressList addressList = new AddressList(address);
+        employeePersonal.setAddressList(addressList);
+
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        employeePersonal.setPhoneNumberList(phoneNumberList);
+
+        EmailList emailList = new EmailList();
+        emailList.addEmail(EmailType.PRIMARY, "chuckw@imginc.com");
+        employeePersonal.setEmailList(emailList);
+
+        return employeePersonal;
     }
 }
