@@ -13,11 +13,13 @@ import java.util.Map;
 public class RestResourceHelper implements ResourceHelper {
     private static final String RESOURCE_KEY = "resource";
     private static final String BASE_KEY = "base";
+    private static final String VERSION_KEY = "version";
+    private static final String SEP = "/";
 
     @Override
     public String getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return matchList.get(RESOURCE_KEY);
+        return matchList.get(VERSION_KEY) + SEP + matchList.get(RESOURCE_KEY);
     }
 
     @Override

@@ -41,8 +41,7 @@ public class TwoPartResource {
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
         final String resource = getResourceName(uriInfo, ResourceTemplate.TWO_PART);
-        EntityBody result = resourceService.getEntity(resource, id);
-
+        final EntityBody result = resourceService.getEntity(resource, id);
         return Response.ok(result).build();
     }
 

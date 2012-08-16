@@ -47,7 +47,9 @@ public class DefaultResourceService implements ResourceService {
         return definition.getService().create(entity);
     }
 
-    public EntityDefinition getEntityDefinition(String resource) {
-        return entityDefinitionStore.lookupByResourceName(resource);
+    public EntityDefinition getEntityDefinition(final String resource) {
+        //FIXME TODO
+        final String resourceType = resource.split("/")[1];
+        return entityDefinitionStore.lookupByResourceName(resourceType);
     }
 }
