@@ -48,7 +48,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  */
 public class LeaInfoTranslationTaskTest extends AdkTest {
     @InjectMocks
-    private final LEAInfoTranslationTask translator = new LEAInfoTranslationTask();
+    private final LeaInfoTranslationTask translator = new LeaInfoTranslationTask();
 
     @Mock
     SifIdResolver mockSifIdResolver;

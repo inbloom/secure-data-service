@@ -20,38 +20,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import openadk.library.common.Demographics;
-import openadk.library.common.Language;
-import openadk.library.common.LanguageList;
-import openadk.library.common.LanguageType;
-import openadk.library.student.MostRecent;
-import openadk.library.student.StudentPersonal;
+import openadk.library.student.StaffPersonal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
-import org.slc.sli.sif.domain.converter.EnglishProficiencyConverter;
 import org.slc.sli.sif.domain.converter.GenderConverter;
-import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
-import org.slc.sli.sif.domain.converter.LanguageListConverter;
 import org.slc.sli.sif.domain.converter.NameConverter;
 import org.slc.sli.sif.domain.converter.OtherNamesConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
 import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
-import org.slc.sli.sif.domain.slientity.StudentEntity;
+import org.slc.sli.sif.domain.slientity.StaffEntity;
 
 /**
- * Translation task for translating StudentPersonal SIF data objects to Student SLI entities.
+ * Translation task for translating StaffPersonal SIF data objects to staff SLI entities.
  *
  * @author slee
  *
  */
-public class StudentPersonalTranslationTask extends AbstractTranslationTask<StudentPersonal, StudentEntity> {
-
-    @Autowired
-    EnglishProficiencyConverter englishProficiencyConverter;
+public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffPersonal, StaffEntity> {
 
     @Autowired
     YesNoUnknownConverter yesNoUnknownConverter;
@@ -71,13 +61,6 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     @Autowired
     OtherNamesConverter otherNameConverter;
 
-    @Autowired
-    LanguageListConverter languageListConverter;
-
-    @Autowired
-    GradeLevelsConverter gradeLevelsConverter;
-
-    @Autowired
     PhoneNumberListConverter phoneNumberListConverter;
 
     @Autowired
@@ -86,28 +69,21 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     @Autowired
     AddressListConverter addressListConverter;
 
-    public StudentPersonalTranslationTask() {
-        super(StudentPersonal.class);
+    public StaffPersonalTranslationTask() {
+        super(StaffPersonal.class);
     }
 
     @Override
-    public List<StudentEntity> doTranslate(StudentPersonal sifData, String zoneId) {
-        StudentPersonal sp = sifData;
-        MostRecent mostRecent = sp.getMostRecent();
+    public List<StaffEntity> doTranslate(StaffPersonal sifData, String zoneId) {
+        StaffPersonal sp = sifData;
         Demographics demographics = sp.getDemographics();
-        StudentEntity e = new StudentEntity();
+        StaffEntity e = new StaffEntity();
         //convert properties
-        e.setStudentUniqueStateId(sp.getStateProvinceId());
+        e.setStaffUniqueStateId(sp.getStateProvinceId());
         e.setName(nameConverter.convert(sp.getName()));
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
-        Boolean economicDisadvantaged = yesNoUnknownConverter.convert(sp.getEconomicDisadvantage());
-        if (economicDisadvantaged != null) {
-            e.setEconomicDisadvantaged(economicDisadvantaged);
-        }
 
         if (demographics != null) {
-            e.setLanguages(languageListConverter.convert(demographics.getLanguageList()));
-            e.setHomeLanguages(getHomeLanguages(demographics.getLanguageList()));
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
             e.setSex(genderConverter.convert(demographics.getGender()));
@@ -115,13 +91,6 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
             if (hispanicLatinoEthnicity != null) {
                 e.setHispanicLatinoEthnicity(hispanicLatinoEthnicity);
             }
-            e.setLimitedEnglishProficiency(englishProficiencyConverter.convert(demographics.getEnglishProficiency()));
-        }
-        if (mostRecent != null) {
-            e.setGradeLevel(gradeLevelsConverter.convert(mostRecent.getGradeLevel()));
-            //SLI defines schoolId of student as string instead of reference
-            //so we simply copy SIF SchoolLocalId as a string
-            e.setSchoolId(mostRecent.getSchoolLocalId());
         }
 
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
@@ -130,18 +99,5 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
         return Arrays.asList(e);
     }
 
-    private List<String> getHomeLanguages(LanguageList languageList) {
-        Language[] languages = languageList == null ? null : languageList.getLanguages();
-        if (languages == null) {
-            return null;
-        }
-        LanguageList homeList = new LanguageList();
-        for (Language language : languages) {
-            if (language.getLanguageType() != null && LanguageType.HOME.valueEquals(language.getLanguageType())) {
-                homeList.add(language);
-            }
-        }
-        return homeList.size() == 0 ? null : languageListConverter.convert(homeList);
-    }
-
 }
+

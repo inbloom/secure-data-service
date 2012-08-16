@@ -39,7 +39,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  *
  */
 @Component
-public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LeaEntity> {
+public class LeaInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LeaEntity> {
     @Autowired
     OperationalStatusConverter operationalStatusConverter;
 
@@ -52,7 +52,7 @@ public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, Lea
     @Autowired
     SifIdResolver sifIdResolver;
 
-    public LEAInfoTranslationTask() {
+    public LeaInfoTranslationTask() {
         super(LEAInfo.class);
     }
 
