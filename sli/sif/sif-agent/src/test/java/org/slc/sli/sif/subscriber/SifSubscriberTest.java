@@ -16,6 +16,7 @@
 package org.slc.sli.sif.subscriber;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import openadk.library.ADKException;
@@ -28,12 +29,14 @@ import openadk.library.student.SchoolInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.sif.AdkTest;
+import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slc.sli.sif.translation.SifTranslationManager;
 
 /**
@@ -47,6 +50,9 @@ public class SifSubscriberTest extends AdkTest {
 
     @Mock
     private SifTranslationManager translationManager;
+
+    @Mock
+    private SlcInterface mockSlcInterface;
 
     @Before
     public void setupMocks() {
@@ -69,6 +75,30 @@ public class SifSubscriberTest extends AdkTest {
         subscriber.onEvent(event, zone, info);
 
         Mockito.verify(translationManager, Mockito.times(1)).translate(sifData, "zoneId");
+    }
+
+    @Test
+    public void shouldCreateTranslatedAddEvents() throws ADKException {
+
+        SchoolInfo sifData = new SchoolInfo();
+        Event event = new Event(sifData, EventAction.ADD);
+        String apiGuid = "SomeGuid";
+
+        Zone zone = Mockito.mock(Zone.class);
+        Mockito.when(zone.getZoneId()).thenReturn("zoneId");
+        MessageInfo info = Mockito.mock(MessageInfo.class);
+        Mockito.when(mockSlcInterface.create(Matchers.any(GenericEntity.class))).thenReturn(apiGuid);
+
+        List<GenericEntity> translatedEntities = new ArrayList<GenericEntity>();
+        translatedEntities.add(new GenericEntity("someType1", new HashMap<String, Object>()));
+        translatedEntities.add(new GenericEntity("someType2", new HashMap<String, Object>()));
+
+        Mockito.when(translationManager.translate(sifData, "zoneId")).thenReturn(translatedEntities);
+
+        subscriber.onEvent(event, zone, info);
+
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).create(translatedEntities.get(0));
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).create(translatedEntities.get(1));
     }
 
 }
