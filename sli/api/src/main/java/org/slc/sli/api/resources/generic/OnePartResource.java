@@ -2,7 +2,7 @@ package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.service.ResourceService;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,8 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,42 +25,37 @@ import java.util.Set;
  */
 @Component
 @Scope("request")
-public class OnePartResource {
+public class OnePartResource extends GenericResource {
 
     @Autowired
     private ResourceService resourceService;
 
-    @Autowired
-    private ResourceHelper resourceHelper;
-
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupportedMethods;
-
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        final String key = getResourceName(uriInfo, ResourceTemplate.ONE_PART_FULL);
+        return handle(uriInfo, ResourceTemplate.ONE_PART_FULL, ResourceMethod.GET, new ResourceLogic() {
+            @Override
+            public Response run(String resourceName) {
+                List<EntityBody> results = resourceService.getEntities(resourceName);
 
-        Set<String> values = resourceSupportedMethods.get(key);
-        if (!values.contains("GET")) {
-            throw new UnsupportedOperationException("GET not supported");
-        }
-
-        final String resource = getResourceName(uriInfo, ResourceTemplate.ONE_PART);
-        List<EntityBody> results = resourceService.getEntities(resource);
-
-        return Response.ok(results).build();
+                return Response.ok(results).build();
+            }
+        });
     }
 
     @POST
     public Response post(final EntityBody entityBody,
                          @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.ONE_PART);
-        String id = resourceService.postEntity(resource, entityBody);
+        return handle(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST, new ResourceLogic() {
+            @Override
+            public Response run(String resourceName) {
+                String id = resourceService.postEntity(resourceName, entityBody);
 
-        return Response.ok(id).build();
+                return Response.ok(id).build();
+            }
+        });
     }
 
-    protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
-        return resourceHelper.grabResource(uriInfo.getRequestUri().toString(), template);
-    }
+
+
+
 }
