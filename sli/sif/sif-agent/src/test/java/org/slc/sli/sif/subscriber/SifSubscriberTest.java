@@ -25,6 +25,7 @@ import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.MessageInfo;
+import openadk.library.SIFDataObject;
 import openadk.library.Zone;
 import openadk.library.student.SchoolInfo;
 
@@ -214,6 +215,21 @@ public class SifSubscriberTest extends AdkTest {
         Assert.assertEquals(finalSubMap.get("7"), "g");
         Assert.assertEquals(finalSubMap.get("8"), "H");
         Assert.assertEquals(finalSubMap.get("9"), "I");
+
+    }
+
+    @Test
+    public void shouldNotProcessOtherEvents() throws ADKException {
+
+        SchoolInfo sifData = new SchoolInfo();
+        Event event = new Event(sifData, EventAction.DELETE);
+        MessageInfo info = Mockito.mock(MessageInfo.class);
+        Zone zone = Mockito.mock(Zone.class);
+        Mockito.when(zone.getZoneId()).thenReturn("zoneId");
+
+        subscriber.onEvent(event, zone, info);
+
+        Mockito.verify(translationManager, Mockito.times(0)).translate(Mockito.any(SIFDataObject.class),Mockito.anyString());
 
     }
 
