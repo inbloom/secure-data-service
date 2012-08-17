@@ -22,7 +22,6 @@ import org.slc.sli.modeling.uml.index.DefaultVisitor;
 import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * JUnit test for Range
