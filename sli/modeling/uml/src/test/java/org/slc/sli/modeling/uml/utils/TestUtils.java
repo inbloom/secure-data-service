@@ -18,6 +18,10 @@ package org.slc.sli.modeling.uml.utils;
 import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TaggedValue;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utilities for unit tests
@@ -26,4 +30,5 @@ import org.slc.sli.modeling.uml.Range;
 public class TestUtils {
     public static final Multiplicity zeroToOne = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
     public static final Multiplicity oneToMany = new Multiplicity(new Range(Occurs.ONE, Occurs.UNBOUNDED));
+    public static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
 }
