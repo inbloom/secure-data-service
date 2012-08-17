@@ -57,18 +57,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
 
-  @production 
-  Scenario Outline:  As an LEA administrator, I can only see myself and not other LEAs in my EdOrg
-
-    Given there is another LEA with "<Full_Name>" in my "<TENANT>" and "<EDORG>"
-      And I have logged in to realm "<REALM>" using "<USERNAME>" "<PASSWORD>"
-      When I navigate to GET "/users"
-      Then I think I am the only LEA in my EdOrg "<EDORG>"
-
-  Examples:
-    |USERNAME      |PASSWORD          |REALM      |Number   |TENANT     |EDORG       |Full_Name        |
-    |sunsetadmin   |sunsetadmin1234   |SLI        |1        |Midgar     |IL-SUNSET   |LEA testadmin    |
-
 
   #sandbox
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
@@ -200,8 +188,8 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
-# lea can't create peer lea even in same ed-org
-	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |403 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
+# lea can't create peer lea even in same ed-org -- this just become a happy path item, should work!
+	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |201 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
 # lea creates a lea in a different part of the ed-org hierarchy
 	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator15  |LEA_Administrator15  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-DAYBREAK|
 # operator creates a lea with ed-org in different tenant.
@@ -288,7 +276,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |400 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |      |           |

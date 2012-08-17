@@ -121,11 +121,19 @@ public class UserResourceTest {
         // LEA
         Mockito.when(secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)).thenReturn(true);
         newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
-        newUser.setEdorg(EDORG2);
+        newUser.setEdorg(EDORG1);
         res = resource.create(newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(201, res.getStatus());
         Mockito.verify(ldap, Mockito.times(3)).createUser(REALM, newUser);
+
+        // LEA - unhappy, can't create LEA in other EdOrgs
+        Mockito.when(secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)).thenReturn(true);
+        newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        newUser.setEdorg(EDORG2);
+        res = resource.create(newUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(400, res.getStatus());
 
         // cannot create without CRUD_LEA_ADMIN
         rights.remove(Right.CRUD_LEA_ADMIN);
@@ -204,16 +212,110 @@ public class UserResourceTest {
         Mockito.when(secUtil.getAllRights()).thenReturn(rights);
         Mockito.when(secUtil.getUid()).thenReturn(UUID1);
         User newUser = new User();
-        newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
+        newUser.setGroups(Arrays.asList(RoleInitializer.INGESTION_USER));
         newUser.setUid(UUID2);
+        newUser.setTenant(TENANT);
+        newUser.setEdorg(EDORG1);
         newUser.setFullName("Robb Stark");
         newUser.setEmail("robbstark@winterfell.gov");
-        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(newUser);
-        Response res = resource.update(newUser);
-        Mockito.verify(ldap).getUser(REALM, newUser.getUid());
+        User ldapUser = new User();
+        ldapUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        ldapUser.setUid(UUID2);
+        ldapUser.setFullName("Robb Stark");
+        ldapUser.setEmail("robbstark@winterfell.gov");
+        ldapUser.setTenant(TENANT);
+        ldapUser.setEdorg(EDORG1);
+        User ldapUser2 = new User();
+        ldapUser2.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        ldapUser2.setUid(UUID2 + "2");
+        ldapUser2.setFullName("Robb Stark");
+        ldapUser2.setEmail("robbstark@winterfell.gov");
+        ldapUser2.setTenant(TENANT);
+        ldapUser2.setEdorg(EDORG1);
+
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(ldapUser);
+        Mockito.when(
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                         Mockito.anyString(), Mockito.anyCollectionOf(String.class))).thenReturn(Arrays.asList(ldapUser));
+        Response res = resource.update(ldapUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(400, res.getStatus());
+
+        Mockito.when(
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                         Mockito.anyString(), Mockito.anyCollectionOf(String.class))).thenReturn(Arrays.asList(ldapUser, ldapUser2));
+        res = resource.update(newUser);
         Mockito.verify(ldap).updateUser(REALM, newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
+    }
+
+    @Test
+    public void testModifySelf() {
+        Collection<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+        rights.addAll(Arrays.asList(Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN));
+        Mockito.when(adminService.getAllowedEdOrgs(TENANT, null)).thenReturn(
+                new HashSet<String>(Arrays.asList(EDORG1)));
+        Mockito.when(secUtil.getAllRights()).thenReturn(rights);
+        Mockito.when(secUtil.getUid()).thenReturn(UUID2);
+        Mockito.when(secUtil.getEdOrg()).thenReturn(EDORG1); // need a tenant without
+
+        User newUser = new User();
+        newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        newUser.setUid(UUID2);
+        newUser.setTenant(TENANT);
+        newUser.setEdorg(EDORG1);
+        newUser.setFullName("Robb Stark");
+        newUser.setEmail("robbstark@winterfell.gov");
+
+        User ldapUser = new User();
+        ldapUser.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
+        ldapUser.setUid(UUID2);
+        ldapUser.setFullName("Robb Stark");
+        ldapUser.setEmail("robbstark@winterfell.gov");
+        ldapUser.setTenant(TENANT);
+        ldapUser.setEdorg(EDORG1);
+
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(ldapUser);
+        Response res = resource.update(newUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(400, res.getStatus());
+    }
+
+    @Test
+    public void testUpdateLastSEA() {
+        Collection<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+        rights.addAll(Arrays.asList(Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN));
+        Mockito.when(adminService.getAllowedEdOrgs(TENANT, null)).thenReturn(
+                new HashSet<String>(Arrays.asList(EDORG1)));
+        Mockito.when(secUtil.getAllRights()).thenReturn(rights);
+        Mockito.when(secUtil.getUid()).thenReturn(UUID1);
+        Mockito.when(secUtil.getEdOrg()).thenReturn(EDORG1); // need a tenant without
+
+        User newUser = new User();
+        newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        newUser.setUid(UUID2);
+        newUser.setTenant(TENANT);
+        newUser.setEdorg(EDORG1);
+        newUser.setFullName("Robb Stark");
+        newUser.setEmail("robbstark@winterfell.gov");
+
+        User ldapUser = new User();
+        ldapUser.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
+        ldapUser.setUid(UUID2);
+        ldapUser.setFullName("Robb Stark");
+        ldapUser.setEmail("robbstark@winterfell.gov");
+        ldapUser.setTenant(TENANT);
+        ldapUser.setEdorg(EDORG1);
+
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(ldapUser);
+        Mockito.when(
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                         Mockito.anyString(), Mockito.anyCollectionOf(String.class))).thenReturn(Arrays.asList(ldapUser));
+        Response res = resource.update(newUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(400, res.getStatus());
+
     }
 
     @Test
