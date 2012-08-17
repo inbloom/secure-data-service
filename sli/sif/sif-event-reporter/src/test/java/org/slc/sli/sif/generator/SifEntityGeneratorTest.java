@@ -40,6 +40,10 @@ import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
+import openadk.library.common.InstructionalLevel;
+import openadk.library.common.InstructionalLevelCode;
+import openadk.library.common.JobFunction;
+import openadk.library.common.JobFunctionCode;
 import openadk.library.common.MembershipType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
@@ -55,6 +59,8 @@ import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.TeachingArea;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.hrfin.EmployeePersonal;
@@ -68,10 +74,12 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffAssignment;
 import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
+import openadk.library.student.TeachingAssignment;
 import openadk.library.student.TimeFrame;
 
 import org.junit.Before;
@@ -478,5 +486,48 @@ public class SifEntityGeneratorTest {
         Email email = emailList.get(0);
         Assert.assertEquals(EmailType.PRIMARY.getValue(), email.getType());
         Assert.assertEquals("chuckw@imginc.com", email.getValue());
+    }
+
+    @Test
+    public void testGenerateStaffAssignment() {
+        StaffAssignment staffAssignment = SifEntityGenerator.generateTestStaffAssignment();
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFASSIGNMENT_REFID, staffAssignment.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_SCHOOLINFO_REFID, staffAssignment.getSchoolInfoRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, staffAssignment.getStaffPersonalRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, staffAssignment.getEmployeePersonalRefId());
+
+        Assert.assertEquals(2013, staffAssignment.getSchoolYear().intValue());
+        Assert.assertEquals("Twelfth grade computer science teacher", staffAssignment.getDescription());
+        Assert.assertEquals(YesNo.YES.getValue(), staffAssignment.getPrimaryAssignment());
+
+        Calendar jobStartDate = staffAssignment.getJobStartDate();
+        Assert.assertEquals(2010, jobStartDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, jobStartDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, jobStartDate.get(Calendar.DATE));
+
+        Calendar jobEndDate = staffAssignment.getJobEndDate();
+        Assert.assertEquals(2013, jobEndDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, jobEndDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, jobEndDate.get(Calendar.DATE));
+
+        Assert.assertEquals(new BigDecimal(1.00), staffAssignment.getJobFTE());
+
+        JobFunction jobFunction = staffAssignment.getJobFunction();
+        Assert.assertEquals(JobFunctionCode.INSTRUCTION.getValue(), jobFunction.getCode());
+
+        TeachingAssignment teachingAssignment = staffAssignment.getTeachingAssignment();
+        Assert.assertEquals(TeachingArea.COMPUTER_SCIENCE.getValue(), teachingAssignment.getCode());
+
+        GradeLevels gradeLevels = staffAssignment.getGradeLevels();
+        Assert.assertEquals(1,  gradeLevels.size());
+
+        GradeLevel gradeLevel1 = gradeLevels.get(0);
+        Assert.assertEquals(GradeLevelCode._12.getValue(), gradeLevel1.getCode());
+
+        Assert.assertEquals(YesNo.NO.getValue(), staffAssignment.getItinerantTeacher());
+
+        InstructionalLevel instructionalLevel = staffAssignment.getInstructionalLevel();
+        Assert.assertEquals(InstructionalLevelCode.COLLEGE_LEVEL.getValue(), instructionalLevel.getCode());
     }
 }
