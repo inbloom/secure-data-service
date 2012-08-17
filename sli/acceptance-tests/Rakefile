@@ -381,7 +381,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc "Run Smoke Tests"
-task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
+task :smokeTests => [:apiSmokeTests, :sifSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -811,6 +811,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
@@ -836,6 +837,17 @@ task :importSecuredData do
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
+  tenant = {
+    "type" => "tenant",
+    "body" => {
+      "tenantId" => "Security"
+      },
+    "metaData" => {
+        "tenantId" => "Security"
+      }
+  }
+  db = Mongo::Connection.new(DB_HOST)['sli']
+  db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   setMultipleFixtureFiles(testHash)
   addSecurityData()
 end
