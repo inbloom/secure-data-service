@@ -22,6 +22,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
 import openadk.library.common.OtherIdType;
 import openadk.library.hrfin.HrOtherIdList;
 
@@ -41,12 +42,15 @@ public class HrOtherIdListConverterTest extends AdkTest {
 
     @Test
     public void testNullObject() {
-        List<StaffIdentificationCode> result = converter.convert(null);
+        List<StaffIdentificationCode> result = converter.convert((HrOtherIdList)null);
+        Assert.assertNull("StaffIdentificationCode list should be null", result);
+
+        result = converter.convert((OtherIdList)null);
         Assert.assertNull("StaffIdentificationCode list should be null", result);
     }
 
     @Test
-    public void testEmptyList() {
+    public void testEmptyHrOtherIdList() {
         HrOtherIdList list = new HrOtherIdList();
         list.setOtherIds(new OtherId[0]);
         List<StaffIdentificationCode> result = converter.convert(list);
@@ -54,8 +58,30 @@ public class HrOtherIdListConverterTest extends AdkTest {
     }
 
     @Test
-    public void testEmptyOtherId() {
+    public void testEmptyOtherIdList() {
+        OtherIdList list = new OtherIdList();
+        list.setOtherIds(new OtherId[0]);
+        List<StaffIdentificationCode> result = converter.convert(list);
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void testEmptyOtherId4HrOtherIdList() {
         HrOtherIdList list = new HrOtherIdList();
+        OtherId original = new OtherId();
+        list.add(original);
+        List<StaffIdentificationCode> result = converter.convert(list);
+
+        Assert.assertEquals(1, result.size());
+
+        StaffIdentificationCode it = result.get(0);
+        Assert.assertEquals(original.getValue(), it.getID());
+        Assert.assertEquals("Other", it.getIdentificationSystem());
+    }
+
+    @Test
+    public void testEmptyOtherId4OtherIdList() {
+        OtherIdList list = new OtherIdList();
         OtherId original = new OtherId();
         list.add(original);
         List<StaffIdentificationCode> result = converter.convert(list);
@@ -122,6 +148,18 @@ public class HrOtherIdListConverterTest extends AdkTest {
             OtherId original = list.get(newCounter++);
             testMapping(original, it);
         }
+
+        OtherIdList list2 = getOtherIdList();
+        List<StaffIdentificationCode> results2 = converter.convert(list2);
+        Assert.assertEquals(list2.size(), results2.size());
+
+        newCounter = 0;
+        for (StaffIdentificationCode it : results2) {
+            Assert.assertNotNull(it);
+            OtherId original = list2.get(newCounter++);
+            testMapping(original, it);
+        }
+
     }
 
     private HrOtherIdList getHrOtherIdList() {
@@ -133,6 +171,17 @@ public class HrOtherIdListConverterTest extends AdkTest {
         hrOtherIdList.add(getOtherId(OtherIdType.wrap("something else")));
 
         return hrOtherIdList;
+    }
+
+    private OtherIdList getOtherIdList() {
+        OtherIdList otherIdList = new OtherIdList();
+
+        for (OtherIdType type : map.keySet()) {
+            otherIdList.add(getOtherId(type));
+        }
+        otherIdList.add(getOtherId(OtherIdType.wrap("something else")));
+
+        return otherIdList;
     }
 
     private OtherId getOtherId(OtherIdType type) {
