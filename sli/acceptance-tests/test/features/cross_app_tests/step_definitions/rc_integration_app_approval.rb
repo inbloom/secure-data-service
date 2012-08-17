@@ -22,3 +22,5 @@ require_relative '../../liferay/step_definitions/all_steps.rb'
 #admin tools
 require_relative '../../admintools/step_definitions/realms_steps.rb'
 require_relative '../../admintools/step_definitions/edit_realms_steps.rb'
+
+Dir["./test/features/databrowser/step_definitions/*"].each {|file| require file}
