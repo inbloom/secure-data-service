@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.tenant;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface for access to tenant data.
@@ -30,4 +31,6 @@ public interface TenantDA {
     String getTenantId(String lzPath);
 
     void insertTenant(TenantRecord tenant);
+
+    Map<String, List<String>> getPreloadFiles(String ingestionServer);
 }
