@@ -64,6 +64,7 @@ public class ApprovedApplicationResource {
 
     public static final String RESOURCE_NAME = "application";
     public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
+    public static final String CUSTOM_ROLE_ADMIN_PLACEHOLDER = "CUSTOM_ROLE_ADMIN";
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description",
@@ -145,6 +146,8 @@ public class ApprovedApplicationResource {
         //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
         if (hasAppAuthorizationRight()) {
             toReturn.add(DELEGATED_ADMIN_PLACEHOLDER);
+        } else if (SecurityUtil.hasRight(Right.CRUD_ROLE)) {
+            toReturn.add(CUSTOM_ROLE_ADMIN_PLACEHOLDER);
         }
 
         return toReturn;

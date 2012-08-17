@@ -1,3 +1,4 @@
+<%edorg_tooltip_text="Identifier for the Local Education Agency (District) or State Education Agency"%>
 <%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
 
 <script type="text/javascript" charset="utf-8">
@@ -87,7 +88,7 @@
 <%if @is_operator%>
 <fieldset>
 <div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
-	<%= f.label :edorg, "EdOrg",:class => "control-label" %>
+	<label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
 	<div class="controls">
 	<label style="color:#B94A48;" >
 	<% if (user.primary_role == "SLC Operator" || user.primary_role == nil) 
@@ -102,7 +103,7 @@
 <%else%>
 <fieldset>
 <div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
-	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
+    <label class="control-label" for="user_edorg" rel="tooltip" title="<%=edorg_tooltip_text%>">Education Organization <i id="tooltip" class="icon-question-sign" ></i></label>
 	<div class="controls">
 	<label style="color:#B94A48;" >
 	<%= f.select :edorg,  @edorgs, {},:include_blank => true%> <%=@user.errors[:edorg][0]%></label>
@@ -114,7 +115,7 @@
 </div> <!-- roles and edorgs --> 
 <fieldset>
 <div class = "form-actions">
-	<%= f.submit "Update", :class => "btn btn-primary" %>
+	<%= f.submit "Update", :class => "btn btn-primary",:style=>"margin-left:60px" %>
 	<%= link_to "Cancel", "/users",:class => "btn" %>
 </div>
 </fieldset>
