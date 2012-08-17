@@ -34,8 +34,13 @@ import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.Gender;
+import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
+import openadk.library.common.InstructionalLevel;
+import openadk.library.common.InstructionalLevelCode;
+import openadk.library.common.JobFunction;
+import openadk.library.common.JobFunctionCode;
 import openadk.library.common.MembershipType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
@@ -51,6 +56,8 @@ import openadk.library.common.ResidencyStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.TeachingArea;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.hrfin.EmployeePersonal;
@@ -64,10 +71,12 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffAssignment;
 import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
+import openadk.library.student.TeachingAssignment;
 import openadk.library.student.TimeFrame;
 
 /**
@@ -83,6 +92,7 @@ public class SifEntityGenerator {
     public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
     public static final String TEST_STAFFPERSONAL_REFID = "20120816934983498C3D00AA00495948";
     public static final String TEST_EMPLOYEEPERSONAL_REFID = "1652D3E34F419D75101A8C3D00AA001A";
+    public static final String TEST_STAFFASSIGNMENT_REFID = "D3E34B359D75101A8C3D00AA001A1652";
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
@@ -410,5 +420,33 @@ public class SifEntityGenerator {
         employeePersonal.setEmailList(emailList);
 
         return employeePersonal;
+    }
+
+    public static StaffAssignment generateTestStaffAssignment() {
+        StaffAssignment staffAssignment = new StaffAssignment();
+        staffAssignment.setRefId(TEST_STAFFASSIGNMENT_REFID);
+
+        staffAssignment.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
+        staffAssignment.setStaffPersonalRefId(TEST_STAFFPERSONAL_REFID);
+        staffAssignment.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+
+        staffAssignment.setSchoolYear(new Integer(2013));
+        staffAssignment.setDescription("Twelfth grade computer science teacher");
+        staffAssignment.setPrimaryAssignment(YesNo.YES);
+
+        staffAssignment.setJobStartDate((new GregorianCalendar(2010, 7, 1)));
+        staffAssignment.setJobEndDate((new GregorianCalendar(2013, 6, 31)));
+
+        staffAssignment.setJobFTE(new BigDecimal(1.00));
+        staffAssignment.setJobFunction(new JobFunction(JobFunctionCode.INSTRUCTION));
+        staffAssignment.setTeachingAssignment(new TeachingAssignment(TeachingArea.COMPUTER_SCIENCE));
+        staffAssignment.setGradeLevels(new GradeLevels(new GradeLevel(GradeLevelCode._12)));
+        staffAssignment.setItinerantTeacher(YesNo.NO);
+
+        InstructionalLevel instructionalLevel = new InstructionalLevel();
+        instructionalLevel.setCode(InstructionalLevelCode.COLLEGE_LEVEL);
+        staffAssignment.setInstructionalLevel(instructionalLevel);
+
+        return staffAssignment;
     }
 }
