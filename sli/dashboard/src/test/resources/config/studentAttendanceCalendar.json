@@ -1,0 +1,12 @@
+{
+  id : "studentAttendanceCalendar",
+  name: "",
+  type : "PANEL",
+  data :{
+    entity: "studentAttendanceCalendar",
+    cacheKey: "studentAttendanceCalendar"
+  },
+  params: {
+    layout: ["student"]
+  }
+}

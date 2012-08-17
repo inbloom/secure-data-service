@@ -1,11 +1,12 @@
 {
-  id : "csi",
+  id : "contactInfo",
   type : "PANEL",
+  name : "Contact Information",
   data :{
     entity: "student",
     cacheKey: "student"
   },
   params: {
-    layout: ["student"]
+       layout: ["student"]
   }
 }

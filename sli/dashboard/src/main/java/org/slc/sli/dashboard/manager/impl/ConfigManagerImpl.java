@@ -22,10 +22,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -387,52 +385,50 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         
         // read edOrg custom config recursively
         APIClient apiClient = getApiClient();
-        do {
-            if (edOrgKey != null) {
-                // customConfigByType will be added to a returning object
-                Collection<Config> customConfigByType = new LinkedList<Config>();
-                
-                // get current edOrg custom config
-                ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
-                if (customConfigMap != null) {
-                    Map<String, Config> configByMap = customConfigMap.getConfig();
-                    Collection<Config> customConfigs = configByMap.values();
-                    for (Config customConfig : customConfigs) {
-                        if (type == null || customConfig.getType().toString().equals(type)) {
-                            
-                            // if parentId from customConfig does not exist in DriverConfig,
-                            // then ignore.
-                            String parentId = customConfig.getParentId();
-                            if (parentId != null && configIdLookup.contains(parentId)) {
-                                customConfigByType.add(customConfig);
-                            }
+        while (edOrgKey != null) {
+            // customConfigByType will be added to a returning object
+            Collection<Config> customConfigByType = new LinkedList<Config>();
+            
+            // get current edOrg custom config
+            ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
+            if (customConfigMap != null) {
+                Map<String, Config> configByMap = customConfigMap.getConfig();
+                Collection<Config> customConfigs = configByMap.values();
+                for (Config customConfig : customConfigs) {
+                    if (type == null || customConfig.getType().toString().equals(type)) {
+                        
+                        // if parentId from customConfig does not exist in DriverConfig,
+                        // then ignore.
+                        String parentId = customConfig.getParentId();
+                        if (parentId != null && configIdLookup.contains(parentId)) {
+                            customConfigByType.add(customConfig);
                         }
-                    }
-                }
-                
-                // find current EdOrg entity
-                GenericEntity edOrg = apiClient.getEducationalOrganization(token, edOrgKey.getSliId());
-                List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
-                if (organizationCategories != null && !organizationCategories.isEmpty()) {
-                    for (String educationAgency : organizationCategories) {
-                        if (educationAgency != null) {
-                            allConfigs.put(educationAgency, customConfigByType);
-                            break;
-                        }
-                    }
-                }
-                
-                // find parent EdOrg
-                edOrgKey = null;
-                edOrg = apiClient.getParentEducationalOrganization(token, edOrg);
-                if (edOrg != null) {
-                    String id = edOrg.getId();
-                    if (id != null && !id.isEmpty()) {
-                        edOrgKey = new EdOrgKey(id);
                     }
                 }
             }
-        } while (edOrgKey != null);
+            
+            // find current EdOrg entity
+            GenericEntity edOrg = apiClient.getEducationalOrganization(token, edOrgKey.getSliId());
+            List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
+            if (organizationCategories != null && !organizationCategories.isEmpty()) {
+                for (String educationAgency : organizationCategories) {
+                    if (educationAgency != null) {
+                        allConfigs.put(educationAgency, customConfigByType);
+                        break;
+                    }
+                }
+            }
+            
+            // find parent EdOrg
+            edOrgKey = null;
+            edOrg = apiClient.getParentEducationalOrganization(token, edOrg);
+            if (edOrg != null) {
+                String id = edOrg.getId();
+                if (id != null && !id.isEmpty()) {
+                    edOrgKey = new EdOrgKey(id);
+                }
+            }
+        }
         
         return allConfigs;
     }
