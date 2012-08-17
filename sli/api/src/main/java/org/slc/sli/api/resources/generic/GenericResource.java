@@ -37,13 +37,14 @@ public abstract class GenericResource {
     protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
                             final ResourceLogic logic) {
 
-        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
+        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
 
-        Set<String> values = resourceSupportedMethods.get(resourceName);
+        Set<String> values = resourceSupportedMethods.get(resourcePath);
         if (!values.contains(method.getMethod())) {
             throw new UnsupportedOperationException("Not supported");
         }
 
+        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
         return logic.run(resourceName);
     }
 
