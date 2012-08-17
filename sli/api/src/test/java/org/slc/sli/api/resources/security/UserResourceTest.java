@@ -122,6 +122,9 @@ public class UserResourceTest {
         Mockito.when(secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)).thenReturn(true);
         newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
         newUser.setEdorg(EDORG1);
+        Mockito.when(adminService.getAllowedEdOrgs(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyCollectionOf(String.class), Mockito.anyBoolean())).thenReturn(
+                new HashSet<String>(Arrays.asList(EDORG1)));
         res = resource.create(newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(201, res.getStatus());

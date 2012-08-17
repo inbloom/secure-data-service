@@ -442,6 +442,7 @@ public class UserResource {
             if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
+            //can't enforce SLC operator create SEA in invalid edorg
         } else if (user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR)) {
             // tenant and edorg should not be null for LEA
             if (user.getTenant() == null || user.getEdorg() == null) {
@@ -455,11 +456,9 @@ public class UserResource {
             String restrictByEdorg = null;
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
-                if (!restrictByEdorg.equals(user.getEdorg())) {
-                    return composeBadDataResponse("Cannot make changes to user in this edorg");
-                }
             }
-            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
+            //edorgs must already exist in db
+            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
             if (!allowedEdorgs.contains(user.getEdorg())) {
                 return composeBadDataResponse("Invalid edorg");
             }

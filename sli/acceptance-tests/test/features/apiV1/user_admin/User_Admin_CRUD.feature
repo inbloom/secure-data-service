@@ -81,7 +81,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @production @ycao 
+  @production 
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -156,7 +156,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer           |homerThePoet      |homerpoet@test.com|               |      |           |
 
 
-@production
+@production 
 Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy : Unhappy Path - tenant and ed-org validation
   Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
   And I have a role "<ADMIN_ROLE>"
@@ -185,6 +185,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator13 	|LEA_Administrator13 	|LEA_Administrator@test.com| | | IL-SUNSET |
 # lea with no ed-org
 	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator14 	|LEA_Administrator14 	|LEA_Administrator@test.com| |Midgar| |
+# lea in state level ed-org
+	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator19 	|LEA_Administrator19 	|LEA_Administrator@test.com| |Midgar|IL |
+	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator20 	|LEA_Administrator20 	|LEA_Administrator@test.com| |Midgar|IL |
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
@@ -254,7 +257,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Application Developer|PUT      |403 |403     |0         |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Ingestion User       |PUT      |403 |403     |0         |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |      
 
-  @production
+  @production 
   Scenario Outline:  As a admin I am able to delete admin accounts in my tenancy
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
