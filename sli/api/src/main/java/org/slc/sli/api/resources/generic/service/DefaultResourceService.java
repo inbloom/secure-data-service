@@ -1,12 +1,25 @@
 package org.slc.sli.api.resources.generic.service;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.PreConditionFailedException;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.UnsupportedSelectorException;
+import org.slc.sli.api.selectors.doc.Constraint;
+import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,20 +34,124 @@ public class DefaultResourceService implements ResourceService {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    public EntityBody getEntity(String resource, String id) {
+    @Autowired
+    private LogicalEntity logicalEntity;
+
+    public static final int MAX_MULTIPLE_UUIDS = 100;
+
+    @Override
+    public EntityBody getEntity(final String resource, final String id, final UriInfo uriInfo) {
         EntityDefinition definition = getEntityDefinition(resource);
+        final int idLength = id.split(",").length;
+
+        if (idLength > MAX_MULTIPLE_UUIDS) {
+            String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
+                    + MAX_MULTIPLE_UUIDS + " (allowed)";
+            throw new PreConditionFailedException(errorMessage);
+        }
+
+        final List<String> ids = Arrays.asList(StringUtils.split(id));
+
+        ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+
+        apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        apiQuery.setLimit(0);
+        apiQuery.setOffset(0);
+
+        // final/resulting information
+        List<EntityBody> finalResults = null;
+        try {
+            finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", id), resource);
+        } catch (UnsupportedSelectorException e) {
+            finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+        }
 
         return definition.getService().get(id);
     }
 
-    public List<EntityBody> getEntities(String resource) {
+    @Override
+    public List<EntityBody> getEntities(final String resource, final UriInfo uriInfo) {
         EntityDefinition definition = getEntityDefinition(resource);
 
-        return (List<EntityBody>) definition.getService().list(new NeutralQuery());
+        List<EntityBody> results = new ArrayList<EntityBody>();
+
+        Iterable<EntityBody> entityBodies = null;
+        final ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+
+        if (shouldReadAll()) {
+            entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
+
+                @Override
+                public Iterable<EntityBody> execute() {
+                    return logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+                }
+            });
+        } else {
+            try {
+                entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+            } catch (UnsupportedSelectorException e) {
+                entityBodies = definition.getService().list(apiQuery);
+            }
+        }
+        for (EntityBody entityBody : entityBodies) {
+
+            // if links should be included then put them in the entity body
+            entityBody.put(ResourceConstants.LINKS,
+                    ResourceUtil.getLinks(entityDefinitionStore, definition, entityBody, uriInfo));
+
+            results.add(entityBody);
+        }
+
+        return results;
+    }
+
+    protected boolean shouldReadAll() {
+        return false;
+    }
+
+    protected ApiQuery addTypeCriteria(EntityDefinition entityDefinition, ApiQuery apiQuery) {
+
+        if (apiQuery != null && entityDefinition != null
+                && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
+            apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition
+                    .getType()), false));
+        }
+
+        return apiQuery;
     }
 
     @Override
-    public String postEntity(String resource, EntityBody entity) {
+    public long getEntityCount(String resource, final UriInfo uriInfo) {
+        EntityDefinition definition = getEntityDefinition(resource);
+        ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+
+        if (definition.getService() == null) {
+            return 0;
+        }
+
+        if (apiQuery == null) {
+            return definition.getService().count(new NeutralQuery());
+        }
+
+        int originalLimit = apiQuery.getLimit();
+        int originalOffset = apiQuery.getOffset();
+        apiQuery.setLimit(0);
+        apiQuery.setOffset(0);
+        long count = definition.getService().count(apiQuery);
+        apiQuery.setLimit(originalLimit);
+        apiQuery.setOffset(originalOffset);
+        return count;
+    }
+
+    protected ApiQuery getApiQuery(EntityDefinition definition, final UriInfo uriInfo) {
+        ApiQuery apiQuery = new ApiQuery(uriInfo);
+        addTypeCriteria(definition, apiQuery);
+
+        return apiQuery;
+    }
+
+    @Override
+    public String postEntity(final String resource, EntityBody entity) {
         EntityDefinition definition = getEntityDefinition(resource);
 
         return definition.getService().create(entity);
@@ -42,5 +159,10 @@ public class DefaultResourceService implements ResourceService {
 
     public EntityDefinition getEntityDefinition(String resource) {
         return entityDefinitionStore.lookupByResourceName(resource);
+    }
+
+    @Override
+    public String getEntityType(String resource) {
+        return entityDefinitionStore.lookupByResourceName(resource).getType();
     }
 }

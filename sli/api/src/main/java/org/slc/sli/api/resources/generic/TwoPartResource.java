@@ -5,6 +5,7 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,31 +26,30 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 8/8/12
- * Time: 3:45 PM
- * To change this template use File | Settings | File Templates.
+ * Resource for handling two part URIs
+ *
+ * @author srupasinghe
  */
 @Component
 @Scope("request")
-public class TwoPartResource {
+public class TwoPartResource extends GenericResource {
+
     @Autowired
     private ResourceService resourceService;
 
-    @Autowired
-    private ResourceHelper resourceHelper;
-
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupportedMethods;
 
     @GET
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
-        final String resource = getResourceName(uriInfo, ResourceTemplate.TWO_PART);
-        EntityBody result = resourceService.getEntity(resource, id);
 
-        return Response.ok(result).build();
+        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.ResourceLogic() {
+            @Override
+            public Response run(String resourceName) {
+                EntityBody results = resourceService.getEntity(resourceName, id, uriInfo);
+
+                return Response.ok(results).build();
+            }
+        });
     }
 
     @PUT
@@ -68,8 +68,6 @@ public class TwoPartResource {
         return Response.ok("delete").build();
     }
 
-    protected String getResourceName(UriInfo uriInfo, ResourceTemplate template) {
-        return resourceHelper.grabResource(uriInfo.getRequestUri().toString(), template);
-    }
+
 
 }
