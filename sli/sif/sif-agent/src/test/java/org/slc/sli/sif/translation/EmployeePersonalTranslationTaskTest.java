@@ -135,6 +135,7 @@ public class EmployeePersonalTranslationTaskTest {
         Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false,
                 entity.getHispanicLatinoEthnicity());
         Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSex());
+        Assert.assertFalse("isCreatedByOthers() must be 'false'", entity.isCreatedByOthers());
     }
 
     @Test

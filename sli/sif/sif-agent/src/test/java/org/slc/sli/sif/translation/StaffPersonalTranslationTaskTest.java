@@ -129,18 +129,24 @@ public class StaffPersonalTranslationTaskTest {
         String stateProvinceId = "stateProvinceId";
         info.setStateProvinceId(stateProvinceId);
         info.setDemographics(demographics);
+        String employeePersonalRefId = "employeePersonalRefId";
+        info.setEmployeePersonalRefId(employeePersonalRefId);
+        String zoneId = "zoneId";
 
         Mockito.when(mockYesNoUnknownConverter.convert("Yes")).thenReturn(true);
         Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
         Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
+        Mockito.when(mockSifIdResolver.getSliGuid(employeePersonalRefId, zoneId)).thenReturn(employeePersonalRefId);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
         Assert.assertEquals("StaffUniqueStateId is expected to be '" + stateProvinceId + "'", stateProvinceId, entity.getStaffUniqueStateId());
         Assert.assertEquals("HispanicLatinoEthnicity is expected to be 'false'", false, entity.getHispanicLatinoEthnicity());
         Assert.assertEquals("SexType is expected to be 'Female'", "Female", entity.getSex());
+        Assert.assertTrue("isCreatedByOthers() must be 'true'", entity.isCreatedByOthers());
+        Assert.assertEquals("CreatorRefId is expected to be 'employeePersonalRefId'", employeePersonalRefId, entity.getCreatorRefId());
     }
 
     @Test

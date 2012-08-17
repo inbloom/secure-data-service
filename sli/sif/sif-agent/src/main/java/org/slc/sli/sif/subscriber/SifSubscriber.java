@@ -95,9 +95,9 @@ public class SifSubscriber implements Subscriber {
                     for (SliEntity sliEntity : entities) {
                         if (sliEntity.isCreatedByOthers()) {
                             matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
-                            changeEntities(sifData, sliEntity, matchedEntity);
+                            changeEntity(sifData, sliEntity, matchedEntity);
                         } else {
-                            addEntities(sifData, zone.getZoneId(), sliEntity);
+                            addEntity(sifData, zone.getZoneId(), sliEntity);
                         }
                     }
                     break;
@@ -105,7 +105,7 @@ public class SifSubscriber implements Subscriber {
                     // TODO, we can potentially get multiple matched entities
                     matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
                     for (SliEntity sliEntity : entities) {
-                        changeEntities(sifData, sliEntity, matchedEntity);
+                        changeEntity(sifData, sliEntity, matchedEntity);
                     }
                     break;
                 case UNDEFINED:
@@ -116,23 +116,23 @@ public class SifSubscriber implements Subscriber {
         }
     }
 
-    private void addEntities(SIFDataObject sifData, String zoneId, SliEntity sliEntity) {
+    private void addEntity(SIFDataObject sifData, String zoneId, SliEntity sliEntity) {
         GenericEntity entity = sliEntity.createGenericEntity();
         String guid = slcInterface.create(entity);
-        LOG.info("addEntities " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
+        LOG.info("addEntity " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
         if (guid != null) {
             sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
         }
     }
 
-    private void changeEntities(SIFDataObject sifData, SliEntity sliEntity, Entity matchedEntity) {
+    private void changeEntity(SIFDataObject sifData, SliEntity sliEntity, Entity matchedEntity) {
         if (matchedEntity == null) {
             LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             return;
         }
         updateMap(matchedEntity.getData(), sliEntity.createBody());
         slcInterface.update(matchedEntity);
-        LOG.info("changeEntities " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
+        LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
     // /-======================== HELPER UTILs ======
