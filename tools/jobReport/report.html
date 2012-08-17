@@ -63,64 +63,33 @@
           $('#job_summary').append('Errors: ' + errors.length + '<br/>');
 
         if (job.status == 'Running') {
-          drawProgressBar(job)
-        } else {
-          var startDate = new Date(job.jobStartTimestamp);
-          var stopDate = new Date(job.jobStopTimestamp);
-          var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
+          // running job
+          var timeInSeconds = (new Date().getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          var timeRunningDisplay = getReadableTime(timeInSeconds);
+          $('#job_summary')
+            .append('Time Running: ' + timeRunningDisplay + '<br/>');
 
-          var hours = Math.floor(jobTime / 3600);
-          var min_divisor = jobTime % (3600);
-          var minutes = Math.floor(min_divisor / 60);
-          var sec_divisor = min_divisor % 60;
-          var seconds = Math.ceil(sec_divisor);
-          var jobTimeDisplay = hours + ':' + minutes + ':' + seconds;
+          var lastStageEnd = new Date(job.stages[job.stages.length-1].stopTimestamp).getTime();
+          var timeInStage = getReadableTime((new Date().getTime() - lastStageEnd) / 1000);
+          $('#job_summary')
+            .append('Time Since Last Stage Complete: ' + timeInStage + '<br/>');
+
+          drawProgressBar(job);
+
+        } else {
+          // completed job
+          var jobTimeInSeconds = (new Date(job.jobStopTimestamp).getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          
+          var jobTimeDisplay = getReadableTime(jobTimeInSeconds);
 
           $('#job_summary')
             .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
-            .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
+            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>');
         }
 
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
-      }
-
-      function drawProgressBar(job) {
-        var stageWeights = {
-          'ZipFileProcessor' : 2,
-          'ControlFilePreProcessor' : 1,
-          'ControlFileProcessor' : 2,
-          'XmlFileProcessor' : 3,
-          'EdFiProcessor' : 17
-        }
-
-        var percentComplete = 0;
-        $.each(job.stages, function(key, stage) {
-          if (typeof stageWeights[stage.stageName] != 'undefined') {
-            percentComplete += stageWeights[stage.stageName];
-          }
-        });
-
-        var orchestraPercent = 100 - percentComplete;
-
-        var totalStagedEntities = 0;
-        var completedStagedEntities = 0;
-        var stagedEntities = getApiResource('/job/' + job._id + '/stagedentities');
-        if (stagedEntities.length > 0) {
-          $.each(stagedEntities[0].entities, function(entity, complete) {
-            totalStagedEntities++;
-            if (complete) {
-              completedStagedEntities++;
-            }
-          });
-          if (totalStagedEntities > 0) {
-            percentComplete += (completedStagedEntities/totalStagedEntities) * orchestraPercent;
-          }
-        }
-
-        $('#progressbar').progressbar({ value: percentComplete });
-        $('#progressbar').show();
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -358,6 +327,51 @@
 
         var chart = new google.visualization.ComboChart(document.getElementById(div));
         chart.draw(dataTable, chartOptions);
+      }
+
+      function drawProgressBar(job) {
+        var stageWeights = {
+          'ZipFileProcessor' : 2,
+          'ControlFilePreProcessor' : 1,
+          'ControlFileProcessor' : 2,
+          'XmlFileProcessor' : 3,
+          'EdFiProcessor' : 17
+        }
+
+        var percentComplete = 0;
+        $.each(job.stages, function(key, stage) {
+          if (typeof stageWeights[stage.stageName] != 'undefined') {
+            percentComplete += stageWeights[stage.stageName];
+          }
+        });
+
+        var orchestraPercent = 100 - percentComplete;
+
+        var totalStagedEntities = 0;
+        var completedStagedEntities = 0;
+        var stagedEntities = getApiResource('/job/' + job._id + '/stagedentities');
+        if (stagedEntities.length > 0) {
+          $.each(stagedEntities[0].entities, function(entity, complete) {
+            totalStagedEntities++;
+            if (complete) {
+              completedStagedEntities++;
+            }
+          });
+          if (totalStagedEntities > 0) {
+            percentComplete += (completedStagedEntities/totalStagedEntities) * orchestraPercent;
+          }
+        }
+
+        $('#progressbar').progressbar({ value: percentComplete });
+        $('#progressbar').show();
+      }
+
+      function getReadableTime(rawSeconds) {
+        var hours = Math.floor(rawSeconds / 3600);
+        var min_divisor = rawSeconds % (3600);
+        var minutes = Math.floor(min_divisor / 60);
+        var seconds = Math.ceil(min_divisor % 60);
+        return ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
       }
 
       function getJob(jobId) {
