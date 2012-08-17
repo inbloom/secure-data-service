@@ -16,6 +16,7 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String RESOURCE_KEY = "resource";
     private static final String BASE_KEY = "base";
     private static final String VERSION_KEY = "version";
+    private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
 
     private static final String ID_KEY = "resource";
@@ -41,12 +42,16 @@ public class RestResourceHelper implements ResourceHelper {
             case ONE_PART:
                 return path;
             case TWO_PART:
-                return path + SEP + "{id}";
+                return getTwoPartPath(path);
             case THREE_PART:
-                return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
-                        + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
+                return getThreePartPath(matchList);
+            case FOUR_PART:
+                return getFourPartPath(matchList);
+            case CUSTOM:
+                //TODO
+                return "";
             default:
-                throw new AssertionError("Non-Valid Resource Template");
+                throw new AssertionError("Non-valid template");
         }
     }
 
@@ -64,5 +69,19 @@ public class RestResourceHelper implements ResourceHelper {
 //           ids.add(id);
 //       }
        return ids;
+    }
+
+    private String getFourPartPath(final Map<String, String> matchList) {
+        return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY) + SEP + "{id}"
+                + SEP + matchList.get(ASSOCIATION_KEY) + SEP + matchList.get(RESOURCE_KEY);
+    }
+
+    private String getTwoPartPath(final String path) {
+        return path + SEP + "{id}";
+    }
+
+    private String getThreePartPath(Map<String, String> matchList) {
+        return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
+                + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
     }
 }
