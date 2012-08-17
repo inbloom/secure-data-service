@@ -28,7 +28,7 @@ import java.util.List;
  * @author chung
  */
 public class TestUtils {
-    public static final Multiplicity zeroToOne = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-    public static final Multiplicity oneToMany = new Multiplicity(new Range(Occurs.ONE, Occurs.UNBOUNDED));
+    public static final Multiplicity ZERO_TO_ONE = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
+    public static final Multiplicity ONE_TO_MANY = new Multiplicity(new Range(Occurs.ONE, Occurs.UNBOUNDED));
     public static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
 }
