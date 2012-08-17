@@ -57,31 +57,6 @@ public class ApiQueryTest {
     }
 
     @Test
-    public void testNonNullForNull() {
-        // should always return a null, so callers don't have to worry about null checking
-        assertTrue(new ApiQuery() != null);
-    }
-
-    @Test
-    public void testToString() throws URISyntaxException {
-
-        String queryString = "selector=:(field1,link1:(*,field2:false))";
-        
-        //the selector gets parsed and stored in a map so there's no concept of ordering
-        List<String> equivalentStrings = new ArrayList<String>();
-        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(*,field2:false))");
-        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(field2:false,*))");
-        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(*,field2:false),field1)");
-        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(field2:false,*),field1)");
-
-        URI requestUri = new URI(URI_STRING + "?" + queryString);
-        when(uriInfo.getRequestUri()).thenReturn(requestUri);
-        ApiQuery apiQuery = new ApiQuery(uriInfo);
-        
-        assertTrue(equivalentStrings.contains(apiQuery.toString()));
-    }
-
-    @Test
     public void testFullParse() {
         this.testFullParse("ascending", NeutralQuery.SortOrder.ascending);
         this.testFullParse("descending", NeutralQuery.SortOrder.descending);
