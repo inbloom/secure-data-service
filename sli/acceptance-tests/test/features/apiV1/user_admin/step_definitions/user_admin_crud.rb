@@ -8,6 +8,7 @@ Before do
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
+
 Given /^I have logged in to realm "(.*?)" using "(.*?)" "(.*?)"$/ do |realm, user, pass|
   @user = user
   step "I am logged in using \"#{user}\" \"#{pass}\" to realm \"#{realm}\""
@@ -70,14 +71,17 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
  # puts "\n\r"
  # puts @new_update_user
   @append_host=true
-  if action == "POST"
-    if @new_update_user["uid"] != nil
-      restHttpDelete(link+"/"+@new_update_user["uid"])
+  if @new_update_user["uid"] != nil
+     # restHttpDelete(link+"/"+@new_update_user["uid"])
+     remove_user(@new_update_user)
+     idpRealmLogin(@user, nil)
     end
+  if action == "POST"
+    
     restHttpPost(link,@new_update_user.to_json)
     sleep(1)
   elsif action=="PUT"
-    restHttpDelete(link+"/"+@new_update_user["uid"])
+   # restHttpDelete(link+"/"+@new_update_user["uid"])
     restHttpPost(link,@new_update_user.to_json)
     sleep(1)
     restHttpPut(link,@new_update_user.to_json)
@@ -182,6 +186,8 @@ Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
 end
 
 When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_role, environment|
+  new_user = build_user("test_user", [wanted_admin_role], @tenant, @edorg)
+  remove_user(new_user)
   if (environment == "production")
     idpRealmLogin("operator", nil)
   elsif (environment == "sandbox")
@@ -190,9 +196,9 @@ When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_r
     assert(false) # environment must be production or sandbox
   end
   sessionId = @sessionId
-  new_user = build_user("test_user", [wanted_admin_role], @tenant, @edorg)
+  
   format = "application/json"
-  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+ # restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
   sleep(1)
 
@@ -268,6 +274,13 @@ Then /^I try to update this new user as "(.*?)"$/ do |roles|
   @response_code = @res.code
 end
 
+Then /^I delete the test user "(.*?)"$/ do |user|
+
+test_user = Hash.new
+test_user.merge!({"uid" => user })
+remove_user(append_hostname(test_user))
+end
+
 def get_user(uid)
 =begin
 @result.each { |user|
@@ -314,7 +327,15 @@ def append_hostname(user )
 end
 
 def remove_user(user)
-  restHttpDelete("/users/"+user["uid"])
+ idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/"+user["uid"],format,sessionId)
+  
+  idpRealmLogin("sandboxoperator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/"+user["uid"],format,sessionId)
 end
 
 def build_user(uid, groups, tenant, edorg)

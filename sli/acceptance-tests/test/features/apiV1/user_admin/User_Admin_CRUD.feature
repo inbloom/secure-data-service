@@ -74,7 +74,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
 
-  @production 
+  @production
   Scenario Outline:  As an LEA administrator, I can only see myself and not other LEAs in my EdOrg
 
     Given there is another LEA with "<Full_Name>" in my "<TENANT>" and "<EDORG>"
@@ -110,7 +110,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @production @ycao 
+  @production @ycao
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -362,6 +362,8 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   Then I should see user "il2admin"
   When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
   Then I should not see user "il2admin"
+  Then I have logged in to realm "SLI" using "operator" "operator1234"
+  And I delete the test user "il2admin"
 
   @production
   Scenario: Unhappy path:  LEA cannot update SEA with an incomplete group list
@@ -370,3 +372,5 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   When I have logged in to realm "SLI" using "sunsetadmin" "sunsetadmin1234"
   And I try to update this new user as "Realm Administrator"
   Then I should receive a return code "403"
+  Then I have logged in to realm "SLI" using "operator" "operator1234"
+  And I delete the test user "il2admin"
