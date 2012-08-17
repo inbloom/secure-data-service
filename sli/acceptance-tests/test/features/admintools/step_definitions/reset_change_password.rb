@@ -63,7 +63,7 @@ Then /^I am redirected to the Change Password page$/ do
 end
 
 Then /^I am redirected to the Forgot Password page$/ do
-  assertWithWait("Failed to navigate to the Forgot Password page")  {@driver.page_source.index("Forgot Password") != nil}
+  assertWithWait("Failed to navigate to the Forgot Password page")  {@driver.page_source.index("Reset Password") != nil}
 end
 
 When /^I am forced to change password$/ do

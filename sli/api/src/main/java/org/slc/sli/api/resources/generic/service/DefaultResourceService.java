@@ -4,6 +4,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.util.ResourceUtil;
@@ -13,6 +14,7 @@ import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,12 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private LogicalEntity logicalEntity;
+
+    @Autowired
+    private ModelProvider provider;
+
+    @Autowired
+    private ResourceHelper resourceHelper;
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -157,12 +165,33 @@ public class DefaultResourceService implements ResourceService {
         return definition.getService().create(entity);
     }
 
-    public EntityDefinition getEntityDefinition(String resource) {
-        return entityDefinitionStore.lookupByResourceName(resource);
+    public EntityDefinition getEntityDefinition(final String resource) {
+        //FIXME TODO
+        final String resourceType = resource.split("/")[1];
+        return entityDefinitionStore.lookupByResourceName(resourceType);
     }
+
+//    public List<EntityDefinition> getEntities(String resource,UriInfo uriInfo) {
+//        List<EntityDefinition> result = null;
+//       EntityDefinition entityDefinition = getEntityDefinition(resource);
+//        ApiQuery apiQuery = new ApiQuery(uriInfo);
+//        apiQuery = addCriteria(apiQuery,uriInfo , ResourceTemplate.TWO_PART);
+//        return result;
+//    }
+//
+//    private ApiQuery addCriteria(ApiQuery apiQuery,UriInfo uriInfo, ResourceTemplate template) {
+//        ArrayList<String> ids = resourceHelper.getIds(uriInfo, template);
+//        return apiQuery;
+//    }
 
     @Override
     public String getEntityType(String resource) {
         return entityDefinitionStore.lookupByResourceName(resource).getType();
     }
+
+    @Override
+    public List<EntityBody> getEntities(String base, String id, String resource) {
+        return null;
+    }
+
 }

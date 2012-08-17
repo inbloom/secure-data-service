@@ -23,4 +23,8 @@ public interface ResourceService {
 
     public long getEntityCount(String resource, final UriInfo uriInfo);
 
+    public List<EntityBody> getEntities(String base, String id, String resource);
+
+    public EntityDefinition getEntityDefinition(String resource);
+
 }

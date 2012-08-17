@@ -35,7 +35,7 @@ public class OnePartResource extends GenericResource {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        return handle(uriInfo, ResourceTemplate.ONE_PART_FULL, ResourceMethod.GET, new ResourceLogic() {
+        return handle(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new ResourceLogic() {
             @Override
             public Response run(String resourceName) {
                 List<EntityBody> results = resourceService.getEntities(resourceName, uriInfo);

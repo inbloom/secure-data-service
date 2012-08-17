@@ -13,10 +13,10 @@
  For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
 
  For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
-            <!--<ns2:resource path="{id}/studentSectionAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+            <ns2:resource path="{id}/studentSectionAssociations" resourceClass="org.slc.sli.api.resources.generic.ThreePartResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:resource path="{id}/studentSectionAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+           <!-- <ns2:resource path="{id}/studentSectionAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
             <ns2:resource path="{id}/teacherSectionAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
@@ -58,9 +58,11 @@
             <ns2:resource path="{id}/teacherSchoolAssociations/teachers" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:resource path="{id}/studentSchoolAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+            -->
+            <ns2:resource path="{id}/studentSchoolAssociations" resourceClass="org.slc.sli.api.resources.generic.ThreePartResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
+          <!--
             <ns2:resource path="{id}/studentSchoolAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
