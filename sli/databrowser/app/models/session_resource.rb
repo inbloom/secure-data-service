@@ -41,6 +41,26 @@ module ActiveResource
         "application/vnd.slc+json"
       end
     end
+    module PortalCrazyFormat
+      # Override to handle json
+      def self.decode(json)
+        #json.gsub(/\\[nt]*/, "")
+        json
+      end
+      # Override to handle json
+      def self.encode(hash, options = nil)
+        ActiveSupport::JSON.encode(hash, options)
+      end
+      # Override to handle json
+      def self.extension
+       "" 
+      end
+      # The only difference between the standard +application/json+ media type
+      # and this is here
+      def self.mime_type
+        "application/vnd.slc+json"
+      end
+    end
   end
 end
 

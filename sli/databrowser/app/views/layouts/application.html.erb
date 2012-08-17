@@ -9,21 +9,20 @@
   <body>
     <div class="container">
       <div id="header">
-        <% if @header.nil? %>
-  			<div class="left">
-  				<h1>The SLC Data Browser</h1>
-                <span><i>Navigate your data through the SLC API.</i></span>
-  			</div>
-  			<div class="right">
-  				<h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
-  				<div class="search">
-                  <%= render 'entities/search'%>
-    			</div>
-  			</div>
-          <% else %>
-            <%= @header.to_s %>
-          <% end%>
-  	  </div>
+        <div id="portal">
+          <%= raw(@header.html_safe) unless @header.nil? %>
+        </div>
+        <div class="left">
+          <h1>The SLC Data Browser</h1>
+          <span><i>Navigate your data through the SLC API.</i></span>
+        </div>
+        <div class="right">
+          <h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
+          <div class="search">
+            <%= render 'entities/search'%>
+          </div>
+        </div>
+      </div>
     	<div id="content">
     		<%- flash.each do |key, msg| -%>
     		  <div id="flash" class="flash-<%= key %>">
@@ -38,7 +37,7 @@
     	<div id="left-bar">
     	</div>
     	<div id="footer">
-          <%= @footer.to_s unless @footer.nil? %>
+          <%=  raw @footer unless @footer.nil? %>
     	</div>
 	  </div>
 
