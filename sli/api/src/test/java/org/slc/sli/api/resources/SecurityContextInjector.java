@@ -178,7 +178,7 @@ public class SecurityContextInjector {
         principal.setTenantId(TENANT_ID);
         setSecurityContext(principal);
 
-        Right[] rights = new Right[] {  Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC, Right.CRUD_ROLE };
+        Right[] rights = new Right[] {  Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM, Right.READ_PUBLIC, Right.CRUD_ROLE };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
