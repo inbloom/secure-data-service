@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.tenant;
-
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +66,7 @@ public class TenantMongoDATest {
         // Setup the mocked Repository Template.
         mockRepository = mock(Repository.class);
         tenantDA.setEntityRepository(mockRepository);
-        //createTestTenantRecord();
+        // createTestTenantRecord();
     }
 
     @Test
@@ -72,7 +74,8 @@ public class TenantMongoDATest {
         List<Entity> testTenantRecords = new ArrayList<Entity>();
         testTenantRecords.add(createTenantEntity());
 
-        when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(testTenantRecords);
+        when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(
+                testTenantRecords);
 
         List<String> lzPathsResult = tenantDA.getLzPaths(ingestionServerName);
 
@@ -113,12 +116,11 @@ public class TenantMongoDATest {
     @Test
     public void shouldGetTenantIdFromLzPath() {
 
-//        List<TenantRecord> testTenantRecords = new ArrayList<TenantRecord>();
-//        testTenantRecords.add(tenantRecord);
+        // List<TenantRecord> testTenantRecords = new ArrayList<TenantRecord>();
+        // testTenantRecords.add(tenantRecord);
         Entity tenantRecord = createTenantEntity();
 
-        when(mockRepository.findOne(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).
-            thenReturn(tenantRecord);
+        when(mockRepository.findOne(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(tenantRecord);
 
         String tenantIdResult = tenantDA.getTenantId(lzPath1);
 
@@ -127,7 +129,6 @@ public class TenantMongoDATest {
 
         Mockito.verify(mockRepository, Mockito.times(1)).findOne(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class));
     }
-
 
     @Test
     public void shouldInsertTenant() {
@@ -166,7 +167,8 @@ public class TenantMongoDATest {
                 if (!StringUtils.equals(lzRecord.getDesc(), lzMap.get(TenantMongoDA.DESC))) {
                     return false;
                 }
-                if (!StringUtils.equals(lzRecord.getEducationOrganization(), lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
+                if (!StringUtils.equals(lzRecord.getEducationOrganization(),
+                        lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
                     return false;
                 }
                 if (!StringUtils.equals(lzRecord.getIngestionServer(), lzMap.get(TenantMongoDA.INGESTION_SERVER))) {
@@ -204,5 +206,21 @@ public class TenantMongoDATest {
         tenant.setLandingZone(lzList);
         tenant.setTenantId(tenantId);
         return tenant;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAutoLoadFiles() throws UnknownHostException {
+        Map<String, Object> tenantsForPreloading = new HashMap<String, Object>();
+        tenantsForPreloading.put(lzPath1, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
+        Entity tenant = createTenantEntity();
+        List<Map<String, Object>> landingZone = (List<Map<String, Object>>) tenant.getBody().get(
+                TenantMongoDA.LANDING_ZONE);
+        Map<String, Object> preloadDef = new HashMap<String, Object>();
+        preloadDef.put(TenantMongoDA.PRELOAD_STATUS, "ready");
+        preloadDef.put(TenantMongoDA.PRELOAD_FILES, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
+        landingZone.get(0).put(TenantMongoDA.PRELOAD_DATA, preloadDef);
+        when(mockRepository.findAll(eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
+        assertEquals(tenantsForPreloading, tenantDA.getPreloadFiles("ingestion_server_host"));
     }
 }

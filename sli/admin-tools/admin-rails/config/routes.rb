@@ -83,6 +83,9 @@ SLIAdmin::Application.routes.draw do
   match "/resetPassword/newAccount/:key" => "new_accounts#index", :via => :get, :as => "new_account_passwords"
   match "/resetPassword/newAccount/:key" => "new_accounts#set_password", :via => :post, :as => "new_account_passwords"
 
+   # matches the new samt account notification email
+  match "/reset_password" => "forgot_passwords#index", :via => :get
+  
   root :to => 'home#index'
 
   resources :users , :constraints => { :id => /[^\/]+/ }
