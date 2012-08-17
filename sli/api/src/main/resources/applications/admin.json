@@ -56,12 +56,11 @@
          ]
       },
       {
-         "name":"Realm Role Mapper",
+         "name":"Custom roles",
          "description":"Create custom roles and control how roles from the IDP are mapped to SLC rights.",
          "url":"${bootstrap.app.admin.url}/custom_roles/",
          "roles":[
-           "Realm Administrator", 
-           "Application Developer"
+           "CUSTOM_ROLE_ADMIN"
          ]
       },
       {

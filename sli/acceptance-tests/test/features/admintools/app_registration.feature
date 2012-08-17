@@ -1,6 +1,5 @@
 @RALLY_US187
 @RALLY_US103
-@derp
 Feature: Application Registration
 As a super-admin I want to be able to create new application keys to allow the onboarding of new applications to SLI
 
