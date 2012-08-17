@@ -61,6 +61,8 @@ import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
+import openadk.library.hrfin.FullTimeStatus;
 import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
@@ -93,6 +95,7 @@ public class SifEntityGenerator {
     public static final String TEST_STAFFPERSONAL_REFID = "20120816934983498C3D00AA00495948";
     public static final String TEST_EMPLOYEEPERSONAL_REFID = "1652D3E34F419D75101A8C3D00AA001A";
     public static final String TEST_STAFFASSIGNMENT_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_EMPLOYMENTRECORD_REFID = "CDF90651225DAC3859DEA3458BC39522";
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
@@ -434,8 +437,8 @@ public class SifEntityGenerator {
         staffAssignment.setDescription("Twelfth grade computer science teacher");
         staffAssignment.setPrimaryAssignment(YesNo.YES);
 
-        staffAssignment.setJobStartDate((new GregorianCalendar(2010, 7, 1)));
-        staffAssignment.setJobEndDate((new GregorianCalendar(2013, 6, 31)));
+        staffAssignment.setJobStartDate(new GregorianCalendar(2010, 7, 1));
+        staffAssignment.setJobEndDate(new GregorianCalendar(2013, 6, 31));
 
         staffAssignment.setJobFTE(new BigDecimal(1.00));
         staffAssignment.setJobFunction(new JobFunction(JobFunctionCode.INSTRUCTION));
@@ -448,5 +451,30 @@ public class SifEntityGenerator {
         staffAssignment.setInstructionalLevel(instructionalLevel);
 
         return staffAssignment;
+    }
+
+    public static EmploymentRecord generateTestEmploymentRecord() {
+        EmploymentRecord employmentRecord = new EmploymentRecord();
+        employmentRecord.setRefId(TEST_EMPLOYMENTRECORD_REFID);
+
+        employmentRecord.setSIF_RefId(TEST_STAFFPERSONAL_REFID);
+        employmentRecord.setSIF_RefObject("StaffPersonal");
+
+        employmentRecord.setLEAInfoRefId(TEST_LEAINFO_REFID);
+
+        employmentRecord.setActive(true);
+        employmentRecord.setFullTimeStatus(FullTimeStatus.FULLTIME);
+
+        employmentRecord.setHireDate(new GregorianCalendar(2010, 7, 1));
+        employmentRecord.setTerminationDate(new GregorianCalendar(2012, 6, 31));
+
+        employmentRecord.setTotalYearsExperience(20);
+        employmentRecord.setPositionTitle("Senior Staff");
+        employmentRecord.setPositionNumber("10");
+
+        employmentRecord.setSeniorityDate(new GregorianCalendar(2011, 1, 1));
+        employmentRecord.setTenureDate(new GregorianCalendar(2011, 7, 1));
+
+        return employmentRecord;
     }
 }

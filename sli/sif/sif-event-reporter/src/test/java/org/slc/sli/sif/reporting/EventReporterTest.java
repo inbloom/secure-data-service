@@ -40,6 +40,7 @@ import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
@@ -151,7 +152,10 @@ public class EventReporterTest extends EventReporterAdkTest {
                 GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE,
                 GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_ADD,
                 GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE,
-                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE
+                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE
         };
 
         String script = "";
@@ -367,6 +371,28 @@ public class EventReporterTest extends EventReporterAdkTest {
         sentEvent = eventReporter.reportStaffAssignmentEvent(eventAction);
         dataObject = (StaffAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals(YesNo.YES.getValue(), dataObject.getPrimaryAssignment());
+    }
+
+    @Test
+    public void runReportEmploymentRecordEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = EmploymentRecord.class;
+        String expectedId = SifEntityGenerator.TEST_EMPLOYMENTRECORD_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        EmploymentRecord dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        Assert.assertEquals("10", dataObject.getPositionNumber());
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals("15", dataObject.getPositionNumber());
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        Assert.assertEquals("10", dataObject.getPositionNumber());
     }
 
     private SIFDataObject runDataObjectEventTest(Event sentEvent, EventAction action,

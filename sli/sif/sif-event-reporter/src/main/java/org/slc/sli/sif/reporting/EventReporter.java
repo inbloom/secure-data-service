@@ -48,6 +48,7 @@ import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
@@ -237,6 +238,13 @@ public class EventReporter implements Publisher {
         scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE, staffAssignmentChangeMethod);
         ScriptMethod staffAssignmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.DELETE);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE, staffAssignmentDeleteMethod);
+
+        ScriptMethod employmentRecordAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.ADD);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD, employmentRecordAddMethod);
+        ScriptMethod employmentRecordChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.CHANGE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE, employmentRecordChangeMethod);
+        ScriptMethod employmentRecordDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.DELETE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE, employmentRecordDeleteMethod);
     }
 
     public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -349,6 +357,18 @@ public class EventReporter implements Publisher {
             staffAssignment.setPrimaryAssignment(YesNo.NO);
         }
         Event event = new Event(staffAssignment, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmploymentRecordEvent(EventAction action) throws ADKException {
+        LOG.info("EmploymentRecord " + action.toString());
+        EmploymentRecord employmentRecord = SifEntityGenerator.generateTestEmploymentRecord();
+        if (action == EventAction.CHANGE) {
+            employmentRecord.setChanged();
+            employmentRecord.setPositionNumber("15");
+        }
+        Event event = new Event(employmentRecord, action);
         zone.reportEvent(event);
         return event;
     }

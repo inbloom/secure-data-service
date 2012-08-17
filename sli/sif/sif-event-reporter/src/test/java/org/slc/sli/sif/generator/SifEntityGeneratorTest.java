@@ -64,6 +64,8 @@ import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
+import openadk.library.hrfin.FullTimeStatus;
 import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
@@ -489,7 +491,7 @@ public class SifEntityGeneratorTest {
     }
 
     @Test
-    public void testGenerateStaffAssignment() {
+    public void testGenerateTestStaffAssignment() {
         StaffAssignment staffAssignment = SifEntityGenerator.generateTestStaffAssignment();
         Assert.assertEquals(SifEntityGenerator.TEST_STAFFASSIGNMENT_REFID, staffAssignment.getRefId());
 
@@ -530,4 +532,43 @@ public class SifEntityGeneratorTest {
         InstructionalLevel instructionalLevel = staffAssignment.getInstructionalLevel();
         Assert.assertEquals(InstructionalLevelCode.COLLEGE_LEVEL.getValue(), instructionalLevel.getCode());
     }
+
+    @Test
+    public void testGenerateTestEmploymentRecord() {
+        EmploymentRecord employmentRecord = SifEntityGenerator.generateTestEmploymentRecord();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYMENTRECORD_REFID, employmentRecord.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, employmentRecord.getSIF_RefId());
+        Assert.assertEquals("StaffPersonal", employmentRecord.getSIF_RefObject());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_LEAINFO_REFID, employmentRecord.getLEAInfoRefId());
+
+        Assert.assertTrue(employmentRecord.getActive());
+        Assert.assertEquals(FullTimeStatus.FULLTIME.getValue(), employmentRecord.getFullTimeStatus());
+
+        Calendar hireDate = employmentRecord.getHireDate();
+        Assert.assertEquals(2010, hireDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, hireDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, hireDate.get(Calendar.DATE));
+
+        Calendar terminationDate = employmentRecord.getTerminationDate();
+        Assert.assertEquals(2012, terminationDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, terminationDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, terminationDate.get(Calendar.DATE));
+
+        Assert.assertEquals(20, employmentRecord.getTotalYearsExperience().intValue());
+        Assert.assertEquals("Senior Staff", employmentRecord.getPositionTitle());
+        Assert.assertEquals("10", employmentRecord.getPositionNumber());
+
+        Calendar seniorityDate = employmentRecord.getSeniorityDate();
+        Assert.assertEquals(2011, seniorityDate.get(Calendar.YEAR));
+        Assert.assertEquals(1, seniorityDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, seniorityDate.get(Calendar.DATE));
+
+        Calendar tenureDate = employmentRecord.getTenureDate();
+        Assert.assertEquals(2011, tenureDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, tenureDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, tenureDate.get(Calendar.DATE));
+    }
+
 }
