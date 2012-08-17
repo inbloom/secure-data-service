@@ -128,8 +128,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
         Assert.assertEquals("School", entity.getOrganizationCategories().get(0));
         Assert.assertEquals(schoolUrl, entity.getWebSite());
 
-        // This line should work once school to parent LEA id resolution is in place
-        // Assert.assertEquals(leaGuid, entity.getParentEducationAgencyReference());
+        Assert.assertEquals(leaGuid, entity.getParentEducationAgencyReference());
     }
 
     @Test

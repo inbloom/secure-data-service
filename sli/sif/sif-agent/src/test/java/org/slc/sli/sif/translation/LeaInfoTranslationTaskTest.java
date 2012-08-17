@@ -80,10 +80,9 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
     public void testBasicFields() throws SifTranslationException {
         LEAInfo info = new LEAInfo();
 
-        String seaRefId = "SIF_SEAREFID";
         String seaGuid = "SLI_SEAGUID";
         String zoneId = "zoneId";
-        Mockito.when(mockSifIdResolver.getSliGuid(seaRefId, zoneId)).thenReturn(seaGuid);
+        Mockito.when(mockSifIdResolver.getZoneSea(zoneId)).thenReturn(seaGuid);
 
         String leaOrgId = "leaOrgId";
         info.setStateProvinceId(leaOrgId);
@@ -101,8 +100,8 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
         Assert.assertEquals(leaOrgId, entity.getStateOrganizationId());
         Assert.assertEquals(name, entity.getNameOfInstitution());
         Assert.assertEquals(url, entity.getWebSite());
-        // This line should work onces LEA to parent SEA id resolution is in place
-        // Assert.assertEquals(seaGuid, entity.getParentEducationAgencyReference());
+
+        Assert.assertEquals(seaGuid, entity.getParentEducationAgencyReference());
     }
 
     @Test
