@@ -13,15 +13,15 @@ import java.util.List;
  */
 
 public interface ResourceService {
-    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final UriInfo uriInfo);
+    public List<EntityBody> getEntitiesByIds(String resource, String idList, UriInfo uriInfo);
 
-    public List<EntityBody> getEntities(final String resource, final UriInfo uriInfo);
+    public List<EntityBody> getEntities(String resource, UriInfo uriInfo);
 
-    public String postEntity(final String resource, EntityBody entity);
+    public String postEntity(String resource, EntityBody entity);
 
-    public String getEntityType(final String resource);
+    public String getEntityType(String resource);
 
-    public long getEntityCount(String resource, final UriInfo uriInfo);
+    public long getEntityCount(String resource, UriInfo uriInfo);
 
     public List<EntityBody> getEntities(String base, String id, String resource);
 
