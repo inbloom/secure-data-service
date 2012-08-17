@@ -18,7 +18,9 @@ package org.slc.sli.sif.subscriber;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import junit.framework.Assert;
 import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.EventAction;
@@ -34,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
@@ -153,6 +156,61 @@ public class SifSubscriberTest extends AdkTest {
 
         Mockito.verify(mockSlcInterface, Mockito.times(1)).update(translatedEntities.get(0));
         Mockito.verify(mockSlcInterface, Mockito.times(1)).update(Mockito.any(GenericEntity.class));
+
+    }
+
+    @Test
+    public void shouldMergeUpdateWithSliEntity() throws ADKException {
+
+        SchoolInfo sifData = new SchoolInfo();
+        sifData.setRefId("REF_ID");
+        Event event = new Event(sifData, EventAction.CHANGE);
+
+        Zone zone = Mockito.mock(Zone.class);
+        Mockito.when(zone.getZoneId()).thenReturn("zoneId");
+        MessageInfo info = Mockito.mock(MessageInfo.class);
+
+        // build 2 maps, one with old data, one with new
+        Map<String, Object> oldData = new HashMap<String, Object>();
+        oldData.put("1", "a");
+        oldData.put("2", "b");
+        Map<String, Object> subMap = new HashMap<String, Object>();
+        oldData.put("3", subMap);
+        subMap.put("7", "g");
+        subMap.put("8", "h");
+
+        Map<String, Object> newData = new HashMap<String, Object>();
+        oldData.put("2", "B");
+        oldData.put("4", "D");
+        Map<String, Object> newSubMap = new HashMap<String, Object>();
+        newData.put("3", newSubMap);
+        newSubMap.put("8", "H");
+        newSubMap.put("9", "I");
+
+        Entity oldSliEntity = new GenericEntity("type", oldData);
+
+        Mockito.when(mockSifIdResolver.getSliEntity("REF_ID", "zoneId")).thenReturn(oldSliEntity);
+
+        List<GenericEntity> translatedEntities = new ArrayList<GenericEntity>();
+        translatedEntities.add(new GenericEntity("type", newData));
+
+        Mockito.when(translationManager.translate(sifData, "zoneId")).thenReturn(translatedEntities);
+
+        subscriber.onEvent(event, zone, info);
+
+        Mockito.verify(mockSlcInterface).update(oldSliEntity);
+
+        // Verify expected structure of final map, including nested maps
+        Map<String, Object> finalMap = oldSliEntity.getData();
+        Assert.assertEquals(finalMap.get("1"), "a");
+        Assert.assertEquals(finalMap.get("2"), "B");
+        Assert.assertEquals(finalMap.get("4"), "D");
+        Assert.assertTrue(finalMap.get("3") instanceof Map);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> finalSubMap = (Map<String, Object>) finalMap.get("3");
+        Assert.assertEquals(finalSubMap.get("7"), "g");
+        Assert.assertEquals(finalSubMap.get("8"), "H");
+        Assert.assertEquals(finalSubMap.get("9"), "I");
 
     }
 
