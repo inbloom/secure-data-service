@@ -175,4 +175,8 @@ public class TenantProcessor implements Processor {
         return InetAddress.getLocalHost().getHostName();
     }
 
+    public boolean preLoad(String landingZone, List<String> preLoadedFiles) {
+        return false;
+    }
+
 }
