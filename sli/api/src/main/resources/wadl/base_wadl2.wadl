@@ -62,10 +62,10 @@
             <ns2:resource path="{id}/studentSchoolAssociations" resourceClass="org.slc.sli.api.resources.generic.ThreePartResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-          <!--
-            <ns2:resource path="{id}/studentSchoolAssociations/students" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
+            <ns2:resource path="{id}/studentSchoolAssociations/students" resourceClass="org.slc.sli.api.resources.generic.FourPartResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
+          <!--
             <ns2:resource path="{id}/sections" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>-->
