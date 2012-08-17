@@ -223,6 +223,59 @@ Then /^I check that the record contains all of the expected values:$/ do |table|
   end
 end
 
+Then /^I check that ID fields resolved correctly:$/ do |table|
+  @result = "true"
+
+  table.hashes.map do |row|
+    sourceEntities = getEntitiesForParameters(row)
+    @source_entity_count = 0
+    @source_entity_count = sourceEntities.size unless sourceEntities.nil?
+
+    sourceEntity = sourceEntities.first
+
+    if @source_entity_count != 1
+      puts "There are " + @source_entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ", expected 1"
+      @result = "false"
+    end
+
+    targetRow = {
+      'collectionName' => row['targetCollectionName'],
+      'searchParameter' => row['targetSearchParameter'],
+      'searchValue' => row['targetSearchValue'],
+      'searchType' => row['targetSearchType']
+    }
+    targetEntities = getEntitiesForParameters(targetRow)
+    @target_entity_count = 0
+    @target_entity_count = targetEntities.size unless targetEntities.nil?
+
+    targetEntity = targetEntities.first
+
+    if @target_entity_count != 1
+      puts "There are " + @target_entity_count.to_s + " in " + row["targetCollectionName"] + " collection for record with " + row["targetSearchParameter"] + " = " + row["targetSearchValue"] + ", expected 1"
+      @result = "false"
+    end
+
+    idResolutionField = row['idResolutionField']
+    if (idResolutionField.start_with?('body.'))
+      sourceEntity = sourceEntity['body']
+      idResolutionField = idResolutionField[5..idResolutionField.length]
+    #  puts "ID resolution field changed to #{idResolutionField}"
+    end
+    sourceIdReference = sourceEntity[idResolutionField]
+    #puts "Source entity has value #{sourceIdReference} for field #{row['idResolutionField']}"
+
+    targetId = targetEntity['_id']
+    #puts "Target entity has value #{targetId} for field _id"
+
+    if (sourceIdReference != targetId)
+      puts "Source id reference #{sourceIdReference} doesn't match target id #{targetId}"
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some IDs did not resolve correctly")
+end
+
 ############################################################
 # STEPS: AFTER
 ############################################################
