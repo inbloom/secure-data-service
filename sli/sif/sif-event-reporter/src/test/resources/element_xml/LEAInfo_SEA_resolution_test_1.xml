@@ -1,9 +1,9 @@
-<LEAInfo RefId="D3E34B359D75101A8C3D00AA001A1652">
-  <LocalId>946379881</LocalId>
-  <StateProvinceId>C2345681</StateProvinceId>
-  <NCESId>4215750</NCESId>
-  <LEAName>Happy Meadow School District</LEAName>
-  <LEAURL>http://www.happymeadowsd.edu</LEAURL>
+<LEAInfo RefId="20120817000000000000000000000001">
+  <LocalId>100000001</LocalId>
+  <StateProvinceId>100000001</StateProvinceId>
+  <NCESId>100000001</NCESId>
+  <LEAName>School District 1</LEAName>
+  <LEAURL>http://www.example.com/1</LEAURL>
   <EducationAgencyType>
     <Code>3486</Code>
   </EducationAgencyType>
@@ -23,36 +23,15 @@
       <StateProvince>IL</StateProvince>
       <Country>US</Country>
       <PostalCode>84102</PostalCode>
-    </Address>
+    </Address>    
   </AddressList>
-  <LEAContactList>
-    <LEAContact>
-      <PublishInDirectory>Yes</PublishInDirectory>
-      <ContactInfo>
-        <Name Type="04">
-          <LastName>Geisel</LastName>
-          <FirstName>Theodore</FirstName>
-          <FullName>Theodore Geisel</FullName>
-        </Name>
-        <PositionTitle>Superintendent</PositionTitle>
-        <EmailList>
-          <Email Type="Primary">drseuss@happymeadowsd.edu</Email>
-        </EmailList>
-        <PhoneNumberList>
-          <PhoneNumber Type="0096">
-            <Number>(555) 555-0103</Number>
-          </PhoneNumber>
-        </PhoneNumberList>
-      </ContactInfo>
-    </LEAContact>
-  </LEAContactList>
   <PhoneNumberList>
     <PhoneNumber Type="0096">
-      <Number>(312) 555-1234</Number>
+      <Number>(312) 555-0001</Number>
     </PhoneNumber>
   </PhoneNumberList>
   <IdentificationInfoList>
-    <IdentificationInfo Code="9999">2134A</IdentificationInfo>
+    <IdentificationInfo Code="9999">10001</IdentificationInfo>
   </IdentificationInfoList>
   <GradeLevels>
     <GradeLevel>
@@ -69,6 +48,6 @@
     </GradeLevel>
   </GradeLevels>
   <OperationalStatus>0820</OperationalStatus>
-  <CongressionalDistrict>3</CongressionalDistrict>
+  <CongressionalDistrict>1</CongressionalDistrict>
 </LEAInfo>
 
