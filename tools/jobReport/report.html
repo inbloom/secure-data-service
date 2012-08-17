@@ -2,9 +2,11 @@
   <head>
     <title>Ingestion Job Report</title>
 
-    <link rel="stylesheet" type="text/css" href="report.css" />
+    <link rel="stylesheet" type="text/css" href="css/report.css" />
+    <link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.8.23.custom.css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.23.custom.min.js"></script>
     <script type="text/javascript">
 
       var API_URL = 'http://localhost:8080';
@@ -52,30 +54,73 @@
         var recordCount = getRecordCountForJob(job);
         job.recordCount = recordCount;
 
-        var startDate = new Date(job.jobStartTimestamp);
-        var stopDate = new Date(job.jobStopTimestamp);
-        var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
-
-        var hours = Math.floor(jobTime / 3600);
-        var min_divisor = jobTime % (3600);
-        var minutes = Math.floor(min_divisor / 60);
-        var sec_divisor = min_divisor % 60;
-        var seconds = Math.ceil(sec_divisor);
-        var jobTimeDisplay = hours + ':' + minutes + ':' + seconds;
-
         $('#job_summary')
           .css({'color': 'white'})
           .append('Job Status: ' + job.status + '<br/>')
           .append('EdFi Record Count: ' +recordCount + '<br/>')
-          .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
-          .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
 
         var errors = getApiResource('/job/' + jobId + '/error');
-        $('#job_summary').append('Errors: ' + errors.length);
+          $('#job_summary').append('Errors: ' + errors.length + '<br/>');
+
+        if (job.status == 'Running') {
+          drawProgressBar(job)
+        } else {
+          var startDate = new Date(job.jobStartTimestamp);
+          var stopDate = new Date(job.jobStopTimestamp);
+          var jobTime = (stopDate.getTime() - startDate.getTime()) / 1000;
+
+          var hours = Math.floor(jobTime / 3600);
+          var min_divisor = jobTime % (3600);
+          var minutes = Math.floor(min_divisor / 60);
+          var sec_divisor = min_divisor % 60;
+          var seconds = Math.ceil(sec_divisor);
+          var jobTimeDisplay = hours + ':' + minutes + ':' + seconds;
+
+          $('#job_summary')
+            .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
+            .append('Total Job RPS: ' + (recordCount / jobTime).toFixed(2) + '<br/>');
+        }
 
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
+      }
+
+      function drawProgressBar(job) {
+        var stageWeights = {
+          'ZipFileProcessor' : 2,
+          'ControlFilePreProcessor' : 1,
+          'ControlFileProcessor' : 2,
+          'XmlFileProcessor' : 3,
+          'EdFiProcessor' : 17
+        }
+
+        var percentComplete = 0;
+        $.each(job.stages, function(key, stage) {
+          if (typeof stageWeights[stage.stageName] != 'undefined') {
+            percentComplete += stageWeights[stage.stageName];
+          }
+        });
+
+        var orchestraPercent = 100 - percentComplete;
+
+        var totalStagedEntities = 0;
+        var completedStagedEntities = 0;
+        var stagedEntities = getApiResource('/job/' + job._id + '/stagedentities');
+        if (stagedEntities.length > 0) {
+          $.each(stagedEntities[0].entities, function(entity, complete) {
+            totalStagedEntities++;
+            if (complete) {
+              completedStagedEntities++;
+            }
+          });
+          if (totalStagedEntities > 0) {
+            percentComplete += (completedStagedEntities/totalStagedEntities) * orchestraPercent;
+          }
+        }
+
+        $('#progressbar').progressbar({ value: percentComplete });
+        $('#progressbar').show();
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -360,6 +405,7 @@
 
       function clearJobSpecificDivs() {
         $('#job_summary').empty();
+        $('#progressbar').hide();
         $('#stage_breakdown_piechart_div').empty();
         $('#stage_breakdown_linechart_div').empty();
         $('#PersistenceProcessor_entity_div').empty();
@@ -389,6 +435,7 @@
         <div id="job_chooser"></div>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
+        <div id="progressbar"></div>
         <div id="stage_breakdown_piechart_div"></div>
         <div id="PersistenceProcessor_entity_div"></div>
         <div id="TransformationProcessor_entity_div"></div>
