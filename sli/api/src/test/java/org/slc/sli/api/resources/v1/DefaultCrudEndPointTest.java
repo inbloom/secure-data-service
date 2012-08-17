@@ -326,8 +326,8 @@ public class DefaultCrudEndPointTest {
     public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
 
         NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.setIncludeFields("field1,field2");
-        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setIncludeFieldString("field1,field2");
+        neutralQuery1.setExcludeFieldString("field3,field4");
         neutralQuery1.setLimit(5);
         neutralQuery1.setOffset(4);
         neutralQuery1.setSortBy("field5");
@@ -418,15 +418,15 @@ public class DefaultCrudEndPointTest {
         body.put("id", "42");
         schoolResource.addAggregates(body, mockSchoolDef);
         assertEquals(null, pullAggregate(body));
+        assertEquals(aggregate.getCalculatedValues(), schoolResource.getAggregationListings("42").getCalculatedValues(null, null, null, null).getEntity());
         DefaultCrudEndpoint studentResource = new DefaultCrudEndpoint(mockStore, "student");
         studentResource.setIncludeAggregates("true");
         body = new EntityBody();
         body.put("id", "42");
         studentResource.addAggregates(body, mockStudentDef);
         assertEquals(null, pullAggregate(body));
+        assertEquals(null, studentResource.getAggregationListings("42"));
     }
-
-
 
     @SuppressWarnings("unchecked")
     private List<CalculatedDatum<Map<String, Integer>>> pullAggregate(EntityBody result) {
