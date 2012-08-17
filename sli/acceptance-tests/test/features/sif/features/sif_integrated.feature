@@ -57,6 +57,9 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak West High                          | string     |
      | educationOrganization | 1                   | body.stateOrganizationId            | IL                                          | string     |
      | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak School District 4530               | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName        | searchParameter          | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | educationOrganization | body.stateOrganizationId | Daybreak West High | string     | body.parentEducationAgencyReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
    And I check that the record contains all of the expected values:
      | collectionName        | searchParameter          | searchValue                   | searchType | expectedValuesFile      |
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_add |
@@ -117,7 +120,11 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
-     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-16                                   | string     |
+     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-01                                   | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Update a StudentLEARelationship
 Given I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
@@ -131,6 +138,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Add a StudentSchoolEnrollment
 Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
@@ -146,6 +157,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
 
 Scenario: Update a StudentSchoolEnrollment
 Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
@@ -161,3 +176,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2012-2013                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Eleventh grade                               | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |

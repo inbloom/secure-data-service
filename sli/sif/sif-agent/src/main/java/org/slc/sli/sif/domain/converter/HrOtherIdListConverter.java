@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
 import openadk.library.common.OtherIdType;
 import openadk.library.hrfin.HrOtherIdList;
 
@@ -102,6 +103,20 @@ public class HrOtherIdListConverter {
         }
 
         return toSliStaffIdentificationCodeList(hrOtherIdList.getOtherIds());
+    }
+
+    /**
+     * Converts the SIF OtherIdList into an SLI Institution Telephone list
+     *
+     * @param phoneNumberList
+     * @return
+     */
+    public List<StaffIdentificationCode> convert(OtherIdList otherIdList) {
+        if (otherIdList == null) {
+            return null;
+        }
+
+        return toSliStaffIdentificationCodeList(otherIdList.getOtherIds());
     }
 
     private List<StaffIdentificationCode> toSliStaffIdentificationCodeList(OtherId[] otherIds) {
