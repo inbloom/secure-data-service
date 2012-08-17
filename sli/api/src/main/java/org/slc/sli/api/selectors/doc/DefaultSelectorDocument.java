@@ -97,6 +97,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     if (connectingType != null) {
                         types.push(connectingType);
 
+                        //construct a new constraint using the new connecting key and ids
+                        constraint = constructConstrainQuery(getKey(connectingType, previousType),
+                                                             extractIds(previousEntities, key));
+
                         connectingEntities = getConnectingEntities(connectingType, previousType, constraint);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
