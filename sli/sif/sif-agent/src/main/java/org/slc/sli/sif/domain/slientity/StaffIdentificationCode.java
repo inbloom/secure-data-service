@@ -16,6 +16,8 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Corresponding to the staffIdentificationCode defined in SLI schema.
  *
@@ -30,10 +32,12 @@ public class StaffIdentificationCode {
 
     }
 
+    @JsonProperty("ID")
     public String getID() {
         return this.ID;
     }
 
+    @JsonProperty("ID")
     public void setID(String ID) {
         this.ID = ID;
     }
