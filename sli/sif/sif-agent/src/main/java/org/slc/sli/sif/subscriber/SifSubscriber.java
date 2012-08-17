@@ -22,16 +22,24 @@ import openadk.library.MessageInfo;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.sif.translation.SifTranslationManager;
 /**
  * Sif Subscriber implementation
  */
 @Component
 public class SifSubscriber implements Subscriber {
 
+    @Autowired
+    SifTranslationManager translationManager;
+
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
+
+        translationManager.translate(event.getData().readDataObject(), zone.getZoneId());
+
     }
 
 }
