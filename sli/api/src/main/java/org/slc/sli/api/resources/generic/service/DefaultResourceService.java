@@ -10,7 +10,6 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
@@ -75,7 +74,7 @@ public class DefaultResourceService implements ResourceService {
         // final/resulting information
         List<EntityBody> finalResults = null;
         try {
-            finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resource);
+            finalResults = logicalEntity.getEntities(apiQuery, resource);
         } catch (UnsupportedSelectorException e) {
             finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
         }
@@ -102,12 +101,12 @@ public class DefaultResourceService implements ResourceService {
 
                 @Override
                 public Iterable<EntityBody> execute() {
-                    return logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+                    return logicalEntity.getEntities(apiQuery, resource);
                 }
             });
         } else {
             try {
-                entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+                entityBodies = logicalEntity.getEntities(apiQuery, resource);
             } catch (UnsupportedSelectorException e) {
                 entityBodies = definition.getService().list(apiQuery);
             }
@@ -174,27 +173,30 @@ public class DefaultResourceService implements ResourceService {
         return entityDefinitionStore.lookupByResourceName(resourceType);
     }
 
-//    public List<EntityDefinition> getEntities(String resource,UriInfo uriInfo) {
-//        List<EntityDefinition> result = null;
-//       EntityDefinition entityDefinition = getEntityDefinition(resource);
-//        ApiQuery apiQuery = new ApiQuery(uriInfo);
-//        apiQuery = addCriteria(apiQuery,uriInfo , ResourceTemplate.TWO_PART);
-//        return result;
-//    }
-//
-//    private ApiQuery addCriteria(ApiQuery apiQuery,UriInfo uriInfo, ResourceTemplate template) {
-//        ArrayList<String> ids = resourceHelper.getIds(uriInfo, template);
-//        return apiQuery;
-//    }
-
     @Override
     public String getEntityType(String resource) {
         return entityDefinitionStore.lookupByResourceName(resource).getType();
     }
 
     @Override
-    public List<EntityBody> getEntities(String base, String id, String resource) {
-        return null;
+    // TODO: change from UriInfo
+    public List<EntityBody> getEntities(final String base, final String id, final String resource, final UriInfo uriInfo) {
+        final EntityDefinition definition = getEntityDefinition(resource);
+        List<EntityBody> entityBodyList;
+        final ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+        try {
+            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+        } catch (final UnsupportedSelectorException e) {
+            entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
+        }
+
+        return entityBodyList;
+    }
+
+    @Override
+    // TODO
+    public List<EntityBody> getEntities(String base, String id, String association, String resource, UriInfo uriInfo) {
+        throw new UnsupportedOperationException("TODO");
     }
 
 }

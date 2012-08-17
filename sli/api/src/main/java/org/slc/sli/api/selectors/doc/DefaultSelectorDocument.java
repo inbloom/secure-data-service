@@ -47,6 +47,8 @@ import org.slc.sli.modeling.uml.Type;
 @Component
 public class DefaultSelectorDocument implements SelectorDocument {
 
+    public static final int EMBEDDED_DOCUMENT_LIMIT = 1000;
+
     @Autowired
     private ModelProvider modelProvider;
 
@@ -55,10 +57,31 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
+    private interface Counter {
+        public void add(int i);
+        public int getTotal();
+    }
+
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
+        Counter embeddedDocumentCounter = new Counter() {
+
+            private int total = 0;
+
+            @Override
+            public void add(int i) {
+                this.total += i;
+            }
+
+            @Override
+            public int getTotal() {
+                return this.total;
+            }
+
+        };
+
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, embeddedDocumentCounter);
 
     }
 
@@ -68,7 +91,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first,
+                                          Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
@@ -91,6 +115,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     if (connectingType != null) {
                         types.push(connectingType);
 
+                        //construct a new constraint using the new connecting key and ids
+                        constraint = constructConstrainQuery(getKey(connectingType, previousType),
+                                                             extractIds(previousEntities, key));
+
                         connectingEntities = getConnectingEntities(connectingType, previousType, constraint);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
@@ -102,16 +130,16 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
 
-            Iterable<EntityBody> entities = executeQuery(currentType, constraint, first);
-            results.addAll((List<EntityBody>) entities);
+            List<EntityBody> entities = (List<EntityBody>) executeQuery(currentType, constraint, first);
+            results.addAll(entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types, false);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter);
 
                 //update the entity results
-                results = updateEntityList(plan, results, list, types, currentType);
+                results = updateEntityList(plan, results, list, types, currentType, counter);
             }
 
             results = filterFields(results, plan);
@@ -229,7 +257,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
-                                                Stack<Type> types, Type currentType) {
+                                                Stack<Type> types, Type currentType, Counter counter) {
         Type nextType = types.pop();
         String extractionKey, key;
 
@@ -256,6 +284,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
                 List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
                 body.put(exposeName, subList);
+                counter.add(subList.size());
+                if (counter.getTotal() > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
+                    throw new EmbeddedDocumentLimitException("Exceeded embedded document limit of " + EMBEDDED_DOCUMENT_LIMIT);
+                }
             }
         }
 

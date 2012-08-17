@@ -16,9 +16,8 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String RESOURCE_KEY = "resource";
     private static final String BASE_KEY = "base";
     private static final String VERSION_KEY = "version";
+    private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
-
-    private static final String ID_KEY = "resource";
 
     @Override
     public String getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
@@ -41,28 +40,41 @@ public class RestResourceHelper implements ResourceHelper {
             case ONE_PART:
                 return path;
             case TWO_PART:
-                return path + SEP + "{id}";
+                return getTwoPartPath(path);
             case THREE_PART:
-                return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
-                        + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
+                return getThreePartPath(matchList);
+            case FOUR_PART:
+                return getFourPartPath(matchList);
+            case CUSTOM:
+                // TODO
+                return "";
             default:
-                throw new AssertionError("Non-Valid Resource Template");
+                throw new AssertionError("Non-valid template");
         }
     }
 
-    private Map<String, String> getMatchList(UriInfo uriInfo, ResourceTemplate template) {
+    @Override
+    public String getAssociationName(final UriInfo uriInfo, final ResourceTemplate template) {
+        final Map<String, String> matchList = getMatchList(uriInfo, template);
+        return matchList.get(ASSOCIATION_KEY);
+    }
+
+    private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
         return uriTemplate.match(uriInfo.getRequestUri().toString());
     }
 
-    @Override
-    public List<String> getIds(UriInfo uriInfo,ResourceTemplate template) {
-//        final  UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
-//        final Map<String,String> matchList = uriTemplate.match(uri);
-        ArrayList<String> ids = new ArrayList<String>();
-//       for(String id : matchList.get(ID_KEY).split(",")) {
-//           ids.add(id);
-//       }
-       return ids;
+    private String getFourPartPath(final Map<String, String> matchList) {
+        return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY) + SEP + "{id}"
+                + SEP + matchList.get(ASSOCIATION_KEY) + SEP + matchList.get(RESOURCE_KEY);
+    }
+
+    private String getTwoPartPath(final String path) {
+        return path + SEP + "{id}";
+    }
+
+    private String getThreePartPath(final Map<String, String> matchList) {
+        return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
+                + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
     }
 }

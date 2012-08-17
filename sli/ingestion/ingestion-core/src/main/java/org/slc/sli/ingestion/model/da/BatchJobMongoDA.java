@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.model.da;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -240,8 +241,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         BasicDBObject decrementCount = new BasicDBObject("count", -1);
         BasicDBObject update = new BasicDBObject("$inc", decrementCount);
 
-        DBObject latchObject = batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).findAndModify(query, null, null,
-                false, update, true, false);
+        DBObject latchObject = batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).findAndModify(query, null,
+                null, false, update, true, false);
 
         return (Integer) latchObject.get("count") <= 0;
     }
@@ -260,7 +261,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         DBObject latchObject = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null,
                 false, update, true, false);
 
-         List<Map<String, Object>> entities = (List<Map<String, Object>>) latchObject.get("entities");
+        List<Map<String, Object>> entities = (List<Map<String, Object>>) latchObject.get("entities");
 
         boolean isEmpty = true;
 
@@ -283,8 +284,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         BasicDBObject decrementCount = new BasicDBObject("entities.$.count", size);
         BasicDBObject update = new BasicDBObject("$set", decrementCount);
 
-        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null,
-                false, update, true, false);
+        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false, update, true,
+                false);
     }
 
     @SuppressWarnings("unchecked")
@@ -294,30 +295,35 @@ public class BatchJobMongoDA implements BatchJobDAO {
         query.put("jobId", jobId);
 
         DBObject entities = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findOne(query);
-        List<String> recordTypes = (List<String>) entities.get("recordTypes");
+        Map<String, Boolean> entitiesMap = (Map<String, Boolean>) entities.get("entities");
 
         Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
-        for (String recordType: recordTypes) {
-            stagedEntities.add(IngestionStagedEntity.createFromRecordType(recordType));
+        for (Map.Entry<String, Boolean> entityEntry : entitiesMap.entrySet()) {
+            // only return entitites that are not complete
+            if (!entityEntry.getValue()) {
+                stagedEntities.add(IngestionStagedEntity.createFromRecordType(entityEntry.getKey()));
+            }
         }
-
         return stagedEntities;
-
     }
 
     @Override
     public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
-        List<String> recordTypes = IngestionStagedEntity.toEntityNames(stagedEntities);
+
+        Map<String, Boolean> entitiesMap = new HashMap<String, Boolean>(stagedEntities.size());
+        for (IngestionStagedEntity recordType : stagedEntities) {
+            entitiesMap.put(recordType.getCollectionNameAsStaged(), Boolean.FALSE);
+        }
 
         try {
             BasicDBObject entities = new BasicDBObject();
             entities.put("jobId", jobId);
-            entities.put("recordTypes", recordTypes);
+            entities.put("entities", entitiesMap);
 
             batchJobMongoTemplate.getCollection(STAGED_ENTITIES).insert(entities);
         } catch (MongoException me) {
             if (me.getCode() == DUP_KEY_CODE) {
-                LOG.debug(me.getMessage());
+                LOG.error("Error inserting entry for job to stageEntities collection. ", me);
             }
         }
     }
@@ -332,29 +338,40 @@ public class BatchJobMongoDA implements BatchJobDAO {
             DBObject latch = cursor.next();
             List<Map<String, Object>> entities = (List<Map<String, Object>>) latch.get("entities");
             for (Map<String, Object> entityMap : entities) {
-                   isEmpty = removeStagedEntityForJob((String) entityMap.get("type") , jobId);
+                isEmpty = markStagedEntityComplete((String) entityMap.get("type"), jobId);
             }
-
         }
 
         return isEmpty;
-
     }
 
+    /**
+     * Mark the staged entity for the provided record type as complete for this job.
+     *
+     * @param recordType
+     * @param jobId
+     * @return True, if all staged entities are complete for this job as a result of this operation.
+     */
     @SuppressWarnings("unchecked")
-    public boolean removeStagedEntityForJob(String recordType, String jobId) {
+    protected boolean markStagedEntityComplete(String recordType, String jobId) {
 
         BasicDBObject query = new BasicDBObject();
         query.put("jobId", jobId);
 
-        BasicDBObject decrementCount = new BasicDBObject("recordTypes", recordType);
-        BasicDBObject update = new BasicDBObject("$pull", decrementCount);
+        BasicDBObject setEntityComplete = new BasicDBObject("entities." + recordType, Boolean.TRUE);
+        BasicDBObject update = new BasicDBObject("$set", setEntityComplete);
 
-        DBObject latchObject = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null,
+        DBObject dbStagedEntities = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null,
                 false, update, true, false);
 
-
-        return ((List<String>) latchObject.get("recordTypes")).size() == 0;
+        // return whether all staged entities now complete
+        Map<String, Boolean> entitiesMap = (Map<String, Boolean>) dbStagedEntities.get("entities");
+        for (Map.Entry<String, Boolean> entityEntry : entitiesMap.entrySet()) {
+            if (!entityEntry.getValue()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private DBCursor getWorkNoteLatchesForStage(String jobId, String syncStage) {
@@ -370,7 +387,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         } else {
             cursor = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).find(ref);
         }
-
 
         return cursor;
 

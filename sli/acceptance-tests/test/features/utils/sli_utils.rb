@@ -237,6 +237,16 @@ def restHttpPut(id, data, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpPatch(id, data, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into PUT was nil")
+
+  urlHeader = makeUrlAndHeaders('patch',id,sessionId,format)
+  @res = RestClient.patch(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpDelete
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
@@ -267,7 +277,7 @@ def makeUrlAndHeaders(verb,id,sessionId,format)
 end
 
 def makeHeaders(verb,sessionId,format)
-  if(verb == 'put' || verb == 'post')
+  if(verb == 'put' || verb == 'post' || verb == 'patch')
     headers = {:content_type => format}
   else
     headers = {:accept => format}

@@ -27,7 +27,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
@@ -120,8 +119,8 @@ public class ApiQueryTest {
             // test that the value was stored in the proper variable
             assertEquals(neutralQuery.getLimit(), limit);
             assertEquals(neutralQuery.getOffset(), offset);
-            assertEquals(neutralQuery.getIncludeFields(), includeFields);
-            assertEquals(neutralQuery.getExcludeFields(), excludeFields);
+            assertEquals(neutralQuery.getIncludeFieldString(), includeFields);
+            assertEquals(neutralQuery.getExcludeFieldString(), excludeFields);
             assertEquals(neutralQuery.getSortBy(), sortBy);
             assertEquals(neutralQuery.getSortOrder(), sortOrder);
             assertEquals(neutralQuery.getCriteria().size(), 1);
@@ -206,8 +205,8 @@ public class ApiQueryTest {
         assertEquals(0, apiQuery.getCriteria().size());
         assertEquals(50, apiQuery.getLimit());
         assertEquals(0, apiQuery.getOffset());
-        assertEquals(null, apiQuery.getIncludeFields());
-        assertEquals(null, apiQuery.getExcludeFields());
+        assertEquals(null, apiQuery.getIncludeFieldString());
+        assertEquals(null, apiQuery.getExcludeFieldString());
         assertEquals(null, apiQuery.getSortBy());
         assertEquals(null, apiQuery.getSortOrder());
     }

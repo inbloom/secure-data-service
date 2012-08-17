@@ -26,6 +26,6 @@ import org.slc.sli.api.service.query.ApiQuery;
  * @author jstokes
  */
 public interface LogicalEntity {
-    public List<EntityBody> getEntities(ApiQuery apiQuery, Constraint constraint,
+    public List<EntityBody> getEntities(ApiQuery apiQuery,
                                            String classType);
 }

@@ -87,8 +87,6 @@ public class DefaultLogicalEntityTest {
         final SelectorQuery mockPlan = mock(SelectorQuery.class);
         when(selectorQueryEngine.assembleQueryPlan(any(SemanticSelector.class))).thenReturn(mockPlan);
 
-        final Constraint mockConstraint = mock(Constraint.class);
-
         final ApiQuery apiQuery = mock(ApiQuery.class);
         when(apiQuery.getSelector()).thenReturn(new HashMap<String, Object>());
 
@@ -96,8 +94,7 @@ public class DefaultLogicalEntityTest {
         final List<EntityBody> mockEntityList = mock(List.class);
         when(selectorDocument.aggregate(mockPlan, apiQuery)).thenReturn(mockEntityList);
 
-        final List<EntityBody> entityList =
-                logicalEntity.getEntities(apiQuery, mockConstraint, "TEST");
+        final List<EntityBody> entityList = logicalEntity.getEntities(apiQuery, "TEST");
 
         assertEquals(mockEntityList, entityList);
     }
