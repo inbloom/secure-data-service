@@ -171,19 +171,6 @@ public class DefaultResourceService implements ResourceService {
         return entityDefinitionStore.lookupByResourceName(resourceType);
     }
 
-//    public List<EntityDefinition> getEntities(String resource,UriInfo uriInfo) {
-//        List<EntityDefinition> result = null;
-//       EntityDefinition entityDefinition = getEntityDefinition(resource);
-//        ApiQuery apiQuery = new ApiQuery(uriInfo);
-//        apiQuery = addCriteria(apiQuery,uriInfo , ResourceTemplate.TWO_PART);
-//        return result;
-//    }
-//
-//    private ApiQuery addCriteria(ApiQuery apiQuery,UriInfo uriInfo, ResourceTemplate template) {
-//        ArrayList<String> ids = resourceHelper.getIds(uriInfo, template);
-//        return apiQuery;
-//    }
-
     @Override
     public String getEntityType(String resource) {
         return entityDefinitionStore.lookupByResourceName(resource).getType();
