@@ -48,7 +48,7 @@ import org.slc.sli.dashboard.util.DashboardException;
 public class EntityManager extends ApiClientManager {
 
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
-
+    
     public EntityManager() {
 
     }
@@ -319,44 +319,69 @@ public class EntityManager extends ApiClientManager {
     }
 
     
+    /**
+     * Returns the grades and associated courses, by traversing student section asssociations.
+     * @param token
+     * @param studentId
+     * @return
+     */
     public GenericEntity getCurrentCoursesAndGrades(String token , String studentId) {
+
+    	List<GenericEntity> toReturn = new LinkedList<GenericEntity>();    	
+
+    	try {
+
+		//Get the student by ID.
     	GenericEntity student = getStudent(token, studentId);
     	List<Link> links = student.getLinks();
-    	List<GenericEntity> toReturn = new LinkedList<GenericEntity>();
-    	try {
-    	for (Link link : links) {
-    		if (link.getLinkName().equals("getStudentSectionAssociations")) {
+
+
+    	//Iterate the links of the student. 
+		for (Link link : links) {
+
+			// If link is getStudentSectionAssociations.
+			if (link.getLinkName().equals(Constants.GET_STUDENT_SECTION_ASSOCIATIONS)) {
     			
-    			List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString());
-    			for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
-    				GenericEntity toAdd = new GenericEntity();
-    				GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString("sectionId"));
-    				toAdd.put("sectionName", section.get("uniqueSectionCode"));
+				//Retrieve all associations.
+				List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString());
+    			
+				//Iterate over associations
+				for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
+    				
+					GenericEntity toAdd = new GenericEntity();
+					
+					//Retrieve, course, teacher, and subject for the studentSectionAssociation.
+					GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
+    				toAdd.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
     				Map teacher = (Map)section.get(Constants.ATTR_TEACHER_NAME);
-    				String teacherName = "";
+    				
+    				StringBuilder teacherName = new StringBuilder();
 	    			if (teacher != null){
-    					if (teacher.containsKey("personalTitlePrefix")) {
-	    					teacherName += teacher.get("personalTitlePrefix") +". ";
+    					if (teacher.containsKey(Constants.ATTR_PERSONAL_TITLE_PREFIX)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_PERSONAL_TITLE_PREFIX)).append(". ");
 	    				}
-	    				if (teacher.containsKey("firstName")) {
-	    					teacherName += teacher.get("firstName")+" ";
+	    				if (teacher.containsKey(Constants.ATTR_FIRST_NAME)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_FIRST_NAME)).append(" ");
 	    				}
-	    				if (teacher.containsKey("lastSurname")) {
-	    					teacherName += teacher.get("lastSurname");
+	    				if (teacher.containsKey(Constants.ATTR_LAST_SURNAME)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_LAST_SURNAME));
 	    				}
 	    			}
-    				toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName);
+    				toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName.toString());
     				toAdd.put(Constants.ATTR_COURSE_TITLE, section.get(Constants.ATTR_COURSE_TITLE));
     				toAdd.put(Constants.ATTR_SUBJECTAREA, section.get(Constants.ATTR_SUBJECTAREA));
     				
+    				
+    				//Iterate the link and retrieve grades for the studentSectionAssociation.
     				for (Link stuSecLinks : studentSectionAssociation.getLinks()) {
-    					if (stuSecLinks.getLinkName().equals("getGrades")) {
+    					if (stuSecLinks.getLinkName().equals(Constants.GET_GRADES)) {
     						List<GenericEntity> grades = getApiClient().readEntityList(token, stuSecLinks.getResourceURL().toString());
     						for (GenericEntity grade : grades) {
-    							toAdd.put(grade.getString("gradeType"), grade.getString("letterGradeEarned"));
+    							toAdd.put(grade.getString(Constants.GRADE_TYPE), grade.getString(Constants.ATTR_LETTER_GRADE_EARNED));
     						}
     					}
     				}
+    				//Add aggregated data for studentSectionAssociation to return list.
     				toReturn.add(toAdd);
     			}
     		
@@ -366,8 +391,9 @@ public class EntityManager extends ApiClientManager {
     	}catch(Exception e) {
     		log.error(e.getMessage());
     	}
+    	
     	GenericEntity ge = new GenericEntity();
-    	ge.put("coursesAndGrades", toReturn);
+    	ge.put(Constants.COURSES_AND_GRADES, toReturn);
     	
     	return ge;
     }

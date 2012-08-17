@@ -82,6 +82,12 @@ Given /^parameter "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |param, op, value|
   @queryParams << URI.escape("#{param}#{op}#{value}")
 end
 
+When /^I navigate to PATCH "([^"]*)"$/ do |uri|
+  data = prepareData(@format, @patch_body)
+  restHttpPatch(uri, data)
+  assert(@res != nil, "Response from rest-client PATCH is nil")
+end
+
 When /^I navigate to DELETE "([^"]*)"$/ do |uri|
   restHttpDelete(uri)
   assert(@res != nil, "Response from rest-client DELETE is nil")
