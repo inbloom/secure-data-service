@@ -36,7 +36,7 @@ public class AttributeTest {
     @Before
     public void setup() {
         attribute = new Attribute(identifier, "TestAttribute", identifier,
-                TestUtils.zeroToOne, ModelElement.EMPTY_TAGGED_VALUES);
+                TestUtils.ZERO_TO_ONE, ModelElement.EMPTY_TAGGED_VALUES);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class AttributeTest {
     public void testToString() {
         String string1 = attribute.toString();
         String string2 = "{id: " + identifier.toString() + ", name: TestAttribute, type: " + identifier
-                + ", multiplicity: " + TestUtils.zeroToOne + "}";
+                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
         assertEquals(string1, string2);
     }
 }

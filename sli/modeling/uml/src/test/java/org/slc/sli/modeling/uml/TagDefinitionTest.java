@@ -34,7 +34,7 @@ public class TagDefinitionTest {
 
     @Before
     public void setup() {
-        tagDefinition = new TagDefinition(Identifier.fromString("1234"), "TestTagDefinition", TestUtils.zeroToOne);
+        tagDefinition = new TagDefinition(Identifier.fromString("1234"), "TestTagDefinition", TestUtils.ZERO_TO_ONE);
     }
 
     @Test
@@ -44,13 +44,13 @@ public class TagDefinitionTest {
 
     @Test
     public void testGetMultiplicity() {
-        assertEquals(TestUtils.zeroToOne, tagDefinition.getMultiplicity());
+        assertEquals(TestUtils.ZERO_TO_ONE, tagDefinition.getMultiplicity());
     }
 
     @Test
     public void testToString() {
         String string1 = tagDefinition.toString();
-        String string2 = "{id: 1234, name: TestTagDefinition, multiplicity: " + TestUtils.zeroToOne+ "}";
+        String string2 = "{id: 1234, name: TestTagDefinition, multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
         assertEquals(string2, string1);
     }
 

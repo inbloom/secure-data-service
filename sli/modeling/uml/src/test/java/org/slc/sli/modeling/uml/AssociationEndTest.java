@@ -35,7 +35,7 @@ public class AssociationEndTest {
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.zeroToOne, "TestAssocEnd", false, identifier);
+        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AssociationEndTest {
     public void testToString() {
         String string1 = associationEnd.toString();
         String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.zeroToOne + "}";
+                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
         assertEquals(string1, string2);
     }
 
