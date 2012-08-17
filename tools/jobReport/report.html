@@ -22,6 +22,7 @@
       function listJobs() {
         $('#job_chooser').empty();
         $('#job_chooser_toggle').empty();
+
         clearJobSpecificDivs();
 
         MONGO_HOST_PORT = $('#mongo_host').val(); // initialize
@@ -41,11 +42,10 @@
           $('#job_chooser')
             .append('<input type="button" name="select" value="Select" onclick="jobCompare()">');
         }
+        $('#job_chooser').show('fast');
       }
 
       function jobSummary(jobId) {
-        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
-
         clearJobSpecificDivs();
         $('#job_summary').append('<h4>Job Summary: ' + jobId + '</h4>');
 
@@ -108,8 +108,29 @@
       }
 
       function drawEntityPerformanceCharts(job) {
+
+        var entityStatsMap = getStageEntityPerfStruct(job);
+
+        // construct, populate, and draw google DataTables
+        $.each(entityStatsMap, function(key, entityStat) {
+          if (key == 'TransformationProcessor' || key == 'PersistenceProcessor') {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Entity');
+            dataTable.addColumn('number', 'Record Count');
+            dataTable.addColumn('number', 'Elapsed Time');
+
+            $.each(entityStat, function(key, entity) {
+              dataTable.addRow([entity.displayLabel, entity.recordCount, entity.elapsedTime]);
+            });
+            dataTable.sort([{column: 2, desc:true}, {column:1, desc:true}]); // sort by elapsed time, descending
+            drawBarChart(key, key + '_entity_div', dataTable);
+          }
+        });
+      }
+
+      function getStageEntityPerfStruct(job) {
         var entityStatsMap = {};
-        // ex. [{ 'PersistenceProcessor': { 'assessment': {'recordCount': 123, 'elapsedTime': 456, 'displayLabel': 'somestring'} } }];
+        // ex. [{ 'PersistenceProcessor': { 'assessment': {'recordCount': 123, 'elapsedTime': 456, 'rps': 200, 'displayLabel': 'somestring'} } }];
         
         var stagesForJob = getApiResource('/job/' + job._id + '/stage');
 
@@ -134,39 +155,28 @@
           }
         });
 
-        // construct, populate, and draw google DataTables
+        // add rps and displayLabel
         $.each(entityStatsMap, function(key, entityStat) {
-          if (key == 'TransformationProcessor' || key == 'PersistenceProcessor') {
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn('string', 'Entity');
-            dataTable.addColumn('number', 'Record Count');
-            dataTable.addColumn('number', 'Elapsed Time');
-
-            $.each(entityStat, function(key, entity) {
-              // add rps info to each entity displayLabel
-              if (typeof entity.recordCount == 'number' && typeof entity.elapsedTime == 'number') {
-                entity.rps = Math.ceil(entity.recordCount / (entity.elapsedTime/1000));
-                entity.displayLabel = key + ' (' + entity.recordCount + '/' + (entity.elapsedTime/1000) + ') = ' + entity.rps;
-              }
-              dataTable.addRow([entity.displayLabel, entity.recordCount, entity.elapsedTime]);
-            });
-            dataTable.sort([{column: 2, desc:true}, {column:1, desc:true}]); // sort by elapsed time, descending
-            drawBarChart(key, key + '_entity_div', dataTable);
-          }
+          $.each(entityStat, function(key, entity) {
+            if (typeof entity.recordCount == 'number' && typeof entity.elapsedTime == 'number') {
+              entity.rps = Math.ceil(entity.recordCount / (entity.elapsedTime/1000));
+              entity.displayLabel = key + ' (' + entity.recordCount + '/' + (entity.elapsedTime/1000) + ') = ' + entity.rps;
+            }
+          });
         });
+        return entityStatsMap;
       }
 
       // cross-job comparison
       function jobCompare() {
         clearJobSpecificDivs();
-        $('#job_chooser').hide('slow'); // hide the job chooser as it can be huge
 
-        drawJobCompareStageChart(); // chart that compares the jobs' stages with one another
+        drawJobCompareStageChart(['EdFiProcessor', 'TransformationProcessor', 'PersistenceProcessor']); // chart that compares the jobs' stages with one another
 
-        drawJobCompareEntityCharts(); // charts that compare the jobs' entities with one another
+        drawJobCompareEntityCharts(['PersistenceProcessor', 'TransformationProcessor']); // charts that compare the jobs' entities with one another
       }
 
-      function drawJobCompareStageChart() {
+      function drawJobCompareStageChart(stagesToCompare) {
         var stageNames = []; // ex. stage1,stage2,etc
         var comparedJobsStageStats = []; // ex. [{ 'jobId': 123, 'stageStats': [{'EdFiProcessor':123}] }]
 
@@ -180,14 +190,16 @@
             var statsMap = {'jobId': job._id, 'stageStats': {}};
 
             $.each(job.stages, function(key, stage) {
-              if (stageNames.indexOf(stage.stageName) == -1) {
-                stageNames.push(stage.stageName);
+              if ($.inArray(stage.stageName, stagesToCompare) != -1) {
+                if (stageNames.indexOf(stage.stageName) == -1) {
+                  stageNames.push(stage.stageName);
+                }
+                var rps = -1;
+                if (stage.elapsedTime != null && stage.elapsedTime > 0) {
+                  rps = recordCount / (stage.elapsedTime/1000);
+                }
+                statsMap.stageStats[stage.stageName] = rps;
               }
-              var rps = -1;
-              if (stage.elapsedTime != null && stage.elapsedTime > 0) {
-                rps = recordCount / (stage.elapsedTime/1000);
-              }
-              statsMap.stageStats[stage.stageName] = rps;
             });
             comparedJobsStageStats.push(statsMap);
           }
@@ -214,66 +226,52 @@
         drawComboChart('Cross Job Stage Breakdown', 'RPS', 'Job Id', 'stage_breakdown_linechart_div', compareJobStageDataTable);
       }
 
-      function drawJobCompareEntityCharts() {
-        var entityPersistencePerf = [ ['BatchJob'] ];
-        var entityXformPerf = [ ['BatchJob'] ];        
+      function drawJobCompareEntityCharts(stagesToCompare) {
+        var entityNames = []; // ex. stage1,stage2,etc
+        var comparedJobsStageStats = []; // ex. [{ 'jobId': 123, 'stageStats': [{'assessment':123}] }]
 
         $('.job_checkbox').each(function(key, jobCheckbox) {
           if (jobCheckbox.checked) {
-            
             var job = getJob(jobCheckbox.name);
 
-            calXformPersistence(entityPersistencePerf, entityXformPerf, job);
+            var entityStatsMap = getStageEntityPerfStruct(job);
+            comparedJobsStageStats.push({'jobId': job._id, 'entityStats': entityStatsMap});
+
+            $.each(entityStatsMap, function(stage, entityStat) {
+              $.each(entityStat, function(entity, stat) {
+                if (entityNames.indexOf(entity) == -1) {
+                  entityNames.push(entity);
+                }
+              });
+            });
           }
         });
 
-        normalization(entityPersistencePerf);
-        normalization(entityXformPerf);
+        $.each(stagesToCompare, function(key, stageToCompare) {
+          var dataTable = new google.visualization.DataTable();
 
-        drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'BatchJob', 'entity_persistence_linechart_div', new google.visualization.arrayToDataTable(entityPersistencePerf));
-        drawComboChart('Cross Job Transformation Entity Performance', 'RPS', 'BatchJob', 'entity_xform_linechart_div', new google.visualization.arrayToDataTable(entityXformPerf));
-      }
-      
-      function calXformPersistence(entityPersistencePerf, entityXformPerf, job) {
-        var PXTRes = getTransformPersistChartData(job);
-        var PerElem = [job._id];
-        var XformElem = [job._id];
-        var processorChartMap = {
-          'persistenceChartData': entityPersistencePerf,
-          'transformationChartData': entityXformPerf
-        };
-        var processingChartElem = {
-          'persistenceChartData': PerElem,
-          'transformationChartData': XformElem
-        };
-        for (var processor in PXTRes) {
-          var perf = processorChartMap[processor];
-          var entities;
-          if (PXTRes.hasOwnProperty(processor)) {
-            entities = PXTRes[processor];
+          // add columns
+          dataTable.addColumn('string', 'Job Id'); // 1st col is job id
+          $.each(entityNames, function(key, entityName) {
+            dataTable.addColumn('number', entityName); // other cols are entity names
+          });
 
-            if (entities.length == 0) 
-              continue;
-
-            for (var entityI = 1; entityI < entities.length; entityI++) {
-              var entity = entities[entityI][0].split(' ')[0];
-              var index = perf[0].indexOf(entity);
-
-              if (index == -1) {
-                perf[0].push(entity);
-                index = perf[0].indexOf(entity);
+          // add rows
+          $.each(comparedJobsStageStats, function(key, jobStageStat) {
+            var row = [jobStageStat.jobId];
+            $.each(entityNames, function(key, entityName) {
+              var rps = 0;
+              var stat = jobStageStat.entityStats[stageToCompare][entityName];
+              if (typeof stat != 'undefined') {
+                rps = stat.rps;
               }
+              row.push(rps);
+            });
+            dataTable.addRow(row);
+          });
 
-              if (entities[entityI][1] != 0) {
-                processingChartElem[processor][index] = entities[entityI][1] / (entities[entityI][2] / 1000);
-              } else {
-                processingChartElem[processor][index] = 0;
-              }
-            }
-          }
-        }
-        entityPersistencePerf.push(PerElem);
-        entityXformPerf.push(XformElem);
+          drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'Job Id', stageToCompare + '_entity_jobcompare_div', dataTable);
+        });        
       }
 
       function drawPieChart(dataTable) {
@@ -405,34 +403,23 @@
         return recordCount;
       }
 
-      //Normalize the data, in case users compare batch jobs with difference entities
-      function normalization(data) {
-        var length = data[0].length;
-        for (var i = 1; i < data.length; i++) {
-          var diff = length - data[i].length;
-          while (diff > 0) {
-            data[i].push(0);
-            --diff;
-          }
-        }
-      }
-
       function clearJobSpecificDivs() {
+        $('#job_chooser').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
         $('#progressbar').hide();
         $('#stage_breakdown_piechart_div').empty();
         $('#stage_breakdown_linechart_div').empty();
         $('#PersistenceProcessor_entity_div').empty();
         $('#TransformationProcessor_entity_div').empty();
-        $('#entity_persistence_linechart_div').empty();
-        $('#entity_xform_linechart_div').empty();
+        $('#PersistenceProcessor_entity_jobcompare_div').empty();
+        $('#TransformationProcessor_entity_jobcompare_div').empty();
       }
 
       function toggleJobChooser() {
         if($('#job_chooser').is(':visible')) {
-          $('#job_chooser').hide('slow');
+          $('#job_chooser').hide('fast');
         } else {
-          $('#job_chooser').show('slow');
+          $('#job_chooser').show('fast');
         }
       }
 
@@ -453,7 +440,7 @@
         <div id="stage_breakdown_piechart_div"></div>
         <div id="PersistenceProcessor_entity_div"></div>
         <div id="TransformationProcessor_entity_div"></div>
-        <div id="entity_persistence_linechart_div"></div>
-        <div id="entity_xform_linechart_div"></div>
+        <div id="PersistenceProcessor_entity_jobcompare_div"></div>
+        <div id="TransformationProcessor_entity_jobcompare_div"></div>
     </body>
 </html>
