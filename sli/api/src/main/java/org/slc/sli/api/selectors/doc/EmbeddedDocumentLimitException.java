@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-
-package org.slc.sli.ingestion.tenant;
-
-import java.util.List;
-import java.util.Map;
+package org.slc.sli.api.selectors.doc;
 
 /**
- * Interface for access to tenant data.
  *
- * @author jtully
+ *
+ *
+ *
+ * @author kmyers
+ *
  */
-public interface TenantDA {
-    List<String> getLzPaths(String ingestionServer);
+public class EmbeddedDocumentLimitException extends RuntimeException {
 
-    String getTenantId(String lzPath);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-    void insertTenant(TenantRecord tenant);
-
-    Map<String, List<String>> getPreloadFiles(String ingestionServer);
+    public EmbeddedDocumentLimitException(String message) {
+        super(message);
+    }
 }
