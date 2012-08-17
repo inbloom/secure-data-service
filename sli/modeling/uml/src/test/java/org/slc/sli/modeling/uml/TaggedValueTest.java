@@ -24,46 +24,40 @@ import org.slc.sli.modeling.uml.utils.TestUtils;
 import static org.junit.Assert.assertEquals;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for TaggedValue
  * @author chung
  */
-public class AssociationEndTest {
+public class TaggedValueTest {
 
-    private AssociationEnd associationEnd;
-    private Identifier identifier = Identifier.random();
+    private TaggedValue taggedValue;
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        taggedValue = new TaggedValue(Identifier.fromString("1234"), TestUtils.EMPTY_TAGGED_VALUES,
+                "TestValue", Identifier.fromString("TestTagDefn"));
     }
 
     @Test
     public void testAccept() {
-        associationEnd.accept(visitor);
+        taggedValue.accept(visitor);
     }
 
     @Test
-    public void testIsAttribute() {
-        assertEquals(associationEnd.isAttribute(), false);
+    public void testGetTagDefinition() {
+        assertEquals("TestTagDefn", taggedValue.getTagDefinition().toString());
     }
 
     @Test
-    public void testIsAssociationEnd() {
-        assertEquals(associationEnd.isAssociationEnd(), true);
-    }
-
-    @Test
-    public void testIsNavigable() {
-        assertEquals(associationEnd.isNavigable(), false);
+    public void testGetValue() {
+        assertEquals("TestValue", taggedValue.getValue());
     }
 
     @Test
     public void testToString() {
-        String string1 = associationEnd.toString();
-        String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
-        assertEquals(string1, string2);
+        String string1 = taggedValue.toString();
+        String string2 = "{id: 1234, value: \"TestValue\", tagDefinition: TestTagDefn}";
+        assertEquals(string2, string1);
     }
 
 }

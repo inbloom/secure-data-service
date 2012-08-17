@@ -16,19 +16,15 @@
 
 package org.slc.sli.modeling.rest.helpers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.namespace.QName;
-
 import org.junit.Test;
-import org.slc.sli.modeling.rest.Documentation;
-import org.slc.sli.modeling.rest.Link;
-import org.slc.sli.modeling.rest.Method;
-import org.slc.sli.modeling.rest.Option;
 import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.ParamStyle;
 import org.slc.sli.modeling.rest.Resource;
@@ -39,32 +35,13 @@ import org.slc.sli.modeling.rest.Resource;
  * @author wscott
  *
  */
-public class TestReshHelper {
+public class TestRestHelper {
 
-    private static final ArrayList<String> TYPE = new ArrayList<String>(0);
-    private static final String QUERY_TYPE = "queryType";
-    private static final ArrayList<Documentation> DOC = new ArrayList<Documentation>(0);
-    private static final ArrayList<Method> METHODS = new ArrayList<Method>(0);
-    private static final ArrayList<Resource> RESOURCES = new ArrayList<Resource>(0);
-    private static final String NAME = "name";
-    private static final QName TYPE_QNAME = new QName("qname");
-    private static final String PATH = "path";
-    private static final String FIXED = "fixed";
-    private static final boolean REPEATING = true;
-    private static final boolean REQUIRED = true;
-    private static final String DEFAULT_VALUE = "defaultValue";
-    private static final String RESOURCE_TYPE = "resourceType";
-    private static final String REL = "rel";
-    private static final String REV = "rev";
-    private static final ArrayList<Option> OPTIONS = new ArrayList<Option>(0);
-    private static final Link LINK = new Link(RESOURCE_TYPE, REL, REV, DOC);
     private static final String R1P1_ID = "r1p1";
     private static final String R2P1_ID = "r2p1";
+    private static final String R2P2_ID = "r2p2";
     private static final String R3P1_ID = "r3p1";
     private static final String R3P2_ID = "r3p2";
-    private static final String R1_ID = "r1";
-    private static final String R2_ID = "r2";
-    private static final String R3_ID = "r3";
 
     @Test
     public void testConstructor() {
@@ -75,11 +52,15 @@ public class TestReshHelper {
     public void testComputeRequestTemplateParamsEmptyAncestors() {
         Stack<Resource> resources = new Stack<Resource>();
 
-        Param r1p1 = new Param(NAME, ParamStyle.TEMPLATE, R1P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
-                FIXED, PATH, DOC, OPTIONS, LINK);
+        Param r1p1 = mock(Param.class);
+        when(r1p1.getStyle()).thenReturn(ParamStyle.TEMPLATE);
+        when(r1p1.getId()).thenReturn(R1P1_ID);
+
         List<Param> r1Params = new ArrayList<Param>(1);
         r1Params.add(r1p1);
-        Resource r1 = new Resource(R1_ID, TYPE, QUERY_TYPE, PATH, DOC, r1Params, METHODS, RESOURCES);
+
+        Resource r1 = mock(Resource.class);
+        when(r1.getParams()).thenReturn(r1Params);
 
         List<Param> templateParams = RestHelper.computeRequestTemplateParams(r1, resources);
         assertEquals(1, templateParams.size());
@@ -91,29 +72,46 @@ public class TestReshHelper {
 
         Stack<Resource> resources = new Stack<Resource>();
 
-        Param r1p1 = new Param(NAME, ParamStyle.TEMPLATE, R1P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
-                FIXED, PATH, DOC, OPTIONS, LINK);
+        // mock first resource
+        Param r1p1 = mock(Param.class);
+        when(r1p1.getStyle()).thenReturn(ParamStyle.TEMPLATE);
+        when(r1p1.getId()).thenReturn(R1P1_ID);
+
         List<Param> r1Params = new ArrayList<Param>(1);
         r1Params.add(r1p1);
-        Resource r1 = new Resource(R1_ID, TYPE, QUERY_TYPE, PATH, DOC, r1Params, METHODS, RESOURCES);
 
-        Param r2p1 = new Param(NAME, ParamStyle.TEMPLATE, R2P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
-                FIXED, PATH, DOC, OPTIONS, LINK);
-        Param r2pNonTemplate = new Param(NAME, ParamStyle.QUERY, "nontemplate", TYPE_QNAME, DEFAULT_VALUE, REQUIRED,
-                REPEATING, FIXED, PATH, DOC, OPTIONS, LINK);
+        Resource r1 = mock(Resource.class);
+        when(r1.getParams()).thenReturn(r1Params);
+
+        // mock second resource
+        Param r2p1 = mock(Param.class);
+        when(r2p1.getStyle()).thenReturn(ParamStyle.TEMPLATE);
+        when(r2p1.getId()).thenReturn(R2P1_ID);
+        Param r2p2 = mock(Param.class);
+        when(r2p2.getStyle()).thenReturn(ParamStyle.QUERY);
+        when(r2p2.getId()).thenReturn(R2P2_ID);
+
         List<Param> r2Params = new ArrayList<Param>(2);
         r2Params.add(r2p1);
-        r2Params.add(r2pNonTemplate);
-        Resource r2 = new Resource(R2_ID, TYPE, QUERY_TYPE, PATH, DOC, r2Params, METHODS, RESOURCES);
+        r2Params.add(r2p2);
 
-        Param r3p1 = new Param(NAME, ParamStyle.TEMPLATE, R3P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
-                FIXED, PATH, DOC, OPTIONS, LINK);
-        Param r3p2 = new Param(NAME, ParamStyle.TEMPLATE, R3P2_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
-                FIXED, PATH, DOC, OPTIONS, LINK);
+        Resource r2 = mock(Resource.class);
+        when(r2.getParams()).thenReturn(r2Params);
+
+        // mock third resource
+        Param r3p1 = mock(Param.class);
+        when(r3p1.getStyle()).thenReturn(ParamStyle.TEMPLATE);
+        when(r3p1.getId()).thenReturn(R3P1_ID);
+        Param r3p2 = mock(Param.class);
+        when(r3p2.getStyle()).thenReturn(ParamStyle.TEMPLATE);
+        when(r3p2.getId()).thenReturn(R3P2_ID);
+
         List<Param> r3Params = new ArrayList<Param>(2);
         r3Params.add(r3p1);
         r3Params.add(r3p2);
-        Resource r3 = new Resource(R3_ID, TYPE, QUERY_TYPE, PATH, DOC, r3Params, METHODS, RESOURCES);
+
+        Resource r3 = mock(Resource.class);
+        when(r3.getParams()).thenReturn(r3Params);
 
         resources.push(r2);
         resources.push(r3);

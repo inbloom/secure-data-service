@@ -13,22 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.modeling.uml.utils;
+package org.slc.sli.modeling.uml;
 
-import org.slc.sli.modeling.uml.Multiplicity;
-import org.slc.sli.modeling.uml.Occurs;
-import org.slc.sli.modeling.uml.Range;
-import org.slc.sli.modeling.uml.TaggedValue;
 
-import java.util.Collections;
-import java.util.List;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Utilities for unit tests
+ * JUnit test for Occurs
  * @author chung
  */
-public class TestUtils {
-    public static final Multiplicity ZERO_TO_ONE = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-    public static final Multiplicity ONE_TO_MANY = new Multiplicity(new Range(Occurs.ONE, Occurs.UNBOUNDED));
-    public static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
+public class OccursTest {
+
+    @Test
+    public void testValues() {
+        Occurs[] occurs = Occurs.values();
+        assertEquals(3, occurs.length);
+    }
+
+    @Test
+    public void testValueOf() {
+        Occurs occurs = Occurs.valueOf("ZERO");
+        assertEquals(Occurs.ZERO, occurs);
+    }
+
 }
+

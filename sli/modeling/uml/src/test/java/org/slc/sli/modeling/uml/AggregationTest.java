@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.modeling.uml.utils;
+package org.slc.sli.modeling.uml;
 
-import org.slc.sli.modeling.uml.Multiplicity;
-import org.slc.sli.modeling.uml.Occurs;
-import org.slc.sli.modeling.uml.Range;
-import org.slc.sli.modeling.uml.TaggedValue;
 
-import java.util.Collections;
-import java.util.List;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Utilities for unit tests
+ * JUnit test for Aggregation
  * @author chung
  */
-public class TestUtils {
-    public static final Multiplicity ZERO_TO_ONE = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-    public static final Multiplicity ONE_TO_MANY = new Multiplicity(new Range(Occurs.ONE, Occurs.UNBOUNDED));
-    public static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
+public class AggregationTest {
+
+    @Test
+    public void testValues() {
+        Aggregation[] aggregations = Aggregation.values();
+        assertEquals(3, aggregations.length);
+    }
+
+    @Test
+    public void testValueOf() {
+        Aggregation aggregation = Aggregation.valueOf("NONE");
+        assertEquals(Aggregation.NONE, aggregation);
+    }
+
 }

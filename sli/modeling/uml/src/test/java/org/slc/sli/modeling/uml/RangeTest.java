@@ -24,46 +24,39 @@ import org.slc.sli.modeling.uml.utils.TestUtils;
 import static org.junit.Assert.assertEquals;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for Range
  * @author chung
  */
-public class AssociationEndTest {
+public class RangeTest {
 
-    private AssociationEnd associationEnd;
-    private Identifier identifier = Identifier.random();
+    private Range range;
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        range = new Range(Occurs.ZERO, Occurs.ONE, TestUtils.EMPTY_TAGGED_VALUES);
     }
 
     @Test
     public void testAccept() {
-        associationEnd.accept(visitor);
+        range.accept(visitor);
     }
 
     @Test
-    public void testIsAttribute() {
-        assertEquals(associationEnd.isAttribute(), false);
+    public void testGetLower() {
+        assertEquals(Occurs.ZERO, range.getLower());
     }
 
     @Test
-    public void testIsAssociationEnd() {
-        assertEquals(associationEnd.isAssociationEnd(), true);
-    }
-
-    @Test
-    public void testIsNavigable() {
-        assertEquals(associationEnd.isNavigable(), false);
+    public void testGetUpper() {
+        assertEquals(Occurs.ONE, range.getUpper());
     }
 
     @Test
     public void testToString() {
-        String string1 = associationEnd.toString();
-        String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
-        assertEquals(string1, string2);
+        String string1 = range.toString();
+        String string2 = "{lower: " + Occurs.ZERO + ", upper: " + Occurs.ONE + "}";
+        assertEquals(string2, string1);
     }
 
 }

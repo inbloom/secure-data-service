@@ -22,48 +22,41 @@ import org.slc.sli.modeling.uml.index.DefaultVisitor;
 import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for Multiplicity
  * @author chung
  */
-public class AssociationEndTest {
+public class MultiplicityTest {
 
-    private AssociationEnd associationEnd;
-    private Identifier identifier = Identifier.random();
+    private Multiplicity multiplicity;
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        Range range = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
+        multiplicity = new Multiplicity(TestUtils.EMPTY_TAGGED_VALUES, range);
     }
 
     @Test
     public void testAccept() {
-        associationEnd.accept(visitor);
+        multiplicity.accept(visitor);
     }
 
     @Test
-    public void testIsAttribute() {
-        assertEquals(associationEnd.isAttribute(), false);
-    }
-
-    @Test
-    public void testIsAssociationEnd() {
-        assertEquals(associationEnd.isAssociationEnd(), true);
-    }
-
-    @Test
-    public void testIsNavigable() {
-        assertEquals(associationEnd.isNavigable(), false);
+    public void testGetRange() {
+        Range range = multiplicity.getRange();
+        assertNotNull(range);
+        assertEquals(Occurs.ZERO, range.getLower());
+        assertEquals(Occurs.UNBOUNDED, range.getUpper());
     }
 
     @Test
     public void testToString() {
-        String string1 = associationEnd.toString();
-        String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
-        assertEquals(string1, string2);
+        String string1 = multiplicity.toString();
+        String string2 = "{range: " + new Range(Occurs.ZERO, Occurs.UNBOUNDED).toString() + "}";
+        assertEquals(string2, string1);
     }
 
 }

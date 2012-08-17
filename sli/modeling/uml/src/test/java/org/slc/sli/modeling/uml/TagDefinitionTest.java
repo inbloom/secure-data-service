@@ -24,46 +24,34 @@ import org.slc.sli.modeling.uml.utils.TestUtils;
 import static org.junit.Assert.assertEquals;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for TagDefinition
  * @author chung
  */
-public class AssociationEndTest {
+public class TagDefinitionTest {
 
-    private AssociationEnd associationEnd;
-    private Identifier identifier = Identifier.random();
+    private TagDefinition tagDefinition;
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        tagDefinition = new TagDefinition(Identifier.fromString("1234"), "TestTagDefinition", TestUtils.ZERO_TO_ONE);
     }
 
     @Test
     public void testAccept() {
-        associationEnd.accept(visitor);
+        tagDefinition.accept(visitor);
     }
 
     @Test
-    public void testIsAttribute() {
-        assertEquals(associationEnd.isAttribute(), false);
-    }
-
-    @Test
-    public void testIsAssociationEnd() {
-        assertEquals(associationEnd.isAssociationEnd(), true);
-    }
-
-    @Test
-    public void testIsNavigable() {
-        assertEquals(associationEnd.isNavigable(), false);
+    public void testGetMultiplicity() {
+        assertEquals(TestUtils.ZERO_TO_ONE, tagDefinition.getMultiplicity());
     }
 
     @Test
     public void testToString() {
-        String string1 = associationEnd.toString();
-        String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
-        assertEquals(string1, string2);
+        String string1 = tagDefinition.toString();
+        String string2 = "{id: 1234, name: TestTagDefinition, multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
+        assertEquals(string2, string1);
     }
 
 }

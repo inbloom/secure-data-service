@@ -19,51 +19,50 @@ package org.slc.sli.modeling.uml;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
-import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * JUnit test for AssociationEnd
+ * JUnit test for Generalization
  * @author chung
  */
-public class AssociationEndTest {
+public class GeneralizationTest {
 
-    private AssociationEnd associationEnd;
-    private Identifier identifier = Identifier.random();
+    private Generalization generalization;
     private Visitor visitor = new DefaultVisitor();
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        generalization = new Generalization("TestGeneralization",
+                Identifier.fromString("1234"), Identifier.fromString("5678"));
     }
 
     @Test
     public void testAccept() {
-        associationEnd.accept(visitor);
+        generalization.accept(visitor);
     }
 
     @Test
-    public void testIsAttribute() {
-        assertEquals(associationEnd.isAttribute(), false);
+    public void testGetChild() {
+        Identifier child = generalization.getChild();
+        assertNotNull(child);
+        assertEquals("1234", child.toString());
     }
 
     @Test
-    public void testIsAssociationEnd() {
-        assertEquals(associationEnd.isAssociationEnd(), true);
-    }
-
-    @Test
-    public void testIsNavigable() {
-        assertEquals(associationEnd.isNavigable(), false);
+    public void testGetParent() {
+        Identifier parent = generalization.getParent();
+        assertNotNull(parent);
+        assertEquals("5678", parent.toString());
     }
 
     @Test
     public void testToString() {
-        String string1 = associationEnd.toString();
-        String string2 = "{id: " + associationEnd.getId() + ", name: TestAssocEnd, type: " + identifier
-                + ", multiplicity: " + TestUtils.ZERO_TO_ONE + "}";
-        assertEquals(string1, string2);
+        String string1 = generalization.toString();
+        String string2 = "{id: " + generalization.getId()
+                + ", name: \"TestGeneralization\", parent: \"5678\", child: \"1234\"}";
+        assertEquals(string2, string1);
     }
 
 }
