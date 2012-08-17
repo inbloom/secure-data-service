@@ -20,8 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
