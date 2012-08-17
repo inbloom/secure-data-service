@@ -104,7 +104,7 @@ public class StaffPersonalTranslationTaskTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<StaffEntity> result = translator.translate(new StaffPersonal(), "");
+        List<StaffEntity> result = translator.doTranslate(new StaffPersonal(), "");
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -124,7 +124,7 @@ public class StaffPersonalTranslationTaskTest {
         Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
         Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -144,7 +144,7 @@ public class StaffPersonalTranslationTaskTest {
         List<String> race = new ArrayList<String>();
         Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(race, entity.getRace());
@@ -159,7 +159,7 @@ public class StaffPersonalTranslationTaskTest {
         BirthData birthData = new BirthData();
         Mockito.when(mockBirthDataConverter.convert(demographics)).thenReturn(birthData);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(birthData, entity.getBirthData());
@@ -174,7 +174,7 @@ public class StaffPersonalTranslationTaskTest {
         org.slc.sli.sif.domain.slientity.Name name = new org.slc.sli.sif.domain.slientity.Name();
         Mockito.when(mockNameConverter.convert(original)).thenReturn(name);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(name, entity.getName());
@@ -189,7 +189,7 @@ public class StaffPersonalTranslationTaskTest {
         List<org.slc.sli.sif.domain.slientity.OtherName> otherNames = new ArrayList<org.slc.sli.sif.domain.slientity.OtherName>();
         Mockito.when(mockOtherNameConverter.convert(original)).thenReturn(otherNames);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
         Assert.assertEquals(otherNames, entity.getOtherName());
@@ -205,7 +205,7 @@ public class StaffPersonalTranslationTaskTest {
 
         Mockito.when(mockEmailListConverter.convert(emailList)).thenReturn(emails);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -224,7 +224,7 @@ public class StaffPersonalTranslationTaskTest {
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
                address);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 
@@ -243,7 +243,7 @@ public class StaffPersonalTranslationTaskTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertPersonalTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<StaffEntity> result = translator.translate(info, "");
+        List<StaffEntity> result = translator.doTranslate(info, "");
         Assert.assertEquals(1, result.size());
         StaffEntity entity = result.get(0);
 

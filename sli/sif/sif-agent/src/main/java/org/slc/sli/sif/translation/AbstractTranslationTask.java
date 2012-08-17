@@ -16,12 +16,14 @@
 
 package org.slc.sli.sif.translation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.SIFDataObject;
 
 import org.apache.commons.lang.ClassUtils;
 
+import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
@@ -34,7 +36,7 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  * @param <E>, the SLI return type
  */
 public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends SliEntity> implements
-        TranslationTask<E> {
+        TranslationTask {
     private Class<T> sifPrototype;
 
     /**
@@ -51,13 +53,19 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<E> translate(SIFDataObject sifData, String zoneId) throws SifTranslationException {
+    public List<GenericEntity> translate(SIFDataObject sifData, String zoneId) throws SifTranslationException {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
 
         if (!sifPrototype.equals(wrappedSifClass)) {
             throw new SifTranslationException("Unsupported SIF data type");
         }
-        return doTranslate((T) sifData, zoneId);
+        List<E> sliEntities = doTranslate((T) sifData, zoneId);
+        List<GenericEntity> geList = new ArrayList<GenericEntity>();
+        for( E sliEntity : sliEntities ){
+            geList.add(sliEntity.createGenericEntity());
+        }
+
+        return geList;
     }
 
     public abstract List<E> doTranslate(T sifData, String zoneId);

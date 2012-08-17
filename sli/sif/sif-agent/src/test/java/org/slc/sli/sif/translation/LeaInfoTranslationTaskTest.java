@@ -71,7 +71,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<LeaEntity> result = translator.translate(new LEAInfo(), null);
+        List<LeaEntity> result = translator.doTranslate(new LEAInfo(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -94,7 +94,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
         String url = "LEAURL";
         info.setLEAURL(url);
 
-        List<LeaEntity> result = translator.translate(info, zoneId);
+        List<LeaEntity> result = translator.doTranslate(info, zoneId);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -115,7 +115,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
-        List<LeaEntity> result = translator.translate(info, null);
+        List<LeaEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -130,7 +130,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
         Mockito.when(operationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus())))
                 .thenReturn("Closed");
-        List<LeaEntity> result = translator.translate(info, null);
+        List<LeaEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 
@@ -148,7 +148,7 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<LeaEntity> result = translator.translate(info, null);
+        List<LeaEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         LeaEntity entity = result.get(0);
 

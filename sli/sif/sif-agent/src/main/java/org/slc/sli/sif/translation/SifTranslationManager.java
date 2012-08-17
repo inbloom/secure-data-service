@@ -25,7 +25,7 @@ import openadk.library.SIFDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  * Manages the translation tasks that are run on each SIF data object.
@@ -33,7 +33,6 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  * @author jtully
  *
  */
-@SuppressWarnings("rawtypes")
 public class SifTranslationManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifTranslationManager.class);
@@ -45,8 +44,8 @@ public class SifTranslationManager {
 
     }
 
-    public List<SliEntity> translate(SIFDataObject sifData, String zoneId) {
-        List<SliEntity> entities = new ArrayList<SliEntity>();
+    public List<GenericEntity> translate(SIFDataObject sifData, String zoneId) {
+        List<GenericEntity> entities = new ArrayList<GenericEntity>();
 
         // get the list to translation tasks
         List<TranslationTask> translationTasks = translationMap.get(sifData.getObjectType().toString());
@@ -63,6 +62,7 @@ public class SifTranslationManager {
                 LOG.error("Sif translation exception: ", e);
             }
         }
+
 
         return entities;
     }

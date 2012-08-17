@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  * Integration test for the configured SIF->SLI translation.
@@ -63,34 +63,34 @@ public class SifTranslationTest {
     @Test
     public void shouldTranslateSchoolInfoToSchool() {
         SchoolInfo info = createSchoolInfo();
-        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+        List<GenericEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI school entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization",
-                "school", entities.get(0).entityType());
+                "school", entities.get(0).getEntityType());
     }
 
     @Test
     public void shouldTranslateLEAInfoInfoToLEA() {
         LEAInfo info = createLEAInfo();
-        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+        List<GenericEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI LEA entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization",
-                "educationOrganization", entities.get(0).entityType());
+                "educationOrganization", entities.get(0).getEntityType());
     }
 
     @Test
     public void shouldTranslateStudentPersonalToStudent() {
         StudentPersonal info = new StudentPersonal();
-        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+        List<GenericEntity> entities = translationManager.translate(info, ZONE_ID);
 
         Assert.assertEquals("Should create a single SLI student entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type student",
-                "student", entities.get(0).entityType());
+                "student", entities.get(0).getEntityType());
     }
 
     private SchoolInfo createSchoolInfo() {

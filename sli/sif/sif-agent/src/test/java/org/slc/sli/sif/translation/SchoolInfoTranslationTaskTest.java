@@ -93,7 +93,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<SchoolEntity> result = translator.translate(new SchoolInfo(), null);
+        List<SchoolEntity> result = translator.doTranslate(new SchoolInfo(), null);
         Assert.assertNotNull("Result was null", result);
     }
 
@@ -118,7 +118,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         info.setTitle1Status(Title1Status.SCHOOLWIDE);
 
-        List<SchoolEntity> result = translator.translate(info, zoneId);
+        List<SchoolEntity> result = translator.doTranslate(info, zoneId);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -143,7 +143,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -160,7 +160,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockSchoolFocusConverter.convert(focusList)).thenReturn("schoolType");
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -178,7 +178,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockGradeLevelsConverter.convert(sifGradeLevels)).thenReturn(convertedGrades);
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -195,7 +195,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockSchoolTypeConverter.convertAsList(SchoolLevelType.ELEMENTARY)).thenReturn(schoolTypes);
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -213,7 +213,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -229,7 +229,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
         Mockito.when(mockTitleIPartASchoolDesignationConverter.convert(Title1Status.SCHOOLWIDE)).thenReturn(
                 TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
 
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -243,7 +243,7 @@ public class SchoolInfoTranslationTaskTest extends AdkTest {
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
         Mockito.when(mockOperationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus())))
                 .thenReturn("Closed");
-        List<SchoolEntity> result = translator.translate(info, null);
+        List<SchoolEntity> result = translator.doTranslate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 

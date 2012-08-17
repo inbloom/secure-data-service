@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  *
@@ -44,9 +44,9 @@ public class SifTranslationManagerTest {
     TranslationTask mockTranslationAtoY;
     TranslationTask mockTranslationBtoZ;
 
-    SliEntity sliX;
-    SliEntity sliY;
-    SliEntity sliZ;
+    GenericEntity sliX;
+    GenericEntity sliY;
+    GenericEntity sliZ;
 
     SIFDataObject sifA;
     SIFDataObject sifB;
@@ -68,9 +68,9 @@ public class SifTranslationManagerTest {
         mockTranslationAtoY = Mockito.mock(TranslationTask.class);
         mockTranslationBtoZ = Mockito.mock(TranslationTask.class);
 
-        sliX = Mockito.mock(SliEntity.class);
-        sliY = Mockito.mock(SliEntity.class);
-        sliZ = Mockito.mock(SliEntity.class);
+        sliX = Mockito.mock(GenericEntity.class);
+        sliY = Mockito.mock(GenericEntity.class);
+        sliZ = Mockito.mock(GenericEntity.class);
 
         sifA = Mockito.mock(SIFDataObject.class);
         sifB = Mockito.mock(SIFDataObject.class);
@@ -93,11 +93,11 @@ public class SifTranslationManagerTest {
 
         sifTranslationManager.setTranslationMap(translationMap);
 
-        List<SliEntity> sliXList = new ArrayList<SliEntity>();
+        List<GenericEntity> sliXList = new ArrayList<GenericEntity>();
         sliXList.add(sliX);
-        List<SliEntity> sliYList = new ArrayList<SliEntity>();
+        List<GenericEntity> sliYList = new ArrayList<GenericEntity>();
         sliYList.add(sliY);
-        List<SliEntity> sliZList = new ArrayList<SliEntity>();
+        List<GenericEntity> sliZList = new ArrayList<GenericEntity>();
         sliZList.add(sliZ);
 
         // mock translator results
@@ -108,7 +108,7 @@ public class SifTranslationManagerTest {
 
     @Test
     public void shouldCreateOneToOneTranslatedEntities() {
-        List<SliEntity> sliEntities = sifTranslationManager.translate(sifB, "zoneId");
+        List<GenericEntity> sliEntities = sifTranslationManager.translate(sifB, "zoneId");
 
         Assert.assertEquals("Should translate to one sli entity", 1, sliEntities.size());
         Assert.assertEquals("First translated entity not of correct", sliZ, sliEntities.get(0));
@@ -116,7 +116,7 @@ public class SifTranslationManagerTest {
 
     @Test
     public void shouldCreateOneToManyTranslatedEntities() {
-        List<SliEntity> sliEntities = sifTranslationManager.translate(sifA, "zoneId");
+        List<GenericEntity> sliEntities = sifTranslationManager.translate(sifA, "zoneId");
 
         Assert.assertEquals("Should translate to two sli entities", 2, sliEntities.size());
         Assert.assertEquals("First translated entity not of correct", sliX, sliEntities.get(0));
