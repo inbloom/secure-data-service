@@ -193,4 +193,18 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     public long count(String collectionName, Query query) {
         return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
+
+
+    @Override
+    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

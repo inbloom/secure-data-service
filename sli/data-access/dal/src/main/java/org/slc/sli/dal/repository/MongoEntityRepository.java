@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mongodb.MongoException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -86,6 +88,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries) {
+        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
+        while (noOfRetries > 0) {
+            try {
+                entity = create(type, body, metaData, collectionName);
+                break;
+            } catch (MongoException me) {
+                if (me.getCode() == 11000) {
+                    break;
+                }
+                noOfRetries--;
+            }
+        }
+        return entity;
+    }
+
+    @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
@@ -127,6 +146,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
         return update;
+    }
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity entity, int noOfRetries) {
+        boolean result = false;
+        while (noOfRetries > 0) {
+            try {
+                result = update(collection, entity);
+                break;
+            } catch (MongoException me) {
+                if (me.getCode() == 11000) {
+                    break;
+                }
+                noOfRetries--;
+            }
+        }
+        return result;
     }
 
     @Override
