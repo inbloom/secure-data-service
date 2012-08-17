@@ -62,6 +62,10 @@ public class SifSubscriber implements Subscriber {
         String zoneId = zone.getZoneId();
         SIFDataObject sifData = event.getData().readDataObject();
 
+        if( event.getAction() == EventAction.DELETE ){
+            return;
+        }
+
         List<GenericEntity> translatedEntities = translationManager.translate(sifData, zoneId);
 
         if (event.getAction() == EventAction.ADD) {
