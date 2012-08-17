@@ -35,6 +35,7 @@ import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.RaceListConverter;
 import org.slc.sli.sif.domain.converter.YesNoUnknownConverter;
 import org.slc.sli.sif.domain.slientity.StaffEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  * Translation task for translating StaffPersonal SIF data objects to staff SLI entities.
@@ -43,6 +44,9 @@ import org.slc.sli.sif.domain.slientity.StaffEntity;
  *
  */
 public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffPersonal, StaffEntity> {
+
+    @Autowired
+    SifIdResolver sifIdResolver;
 
     @Autowired
     YesNoUnknownConverter yesNoUnknownConverter;
@@ -89,6 +93,7 @@ public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffP
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
         e.setStaffIdentificationCode(hrOtherIdListConverter.convert(sp.getOtherIdList()));
 
+
         if (demographics != null) {
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));
@@ -102,6 +107,12 @@ public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffP
         e.setElectronicMail(emailListConverter.convert(sp.getEmailList()));
         e.setAddress(addressListConverter.convert(sp.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convertPersonalTelephone(sp.getPhoneNumberList()));
+
+        String staffGuid = sifIdResolver.getSliGuid(sp.getEmployeePersonalRefId(), zoneId);
+        if (staffGuid != null) {
+            e.setCreatorRefId(sp.getEmployeePersonalRefId());
+        }
+
         return Arrays.asList(e);
     }
 
