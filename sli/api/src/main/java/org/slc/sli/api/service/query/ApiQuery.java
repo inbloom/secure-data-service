@@ -109,7 +109,7 @@ public class ApiQuery extends NeutralQuery {
             stringBuffer.append("&sortOrder=" + getSortOrder());
         }
 
-        if (getSelector() != null) {
+        if (this.selector != null) {
             stringBuffer.append("&selector=" + this.toSelectorString(this.selector));
         }
 
