@@ -19,7 +19,9 @@ Scenario: Use Mock IDP to log in as IL Educator
   # Verify role not blank if custom role not specified
 When I navigate to databrowsers "/entities/system/session/debug" page
 Then I should see my roles as "Educator"
-And I should see my rights as "READ_PUBLICREAD_GENERALAGGREGATE_READ"
+And I should see my rights include "READ_PUBLIC"
+And I should see my rights include "READ_GENERAL"
+And I should see my rights include "AGGREGATE_READ"
 
 Scenario: Use Mock IDP to log in as IL Aggregate Viewer
   Given I navigate to databrowser home page
