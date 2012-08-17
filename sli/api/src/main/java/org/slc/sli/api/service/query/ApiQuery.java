@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.service.query;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,14 +54,18 @@ public class ApiQuery extends NeutralQuery {
      * @param uriInfo
      */
     public ApiQuery(UriInfo uriInfo) {
+        this(uriInfo.getRequestUri());
+    }
+
+    public ApiQuery(URI requestURI) {
         super(API_QUERY_DEFAULT_LIMIT);
-        if (uriInfo != null) {
-            ApiQuery.QUERY_CONVERTER.convert(this, uriInfo);
+        if (requestURI != null) {
+            ApiQuery.QUERY_CONVERTER.convert(this, requestURI);
         }
     }
 
     public ApiQuery() {
-        this(null);
+        this((URI) null);
     }
 
     protected String toSelectorString(Map<?, ?> map) {

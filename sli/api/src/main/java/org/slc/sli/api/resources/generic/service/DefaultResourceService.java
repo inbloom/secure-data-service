@@ -18,8 +18,11 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,10 +48,13 @@ public class DefaultResourceService implements ResourceService {
     @Autowired
     private ResourceHelper resourceHelper;
 
+    @Autowired
+    private List<EntityDecorator> entityDecorators;
+
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     @Override
-    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final UriInfo uriInfo) {
+    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = getEntityDefinition(resource);
         final int idLength = idList.split(",").length;
 
@@ -60,7 +66,7 @@ public class DefaultResourceService implements ResourceService {
 
         final List<String> ids = Arrays.asList(StringUtils.split(idList));
 
-        ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+        ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
         apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
         apiQuery.setLimit(0);
@@ -74,17 +80,22 @@ public class DefaultResourceService implements ResourceService {
             finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
         }
 
+        //apply the decorators
+        for (EntityBody entityBody : finalResults) {
+            for (EntityDecorator entityDecorator : entityDecorators) {
+                entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
+            }
+        }
+
         return finalResults;
     }
 
     @Override
-    public List<EntityBody> getEntities(final String resource, final UriInfo uriInfo) {
+    public List<EntityBody> getEntities(final String resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = getEntityDefinition(resource);
 
-        List<EntityBody> results = new ArrayList<EntityBody>();
-
         Iterable<EntityBody> entityBodies = null;
-        final ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+        final ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
         if (shouldReadAll()) {
             entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
@@ -101,16 +112,8 @@ public class DefaultResourceService implements ResourceService {
                 entityBodies = definition.getService().list(apiQuery);
             }
         }
-        for (EntityBody entityBody : entityBodies) {
 
-            // if links should be included then put them in the entity body
-            entityBody.put(ResourceConstants.LINKS,
-                    ResourceUtil.getLinks(entityDefinitionStore, definition, entityBody, uriInfo));
-
-            results.add(entityBody);
-        }
-
-        return results;
+        return (List<EntityBody>) entityBodies;
     }
 
     protected boolean shouldReadAll() {
@@ -129,9 +132,9 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public long getEntityCount(String resource, final UriInfo uriInfo) {
+    public long getEntityCount(String resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = getEntityDefinition(resource);
-        ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+        ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
         if (definition.getService() == null) {
             return 0;
@@ -151,8 +154,8 @@ public class DefaultResourceService implements ResourceService {
         return count;
     }
 
-    protected ApiQuery getApiQuery(EntityDefinition definition, final UriInfo uriInfo) {
-        ApiQuery apiQuery = new ApiQuery(uriInfo);
+    protected ApiQuery getApiQuery(EntityDefinition definition, final URI requestURI) {
+        ApiQuery apiQuery = new ApiQuery(requestURI);
         addTypeCriteria(definition, apiQuery);
 
         return apiQuery;

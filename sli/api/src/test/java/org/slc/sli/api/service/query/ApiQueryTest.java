@@ -27,6 +27,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
@@ -59,7 +60,7 @@ public class ApiQueryTest {
     @Test
     public void testNonNullForNull() {
         // should always return a null, so callers don't have to worry about null checking
-        assertTrue(new ApiQuery(null) != null);
+        assertTrue(new ApiQuery() != null);
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ApiQueryTest {
         equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(field2:false,*))");
         equivalentStrings.add("offset=0&limit=50&selector=:(link1:(*,field2:false),field1)");
         equivalentStrings.add("offset=0&limit=50&selector=:(link1:(field2:false,*),field1)");
-        
+
         URI requestUri = new URI(URI_STRING + "?" + queryString);
         when(uriInfo.getRequestUri()).thenReturn(requestUri);
         ApiQuery apiQuery = new ApiQuery(uriInfo);
@@ -196,7 +197,7 @@ public class ApiQueryTest {
 
     @Test
     public void testDefaultLimit() {
-        assertTrue(new ApiQuery(null).getLimit() == ApiQuery.API_QUERY_DEFAULT_LIMIT);
+        assertTrue(new ApiQuery().getLimit() == ApiQuery.API_QUERY_DEFAULT_LIMIT);
     }
 
     @Test

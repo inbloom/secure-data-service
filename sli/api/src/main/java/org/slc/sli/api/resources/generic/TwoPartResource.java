@@ -37,12 +37,10 @@ public class TwoPartResource extends GenericResource {
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
 
-        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.ResourceLogic() {
+        return handleGet(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
-            public Response run(String resourceName) {
-                List<EntityBody> results = resourceService.getEntitiesByIds(resourceName, id, uriInfo);
-
-                return Response.ok(results).build();
+            public List<EntityBody> run(String resourceName) {
+                return resourceService.getEntitiesByIds(resourceName, id, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
             }
         });
     }

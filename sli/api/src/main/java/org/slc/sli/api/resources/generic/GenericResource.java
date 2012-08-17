@@ -2,6 +2,10 @@ package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.generic.service.HateosLink;
+import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
@@ -14,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,13 +30,50 @@ import java.util.Set;
 public abstract class GenericResource {
 
     @Autowired
+    protected ResourceService resourceService;
+
+    @Autowired
     protected ResourceHelper resourceHelper;
+
+    @Autowired
+    private HateosLink hateosLink;
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
 
     protected static interface ResourceLogic {
         public Response run(String resourceName);
+    }
+
+    protected static interface GetResourceLogic {
+        public List<EntityBody> run(String resourceName);
+    }
+
+    protected Response handleGet(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
+                              final GetResourceLogic logic) {
+
+        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
+
+        Set<String> values = resourceSupportedMethods.get(resourcePath);
+        if (!values.contains(method.getMethod())) {
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
+
+        //run the resource logic
+        List<EntityBody> entities = logic.run(resourceName);
+
+        //add the links
+        entities = hateosLink.add(resourceName, entities, uriInfo);
+
+        //get the page count
+        long pagingHeaderTotalCount = resourceService.getEntityCount(resourceName, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
+
+        //add the paging headers and return the data
+        return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resourceName), entities)),
+                pagingHeaderTotalCount, uriInfo).build();
+
     }
 
     protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,

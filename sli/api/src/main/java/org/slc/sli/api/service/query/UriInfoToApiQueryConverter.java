@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.service.query;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,6 +119,18 @@ public class UriInfoToApiQueryConverter {
         });
     }
 
+    public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {
+        if (requestURI == null) return apiQuery;
+
+        return convert(apiQuery, requestURI.getQuery());
+    }
+
+    public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
+        if (uriInfo == null) return apiQuery;
+
+        return convert(apiQuery, uriInfo.getRequestUri());
+    }
+
     /**
      * Converts a & separated list of criteria into a neutral criteria object. Adds all
      * criteria to the provided neutralQuery.
@@ -126,9 +139,9 @@ public class UriInfoToApiQueryConverter {
      *            object to add criteria to
      * @return a non-null neutral query containing any specified criteria
      */
-    public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
-        if (apiQuery != null && uriInfo != null) {
-            String queryString = uriInfo.getRequestUri().getQuery();
+    public ApiQuery convert(ApiQuery apiQuery, String queryString) {
+        if (apiQuery != null && queryString != null) {
+
             if (queryString != null) {
                 try {
                     for (String criteriaString : queryString.split("&")) {

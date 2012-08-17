@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
@@ -30,19 +31,13 @@ import java.util.List;
 @Scope("request")
 public class OnePartResource extends GenericResource {
 
-    @Autowired
-    private ResourceService resourceService;
-
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        return handle(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new ResourceLogic() {
+        return handleGet(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
-            public Response run(String resourceName) {
-                List<EntityBody> results = resourceService.getEntities(resourceName, uriInfo);
+            public List<EntityBody> run(String resourceName) {
 
-                long pagingHeaderTotalCount = resourceService.getEntityCount(resourceName, uriInfo);
-                return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resourceName), results)),
-                        pagingHeaderTotalCount, uriInfo).build();
+                return resourceService.getEntities(resourceName, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
             }
         });
     }
