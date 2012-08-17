@@ -53,7 +53,7 @@ public class PropertyUtils {
     private static final String DEFAULT_AGENT_ID = "test.publisher.agent";
     private static final String DEFAULT_ZONE_URL = "http://10.163.6.73:50002/TestZone";
     private static final String DEFAULT_ZONE_ID = "TestZone";
-    private static final String DEFAULT_SCRIPT = "LEAInfoAdd";
+    private static final String DEFAULT_SCRIPT = "StaffPersonalAdd";
     private static final String DEFAULT_WAIT_TIME = "5000";
     private static final String DEFAULT_MESSAGE_FILE = "";
     private static final String DEFAULT_EVENT_ACTION = "ADD";

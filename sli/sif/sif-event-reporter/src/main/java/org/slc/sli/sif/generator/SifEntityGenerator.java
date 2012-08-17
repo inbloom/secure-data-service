@@ -369,6 +369,7 @@ public class SifEntityGenerator {
     public static EmployeePersonal generateTestEmployeePersonal() {
         EmployeePersonal employeePersonal = new EmployeePersonal();
         employeePersonal.setRefId(TEST_EMPLOYEEPERSONAL_REFID);
+        employeePersonal.setStateProvinceId("C2345681");
 
         OtherId otherId1 = new OtherId(OtherIdType.SOCIALSECURITY, "333333333");
         OtherId otherId2 = new OtherId(OtherIdType.OTHER, "3333");
@@ -402,7 +403,7 @@ public class SifEntityGenerator {
         employeePersonal.setAddressList(addressList);
 
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        phoneNumberList.addPhoneNumber(PhoneNumberType.SIF1x_HOME_PHONE, "(312) 555-9876");
         employeePersonal.setPhoneNumberList(phoneNumberList);
 
         EmailList emailList = new EmailList();
