@@ -57,14 +57,31 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
-    private int totalEmbeddedEntities;
+    private interface Counter {
+        public void add(int i);
+        public int getTotal();
+    }
 
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        this.totalEmbeddedEntities = 0;
+        Counter embeddedDocumentCounter = new Counter() {
 
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true);
+            private int total = 0;
+
+            @Override
+            public void add(int i) {
+                this.total += i;
+            }
+
+            @Override
+            public int getTotal() {
+                return this.total;
+            }
+
+        };
+
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, embeddedDocumentCounter);
 
     }
 
@@ -74,7 +91,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
-                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first) {
+                                          List<EntityBody> previousEntities, Stack<Type> types, boolean first,
+                                          Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
@@ -118,10 +136,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter);
 
                 //update the entity results
-                results = updateEntityList(plan, results, list, types, currentType);
+                results = updateEntityList(plan, results, list, types, currentType, counter);
             }
 
             results = filterFields(results, plan);
@@ -239,7 +257,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
-                                                Stack<Type> types, Type currentType) {
+                                                Stack<Type> types, Type currentType, Counter counter) {
         Type nextType = types.pop();
         String extractionKey, key;
 
@@ -266,8 +284,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
                 List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
                 body.put(exposeName, subList);
-                this.totalEmbeddedEntities += subList.size();
-                if (this.totalEmbeddedEntities > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
+                counter.add(subList.size());
+                if (counter.getTotal() > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
                     throw new EmbeddedDocumentLimitException("Exceeded embedded document limit of " + EMBEDDED_DOCUMENT_LIMIT);
                 }
             }
