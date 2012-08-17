@@ -2,7 +2,7 @@
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified" attributeFormDefault="qualified"
-	xmlns:sli="http://slc-sli/ed-org/0.1">
+	xmlns:sli="http://slcedu.org/schema/0100">
 
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
