@@ -26,6 +26,8 @@ import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,8 @@ import org.slc.sli.sif.translation.SifTranslationManager;
  */
 @Component
 public class SifSubscriber implements Subscriber {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
     @Autowired
     SifTranslationManager translationManager;
@@ -67,6 +71,9 @@ public class SifSubscriber implements Subscriber {
         } else {
             if (translatedEntities.size() > 0) {
                 slcInterface.update(translatedEntities.get(0));
+            }
+            else {
+                LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             }
         }
 
