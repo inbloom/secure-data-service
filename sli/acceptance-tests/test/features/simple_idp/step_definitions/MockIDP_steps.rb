@@ -76,3 +76,15 @@ end
 When /^I wait for (\d+) second$/ do |arg1|
   sleep(Integer(arg1))
 end
+
+When /^I navigate to databrowsers "(.*?)" page$/ do |arg1|
+  @driver.get PropLoader.getProps['databrowser_server_url']+arg1
+end
+
+Then /^I should see my roles as "(.*?)"$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
+end
+
+Then /^I should see my rights include "(.*?)"$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
+end
