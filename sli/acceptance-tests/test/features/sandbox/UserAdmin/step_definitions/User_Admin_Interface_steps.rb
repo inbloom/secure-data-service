@@ -392,9 +392,13 @@ def localize(value)
   value=Socket.gethostname+"_"+value
 end
 
-def getField(field_name) 
+def getField(field_name)
+  if field_name == "\"EdOrg\""
+    id = "user_edorg"
+  else
   label=@explicitWait.until{@driver.find_element(:xpath, "//label[text()=#{field_name}]")}
   id=label.attribute("for")
+  end
   field=@explicitWait.until{@driver.find_element(:id, "#{id}")}
 end
 
