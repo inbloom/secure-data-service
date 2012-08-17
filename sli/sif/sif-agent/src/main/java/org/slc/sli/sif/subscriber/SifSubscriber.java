@@ -22,7 +22,6 @@ import java.util.Map.Entry;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
-import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
@@ -62,29 +61,40 @@ public class SifSubscriber implements Subscriber {
         String zoneId = zone.getZoneId();
         SIFDataObject sifData = event.getData().readDataObject();
 
-        if( event.getAction() == EventAction.DELETE ){
-            return;
+        switch (event.getAction()) {
+            case ADD:
+                addEntities(sifData, zoneId);
+                break;
+
+            case CHANGE:
+                updateEntities(sifData, zoneId);
+
+            default:
+                LOG.info("Unhandled Sif EventAction: " + event.getAction());
+                break;
         }
 
+    }
+
+    private void updateEntities(SIFDataObject sifData, String zoneId) {
         List<GenericEntity> translatedEntities = translationManager.translate(sifData, zoneId);
-
-        if (event.getAction() == EventAction.ADD) {
-            for (GenericEntity entity : translatedEntities) {
-                String apiGuid = slcInterface.create(entity);
-                if (apiGuid != null) {
-                    sifIdResolver.putSliGuid(sifData.getRefId(), entity.getEntityType(), apiGuid, zoneId);
-                }
-            }
+        if (translatedEntities.size() > 0) {
+            Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zoneId);
+            updateMap(matchedEntity.getData(), translatedEntities.get(0).getData());
+            slcInterface.update(matchedEntity);
         } else {
-            if (translatedEntities.size() > 0) {
-                Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zoneId);
-                updateMap(matchedEntity.getData(), translatedEntities.get(0).getData());
-                slcInterface.update(matchedEntity);
-            } else {
-                LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
+            LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
+        }
+    }
+
+    private void addEntities(SIFDataObject sifData, String zoneId) {
+        List<GenericEntity> translatedEntities = translationManager.translate(sifData, zoneId);
+        for (GenericEntity entity : translatedEntities) {
+            String apiGuid = slcInterface.create(entity);
+            if (apiGuid != null) {
+                sifIdResolver.putSliGuid(sifData.getRefId(), entity.getEntityType(), apiGuid, zoneId);
             }
         }
-
     }
 
     /**
