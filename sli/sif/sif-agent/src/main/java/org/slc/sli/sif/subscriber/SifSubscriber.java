@@ -21,6 +21,7 @@ import java.util.List;
 import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
+import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.impl.GenericEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slc.sli.sif.translation.SifTranslationManager;
 /**
@@ -42,13 +44,21 @@ public class SifSubscriber implements Subscriber {
     @Autowired
     SlcInterface slcInterface;
 
+    @Autowired
+    SifIdResolver sifIdResolver;
+
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
 
-        List<GenericEntity> translatedEntities = translationManager.translate(event.getData().readDataObject(), zone.getZoneId());
+        SIFDataObject sifData = event.getData().readDataObject();
+
+        List<GenericEntity> translatedEntities = translationManager.translate(sifData, zone.getZoneId());
 
         for( GenericEntity entity : translatedEntities){
-            slcInterface.create(entity);
+            String apiGuid = slcInterface.create(entity);
+            if (apiGuid != null) {
+                sifIdResolver.putSliGuid(sifData.getRefId(), entity.getEntityType(), apiGuid, zone.getZoneId());
+            }
         }
 
     }
