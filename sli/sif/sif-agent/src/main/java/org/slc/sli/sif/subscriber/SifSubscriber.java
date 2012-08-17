@@ -80,8 +80,14 @@ public class SifSubscriber implements Subscriber {
         List<GenericEntity> translatedEntities = translationManager.translate(sifData, zoneId);
         if (translatedEntities.size() > 0) {
             Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zoneId);
-            updateMap(matchedEntity.getData(), translatedEntities.get(0).getData());
-            slcInterface.update(matchedEntity);
+
+            if( matchedEntity == null ){
+                LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
+            }
+            else {
+                updateMap(matchedEntity.getData(), translatedEntities.get(0).getData());
+                slcInterface.update(matchedEntity);
+            }
         } else {
             LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
         }
