@@ -167,6 +167,19 @@ Then I should be on the admin page
 And under Application Configuration, I see the following: "SLC Dashboards"
 And under System Tools, I see the following "SLC Data Browser"
 And under System Tools, I click on "SLC Data Browser"
+Then I should be redirected to the Data Browser home page
+And I should see my available links labeled
+And I should navigate to "/entities/teachers"
+Then I should see that there are "3" teachers 
+When I click on the row containing "linda.kim"
+When I click on the "My Sections" link
+Then I am redirected to the particular associations Simple View
+When I click on the row containing "8th Grade English - Sec 6"
+Then I am redirected to the particular associations Simple View
+When I click on the "GetStudents" link
+Then I am redirected to the particular associations Simple View
+When I click on the row containing "Sollars"
+Then I am redirected to the particular associations Simple View
 
 Scenario: Sessions are shared between apps
 When I navigate to the dashboard page
