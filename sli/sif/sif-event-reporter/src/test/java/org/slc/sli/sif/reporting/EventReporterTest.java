@@ -360,12 +360,32 @@ public class EventReporterTest extends AdkTest {
         URL url = getClass().getResource("/element_xml/StudentPersonal.xml");
         String validFilename = url.getPath();
 
-        Event event = eventReporter.reportEvent(validFilename);
+        // Test ADD
+        String eventActionStr = EventAction.ADD.toString();
+        Event event = eventReporter.reportEvent(validFilename, eventActionStr);
         Assert.assertNotNull(event);
+        EventAction eventAction = event.getAction();
+        Assert.assertEquals(eventActionStr, eventAction.toString());
+        Mockito.verify(zone, Mockito.times(1)).reportEvent(Mockito.eq(event));
+
+        // Test CHANGE
+        eventActionStr = EventAction.CHANGE.toString();
+        event = eventReporter.reportEvent(validFilename, eventActionStr);
+        Assert.assertNotNull(event);
+        eventAction = event.getAction();
+        Assert.assertEquals(eventActionStr, eventAction.toString());
+        Mockito.verify(zone, Mockito.times(1)).reportEvent(Mockito.eq(event));
+
+        // Test DELETE
+        eventActionStr = EventAction.DELETE.toString();
+        event = eventReporter.reportEvent(validFilename, eventActionStr);
+        Assert.assertNotNull(event);
+        eventAction = event.getAction();
+        Assert.assertEquals(eventActionStr, eventAction.toString());
         Mockito.verify(zone, Mockito.times(1)).reportEvent(Mockito.eq(event));
 
         Mockito.when(zone.isConnected()).thenReturn(false);
-        event = eventReporter.reportEvent(validFilename);
+        event = eventReporter.reportEvent(validFilename, EventAction.ADD.toString());
         Assert.assertNull(event);
         Mockito.verify(zone, Mockito.times(0)).reportEvent(Mockito.eq(event));
     }
@@ -373,7 +393,7 @@ public class EventReporterTest extends AdkTest {
     @Test
     public void testReportEventInvalidFile() throws ADKException {
         String invalidFilename = "doesntexist.xml";
-        Event event = eventReporter.reportEvent(invalidFilename);
+        Event event = eventReporter.reportEvent(invalidFilename, EventAction.ADD.toString());
         Assert.assertNull(event);
         Mockito.verify(zone, Mockito.times(0)).reportEvent(Mockito.eq(event));
     }

@@ -60,7 +60,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.sif.generator.CustomEventGenerator;
-import org.slc.sli.sif.generator.EventGenerator;
 import org.slc.sli.sif.generator.GeneratorScriptEvent;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 import org.slc.sli.sif.zone.PublishZoneConfigurator;
@@ -97,12 +96,20 @@ public class EventReporter implements Publisher {
             String script = props.getProperty(PropertyUtils.KEY_SCRIPT);
             long waitTime = ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue();
 
+            String messageFile = props.getProperty(PropertyUtils.KEY_MESSAGE_FILE);
+            String eventAction = props.getProperty(PropertyUtils.KEY_EVENT_ACTION);
+
             EventReporterAgent agent = createReporterAgent(agentId, zoneUrl);
             agent.startAgent();
             Zone zone = agent.getZoneFactory().getZone(localZoneId);
 
             EventReporter reporter = new EventReporter(zone);
-            reporter.runReportScript(script, waitTime);
+
+            if (!messageFile.isEmpty()) {
+                reporter.reportEvent(messageFile, eventAction);
+            } else  {
+                reporter.runReportScript(script, waitTime);
+            }
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
             logger.error("Exception trying to report event", e);
         }
@@ -323,11 +330,8 @@ public class EventReporter implements Publisher {
         return event;
     }
 
-    public Event reportEvent(String messageFile) throws ADKException {
-        Properties props = new Properties();
-        props.setProperty(CustomEventGenerator.MESSAGE_FILE, messageFile);
-        EventGenerator generator = new CustomEventGenerator();
-        Event event = generator.generateEvent(props);
+    public Event reportEvent(String messageFile, String eventAction) throws ADKException {
+        Event event = CustomEventGenerator.generateEvent(messageFile, EventAction.valueOf(eventAction));
         if (event == null) {
             LOG.error("Null event can not be reported");
             return null;
@@ -349,13 +353,11 @@ public class EventReporter implements Publisher {
 
     @SuppressWarnings("unused")
     private void inspectAndDestroyEvent(Event e) {
-        LOG.info("###########################################################################");
         try {
             SIFDataObject dataObj = e.getData().readDataObject();
             LOG.info(dataObj.toString());
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
-        LOG.info("###########################################################################");
     }
 }

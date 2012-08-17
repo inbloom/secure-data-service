@@ -75,7 +75,6 @@ import openadk.library.student.StudentSchoolEnrollment;
 import openadk.library.student.TimeFrame;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
