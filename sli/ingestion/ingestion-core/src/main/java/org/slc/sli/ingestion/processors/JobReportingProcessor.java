@@ -95,10 +95,10 @@ public class JobReportingProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
     
-    @Value("${sli.ingestion.staging.errorsCountPerInterchange}")
+    @Value("${sli.ingestion.errorsCountPerInterchange}")
     private int ERRORS_COUNT_PER_INTERCHANGE;
 
-    @Value("${sli.ingestion.staging.warningsCountPerInterchange}")
+    @Value("${sli.ingestion.warningsCountPerInterchange}")
     private int WARNINGS_COUNT_PER_INTERCHANGE;
     
     @Override

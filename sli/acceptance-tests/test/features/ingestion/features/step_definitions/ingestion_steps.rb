@@ -557,10 +557,10 @@ def getMaxErrorWarnCount
     maxWarning = 0
     file=File.open(INGESTION_PROPERTIES_FILE,"r") 
     file.each_line do |line|
-       if (line.rindex('sli.ingestion.staging.errorsCountPerInterchange'))
+       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
           maxError = line[line.rindex('=')+1,line.length-1]
        end
-       if(line.rindex('sli.ingestion.staging.warningsCountPerInterchange'))
+       if(line.rindex('sli.ingestion.warningsCountPerInterchange'))
           maxWarning = line[line.rindex('=')+1, line.length-1]
        end
     end
