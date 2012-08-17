@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -44,6 +45,8 @@ public abstract class SliEntity {
     protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     protected static final Logger LOG = LoggerFactory.getLogger(SliEntity.class);
+
+    private String creatorRefId = null;
 
     /**
      * Constructor
@@ -91,6 +94,29 @@ public abstract class SliEntity {
      */
     public JsonNode json() {
         return MAPPER.valueToTree(this);
+    }
+
+    /**
+     * Return true if this entity can be created by more than one SIF data objects
+     * and the entity is already created by one of them.
+     * For example, EmployeePersonal and StaffPersonal both can create a StaffEntity.
+     * If a StaffEntity was create by EmployeePersonal, StaffPersonal should check
+     * that it is already created.
+     *
+     */
+    @JsonIgnore
+    public boolean isCreatedByOthers() {
+        return this.creatorRefId!=null && this.creatorRefId.length()>0;
+    }
+
+    @JsonIgnore
+    public String getCreatorRefId() {
+        return this.creatorRefId;
+    }
+
+    @JsonIgnore
+    public void setCreatorRefId(String creatorRefId) {
+        this.creatorRefId = creatorRefId;;
     }
 
     /**

@@ -56,6 +56,7 @@ import org.slc.sli.sif.domain.slientity.ElectronicMail;
 import org.slc.sli.sif.domain.slientity.PersonalTelephone;
 import org.slc.sli.sif.domain.slientity.StaffEntity;
 import org.slc.sli.sif.domain.slientity.StaffIdentificationCode;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  * StaffPersonal to StaffEntity unit tests
@@ -67,6 +68,9 @@ public class StaffPersonalTranslationTaskTest {
 
     @InjectMocks
     private final StaffPersonalTranslationTask translator = new StaffPersonalTranslationTask();
+
+    @Mock
+    SifIdResolver mockSifIdResolver;
 
     @Mock
     YesNoUnknownConverter mockYesNoUnknownConverter;

@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.subscriber;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -86,12 +87,26 @@ public class SifSubscriber implements Subscriber {
         }
 
         if (sifData != null && tokenChecked && event.getAction() != null) {
+            List<SliEntity> entities = translationManager.translate(sifData, zone.getZoneId());
+            Entity matchedEntity;
+
             switch (event.getAction()) {
                 case ADD:
-                    addEntities(sifData, zone.getZoneId());
+                    for (SliEntity sliEntity : entities) {
+                        if (sliEntity.isCreatedByOthers()) {
+                            matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
+                            changeEntities(sifData, sliEntity, matchedEntity);
+                        } else {
+                            addEntities(sifData, zone.getZoneId(), sliEntity);
+                        }
+                    }
                     break;
                 case CHANGE:
-                    changeEntities(sifData, zone.getZoneId());
+                    // TODO, we can potentially get multiple matched entities
+                    matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
+                    for (SliEntity sliEntity : entities) {
+                        changeEntities(sifData, sliEntity, matchedEntity);
+                    }
                     break;
                 case UNDEFINED:
                 default:
@@ -101,30 +116,23 @@ public class SifSubscriber implements Subscriber {
         }
     }
 
-    private void addEntities(SIFDataObject sifData, String zoneId) {
-        for (SliEntity sliEntity : translationManager.translate(sifData, zoneId)) {
-            GenericEntity entity = sliEntity.createGenericEntity();
-            String guid = slcInterface.create(entity);
-            LOG.info("addEntities " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
-            if (guid != null) {
-                sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
-            }
+    private void addEntities(SIFDataObject sifData, String zoneId, SliEntity sliEntity) {
+        GenericEntity entity = sliEntity.createGenericEntity();
+        String guid = slcInterface.create(entity);
+        LOG.info("addEntities " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
+        if (guid != null) {
+            sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
         }
     }
 
-    private void changeEntities(SIFDataObject sifData, String zoneId) {
-        // TODO, we can potentially get multiple matched entities
-        Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zoneId);
-
+    private void changeEntities(SIFDataObject sifData, SliEntity sliEntity, Entity matchedEntity) {
         if (matchedEntity == null) {
             LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             return;
         }
-        for (SliEntity sliEntity : translationManager.translate(sifData, zoneId)) {
-            updateMap(matchedEntity.getData(), sliEntity.createBody());
-            slcInterface.update(matchedEntity);
-            LOG.info("changeEntities " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
-        }
+        updateMap(matchedEntity.getData(), sliEntity.createBody());
+        slcInterface.update(matchedEntity);
+        LOG.info("changeEntities " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
     // /-======================== HELPER UTILs ======
