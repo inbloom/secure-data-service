@@ -91,12 +91,12 @@ public class DefaultResourceService implements ResourceService {
 
                 @Override
                 public Iterable<EntityBody> execute() {
-                    return logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+                    return logicalEntity.getEntities(apiQuery, resource);
                 }
             });
         } else {
             try {
-                entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resource);
+                entityBodies = logicalEntity.getEntities(apiQuery, resource);
             } catch (UnsupportedSelectorException e) {
                 entityBodies = definition.getService().list(apiQuery);
             }
@@ -177,26 +177,18 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public List<EntityBody> getEntities(String base, String id, String resource, UriInfo uriInfo) {
-        EntityDefinition definition = getEntityDefinition(resource);
-        List<EntityBody> results = new ArrayList<EntityBody>();
-        List<EntityBody> entityBodyList = null;
-        final ApiQuery apiQuery = getApiQuery(definition,uriInfo);
+    // TODO: change from UriInfo
+    public List<EntityBody> getEntities(final String base, final String id, final String resource, final UriInfo uriInfo) {
+        final EntityDefinition definition = getEntityDefinition(resource);
+        List<EntityBody> entityBodyList;
+        final ApiQuery apiQuery = getApiQuery(definition, uriInfo);
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
-        }   catch (UnsupportedSelectorException e) {
+        } catch (final UnsupportedSelectorException e) {
             entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
         }
-        for (EntityBody entityBody : entityBodies) {
 
-            // if links should be included then put them in the entity body
-            entityBody.put(ResourceConstants.LINKS,
-                    ResourceUtil.getLinks(entityDefinitionStore, definition, entityBody, uriInfo));
-
-            results.add(entityBody);
-        }
-
-        return results;
+        return entityBodyList;
     }
 
 }

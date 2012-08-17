@@ -64,8 +64,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
     }
 
     @Override
-    public List<EntityBody> getEntities(final ApiQuery apiQuery,
-                                                  final String resourceName) {
+    public List<EntityBody> getEntities(final ApiQuery apiQuery, final String resourceName) {
 
         if (apiQuery == null) {
             throw new NullPointerException("apiQuery");
@@ -86,6 +85,5 @@ public class DefaultLogicalEntity implements LogicalEntity {
 
         return selectorDocument.aggregate(selectorQuery, apiQuery);
     }
-
 }
 

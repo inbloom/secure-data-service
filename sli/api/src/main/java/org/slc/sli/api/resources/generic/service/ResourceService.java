@@ -23,7 +23,7 @@ public interface ResourceService {
 
     public long getEntityCount(String resource, UriInfo uriInfo);
 
-    public List<EntityBody> getEntities(String base, String id, String resource);
+    public List<EntityBody> getEntities(String base, String id, String resource, UriInfo uriInfo);
 
     public EntityDefinition getEntityDefinition(String resource);
 
