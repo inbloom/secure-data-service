@@ -51,6 +51,40 @@ And I click on Admin
 And I should be on the admin page
 And I should not see "SLC Data Browser"
 
+Scenario: App developer creates new installed app
+When I navigate to the Portal home page
+When I selected the realm "Shared Learning Infrastructure"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "developer-test@slidev.org" "test1234" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Application Registration"
+Then I am redirected to the Application Registration Tool page
+And I switch to the iframe
+And I have clicked to the button New
+And I am redirected to a new application page
+When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
+And I entered the name "Best.  Description.  Ever." into the field titled "Description"
+And I entered the name "0.o" into the field titled "Version"
+And I entered the name "McDerp" into the field titled "Vendor"
+And I make my app an installed app
+#And I have entered data into the other required fields except for the shared secret and the app id which are read-only
+And I click on the button Submit
+Then I am redirected to the Application Registration Tool page
+And the application "NotTheAppYoureLookingFor" is listed in the table on the top
+#These steps should not be needed if RC is in app-auto-approve mode
+#And the client ID and shared secret fields are Pending
+#And the Registration Status field is Pending
+#And a notification email is sent to "slcoperator-email@slidev.org"
+And my new apps client ID is present
+And my new apps shared secret is present
+When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
+And I enable my app for all districts
+And I clicked Save
+Then I am redirected to the Application Registration Tool page
+
 Scenario:  Daybreakadmin approves Dashboard and Databrowser
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
@@ -62,6 +96,7 @@ And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Authorization"
 Then I am redirected to the Admin Application Authorization Tool
+#Authorize the Dashboard
 And I switch to the iframe
 And I see an application "SLC Dashboards" in the table
 And in Status it says "Not Approved"
@@ -74,7 +109,22 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+#Authorize the Databrowser
 And I see an application "SLC Data Browser" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+# switch back to iframe because of the page reload
+And I switch to the iframe
+Then the application is authorized to use data of "Daybreak School District 4529"
+And is put on the top of the table
+And the Status becomes "Approved"
+And it is colored "green"
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
+#Authorize the New Installed App
+And I see an application "NotTheAppYoureLookingFor" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
@@ -145,7 +195,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-Scenario: User accesses Developer App 
+Scenario: User sees non-installed Developer App 
 When I navigate to the Portal home page
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
@@ -156,3 +206,14 @@ Then I should be on Portal home page
 #And under My Applications, I click on "Dev App"
 #Then I should see "app"
 	
+Scenario: User logs into recently created installed app
+#We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it
+Given the testing device app key has been created
+When I navigate to the API authorization endpoint with my client ID
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+Then I should receive a json response containing my authorization code
+When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+Then I should receive a json response containing my authorization token
+And I should be able to use the token to make valid API calls
