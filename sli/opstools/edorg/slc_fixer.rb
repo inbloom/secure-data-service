@@ -76,9 +76,14 @@ class SLCFixer
 
   def fix
     @log.debug "Clearing out caches"
+    Thread.current[:start_time] = Time.now
     Thread.current[:stamping] = []
     Thread.current[:cache] = Set.new
     yield
+    total_time = Time.now - Thread.current[:start_time]
+    @log.error "Finished stamping: #{Thread.current[:stamping].join(", ")}"
+    @log.error "\tTotal time: #{total_time} s"
+    @log.error "\tRPS: #{Thread.current[:cache].count/total_time}"
   end
 
   def fix_students
@@ -442,10 +447,6 @@ class SLCFixer
   private
   def set_stamps(collection)
     Thread.current[:stamping].push collection.name
-  end
-  def edorg_digger(id)
-    edorgs = []
-    []
   end
   def stamp_id(collection, id, edOrg, tenantid)
     if edOrg.nil? or edOrg.empty? or tenantid.nil?

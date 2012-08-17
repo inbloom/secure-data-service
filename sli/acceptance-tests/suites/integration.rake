@@ -22,7 +22,7 @@ task :rcDashboardTests do
 end
 
 desc "Run RC Tests"
-task :rcTests => [ #:rcIngestionTests, 
+task :rcTests => [:rcIngestionTests, 
                   :rcAppApprovalTests,
                   :rcDashboardTests] do
   displayFailureReport()
