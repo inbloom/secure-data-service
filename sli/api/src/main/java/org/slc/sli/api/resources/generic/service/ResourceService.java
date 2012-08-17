@@ -25,6 +25,9 @@ public interface ResourceService {
 
     public List<EntityBody> getEntities(String base, String id, String resource, UriInfo uriInfo);
 
+    public List<EntityBody> getEntities(String base, String id, String association,
+                                        String resource, UriInfo uriInfo);
+
     public EntityDefinition getEntityDefinition(String resource);
 
 }

@@ -19,8 +19,6 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
 
-    private static final String ID_KEY = "resource";
-
     @Override
     public String getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
@@ -55,20 +53,15 @@ public class RestResourceHelper implements ResourceHelper {
         }
     }
 
+    @Override
+    public String getAssociationName(final UriInfo uriInfo, final ResourceTemplate template) {
+        final Map<String, String> matchList = getMatchList(uriInfo, template);
+        return matchList.get(ASSOCIATION_KEY);
+    }
+
     private Map<String, String> getMatchList(UriInfo uriInfo, ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
         return uriTemplate.match(uriInfo.getRequestUri().toString());
-    }
-
-    @Override
-    public List<String> getIds(UriInfo uriInfo,ResourceTemplate template) {
-//        final  UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
-//        final Map<String,String> matchList = uriTemplate.match(uri);
-        ArrayList<String> ids = new ArrayList<String>();
-//       for(String id : matchList.get(ID_KEY).split(",")) {
-//           ids.add(id);
-//       }
-       return ids;
     }
 
     private String getFourPartPath(final Map<String, String> matchList) {

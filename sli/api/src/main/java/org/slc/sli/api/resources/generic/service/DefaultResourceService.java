@@ -11,7 +11,6 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -189,6 +188,12 @@ public class DefaultResourceService implements ResourceService {
         }
 
         return entityBodyList;
+    }
+
+    @Override
+    // TODO
+    public List<EntityBody> getEntities(String base, String id, String association, String resource, UriInfo uriInfo) {
+        throw new UnsupportedOperationException("TODO");
     }
 
 }
