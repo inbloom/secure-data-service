@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -158,7 +159,17 @@ public class TenantMongoDA implements TenantDA {
                     }
                 }
             }
+            readyTenant(tenant);
         }
         return fileMap;
+    }
+
+    private boolean readyTenant(Entity tenant) {
+        return entityRepository.doUpdate(
+                TENANT_COLLECTION,
+                tenant.getEntityId(),
+                Update.update(TenantMongoDA.LANDING_ZONE + "." + TenantMongoDA.PRELOAD_DATA + "."
+                        + TenantMongoDA.PRELOAD_STATUS, "started"));
+
     }
 }
