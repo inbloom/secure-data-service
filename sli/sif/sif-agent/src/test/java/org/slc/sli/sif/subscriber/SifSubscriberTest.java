@@ -140,6 +140,7 @@ public class SifSubscriberTest extends AdkTest {
     @Test
     public void shouldDispatchFirstUpdateEvent() throws ADKException {
         SchoolInfo sifData = new SchoolInfo();
+        sifData.setRefId("REF_ID");
         Event event = new Event(sifData, EventAction.CHANGE);
 
         Zone zone = Mockito.mock(Zone.class);
@@ -149,6 +150,8 @@ public class SifSubscriberTest extends AdkTest {
         List<GenericEntity> translatedEntities = new ArrayList<GenericEntity>();
         translatedEntities.add(new GenericEntity("someType1", new HashMap<String, Object>()));
         translatedEntities.add(new GenericEntity("someType2", new HashMap<String, Object>()));
+
+        Mockito.when(mockSifIdResolver.getSliEntity("REF_ID", "zoneId")).thenReturn(translatedEntities.get(0));
 
         Mockito.when(translationManager.translate(sifData, "zoneId")).thenReturn(translatedEntities);
 

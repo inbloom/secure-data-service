@@ -17,6 +17,8 @@
 package org.slc.sli.sif.subscriber;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
@@ -31,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
@@ -70,13 +73,39 @@ public class SifSubscriber implements Subscriber {
             }
         } else {
             if (translatedEntities.size() > 0) {
-                slcInterface.update(translatedEntities.get(0));
-            }
-            else {
+                Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zoneId);
+                updateMap(matchedEntity.getData(), translatedEntities.get(0).getData());
+                slcInterface.update(matchedEntity);
+            } else {
                 LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             }
         }
 
+    }
+
+    /**
+     * Applies the values from map u to the keys in map m, recursively
+     *
+     * @param map
+     *            : the map to be updated
+     * @param u
+     *            : the map containing the updates
+     */
+    private static void updateMap(Map<String, Object> map, Map<String, Object> u) {
+        for (Entry<String, Object> uEntry : u.entrySet()) {
+            if (!map.containsKey(uEntry.getKey())) {
+                map.put(uEntry.getKey(), uEntry.getValue());
+            } else {
+                Object o1 = map.get(uEntry.getKey());
+                Object o2 = uEntry.getValue();
+                // recursive update collections
+                if (o1 instanceof Map && o2 instanceof Map) {
+                    updateMap((Map<String, Object>) o1, (Map<String, Object>) o2);
+                } else {
+                    map.put(uEntry.getKey(), o2);
+                }
+            }
+        }
     }
 
 }
