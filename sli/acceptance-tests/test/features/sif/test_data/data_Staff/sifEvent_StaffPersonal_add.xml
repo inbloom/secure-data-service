@@ -24,7 +24,7 @@
             <ElectronicId Type="Barcode">206655</ElectronicId> 
           </ElectronicIdList> 
           <OtherIdList> 
-            <OtherId Type="0004">333333333</OtherId> 
+            <OtherId Type="SSN">590651225</OtherId> 
           </OtherIdList> 
           <Name Type="04"> 
             <Prefix>Mr.</Prefix> 
@@ -42,7 +42,7 @@
               <Street> 
                 <Line1>82 Market Street</Line1> 
                 <StreetNumber>82</StreetNumber> 
-                <StreetName>Market</StreetName> 
+                <StreetName>Market Street</StreetName> 
                 <StreetType>Street</StreetType> 
               </Street> 
               <City>San Francisco</City> 

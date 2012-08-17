@@ -51,4 +51,12 @@ public class GeneratorScriptEvent {
     public static final String KEY_EMPLOYEE_PERSONAL_ADD = "EmployeePersonalAdd";
     public static final String KEY_EMPLOYEE_PERSONAL_CHANGE = "EmployeePersonalChange";
     public static final String KEY_EMPLOYEE_PERSONAL_DELETE = "EmployeePersonalDelete";
+
+    public static final String KEY_STAFF_ASSIGNMENT_ADD = "StaffAssignmentAdd";
+    public static final String KEY_STAFF_ASSIGNMENT_CHANGE = "StaffAssignmentChange";
+    public static final String KEY_STAFF_ASSIGNMENT_DELETE = "StaffAssignmentDelete";
+
+    public static final String KEY_EMPLOYMENT_RECORD_ADD = "EmploymentRecordAdd";
+    public static final String KEY_EMPLOYMENT_RECORD_CHANGE = "EmploymentRecordChange";
+    public static final String KEY_EMPLOYMENT_RECORD_DELETE = "EmploymentRecordDelete";
 }

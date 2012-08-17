@@ -45,12 +45,15 @@ import openadk.library.common.GradeLevelCode;
 import openadk.library.common.OtherId;
 import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrOtherIdList;
 import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffAssignment;
 import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentDTD;
 import openadk.library.student.StudentPersonal;
@@ -173,10 +176,12 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STAFFPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, HrfinDTD.EMPLOYEEPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STAFFASSIGNMENT, new PublishingOptions(true));
 
         populateMethodMap();
     }
 
+    // TODO this is ugly. do it better
     private void populateMethodMap() throws SecurityException, NoSuchMethodException {
         ScriptMethod leaInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.ADD);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_ADD, leaInfoAddMethod);
@@ -226,6 +231,20 @@ public class EventReporter implements Publisher {
         scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE, employeePersonalChangeMethod);
         ScriptMethod employeePersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.DELETE);
         scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE, employeePersonalDeleteMethod);
+
+        ScriptMethod staffAssignmentAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.ADD);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_ADD, staffAssignmentAddMethod);
+        ScriptMethod staffAssignmentChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.CHANGE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE, staffAssignmentChangeMethod);
+        ScriptMethod staffAssignmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.DELETE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE, staffAssignmentDeleteMethod);
+
+        ScriptMethod employmentRecordAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.ADD);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD, employmentRecordAddMethod);
+        ScriptMethod employmentRecordChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.CHANGE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE, employmentRecordChangeMethod);
+        ScriptMethod employmentRecordDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.DELETE);
+        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE, employmentRecordDeleteMethod);
     }
 
     public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -326,6 +345,30 @@ public class EventReporter implements Publisher {
             employeePersonal.setOtherIdList(new HrOtherIdList(new OtherId(OtherIdType.CERTIFICATE, "certificate")));
         }
         Event event = new Event(employeePersonal, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportStaffAssignmentEvent(EventAction action) throws ADKException {
+        LOG.info("StaffAssignment " + action.toString());
+        StaffAssignment staffAssignment = SifEntityGenerator.generateTestStaffAssignment();
+        if (action == EventAction.CHANGE) {
+            staffAssignment.setChanged();
+            staffAssignment.setPrimaryAssignment(YesNo.NO);
+        }
+        Event event = new Event(staffAssignment, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmploymentRecordEvent(EventAction action) throws ADKException {
+        LOG.info("EmploymentRecord " + action.toString());
+        EmploymentRecord employmentRecord = SifEntityGenerator.generateTestEmploymentRecord();
+        if (action == EventAction.CHANGE) {
+            employmentRecord.setChanged();
+            employmentRecord.setPositionNumber("15");
+        }
+        Event event = new Event(employmentRecord, action);
         zone.reportEvent(event);
         return event;
     }

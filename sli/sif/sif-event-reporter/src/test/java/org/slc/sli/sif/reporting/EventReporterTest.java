@@ -37,11 +37,14 @@ import openadk.library.common.GradeLevelCode;
 import openadk.library.common.OtherId;
 import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffAssignment;
 import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentDTD;
 import openadk.library.student.StudentPersonal;
@@ -52,7 +55,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import org.slc.sli.sif.AdkTest;
+import org.slc.sli.sif.EventReporterAdkTest;
 import org.slc.sli.sif.generator.GeneratorScriptEvent;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 
@@ -62,7 +65,7 @@ import org.slc.sli.sif.generator.SifEntityGenerator;
  * @author vmcglaughlin
  *
  */
-public class EventReporterTest extends AdkTest {
+public class EventReporterTest extends EventReporterAdkTest {
 
     private EventReporter eventReporter;
 
@@ -95,7 +98,8 @@ public class EventReporterTest extends AdkTest {
                 StudentDTD.STUDENTSCHOOLENROLLMENT,
                 CommonDTD.STUDENTLEARELATIONSHIP,
                 StudentDTD.STAFFPERSONAL,
-                HrfinDTD.EMPLOYEEPERSONAL
+                HrfinDTD.EMPLOYEEPERSONAL,
+                StudentDTD.STAFFASSIGNMENT
         };
 
         Mockito.verify(zone, Mockito.times(expectedPublishingTypes.length)).setPublisher(Mockito.eq(eventReporter),
@@ -145,7 +149,13 @@ public class EventReporterTest extends AdkTest {
                 GeneratorScriptEvent.KEY_STAFF_PERSONAL_DELETE,
                 GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_ADD,
                 GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE,
-                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE
+                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE,
+                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_ADD,
+                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE,
+                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE,
+                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE
         };
 
         String script = "";
@@ -339,6 +349,50 @@ public class EventReporterTest extends AdkTest {
         otherId = dataObject.getOtherIdList().get(0);
         Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId.getType());
         Assert.assertEquals("333333333", otherId.getValue());
+    }
+
+    @Test
+    public void runReportStaffAssignmentEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = StaffAssignment.class;
+        String expectedId = SifEntityGenerator.TEST_STAFFASSIGNMENT_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportStaffAssignmentEvent(eventAction);
+        StaffAssignment dataObject = (StaffAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        Assert.assertEquals(YesNo.YES.getValue(), dataObject.getPrimaryAssignment());
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportStaffAssignmentEvent(eventAction);
+        dataObject = (StaffAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals(YesNo.NO.getValue(), dataObject.getPrimaryAssignment());
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportStaffAssignmentEvent(eventAction);
+        dataObject = (StaffAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        Assert.assertEquals(YesNo.YES.getValue(), dataObject.getPrimaryAssignment());
+    }
+
+    @Test
+    public void runReportEmploymentRecordEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = EmploymentRecord.class;
+        String expectedId = SifEntityGenerator.TEST_EMPLOYMENTRECORD_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        EmploymentRecord dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        Assert.assertEquals("10", dataObject.getPositionNumber());
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals("15", dataObject.getPositionNumber());
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
+        dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        Assert.assertEquals("10", dataObject.getPositionNumber());
     }
 
     private SIFDataObject runDataObjectEventTest(Event sentEvent, EventAction action,
