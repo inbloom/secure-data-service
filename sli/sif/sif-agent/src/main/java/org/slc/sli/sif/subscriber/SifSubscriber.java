@@ -50,14 +50,15 @@ public class SifSubscriber implements Subscriber {
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
 
+        String zoneId = zone.getZoneId();
         SIFDataObject sifData = event.getData().readDataObject();
 
-        List<GenericEntity> translatedEntities = translationManager.translate(sifData, zone.getZoneId());
+        List<GenericEntity> translatedEntities = translationManager.translate(sifData, zoneId);
 
         for( GenericEntity entity : translatedEntities){
             String apiGuid = slcInterface.create(entity);
             if (apiGuid != null) {
-                sifIdResolver.putSliGuid(sifData.getRefId(), entity.getEntityType(), apiGuid, zone.getZoneId());
+                sifIdResolver.putSliGuid(sifData.getRefId(), entity.getEntityType(), apiGuid, zoneId);
             }
         }
 
