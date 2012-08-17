@@ -129,9 +129,31 @@ public class SifSubscriberTest extends AdkTest {
         Mockito.verify(mockSlcInterface, Mockito.times(1)).create(translatedEntities.get(0));
         Mockito.verify(mockSlcInterface, Mockito.times(1)).create(translatedEntities.get(1));
 
-        Mockito.verify(mockSifIdResolver,Mockito.times(1)).putSliGuid("REF_ID", "someType1", "SomeGuid", "zoneId");
+        Mockito.verify(mockSifIdResolver, Mockito.times(1)).putSliGuid("REF_ID", "someType1", "SomeGuid", "zoneId");
         // only track id's when guid is returned from api
-        Mockito.verify(mockSifIdResolver,Mockito.times(0)).putSliGuid("REF_ID", "someType2", "SomeGuid", "zoneId");
+        Mockito.verify(mockSifIdResolver, Mockito.times(0)).putSliGuid("REF_ID", "someType2", "SomeGuid", "zoneId");
+    }
+
+    @Test
+    public void shouldDispatchFirstUpdateEvent() throws ADKException {
+        SchoolInfo sifData = new SchoolInfo();
+        Event event = new Event(sifData, EventAction.CHANGE);
+
+        Zone zone = Mockito.mock(Zone.class);
+        Mockito.when(zone.getZoneId()).thenReturn("zoneId");
+        MessageInfo info = Mockito.mock(MessageInfo.class);
+
+        List<GenericEntity> translatedEntities = new ArrayList<GenericEntity>();
+        translatedEntities.add(new GenericEntity("someType1", new HashMap<String, Object>()));
+        translatedEntities.add(new GenericEntity("someType2", new HashMap<String, Object>()));
+
+        Mockito.when(translationManager.translate(sifData, "zoneId")).thenReturn(translatedEntities);
+
+        subscriber.onEvent(event, zone, info);
+
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).update(translatedEntities.get(0));
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).update(Mockito.any(GenericEntity.class));
+
     }
 
 }
