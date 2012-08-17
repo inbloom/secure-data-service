@@ -64,14 +64,11 @@ public class DefaultLogicalEntity implements LogicalEntity {
     }
 
     @Override
-    public List<EntityBody> getEntities(final ApiQuery apiQuery, final Constraint constraint,
+    public List<EntityBody> getEntities(final ApiQuery apiQuery,
                                                   final String resourceName) {
 
         if (apiQuery == null) {
             throw new NullPointerException("apiQuery");
-        }
-        if (constraint == null) {
-            throw new NullPointerException("constraint");
         }
 
         final EntityDefinition typeDef = entityDefinitionStore.lookupByResourceName(resourceName);

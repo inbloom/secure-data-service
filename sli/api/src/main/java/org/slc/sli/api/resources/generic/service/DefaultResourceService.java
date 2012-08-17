@@ -10,8 +10,8 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -69,7 +69,7 @@ public class DefaultResourceService implements ResourceService {
         // final/resulting information
         List<EntityBody> finalResults = null;
         try {
-            finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resource);
+            finalResults = logicalEntity.getEntities(apiQuery, resource);
         } catch (UnsupportedSelectorException e) {
             finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
         }
@@ -177,8 +177,26 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public List<EntityBody> getEntities(String base, String id, String resource) {
-        return null;
+    public List<EntityBody> getEntities(String base, String id, String resource, UriInfo uriInfo) {
+        EntityDefinition definition = getEntityDefinition(resource);
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        List<EntityBody> entityBodyList = null;
+        final ApiQuery apiQuery = getApiQuery(definition,uriInfo);
+        try {
+            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+        }   catch (UnsupportedSelectorException e) {
+            entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
+        }
+        for (EntityBody entityBody : entityBodies) {
+
+            // if links should be included then put them in the entity body
+            entityBody.put(ResourceConstants.LINKS,
+                    ResourceUtil.getLinks(entityDefinitionStore, definition, entityBody, uriInfo));
+
+            results.add(entityBody);
+        }
+
+        return results;
     }
 
 }

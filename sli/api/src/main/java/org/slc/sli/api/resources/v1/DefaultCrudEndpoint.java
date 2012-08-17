@@ -57,7 +57,6 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -201,7 +200,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 List<EntityBody> entityBodyList = null;
                 try {
-                    entityBodyList = logicalEntity.getEntities(apiQuery, new Constraint(key, valueList), entityDef.getResourceName());
+                    entityBodyList = logicalEntity.getEntities(apiQuery, entityDef.getResourceName());
                 } catch (UnsupportedSelectorException e) {
                     entityBodyList = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -303,7 +302,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     List<EntityBody> entityBodyList = null;
                     try {
-                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids), resolutionResourceName);
+                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery,  resolutionResourceName);
                     } catch (UnsupportedSelectorException e) {
                         entityBodyList = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
                     }
@@ -390,7 +389,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> finalResults = null;
                 try {
-                    finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
+                    finalResults = logicalEntity.getEntities(apiQuery, resourceName);
                 } catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -633,12 +632,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
+                            return logicalEntity.getEntities(apiQuery, resourceName);
                         }
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
+                        entityBodies = logicalEntity.getEntities(apiQuery, resourceName);
                     } catch (UnsupportedSelectorException e) {
                         entityBodies = entityDef.getService().list(apiQuery);
                     }
