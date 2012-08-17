@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public interface ResourceService {
-    public EntityBody getEntity(final String resource, final String id, final UriInfo uriInfo);
+    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final UriInfo uriInfo);
 
     public List<EntityBody> getEntities(final String resource, final UriInfo uriInfo);
 

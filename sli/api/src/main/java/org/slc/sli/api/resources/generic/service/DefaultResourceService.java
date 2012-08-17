@@ -48,9 +48,9 @@ public class DefaultResourceService implements ResourceService {
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     @Override
-    public EntityBody getEntity(final String resource, final String id, final UriInfo uriInfo) {
+    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final UriInfo uriInfo) {
         EntityDefinition definition = getEntityDefinition(resource);
-        final int idLength = id.split(",").length;
+        final int idLength = idList.split(",").length;
 
         if (idLength > MAX_MULTIPLE_UUIDS) {
             String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
@@ -58,7 +58,7 @@ public class DefaultResourceService implements ResourceService {
             throw new PreConditionFailedException(errorMessage);
         }
 
-        final List<String> ids = Arrays.asList(StringUtils.split(id));
+        final List<String> ids = Arrays.asList(StringUtils.split(idList));
 
         ApiQuery apiQuery = getApiQuery(definition, uriInfo);
 
@@ -69,12 +69,12 @@ public class DefaultResourceService implements ResourceService {
         // final/resulting information
         List<EntityBody> finalResults = null;
         try {
-            finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", id), resource);
+            finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resource);
         } catch (UnsupportedSelectorException e) {
             finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
         }
 
-        return definition.getService().get(id);
+        return finalResults;
     }
 
     @Override

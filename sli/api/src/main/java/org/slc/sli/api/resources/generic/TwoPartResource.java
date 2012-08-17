@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class TwoPartResource extends GenericResource {
         return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.ResourceLogic() {
             @Override
             public Response run(String resourceName) {
-                EntityBody results = resourceService.getEntity(resourceName, id, uriInfo);
+                List<EntityBody> results = resourceService.getEntitiesByIds(resourceName, id, uriInfo);
 
                 return Response.ok(results).build();
             }
