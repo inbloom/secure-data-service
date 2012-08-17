@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require 'rbconfig'
-require_relative 'slc_fixer'
+require File.dirname(__FILE__) + '/slc_fixer'
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
