@@ -1,4 +1,4 @@
-@RALLY_US3047
+@RALLY_US3047 @RALLY_DE1527
 Feature: SIF LEAInfo Test
 
 Background: Set my data store
@@ -17,9 +17,10 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName        | count |
      | educationOrganization | 2     |
    And I check to find if record is in collection:
-     | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
-     | educationOrganization | 1                   | body.stateOrganizationId | Daybreak School District 4530 | string     |
-     | educationOrganization | 1                   | body.stateOrganizationId | IL                            | string     |
+     | collectionName        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
+     | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak School District 4530               | string     |
+     | educationOrganization | 1                   | body.stateOrganizationId            | IL                                          | string     |
+     | educationOrganization | 1                   | body.parentEducationAgencyReference | 2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f | string     |
    And I check that the record contains all of the expected values:
      | collectionName        | searchParameter          | searchValue                   | searchType | expectedValuesFile   |
      | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string     | expected_LEAInfo_add |
