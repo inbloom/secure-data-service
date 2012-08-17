@@ -27,7 +27,7 @@ class ApplicationMailer < ActionMailer::Base
   PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
-  FORGOT_PASSWORD_SUBJECT = "SLC Notification - Forgot Password"
+  FORGOT_PASSWORD_SUBJECT = "SLC Notification - Reset Password"
   SAMT_VERIFY_SUBJECT_SANDBOX = "SLC Sandbox Account - Email Confirmation"
   SAMT_VERIFY_SUBJECT_PROD = "SLC Administrator Account - Email Confirmation"
   SAMT_WELCOME_SANDBOX = "Welcome to the SLC Developer Sandbox"
