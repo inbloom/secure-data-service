@@ -233,4 +233,30 @@ public class SifSubscriberTest extends AdkTest {
 
     }
 
+    /**
+     * Verifies that if a SIF RefId doesn't exist in id map,
+     * the event isn't processed
+     */
+    @Test
+    public void shouldNotUpdateWhenMissingSliEntity() throws ADKException {
+        SchoolInfo sifData = new SchoolInfo();
+        sifData.setRefId("REF_ID");
+        Event event = new Event(sifData, EventAction.CHANGE);
+
+        Zone zone = Mockito.mock(Zone.class);
+        Mockito.when(zone.getZoneId()).thenReturn("zoneId");
+        MessageInfo info = Mockito.mock(MessageInfo.class);
+
+        List<GenericEntity> translatedEntities = new ArrayList<GenericEntity>();
+        translatedEntities.add(new GenericEntity("someType", new HashMap<String, Object>()));
+
+        Mockito.when(translationManager.translate(sifData, "zoneId")).thenReturn(translatedEntities);
+        Mockito.when(mockSifIdResolver.getSliEntity("REF_ID", "zoneId")).thenReturn(null);
+
+        subscriber.onEvent(event, zone, info);
+
+        Mockito.verify(mockSlcInterface, Mockito.times(0)).update(Mockito.any(GenericEntity.class));
+
+    }
+
 }
