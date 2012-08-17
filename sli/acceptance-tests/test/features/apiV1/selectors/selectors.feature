@@ -268,3 +268,8 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
+    
+  Scenario: Sad path - Selector embeds too many documents
+    Given selector "(sections:(*),sectionAssociations:(*,section:(*)),schools:(*,sections:(*)))"
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 413

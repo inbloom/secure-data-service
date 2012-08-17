@@ -31,7 +31,7 @@ class Analyser
     @frequency_hash = Hash.new
     @build_perf_hash = Hash.new
     @stat_hash = Hash.new
-    @basic_options = {:timeout => false, :batch_size => 200}
+    @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
     @log.level = Logger::WARN if logger.nil?
     @key = " %s|%s" 
@@ -150,7 +150,7 @@ class Analyser
         else
           doc['buildStat'][buildTag.to_s]=value['br']
         end
-        @db.collection('apiResHistory').save doc          
+        @db.collection('apiResHistory').save doc
         coll.save value
       }
     rescue =>e

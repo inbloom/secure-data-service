@@ -2,7 +2,7 @@
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified" attributeFormDefault="qualified"
-	xmlns:sli="http://slc-sli/ed-org/0.1">
+	xmlns:sli="http://slcedu.org/schema/0100">
 
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
 
@@ -1012,6 +1012,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentAssociations" type="studentParentAssociation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Students associated with the parent.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3242,16 +3248,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="parentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The parent or guardian of the student.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>parent</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>

@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.bson.BSONObject;
@@ -57,7 +59,9 @@ public class IDMapperTest {
 
         BSONObject elem = new BasicBSONObject("id", 3697);
         BSONObject data = new BasicBSONObject("element", elem);
-        final BSONObject entity = new BasicBSONObject("data", data);
+        BSONObject entry = new BasicBSONObject("data", data);
+        final BSONWritable entity = new BSONWritable(entry);
+
         IDMapper mapper = new IDMapper(IdFieldEmittableKey.class, fields);
 
         IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
@@ -73,14 +77,14 @@ public class IDMapperTest {
                 assertEquals(args.length, 2);
 
                 assertTrue(args[0] instanceof IdFieldEmittableKey);
-                assertTrue(args[1] instanceof BSONObject);
+                assertTrue(args[1] instanceof BSONWritable);
 
                 IdFieldEmittableKey id = (IdFieldEmittableKey) args[0];
                 assertEquals(id.getIdField().toString(), "data.element.id");
                 Text idValue = id.getId();
                 assertEquals(Long.parseLong(idValue.toString()), 3697);
 
-                BSONObject e = (BSONObject) args[1];
+                BSONWritable e = (BSONWritable) args[1];
                 assertEquals(e, entity);
 
                 return null;
@@ -100,7 +104,8 @@ public class IDMapperTest {
 
         BSONObject elem = new BasicBSONObject("id", 90210);
         BSONObject data = new BasicBSONObject("element", elem);
-        final BSONObject entity = new BasicBSONObject("data", data);
+        BSONObject entry = new BasicBSONObject("data", data);
+        final BSONWritable entity = new BSONWritable(entry);
 
         BSONObject tenantId = new BasicBSONObject("tenantId", "Midgar");
         entity.put("metaData", tenantId);

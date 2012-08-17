@@ -43,22 +43,22 @@
     <!-- SLI Error Page Definitions -->
   	<error-page>
   		<error-code>500</error-code>
-  		<location>/exception</location>
+  		<location>/exception?errorType=500</location>
 	</error-page>
 
   	<error-page>
   		<error-code>415</error-code>
-  		<location>/exception</location>
+  		<location>/exception?errorType=415</location>
 	</error-page>
 
   	<error-page>
   		<error-code>404</error-code>
-  		<location>/exception</location>
+  		<location>/exception?errorType=404</location>
 	</error-page>
 
   	<error-page>
   		<error-code>403</error-code>
-  		<location>/exception</location>
+  		<location>/exception?errorType=403</location>
 	</error-page>
 
   	<error-page>
