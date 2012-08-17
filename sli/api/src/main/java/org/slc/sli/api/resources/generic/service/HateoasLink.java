@@ -19,7 +19,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class HateosLink {
+public class HateoasLink {
 
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
