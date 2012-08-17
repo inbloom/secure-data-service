@@ -21,8 +21,6 @@ import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
 import org.slc.sli.modeling.uml.utils.TestUtils;
 
-import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

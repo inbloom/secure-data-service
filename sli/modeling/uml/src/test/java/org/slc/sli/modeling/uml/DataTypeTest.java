@@ -19,7 +19,6 @@ package org.slc.sli.modeling.uml;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.index.DefaultVisitor;
-import org.slc.sli.modeling.uml.utils.TestUtils;
 
 import java.util.List;
 
