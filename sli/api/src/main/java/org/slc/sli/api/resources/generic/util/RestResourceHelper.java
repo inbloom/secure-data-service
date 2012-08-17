@@ -46,7 +46,7 @@ public class RestResourceHelper implements ResourceHelper {
             case FOUR_PART:
                 return getFourPartPath(matchList);
             case CUSTOM:
-                //TODO
+                // TODO
                 return "";
             default:
                 throw new AssertionError("Non-valid template");
@@ -59,7 +59,7 @@ public class RestResourceHelper implements ResourceHelper {
         return matchList.get(ASSOCIATION_KEY);
     }
 
-    private Map<String, String> getMatchList(UriInfo uriInfo, ResourceTemplate template) {
+    private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
         return uriTemplate.match(uriInfo.getRequestUri().toString());
     }
@@ -73,7 +73,7 @@ public class RestResourceHelper implements ResourceHelper {
         return path + SEP + "{id}";
     }
 
-    private String getThreePartPath(Map<String, String> matchList) {
+    private String getThreePartPath(final Map<String, String> matchList) {
         return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
                 + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
     }
