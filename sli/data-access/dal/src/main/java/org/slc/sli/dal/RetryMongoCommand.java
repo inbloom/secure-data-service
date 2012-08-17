@@ -16,8 +16,11 @@
 
 package org.slc.sli.dal;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Way to retry mongo commands
@@ -35,10 +38,50 @@ public class RetryMongoCommand {
     }
 
     /**
-     * Retry the specified mongo template command
+     * Retry inserting a record n times
      *
+     * @param record
+     *        record to insert
+     * @param collectionName
+     *        name of collection to insert new record
      *
+     * @return int
+     *        number of insert attempts, or 0 if unsuccessful
      */
-    public void retryMongoTemplateCommand() {
+    public <T> int insertWithRetries(T record, String collectionName) {
+        int tries = 0;
+        return tries;
+    }
+
+    /**
+     * Retry inserting a records batch n times
+     *
+     * @param records
+     *        records batch to insert
+     * @param collectionName
+     *        name of collection to insert new record
+     *
+     * @return int
+     *        number of insert attempts, or 0 if unsuccessful
+     */
+    public <T> int insertWithRetries(List<T> records, String collectionName) {
+        int tries = 0;
+        return tries;
+    }
+
+    /**
+     * Retry finding the first record in a collection n times
+     *
+     * @param record
+     *        record to insert
+     * @param collectionName
+     *        name of collection to insert new record
+     *
+     * @return int
+     *        number of insert attempts, or 0 if unsuccessful
+     */
+    public <T> int findOneWithRetries(Query query, Class<T> entityClass, String collectionName) {
+        int tries = 0;
+        return tries;
     }
 }
