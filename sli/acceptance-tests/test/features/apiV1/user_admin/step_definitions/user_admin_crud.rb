@@ -218,11 +218,11 @@ Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
   admin = apps.find { |app| app["name"] == "Admin Apps" }
   if should == "should"
     admin.should_not == nil
-    samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+    samt = admin["endpoints"].find { |ep| ep["name"] == "Admin Account Management" }
     samt.should_not == nil
   else
     if admin != nil
-      samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+      samt = admin["endpoints"].find { |ep| ep["name"] == "Admin Account Management" }
       samt.should == nil
     end
   end
