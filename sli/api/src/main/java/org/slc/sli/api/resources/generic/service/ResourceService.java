@@ -26,7 +26,7 @@ public interface ResourceService {
 
     public long getEntityCount(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public List<EntityBody> getEntities(String base, String id, String resource, UriInfo uriInfo);
+    public List<EntityBody> getEntities(String base, String id, String resource, URI requestURI);
 
     public List<EntityBody> getEntities(String base, String id, String association,
                                         String resource, UriInfo uriInfo);

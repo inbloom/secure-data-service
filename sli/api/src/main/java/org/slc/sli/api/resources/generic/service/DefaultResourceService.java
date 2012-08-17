@@ -180,10 +180,10 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     // TODO: change from UriInfo
-    public List<EntityBody> getEntities(final String base, final String id, final String resource, final UriInfo uriInfo) {
+    public List<EntityBody> getEntities(final String base, final String id, final String resource, final URI requestURI) {
         final EntityDefinition definition = getEntityDefinition(resource);
         List<EntityBody> entityBodyList;
-        final ApiQuery apiQuery = getApiQuery(definition, uriInfo);
+        final ApiQuery apiQuery = getApiQuery(definition, requestURI);
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
         } catch (final UnsupportedSelectorException e) {

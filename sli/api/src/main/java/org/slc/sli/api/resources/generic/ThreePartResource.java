@@ -32,7 +32,7 @@ public class ThreePartResource extends GenericResource {
             @Override
             public Response run(final String resourceName) {
                 final String base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.THREE_PART);
-                final List<EntityBody> results = resourceService.getEntities(base, id, resourceName, uriInfo);
+                final List<EntityBody> results = resourceService.getEntities(base, id, resourceName, uriInfo.getRequestUri());
                 return Response.ok(results).build();
             }
         });
