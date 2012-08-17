@@ -23,6 +23,7 @@ import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.Manager.EntityMapping;
 import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
+import org.slc.sli.dashboard.util.Constants;
 
 /**
  * Facilitates creation of logical aggregations of EdFi entities/associations
@@ -130,7 +131,7 @@ public interface PopulationManager {
     @EntityMapping("sectionInfo")
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
 
-    @EntityMapping("coursesAndGrades")
+    @EntityMapping(Constants.COURSES_AND_GRADES)
     public GenericEntity getCoursesAndGrades(String token, Object studentId, Config.Data config);
 
     /**
