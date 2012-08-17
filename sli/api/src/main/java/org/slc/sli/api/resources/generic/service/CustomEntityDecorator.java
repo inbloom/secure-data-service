@@ -17,7 +17,8 @@ public class CustomEntityDecorator implements EntityDecorator {
 
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
-        boolean includeCustomEntity = "true".equals(queryParams.get(ParameterConstants.INCLUDE_CUSTOM));
+        // TODO
+        final Boolean includeCustomEntity = Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_CALCULATED).get(0));
 
         if (includeCustomEntity) {
             String entityId = (String) entity.get("id");

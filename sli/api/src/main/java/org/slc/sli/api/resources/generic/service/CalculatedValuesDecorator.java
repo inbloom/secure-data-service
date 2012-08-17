@@ -17,7 +17,8 @@ import javax.ws.rs.core.MultivaluedMap;
 public class CalculatedValuesDecorator implements EntityDecorator {
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
-        boolean includeCalculatedValues = "true".equals(queryParams.get(ParameterConstants.INCLUDE_CALCULATED));
+        // TODO
+        final Boolean includeCalculatedValues = Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_CALCULATED).get(0));
 
         if (includeCalculatedValues) {
             String entityId = (String) entity.get("id");
