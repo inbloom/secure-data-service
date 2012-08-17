@@ -170,6 +170,11 @@ task :ingestionConcurrentJobErrorTest do
   runTests("test/features/ingestion/features/ingestion_concurrentJobErrorTest.feature")
 end
 
+desc "Run Ingestion Error/Warning Limitation Testing"
+task :ingestionErrorCountTest do
+  runTests("test/features/ingestion/features/ingestion_error_warning_count.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

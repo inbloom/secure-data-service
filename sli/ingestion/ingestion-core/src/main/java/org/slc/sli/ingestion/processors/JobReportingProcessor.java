@@ -294,9 +294,7 @@ public class JobReportingProcessor implements Processor {
 									resourceToWarningCount
 											.get(externalResourceId) + 1);
 						}
-						resourceToWarningCount
-								.put(externalResourceId, resourceToErrorCount
-										.get(externalResourceId) + 1);
+
 						errorWriter = getErrorWriter("warn", job.getId(),
 								externalResourceId, resourceToWarningMap,
 								landingZone);

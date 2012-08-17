@@ -189,8 +189,8 @@ default:
         
                 
         #Used to limit the total number of errors or warnings being printed   
-        sli.ingestion.staging.errorsCountPerInterchange: 1
-        sli.ingestion.staging.warningsCountPerInterchange: 1
+        sli.ingestion.staging.errorsCountPerInterchange: 100
+        sli.ingestion.staging.warningsCountPerInterchange: 100
 
     dashboard: &DASHBOARD-DEFAULT
 
