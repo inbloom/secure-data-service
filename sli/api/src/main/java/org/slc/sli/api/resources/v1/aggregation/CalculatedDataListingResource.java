@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.resources.aggregation;
+package org.slc.sli.api.resources.v1.aggregation;
 
 import java.util.List;
 
@@ -28,13 +28,14 @@ import org.slc.sli.domain.CalculatedDatum;
  * Resource for displaying aggregate listings
  *
  * @author nbrown
+ * @param <T> type of data to return
  *
  */
-public class CalculatedValueListingResource {
+public class CalculatedDataListingResource<T> {
 
-    private final CalculatedData<String> data;
+    private final CalculatedData<T> data;
 
-    public CalculatedValueListingResource(CalculatedData<String> data) {
+    public CalculatedDataListingResource(CalculatedData<T> data) {
         super();
         this.data = data;
     }
@@ -49,9 +50,9 @@ public class CalculatedValueListingResource {
      * @return
      */
     @GET
-    public Response getAggregates(@QueryParam("type") String type, @QueryParam("window") String window,
+    public Response getCalculatedValues(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
+        List<CalculatedDatum<T>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 

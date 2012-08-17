@@ -1,4 +1,4 @@
-@RALLY_US3047 @RALLY_US3370
+@smoke @RALLY_US3047 @RALLY_US3370
 Feature: SIF Smoke Test
 
 Background: Set my data store
