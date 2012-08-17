@@ -31,9 +31,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -341,4 +344,35 @@ public class EntityRepositoryTest {
         assertNull(this.repository.findOne("student", neutralQuery));
     }
 
+    @Test
+    public void testCreateRetry() {
+
+        Repository<Entity> mockRepo = Mockito.spy(repository);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).create("student", studentBody, studentMetaData, "student");
+        Mockito.doCallRealMethod().when(mockRepo).createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+
+        mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
+    }
+
+    @Test
+    public void testUpdateRetry() {
+        Repository<Entity> mockRepo = Mockito.spy(repository);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).update("student", entity);
+        Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
+
+        mockRepo.updateWithRetries("student", entity, noOfRetries);
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity);
+    }
 }

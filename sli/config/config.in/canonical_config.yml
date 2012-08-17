@@ -185,6 +185,9 @@ default:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
+        
+        # Number of retries for mongo operations in ingestion
+        sli.ingestion.totalRetries: 5
 
     dashboard: &DASHBOARD-DEFAULT
 

@@ -632,4 +632,17 @@ public class MockRepo implements Repository<Entity> {
 
         return (List<String>) obj;
     }
+
+
+    @Override
+    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        return null;
+    }
+
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+        return false;
+    }
 }
