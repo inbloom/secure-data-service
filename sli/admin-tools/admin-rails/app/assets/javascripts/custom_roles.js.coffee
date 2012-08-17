@@ -36,7 +36,7 @@ jQuery ->
 
   #Wire up reset to defaults
   $("#resetToDefaultsButton").click ->
-    if (confirm("Resetting to defaults will delete any existing role mappings and cannot be undone.  Are you sure you want to reset?"))
+    if (confirm("Resetting to default roles will remove any existing role mapping and will restore the default roles.  This operation cannot be undone.  Are you sure you want to reset?"))
       populateTable(default_roles)
       saveData(getJsonData())
 
