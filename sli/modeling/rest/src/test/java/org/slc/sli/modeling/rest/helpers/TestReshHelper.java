@@ -83,8 +83,11 @@ public class TestReshHelper {
 
         Param r2p1 = new Param(NAME, ParamStyle.TEMPLATE, R2P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
                 FIXED, PATH, DOC, OPTIONS, LINK);
-        List<Param> r2Params = new ArrayList<Param>(1);
+        Param r2pNonTemplate = new Param(NAME, ParamStyle.QUERY, "nontemplate", TYPE_QNAME, DEFAULT_VALUE, REQUIRED,
+                REPEATING, FIXED, PATH, DOC, OPTIONS, LINK);
+        List<Param> r2Params = new ArrayList<Param>(2);
         r2Params.add(r2p1);
+        r2Params.add(r2pNonTemplate);
         Resource r2 = new Resource(R2_ID, TYPE, QUERY_TYPE, PATH, DOC, r2Params, METHODS, RESOURCES);
 
         Param r3p1 = new Param(NAME, ParamStyle.TEMPLATE, R3P1_ID, TYPE_QNAME, DEFAULT_VALUE, REQUIRED, REPEATING,
