@@ -17,7 +17,6 @@
 package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +56,7 @@ public class ConfigController extends GenericLayoutController {
     private static final String DASHBOARD_CONFIG_FTL = "dashboard_config.ftl";
     private static final String CONFIG_URL = "/service/config";
     private static final String CONFIG_SAVE_URL = "/service/config/ajaxSave";
-    private static final String CONFIG_ALL = "/s/c/allCfg";
+    private static final String CONFIG_ALL = "/s/c/cfg/all";
     
     private UserEdOrgManager userEdOrgManager;
     private ConfigManager configManager;
@@ -211,7 +210,7 @@ public class ConfigController extends GenericLayoutController {
     @RequestMapping(value = CONFIG_ALL, method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Collection<Config>> handleConfigPanels(
-            @RequestParam(value = "type", required = false) String configType, final HttpServletRequest request,
+            @RequestParam Map<String, String> configType, final HttpServletRequest request,
             HttpServletResponse response) {
         
         String token = SecurityUtil.getToken();

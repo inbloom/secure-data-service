@@ -17,6 +17,7 @@
 package org.slc.sli.dashboard.manager.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -90,9 +91,11 @@ public class ConfigManagerImplTest {
         configManager.setDriverConfigLocation("config");
         configManager.setUserConfigLocation("custom");
         
+        Map<String,String> params=new HashMap<String,String>();
+        params.put("type", "PANEL");
         String edOrgId = "2012de-df94acd2-e7cd-11e1-a937-68a86d3c2f82";
         Map<String, Collection<Config>> mapConfigs = configManager.getAllConfigByType("token", new EdOrgKey(edOrgId),
-                "PANEL");
+                params);
         
         Assert.assertEquals(3, mapConfigs.size());
         Collection<Config> defaultConfig = mapConfigs.get("default");

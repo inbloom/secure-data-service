@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,11 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     
     private String driverConfigLocation;
     private String userConfigLocation;
+    
+    private static String LAYOUT_NAME = "layoutName";
+    private static String LAYOUT = "layout";
+    private static String DEFAULT = "default";
+    private static String TYPE = "type";
     
     public ConfigManagerImpl() {
     }
@@ -360,28 +366,67 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), newConfigMap);
     }
     
+    // determine target config needs to be filtered
+    private boolean filterConfig(Config config, String layoutName) {
+        boolean filterConfig = false;
+        // if a client requests specific layout,
+        // then filter layout.
+        if (layoutName != null) {
+            
+            filterConfig = true;
+            Map<String, Object> configParams = config.getParams();
+            if (configParams != null) {
+                List<String> layouts = (List<String>) configParams.get(LAYOUT);
+                if (layouts != null) {
+                    for (String layout : layouts) {
+                        if (layoutName.equals(layout)) {
+                            filterConfig = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return filterConfig;
+    }
+    
     @Override
-    public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey, String type) {
+    public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey,
+            Map<String, String> params) {
         Map<String, Collection<Config>> allConfigs = new HashMap<String, Collection<Config>>();
         
         // configIdLookup is used to check parentId from Custom Config exists in Driver Config
         Set<String> configIdLookup = new HashSet<String>();
         
         Map<String, String> attribute = new HashMap<String, String>();
-        if (type != null) {
-            attribute.put("type", type);
+        String layoutName = null;
+        String type = null;
+        if (params != null) {
+            type = params.get(TYPE);
+            if (type != null) {
+                attribute.put(TYPE, type);
+            }
+            layoutName = params.get(LAYOUT_NAME);
         }
         
         // get Driver Config by specified attribute
         Collection<Config> driverConfigs = getConfigsByAttribute(token, edOrgKey, attribute, false);
         
+        // filter config by layout name
+        // and
         // build lookup index
-        for (Config driverConfig : driverConfigs) {
-            configIdLookup.add(driverConfig.getId());
+        Iterator<Config> configIterator = driverConfigs.iterator();
+        while (configIterator.hasNext()) {
+            Config driverConfig = configIterator.next();
+            if (filterConfig(driverConfig, layoutName)) {
+                configIterator.remove();
+            } else {
+                configIdLookup.add(driverConfig.getId());
+            }
         }
         
         // add DriverConfig to a returning object
-        allConfigs.put("default", driverConfigs);
+        allConfigs.put(DEFAULT, driverConfigs);
         
         // read edOrg custom config recursively
         APIClient apiClient = getApiClient();
@@ -394,14 +439,18 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             if (customConfigMap != null) {
                 Map<String, Config> configByMap = customConfigMap.getConfig();
                 Collection<Config> customConfigs = configByMap.values();
-                for (Config customConfig : customConfigs) {
+                Iterator<Config> customConfigIterator = customConfigs.iterator();
+                while (customConfigIterator.hasNext()) {
+                    Config customConfig = customConfigIterator.next();
                     if (type == null || customConfig.getType().toString().equals(type)) {
                         
                         // if parentId from customConfig does not exist in DriverConfig,
                         // then ignore.
                         String parentId = customConfig.getParentId();
                         if (parentId != null && configIdLookup.contains(parentId)) {
-                            customConfigByType.add(customConfig);
+                            if (!filterConfig(customConfig, layoutName)) {
+                                customConfigByType.add(customConfig);
+                            }
                         }
                     }
                 }
