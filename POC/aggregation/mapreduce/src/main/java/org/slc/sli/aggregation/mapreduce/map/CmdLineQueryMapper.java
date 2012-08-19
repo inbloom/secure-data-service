@@ -22,13 +22,13 @@ import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
 
-import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
-
 /**
  * CmdLineQueryMapper - Mapper that takes the map query on the command line as a standard
  * mongo query string.
  */
 public class CmdLineQueryMapper extends IDMapper {
+
+    public static final String COMMAND_LINE_QUERY_PROPERTIES = "command_line_query";
 
     @Override
     public void setup(Context context) throws InterruptedException, IOException {
@@ -37,8 +37,7 @@ public class CmdLineQueryMapper extends IDMapper {
         Configuration conf = context.getConfiguration();
 
         String[] propertyNames =
-            conf.getStrings(ConfigurableMapper.mapper_entry.COMMAND_LINE_QUERY_PROPERTIES
-                .toString());
+            conf.getStrings(COMMAND_LINE_QUERY_PROPERTIES);
 
         if (propertyNames == null) {
             throw new IllegalArgumentException(
@@ -59,8 +58,4 @@ public class CmdLineQueryMapper extends IDMapper {
         MongoConfigUtil.setQuery(conf, query);
     }
 
-    public CmdLineQueryMapper(Class<? extends EmittableKey> keyType, String[] keyFields)
-        throws InstantiationException, IllegalAccessException {
-        super(keyType, keyFields);
-    }
 }

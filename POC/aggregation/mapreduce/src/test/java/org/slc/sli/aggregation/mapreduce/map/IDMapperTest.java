@@ -38,7 +38,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
-import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * IDMapperTest
@@ -62,7 +61,7 @@ public class IDMapperTest {
         BSONObject entry = new BasicBSONObject("data", data);
         final BSONWritable entity = new BSONWritable(entry);
 
-        IDMapper mapper = new IDMapper(IdFieldEmittableKey.class, fields);
+        IDMapper mapper = new IDMapper();
 
         IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
@@ -96,6 +95,7 @@ public class IDMapperTest {
         mapper.map(id, entity, context);
     }
 
+    /**
     @SuppressWarnings("unchecked")
     @Test
     public void testMapTenantAndIdKey() throws Exception {
@@ -110,7 +110,7 @@ public class IDMapperTest {
         BSONObject tenantId = new BasicBSONObject("tenantId", "Midgar");
         entity.put("metaData", tenantId);
 
-        IDMapper mapper = new IDMapper(TenantAndIdEmittableKey.class, fields);
+        IDMapper mapper = new IDMapper();
         IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
@@ -146,5 +146,5 @@ public class IDMapperTest {
         id.setFieldNames(fields);
         mapper.map(id, entity, context);
     }
-
+    */
 }
