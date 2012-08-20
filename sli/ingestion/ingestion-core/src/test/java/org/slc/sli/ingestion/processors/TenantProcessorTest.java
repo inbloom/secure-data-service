@@ -174,9 +174,9 @@ public class TenantProcessorTest {
     public void testPreLoad() {
         File landingZone = Files.createTempDir();
         try {
-            String fileName = "zip/ValidZip.zip";
-            tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList(fileName));
-            assertTrue(new File(landingZone, "ValidZip.zip").exists());
+            String fileName = "SmallSampleDataSet/InterchangeAssessmentMetadata-ACT.xml";
+            assertTrue(tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList(fileName)));
+            assertTrue(new File(landingZone, "InterchangeAssessmentMetadata-ACT.xml").exists());
         } finally {
             landingZone.delete();
         }

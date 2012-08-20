@@ -194,6 +194,8 @@ default:
         sli.ingestion.errorsCountPerInterchange: 5
         sli.ingestion.warningsCountPerInterchange: 5
 
+        sli.ingestion.sampleDataSet.directory: ../../acceptance-tests/test/features/ingestion/test_data
+
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context
