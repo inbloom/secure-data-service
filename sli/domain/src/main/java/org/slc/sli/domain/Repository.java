@@ -26,6 +26,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 
 /**
@@ -162,6 +163,17 @@ public interface Repository<T> {
     public boolean update(String collection, T object);
 
     /**
+     * Make an update to an entity.
+     * Note, this does not go through the validator, caller is expected to ensure the update will keep the object valid
+     *
+     * @param collection the collection the entity is in
+     * @param id the id of the entity
+     * @param update the update to make
+     * @return whether or not the object was updated
+     */
+    public boolean doUpdate(String collection, String id, Update update);
+
+    /**
      * @param collectionName
      *            the name of the collection to delete from
      * @param id
@@ -190,14 +202,14 @@ public interface Repository<T> {
      * @return the mongo db collection
      */
     public DBCollection getCollection(String collectionName);
-    
+
     /**
      * Get the available collections.
-     * 
+     *
      * @return List<DBCollections> collections.
      */
     public List<DBCollection> getCollections(boolean includeSystemCollections);
-    
+
     /**
      * @param collectionName
      *            the name of the collection to look in
