@@ -59,7 +59,7 @@ public class AgentManagerTest {
     private Zone mockZone;
 
     public static final String TEST_ZONE_NAME = "TestZone";
-    public static final String SUBSCRIBE_DATA_TYPE = "StudentPersonal";
+    public static final String SUBSCRIBE_DATA_TYPE = "StudentDTD.StudentPersonal";
 
     @Before
     public void setup() {

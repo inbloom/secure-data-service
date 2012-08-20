@@ -99,7 +99,9 @@ public class EventReporterTest extends EventReporterAdkTest {
                 CommonDTD.STUDENTLEARELATIONSHIP,
                 StudentDTD.STAFFPERSONAL,
                 HrfinDTD.EMPLOYEEPERSONAL,
-                StudentDTD.STAFFASSIGNMENT
+                StudentDTD.STAFFASSIGNMENT,
+                HrfinDTD.EMPLOYEEASSIGNMENT,
+                HrfinDTD.EMPLOYMENTRECORD
         };
 
         Mockito.verify(zone, Mockito.times(expectedPublishingTypes.length)).setPublisher(Mockito.eq(eventReporter),
