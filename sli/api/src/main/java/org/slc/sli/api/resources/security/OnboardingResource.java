@@ -17,6 +17,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class OnboardingResource {
     public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
     public static final String ADDRESS_POSTAL_CODE = "postalCode";
     public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
-    public static final String PRELOAD_FILE_ID = "preloadFile";
+    public static final String PRELOAD_FILES_ID = "preloadFiles";
 
     private final String landingZoneServer;
 
@@ -97,7 +98,7 @@ public class OnboardingResource {
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
-        String preloadFile = reqBody.get(PRELOAD_FILE_ID);
+        String preloadFiles = reqBody.get(PRELOAD_FILES_ID);
 
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
@@ -111,8 +112,8 @@ public class OnboardingResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        Response r = createEdOrg(orgId, tenantId, preloadFile);
-
+        List<String> preloadFilesList = (preloadFiles == null) ? (null) : Arrays.asList(preloadFiles.split(","));
+        Response r = createEdOrg(orgId, tenantId, preloadFilesList);
         return r;
     }
 
@@ -125,7 +126,7 @@ public class OnboardingResource {
      *            The EdOrg tenant identifier.
      * @return Response of the request as an HTTP Response.
      */
-    public Response createEdOrg(final String orgId, final String tenantId, final String preloadFile) {
+    public Response createEdOrg(final String orgId, final String tenantId, final List<String> preloadFiles) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
@@ -169,7 +170,7 @@ public class OnboardingResource {
         }
 
         try {
-            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, preloadFile, isSandboxEnabled);
+            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, preloadFiles, isSandboxEnabled);
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
