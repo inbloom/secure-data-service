@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mongodb.MongoException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
@@ -88,20 +87,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries) {
-        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
-        while (noOfRetries > 0) {
-            try {
-                entity = create(type, body, metaData, collectionName);
-                break;
-            } catch (MongoException me) {
-                if (me.getCode() == 11000) {
-                    break;
-                }
-                noOfRetries--;
+    public Entity createWithRetries(final String type, final Map<String, Object> body, final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return create(type, body, metaData, collectionName);
             }
-        }
-        return entity;
+        };
+        return (Entity) rc.executeOperation(noOfRetries);
     }
 
     @Override
@@ -149,20 +143,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public boolean updateWithRetries(String collection, Entity entity, int noOfRetries) {
-        boolean result = false;
-        while (noOfRetries > 0) {
-            try {
-                result = update(collection, entity);
-                break;
-            } catch (MongoException me) {
-                if (me.getCode() == 11000) {
-                    break;
-                }
-                noOfRetries--;
+    public boolean updateWithRetries(final String collection, final Entity entity, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return update(collection, entity);
             }
+        };
+        Object result = rc.executeOperation(noOfRetries);
+        if (result != null) {
+            return (Boolean) result;
+        } else {
+            return false;
         }
-        return result;
+
     }
 
     @Override

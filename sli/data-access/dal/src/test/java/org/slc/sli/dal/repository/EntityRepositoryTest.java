@@ -346,6 +346,35 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCreateRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+
+        repository.deleteAll("student");
+        repository.createWithRetries("student", buildTestStudentEntity(), studentMetaData, "student", 5);
+        assertEquals(1, repository.count("student", new NeutralQuery()));
+    }
+
+    @Test
+    public void testUpdateRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        repository.deleteAll("student");
+
+        repository.create("student", buildTestStudentEntity());
+
+        Entity entity = repository.findOne("student", new NeutralQuery());
+        Map<String, Object> studentBody = entity.getBody();
+        studentBody.put("cityOfBirth", "ABC");
+
+        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData(), 300);
+        repository.updateWithRetries("student", studentEntity, 5);
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
+        assertEquals(1, repository.count("student", neutralQuery));
+    }
+
+    @Test
+    public void testCreateRetryWithError() {
 
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
@@ -361,18 +390,18 @@ public class EntityRepositoryTest {
     }
 
     @Test
-    public void testUpdateRetry() {
+    public void testUpdateRetryWithError() {
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
         int noOfRetries = 5;
 
-        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).update("student", entity);
+        Mockito.doThrow(new MongoException(11001, "Test Exception")).when(mockRepo).update("student", entity);
         Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
 
         mockRepo.updateWithRetries("student", entity, noOfRetries);
 
-        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity);
+        Mockito.verify(mockRepo, Mockito.times(1)).update("student", entity);
     }
 }
