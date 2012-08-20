@@ -16,15 +16,16 @@ import java.util.List;
  */
 
 public interface ResourceService {
-    public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI);
 
-    public List<EntityBody> getEntities(Resource resource, URI requestURI,
-                                        MultivaluedMap<String, String> requestParams, boolean getAllEntities);
+    public List<EntityBody> getEntities(Resource resource, URI requestURI, boolean getAllEntities);
 
-    public List<EntityBody> getEntities(String base, String id, Resource resource, URI requestURI);
+    public List<EntityBody> getEntities(Resource base, String id, Resource resource, URI requestURI);
 
-    public List<EntityBody> getEntities(String base, String id, String association,
-                                        Resource resource, UriInfo uriInfo);
+    public List<EntityBody> getEntities(Resource base, String id, Resource association,
+                                        Resource resource, URI requestURI);
+
+    public long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
     public String postEntity(Resource resource, EntityBody entity);
 
@@ -32,10 +33,5 @@ public interface ResourceService {
 
     public void deleteEntity(Resource resource, String id);
 
-    public Long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
-
     public String getEntityType(Resource resource);
-
-    public EntityDefinition getEntityDefinition(Resource resource);
-
 }

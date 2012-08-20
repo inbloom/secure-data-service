@@ -30,6 +30,11 @@ public enum XmiAttributeName {
      */
     IS_NAVIGABLE("isNavigable"),
     /**
+     *
+     *
+     */
+    ASSOCIATED_ATTRIBUTE_NAME("associatedAttributeName"),
+    /**
      * The lower bound attribute used by XMI (lower).
      */
     LOWER("lower"),

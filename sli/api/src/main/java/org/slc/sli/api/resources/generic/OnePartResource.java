@@ -38,8 +38,7 @@ public class OnePartResource extends GenericResource {
             @Override
             public List<EntityBody> run(Resource resource) {
 
-                return resourceService.getEntities(resource, uriInfo.getRequestUri(),
-                        uriInfo.getQueryParameters(), false);
+                return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
             }
         });
     }

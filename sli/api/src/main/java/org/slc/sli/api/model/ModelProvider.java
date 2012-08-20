@@ -185,5 +185,14 @@ public class ModelProvider {
 
         return null;
     }
+    public String getConnectionPath(final ClassType fromEntityType, final ClassType toEntityType) {
+        List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
+        for (AssociationEnd end : associationEnds) {
+            if(toEntityType.getId().equals(end.getType())) {
+                return end.getAssociatedAttributeName();
+            }
+        }
+        return null;
+    }
 }
 

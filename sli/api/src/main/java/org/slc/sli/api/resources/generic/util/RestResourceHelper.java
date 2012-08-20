@@ -1,5 +1,8 @@
 package org.slc.sli.api.resources.generic.util;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
@@ -7,7 +10,7 @@ import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author jstokes
  */
@@ -19,16 +22,20 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
 
-    @Override
-    public String getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
-        final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return matchList.get(VERSION_KEY) + SEP + matchList.get(RESOURCE_KEY);
-    }
+    @Autowired
+    private EntityDefinitionStore entityDefinitionStore;
 
     @Override
-    public String getBaseName(final UriInfo uriInfo, final ResourceTemplate template) {
+    public Resource getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return matchList.get(BASE_KEY);
+        return getResource(RESOURCE_KEY,matchList);
+    }
+
+
+    @Override
+    public Resource getBaseName(final UriInfo uriInfo, final ResourceTemplate template) {
+        final Map<String, String> matchList = getMatchList(uriInfo, template);
+        return getResource(BASE_KEY,matchList);
     }
 
     @Override
@@ -54,9 +61,13 @@ public class RestResourceHelper implements ResourceHelper {
     }
 
     @Override
-    public String getAssociationName(final UriInfo uriInfo, final ResourceTemplate template) {
+    public Resource getAssociationName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return matchList.get(ASSOCIATION_KEY);
+        return getResource(ASSOCIATION_KEY,matchList);
+    }
+    @Override
+    public EntityDefinition getEntityDefinition(final Resource resource) {
+        return entityDefinitionStore.lookupByResourceName(resource.getResourceType());
     }
 
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
@@ -76,5 +87,12 @@ public class RestResourceHelper implements ResourceHelper {
     private String getThreePartPath(final Map<String, String> matchList) {
         return matchList.get(VERSION_KEY) + SEP + matchList.get(BASE_KEY)
                 + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
+    }
+
+    private Resource getResource(final String resourceType,final Map<String, String> matchList) {
+        String namespace = matchList.get(VERSION_KEY);
+        String type =  matchList.get(resourceType);
+        return new Resource(namespace, type);
+
     }
 }
