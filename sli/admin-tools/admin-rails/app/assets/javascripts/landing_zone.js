@@ -70,10 +70,12 @@ $(document).ready(function() {
     }
     $("input[type=radio][id!=custom]").click(function() {
 	$("#custom_ed_org").attr("disabled","disabled");
-	$("#provisionButton").removeAttr("disabled")
+	$("#provisionButton").removeAttr("disabled");
+	$("#sample_data_select").removeAttr("disabled")
     });
     $("#custom").click(function() {
       $("#custom_ed_org").removeAttr("disabled");
+      $("#sample_data_select").attr("disabled","disabled");
       buttonEnableForCustom()
     });
     $("#custom_ed_org").bind('input propertychange', buttonEnableForCustom); 

@@ -30,6 +30,17 @@ class LandingZone
     []
     end
   end
+  
+  def self.possible_sample_data
+    if APP_CONFIG["is_sandbox"]
+      sample_data=[]
+      sample_data << [ "Small Dataset (40k Records)","small"]
+      sample_data << ["Medium Dataset (400k Records)","medium"]
+      return sample_data
+    else
+      return []
+    end
+  end
 
   def self.provision(edorg_id, tenant, uid, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
