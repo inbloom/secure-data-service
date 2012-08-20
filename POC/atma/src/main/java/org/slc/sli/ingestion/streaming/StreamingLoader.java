@@ -10,10 +10,10 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import org.apache.log4j.Logger;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 @Component
 public class StreamingLoader {
@@ -23,12 +23,16 @@ public class StreamingLoader {
 
 	@Resource
 	private TypeProvider tp;
+	
+	@Resource
+	private VersionAwareAdapter va;
 
 	public void process(Reader reader) throws XMLStreamException {
 		XMLEventReader r = XMLInputFactory.newInstance().createXMLEventReader(reader);
 
 		String rootNodeName = "InterchangeBulk";
 
+		StopWatch sw = new StopWatch();
 		while (true) {
 			XMLEvent e = r.nextEvent();
 
@@ -36,9 +40,13 @@ public class StreamingLoader {
 				break;
 			} else if (e.getEventType() == XMLEvent.START_ELEMENT && tp.isComplexType(e.asStartElement().getName().getLocalPart())) {
 				Map<String, Object> entity = parseMap(r, e.asStartElement().getName().getLocalPart());
-				repo.create(e.asStartElement().getName().getLocalPart(), entity);
+				sw.start();
+				repo.create(e.asStartElement().getName().getLocalPart(), va.adapt(entity));
+				sw.stop();
 			}
 		}
+		
+		System.out.println("~~"+sw.getTotalTimeMillis());
 	}
 
 	private Map<String, Object> parseMap(XMLEventReader r, String nodeName) throws XMLStreamException {
@@ -50,7 +58,6 @@ public class StreamingLoader {
 			if (e.getEventType() == XMLEvent.START_ELEMENT) {
 				String elementName = e.asStartElement().getName().getLocalPart();
 
-				System.out.println("Processing: " + elementName);
 				if (tp.isComplexType(elementName)) {
 					result.put(elementName, parseMap(r, elementName));
 				} else {

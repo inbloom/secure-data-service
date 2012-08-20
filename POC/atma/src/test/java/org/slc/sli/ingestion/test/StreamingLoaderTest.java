@@ -14,6 +14,7 @@ import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StopWatch;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/ctx.xml", "/spring/db.xml" })
@@ -40,6 +41,25 @@ public class StreamingLoaderTest {
 
 	@Test
 	public void testParsing() throws Throwable {
+		StopWatch sw = new StopWatch();
+		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
+		sw.stop();
+		
+		System.out.println(sw.getTotalTimeMillis());
+		
+		sw = new StopWatch();
+		sw.start();
+		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
+		sw.stop();
+		
+		System.out.println(sw.getTotalTimeMillis());
+		
+		sw = new StopWatch();
+		sw.start();
+		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
+		sw.stop();
+		
+		System.out.println(sw.getTotalTimeMillis());
 	}
 }
