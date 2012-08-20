@@ -82,7 +82,8 @@ $(document).ready(function() {
     if($("#custom").attr("type") == "radio"){
       $("#custom_ed_org").attr("disabled","disabled")
     }
-    $("#provisionButton").attr("disabled", "disabled")
+    $("#provisionButton").attr("disabled", "disabled");
+    $("#sample_data_select").attr("disabled","disabled")
   }
 
 })
