@@ -56,7 +56,7 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
                 if (resourceTemplate.getResourceClass() != null && !resourceTemplate.getResourceClass().isEmpty()) {
                     Class resourceClass = Class.forName(resourceTemplate.getResourceClass());
 
-                    getExplicitRootResources().put(PREFIX + resource.getKey(), resourceClass);
+                    getExplicitRootResources().put(resource.getKey(), resourceClass);
                 }
             }
 

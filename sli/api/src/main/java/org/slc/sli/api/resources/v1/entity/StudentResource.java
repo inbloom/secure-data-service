@@ -51,9 +51,9 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
  * @author jstokes
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
-@Component
-@Scope("request")
+//@Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
+//@Component
+//@Scope("request")
 public class StudentResource extends DefaultCrudResource {
 
     public static final String UNIQUE_STATE_ID = "studentUniqueStateId";
