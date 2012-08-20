@@ -1,8 +1,6 @@
 package org.slc.sli.aggregation;
 
-import java.io.InputStream;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -10,7 +8,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
-import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
@@ -21,9 +18,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
-import org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat;
-import org.slc.sli.aggregation.mapreduce.map.ConfigurableMapper;
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.ConfigurableCalculatedValue;
+import org.slc.sli.aggregation.mapreduce.reduce.Highest;
 
 
 /**
@@ -46,13 +42,9 @@ public class HighestEver extends Configured implements Tool {
 
         conf.set(ScoreMapper.SCORE_TYPE, "Scale score");
         conf.set(MongoAggFormatter.UPDATE_FIELD, "calculatedValues.assessments." + assmtIDCode + ".HighestEver.ScaleScore");
-
-        InputStream s = getClass().getClassLoader().getResourceAsStream("HighestEverForAssessment.json");
-        String singleMapperConf = new Scanner(s, "UTF-8").useDelimiter("\\A").next();
-        conf.set(ConfigurableMapper.CHAIN_CONF, singleMapperConf);
         conf.set("@ID@", assmtId);
 
-        JobConf jobConf = ConfigurableMapper.parseMapper(conf);
+        JobConf jobConf = ConfigurableCalculatedValue.parseMapper(conf, "HighestEverForAssessment.json");
 
         // we must specify an input and output collection to calculate splits.
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
@@ -62,13 +54,8 @@ public class HighestEver extends Configured implements Tool {
 
         Job job = new Job(jobConf);
 
-        job.setCombinerClass(Highest.class);
+        // job.setCombinerClass(Highest.class);
         job.setReducerClass(Highest.class);
-
-        job.setInputFormatClass(MongoIdInputFormat.class);
-        job.setOutputKeyClass(IdFieldEmittableKey.class);
-        job.setOutputValueClass(BSONWritable.class);
-        job.setOutputFormatClass(MongoAggFormatter.class);
 
         boolean success = job.waitForCompletion(true);
 

@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.slc.sli.aggregation.mapreduce.reduce.Highest;
+
 /**
  * HighestTest - Test the Highest Ever Map/Reduce job using known values.
  */

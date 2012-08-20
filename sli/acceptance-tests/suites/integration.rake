@@ -21,8 +21,14 @@ task :rcDashboardTests do
   runTests("test/features/dashboard/dash/dashboard_rc_integration.feature")
 end
 
+desc "Run RC SAMT Tests"
+task :rcSamtTests do
+  runTests("test/features/cross_app_tests/rc_integration_samt.feature")
+end
+
 desc "Run RC Tests"
-task :rcTests => [:rcIngestionTests, 
+task :rcTests => [:rcSamtTests,
+                  :rcIngestionTests,
                   :rcAppApprovalTests,
                   :rcDashboardTests] do
   displayFailureReport()
