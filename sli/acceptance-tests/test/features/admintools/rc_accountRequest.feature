@@ -39,14 +39,11 @@ Scenario: As an SLC Operator I want to approve the app developer account
   Then I should be on the admin page
   And I click on Account Approval
   Then I should be on the Authorize Developer Account page
-  Then I see an account with name "Chen Cheng"
-  And their account status is "approved"
-  When I click on the "Disable" button
-    And I get asked "Do you really want to disable this user account?"
-    When I click on Ok
-  Then their account status changed to "disabled"
+  Then I see one account with name "RCTest Developer"
+  And his account status is "pending"
+  When I click the "Approve" button
+  And I am asked "Do you really want to approve this user account?"
+  When I click on Ok
+  Then his account status changed to "approved"
   And I should see "Account was successfully updated"
-
-
-
 

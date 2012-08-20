@@ -107,11 +107,8 @@ def check_email_for_verification(subject_substring = nil, content_substring)
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
 
-Given /^test$/ do
-  check_email_for_verification
-end
-
-Then /^I see an account with name "([^"]*)"$/ do |user_name|
+Then /^I see one account with name "([^"]*)"$/ do |user_name|
+ user_name = user_name+"_"+Socket.gethostname
   puts "And i am looking to find the element with id username.", user_name
   user=@driver.find_element(:id,"username."+user_name)
   assert(user.text==user_name,"didnt find the account with name #{user_name}")
@@ -123,12 +120,8 @@ Then /^their account status is "([^"]*)"$/ do |arg1|
   assert(status.text==arg1,"user account status is not #{arg1}")
 end
 
-When /^I click on the "([^"]*)" button$/ do |button_name|
-  @driver.find_element(:id,button_name.downcase+"_button_"+@user_name).click
-end
-
-When /^I get asked "([^"]*)"$/ do |arg1|
-     # do nothing
+When /^I am asked "([^"]*)"$/ do |arg1|
+   # do nothing
 end
 
 Then /^their account status changed to "([^"]*)"$/ do |arg1|
@@ -160,7 +153,5 @@ end
 Then /^I should be on the Authorize Developer Account page$/ do
   assert(@driver.page_source.include?("Authorize Developer Account"))
 end
-
-
 
 
