@@ -1180,99 +1180,20 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
-		<xs:documentation> An association between the section and bell schedule.
-		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">
-		<xs:sequence> <xs:element name="bellScheduleId" type="xs:string"> <xs:annotation>
-		<xs:documentation> The bell schedule the section is scheduled in </xs:documentation>
-		</xs:annotation> </xs:element> <xs:element name="sectionId" type="xs:string">
-		<xs:annotation> <xs:documentation> The section being offered </xs:documentation>
-		</xs:annotation> </xs:element> </xs:sequence> </xs:extension> </xs:complexContent>
-		</xs:complexType> -->
-    <xs:complexType name="session">
+    <xs:complexType name="SLI-Session">
         <xs:annotation>
-            <xs:documentation>This entity represents the prescribed span of time
-                when an education institution is open, instruction is provided, and
-                students are under the direction and guidance of teachers and/or
-                education institution administration. A session may be interrupted
-                by one or more vacations.
+            <xs:documentation>This entity represents the prescribed span of time when an education institution is open,
+                instruction is provided, and students are under the direction and guidance of teachers and/or education
+                institution administration. A session may be interrupted by one or more vacations.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>session</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="sessionName" type="identificationCode">
-                <xs:annotation>
-                    <xs:documentation>The identifier for the calendar for the academic
-                        session (e.g., 2010/11, 2011 Summer).
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolYear" type="schoolYearType">
-                <xs:annotation>
-                    <xs:documentation>The identifier for the school year.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="term" type="termType">
-                <xs:annotation>
-                    <xs:documentation>The term for the session during the school year.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="beginDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>Month, day and year of the first day of the
-                        session.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="endDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>Month, day and year of the last day of the
-                        session.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="totalInstructionalDays" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>The total number of instructional days in the
-                        school calendar.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="gradingPeriodReference" type="reference"
-                        maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The grading periods that take place during
-                        the session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolId" type="reference" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>The education organization referenced by this session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="Session">
+                <xs:sequence>
+                    <!-- NOTE No CalendarDateReference or AcademicWeekReference currently in SLI Session. -->
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="school">
@@ -1642,19 +1563,10 @@
 
     <xs:complexType name="SLI-Student">
         <xs:annotation>
-            <xs:documentation>This entity represents an individual for whom
-                instruction, services
-                and/or care are provided in an early childhood,
-                elementary or secondary
-                educational
-                program under the jurisdiction of
-                a school, education agency, or other
-                institution
-                or program. A student
-                is a person who has been enrolled in a school or
-                other
-                educational
-                institution.
+            <xs:documentation>This entity represents an individual for whom instruction, services and/or care are
+                provided in an early childhood, elementary or secondary educational program under the jurisdiction of a
+                school, education agency, or other institution or program. A student is a person who has been enrolled
+                in a school or other educational institution.
             </xs:documentation>
             <xs:appinfo>
                 <sli:CollectionType>student</sli:CollectionType>
@@ -1726,14 +1638,12 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <!-- TODO BEGIN -->
-                    <xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="SLI-Attendance" type="SLI-Attendance" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Attendance records of the student per school.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <!-- TODO END -->
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -4068,12 +3978,12 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="attendance">
+    <!-- TODO SLI-Attendance -->
+    <xs:complexType name="SLI-Attendance">
         <xs:annotation>
             <xs:documentation>
-                Daily attendance for the student at the school.
-                Attendance is partitioned by school year. School years must be
-                unique per school year attendance.
+                Daily attendance for the student at the school. Attendance is partitioned by school year. School years
+                must be unique per school year attendance.
             </xs:documentation>
             <xs:appinfo>
                 <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
