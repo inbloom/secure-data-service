@@ -2585,7 +2585,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="assessmentAssociations" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Assessments associated with the student.
                     </xs:documentation>
@@ -2778,7 +2778,7 @@
         </xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentAssessmentAssociation">
+	<xs:complexType name="studentAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity represents the analysis or scoring of a
 				student's response on an assessment. The analysis results in a value

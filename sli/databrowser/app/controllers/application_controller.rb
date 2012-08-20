@@ -123,7 +123,6 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         begin
           @header = PortalHeader.get("", :isAdmin => true)
-          logger.debug {"Header is #{@header}"}
           @footer = PortalFooter.get("", :isAdmin => true)
         rescue Exception => e
           logger.warn
