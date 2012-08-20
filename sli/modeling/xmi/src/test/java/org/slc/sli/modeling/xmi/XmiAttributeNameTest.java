@@ -31,6 +31,7 @@ public class XmiAttributeNameTest {
     public void testEnumValues() {
         for (XmiAttributeName xmiAttributeName : XmiAttributeName.values()) {
             assertTrue(xmiAttributeName.getLocalName() != null);
+            assertTrue(xmiAttributeName == XmiAttributeName.valueOf(xmiAttributeName.toString()));
         }
     }
 }

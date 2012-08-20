@@ -37,6 +37,7 @@ public class XmiElementNameTest {
             String localName = xmiElementName.getLocalName();
             XmiElementName retrievedElementName = XmiElementName.getElementName(localName);
             assertTrue(retrievedElementName == xmiElementName);
+            assertTrue(xmiElementName == XmiElementName.valueOf(xmiElementName.toString()));
         }
     }
 
