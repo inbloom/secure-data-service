@@ -4,7 +4,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
-import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -15,7 +14,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,9 +38,6 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private LogicalEntity logicalEntity;
-
-    @Autowired
-    private ResourceHelper resourceHelper;
 
     @Autowired
     private List<EntityDecorator> entityDecorators;
@@ -114,7 +109,8 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public List<EntityBody> getEntities(final Resource resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
+    public List<EntityBody> getEntities(final Resource resource, final URI requestURI,
+                                        final MultivaluedMap<String, String> queryParams, final boolean getAllEntities) {
 
         return handle(resource, queryParams, new ServiceLogic() {
             @Override
@@ -122,7 +118,7 @@ public class DefaultResourceService implements ResourceService {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
-                if (shouldReadAll()) {
+                if (getAllEntities) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
 
                         @Override
@@ -141,10 +137,6 @@ public class DefaultResourceService implements ResourceService {
                 return (List<EntityBody>) entityBodies;
             }
         });
-    }
-
-    protected boolean shouldReadAll() {
-        return false;
     }
 
     protected ApiQuery addTypeCriteria(EntityDefinition entityDefinition, ApiQuery apiQuery) {

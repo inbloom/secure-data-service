@@ -45,9 +45,9 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
  * @author kmyers
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
-@Component
-@Scope("request")
+//@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
+//@Component
+//@Scope("request")
 public class SchoolResource extends DefaultCrudResource {
 
     @Autowired

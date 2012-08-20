@@ -25,6 +25,25 @@
             <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
 
+        <ns2:resource path='v1/schools' resourceClass='org.slc.sli.api.resources.generic.PublicOnePartResource'>
+            <ns2:resource path='{id}' resourceClass='org.slc.sli.api.resources.generic.TwoPartResource'>
+                <ns2:method id='read' name='GET'/>
+                <ns2:method id='delete' name='DELETE'/>
+                <ns2:method id='update' name='PUT'/>
+            </ns2:resource>
+            <!--<ns2:resource path='{id}/custom'>
+                <ns2:method id='read' name='GET'/>
+                <ns2:method id='create' name='POST'/>
+                <ns2:method id='delete' name='DELETE'/>
+                <ns2:method id='update' name='PUT'/>
+            </ns2:resource>
+            <ns2:resource path='{id}/aggregates'>
+                <ns2:method id='read' name='GET'/>
+            </ns2:resource> -->
+            <ns2:method id='create' name='POST'/>
+            <ns2:method id='readAll' name='GET'/>
+        </ns2:resource>
+
         <ns2:resource path="v1/students" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.TwoPartResource">
                 <ns2:method id="read" name="GET"/>

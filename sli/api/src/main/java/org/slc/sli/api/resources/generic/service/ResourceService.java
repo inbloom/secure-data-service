@@ -18,7 +18,8 @@ import java.util.List;
 public interface ResourceService {
     public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public List<EntityBody> getEntities(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntities(Resource resource, URI requestURI,
+                                        MultivaluedMap<String, String> requestParams, boolean getAllEntities);
 
     public List<EntityBody> getEntities(String base, String id, Resource resource, URI requestURI);
 
