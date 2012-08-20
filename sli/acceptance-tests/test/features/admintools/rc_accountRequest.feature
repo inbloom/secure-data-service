@@ -1,11 +1,11 @@
 @rc
 Feature: User requests for an account for production or sandbox account
 
-Background:
-  Given I have an open web browser
-  And I go to the account registration page on RC
+Background: None
 
 Scenario: As an app developer I request a production account
+  Given I have an open web browser
+  And I go to the account registration page on RC
   Given I go to the production account registration page
   And there is no registered account for "testdev.wgen.gmail.com" in LDAP
   When I fill out the field "First Name" as "Test"
@@ -22,8 +22,9 @@ Scenario: As an app developer I request a production account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
+@test
 Scenario: As an app developer I want to verify my registration email
-
+  Given test
 
 
 Scenario: As an SLC Operator I want to approve the app developer account

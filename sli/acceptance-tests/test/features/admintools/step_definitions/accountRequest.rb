@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require "selenium-webdriver"
+require 'net/imap'
 require 'approval'
 require 'active_support/inflector'
 require_relative '../../utils/sli_utils.rb'
@@ -59,11 +60,6 @@ end
 
 Given /^I go to the account registration page$/ do
   userRegAppUrl = @baseUrl + @registrationAppSuffix
-  @driver.get userRegAppUrl
-end
-
-Given /^I go to the account registration page on RC$/ do
-  userRegAppUrl = "https://rcadmin.slcedu.org" + @registrationAppSuffix
   @driver.get userRegAppUrl
 end
 
