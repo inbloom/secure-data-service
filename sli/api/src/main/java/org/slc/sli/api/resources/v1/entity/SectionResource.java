@@ -49,9 +49,9 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
  * @author jstokes
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SECTIONS)
-@Component
-@Scope("request")
+//@Path(PathConstants.V1 + "/" + PathConstants.SECTIONS)
+//@Component
+//@Scope("request")
 public class SectionResource extends DefaultCrudResource {
 
     @Autowired

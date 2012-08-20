@@ -8,8 +8,10 @@ import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
@@ -40,13 +42,13 @@ public class DefaultResourceService implements ResourceService {
     private LogicalEntity logicalEntity;
 
     @Autowired
-    private ModelProvider provider;
-
-    @Autowired
     private ResourceHelper resourceHelper;
 
     @Autowired
     private List<EntityDecorator> entityDecorators;
+
+    @Autowired
+    private View optionalView;
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -54,16 +56,21 @@ public class DefaultResourceService implements ResourceService {
         public List<EntityBody> run(final String resource, EntityDefinition definition);
     }
 
-    protected List<EntityBody> handle(final Resource resource, ServiceLogic logic) {
+    protected List<EntityBody> handle(final Resource resource, final MultivaluedMap<String, String> queryParams, ServiceLogic logic) {
         EntityDefinition definition = getEntityDefinition(resource);
 
-        return logic.run(resource.getResourceType(), definition);
+        List<EntityBody> entities = logic.run(resource.getResourceType(), definition);
+
+        //add the optional views
+        entities = optionalView.add(entities, resource.getResourceType(), queryParams);
+
+        return entities;
     }
 
     @Override
     public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
 
-        return handle(resource, new ServiceLogic() {
+        return handle(resource, queryParams, new ServiceLogic() {
             @Override
             public List<EntityBody> run(final String resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
@@ -97,6 +104,10 @@ public class DefaultResourceService implements ResourceService {
                     }
                 }
 
+                if (idLength == 1 && finalResults.isEmpty()) {
+                    throw new EntityNotFoundException(ids.get(0));
+                }
+
                 return finalResults;
             }
         });
@@ -105,7 +116,7 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public List<EntityBody> getEntities(final Resource resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
 
-        return handle(resource, new ServiceLogic() {
+        return handle(resource, queryParams, new ServiceLogic() {
             @Override
             public List<EntityBody> run(final String resource, EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;

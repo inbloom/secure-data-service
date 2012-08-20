@@ -10,10 +10,16 @@ import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -26,6 +32,13 @@ import java.util.Set;
  *
  * @author srupasinghe
  */
+
+@Scope("request")
+@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
+        MediaType.APPLICATION_XML + ";charset=utf-8", MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON,
+        MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
+        MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public abstract class GenericResource {
 
     @Autowired
@@ -58,8 +71,7 @@ public abstract class GenericResource {
 
         Set<String> values = resourceSupportedMethods.get(resourcePath);
         if (!values.contains(method.getMethod())) {
-            //TODO need proper exception
-            throw new UnsupportedOperationException("Not supported");
+            throw new MethodNotAllowedException(values);
         }
 
         //log security events
