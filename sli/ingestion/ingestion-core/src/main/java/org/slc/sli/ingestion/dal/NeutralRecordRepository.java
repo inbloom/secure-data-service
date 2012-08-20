@@ -26,6 +26,7 @@ import com.mongodb.DBCollection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -99,7 +100,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return insert(neutralRecord, collectionName);
     }
 
-    public NeutralRecord insertWithRetries(final NeutralRecord neutralRecord, int noOfRetries) {
+    public NeutralRecord insertWithRetries(final NeutralRecord neutralRecord, int numberOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -107,7 +108,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 return insert(neutralRecord);
             }
         };
-        return (NeutralRecord) rc.executeOperation(noOfRetries);
+        return (NeutralRecord) rc.executeOperation(numberOfRetries);
     }
 
     public NeutralRecord insert(NeutralRecord neutralRecord) {
@@ -125,6 +126,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         };
         return (List<NeutralRecord>) rc.executeOperation(noOfRetries);
     }
+
 
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);

@@ -42,6 +42,9 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
 
+    @Value("${sli.ingestion.totalRetries}")
+    private int numberOfRetries;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         neutralRecordRepository.setWriteConcern(writeConcern);
@@ -54,12 +57,12 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Override
     public void insertResource(NeutralRecord neutralRecord, String jobId) {
-        neutralRecordRepository.insert(neutralRecord);
+        neutralRecordRepository.insertWithRetries(neutralRecord, numberOfRetries);
     }
 
     @Override
     public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
-        neutralRecordRepository.insertAll(neutralRecords, collectionName);
+        neutralRecordRepository.insertAllWithRetries(neutralRecords, collectionName, numberOfRetries);
     }
 
     public NeutralRecordRepository getRecordRepository() {
