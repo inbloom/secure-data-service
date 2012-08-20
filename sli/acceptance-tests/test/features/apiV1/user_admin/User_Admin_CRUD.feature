@@ -74,18 +74,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
 
-  @production
-  Scenario Outline:  As an LEA administrator, I can only see myself and not other LEAs in my EdOrg
-
-    Given there is another LEA with "<Full_Name>" in my "<TENANT>" and "<EDORG>"
-      And I have logged in to realm "<REALM>" using "<USERNAME>" "<PASSWORD>"
-      When I navigate to GET "/users"
-      Then I think I am the only LEA in my EdOrg "<EDORG>"
-
-  Examples:
-    |USERNAME      |PASSWORD          |REALM      |Number   |TENANT     |EDORG       |Full_Name        |
-    |sunsetadmin   |sunsetadmin1234   |SLI        |1        |Midgar     |IL-SUNSET   |LEA testadmin    |
-
 
   #sandbox
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
@@ -110,7 +98,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @production @ycao
+  @production 
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -185,7 +173,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer           |homerThePoet      |homerpoet@test.com|               |      |           |
 
 
-@production
+@production 
 Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy : Unhappy Path - tenant and ed-org validation
   Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
   And I have a role "<ADMIN_ROLE>"
@@ -214,11 +202,14 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator13 	|LEA_Administrator13 	|LEA_Administrator@test.com| | | IL-SUNSET |
 # lea with no ed-org
 	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator14 	|LEA_Administrator14 	|LEA_Administrator@test.com| |Midgar| |
+# lea in state level ed-org
+	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator19 	|LEA_Administrator19 	|LEA_Administrator@test.com| |Midgar|IL |
+	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator20 	|LEA_Administrator20 	|LEA_Administrator@test.com| |Midgar|IL |
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
-# lea can't create peer lea even in same ed-org
-	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |403 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
+# lea can't create peer lea even in same ed-org -- this just become a happy path item, should work!
+	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |201 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
 # lea creates a lea in a different part of the ed-org hierarchy
 	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator15  |LEA_Administrator15  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-DAYBREAK|
 # operator creates a lea with ed-org in different tenant.
@@ -283,7 +274,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
   |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Application Developer|PUT      |403 |403     |0         |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
   |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Ingestion User       |PUT      |403 |403     |0         |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |      
 
-  @production
+  @production 
   Scenario Outline:  As a admin I am able to delete admin accounts in my tenancy
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -305,7 +296,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |400 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |      |           |
