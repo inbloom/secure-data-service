@@ -47,8 +47,6 @@ public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
-    private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
-
     @Autowired
     private SifTranslationManager translationManager;
 
@@ -72,7 +70,7 @@ public class SifSubscriber implements Subscriber {
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       "
-                + zone.getZoneId() + "\n" + "\tInfo:       " + info.getMessage());
+                + zone.getZoneId() + "\n" + "\tInfo:       " + info);
 
         SIFDataObject sifData = inspectAndDestroyEvent(event);
 
