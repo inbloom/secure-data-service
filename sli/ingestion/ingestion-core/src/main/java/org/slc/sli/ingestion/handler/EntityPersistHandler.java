@@ -167,6 +167,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             entityRepository.insert(queued, collectionName);
         } catch (DuplicateKeyException e) {
             reportWarnings(e.getRootCause().getMessage(), collectionName, errorReport);
+        } catch(Exception e) {
+            //Try to do individual upsert again for other exceptions
+            for(SimpleEntity entity : entities) {
+                if(!entityRepository.update(collectionName, entity)) {
+                    failed.add(entity);
+                }
+            }
         }
 
         return failed;
