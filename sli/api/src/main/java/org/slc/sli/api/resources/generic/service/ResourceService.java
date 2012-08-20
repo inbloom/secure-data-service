@@ -33,7 +33,4 @@ public interface ResourceService {
     public void deleteEntity(Resource resource, String id);
 
     public String getEntityType(Resource resource);
-
-    public EntityDefinition getEntityDefinition(Resource resource);
-
 }

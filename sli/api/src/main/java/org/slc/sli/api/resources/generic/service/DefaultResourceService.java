@@ -1,6 +1,6 @@
 package org.slc.sli.api.resources.generic.service;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -17,8 +17,6 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import  java.util.ArrayList;
-import org.springframework.util.StringUtils;
 import org.slc.sli.modeling.uml.ClassType;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -26,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Default implementation of the resource service.
@@ -59,7 +58,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     protected List<EntityBody> handle(final Resource resource, ServiceLogic logic) {
-        EntityDefinition definition = getEntityDefinition(resource);
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         return logic.run(resource.getResourceType(), definition);
     }
@@ -152,7 +151,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public Long getEntityCount(Resource resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
+    public long getEntityCount(Resource resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = getApiQuery(definition, requestURI);
         long count = 0;
@@ -186,14 +185,14 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     public String postEntity(final Resource resource, EntityBody entity) {
-        EntityDefinition definition = getEntityDefinition(resource);
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         return definition.getService().create(entity);
     }
 
     @Override
     public void putEntity(Resource resource, String id, EntityBody entity) {
-        EntityDefinition definition = getEntityDefinition(resource);
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
@@ -203,7 +202,7 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     public void deleteEntity(Resource resource, String id) {
-        EntityDefinition definition = getEntityDefinition(resource);
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         definition.getService().delete(id);
     }
@@ -236,8 +235,8 @@ public class DefaultResourceService implements ResourceService {
     @Override
     // TODO
     public List<EntityBody> getEntities(Resource base, String id, Resource association, Resource resource, UriInfo uriInfo) {
-        final EntityDefinition finalEntity = getEntityDefinition(resource);
-        final EntityDefinition  assocEntity= getEntityDefinition(association);
+        final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
+        final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
         final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
@@ -261,8 +260,8 @@ public class DefaultResourceService implements ResourceService {
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
-        final EntityDefinition toEntityDef = getEntityDefinition(toEntity);
-        final EntityDefinition fromEntityDef = getEntityDefinition(fromEntity);
+        final EntityDefinition toEntityDef = resourceHelper.getEntityDefinition(toEntity);
+        final EntityDefinition fromEntityDef = resourceHelper.getEntityDefinition(fromEntity);
         ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));
         ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
         return provider.getConnectionPath(fromEntityType,toEntityType);
