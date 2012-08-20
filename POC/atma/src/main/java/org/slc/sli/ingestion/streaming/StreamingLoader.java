@@ -10,6 +10,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import org.apache.log4j.Logger;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,7 @@ public class StreamingLoader {
 			if (e.getEventType() == XMLEvent.START_ELEMENT) {
 				String elementName = e.asStartElement().getName().getLocalPart();
 
+				System.out.println("Processing: " + elementName);
 				if (tp.isComplexType(elementName)) {
 					result.put(elementName, parseMap(r, elementName));
 				} else {
