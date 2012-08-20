@@ -1,3 +1,4 @@
+@RALLY_US3450
 Feature: Ingestion Error/Warning Count Limitation Test
 
 Background: I have a landing zone route configured
@@ -10,6 +11,8 @@ Scenario: The number of Errors should be no more than the numbers Specifed in sl
    | collectionName              |
    | student                     |
    | parent                      |
+   | cohort                      |
+   | studentcohortAssociation    |
    | studentParentAssociation    |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
