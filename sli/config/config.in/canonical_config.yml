@@ -66,6 +66,7 @@ default:
         sli.application.buildTag: sli.app.buildTag
         sli.api.performance.tracking: false
 
+
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
@@ -187,6 +188,13 @@ default:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
+        
+                
+        #Used to limit the total number of errors or warnings being printed   
+        sli.ingestion.errorsCountPerInterchange: 5
+        sli.ingestion.warningsCountPerInterchange: 5
+
+        sli.ingestion.sampleDataSet.directory: ../../acceptance-tests/test/features/ingestion/test_data
 
     dashboard: &DASHBOARD-DEFAULT
 

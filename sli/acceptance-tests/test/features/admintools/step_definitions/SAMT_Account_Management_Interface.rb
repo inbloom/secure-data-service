@@ -51,12 +51,12 @@ Given /^I have a valid account as a LEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end 
 
-Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
+Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in "(.*?)" "(.*?)" LDAP Server$/ do |full_name, role, addition_roles, email, tenant, edorg|
   new_user=create_new_user(full_name.gsub("hostname", Socket.gethostname), role, addition_roles)
   new_user['email']=email.gsub("hostname", Socket.gethostname)
   new_user['uid']=new_user['email']
-  new_user['tenant']="Midgar"
-  new_user['edorg']="IL-SUNSET"
+  new_user['tenant']=tenant
+  new_user['edorg']=edorg
 
   idpRealmLogin("operator", nil)
   sessionId = @sessionId
@@ -66,6 +66,10 @@ Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Serv
   restHttpPost("/users", new_user.to_json, format, sessionId)
   @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
   @user_unique_id=new_user['uid']
+end
+
+Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
+    step "There is a user with \"#{full_name}\", \"#{role}\", \"#{addition_roles}\", and \"#{email}\" in \"Midgar\" \"IL-SUNSET\" LDAP Server"
 end
 
 Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
@@ -134,6 +138,14 @@ Then /^the (.*?) textbox is disabled$/ do |field_name|
   field=getField(field_name)
   assert(field.attribute("disabled")=="true", 
             "#{field_name} is expected to be disabled, but its disabled status is: #{field.attribute("disabled")}")
+end
+
+Then /^EdOrg choice is limited to "(.*?)" for me$/ do |edorg| 
+  drop_down = @driver.find_element(:id, "user_edorg")
+  options = drop_down.find_elements(:xpath, ".//option")
+  options.each do |option| 
+    assert(option.text() == edorg, "I see other options: #{option.text()} ") 
+  end
 end
 
 #TODO is there a better way to figure out the elements are not there?  This wait for a timeout and takes a long time

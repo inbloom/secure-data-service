@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeBulk xmlns="http://slcedu.org/schema/0100"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://slcedu.org/schema/0100 ../../../../../domain/src/main/resources/sliXsd-R1/interchange.xsd ">
+	<assessment>
+		<assessmentTitle>assessmentTitle</assessmentTitle>
+		<assessmentIdentificationCode>
+			<ID>ID</ID>
+			<identificationSystem>School</identificationSystem>
+		</assessmentIdentificationCode>
+	</assessment>
+	<section>
+		<uniqueSectionCode>uniqueSectionCode</uniqueSectionCode>
+		<sequenceOfCourse>0</sequenceOfCourse>
+		<educationalEnvironment>Classroom</educationalEnvironment>
+		<mediumOfInstruction>Televised</mediumOfInstruction>
+		<populationServed>Regular Students</populationServed>
+		<availableCredit>
+			<credit>0.0</credit>
+			<creditType>Carnegie unit</creditType>
+			<creditConversion>0.0</creditConversion>
+		</availableCredit>
+		<schoolId>schoolId</schoolId>
+		<sessionId>sessionId</sessionId>
+		<programReference>programReference</programReference>
+		<courseId>courseId</courseId>
+		<assessmentReferences>assessmentReferences</assessmentReferences>
+		<gradeBookEntries>
+			<gradebookEntryType>gradebookEntryType</gradebookEntryType>
+			<dateAssigned>2001-01-01</dateAssigned>
+			<description>description</description>
+			<studentGradebookEntries>
+				<studentId>studentId</studentId>
+				<dateFulfilled>2001-01-01</dateFulfilled>
+				<letterGradeEarned>letterGradeEarned</letterGradeEarned>
+				<numericGradeEarned>0</numericGradeEarned>
+				<diagnosticStatement>diagnosticStatement</diagnosticStatement>
+			</studentGradebookEntries>
+		</gradeBookEntries>
+		<studentAssociations>
+			<studentId>studentId</studentId>
+			<beginDate>2001-01-01</beginDate>
+			<endDate>2001-01-01</endDate>
+			<homeroomIndicator>true</homeroomIndicator>
+			<repeatIdentifier>Repeated, counted in grade point average
+			</repeatIdentifier>
+		</studentAssociations>
+		<teacherAssociations>
+			<teacherId>teacherId</teacherId>
+			<classroomPosition>Teacher of Record</classroomPosition>
+			<beginDate>2001-01-01</beginDate>
+			<endDate>2001-01-01</endDate>
+			<highlyQualifiedTeacher>true</highlyQualifiedTeacher>
+		</teacherAssociations>
+	</section>
+</InterchangeBulk>
