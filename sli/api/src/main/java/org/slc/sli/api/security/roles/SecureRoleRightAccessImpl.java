@@ -24,6 +24,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
@@ -31,8 +34,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -160,15 +161,16 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 Map<String, Object> roleDefs = doc.getBody();
                 
                 if (roleDefs != null) {
-                    List<Map<String, List<String>>> roleData = (List<Map<String, List<String>>>) roleDefs.get("roles");
+                    List<Map<String, Object>> roleData = (List<Map<String, Object>>) roleDefs.get("roles");
                     
-                    for (Map<String, List<String>> role : roleData) {
-                        List<String> names = role.get("names");
+                    for (Map<String, Object> role : roleData) {
+                        List<String> names = (List<String>) role.get("names");
                         
                         for (String roleName : names) {
                             if (roleNames.contains(roleName)) {
-                                List<String> rights = role.get("rights");
+                                List<String> rights = (List<String>) role.get("rights");
                                 roles.add(RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build());
+                                roles.add(RoleBuilder.makeRole((String) role.get("groupTitle")).build());
                             }
                         }
                     }
