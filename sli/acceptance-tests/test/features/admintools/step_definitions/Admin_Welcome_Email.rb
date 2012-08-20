@@ -186,7 +186,7 @@ def create_user(uid_prefix, groups, mode)
   }
   if (["SLC Operator", "Sandbox SLC Operator"] & groups).empty?
     new_user["tenant"] = "Midgar"
-    new_user["edorg"] = "IL"
+    new_user["edorg"] = "IL-DAYBREAK"
   end
   puts "creating user = #{new_user}"
   restHttpPost("/users", new_user.to_json, format, sessionId)
