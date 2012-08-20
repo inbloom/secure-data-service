@@ -19,8 +19,10 @@ package org.slc.sli.ingestion.tenant;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.UnknownHostException;
@@ -37,6 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
+import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -110,6 +113,7 @@ public class TenantMongoDATest {
 
         entity.getBody().put(TenantMongoDA.LANDING_ZONE, landingZones);
         entity.getBody().put(TenantMongoDA.TENANT_ID, tenantId);
+        entity.setEntityId("42");
         return entity;
     }
 
@@ -222,5 +226,13 @@ public class TenantMongoDATest {
         landingZone.get(0).put(TenantMongoDA.PRELOAD_DATA, preloadDef);
         when(mockRepository.findAll(eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
         assertEquals(tenantsForPreloading, tenantDA.getPreloadFiles("ingestion_server_host"));
+        verify(mockRepository).doUpdate(eq("tenant"), eq(tenant.getEntityId()), argThat(new ArgumentMatcher<Update>() {
+            @Override
+            public boolean matches(Object argument) {
+                Update expectedUpdate = Update.update(TenantMongoDA.LANDING_ZONE + "." + TenantMongoDA.PRELOAD_DATA
+                        + "." + TenantMongoDA.PRELOAD_STATUS, "started");
+                return ((Update) argument).getUpdateObject().equals(expectedUpdate.getUpdateObject());
+            }
+        }));
     }
 }

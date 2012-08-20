@@ -17,15 +17,11 @@
 
 $(document).ready(function() {
 
-  if (!self_editing && is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
-    $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
-  }
-  
-  if (self_editing && (is_lea || is_operator)) {
+  if (self_editing && is_operator) {
     $("#roles_edorg_block").hide()
   }
 
-  if (self_editing && is_sea) {
+  if (self_editing && (is_lea || is_sea)) {
     $("#primary_role_block").hide()
   }
 
@@ -70,13 +66,7 @@ $(document).ready(function() {
 	        	  $("#ingestion_user_role").removeAttr("disabled")
 		          $("#user_tenant").removeAttr("disabled");
 		          $("#user_edorg").removeAttr("disabled");
-                  if(is_lea) {
-	        	    $("#user_edorg option[value=\"" +my_edorg+ "\"]").removeAttr("disabled").text(my_edorg);
-                  }
 	          }
-              if (is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
-	        	  $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
-              }
 	  });
   };
 

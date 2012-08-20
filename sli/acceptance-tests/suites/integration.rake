@@ -11,6 +11,11 @@ task :rcIngestionTests do
   runTests("test/features/ingestion/rc_test/rc_integration_ingestion.feature")
 end
 
+desc "Run Provision LZ Test"
+task :rcProvisioningTests do
+  runTests("test/features/cross_app_tests/rc_integration_provision_lz.feature")
+end
+
 desc "Run App Approval RC Test"
 task :rcAppApprovalTests do
   runTests("test/features/cross_app_tests/rc_integration_app_approval.feature")
@@ -21,10 +26,18 @@ task :rcDashboardTests do
   runTests("test/features/dashboard/dash/dashboard_rc_integration.feature")
 end
 
+desc "Run RC SAMT Tests"
+task :rcSamtTests do
+  runTests("test/features/cross_app_tests/rc_integration_samt.feature")
+end
+
 desc "Run RC Tests"
-task :rcTests => [:rcIngestionTests, 
+task :rcTests => [:rcSamtTests,
+                  :rcProvisioningTests,
+                  :rcIngestionTests, 
                   :rcAppApprovalTests,
-                  :rcDashboardTests] do
+                  :rcDashboardTests
+                  ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

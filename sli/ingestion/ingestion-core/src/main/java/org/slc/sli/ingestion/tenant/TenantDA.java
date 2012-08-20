@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.tenant;
 
 import java.util.List;
@@ -32,5 +31,14 @@ public interface TenantDA {
 
     void insertTenant(TenantRecord tenant);
 
+    /**
+     * Retrieves the list of file to preload on the given server
+     * The preload status for those records will also be marked as 'started'
+     *
+     * @param ingestionServer
+     *            server to look on
+     * @return a map of landing zone paths to the list of files to preload on them
+     */
     Map<String, List<String>> getPreloadFiles(String ingestionServer);
+
 }
