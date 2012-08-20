@@ -4624,75 +4624,37 @@
         </xs:choice>
     </xs:complexType>
 
-    <xs:complexType name="studentCompetency">
+    <xs:complexType name="SLI-StudentCompetency">
         <xs:annotation>
             <xs:documentation>This entity represents the competency assessed or
                 evaluated for the student against a specific Learning Objective.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>studentCompetency</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <!-- learningObjective and studentCompetencyObjective were wrapped in
-				<xs:choice>, and one and only one should be chosen, so minOccurs="0" is not
-				correct. I will leave it like this here - this should be changed when the
-				resources are implemented. -->
-            <!--<xs:choice> -->
-            <xs:element name="learningObjectiveId" type="reference"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The learning objective evaluated or assessed for
-                        the student.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>learningObjective</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentCompetencyObjectiveId" type="reference"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The student competency objective evaluated for
-                        the student.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <!--</xs:choice> -->
-            <xs:element name="competencyLevel" type="competencyLevelDescriptorType">
-                <xs:annotation>
-                    <xs:documentation>The competency level assessed for the student for
-                        the referenced learning objective.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="diagnosticStatement" type="text"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>A statement provided by the teacher that provides
-                        information in addition to the grade or assessment score.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentSectionAssociationId" type="reference"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Association to the student-section association
-                        with which the competency is evaluated.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="SLI-CompetencyLevel" type="competencyLevelDescriptorType">
+                        <xs:annotation>
+                            <xs:documentation>The competency level assessed for the student for
+                                the referenced learning objective.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-StudentId" type="reference" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Reference to the evaluated student.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-SectionId" type="reference" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Reference to the section with which the competency is evaluated.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="studentCompetencyObjective">
