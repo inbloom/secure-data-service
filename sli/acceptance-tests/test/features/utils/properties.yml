@@ -20,6 +20,9 @@ ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
 ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck"
+ingestion_properties_file: "../config/properties/sli.properties"
+
+
 
 sif_db: "localhost"
 sif_database_name: "sli"
