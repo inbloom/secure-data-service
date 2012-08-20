@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
@@ -30,9 +31,9 @@ public class ThreePartResource extends GenericResource {
                         @PathParam("id") final String id) {
         return handle(uriInfo, ResourceTemplate.THREE_PART, ResourceMethod.GET, new ResourceLogic() {
             @Override
-            public Response run(final String resourceName) {
+            public Response run(Resource resource) {
                 final String base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.THREE_PART);
-                final List<EntityBody> results = resourceService.getEntities(base, id, resourceName, uriInfo.getRequestUri());
+                final List<EntityBody> results = resourceService.getEntities(base, id, resource, uriInfo.getRequestUri());
                 return Response.ok(results).build();
             }
         });

@@ -7,6 +7,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.List;
 
 /**
  * Adds custom data to the entities
@@ -17,8 +18,8 @@ public class CustomEntityDecorator implements EntityDecorator {
 
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
-        // TODO
-        final Boolean includeCustomEntity = Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_CALCULATED).get(0));
+        List<String> params = queryParams.get(ParameterConstants.INCLUDE_CUSTOM);
+        final Boolean includeCustomEntity = Boolean.valueOf((params != null) ? params.get(0) : "false");
 
         if (includeCustomEntity) {
             String entityId = (String) entity.get("id");

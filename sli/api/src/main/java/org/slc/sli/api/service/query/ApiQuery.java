@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service.query;
 
 import java.net.URI;
@@ -24,6 +23,9 @@ import java.util.Map.Entry;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
@@ -72,7 +74,7 @@ public class ApiQuery extends NeutralQuery {
         selectorStringBuffer.append(":(");
 
         boolean first = true;
-        for (Entry<?, ?> entry  : map.entrySet()) {
+        for (Entry<?, ?> entry : map.entrySet()) {
             if (!first) {
                 selectorStringBuffer.append(",");
             }
@@ -94,7 +96,34 @@ public class ApiQuery extends NeutralQuery {
 
     @Override
     public String toString() {
-        return super.toString() + ": ApiQuery [selector=" + selector + "]";
+        StringBuilder stringBuffer = new StringBuilder("offset=" + getOffset() + "&limit=" + getLimit());
+
+        if (getIncludeFields() != null) {
+            stringBuffer.append("&includeFields=" + StringUtils.join(getIncludeFields(), ","));
+        }
+
+        if (getExcludeFields() != null) {
+            stringBuffer.append("&excludeFields=" + StringUtils.join(getExcludeFields(), ","));
+        }
+
+        if (getSortBy() != null) {
+            stringBuffer.append("&sortBy=" + getSortBy());
+        }
+
+        if (getSortOrder() != null) {
+            stringBuffer.append("&sortOrder=" + getSortOrder());
+        }
+
+        if (this.selector != null) {
+            stringBuffer.append("&selector=" + this.toSelectorString(this.selector));
+        }
+
+        for (NeutralCriteria neutralCriteria : getCriteria()) {
+            stringBuffer.append("&" + neutralCriteria.getKey() + neutralCriteria.getOperator()
+                    + neutralCriteria.getValue());
+        }
+
+        return stringBuffer.toString();
     }
 
     public Map<String, Object> getSelector() {

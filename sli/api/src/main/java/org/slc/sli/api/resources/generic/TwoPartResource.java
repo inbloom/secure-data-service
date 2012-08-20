@@ -1,6 +1,8 @@
 package org.slc.sli.api.resources.generic;
 
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -39,8 +41,8 @@ public class TwoPartResource extends GenericResource {
 
         return handleGet(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
-            public List<EntityBody> run(String resourceName) {
-                return resourceService.getEntitiesByIds(resourceName, id, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
+            public List<EntityBody> run(Resource resource) {
+                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
             }
         });
     }
@@ -50,15 +52,28 @@ public class TwoPartResource extends GenericResource {
                         final EntityBody entityBody,
                         @Context final UriInfo uriInfo) {
 
-        return Response.ok("put").build();
+        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
 
+            public Response run(Resource resource) {
+                resourceService.putEntity(resource, id, entityBody);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
     }
 
     @DELETE
     public Response delete(@PathParam("id") final String id,
                            @Context final UriInfo uriInfo) {
 
-        return Response.ok("delete").build();
+        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.DELETE, new ResourceLogic() {
+            @Override
+            public Response run(Resource resource) {
+                resourceService.deleteEntity(resource, id);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
     }
 
 }

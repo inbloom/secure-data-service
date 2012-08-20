@@ -7,7 +7,7 @@ import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
-import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -17,12 +17,10 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,67 +50,86 @@ public class DefaultResourceService implements ResourceService {
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
-    @Override
-    public List<EntityBody> getEntitiesByIds(final String resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
+    protected static interface ServiceLogic {
+        public List<EntityBody> run(final String resource, EntityDefinition definition);
+    }
+
+    protected List<EntityBody> handle(final Resource resource, ServiceLogic logic) {
         EntityDefinition definition = getEntityDefinition(resource);
-        final int idLength = idList.split(",").length;
 
-        if (idLength > MAX_MULTIPLE_UUIDS) {
-            String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                    + MAX_MULTIPLE_UUIDS + " (allowed)";
-            throw new PreConditionFailedException(errorMessage);
-        }
-
-        final List<String> ids = Arrays.asList(StringUtils.split(idList));
-
-        ApiQuery apiQuery = getApiQuery(definition, requestURI);
-
-        apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        apiQuery.setLimit(0);
-        apiQuery.setOffset(0);
-
-        // final/resulting information
-        List<EntityBody> finalResults = null;
-        try {
-            finalResults = logicalEntity.getEntities(apiQuery, resource);
-        } catch (UnsupportedSelectorException e) {
-            finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
-        }
-
-        //apply the decorators
-        for (EntityBody entityBody : finalResults) {
-            for (EntityDecorator entityDecorator : entityDecorators) {
-                entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
-            }
-        }
-
-        return finalResults;
+        return logic.run(resource.getResourceType(), definition);
     }
 
     @Override
-    public List<EntityBody> getEntities(final String resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
-        EntityDefinition definition = getEntityDefinition(resource);
+    public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
 
-        Iterable<EntityBody> entityBodies = null;
-        final ApiQuery apiQuery = getApiQuery(definition, requestURI);
+        return handle(resource, new ServiceLogic() {
+            @Override
+            public List<EntityBody> run(final String resource, EntityDefinition definition) {
+                final int idLength = idList.split(",").length;
 
-        if (shouldReadAll()) {
-            entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
-
-                @Override
-                public Iterable<EntityBody> execute() {
-                    return logicalEntity.getEntities(apiQuery, resource);
+                if (idLength > MAX_MULTIPLE_UUIDS) {
+                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
+                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                    throw new PreConditionFailedException(errorMessage);
                 }
-            });
-        } else {
-            try {
-                entityBodies = logicalEntity.getEntities(apiQuery, resource);
-            } catch (UnsupportedSelectorException e) {
-                entityBodies = definition.getService().list(apiQuery);
-            }
-        }
 
-        return (List<EntityBody>) entityBodies;
+                final List<String> ids = Arrays.asList(StringUtils.split(idList));
+
+                ApiQuery apiQuery = getApiQuery(definition, requestURI);
+
+                apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                apiQuery.setLimit(0);
+                apiQuery.setOffset(0);
+
+                // final/resulting information
+                List<EntityBody> finalResults = null;
+                try {
+                    finalResults = logicalEntity.getEntities(apiQuery, resource);
+                } catch (UnsupportedSelectorException e) {
+                    finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                }
+
+                //apply the decorators
+                for (EntityBody entityBody : finalResults) {
+                    for (EntityDecorator entityDecorator : entityDecorators) {
+                        entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
+                    }
+                }
+
+                return finalResults;
+            }
+        });
+    }
+
+    @Override
+    public List<EntityBody> getEntities(final Resource resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
+
+        return handle(resource, new ServiceLogic() {
+            @Override
+            public List<EntityBody> run(final String resource, EntityDefinition definition) {
+                Iterable<EntityBody> entityBodies = null;
+                final ApiQuery apiQuery = getApiQuery(definition, requestURI);
+
+                if (shouldReadAll()) {
+                    entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
+
+                        @Override
+                        public Iterable<EntityBody> execute() {
+                            return logicalEntity.getEntities(apiQuery, resource);
+                        }
+                    });
+                } else {
+                    try {
+                        entityBodies = logicalEntity.getEntities(apiQuery, resource);
+                    } catch (UnsupportedSelectorException e) {
+                        entityBodies = definition.getService().list(apiQuery);
+                    }
+                }
+
+                return (List<EntityBody>) entityBodies;
+            }
+        });
     }
 
     protected boolean shouldReadAll() {
@@ -131,12 +148,13 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public long getEntityCount(String resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
+    public Long getEntityCount(Resource resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = getEntityDefinition(resource);
         ApiQuery apiQuery = getApiQuery(definition, requestURI);
+        long count = 0;
 
         if (definition.getService() == null) {
-            return 0;
+            return count;
         }
 
         if (apiQuery == null) {
@@ -147,9 +165,11 @@ public class DefaultResourceService implements ResourceService {
         int originalOffset = apiQuery.getOffset();
         apiQuery.setLimit(0);
         apiQuery.setOffset(0);
-        long count = definition.getService().count(apiQuery);
+
+        count = definition.getService().count(apiQuery);
         apiQuery.setLimit(originalLimit);
         apiQuery.setOffset(originalOffset);
+
         return count;
     }
 
@@ -161,21 +181,36 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public String postEntity(final String resource, EntityBody entity) {
+    public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = getEntityDefinition(resource);
 
         return definition.getService().create(entity);
     }
 
-    public EntityDefinition getEntityDefinition(final String resource) {
-        //FIXME TODO
-        final String resourceType = resource.split("/")[1];
-        return entityDefinitionStore.lookupByResourceName(resourceType);
+    @Override
+    public void putEntity(Resource resource, String id, EntityBody entity) {
+        EntityDefinition definition = getEntityDefinition(resource);
+
+        EntityBody copy = new EntityBody(entity);
+        copy.remove(ResourceConstants.LINKS);
+
+        definition.getService().update(id, copy);
     }
 
     @Override
-    public String getEntityType(String resource) {
-        return entityDefinitionStore.lookupByResourceName(resource).getType();
+    public void deleteEntity(Resource resource, String id) {
+        EntityDefinition definition = getEntityDefinition(resource);
+
+        definition.getService().delete(id);
+    }
+
+    public EntityDefinition getEntityDefinition(final Resource resource) {
+        return entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+    }
+
+    @Override
+    public String getEntityType(Resource resource) {
+        return entityDefinitionStore.lookupByResourceName(resource.getResourceType()).getType();
     }
 
     @Override

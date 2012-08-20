@@ -3,7 +3,9 @@ package org.slc.sli.api.resources.generic;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.generic.service.HateoasLink;
+import org.slc.sli.api.resources.generic.representation.HateoasLink;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -35,40 +37,54 @@ public abstract class GenericResource {
     @Autowired
     private HateoasLink hateoasLink;
 
+    @Autowired
+    private ResourceAccessLog resourceAccessLog;
+
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
 
     protected static interface ResourceLogic {
-        public Response run(String resourceName);
+        public Response run(Resource resource);
     }
 
     protected static interface GetResourceLogic {
-        public List<EntityBody> run(String resourceName);
+        public List<EntityBody> run(Resource resource);
+    }
+
+    protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
+                                                 final ResourceMethod method) {
+        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
+        Resource resource = new Resource(resourcePath);
+
+        Set<String> values = resourceSupportedMethods.get(resourcePath);
+        if (!values.contains(method.getMethod())) {
+            //TODO need proper exception
+            throw new UnsupportedOperationException("Not supported");
+        }
+
+        //log security events
+        resourceAccessLog.logAccessToRestrictedEntity(uriInfo, resource, GenericResource.class.toString());
+
+        return resource;
     }
 
     protected Response handleGet(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
                               final GetResourceLogic logic) {
 
-        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
-
-        Set<String> values = resourceSupportedMethods.get(resourcePath);
-        if (!values.contains(method.getMethod())) {
-            throw new UnsupportedOperationException("Not supported");
-        }
-
-        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
+        //get the resource container
+        Resource resource = constructAndCheckResource(uriInfo, template, method);
 
         //run the resource logic
-        List<EntityBody> entities = logic.run(resourceName);
+        List<EntityBody> entities = logic.run(resource);
 
         //add the links
-        entities = hateoasLink.add(resourceName, entities, uriInfo);
+        entities = hateoasLink.add(resource.getResourceType(), entities, uriInfo);
 
         //get the page count
-        long pagingHeaderTotalCount = resourceService.getEntityCount(resourceName, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
+        long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
 
         //add the paging headers and return the data
-        return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resourceName), entities)),
+        return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resource), entities)),
                 pagingHeaderTotalCount, uriInfo).build();
 
     }
@@ -76,15 +92,10 @@ public abstract class GenericResource {
     protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
                             final ResourceLogic logic) {
 
-        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
+        //get the resource container
+        Resource resource = constructAndCheckResource(uriInfo, template, method);
 
-        Set<String> values = resourceSupportedMethods.get(resourcePath);
-        if (!values.contains(method.getMethod())) {
-            throw new UnsupportedOperationException("Not supported");
-        }
-
-        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
-        return logic.run(resourceName);
+        return logic.run(resource);
     }
 
     protected Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
