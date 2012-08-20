@@ -89,7 +89,7 @@ end
 
 private
 
-def check_email_for_verification(subject_substring = nil, content_substring)
+def check_email_for_verification(subject_substring = nil, content_substring = nil)
   imap_host = 'imap.gmail.com'
   imap_port = 993
   imap_user = 'testdev.wgen@gmail.com'
@@ -127,4 +127,3 @@ def check_email_for_verification(subject_substring = nil, content_substring)
   end
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
-

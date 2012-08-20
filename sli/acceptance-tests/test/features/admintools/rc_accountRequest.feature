@@ -47,3 +47,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   When I click on Ok
   Then his account status changed to "approved"
   And I should see "Account was successfully updated"
+
