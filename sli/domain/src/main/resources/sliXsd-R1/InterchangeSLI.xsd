@@ -30,8 +30,8 @@
 					<xs:element name="graduationPlan" type="graduationPlan" />
 					<xs:element name="learningObjective" type="learningObjective" />
 					<xs:element name="learningStandard" type="learningStandard" />
-					<xs:element name="parent" type="SLI-Parent" />
-					<xs:element name="program" type="program" />
+					<xs:element name="SLI-Parent" type="SLI-Parent" />
+					<xs:element name="SLI-Program" type="SLI-Program" />
 					<xs:element name="school" type="school" />
 					<xs:element name="SLI-Section" type="SLI-Section" />
 					<xs:element name="session" type="session" />
