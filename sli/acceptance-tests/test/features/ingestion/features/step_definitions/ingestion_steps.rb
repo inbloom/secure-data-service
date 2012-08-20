@@ -43,6 +43,7 @@ INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_da
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
+INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
@@ -550,9 +551,102 @@ def copyFilesInDir(file_name)
 
 end
 
+#get the max number of errors or warnings to be written to error or warning log
+def getMaxErrorWarnCount
+    maxError = 0
+    maxWarning = 0
+    file=File.open(INGESTION_PROPERTIES_FILE,"r") 
+    file.each_line do |line|
+       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
+          maxError = line[line.rindex('=')+1,line.length-1]
+       end
+       if(line.rindex('sli.ingestion.warningsCountPerInterchange'))
+          maxWarning = line[line.rindex('=')+1, line.length-1]
+       end
+    end
+    return Integer(maxError), Integer(maxWarning)
+end
 
+#get the number of errors actually be written to error log
+def getErrorCount
+    @error_filename = ""
+    @resource = ""
+    resourceToErrorCount = Hash.new(0)
+    Dir.foreach(@landing_zone_path) do |entry|
+      if(entry.rindex('error'))
+        @error_filename = entry 
+        @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
+        file = File.open(@landing_zone_path+entry, "r")
+        file.each_line do |line|
+          if(line.rindex('ERROR'))
+            resourceToErrorCount[@resource] += 1
+          end
+        end
+      end
+    end
+    return resourceToErrorCount
+end
 
+#get the number of warnings actually be written to warning log
+def getWarnCount
+    @warn_filename = ""
+    @resource = ""
+    resourceToWarnCount = Hash.new(0)
+    Dir.foreach(@landing_zone_path) do |entry|
+    if(entry.rindex('warn'))
+      @warn_filename = entry
+      @resource = entry[entry.rindex('Interchange'),entry.rindex('.xml')]
+      file = File.open(@landing_zone_path+entry, "r")
+      file.each_line do |line|
+        if(line.rindex('WARN'))
+          resourceToWarnCount[@resource] += 1
+        end
+      end
+    end
+  end
+    return resourceToWarnCount
+end
+    
+#check if the actually error count is less than the max error count
+def verifyErrorCount
+   maxError, maxWarn = getMaxErrorWarnCount
 
+   resourceToErrorCount = Hash.new(0)
+   resourceToErrorCount = getErrorCount
+
+   resourceToErrorCount.keys.each do |k,v|
+     if maxError >= resourceToErrorCount[k]
+       assert(true, "Number of Errors written to error.log file is less than max number of Errors")
+     else
+       assert(false, "Number of Errors written to error.log file is more than max number of Errors")
+     end
+   end
+
+end
+
+#check if the actually warn count is less than the max warn count
+def verifyWarnCount
+   maxError, maxWarn = getMaxErrorWarnCount
+
+   resourceToWarnCount = Hash.new(0)
+   resourceToWarnCount = getWarnCount
+
+   resourceToWarnCount.keys.each do |k,v|
+     if maxWarn >= resourceToWarnCount[k]
+       assert(true, "Number of Warnings written to warning.log file is less than max number of Warnings")
+     else
+       assert(false, "Number of Warnings written to warning.log file is more than max number of Warnings")
+     end
+    end
+end
+
+Given /^I should see the number of errors in error log  is no more than the error count limitation$/ do
+   verifyErrorCount
+end
+
+Given /^I should see the number of warnings in warn log  is no more than the warningss count limitation$/ do
+   verifyWarnCount
+end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
  @source_file_name = processPayloadFile file_name

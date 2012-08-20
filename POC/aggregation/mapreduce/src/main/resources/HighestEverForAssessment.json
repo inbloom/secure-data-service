@@ -41,7 +41,6 @@
           "description" : "Aggregate of the highest scores for the grade 7 state math assessment for the school",
           "abbreviation" : "HE-AGG-SMA-7",
           "type" : "count",
-          "field" : "calculated_values.assessments.@ID@.HighestEver.ScaleScore",
           "valid_range" : { "min" : 0, "max" : 100 },
           "bands" : [
              { "rank" : -1, "description" : "invalid score" },

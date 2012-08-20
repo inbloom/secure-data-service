@@ -10,6 +10,11 @@
 	</parent>
 	<dependencies>
 		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slc.sli.dal</groupId>
 			<artifactId>dal</artifactId>
 		</dependency>
