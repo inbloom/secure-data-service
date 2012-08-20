@@ -51,23 +51,24 @@
         <property name="agent" ref="subscriberAgent"/>
 
         <property name="subscribeTypeList">
-            <!-- strings in this list relate to the ADK map in StudentDTD -->
+            <!-- strings in this list relate to the ADK DTDs-->
             <list>
-                <value>StudentPersonal</value>
-                <value>StaffPersonal</value>
-                <value>EmployeePersonal</value>
-                <value>SchoolInfo</value>
-                <value>LEAInfo</value>
-                <value>SEAInfo</value>
-                <value>StudentSchoolEnrollment</value>
-                <value>StudentLEARelationship</value>
-                <value>EmployeePersonal</value>
-                <value>StaffPersonal</value>
-                <value>StaffAssignment</value>
-                <value>EmploymentRecord</value>
-                <value>EmployeeAssignment</value>
+                <value>StudentDTD.StudentPersonal</value>
+                <value>StudentDTD.StaffPersonal</value>
+                <value>HrfinDTD.EmployeePersonal</value>
+                <value>StudentDTD.SchoolInfo</value>
+                <value>StudentDTD.LEAInfo</value>
+                <value>StudentDTD.SEAInfo</value>
+                <value>StudentDTD.StudentSchoolEnrollment</value>
+                <value>CommonDTD.StudentLEARelationship</value>
+                <value>HrfinDTD.EmployeePersonal</value>
+                <value>StudentDTD.StaffPersonal</value>
+                <value>StudentDTD.StaffAssignment</value>
+                <value>HrfinDTD.EmploymentRecord</value>
+                <value>HrfinDTD.EmployeeAssignment</value>
             </list>
         </property>
+
     </bean>
 
 </beans>

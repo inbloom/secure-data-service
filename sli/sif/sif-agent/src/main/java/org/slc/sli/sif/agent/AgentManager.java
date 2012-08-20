@@ -33,10 +33,10 @@ import openadk.library.ADKFlags;
 import openadk.library.ElementDef;
 import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
-import openadk.library.datamodel.DatamodelDTD;
-import openadk.library.student.StudentDTD;
 import openadk.library.common.CommonDTD;
+import openadk.library.datamodel.DatamodelDTD;
 import openadk.library.hrfin.HrfinDTD;
+import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +65,8 @@ public class AgentManager {
     private String subscriberZoneName;
 
     private List<String> subscribeTypeList;
+
+    private List<ElementDef> subscribeList;
 
     private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);
 
@@ -120,41 +122,32 @@ public class AgentManager {
      * Creates a subscriber and adds it to the configured zone
      */
     private void subscribeToZone() throws ADKException {
+        Map<String, Map<String, ElementDef>> dtdMap = new HashMap<String, Map<String, ElementDef>>();
+
         Map<String, ElementDef> studentDtdMap = new HashMap<String, ElementDef>();
-        StudentDTD studentDTD = new StudentDTD();
-        studentDTD.addElementMappings(studentDtdMap);
+        new StudentDTD().addElementMappings(studentDtdMap);
+        dtdMap.put("StudentDTD", studentDtdMap);
+
         Map<String, ElementDef> datamodelDtdMap = new HashMap<String, ElementDef>();
-        DatamodelDTD datamodelDTD = new DatamodelDTD();
-        datamodelDTD.addElementMappings(datamodelDtdMap);
+        new DatamodelDTD().addElementMappings(datamodelDtdMap);
+        dtdMap.put("DatamodelDTD", datamodelDtdMap);
+
         Map<String, ElementDef> commonDtdMap = new HashMap<String, ElementDef>();
-        CommonDTD commonDTD = new CommonDTD();
-        commonDTD.addElementMappings(commonDtdMap);
-        Map<String, ElementDef> hrFinDtdMap = new HashMap<String, ElementDef>();
-        HrfinDTD hrfinDTD = new HrfinDTD();
-        hrfinDTD.addElementMappings(hrFinDtdMap);
+        new CommonDTD().addElementMappings(commonDtdMap);
+        dtdMap.put("CommonDTD", commonDtdMap);
+
+        Map<String, ElementDef> hrfinDtdMap = new HashMap<String, ElementDef>();
+        new HrfinDTD().addElementMappings(hrfinDtdMap);
+        dtdMap.put("HrfinDTD", hrfinDtdMap);
 
         Zone zone = agent.getZoneFactory().getZone(subscriberZoneName);
 
         for (String dataTypeString : subscribeTypeList) {
-            ElementDef studentDataTypeDef = studentDtdMap.get(dataTypeString);
-            ElementDef datamodelDataTypeDef = datamodelDtdMap.get(dataTypeString);
-            ElementDef commonDataTypeDef = commonDtdMap.get(dataTypeString);
-            ElementDef hrFinTypeDef = hrFinDtdMap.get(dataTypeString);
-            if (studentDataTypeDef != null) {
-                zone.setSubscriber(subscriber, studentDataTypeDef, new SubscriptionOptions());
-                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
-            } else if (datamodelDataTypeDef != null) {
-                zone.setSubscriber(subscriber, datamodelDataTypeDef, new SubscriptionOptions());
-                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
-            } else if (commonDataTypeDef != null) {
-                zone.setSubscriber(subscriber, commonDataTypeDef, new SubscriptionOptions());
-                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
-            } else if (hrFinTypeDef != null) {
-                zone.setSubscriber(subscriber, hrFinTypeDef, new SubscriptionOptions());
-                LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
-            } else {
-                LOG.error("Unable to find SIF ADK datatype " + dataTypeString);
-            }
+            String dtdType = dataTypeString.split("\\.", 2)[0];
+            String subType = dataTypeString.split("\\.", 2)[1];
+            ElementDef dataTypeDef = dtdMap.get(dtdType).get(subType);
+            zone.setSubscriber(subscriber, dataTypeDef, new SubscriptionOptions());
+            LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
         }
     }
 
@@ -196,6 +189,14 @@ public class AgentManager {
 
     public void setAdkLogFile(String adkLogFile) {
         this.adkLogFile = adkLogFile;
+    }
+
+    public List<ElementDef> getSubscribeList() {
+        return subscribeList;
+    }
+
+    public void setSubscribeList(List<ElementDef> subscribeList) {
+        this.subscribeList = subscribeList;
     }
 
 }
