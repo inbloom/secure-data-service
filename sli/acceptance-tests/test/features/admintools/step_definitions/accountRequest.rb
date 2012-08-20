@@ -62,6 +62,11 @@ Given /^I go to the account registration page$/ do
   @driver.get userRegAppUrl
 end
 
+Given /^I go to the account registration page on RC$/ do
+  userRegAppUrl = "https://rcadmin.slcedu.org" + @registrationAppSuffix
+  @driver.get userRegAppUrl
+end
+
 Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
   removeUser(email)
   assert(!ApprovalEngine.user_exists?(email), "#{email} still exists in LDAP")

@@ -1,9 +1,9 @@
-@RC User Account Registration
+@rc
 Feature: User requests for an account for production or sandbox account
 
 Background:
   Given I have an open web browser
-  And I go to the account registration page
+  And I go to the account registration page on RC
 
 @production
 Scenario: As an app developer I request a production account
