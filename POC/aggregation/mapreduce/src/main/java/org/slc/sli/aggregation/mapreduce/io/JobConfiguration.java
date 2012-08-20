@@ -18,9 +18,8 @@ package org.slc.sli.aggregation.mapreduce.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import com.mongodb.hadoop.MongoInputFormat;
@@ -33,6 +32,7 @@ import org.codehaus.jackson.annotate.JsonGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSetter;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
@@ -148,7 +148,7 @@ public class JobConfiguration {
         @JsonProperty(VALUE_TYPE_PROPERTY)
         private String valueType;
         @JsonSetter(VALUE_TYPE_PROPERTY)
-        private void setValueType(final String v) throws ClassNotFoundException {
+        public void setValueType(final String v) throws ClassNotFoundException {
             valueType = v;
             valueTypeClass = Class.forName(valueType);
         }
@@ -220,11 +220,12 @@ public class JobConfiguration {
     /**
      * BandsConfig - helper class to hold bands configuration.
      */
-    public static class BandsConfig {
-        @JsonProperty(BANDS_PROPERTY)
-        private Set<BandConfig> bands = new TreeSet<BandConfig>();
-        public void setBands(final Set<BandConfig> v) { bands = v; }
-        public final Set<BandConfig> getBands() { return bands; }
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.WRAPPER_ARRAY)
+    public static class BandsConfig extends ArrayList<BandConfig> {
+        private static final long serialVersionUID = -2686345244528883103L;
+
+        public void setBands(final ArrayList<BandConfig> v) { clear(); addAll(v); }
+        public final ArrayList<BandConfig> getBands() { return this; }
 
         public BandsConfig() { }
     }
@@ -244,9 +245,9 @@ public class JobConfiguration {
         public final ReduceConfig getReduce() { return reducer; }
 
         @JsonProperty(OPTIONS_PROPERTY)
-        private Map<String, String> options;
-        public void setOptions(final Map<String, String> v) { options = v; }
-        public final Map<String, String> getOptions() { return options; }
+        private Map<String, Object> options;
+        public void setOptions(final Map<String, Object> v) { options = v; }
+        public final Map<String, Object> getOptions() { return options; }
 
         public HadoopConfig() { }
     }
@@ -364,7 +365,7 @@ public class JobConfiguration {
     /**
      * OutputConfig - helper class to hold output configuration.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static class OutputConfig {
         @JsonIgnore
         private Class<? extends Writable> keyTypeClass;
@@ -389,7 +390,7 @@ public class JobConfiguration {
         @JsonSetter(VALUE_TYPE_PROPERTY)
         public void setValueType(final String v) throws ClassNotFoundException {
             valueType = v;
-            valueTypeClass = (Class<? extends Writable>) Class.forName(keyType);
+            valueTypeClass = (Class<? extends Writable>) Class.forName(valueType);
         }
         @JsonGetter(VALUE_TYPE_PROPERTY)
         public final String getValueType() { return valueType; }
