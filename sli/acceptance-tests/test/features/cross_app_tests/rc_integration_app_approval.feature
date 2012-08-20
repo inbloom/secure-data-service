@@ -84,6 +84,23 @@ When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 And I enable my app for all districts
 And I clicked Save
 Then I am redirected to the Application Registration Tool page
+#Scenario: App developer creates a new web-app
+And I have clicked to the button New
+And I am redirected to a new application page
+When I entered the name "Schlemiel" into the field titled "Name"
+And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
+And I entered the name "1.o" into the field titled "Version"
+And I entered the name "McDerp" into the field titled "Vendor"
+And I entered the name "http://localhost" into the field titled "Application_URL"
+And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
+And I click on the button Submit
+Then I am redirected to the Application Registration Tool page
+And the application "Schlemiel" is listed in the table on the top
+When I clicked on the button Edit for the application "Schlemiel"
+And I enable my app for all districts
+And I clicked Save
+Then I am redirected to the Application Registration Tool page
+
 
 Scenario:  Daybreakadmin approves Dashboard and Databrowser
 When I navigate to the Portal home page
@@ -125,6 +142,20 @@ And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
 And I see an application "NotTheAppYoureLookingFor" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+# switch back to iframe because of the page reload
+And I switch to the iframe
+Then the application is authorized to use data of "Daybreak School District 4529"
+And is put on the top of the table
+And the Status becomes "Approved"
+And it is colored "green"
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
+#Authorized the new Web-App
+And I see an application "Schlemiel" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
