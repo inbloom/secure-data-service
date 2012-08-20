@@ -59,7 +59,7 @@ public class ApiQueryTest {
     @Test
     public void testNonNullForNull() {
         // should always return a null, so callers don't have to worry about null checking
-        assertTrue(new ApiQuery(null) != null);
+        assertTrue(new ApiQuery() != null);
     }
 
     @Test
