@@ -24,22 +24,24 @@ import com.mongodb.MongoException;
  *
  */
 public abstract class RetryMongoCommand {
+    public static final int MONGO_DUPLICATE_KEY_ERROR = 11000;
+
     public Object executeOperation(int noOfRetries) throws Exception {
         Object result = null;
+        Exception ex = new RuntimeException("Error: Exceeded " + noOfRetries + " tries");
         while (noOfRetries > 0) {
             try {
                result = execute();
-                break;
+               return result;
             } catch (MongoException me) {
-                if (me.getCode() == 11000) {
-                    break;
+                if (me.getCode() == MONGO_DUPLICATE_KEY_ERROR) {
+                    throw me;
                 }
+                ex = me;
                 noOfRetries--;
-            } catch (Exception ex) {
-                throw ex;
             }
         }
-        return result;
+        throw ex;
     }
 
     public abstract Object execute();

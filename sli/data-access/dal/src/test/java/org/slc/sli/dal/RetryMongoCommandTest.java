@@ -18,25 +18,20 @@ package org.slc.sli.dal;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import junit.framework.Assert;
+import static org.junit.Assert.assertNull;
 
 import com.mongodb.MongoException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Junit for RetryMongoCommand
@@ -48,85 +43,123 @@ import org.slc.sli.domain.MongoEntity;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class RetryMongoCommandTest {
 
-    private RetryMongoCommand retryMongoCommand = null;
-
     private MongoTemplate mockedGoodMongoTemplate;
     private MongoTemplate mockedBadMongoTemplate;
     private MongoTemplate mockedNotSoBadMongoTemplate;
     private MongoTemplate mockedDuplicateMongoTemplate;
-    private Logger mockedLogger;
     MongoEntity student;
+    int count;
 
     @Before
     public void setup() {
-        // Setup the mocked Mongo Templates and Logger.
-        mockedGoodMongoTemplate = mock(MongoTemplate.class);
-        mockedBadMongoTemplate = mock(MongoTemplate.class);
-        mockedNotSoBadMongoTemplate = mock(MongoTemplate.class);
-        mockedDuplicateMongoTemplate = mock(MongoTemplate.class);
-        mockedLogger = mock(Logger.class);
+        // Setup the expected findOne result..
         student = new MongoEntity("student", null);
     }
 
     @Test
     public void testRetryMongoTemplateCommandWithGood() {
-        MongoEntity expected = new MongoEntity("student", null);
-        when(mockedGoodMongoTemplate.findOne(any(Query.class), eq(MongoEntity.class), eq("student"))).thenReturn(
-                expected);
-        retryMongoCommand = new RetryMongoCommand(mockedGoodMongoTemplate, mockedLogger);
+        final MongoEntity expected = student;
         int tries = 3;
+        count = 0;
         try {
-            MongoEntity found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
+            MongoEntity found = findOneWithRetries("good_student", new NeutralQuery(), tries);
             assertEquals(expected, found);
-            assertEquals(1, tries);
-        } catch (MongoException me) {
+            assertEquals(1, count);
+        } catch (Exception ex) {
             fail();
         }
     }
 
     @Test
     public void testRetryMongoTemplateCommandWithBad() {
-        when(mockedBadMongoTemplate.findOne(any(Query.class), eq(MongoEntity.class), eq("student"))).thenThrow(
-                new MongoException("Bad!"));
-        retryMongoCommand = new RetryMongoCommand(mockedBadMongoTemplate, mockedLogger);
         MongoEntity found = null;
         int tries = 3;
+        count = 0;
         try {
-            found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
+            found = findOneWithRetries("bad_student", new NeutralQuery(), tries);
             fail();
-        } catch (MongoException me) {
-            assertEquals(0, tries);
-            Assert.assertNull(found);
+        } catch (Exception ex) {
+            assertEquals(3, count);
+            assertNull(found);
         }
     }
 
     @Test
     public void testRetryMongoTemplateCommandWithNotSoBad() {
-        MongoEntity expected = new MongoEntity("student", null);
-        when(mockedNotSoBadMongoTemplate.findOne(any(Query.class), eq(MongoEntity.class), eq("student"))).thenThrow(
-                new MongoException("Bad!")).thenReturn(expected);
-        retryMongoCommand = new RetryMongoCommand(mockedNotSoBadMongoTemplate, mockedLogger);
+        MongoEntity expected = student;
         int tries = 3;
+        count = 0;
         try {
-            MongoEntity found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
+            MongoEntity found = findOneWithRetries("not_so_bad_student", new NeutralQuery(), tries);
             assertEquals(expected, found);
-            assertEquals(2, tries);
-        } catch (MongoException me) {
+            assertEquals(2, count);
+        } catch (Exception ex) {
             fail();
         }
     }
 
     @Test
     public void testRetryMongoTemplateCommandWithDuplicate() {
-        doThrow(new MongoException("Duplicate!")).when(mockedDuplicateMongoTemplate).insert(any(Object.class),
-                eq("student"));
-        retryMongoCommand = new RetryMongoCommand(mockedDuplicateMongoTemplate, mockedLogger);
         int tries = 3;
+        count = 0;
+        Entity record = null;
         try {
-            retryMongoCommand.insertWithRetries(student, "student", tries);
-            assertEquals(1, tries);
-        } catch (MongoException me) {
+            record = createWithRetries(student, "student", tries);
             fail();
+        } catch (Exception ex) {
+            assertEquals(1, count);
+            assertNull(record);
+        }
+    }
+
+    private MongoEntity findOne(final String collectionName, final NeutralQuery neutralQuery) {
+        count++;
+        if (collectionName.equals("good_student")) {
+            return student;
+        }
+        else if (collectionName.equals("not_so_bad_student")) {
+            if (count == 2) {
+                return student;
+            }
+            else {
+                throw new MongoException("Cannot find record");
+            }
+        }
+        else {
+            throw new MongoException("Cannot find record");
+        }
+    }
+
+    private MongoEntity findOneWithRetries(final String collectionName, final NeutralQuery neutralQuery, int retries) throws Exception {
+        RetryMongoCommand retryMongoCommand = new RetryMongoCommand() {
+            @Override
+            public Object execute() {
+                return findOne(collectionName, neutralQuery);
+            }
+        };
+        try {
+            return (MongoEntity) retryMongoCommand.executeOperation(retries);
+        } catch (Exception e) {
+            throw(e);
+        }
+    }
+
+    public Entity create(final Entity record, final String collectionName) {
+        count++;
+        throw new MongoException(RetryMongoCommand.MONGO_DUPLICATE_KEY_ERROR, "Duplicate key");
+    }
+
+    private Entity createWithRetries(final Entity record, final String collectionName, int retries) throws Exception {
+        RetryMongoCommand retryMongoCommand = new RetryMongoCommand() {
+            @Override
+            public Object execute() {
+                return create(record, collectionName);
+            }
+        };
+        try {
+            return (MongoEntity) retryMongoCommand.executeOperation(retries);
+        } catch (Exception e) {
+            throw(e);
         }
     }
 }
