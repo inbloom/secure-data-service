@@ -17,33 +17,62 @@ limitations under the License.
 =end
 
 
-require 'net/imap'
 require_relative 'accountRequest.rb'
 
+###############################################################################
+# GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
+###############################################################################
+
 Given /^I go to the account registration page on RC$/ do
-  @driver.get "https://rcadmin.slcedu.org/registration"
+  @driver.get PropLoader.getProps["admintools_server_url"] + "/registration"
 end
+
+Given /^I received an email to verify my email addess$/ do
+  subject_string = "Shared Learning Collaborative Developer Account - Email Confirmation"
+  content_string = "Thank you for registering for a developer account with the Shared Learning Collaborative."
+  content = check_email_for_verification(subject_string, content_string) do
+  end
+  content.split("\n").each do |line|
+    if(/#{PropLoader.getProps["admintools_server_url"]}/.match(line))
+      @email_verification_link = line
+    end
+  end
+  assert(!@email_verification_link.nil?, "Can not find the link from the email")
+end
+
+###############################################################################
+# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
+###############################################################################
+
+When /^I click the link to verify my email address$/ do
+  @driver.get @email_verification_link
+end
+
+###############################################################################
+# DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
+###############################################################################
 
 private
 
-def check_email_for_verification(subject_substring = "Get Gmail on your mobile phone", content_substring = "The days")
-  imap_host = "imap.gmail.com"
-  imap_port = "993"
-  imap_user = "testdev.wgen@gmail.com"
-  imap_password = "testdev.wgen1234"
+def check_email_for_verification(subject_substring = nil, content_substring)
+  imap_host = 'imap.gmail.com'
+  imap_port = 993
+  imap_user = 'testdev.wgen@gmail.com'
+  imap_password = 'testdev.wgen1234'
   imap = Net::IMAP.new(imap_host, imap_port, true)
   imap.login(imap_user, imap_password)
   imap.examine('INBOX')
   not_so_distant_past = Date.today.prev_day.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
   messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  puts messages_before
   imap.disconnect
+
+  yield
 
   retry_attempts = 30
   retry_attempts.times do
     sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true)
+    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
     imap.login(imap_user, imap_password)
     imap.examine('INBOX')
 
@@ -52,20 +81,17 @@ def check_email_for_verification(subject_substring = "Get Gmail on your mobile p
     messages_before = messages_after
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
+      puts messages
       messages.each do |message|
         content = message.attr["BODY[TEXT]"]
         subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
         if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
             (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
-          puts content
+          return content
         end
       end
     end
     imap.disconnect
   end
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
-end
-
-Given /^test$/ do
-  check_email_for_verification
 end

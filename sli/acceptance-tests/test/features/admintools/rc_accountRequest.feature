@@ -22,10 +22,10 @@ Scenario: As an app developer I request a production account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
-@test
 Scenario: As an app developer I want to verify my registration email
-  Given test
-
+  Given I received an email to verify my email addess
+  When I click the link to verify my email address
+  Then I should be notified that my email is verified
 
 Scenario: As an SLC Operator I want to approve the app developer account
 
