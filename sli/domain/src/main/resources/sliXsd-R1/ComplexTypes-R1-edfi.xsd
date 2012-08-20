@@ -5,8 +5,9 @@
 	xmlns:sli="http://slcedu.org/schema/0100">
 
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
+    <xs:include schemaLocation="../edfiXsd-1-1-0/Ed-Fi-Core.xsd" />
 
-	<!-- This file contains the complex types for the SLI database schema representation. -->
+    <!-- This file contains the complex types for the SLI database schema representation. -->
 	<xs:complexType name="assessment">
 		<xs:annotation>
 			<xs:documentation>
@@ -240,7 +241,7 @@
 						Individual test items, if appropriate.
 					</xs:documentation>
 				</xs:annotation>
-			</xs:element>
+            </xs:element>
             <xs:element name="sectionReferences" type="reference" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>The section(s) which the assessment is associated with
@@ -250,7 +251,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-		</xs:sequence>
+        </xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="assessmentIdentificationCode">
@@ -1218,190 +1219,48 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="section">
-		<xs:annotation>
-			<xs:documentation>Section
+    <xs:complexType name="SLI-Section">
+        <xs:annotation>
+            <xs:documentation>Section
 
-				This educational entity represents a setting
-				in which organized instruction of course content is provided to one
-				or more students for a given period of time. A course may be offered
-				to more than one class/section. Instruction, provided by one or more
-				teachers or other staff members, may be delivered in person or via a
-				different medium.
+                This educational entity represents a setting
+                in which organized instruction of course content is provided to one
+                or more students for a given period of time. A course may be offered
+                to more than one class/section. Instruction, provided by one or more
+                teachers or other staff members, may be delivered in person or via a
+                different medium.
 
-				Associations: SectionAssessmentAssociation
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>section</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
-				<xs:annotation>
-					<xs:documentation>A unique identifier for the section that is
-						defined by the classroom, the subjects taught, and the
-						instructors
-						that are assigned.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sequenceOfCourse">
-				<xs:annotation>
-					<xs:documentation>When a section is part of a sequence of parts
-						for
-						a course, the number if the sequence. If the course has only
-						one
-						part, the value of this section attribute should be 1.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:int">
-						<xs:minInclusive value="1" />
-						<xs:maxInclusive value="8" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element minOccurs="0" name="educationalEnvironment"
-				type="educationalEnvironmentType">
-				<xs:annotation>
-					<xs:documentation>The setting in which a child receives education
-						and related services; for example:
-						Center-based instruction
-						Home-based instruction
-						Hospital class
-						Mainstream
-						Residential care
-						and
-						treatment facility
-						....
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="mediumOfInstruction" type="mediumOfInstructionType">
-				<xs:annotation>
-					<xs:documentation>The media through which teachers provide
-						instruction to students and students and teachers communicate
-						about instructional matters; for example:
-						Technology-based
-						instruction in classroom
-						Correspondence instruction
-						Face-to-face
-						instruction
-						Virtual/On-line Distance learning
-						Center-based
-						instruction
-						...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="populationServed" type="populationServedType">
-				<xs:annotation>
-					<xs:documentation>The population for which the course was
-						designed;
-						for example:
-						Bilingual students
-						Remedial education
-						students
-						Gifted and
-						talented students
-						Career and Technical
-						Education students
-						Special
-						education students
-						....
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="availableCredit" type="credits">
-				<xs:annotation>
-					<xs:documentation>The amount of credit available to a student who
-						successfully meets the objectives of the course. Available
-						credits
-						are measured in Carnegie units, A course meeting every day
-						for one
-						period of the school day over the span of a school
-						year
-						offers one
-						Carnegie unit. See publication: U.S. Department
-						of
-						Education, NCES,
-						2007-341, Secondary School Course
-						Classification
-						System: School
-						Codes for the Exchange of Data
-						(SCED).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The school where the section is taught.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<!-- obtain location information via SectionBellScheduleAssocation -->
-			<xs:element maxOccurs="1" minOccurs="0" name="sessionId"
-				type="reference">
-				<xs:annotation>
-					<xs:documentation>The session associated with the section. This
-						reference is required.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="programReference" type="reference">
-				<xs:annotation>
-					<xs:documentation>Optional reference to program (e.g., CTE, etc.)
-						the section is associated with.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-            <xs:element name="courseId" type="reference" minOccurs="1" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>Reference to the course of the section.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>course</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="gradeBookEntries" type="gradebookEntry" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Grade book entries for the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="teacherAssociations" type="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Teachers associated with the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-		</xs:sequence>
-	</xs:complexType>
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>section</sli:CollectionType>
+                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Section">
+                <xs:sequence>
+                    <xs:element name="StudentAssociations" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Students associated with the section.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="TeacherAssociations" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Teachers associated with the section.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="GradeBookEntries" type="SLI-GradebookEntry" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Grade book entries for the section.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
 		<xs:documentation> An association between the section and bell schedule.
@@ -3638,71 +3497,26 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentGradebookEntry">
+	<xs:complexType name="SLI-StudentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
 				StudentGradebookEntry
 				This entity holds a student’s grade or competency level for a GradeBookEntry.
 				Associations: Student
 			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="studentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The student who received the grade
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date an assignment was turned in or the
-						date
-						of an assessment.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="letterGradeEarned" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A final or interim (grading period) indicator
-						of
-						student performance in a class as submitted by the
-						instructor.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="gradeEarned">
-						<xs:maxLength value="20" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="numericGradeEarned" type="xs:integer"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A final or interim (grading period) indicator
-						of
-						student performance in a class as submitted by the
-						instructor.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="diagnosticStatement" type="text"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A statement provided by the teacher that
-						provides
-						information in addition to the grade or assessment
-						score.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="StudentGradebookEntry">
+                <xs:sequence>
+                    <xs:element name="StudentId" type="reference">
+                        <xs:annotation>
+                            <xs:documentation>The student who received the grade
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
 	</xs:complexType>
 
     <xs:complexType name="studentSpecialEdAttributes">
@@ -5408,7 +5222,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="gradebookEntry">
+	<xs:complexType name="SLI-GradebookEntry">
 		<xs:annotation>
 			<xs:documentation>GradebookEntry
 				This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
@@ -5419,48 +5233,20 @@
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="gradebookEntryType" type="gradebookEntryType">
-				<xs:annotation>
-					<xs:documentation>The type of the gradebook entry; for example,
-						homework, assignment, quiz, unit test, oral presentation, etc.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dateAssigned" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The date the assignment, homework, or assessment
-						was assigned or executed.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="description" type="description"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A description of the assignment, homework, or
-						classroom
-						assessment.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-            <xs:element name="studentGradebookEntries" type="studentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Student grades for the grade book entry.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-		</xs:sequence>
-	</xs:complexType>
+        <xs:complexContent>
+            <xs:extension base="GradebookEntry">
+                <xs:sequence>
+                    <xs:element name="StudentGradebookEntries" type="SLI-StudentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Student grades for the grade book entry.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 	<xs:complexType name="gradingPeriod">
 		<xs:annotation>
