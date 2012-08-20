@@ -29,7 +29,7 @@
 					<xs:element name="gradingPeriod" type="gradingPeriod" />
 					<xs:element name="graduationPlan" type="graduationPlan" />
 					<xs:element name="learningObjective" type="learningObjective" />
-					<xs:element name="learningStandard" type="learningStandard" />
+					<xs:element name="SLI-LearningStandard" type="SLI-LearningStandard" />
 					<xs:element name="SLI-Parent" type="SLI-Parent" />
 					<xs:element name="SLI-Program" type="SLI-Program" />
 					<xs:element name="school" type="school" />

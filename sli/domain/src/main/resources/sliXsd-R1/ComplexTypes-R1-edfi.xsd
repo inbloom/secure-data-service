@@ -3263,71 +3263,33 @@
         </xs:choice>
     </xs:complexType>
 
-    <xs:complexType name="learningStandard">
+    <xs:complexType name="SLI-LearningStandard">
         <xs:annotation>
-            <xs:documentation>This entity is a subelement of a learning
-                objective
-                consisting of a precise statement of the expectation of a
-                student's
-                proficiency.
+            <xs:documentation>This entity is a subelement of a learning objective consisting of a precise statement of
+                the expectation of a student's proficiency.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>learningStandard</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="learningStandardId" type="learningStandardId">
-                <xs:annotation>
-                    <xs:documentation>The Identifier for the specific learning
-                        standard
-                        (e.g., 111.15.3.1.A)
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="description" type="description">
-                <xs:annotation>
-                    <xs:documentation>A detailed statement of the expectation that is
-                        is assessed.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="contentStandard" type="contentStandardType">
-                <xs:annotation>
-                    <xs:documentation>A reference to the type of content standard
-                        e.g.,
-                        state, national, etc.)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="gradeLevel" type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>The grade level for the specific learning
-                        standard.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="subjectArea" type="academicSubjectType">
-                <xs:annotation>
-                    <xs:documentation>Subject area for the learning standard.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="courseTitle" type="courseTitle"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The official Course Title with which this
-                        learning standard is associated.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="LearningStandard">
+                <xs:sequence>
+                    <!-- NOTE URI AcademicWeekReference LearningStandardReference PrerequisiteLearningStandardReference
+                        LearningStandardItemCode not in current in SLI LearningStandard. -->
+
+                    <xs:element name="SLI-GradeLevel" type="gradeLevelType">
+                        <xs:annotation>
+                            <xs:documentation>The grade level for the specific learning standard.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-SubjectArea" type="academicSubjectType">
+                        <xs:annotation>
+                            <xs:documentation>Subject area for the learning standard.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="learningStandardIdentityType">
