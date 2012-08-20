@@ -31,6 +31,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -98,8 +99,31 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return insert(neutralRecord, collectionName);
     }
 
+    public NeutralRecord insertWithRetries(final NeutralRecord neutralRecord, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return insert(neutralRecord);
+            }
+        };
+        return (NeutralRecord) rc.executeOperation(noOfRetries);
+    }
+
     public NeutralRecord insert(NeutralRecord neutralRecord) {
         return insert(neutralRecord, neutralRecord.getRecordType());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return insertAll(entities, collectionName);
+            }
+        };
+        return (List<NeutralRecord>) rc.executeOperation(noOfRetries);
     }
 
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {

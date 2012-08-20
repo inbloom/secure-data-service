@@ -17,6 +17,11 @@
 package org.slc.sli.dal;
 
 import com.mongodb.MongoException;
+
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
+
 /**
  * Way to retry mongo commands
  *
@@ -24,25 +29,31 @@ import com.mongodb.MongoException;
  *
  */
 public abstract class RetryMongoCommand {
-    public static final int MONGO_DUPLICATE_KEY_ERROR = 11000;
-
-    public Object executeOperation(int noOfRetries) throws Exception {
+    public Object executeOperation(int noOfRetries) {
         Object result = null;
-        Exception ex = new RuntimeException("Error: Exceeded " + noOfRetries + " tries");
         while (noOfRetries > 0) {
             try {
                result = execute();
-               return result;
-            } catch (MongoException me) {
-                if (me.getCode() == MONGO_DUPLICATE_KEY_ERROR) {
-                    throw me;
-                }
-                ex = me;
-                noOfRetries--;
+                break;
+            } catch (MongoException  me) {
+                noOfRetries = handleException(me.getCode(), noOfRetries, me);
+            } catch (DataAccessResourceFailureException  ex) {
+                noOfRetries = handleException(0, noOfRetries, ex);
+            } catch (InvalidDataAccessApiUsageException  ex) {
+                noOfRetries = handleException(0, noOfRetries, ex);
+            } catch (InvalidDataAccessResourceUsageException  ex) {
+                noOfRetries = handleException(0, noOfRetries, ex);
             }
         }
-        throw ex;
+        return result;
     }
 
+    private int handleException(int code, int noOfRetries, Exception ex) {
+        if (code == 11000 | code == 11001) {
+            throw (MongoException) ex;
+        }
+        return --noOfRetries;
+
+    }
     public abstract Object execute();
 }
