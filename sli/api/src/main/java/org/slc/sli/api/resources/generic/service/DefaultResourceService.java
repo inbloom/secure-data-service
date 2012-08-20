@@ -17,6 +17,9 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import  java.util.ArrayList;
+import org.springframework.util.StringUtils;
+import org.slc.sli.modeling.uml.ClassType;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -44,6 +47,7 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private ResourceHelper resourceHelper;
+
 
     @Autowired
     private List<EntityDecorator> entityDecorators;
@@ -149,7 +153,7 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     public Long getEntityCount(Resource resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
-        EntityDefinition definition = getEntityDefinition(resource);
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = getApiQuery(definition, requestURI);
         long count = 0;
 
@@ -204,9 +208,7 @@ public class DefaultResourceService implements ResourceService {
         definition.getService().delete(id);
     }
 
-    public EntityDefinition getEntityDefinition(final Resource resource) {
-        return entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-    }
+
 
     @Override
     public String getEntityType(Resource resource) {
@@ -215,9 +217,8 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     // TODO: change from UriInfo
-    public List<EntityBody> getEntities(final String base, final String id, final String resource, final URI requestURI,
-                                        MultivaluedMap<String, String> queryParams) {
-        final EntityDefinition definition = getEntityDefinition(resource);
+    public List<EntityBody> getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
+        final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
         List<String> valueList = Arrays.asList(id.split(","));
@@ -234,32 +235,32 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     // TODO
-    public List<EntityBody> getEntities(String base, String id, String association, String resource, UriInfo uriInfo) {
+    public List<EntityBody> getEntities(Resource base, String id, Resource association, Resource resource, UriInfo uriInfo) {
         final EntityDefinition finalEntity = getEntityDefinition(resource);
         final EntityDefinition  assocEntity= getEntityDefinition(association);
         final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
-        final ApiQuery apiQuery = getApiQuery(assocEntity, uriInfo.getRequestUri(),);
+        final ApiQuery apiQuery = getApiQuery(assocEntity, uriInfo.getRequestUri());
         apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
 
         final String resourceKey = getConnectionKey(association,resource);
-        final ArrayList<String> filteredIdList = new ArrayList<String>();
+        final List<String> filteredIdList = new ArrayList<String>();
         for(EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
            filteredIdList.add(entityBody.get(resourceKey).toString());
         }
         List<EntityBody> entityBodyList;
-        final ApiQuery finalApiQuery = getApiQuery(finalEntity, uriInfo.getRequestUri(),);
+        final ApiQuery finalApiQuery = getApiQuery(finalEntity, uriInfo.getRequestUri());
         finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
         try {
-            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+            entityBodyList = logicalEntity.getEntities(apiQuery, finalEntity.getResourceName());
         } catch (final UnsupportedSelectorException e) {
             entityBodyList = (List<EntityBody>) finalEntity.getService().list(apiQuery);
         }
         return entityBodyList;
     }
 
-    private String getConnectionKey(final String fromEntity, final String toEntity) {
+    private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
         final EntityDefinition toEntityDef = getEntityDefinition(toEntity);
         final EntityDefinition fromEntityDef = getEntityDefinition(fromEntity);
         ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));

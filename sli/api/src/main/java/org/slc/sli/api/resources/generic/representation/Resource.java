@@ -12,13 +12,9 @@ public class Resource {
     private String namespace;
     private String resourceType;
 
-    public Resource(final String resourcePath) {
-        populate(resourcePath);
-    }
-
-    protected void populate(final String resourcePath) {
-        this.namespace = resourcePath.split("/")[0];
-        this.resourceType = resourcePath.split("/")[1];
+    public Resource(String namespace,String resourceType) {
+        this.namespace = namespace;
+        this.resourceType = resourceType;
     }
 
     public String getNamespace() {

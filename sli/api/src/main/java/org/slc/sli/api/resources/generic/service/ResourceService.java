@@ -20,12 +20,12 @@ public interface ResourceService {
 
     public List<EntityBody> getEntities(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public List<EntityBody> getEntities(String base, String id, Resource resource, URI requestURI);
+    public List<EntityBody> getEntities(Resource base, String id, Resource resource, URI requestURI);
 
-    public List<EntityBody> getEntities(String base, String id, String association,
+    public List<EntityBody> getEntities(Resource base, String id, Resource association,
                                         Resource resource, UriInfo uriInfo);
 
-    public long getEntityCount(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
     public String postEntity(Resource resource, EntityBody entity);
 
     public void putEntity(Resource resource, String id, EntityBody entity);

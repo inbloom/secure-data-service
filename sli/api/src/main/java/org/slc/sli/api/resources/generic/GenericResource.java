@@ -5,6 +5,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.representation.HateoasLink;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.service.EntityDecorator;
 import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -40,6 +41,10 @@ public abstract class GenericResource {
     @Autowired
     private ResourceAccessLog resourceAccessLog;
 
+    @Autowired
+    private List<EntityDecorator> entityDecorators;
+
+
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
 
@@ -54,7 +59,7 @@ public abstract class GenericResource {
     protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
                                                  final ResourceMethod method) {
         final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
-        Resource resource = new Resource(resourcePath);
+        Resource resource = resourceHelper.getResourceName(uriInfo,template);
 
         Set<String> values = resourceSupportedMethods.get(resourcePath);
         if (!values.contains(method.getMethod())) {
@@ -79,6 +84,13 @@ public abstract class GenericResource {
 
         //add the links
         entities = hateoasLink.add(resource.getResourceType(), entities, uriInfo);
+
+         //apply the decorators
+        for (EntityBody entityBody : entities) {
+            for (EntityDecorator entityDecorator : entityDecorators) {
+                entityBody = entityDecorator.decorate(entityBody, resourceHelper.getEntityDefinition(resource), uriInfo.getQueryParameters());
+            }
+        }
 
         //get the page count
         long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
