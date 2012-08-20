@@ -1,4 +1,4 @@
-package org.slc.sli.aggregation;
+package org.slc.sli.aggregation.mapreduce.reduce;
 
 import java.io.IOException;
 
@@ -19,16 +19,19 @@ import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
  */
 public class Highest extends Reducer<IdFieldEmittableKey, BSONWritable, IdFieldEmittableKey, BSONWritable> {
 
+    static long callCount = 1;
+
     @Override
     protected void reduce(IdFieldEmittableKey id, Iterable<BSONWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
-        Double highest = null;
+        double highest = Double.MIN_VALUE;
         for (BSONWritable scoreResult: scoreResults) {
             String[] s = BSONValueLookup.getValues(scoreResult, "body.scoreResults.result");
+
             for (String val : s) {
                 double score = Double.parseDouble(val);
-                if (highest == null || score > highest) {
-                    highest = new Double(score);
+                if (score > highest) {
+                    highest = score;
                 }
             }
         }
@@ -38,6 +41,8 @@ public class Highest extends Reducer<IdFieldEmittableKey, BSONWritable, IdFieldE
         BSONObject obj = BSONValueLookup.setValue(field,  highest);
         BSONWritable result = new BSONWritable(obj);
         context.write(id, result);
+
+        System.err.println("" + callCount++);
     }
 
 }

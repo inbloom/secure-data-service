@@ -157,5 +157,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-
+    
+    public void setValidator(EntityValidator validator) {
+    	this.validator=validator;
+    }
+    
 }
