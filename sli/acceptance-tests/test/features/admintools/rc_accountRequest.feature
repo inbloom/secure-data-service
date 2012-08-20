@@ -26,7 +26,6 @@ Scenario: As an app developer I want to verify my registration email
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 
-@test
 Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
   And I go to the portal page on RC
@@ -47,4 +46,3 @@ Scenario: As an SLC Operator I want to approve the app developer account
   When I click on Ok
   Then his account status changed to "approved"
   And I should see "Account was successfully updated"
-

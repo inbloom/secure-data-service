@@ -19,20 +19,25 @@ limitations under the License.
 require "selenium-webdriver"
 require "socket"
 require 'net/imap'
-require_relative 'accountRequest.rb'
 require_relative '../../cross_app_tests/step_definitions/rc_integration_samt'
 require_relative '../../liferay/step_definitions/all_steps.rb'
+
+
+Before do
+  @rc_admintools_url = "https://rcadmin.slidev.org"
+  @rc_portal_url = "https://rcportal.slidev.org/portal"
+end
 
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
 Given /^I go to the account registration page on RC$/ do
-  @driver.get "https://rcadmin.slidev.org/registration"
+  @driver.get @rc_admintools_url + "/registration"
 end
 
 Given /^I go to the portal page on RC$/ do
-  @driver.get "https://rcportal.slidev.org/portal/"
+  @driver.get @rc_portal_url
 end
 
 Given /^I received an email to verify my email address$/ do
@@ -40,7 +45,7 @@ Given /^I received an email to verify my email address$/ do
   content_string = "RCTest"
   content = check_email_for_verification(subject_string, content_string)
   content.split("\n").each do |line|
-    if(/#{PropLoader.getProps["admintools_server_url"]}/.match(line))
+    if(/#{@rc_admintools_url}/.match(line))
       @email_verification_link = line
     end
   end
@@ -69,10 +74,9 @@ Then /^I should be notified that my email is verified$/ do
 end
 
 Then /^I should see an account with name "([^\"]*)"$/ do |user_name|
-  puts "And i am looking to find the element with id username.", user_name
-  user=@driver.find_element(:id,"username."+user_name)
-  assert(user.text==user_name,"didnt find the account with name #{user_name}")
-  @user_name=user_name
+  user = @driver.find_element(:id, "username."+user_name)
+  assert(user.text == user_name, "Didnt find the account with name #{user_name}")
+  @user_name = user_name
 end
 
 Then /^I click on Account Approval$/ do
