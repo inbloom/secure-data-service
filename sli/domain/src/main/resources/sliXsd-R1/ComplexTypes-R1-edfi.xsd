@@ -5050,171 +5050,39 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="course">
-		<xs:annotation>
-			<xs:documentation>Course
-				This educational entity represents the
-				organization
-				of subject matter and related learning experiences
-				provided for the
-				instruction of students on a regular or systematic
-				basis.
-				If you are looking for a specific course instance, use section
-				instead.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>course</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="courseTitle" type="courseTitle">
-				<xs:annotation>
-					<xs:documentation>The descriptive name given to a course of study
-						offered in a school or other institution or organization. In
-						departmentalized classes at the elementary, secondary, and
-						postsecondary levels (and for staff development activities), this
-						refers to the name by which a course is identified (e.g.,
-						American
-						History, English III). For elementary and other
-						non-departmentalized classes, it refers to any portion of the
-						instruction for which a grade or report is assigned (e.g.,
-						reading, composition, spelling, and language arts).
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="numberOfParts">
-				<xs:annotation>
-					<xs:documentation>The number of parts identified for a course.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:int">
-						<xs:minInclusive value="1" />
-						<xs:maxInclusive value="8" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" name="courseCode" type="courseCode">
-				<xs:annotation>
-					<xs:documentation>The code that identifies the organization of
-						subject matter and related learning experiences provided for the
-						instruction of students.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="courseLevel" type="courseLevelType">
-				<xs:annotation>
-					<xs:documentation>The course's level of rigor.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="courseLevelCharacteristics" type="courseLevelCharacteristicItemType">
-				<xs:annotation>
-					<xs:documentation>Specification of the specific program or
-						designation associated with the course. For example: Ap, IB, Dual
-						Credit, CTE. etc.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element  maxOccurs="unbounded" minOccurs="0" name="gradesOffered" type="gradeLevelType">
-				<xs:annotation>
-					<xs:documentation>The grade levels in which the course is offered.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="subjectArea" type="academicSubjectType">
-				<xs:annotation>
-					<xs:documentation>The intended major subject area of the course.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="courseDescription" type="description">
-				<xs:annotation>
-					<xs:documentation>A description of the content standards and goals
-						covered in the course. Reference may be made to state or national
-						content standards.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="dateCourseAdopted" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Date the course was adopted by the education
-						agency.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="highSchoolCourseRequirement"
-				type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>An indication that this course may satisfy high
-						school graduation requirements in the course's subject area.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="courseGPAApplicability"
-				type="courseGPAApplicabilityType">
-				<xs:annotation>
-					<xs:documentation>An indicator of whether or not this course being
-						described is included in the computation of the student’s Grade
-						Point Average, and if so, if it weighted differently from regular
-						courses.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="courseDefinedBy" type="courseDefinedByType">
-				<xs:annotation>
-					<xs:documentation>Specifies whether the course was defined by the
-						SEA, LEA, School, or national organization.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="minimumAvailableCredit"
-				type="credits">
-				<xs:annotation>
-					<xs:documentation>The minimum amount of credit available to a
-						student who successfully completes the course
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="maximumAvailableCredit"
-				type="credits">
-				<xs:annotation>
-					<xs:documentation>The maximum amount of credit available to a
-						student who successfully completes the course
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="careerPathway" type="careerPathwayType">
-				<xs:annotation>
-					<xs:documentation>Indicates the career cluster or pathway the
-						course is associated with as part of a CTE curriculum.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>
-						The Education Organization that defines the
-						curriculum and courses offered -
-						often the LEA or school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="SLI-Course">
+        <xs:annotation>
+            <xs:documentation>Course
+                This educational entity represents the organization of subject matter and related learning experiences
+                provided for the instruction of students on a regular or systematic basis.
+                If you are looking for a specific course instance, use section instead.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>course</sli:CollectionType>
+                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Course">
+                <xs:sequence>
+                    <xs:element name="SLI-GradesOffered" type="gradeLevelType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The grade levels in which the course is offered.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-SubjectArea" type="academicSubjectType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The intended major subject area of the course.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
-	<xs:complexType name="courseCode">
+    <xs:complexType name="courseCode">
 		<xs:annotation>
 			<xs:documentation>A standard code that identifies the organization of
 				subject matter and related learning experiences provided for the
