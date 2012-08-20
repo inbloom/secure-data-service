@@ -31,7 +31,9 @@ Before do
 end
 
 After do |scenario|
-  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  unless @do_not_run_after
+    cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  end
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|

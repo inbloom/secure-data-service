@@ -80,7 +80,7 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
         String collectionName = mapper.getInput().getCollection();
         Map<String, Object> query = mapper.getInput().getQuery();
         Map<String, Object> fields = mapper.getInput().getFields();
-        Map<String, String> hadoopOptions = hadoop.getOptions();
+        Map<String, Object> hadoopOptions = hadoop.getOptions();
 
         Class<? extends Reducer> reducerClass = reducer.getReducerClass();
         String updateCollection = reducer.getCollection();
@@ -230,8 +230,8 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
          * Any additional hadoop options are added to the configuration as key/value pairs.
          */
         if (hadoopOptions != null) {
-            for (Map.Entry<String, String> option : hadoopOptions.entrySet()) {
-                mapperConf.set(option.getKey(), option.getValue());
+            for (Map.Entry<String, Object> option : hadoopOptions.entrySet()) {
+                mapperConf.set(option.getKey(), option.getValue().toString());
             }
         }
 
@@ -242,13 +242,4 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
 
         return mapperConf;
     }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    protected void map(EmittableKey key, BSONWritable value,
-        org.apache.hadoop.mapreduce.Mapper.Context context) throws IOException,
-        InterruptedException {
-        super.map(key, value, context);
-    }
-
 }
