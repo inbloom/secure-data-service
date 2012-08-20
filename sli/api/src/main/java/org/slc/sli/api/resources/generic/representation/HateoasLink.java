@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.generic.service;
+package org.slc.sli.api.resources.generic.representation;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;

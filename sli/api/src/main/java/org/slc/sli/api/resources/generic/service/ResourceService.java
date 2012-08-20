@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.generic.service;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -15,25 +16,25 @@ import java.util.List;
  */
 
 public interface ResourceService {
-    public List<EntityBody> getEntitiesByIds(String resource, String idList, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public List<EntityBody> getEntities(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntities(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public List<EntityBody> getEntities(String base, String id, String resource, URI requestURI);
+    public List<EntityBody> getEntities(String base, String id, Resource resource, URI requestURI);
 
     public List<EntityBody> getEntities(String base, String id, String association,
-                                        String resource, UriInfo uriInfo);
+                                        Resource resource, UriInfo uriInfo);
 
-    public String postEntity(String resource, EntityBody entity);
+    public String postEntity(Resource resource, EntityBody entity);
 
-    public void putEntity(String resource, String id, EntityBody entity);
+    public void putEntity(Resource resource, String id, EntityBody entity);
 
-    public void deleteEntity(String resource, String id);
+    public void deleteEntity(Resource resource, String id);
 
-    public Long getEntityCount(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public Long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public String getEntityType(String resource);
+    public String getEntityType(Resource resource);
 
-    public EntityDefinition getEntityDefinition(String resource);
+    public EntityDefinition getEntityDefinition(Resource resource);
 
 }
