@@ -45,7 +45,7 @@ module ActiveResource
       # Override to handle json
       def self.decode(json)
         #json.gsub(/\\[nt]*/, "")
-        json
+        json.gsub!(/\\[tn]*/,"")[1, json.size-2].html_safe
       end
       # Override to handle json
       def self.encode(hash, options = nil)
