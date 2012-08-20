@@ -18,6 +18,7 @@ package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -217,7 +218,7 @@ public class ConfigController extends GenericLayoutController {
      */
     @RequestMapping(value = CONFIG_ALL, method = RequestMethod.GET)
     @ResponseBody
-    public List<List<ConfigWrapper>> handleConfigPanels(@RequestParam Map<String, String> configType,
+    public List<ConfigWrapper> handleConfigPanels(@RequestParam Map<String, String> configType,
             final HttpServletRequest request, HttpServletResponse response) {
         
         String token = SecurityUtil.getToken();
@@ -253,9 +254,11 @@ public class ConfigController extends GenericLayoutController {
                 sortedIdNames.add(idName);
             }
             Collections.sort(sortedIdNames);
-            List<List<ConfigWrapper>> sortedConfigs = new LinkedList<List<ConfigWrapper>>();
+            List<ConfigWrapper> sortedConfigs = new LinkedList<ConfigWrapper>();
             for (String sortedIdName : sortedIdNames) {
-                sortedConfigs.add(mapConfigWrappers.get(sortedIdName));
+                List<ConfigWrapper> mapConfigWrapperList=mapConfigWrappers.get(sortedIdName);
+                Collections.sort(mapConfigWrapperList);
+                sortedConfigs.addAll(mapConfigWrapperList);
             }
             return sortedConfigs;
         }
@@ -269,7 +272,7 @@ public class ConfigController extends GenericLayoutController {
      * @author tosako
      * 
      */
-    protected class ConfigWrapper extends Config {
+    protected class ConfigWrapper extends Config implements Comparable<ConfigWrapper>{
         private String educationAgencyName;
         
         public ConfigWrapper(Config config) {
@@ -283,6 +286,11 @@ public class ConfigController extends GenericLayoutController {
         
         public void setEducationAgencyName(String configName) {
             this.educationAgencyName = configName;
+        }
+
+        @Override
+        public int compareTo(ConfigWrapper o) {
+            return this.educationAgencyName.compareTo(o.educationAgencyName);
         }
     }
 }
