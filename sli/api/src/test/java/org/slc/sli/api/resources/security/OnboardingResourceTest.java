@@ -111,7 +111,7 @@ public class OnboardingResourceTest {
 
         // clear all related collections
         repo.deleteAll("educationOrganization");
-        
+
     }
 
     @After
@@ -136,7 +136,7 @@ public class OnboardingResourceTest {
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);
         try {
-            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.anyBoolean())).thenReturn(landingZone);
+            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.eq("small_sample_dataset"), Mockito.anyBoolean())).thenReturn(landingZone);
         } catch (TenantResourceCreationException e) {
             Assert.fail(e.getMessage());
         }

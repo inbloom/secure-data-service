@@ -132,9 +132,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @Override
-    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
+    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, String preloadFile, boolean isSandbox)
             throws TenantResourceCreationException {
-        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
+        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, preloadFile, isSandbox);
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody newTenant = tenantService.get(newTenantId);
         @SuppressWarnings("unchecked")
@@ -168,10 +168,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames, boolean isSandbox)
+    protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames, String preloadFile, boolean isSandbox)
             throws TenantResourceCreationException {
-        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
 
+        // get the exisint tenant resource
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
@@ -200,14 +201,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
-            Map<String, Object> newLandingZone = new HashMap<String, Object>();
-            newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
-            newLandingZone.put(LZ_DESC, desc);
-            newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
-            newLandingZone.put(LZ_PATH, path);
-            newLandingZone.put(LZ_USER_NAMES, userNames);
+            Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
-            newLandingZoneList.add(newLandingZone);
+            newLandingZoneList.add(nlz);
             newTenant.put(LZ, newLandingZoneList);
 
             //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
@@ -254,17 +250,23 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
 
+        Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
+        allLandingZones.add(nlz);
+
+        existingBody.put(LZ, new ArrayList(allLandingZones));
+        tenantService.update(existingTenantId, existingBody);
+        return existingTenantId;
+    }
+
+    private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer,
+                                                 String path, List<String> userNames) {
         Map<String, Object> newLandingZone = new HashMap<String, Object>();
         newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
         newLandingZone.put(LZ_DESC, desc);
         newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
         newLandingZone.put(LZ_PATH, path);
         newLandingZone.put(LZ_USER_NAMES, userNames);
-        allLandingZones.add(newLandingZone);
-
-        existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-        return existingTenantId;
+        return newLandingZone;
     }
 
     /**
