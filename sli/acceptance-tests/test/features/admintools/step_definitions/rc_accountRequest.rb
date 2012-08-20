@@ -89,7 +89,7 @@ def check_email_for_verification(subject_substring = nil, content_substring)
     imap.examine('INBOX')
 
     messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after
+    messages_new = messages_after - messages_before
     messages_before = messages_after
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
