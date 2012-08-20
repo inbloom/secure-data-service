@@ -17,8 +17,12 @@
 package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +43,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
+import org.slc.sli.dashboard.entity.Config.Condition;
+import org.slc.sli.dashboard.entity.Config.Data;
+import org.slc.sli.dashboard.entity.Config.Item;
+import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.manager.ConfigManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
@@ -205,21 +213,76 @@ public class ConfigController extends GenericLayoutController {
      * @param configType
      * @param request
      * @param response
-     * @return DriverConfig and all EdOrg hierarchy JSON. 
+     * @return DriverConfig and all EdOrg hierarchy JSON.
      */
     @RequestMapping(value = CONFIG_ALL, method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Collection<Config>> handleConfigPanels(
-            @RequestParam Map<String, String> configType, final HttpServletRequest request,
-            HttpServletResponse response) {
+    public List<List<ConfigWrapper>> handleConfigPanels(@RequestParam Map<String, String> configType,
+            final HttpServletRequest request, HttpServletResponse response) {
         
         String token = SecurityUtil.getToken();
         Boolean isAdmin = SecurityUtil.isAdmin();
-        
         if (isAdmin != null && isAdmin.booleanValue()) {
-            return configManager.getAllConfigByType(token, userEdOrgManager.getUserEdOrg(token), configType);
+            Map<String, Collection<Config>> mapConfigs = configManager.getAllConfigByType(token,
+                    userEdOrgManager.getUserEdOrg(token), configType);
+            
+            //re-organize config objects. group by id
+            Map<String, List<ConfigWrapper>> mapConfigWrappers = new HashMap<String, List<ConfigWrapper>>();
+            if (mapConfigs != null) {
+                Set<String> edOrgNames = mapConfigs.keySet();
+                for (String edOrgName : edOrgNames) {
+                    //get Collection of Config by edOrgName
+                    Collection<Config> configs = mapConfigs.get(edOrgName);
+                    for (Config config : configs) {
+                        ConfigWrapper configWrapper = new ConfigWrapper(config);
+                        configWrapper.setEducationAgencyName(edOrgName);
+                        List<ConfigWrapper> configWrappers = mapConfigWrappers.get(configWrapper.getId());
+                        if (configWrappers == null) {
+                            configWrappers = new LinkedList<ConfigWrapper>();
+                            mapConfigWrappers.put(configWrapper.getId(), configWrappers);
+                        }
+                        configWrappers.add(configWrapper);
+                    }
+                }
+            }
+            
+            //make alphabetical order for client
+            Set<String> idNames = mapConfigWrappers.keySet();
+            List<String> sortedIdNames = new LinkedList<String>();
+            for (String idName : idNames) {
+                sortedIdNames.add(idName);
+            }
+            Collections.sort(sortedIdNames);
+            List<List<ConfigWrapper>> sortedConfigs = new LinkedList<List<ConfigWrapper>>();
+            for (String sortedIdName : sortedIdNames) {
+                sortedConfigs.add(mapConfigWrappers.get(sortedIdName));
+            }
+            return sortedConfigs;
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return null;
+    }
+    
+    /**
+     * Config Wrapper class for client.
+     * 
+     * @author tosako
+     * 
+     */
+    protected class ConfigWrapper extends Config {
+        private String educationAgencyName;
+        
+        public ConfigWrapper(Config config) {
+            super(config.getId(), config.getParentId(), config.getName(), config.getType(), config.getCondition(),
+                    config.getData(), config.getItems(), config.getRoot(), config.getParams());
+        }
+        
+        public String getEducationAgencyName() {
+            return this.educationAgencyName;
+        }
+        
+        public void setEducationAgencyName(String configName) {
+            this.educationAgencyName = configName;
+        }
     }
 }

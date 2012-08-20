@@ -117,5 +117,5 @@ public interface ConfigManager {
      * @param attrs
      * @return
      */
-    Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey, Map<String, String> params);
+    public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey, Map<String, String> params);
 }
