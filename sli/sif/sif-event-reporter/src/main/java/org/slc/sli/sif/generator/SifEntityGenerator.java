@@ -425,7 +425,7 @@ public class SifEntityGenerator {
         employeePersonal.setAddressList(addressList);
 
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.addPhoneNumber(PhoneNumberType.SIF1x_HOME_PHONE, "(312) 555-9876");
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-9876");
         employeePersonal.setPhoneNumberList(phoneNumberList);
 
         EmailList emailList = new EmailList();
