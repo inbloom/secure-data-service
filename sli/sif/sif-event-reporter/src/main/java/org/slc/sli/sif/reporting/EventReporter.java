@@ -17,11 +17,8 @@
 package org.slc.sli.sif.reporting;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -47,6 +44,7 @@ import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
+import openadk.library.hrfin.EmployeeAssignment;
 import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrOtherIdList;
@@ -63,7 +61,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.sif.generator.CustomEventGenerator;
-import org.slc.sli.sif.generator.GeneratorScriptEvent;
+import org.slc.sli.sif.generator.GeneratorScriptMethod;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 import org.slc.sli.sif.zone.PublishZoneConfigurator;
 
@@ -139,33 +137,6 @@ public class EventReporter implements Publisher {
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
     private Zone zone;
-    private Map<String, ScriptMethod> scriptMethodMap = new HashMap<String, ScriptMethod>();
-
-    /**
-     * Helper class to map script identifiers to Java methods
-     *
-     * @author vmcglaughlin
-     *
-     */
-    static class ScriptMethod {
-        private Object executingClass;
-        private Object[] args;
-        private Method method;
-
-        public ScriptMethod(Object executingClass, Method method, Object... args) {
-            this.executingClass = executingClass;
-            this.method = method;
-            this.args = args;
-        }
-
-        public Event execute() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return (Event) method.invoke(executingClass, args);
-        }
-
-        public String toString() {
-            return "Class: " + executingClass + "\tmethod: " + method.getName() + "\targs: " + args;
-        }
-    }
 
     public EventReporter(Zone zone) throws ADKException, SecurityException, NoSuchMethodException {
         this.zone = zone;
@@ -177,74 +148,6 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.STAFFPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, HrfinDTD.EMPLOYEEPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STAFFASSIGNMENT, new PublishingOptions(true));
-
-        populateMethodMap();
-    }
-
-    // TODO this is ugly. do it better
-    private void populateMethodMap() throws SecurityException, NoSuchMethodException {
-        ScriptMethod leaInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_ADD, leaInfoAddMethod);
-        ScriptMethod leaInfoChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_CHANGE, leaInfoChangeMethod);
-        ScriptMethod leaInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_DELETE, leaInfoDeleteMethod);
-
-        ScriptMethod schoolInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_ADD, schoolInfoAddMethod);
-        ScriptMethod schoolInfoChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_CHANGE, schoolInfoChangeMethod);
-        ScriptMethod schoolInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_DELETE, schoolInfoDeleteMethod);
-
-        ScriptMethod studentPersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_ADD, studentPersonalAddMethod);
-        ScriptMethod studentPersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_CHANGE, studentPersonalChangeMethod);
-        ScriptMethod studentPersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE, studentPersonalDeleteMethod);
-
-        ScriptMethod studentLeaRelationshipAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD, studentLeaRelationshipAddMethod);
-        ScriptMethod studentLeaRelationshipChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE, studentLeaRelationshipChangeMethod);
-        ScriptMethod studentLeaRelationshipDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE, studentLeaRelationshipDeleteMethod);
-
-        ScriptMethod studentSchoolEnrollmentAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD, studentSchoolEnrollmentAddMethod);
-        ScriptMethod studentSchoolEnrollmentChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE, studentSchoolEnrollmentChangeMethod);
-        ScriptMethod studentSchoolEnrollmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE, studentSchoolEnrollmentDeleteMethod);
-
-        ScriptMethod staffPersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_ADD, staffPersonalAddMethod);
-        ScriptMethod staffPersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_CHANGE, staffPersonalChangeMethod);
-        ScriptMethod staffPersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffPersonalEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_PERSONAL_DELETE, staffPersonalDeleteMethod);
-
-        ScriptMethod employeePersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_ADD, employeePersonalAddMethod);
-        ScriptMethod employeePersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE, employeePersonalChangeMethod);
-        ScriptMethod employeePersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmployeePersonalEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE, employeePersonalDeleteMethod);
-
-        ScriptMethod staffAssignmentAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_ADD, staffAssignmentAddMethod);
-        ScriptMethod staffAssignmentChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE, staffAssignmentChangeMethod);
-        ScriptMethod staffAssignmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStaffAssignmentEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE, staffAssignmentDeleteMethod);
-
-        ScriptMethod employmentRecordAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD, employmentRecordAddMethod);
-        ScriptMethod employmentRecordChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE, employmentRecordChangeMethod);
-        ScriptMethod employmentRecordDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportEmploymentRecordEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE, employmentRecordDeleteMethod);
     }
 
     public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -252,12 +155,16 @@ public class EventReporter implements Publisher {
         LOG.info("Wait time (ms): " + waitTime);
         String[] eventDescriptors = script.split(",");
         for (String descriptor : eventDescriptors) {
-            ScriptMethod scriptMethod = scriptMethodMap.get(descriptor);
+            GeneratorScriptMethod scriptMethod = GeneratorScriptMethod.get(descriptor);
             LOG.info("Executing script method - " + scriptMethod.toString());
-            Event eventSent = scriptMethod.execute();
-            eventsSent.add(eventSent);
             try {
+                Event eventSent = scriptMethod.execute(this);
+                eventsSent.add(eventSent);
                 Thread.sleep(waitTime);
+            } catch (SecurityException e) {
+                LOG.error("Failed to execute method for descriptor " + descriptor, e);
+            } catch (NoSuchMethodException e) {
+                LOG.error("Failed to execute method for descriptor " + descriptor, e);
             } catch (InterruptedException e) {
                 LOG.error("Exception while sleeping", e);
             }
@@ -369,6 +276,18 @@ public class EventReporter implements Publisher {
             employmentRecord.setPositionNumber("15");
         }
         Event event = new Event(employmentRecord, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmployeeAssignmentEvent(EventAction action) throws ADKException {
+        LOG.info("EmployeeAssignment " + action.toString());
+        EmployeeAssignment employeeAssignment = SifEntityGenerator.generateTestEmployeeAssignment();
+        if (action == EventAction.CHANGE) {
+            employeeAssignment.setChanged();
+            employeeAssignment.setPrimaryAssignment(YesNo.NO);
+        }
+        Event event = new Event(employeeAssignment, action);
         zone.reportEvent(event);
         return event;
     }

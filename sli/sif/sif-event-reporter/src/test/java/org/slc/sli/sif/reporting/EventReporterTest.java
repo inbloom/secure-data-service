@@ -39,6 +39,7 @@ import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
+import openadk.library.hrfin.EmployeeAssignment;
 import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.HrfinDTD;
@@ -56,7 +57,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import org.slc.sli.sif.EventReporterAdkTest;
-import org.slc.sli.sif.generator.GeneratorScriptEvent;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 
 /**
@@ -129,33 +129,36 @@ public class EventReporterTest extends EventReporterAdkTest {
         testMap.put(StudentSchoolEnrollment.class, addChangeDeleteEventActionList);
 
         String[] scriptArray = {
-                GeneratorScriptEvent.KEY_LEA_INFO_ADD,
-                GeneratorScriptEvent.KEY_LEA_INFO_CHANGE,
-                GeneratorScriptEvent.KEY_LEA_INFO_DELETE,
-                GeneratorScriptEvent.KEY_SCHOOL_INFO_ADD,
-                GeneratorScriptEvent.KEY_SCHOOL_INFO_CHANGE,
-                GeneratorScriptEvent.KEY_SCHOOL_INFO_DELETE,
-                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_ADD,
-                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_CHANGE,
-                GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE,
-                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD,
-                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE,
-                GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE,
-                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD,
-                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE,
-                GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE,
-                GeneratorScriptEvent.KEY_STAFF_PERSONAL_ADD,
-                GeneratorScriptEvent.KEY_STAFF_PERSONAL_CHANGE,
-                GeneratorScriptEvent.KEY_STAFF_PERSONAL_DELETE,
-                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_ADD,
-                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_CHANGE,
-                GeneratorScriptEvent.KEY_EMPLOYEE_PERSONAL_DELETE,
-                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_ADD,
-                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_CHANGE,
-                GeneratorScriptEvent.KEY_STAFF_ASSIGNMENT_DELETE,
-                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_ADD,
-                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_CHANGE,
-                GeneratorScriptEvent.KEY_EMPLOYMENT_RECORD_DELETE
+                "LEAInfoAdd",
+                "LEAInfoChange",
+                "LEAInfoDelete",
+                "SchoolInfoAdd",
+                "SchoolInfoChange",
+                "SchoolInfoDelete",
+                "StudentPersonalAdd",
+                "StudentPersonalChange",
+                "StudentPersonalDelete",
+                "StudentLEARelationshipAdd",
+                "StudentLEARelationshipChange",
+                "StudentLEARelationshipDelete",
+                "StudentSchoolEnrollmentAdd",
+                "StudentSchoolEnrollmentChange",
+                "StudentSchoolEnrollmentDelete",
+                "StaffPersonalAdd",
+                "StaffPersonalChange",
+                "StaffPersonalDelete",
+                "EmployeePersonalAdd",
+                "EmployeePersonalChange",
+                "EmployeePersonalDelete",
+                "StaffAssignmentAdd",
+                "StaffAssignmentChange",
+                "StaffAssignmentDelete",
+                "EmploymentRecordAdd",
+                "EmploymentRecordChange",
+                "EmploymentRecordDelete",
+                "EmployeeAssignmentAdd",
+                "EmployeeAssignmentChange",
+                "EmployeeAssignmentDelete"
         };
 
         String script = "";
@@ -393,6 +396,28 @@ public class EventReporterTest extends EventReporterAdkTest {
         sentEvent = eventReporter.reportEmploymentRecordEvent(eventAction);
         dataObject = (EmploymentRecord) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
         Assert.assertEquals("10", dataObject.getPositionNumber());
+    }
+
+    @Test
+    public void runReportEmployeeAssignmentEventTests() throws ADKException {
+        Class<? extends SIFDataObject> expectedClass = EmployeeAssignment.class;
+        String expectedId = SifEntityGenerator.TEST_EMPLOYEEASSIGNMENT_REFID;
+
+        EventAction eventAction = EventAction.ADD;
+        Event sentEvent = eventReporter.reportEmployeeAssignmentEvent(eventAction);
+        EmployeeAssignment dataObject = (EmployeeAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass,
+                expectedId, false);
+        Assert.assertEquals(YesNo.YES.getValue(), dataObject.getPrimaryAssignment());
+
+        eventAction = EventAction.CHANGE;
+        sentEvent = eventReporter.reportEmployeeAssignmentEvent(eventAction);
+        dataObject = (EmployeeAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, true);
+        Assert.assertEquals(YesNo.NO.getValue(), dataObject.getPrimaryAssignment());
+
+        eventAction = EventAction.DELETE;
+        sentEvent = eventReporter.reportEmployeeAssignmentEvent(eventAction);
+        dataObject = (EmployeeAssignment) runDataObjectEventTest(sentEvent, eventAction, expectedClass, expectedId, false);
+        Assert.assertEquals(YesNo.YES.getValue(), dataObject.getPrimaryAssignment());
     }
 
     private SIFDataObject runDataObjectEventTest(Event sentEvent, EventAction action,

@@ -49,12 +49,16 @@ import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherCode;
+import openadk.library.common.OtherCodeList;
 import openadk.library.common.OtherId;
 import openadk.library.common.OtherIdList;
 import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
+import openadk.library.common.ProgramFundingSource;
+import openadk.library.common.ProgramTypeCode;
 import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
@@ -63,10 +67,14 @@ import openadk.library.common.TeachingArea;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeeAssignment;
 import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.FullTimeStatus;
+import openadk.library.hrfin.HRProgramType;
 import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.JobClassification;
+import openadk.library.hrfin.JobClassificationCode;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -571,4 +579,52 @@ public class SifEntityGeneratorTest {
         Assert.assertEquals(1, tenureDate.get(Calendar.DATE));
     }
 
+    @Test
+    public void testGenerateTestEmployeeAssignment() {
+        EmployeeAssignment employeeAssignment = SifEntityGenerator.generateTestEmployeeAssignment();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEASSIGNMENT_REFID, employeeAssignment.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, employeeAssignment.getEmployeePersonalRefId());
+        Assert.assertEquals("Twelfth grade computer science teacher", employeeAssignment.getDescription());
+        Assert.assertEquals(YesNo.YES.getValue(), employeeAssignment.getPrimaryAssignment());
+
+        Calendar jobStartDate = employeeAssignment.getJobStartDate();
+        Assert.assertEquals(2010, jobStartDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, jobStartDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, jobStartDate.get(Calendar.DATE));
+
+        Calendar jobEndDate = employeeAssignment.getJobEndDate();
+        Assert.assertEquals(2013, jobEndDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, jobEndDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, jobEndDate.get(Calendar.DATE));
+
+        Assert.assertEquals(new BigDecimal(1.00), employeeAssignment.getJobFTE());
+
+        JobClassification jobClassification = employeeAssignment.getJobClassification();
+        Assert.assertEquals(JobClassificationCode.TEACHER.getValue(), jobClassification.getCode());
+
+        OtherCodeList jobClassificationOtherCodeList = jobClassification.getOtherCodeList();
+        Assert.assertEquals(1, jobClassificationOtherCodeList.size());
+
+        OtherCode jobClassificationOtherCode = jobClassificationOtherCodeList.get(0);
+        Assert.assertEquals("12345", jobClassificationOtherCode.getValue());
+
+        HRProgramType programType = employeeAssignment.getProgramType();
+        Assert.assertEquals(ProgramTypeCode.REGULAR_EDUCATION.getValue(), programType.getCode());
+
+        OtherCodeList programTypeOtherCodeList = programType.getOtherCodeList();
+        Assert.assertEquals(1, programTypeOtherCodeList.size());
+
+        OtherCode programTypeOtherCode = programTypeOtherCodeList.get(0);
+        Assert.assertEquals("67890", programTypeOtherCode.getValue());
+
+        ProgramFundingSource programFundingSource = employeeAssignment.getFundingSource();
+        Assert.assertEquals("0617", programFundingSource.getCode());
+
+        OtherCodeList programFundingSourceOtherCodeList = programFundingSource.getOtherCodeList();
+        Assert.assertEquals(1, programFundingSourceOtherCodeList.size());
+
+        OtherCode programFundingSourceOtherCode = programFundingSourceOtherCodeList.get(0);
+        Assert.assertEquals("54321", programFundingSourceOtherCode.getValue());
+    }
 }

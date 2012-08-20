@@ -46,11 +46,15 @@ import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherCode;
+import openadk.library.common.OtherCodeList;
 import openadk.library.common.OtherId;
 import openadk.library.common.OtherIdList;
 import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
+import openadk.library.common.ProgramFundingSource;
+import openadk.library.common.ProgramTypeCode;
 import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.ResidencyStatus;
 import openadk.library.common.StatePrCode;
@@ -60,10 +64,14 @@ import openadk.library.common.TeachingArea;
 import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeeAssignment;
 import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.hrfin.FullTimeStatus;
+import openadk.library.hrfin.HRProgramType;
 import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.JobClassification;
+import openadk.library.hrfin.JobClassificationCode;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -96,6 +104,7 @@ public class SifEntityGenerator {
     public static final String TEST_EMPLOYEEPERSONAL_REFID = "1652D3E34F419D75101A8C3D00AA001A";
     public static final String TEST_STAFFASSIGNMENT_REFID = "D3E34B359D75101A8C3D00AA001A1652";
     public static final String TEST_EMPLOYMENTRECORD_REFID = "CDF90651225DAC3859DEA3458BC39522";
+    public static final String TEST_EMPLOYEEASSIGNMENT_REFID = "FE1078BA3261545A31905937B265CE01";
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
@@ -476,5 +485,41 @@ public class SifEntityGenerator {
         employmentRecord.setTenureDate(new GregorianCalendar(2011, 7, 1));
 
         return employmentRecord;
+    }
+
+    public static EmployeeAssignment generateTestEmployeeAssignment() {
+        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+        employeeAssignment.setRefId(TEST_EMPLOYEEASSIGNMENT_REFID);
+
+        employeeAssignment.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+        employeeAssignment.setDescription("Twelfth grade computer science teacher");
+        employeeAssignment.setPrimaryAssignment(YesNo.YES);
+
+        employeeAssignment.setJobStartDate(new GregorianCalendar(2010, 7, 1));
+        employeeAssignment.setJobEndDate(new GregorianCalendar(2013, 6, 31));
+
+        employeeAssignment.setJobFTE(new BigDecimal(1.00));
+
+        JobClassification jobClassification = new JobClassification(JobClassificationCode.TEACHER);
+        OtherCode jobClassificationOtherCode = new OtherCode();
+        jobClassificationOtherCode.setValue("12345");
+        jobClassification.setOtherCodeList(new OtherCodeList(jobClassificationOtherCode));
+        employeeAssignment.setJobClassification(jobClassification);
+
+        HRProgramType programType = new HRProgramType();
+        programType.setCode(ProgramTypeCode.REGULAR_EDUCATION);
+        OtherCode programTypeOtherCode = new OtherCode();
+        programTypeOtherCode.setValue("67890");
+        programType.setOtherCodeList(new OtherCodeList(programTypeOtherCode));
+        employeeAssignment.setProgramType(programType);
+
+        ProgramFundingSource programFundingSource = new ProgramFundingSource();
+        programFundingSource.setCode("0617");
+        OtherCode programFundingSourceOtherCode = new OtherCode();
+        programFundingSourceOtherCode.setValue("54321");
+        programFundingSource.setOtherCodeList(new OtherCodeList(programFundingSourceOtherCode));
+        employeeAssignment.setFundingSource(programFundingSource);
+
+        return employeeAssignment;
     }
 }
