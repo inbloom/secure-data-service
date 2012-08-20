@@ -190,7 +190,7 @@
         </ParentReference>
         <Relation>Father</Relation>
         <PrimaryContactStatus>true+++</PrimaryContactStatus>
-        <LivesWith>true</LivesWith>
+        <LivesWith>true+++</LivesWith>
         <EmergencyContactStatus>true+++</EmergencyContactStatus>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
@@ -206,7 +206,7 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
-        <LivesWith>true</LivesWith>
+        <LivesWith>true+++</LivesWith>
         <EmergencyContactStatus>true+++</EmergencyContactStatus>
         <ContactPriority>2</ContactPriority>
     </StudentParentAssociation>
@@ -239,7 +239,7 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Father</Relation>
-        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <EmergencyContactStatus>true+++</EmergencyContactStatus>
         <ContactPriority>2</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
@@ -269,7 +269,7 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Agency representative</Relation>
-        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <EmergencyContactStatus>true+++</EmergencyContactStatus>
         <ContactPriority>3</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
@@ -299,8 +299,8 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
-        <LivesWith>true</LivesWith>
-        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <LivesWith>true+++</LivesWith>
+        <EmergencyContactStatus>true+++</EmergencyContactStatus>
         <ContactPriority>1</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
