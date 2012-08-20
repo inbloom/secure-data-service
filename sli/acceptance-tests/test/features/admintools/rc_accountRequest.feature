@@ -31,18 +31,19 @@ Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
   And I go to the portal page on RC
   When I select the "Shared Learning Collaborative" realm
-  Then I should be redirected to the "Simple" IDP Login page
+  Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
   Then I should be on the admin page
   And I click on Account Approval
+  And I switch to the iframe
   Then I should be on the Authorize Developer Account page
-  Then I see one account with name "RCTest Developer"
+  And I should see an account with name "RCTest Developer"
   And his account status is "pending"
-  When I click the "Approve" button
-  And I am asked "Do you really want to approve this user account?"
+  When I approve his account
+  Then I am asked "Do you really want to approve this user account?"
   When I click on Ok
   Then his account status changed to "approved"
   And I should see "Account was successfully updated"

@@ -20,6 +20,7 @@ require "selenium-webdriver"
 require "socket"
 require 'net/imap'
 require_relative 'accountRequest.rb'
+require_relative '../../cross_app_tests/step_definitions/rc_integration_samt'
 require_relative '../../liferay/step_definitions/all_steps.rb'
 
 ###############################################################################
@@ -27,7 +28,11 @@ require_relative '../../liferay/step_definitions/all_steps.rb'
 ###############################################################################
 
 Given /^I go to the account registration page on RC$/ do
-  @driver.get PropLoader.getProps["admintools_server_url"] + "/registration"
+  @driver.get "https://rcadmin.slidev.org/registration"
+end
+
+Given /^I go to the portal page on RC$/ do
+  @driver.get "https://rcportal.slidev.org/portal/"
 end
 
 Given /^I received an email to verify my email address$/ do
@@ -51,6 +56,10 @@ When /^I click the link to verify my email address$/ do
   @driver.get @email_verification_link
 end
 
+When /^I approve his account$/ do
+  @driver.find_element(:id,"approve_button_"+@user_name).click
+end
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
@@ -59,12 +68,24 @@ Then /^I should be notified that my email is verified$/ do
   assertText("Email Confirmed")
 end
 
+Then /^I should see an account with name "([^\"]*)"$/ do |user_name|
+  puts "And i am looking to find the element with id username.", user_name
+  user=@driver.find_element(:id,"username."+user_name)
+  assert(user.text==user_name,"didnt find the account with name #{user_name}")
+  @user_name=user_name
+end
+
+Then /^I click on Account Approval$/ do
+  @driver.find_element(:link_text, 'Account Approval').click
+end
+
+Then /^I should be on the Authorize Developer Account page$/ do
+  assertText("Authorize Developer Account")
+end
+
 ###############################################################################
 # DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
 ###############################################################################
-Given /^I go to the portal page on RC$/ do
-  @driver.get "https://rcportal.slidev.org/portal/"
-end
 
 private
 
@@ -107,49 +128,3 @@ def check_email_for_verification(subject_substring = nil, content_substring)
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
 
-Then /^I see one account with name "([^"]*)"$/ do |user_name|
- user_name = user_name+"_"+Socket.gethostname
-  puts "And i am looking to find the element with id username.", user_name
-  user=@driver.find_element(:id,"username."+user_name)
-  assert(user.text==user_name,"didnt find the account with name #{user_name}")
-  @user_name=user_name
-end
-
-Then /^his account status is "([^"]*)"$/ do |arg1|
-  status=@driver.find_element(:id,"status."+@user_name)
-  assert(status.text==arg1,"user account status is not #{arg1}")
-end
-
-When /^I am asked "([^"]*)"$/ do |arg1|
-   # do nothing
-end
-
-Then /^his account status changed to "([^"]*)"$/ do |arg1|
-  statuses=@driver.find_elements(:id,"status."+@user_name)
-  found =false
-  statuses.each do |status|
-    if status.text==arg1
-      found=true
-    end
-  end  
-  assert(found,"user account status is not #{arg1}")
-  clear_users()
-end
-
-When /^I select the "([^"]*)" realm$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-  @driver.find_element(:id, "go").click
-end
-
-Then /^I should be redirected to the "(.*?)" IDP Login page$/ do |arg1|
-  assert(@driver.page_source.include?("Shared Learning Collaborative"))
-end
-
-Then /^I click on Account Approval$/ do
-  @driver.find_element(:link_text, 'Account Approval').click
-end
-
-Then /^I should be on the Authorize Developer Account page$/ do
-  assert(@driver.page_source.include?("Authorize Developer Account"))
-end
