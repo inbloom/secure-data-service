@@ -241,6 +241,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="sectionReferences" type="reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The section(s) which the assessment is associated with
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1369,16 +1378,6 @@
                     </xs:documentation>
                     <xs:appinfo>
                         <sli:ReferenceType>course</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="assessmentReferences" type="reference"
-                minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The assessment(s) which the section is associated with
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>assessment</sli:ReferenceType>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
