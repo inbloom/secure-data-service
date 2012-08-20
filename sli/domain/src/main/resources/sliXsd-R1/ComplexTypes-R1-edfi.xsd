@@ -3497,71 +3497,26 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentGradebookEntry">
+	<xs:complexType name="SLI-StudentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
 				StudentGradebookEntry
 				This entity holds a student’s grade or competency level for a GradeBookEntry.
 				Associations: Student
 			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="studentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>The student who received the grade
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date an assignment was turned in or the
-						date
-						of an assessment.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="letterGradeEarned" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A final or interim (grading period) indicator
-						of
-						student performance in a class as submitted by the
-						instructor.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="gradeEarned">
-						<xs:maxLength value="20" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="numericGradeEarned" type="xs:integer"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A final or interim (grading period) indicator
-						of
-						student performance in a class as submitted by the
-						instructor.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="diagnosticStatement" type="text"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A statement provided by the teacher that
-						provides
-						information in addition to the grade or assessment
-						score.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="StudentGradebookEntry">
+                <xs:sequence>
+                    <xs:element name="StudentId" type="reference">
+                        <xs:annotation>
+                            <xs:documentation>The student who received the grade
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
 	</xs:complexType>
 
     <xs:complexType name="studentSpecialEdAttributes">
