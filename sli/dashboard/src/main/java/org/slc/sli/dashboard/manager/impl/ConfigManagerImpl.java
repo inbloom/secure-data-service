@@ -368,20 +368,29 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     
     // determine target config needs to be filtered
     private boolean filterConfig(Config config, String layoutName) {
-        boolean filterConfig = false;
-        // if a client requests specific layout,
-        // then filter layout.
-        if (layoutName != null) {
-            
-            filterConfig = true;
-            Map<String, Object> configParams = config.getParams();
-            if (configParams != null) {
-                List<String> layouts = (List<String>) configParams.get(LAYOUT);
-                if (layouts != null) {
-                    for (String layout : layouts) {
-                        if (layoutName.equals(layout)) {
-                            filterConfig = false;
-                            break;
+        boolean filterConfig = true;
+        // first filter by type.
+        // Target TYPEs are PANEL, GRID, TREE, and REPEAT_HEADER_GRID
+        
+        Config.Type type = config.getType();
+        if (type != null
+                && (type.equals(Config.Type.PANEL) || type.equals(Config.Type.GRID) || type.equals(Config.Type.TREE) || type
+                        .equals(Config.Type.REPEAT_HEADER_GRID))) {
+            filterConfig = false;
+            // if a client requests specific layout,
+            // then filter layout.
+            if (layoutName != null) {
+                
+                filterConfig = true;
+                Map<String, Object> configParams = config.getParams();
+                if (configParams != null) {
+                    List<String> layouts = (List<String>) configParams.get(LAYOUT);
+                    if (layouts != null) {
+                        for (String layout : layouts) {
+                            if (layoutName.equals(layout)) {
+                                filterConfig = false;
+                                break;
+                            }
                         }
                     }
                 }
@@ -399,14 +408,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         Set<String> configIdLookup = new HashSet<String>();
         
         Map<String, String> attribute = new HashMap<String, String>();
-        String layoutName = null;
-        String type = null;
-        if (params != null) {
-            type = params.get(TYPE);
-            if (type != null) {
-                attribute.put(TYPE, type);
-            }
-            layoutName = params.get(LAYOUT_NAME);
+        String layoutName = params.get(LAYOUT_NAME);
+        
+        if (params.containsKey(TYPE)) {
+            attribute.put(TYPE, params.get(TYPE));
         }
         
         // get Driver Config by specified attribute
@@ -442,15 +447,13 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 Iterator<Config> customConfigIterator = customConfigs.iterator();
                 while (customConfigIterator.hasNext()) {
                     Config customConfig = customConfigIterator.next();
-                    if (type == null || customConfig.getType().toString().equals(type)) {
-                        
-                        // if parentId from customConfig does not exist in DriverConfig,
-                        // then ignore.
-                        String parentId = customConfig.getParentId();
-                        if (parentId != null && configIdLookup.contains(parentId)) {
-                            if (!filterConfig(customConfig, layoutName)) {
-                                customConfigByType.add(customConfig);
-                            }
+                    
+                    // if parentId from customConfig does not exist in DriverConfig,
+                    // then ignore.
+                    String parentId = customConfig.getParentId();
+                    if (parentId != null && configIdLookup.contains(parentId)) {
+                        if (!filterConfig(customConfig, layoutName)) {
+                            customConfigByType.add(customConfig);
                         }
                     }
                 }
