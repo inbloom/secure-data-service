@@ -91,3 +91,7 @@ Then /^I should be able to use the token to make valid API calls$/ do
   assert(data['authenticated'] == true, 
          "Session debug context 'authentication.authenticated' is not true")
 end
+
+Then /^my current url is "(.*?)"$/ do |url|
+  assertWithWait("Not in expected URL") {@driver.current_url == url}
+end

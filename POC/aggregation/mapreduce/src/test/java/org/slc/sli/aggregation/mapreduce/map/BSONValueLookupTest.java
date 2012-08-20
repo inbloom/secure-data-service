@@ -17,9 +17,11 @@
 package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
+import org.bson.types.BasicBSONList;
 import org.junit.Test;
 
 /**
@@ -46,5 +48,39 @@ public class BSONValueLookupTest extends BSONValueLookup {
         root.put("root", body);
 
         assertEquals(BSONValueLookup.getValue(root, "root.body.profile.name.first"), "George");
+    }
+
+    @Test
+    public void testGetValues() {
+        // root.body.profile.name.first = George
+        BSONObject root = new BasicBSONObject();
+        BSONObject body = new BasicBSONObject();
+        BasicBSONList list = new BasicBSONList();
+
+        list.add("hello");
+        list.add("goodbye");
+        list.add("have a nice day");
+
+        body.put("body", list);
+        root.put("root", body);
+
+        String[] values = BSONValueLookup.getValues(root,  "root.body");
+        assertNotNull(values);
+        assertEquals(values.length, 3);
+    }
+
+    @Test
+    public void testSetValue() {
+
+        BSONObject root = BSONValueLookup.setValue("root.body.profile.name.first", "George");
+        assertNotNull(root);
+        BSONObject body = (BSONObject) root.get("body");
+        assertNotNull(body);
+        BSONObject profile = (BSONObject) body.get("profile");
+        assertNotNull(profile);
+        BSONObject name = (BSONObject) profile.get("name");
+        assertNotNull(name);
+        assertNotNull(name.get("first"));
+        assertEquals(name.get("first"), "George");
     }
 }
