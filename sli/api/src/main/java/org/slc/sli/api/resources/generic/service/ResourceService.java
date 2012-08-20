@@ -16,14 +16,14 @@ import java.util.List;
  */
 
 public interface ResourceService {
-    public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntitiesByIds(Resource resource, String idList, URI requestURI);
 
-    public List<EntityBody> getEntities(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public List<EntityBody> getEntities(Resource resource, URI requestURI);
 
     public List<EntityBody> getEntities(Resource base, String id, Resource resource, URI requestURI);
 
     public List<EntityBody> getEntities(Resource base, String id, Resource association,
-                                        Resource resource, UriInfo uriInfo);
+                                        Resource resource, URI requestURI);
 
     public long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
     public String postEntity(Resource resource, EntityBody entity);

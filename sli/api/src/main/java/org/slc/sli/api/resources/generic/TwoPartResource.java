@@ -42,7 +42,7 @@ public class TwoPartResource extends GenericResource {
         return handleGet(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
             public List<EntityBody> run(Resource resource) {
-                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
+                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
             }
         });
     }

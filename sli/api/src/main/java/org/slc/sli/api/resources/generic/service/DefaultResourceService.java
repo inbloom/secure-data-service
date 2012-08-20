@@ -64,7 +64,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
+    public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
 
         return handle(resource, new ServiceLogic() {
             @Override
@@ -93,20 +93,13 @@ public class DefaultResourceService implements ResourceService {
                     finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
                 }
 
-                //apply the decorators
-                for (EntityBody entityBody : finalResults) {
-                    for (EntityDecorator entityDecorator : entityDecorators) {
-                        entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
-                    }
-                }
-
                 return finalResults;
             }
         });
     }
 
     @Override
-    public List<EntityBody> getEntities(final Resource resource, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
+    public List<EntityBody> getEntities(final Resource resource, final URI requestURI) {
 
         return handle(resource, new ServiceLogic() {
             @Override
@@ -234,13 +227,13 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     // TODO
-    public List<EntityBody> getEntities(Resource base, String id, Resource association, Resource resource, UriInfo uriInfo) {
+    public List<EntityBody> getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
         final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
         final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
-        final ApiQuery apiQuery = getApiQuery(assocEntity, uriInfo.getRequestUri());
+        final ApiQuery apiQuery = getApiQuery(assocEntity, requestUri);
         apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
 
         final String resourceKey = getConnectionKey(association,resource);
@@ -249,7 +242,7 @@ public class DefaultResourceService implements ResourceService {
            filteredIdList.add(entityBody.get(resourceKey).toString());
         }
         List<EntityBody> entityBodyList;
-        final ApiQuery finalApiQuery = getApiQuery(finalEntity, uriInfo.getRequestUri());
+        final ApiQuery finalApiQuery = getApiQuery(finalEntity, requestUri);
         finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, finalEntity.getResourceName());
