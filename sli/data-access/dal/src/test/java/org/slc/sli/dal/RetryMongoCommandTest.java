@@ -74,7 +74,7 @@ public class RetryMongoCommandTest {
         when(mockedGoodMongoTemplate.findOne(any(Query.class), eq(MongoEntity.class), eq("student"))).thenReturn(
                 expected);
         retryMongoCommand = new RetryMongoCommand(mockedGoodMongoTemplate, mockedLogger);
-        int tries = 0;
+        int tries = 3;
         try {
             MongoEntity found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
             assertEquals(expected, found);
@@ -90,7 +90,7 @@ public class RetryMongoCommandTest {
                 new MongoException("Bad!"));
         retryMongoCommand = new RetryMongoCommand(mockedBadMongoTemplate, mockedLogger);
         MongoEntity found = null;
-        int tries = 0;
+        int tries = 3;
         try {
             found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
             fail();
@@ -106,7 +106,7 @@ public class RetryMongoCommandTest {
         when(mockedNotSoBadMongoTemplate.findOne(any(Query.class), eq(MongoEntity.class), eq("student"))).thenThrow(
                 new MongoException("Bad!")).thenReturn(expected);
         retryMongoCommand = new RetryMongoCommand(mockedNotSoBadMongoTemplate, mockedLogger);
-        int tries = 0;
+        int tries = 3;
         try {
             MongoEntity found = retryMongoCommand.findOneWithRetries(new Query(), MongoEntity.class, "student", tries);
             assertEquals(expected, found);
@@ -121,7 +121,7 @@ public class RetryMongoCommandTest {
         doThrow(new MongoException("Duplicate!")).when(mockedDuplicateMongoTemplate).insert(any(Object.class),
                 eq("student"));
         retryMongoCommand = new RetryMongoCommand(mockedDuplicateMongoTemplate, mockedLogger);
-        int tries = 0;
+        int tries = 3;
         try {
             retryMongoCommand.insertWithRetries(student, "student", tries);
             assertEquals(1, tries);
