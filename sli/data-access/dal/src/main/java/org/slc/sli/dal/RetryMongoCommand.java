@@ -50,7 +50,7 @@ public abstract class RetryMongoCommand {
 
     private int handleException(int code, int noOfRetries, Exception ex) {
         if (code == 11000 | code == 11001) {
-            return -1;
+            throw (MongoException) ex;
         }
         return --noOfRetries;
 
