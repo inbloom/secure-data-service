@@ -302,7 +302,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
         }
-        neutralQuery.setIncludeFields("_id");
+        neutralQuery.setIncludeFieldString("_id");
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -396,7 +396,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return true;
     }
 
-    public WriteResult update(NeutralQuery query, Map<String, Object> update, String collectionName) {
+    public WriteResult updateFirst(NeutralQuery query, Map<String, Object> update, String collectionName) {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
@@ -421,6 +421,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
+    }
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
     }
 
     protected abstract Query getUpdateQuery(T entity);

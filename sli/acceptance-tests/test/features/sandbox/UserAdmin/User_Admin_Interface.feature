@@ -11,7 +11,7 @@ When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
-Then I see a table with headings of "Full Name" and "Email" and "Roles" and "EdOrg" and "Date Created" and "Actions"
+Then I see a table with headings of "Full Name" and "Email" and "Roles" and "Education Organization" and "Date Created" and "Actions"
 Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
 Then the user "email" is "<USER_EMAIL>"
 #Then the user "role" is "<USER_ROLE>"
