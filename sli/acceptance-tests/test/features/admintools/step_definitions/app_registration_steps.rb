@@ -175,6 +175,20 @@ When /^I entered the name "([^"]*)" into the field titled "([^"]*)"$/ do |arg1, 
   @driver.find_element(:id, "app_#{arg2.downcase}").send_keys arg1
 end
 
+When /^I select the app display method to "(.*?)"$/ do |arg1|
+  displayMethod = @driver.find_element(:id, "app_behavior")
+  all_options = displayMethod.find_elements(:tag_name, "option")
+  optionFound = false
+  all_options.each do |option|
+    if option.attribute("text") == arg1
+      optionFound = true
+      option.click
+      break
+    end
+  end  
+  assert(optionFound, "Desired option '" + arg1 + "' was not found")
+end
+
 Then /^I am redirected to a new application page$/ do
   assertWithWait("Failed to navigate to the New Applicaation page")  {@driver.page_source.index("New Application") != nil}
 end

@@ -217,4 +217,10 @@ public class DummyEntityRepository implements Repository<Entity> {
         return false;
     }
 
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
