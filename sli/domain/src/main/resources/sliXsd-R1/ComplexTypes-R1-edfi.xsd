@@ -1697,20 +1697,19 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="schoolAssociations" type="SLI-StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="SLI-SchoolAssociations" type="SLI-StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Schools associated with the student.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <!-- TODO BEGIN -->
-
-                    <xs:element name="assessmentAssociations" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="SLI-assessments" type="SLI-StudentAssessment" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Assessments associated with the student.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <!-- TODO BEGIN -->
                     <xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Attendance records of the student per school.
@@ -1752,7 +1751,7 @@
         </xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="studentAssessmentAssociation">
+	<xs:complexType name="SLI-StudentAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity represents the analysis or scoring of a
 				student's response on an assessment. The analysis results in a value
@@ -1762,163 +1761,38 @@
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="administrationDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The month(s), day(s), and year on which an
-						assessment is administered or first day of administration if over
-						multiple days.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="administrationEndDate"
-				type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Assessment Administration End Date, if
-						administered over multiple days.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="serialNumber" type="identificationCode">
-				<xs:annotation>
-					<xs:documentation>The unique number for the assessment form or
-						answer document.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="administrationLanguage"
-				type="languageItemType">
-				<xs:annotation>
-					<xs:documentation>The language in which an assessment is written
-						and/or administered.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="administrationEnvironment"
-				type="administrationEnvironmentType">
-				<xs:annotation>
-					<xs:documentation>The environment in which the test was
-						administered. For example:
-						Electronic
-						Classroom
-						Testing Center
-						....
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="specialAccommodations" type="specialAccommodationItemType">
-				<xs:annotation>
-					<xs:documentation>The specific type of special variation used in
-						how an examination is presented, how it is administered, or how
-						the test taker is allowed to respond. This generally refers to
-						changes that do not substantially alter what the examination
-						measures. The proper use of accommodations does not substantially
-						change academic level or performance criteria. For example:
-						Braille
-						Enlarged monitor view
-						Extra time
-						Large Print
-						Setting
-						Oral
-						Administration
-						...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="linguisticAccommodations" type="linguisticAccommodationItemType">
-				<xs:annotation>
-					<xs:documentation>Linguistic accommodations used with the student
-						for the test. For example:
-						Bilingual dictionary
-						English dictionary
-						Reading Aloud - Word or Phrase
-						Reading Aloud - Entire Test Item
-						Oral Translation - Word or phrase
-						Clarification - Word or phrase
-						...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="retestIndicator" type="retestIndicatorType">
-				<xs:annotation>
-					<xs:documentation>Indicator if the test was retaken. For example:
-						Primary administration
-						First retest
-						Second retest
-						...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="reasonNotTested" type="reasonNotTestedType">
-				<xs:annotation>
-					<xs:documentation>The primary reason student is not tested. For
-						example:
-						Absent
-						Refusal by parent
-						Refusal by student
-						Medical waiver
-						Illness
-						Disruptive behavior
-						LEP Exempt
-						...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="scoreResults"
-				type="scoreResult">
-				<xs:annotation>
-					<xs:documentation>A meaningful score or statistical expression of
-						the performance of an individual. The results can be expressed as
-						a number, percentile, range, level, etc.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="gradeLevelWhenAssessed"
-				type="gradeLevelType">
-				<xs:annotation>
-					<xs:documentation>The grade level of a student when assessed.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="performanceLevelDescriptors" type="performanceLevelDescriptor">
-				<xs:annotation>
-					<xs:documentation>This descriptor defines various levels or
-						thresholds for performance on the assessment.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="studentObjectiveAssessments" type="studentObjectiveAssessment">
-				<xs:annotation>
-					<xs:documentation>The score and or performance level(s) earned for
-						each objective assessment by the student.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="studentAssessmentItems" type="studentAssessmentItem">
-				<xs:annotation>
-					<xs:documentation>This entity represents the student's responses
-						to
-						assessment items.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessmentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the assessment taken by the
-						student.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>assessment</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="StudentAssessment">
+                <xs:sequence>
+                    <xs:element name="SLI-AdministrationLanguage" type="languageItemType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The language in which an assessment is written
+                                and/or administered.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-GradeLevelWhenAssessed" type="gradeLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The grade level of a student when assessed.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-StudentObjectiveAssessments" type="studentObjectiveAssessment" maxOccurs="unbounded" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The score and or performance level(s) earned for each objective assessment by the student.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-StudentAssessmentItems" type="studentAssessmentItem" maxOccurs="unbounded" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>This entity represents the student's responses to assessment items.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
 	</xs:complexType>
 
 	<xs:complexType name="studentAssessmentItem">

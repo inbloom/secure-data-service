@@ -36,7 +36,7 @@
 					<xs:element name="SLI-Section" type="SLI-Section" />
 					<xs:element name="session" type="session" />
 					<xs:element name="SLI-Staff" type="SLI-Staff" />
-					<xs:element name="student" type="student" />
+					<xs:element name="SLI-Student" type="SLI-Student" />
 					<xs:element name="studentCompetency" type="studentCompetency" />
 					<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
 					<xs:element name="SLI-Teacher" type="SLI-Teacher" />
