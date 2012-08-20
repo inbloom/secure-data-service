@@ -62,39 +62,44 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI, final MultivaluedMap<String, String> queryParams) {
-        EntityDefinition definition = getEntityDefinition(resource);
-        final int idLength = idList.split(",").length;
 
-        if (idLength > MAX_MULTIPLE_UUIDS) {
-            String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                    + MAX_MULTIPLE_UUIDS + " (allowed)";
-            throw new PreConditionFailedException(errorMessage);
-        }
+        return handle(resource, new ServiceLogic() {
+            @Override
+            public List<EntityBody> run(final String resource, EntityDefinition definition) {
+                final int idLength = idList.split(",").length;
 
-        final List<String> ids = Arrays.asList(StringUtils.split(idList));
+                if (idLength > MAX_MULTIPLE_UUIDS) {
+                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
+                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                    throw new PreConditionFailedException(errorMessage);
+                }
 
-        ApiQuery apiQuery = getApiQuery(definition, requestURI);
+                final List<String> ids = Arrays.asList(StringUtils.split(idList));
 
-        apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        apiQuery.setLimit(0);
-        apiQuery.setOffset(0);
+                ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
-        // final/resulting information
-        List<EntityBody> finalResults = null;
-        try {
-            finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-        } catch (UnsupportedSelectorException e) {
-            finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
-        }
+                apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                apiQuery.setLimit(0);
+                apiQuery.setOffset(0);
 
-        //apply the decorators
-        for (EntityBody entityBody : finalResults) {
-            for (EntityDecorator entityDecorator : entityDecorators) {
-                entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
+                // final/resulting information
+                List<EntityBody> finalResults = null;
+                try {
+                    finalResults = logicalEntity.getEntities(apiQuery, resource);
+                } catch (UnsupportedSelectorException e) {
+                    finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                }
+
+                //apply the decorators
+                for (EntityBody entityBody : finalResults) {
+                    for (EntityDecorator entityDecorator : entityDecorators) {
+                        entityBody = entityDecorator.decorate(entityBody, definition, queryParams);
+                    }
+                }
+
+                return finalResults;
             }
-        }
-
-        return finalResults;
+        });
     }
 
     @Override

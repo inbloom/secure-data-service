@@ -8,6 +8,7 @@ import org.slc.sli.domain.CalculatedData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,8 +19,9 @@ import java.util.Map;
 public class AggregateEntityDecorator implements EntityDecorator {
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
+        List<String> params = queryParams.get(ParameterConstants.INCLUDE_AGGREGATES);
         boolean includeAggregateValues = definition.supportsAggregates() &&
-                Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_AGGREGATES).get(0));
+                Boolean.valueOf((params != null) ? params.get(0) : "false");
 
         if (includeAggregateValues) {
             String entityId = (String) entity.get("id");

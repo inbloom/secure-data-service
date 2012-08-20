@@ -5,6 +5,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.representation.HateoasLink;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -36,6 +37,9 @@ public abstract class GenericResource {
     @Autowired
     private HateoasLink hateoasLink;
 
+    @Autowired
+    private ResourceAccessLog resourceAccessLog;
+
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
 
@@ -47,16 +51,28 @@ public abstract class GenericResource {
         public List<EntityBody> run(Resource resource);
     }
 
-    protected Response handleGet(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
-                              final GetResourceLogic logic) {
-
+    protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
+                                                 final ResourceMethod method) {
         final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
         Resource resource = new Resource(resourcePath);
 
         Set<String> values = resourceSupportedMethods.get(resourcePath);
         if (!values.contains(method.getMethod())) {
+            //TODO need proper exception
             throw new UnsupportedOperationException("Not supported");
         }
+
+        //log security events
+        resourceAccessLog.logAccessToRestrictedEntity(uriInfo, resource, GenericResource.class.toString());
+
+        return resource;
+    }
+
+    protected Response handleGet(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
+                              final GetResourceLogic logic) {
+
+        //get the resource container
+        Resource resource = constructAndCheckResource(uriInfo, template, method);
 
         //run the resource logic
         List<EntityBody> entities = logic.run(resource);
@@ -76,15 +92,9 @@ public abstract class GenericResource {
     protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
                             final ResourceLogic logic) {
 
-        final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
-        Resource resource = new Resource(resourcePath);
+        //get the resource container
+        Resource resource = constructAndCheckResource(uriInfo, template, method);
 
-        Set<String> values = resourceSupportedMethods.get(resourcePath);
-        if (!values.contains(method.getMethod())) {
-            throw new UnsupportedOperationException("Not supported");
-        }
-
-        final String resourceName = resourceHelper.getResourceName(uriInfo, template);
         return logic.run(resource);
     }
 

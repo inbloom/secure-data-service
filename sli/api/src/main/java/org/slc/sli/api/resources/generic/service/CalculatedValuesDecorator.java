@@ -8,6 +8,7 @@ import org.slc.sli.domain.CalculatedData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.List;
 
 /**
  * Adds calculated data to the entities
@@ -17,8 +18,8 @@ import javax.ws.rs.core.MultivaluedMap;
 public class CalculatedValuesDecorator implements EntityDecorator {
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
-        // TODO
-        final Boolean includeCalculatedValues = Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_CALCULATED).get(0));
+        List<String> params = queryParams.get(ParameterConstants.INCLUDE_CALCULATED);
+        final Boolean includeCalculatedValues = Boolean.valueOf((params != null) ? params.get(0) : "false");
 
         if (includeCalculatedValues) {
             String entityId = (String) entity.get("id");
