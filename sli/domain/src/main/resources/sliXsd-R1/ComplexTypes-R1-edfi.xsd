@@ -1697,13 +1697,14 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <!-- TODO BEGIN -->
-                    <xs:element name="schoolAssociations" type="studentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="schoolAssociations" type="SLI-StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Schools associated with the student.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <!-- TODO BEGIN -->
+
                     <xs:element name="assessmentAssociations" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>Assessments associated with the student.
@@ -2229,144 +2230,41 @@
         </xs:sequence>
     </xs:complexType>
 
-	<xs:complexType name="studentSchoolAssociation">
+	<xs:complexType name="SLI-StudentSchoolAssociation">
 		<xs:annotation>
-			<xs:documentation>This association represents the school to which a
-				student is enrolled.
+			<xs:documentation>This association represents the school to which a student is enrolled.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>School enrolling the student.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The value of the school year for the school.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an individual
-						enters and
-						begins to receive instructional services in a school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryGradeLevel" type="gradeLevelType">
-				<xs:annotation>
-					<xs:documentation>The grade level or primary instructional level
-						at
-						which a
-						student enters and receives services in a school or an
-						educational
-						institution during a given academic session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryType" type="entryType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The process by which a student enters a school
-						during a given
-						academic session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="repeatGradeIndicator" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An indicator of whether the student is enrolling
-						to repeat a
-						grade level, either by failure or an agreement to hold
-						the student
-						back.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="classOf" type="schoolYearType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Projected High School graduation year
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolChoiceTransfer" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An indication of whether students transferred in
-						or out of the
-						school did so during the school year under the
-						provisions for public
-						school
-						choice in accordance with Title I,
-						Part
-						A, Section 1116.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="exitWithdrawDate" type="xs:date"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year of the first day after
-						the date of an
-						individual's last attendance at a school (if
-						known),
-						the day on which an
-						individual graduated, or the date on
-						which it
-						becomes known
-						officially that
-						an individual left school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="exitWithdrawType" type="exitWithdrawType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The circumstances under which the student exited
-						from
-						membership in an educational institution.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="educationalPlans" type="educationalPlanItemType"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The type of Education Plan(s) the student is
-						following, if
-						appropriate. For example:
-						Special education IEP
-						Vocational
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-            <!-- 
-			<xs:element name="graduationPlan" type="graduationPlan"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The graduation plan associated with the student
-						enrolled in
-						the school.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-             -->
-		</xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="StudentSchoolAssociation">
+                <xs:sequence>
+                    <xs:element name="SLI-EntryGradeLevel" type="gradeLevelType">
+                        <xs:annotation>
+                            <xs:documentation>The grade level or primary instructional level at which a student enters and
+                                receives services in a school or an educational institution during a given academic session.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-EntryType" type="entryType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The process by which a student enters a school during a given academic session.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-ExitWithdrawType" type="exitWithdrawType"
+                                minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The circumstances under which the student exited from
+                                membership in an educational institution.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="SLI-StudentGradebookEntry">
