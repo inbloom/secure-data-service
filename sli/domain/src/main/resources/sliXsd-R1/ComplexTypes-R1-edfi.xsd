@@ -1419,74 +1419,30 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staffEducationOrganizationAssociation">
-		<xs:annotation>
-			<xs:documentation>This association indicates the education
-				organization to which a staff
-				member provides services. Also known as
-				school of service.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="educationOrganizationReference" type="reference">
-				<xs:annotation>
-					<xs:documentation>The educational organization to which the staff
-						memeber
-						provides services
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="staffClassification" type="staffClassificationType">
-				<xs:annotation>
-					<xs:documentation>The titles of employment, official status, or
-						rank of
-						education staff.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="positionTitle" type="positionTitle"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The descriptive name of an individual's
-						position.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="beginDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the start or effective
-						date of a staff
-						member's employment, contract or relationship with
-						the LEA.
-					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the end or termination
-						date of a staff
-						member's employment, contract or relationship with
-						the LEA.
-					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="SLI-StaffEducationOrganizationAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the education
+                organization to which a staff
+                member provides services. Also known as
+                school of service.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="StaffEducationOrgAssignmentAssociation">
+                <xs:sequence>
+                    <xs:element name="SLI-StaffClassification" type="staffClassificationType">
+                        <xs:annotation>
+                            <xs:documentation>The titles of employment, official status, or rank of education staff.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 	<xs:complexType name="staffIdentificationCode">
 		<xs:annotation>
@@ -1619,270 +1575,48 @@
 		</xs:choice>
 	</xs:complexType>
 
-	<xs:complexType name="staff">
-		<xs:annotation>
-			<xs:documentation>This entity represents an individual who performs
-				specified activities
-				for any public or private education institution
-				or agency that provides
-				instructional and/or support services to
-				students or staff at the
-				early childhood
-				level through high school
-				completion. For example, this includes: 1) an
-				"employee"
-				who performs
-				services under the direction of the employing institution
-				or agency,
-				is
-				compensated for such services by the employer, and is eligible for
-				employee
-				benefits
-				and wage or salary tax withholdings; 2) a
-				"contractor" or "consultant"
-				who performs
-				services for an agreed upon
-				fee, or an employee of a management service
-				contracted
-				to work on
-				site; 3) a "volunteer" who performs services on a voluntary
-				and
-				uncompensated basis; 4) an in kind service provider; or 5) an
-				independent
-				contractor
-				or businessperson working at a school site.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>staff</sli:CollectionType>
-				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
-				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned
-						to a
-						staff by a state education agency.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="staffIdentificationCode" type="staffIdentificationCode"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned
-						to a
-						staff member by a school, school system, a state, or other
-						agency
-						or
-						entity.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="name" type="name">
-				<xs:annotation>
-					<xs:documentation>Full legal name of the person.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherName" type="otherName" minOccurs="0"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Other names (e.g., alias, nickname, previous
-						legal
-						name) associated with a person.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sex" type="sexType">
-				<xs:annotation>
-					<xs:documentation>A person's gender.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="birthDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an individual
-						was
-						born.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="address" type="address" minOccurs="0"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The set of elements that describes an address,
-						including the street address, city, state, and ZIP code.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="telephone" type="telephone" minOccurs="0"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The 10-digit telephone number, including the
-						area
-						code, for the person.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="electronicMail" type="electronicMail"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The numbers, letters, and symbols used to
-						identify an
-						electronic mail (e-mail) user within the network to
-						which the
-						individual or organization belongs.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="hispanicLatinoEthnicity" type="xs:boolean"
-				nillable="true">
-				<xs:annotation>
-					<xs:documentation>An indication that the individual traces his or
-						her
-						origin or descent to Mexico, Puerto Rico, Cuba, Central and
-						South
-						America, and other Spanish cultures, regardless of race.
-						The
-						term,
-						"Spanish origin," can be used in addition to "Hispanic
-						or
-						Latino."
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="oldEthnicity" type="oldEthnicityType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Previous definition of Ethnicity combining
-						Hispanic/Latino and race: 1 - American Indian or Alaskan Native
-						2 -
-						Asian or Pacific Islander 3 - Black, not of Hispanic origin 4
-						-
-						Hispanic 5 - White, not of Hispanic origin
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="race" type="raceItemType" minOccurs="0"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The general racial category which most clearly
-						reflects the individual's recognition of his or her community or
-						with which the individual most identifies. The way this data
-						element
-						is listed, it must allow for multiple entries so that
-						each
-						individual can specify all appropriate races.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="highestLevelOfEducationCompleted" type="levelOfEducationType">
-				<xs:annotation>
-					<xs:documentation>The extent of formal instruction an individual
-						has
-						received (e.g., the highest grade in school completed or its
-						equivalent or the highest degree received).
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="yearsOfPriorProfessionalExperience"
-				type="xs:int" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The total number of years that an individual
-						has
-						previously held a similar professional position in one or
-						more
-						education institutions.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="yearsOfPriorTeachingExperience" type="xs:int"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The total number of years that an individual
-						has
-						previously held a teaching position in one or more education
-						institutions.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="credentials" type="credential"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The legal document or authorization giving
-						authorization to perform teaching assignment services.
-					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-                    </xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="loginId" type="identificationCode"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The login ID for the user; used for security
-						access
-						control interface.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-            <xs:element name="edOrgAssociations" type="staffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Education organization associations of the staff member.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="SLI-Staff">
+        <xs:annotation>
+            <xs:documentation>This entity represents an individual who performs specified activities for any public or
+                private education institution or agency that provides instructional and/or support services to
+                students or staff at the early childhood level through high school completion.
+                For example, this includes:
+                1) an "employee" who performs services under the direction of the employing
+                institution or agency, is compensated for such services by the employer, and is eligible for employee
+                benefits and wage or salary tax withholdings;
+                2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a
+                management service contracted to work on site;
+                3) a "volunteer" who performs services on a voluntary and uncompensated basis;
+                4) an in kind service provider; or
+                5) an independent contractor or businessperson working at a school site.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>staff</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Staff">
+                <xs:sequence>
+                    <xs:element name="SLI-HighestLevelOfEducationCompleted" type="levelOfEducationType">
+                        <xs:annotation>
+                            <xs:documentation>The extent of formal instruction an individual has
+                                received (e.g., the highest grade in school completed or its
+                                equivalent or the highest degree received).
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-EdOrgAssociations" type="SLI-StaffEducationOrganizationAssociation"
+                                minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Education organization associations of the staff member.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 	<xs:complexType name="stateEducationAgency">
 		<xs:annotation>

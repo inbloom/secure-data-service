@@ -22,7 +22,7 @@
 				<xs:choice maxOccurs="unbounded">
 
 					<xs:element name="assessment" type="assessment" />
-					<xs:element name="cohort" type="SLI-Cohort" />
+					<xs:element name="SLI-Cohort" type="SLI-Cohort" />
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 					<xs:element name="SLI-Course" type="SLI-Course" />
 					<xs:element name="educationOrganization" type="educationOrganization" />
@@ -35,7 +35,7 @@
 					<xs:element name="school" type="school" />
 					<xs:element name="SLI-Section" type="SLI-Section" />
 					<xs:element name="session" type="session" />
-					<xs:element name="staff" type="staff" />
+					<xs:element name="SLI-Staff" type="SLI-Staff" />
 					<xs:element name="student" type="student" />
 					<xs:element name="studentCompetency" type="studentCompetency" />
 					<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
