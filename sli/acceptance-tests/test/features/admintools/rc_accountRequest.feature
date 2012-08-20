@@ -7,8 +7,7 @@ Scenario: As an app developer I request a production account
   Given I have an open web browser
   And I go to the account registration page on RC
   Given I go to the production account registration page
-  And there is no registered account for "testdev.wgen.gmail.com" in LDAP
-  When I fill out the field "First Name" as "Test"
+  When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
   And I fill out the field "Email" as "testdev.wgen@gmail.com"
@@ -22,8 +21,9 @@ Scenario: As an app developer I request a production account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
+  @test
 Scenario: As an app developer I want to verify my registration email
-  Given I received an email to verify my email addess
+  Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 

@@ -27,17 +27,16 @@ Given /^I go to the account registration page on RC$/ do
   @driver.get PropLoader.getProps["admintools_server_url"] + "/registration"
 end
 
-Given /^I received an email to verify my email addess$/ do
-  subject_string = "Shared Learning Collaborative Developer Account - Email Confirmation"
-  content_string = "Thank you for registering for a developer account with the Shared Learning Collaborative."
-  content = check_email_for_verification(subject_string, content_string) do
-  end
+Given /^I received an email to verify my email address$/ do
+  subject_string = "Email Confirmation"
+  content_string = "RCTest"
+  content = check_email_for_verification(subject_string, content_string)
   content.split("\n").each do |line|
     if(/#{PropLoader.getProps["admintools_server_url"]}/.match(line))
       @email_verification_link = line
     end
   end
-  assert(!@email_verification_link.nil?, "Can not find the link from the email")
+  assert(!@email_verification_link.nil?, "Cannot find the link from the email")
 end
 
 ###############################################################################
@@ -45,7 +44,16 @@ end
 ###############################################################################
 
 When /^I click the link to verify my email address$/ do
+  steps "Given I have an open web browser"
   @driver.get @email_verification_link
+end
+
+###############################################################################
+# THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
+###############################################################################
+
+Then /^I should be notified that my email is verified$/ do
+  assertText("Email Confirmed")
 end
 
 ###############################################################################
@@ -59,15 +67,13 @@ def check_email_for_verification(subject_substring = nil, content_substring)
   imap_port = 993
   imap_user = 'testdev.wgen@gmail.com'
   imap_password = 'testdev.wgen1234'
-  imap = Net::IMAP.new(imap_host, imap_port, true)
-  imap.login(imap_user, imap_password)
-  imap.examine('INBOX')
   not_so_distant_past = Date.today.prev_day.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
+  imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
+  imap.login(imap_user, imap_password)
+  imap.examine('INBOX')
   messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
   imap.disconnect
-
-  yield
 
   retry_attempts = 30
   retry_attempts.times do
@@ -77,11 +83,10 @@ def check_email_for_verification(subject_substring = nil, content_substring)
     imap.examine('INBOX')
 
     messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
+    messages_new = messages_after
     messages_before = messages_after
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      puts messages
       messages.each do |message|
         content = message.attr["BODY[TEXT]"]
         subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
