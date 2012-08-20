@@ -38,7 +38,7 @@
 					<xs:element name="SLI-Staff" type="SLI-Staff" />
 					<xs:element name="SLI-Student" type="SLI-Student" />
 					<xs:element name="SLI-StudentCompetency" type="SLI-StudentCompetency" />
-					<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
+					<xs:element name="SLI-StudentCompetencyObjective" type="SLI-StudentCompetencyObjective" />
 					<xs:element name="SLI-Teacher" type="SLI-Teacher" />
 				</xs:choice>
 			</xs:sequence>
