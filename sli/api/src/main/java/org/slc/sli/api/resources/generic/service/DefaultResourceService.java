@@ -180,10 +180,14 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     // TODO: change from UriInfo
-    public List<EntityBody> getEntities(final String base, final String id, final String resource, final URI requestURI) {
+    public List<EntityBody> getEntities(final String base, final String id, final String resource, final URI requestURI,
+                                        MultivaluedMap<String, String> queryParams) {
         final EntityDefinition definition = getEntityDefinition(resource);
+        final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
+        List<String> valueList = Arrays.asList(id.split(","));
         final ApiQuery apiQuery = getApiQuery(definition, requestURI);
+        apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
         } catch (final UnsupportedSelectorException e) {
@@ -196,7 +200,36 @@ public class DefaultResourceService implements ResourceService {
     @Override
     // TODO
     public List<EntityBody> getEntities(String base, String id, String association, String resource, UriInfo uriInfo) {
-        throw new UnsupportedOperationException("TODO");
+        final EntityDefinition finalEntity = getEntityDefinition(resource);
+        final EntityDefinition  assocEntity= getEntityDefinition(association);
+        final String associationKey = getConnectionKey(base, association);
+
+        List<String> valueList = Arrays.asList(id.split(","));
+        final ApiQuery apiQuery = getApiQuery(assocEntity, uriInfo.getRequestUri(),);
+        apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+
+        final String resourceKey = getConnectionKey(association,resource);
+        final ArrayList<String> filteredIdList = new ArrayList<String>();
+        for(EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
+           filteredIdList.add(entityBody.get(resourceKey).toString());
+        }
+        List<EntityBody> entityBodyList;
+        final ApiQuery finalApiQuery = getApiQuery(finalEntity, uriInfo.getRequestUri(),);
+        finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+        try {
+            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+        } catch (final UnsupportedSelectorException e) {
+            entityBodyList = (List<EntityBody>) finalEntity.getService().list(apiQuery);
+        }
+        return entityBodyList;
+    }
+
+    private String getConnectionKey(final String fromEntity, final String toEntity) {
+        final EntityDefinition toEntityDef = getEntityDefinition(toEntity);
+        final EntityDefinition fromEntityDef = getEntityDefinition(fromEntity);
+        ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));
+        ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
+        return provider.getConnectionPath(fromEntityType,toEntityType);
     }
 
 }
