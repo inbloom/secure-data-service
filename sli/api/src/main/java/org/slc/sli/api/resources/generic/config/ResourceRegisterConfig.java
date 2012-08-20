@@ -24,7 +24,7 @@ import java.util.Set;
 @Component
 public class ResourceRegisterConfig extends DefaultResourceConfig {
 
-    private static final String WADL = "/wadl/base_wadl2.wadl";
+    private static final String WADL = "/wadl/base_wadl.wadl";
     private static final String PREFIX = "generic/";
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
@@ -56,7 +56,7 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
                 if (resourceTemplate.getResourceClass() != null && !resourceTemplate.getResourceClass().isEmpty()) {
                     Class resourceClass = Class.forName(resourceTemplate.getResourceClass());
 
-                    getExplicitRootResources().put(resource.getKey(), resourceClass);
+                    getExplicitRootResources().put(PREFIX + resource.getKey(), resourceClass);
                 }
             }
 

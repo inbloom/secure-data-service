@@ -33,7 +33,7 @@ public class FourPartResource extends GenericResource {
         return handleGet(uriInfo, ResourceTemplate.FOUR_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public List<EntityBody> run(Resource resource) {
-                final Resource base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.THREE_PART);
+                final Resource base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.FOUR_PART);
                 final Resource association = resourceHelper.getAssociationName(uriInfo, ResourceTemplate.FOUR_PART);
                 return resourceService.getEntities(base, id, association, resource, uriInfo.getRequestUri());
             }

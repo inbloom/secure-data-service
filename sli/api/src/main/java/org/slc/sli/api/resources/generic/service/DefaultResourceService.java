@@ -252,9 +252,9 @@ public class DefaultResourceService implements ResourceService {
         }
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = getApiQuery(finalEntity, requestUri);
-        finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+        finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", filteredIdList));
         try {
-            entityBodyList = logicalEntity.getEntities(apiQuery, finalEntity.getResourceName());
+            entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
         } catch (final UnsupportedSelectorException e) {
             entityBodyList = (List<EntityBody>) finalEntity.getService().list(apiQuery);
         }

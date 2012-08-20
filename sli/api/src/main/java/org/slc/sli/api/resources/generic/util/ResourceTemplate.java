@@ -4,11 +4,11 @@ package org.slc.sli.api.resources.generic.util;
  * @author jstokes
  */
 public enum ResourceTemplate {
-    ONE_PART("/rest/{version}/{resource}"),
-    TWO_PART("/rest/{version}/{resource}/{id}"),
-    THREE_PART("/rest/{version}/{base}/{id}/{resource}"),
-    FOUR_PART("/rest/{version}/{base}/{id}/{association}/{resource}"),
-    CUSTOM("/rest/{version}/{resource}/{id}/custom");
+    ONE_PART("/generic/{version}/{resource}"),
+    TWO_PART("/generic/{version}/{resource}/{id}"),
+    THREE_PART("/generic/{version}/{base}/{id}/{resource}"),
+    FOUR_PART("/generic/{version}/{base}/{id}/{association}/{resource}"),
+    CUSTOM("/generic/{version}/{resource}/{id}/custom");
 
     private final String template;
 
