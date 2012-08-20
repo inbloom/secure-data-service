@@ -148,6 +148,8 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.STAFFPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, HrfinDTD.EMPLOYEEPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STAFFASSIGNMENT, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYMENTRECORD, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYEEASSIGNMENT, new PublishingOptions(true));
     }
 
     public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
