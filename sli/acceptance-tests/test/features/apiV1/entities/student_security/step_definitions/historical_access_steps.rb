@@ -144,10 +144,29 @@ private
 def check_associated_data(arg1, response)
   @format = "application/vnd.slc+json"
   ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
-    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
+    restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
+    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
     data = JSON.parse(@res.body) unless response == 403
     assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}") unless response == 403
+  end
+  check_grades(arg1, response)
+end
+def check_grades(arg1, response)
+  @format = "application/vnd.slc+json"
+  #First get student section Associations, then get the grades.
+  restHttpGet("/v1/studentSectionAssociations?studentId=#{arg1}")
+  ssa = JSON.parse(@res.body)
+  grades = []
+  if (response != 403)
+    ssa.each do |association|
+      #Get the grade for this.
+      restHttpGet("/v1/studentSectionAssociations/#{association["id"]}/grades")
+      grade = JSON.parse(@res.body)
+      grades += grade
+    end
+    grades = grades.flatten.uniq
+    assert(grades.count >= 1, "Expected to only see one grade, but saw #{grades.count}")
   end
 end

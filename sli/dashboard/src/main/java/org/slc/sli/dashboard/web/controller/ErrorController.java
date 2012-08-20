@@ -19,8 +19,6 @@ package org.slc.sli.dashboard.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +48,6 @@ public class ErrorController extends GenericLayoutController {
     public static final String TEMPLATE_NAME = "error";
     public static final String TEMPLATE_FILE = "error.ftl";
     public static final String URL_PARAM_ERROR_TYPE = "errorType";
-    private static final Pattern httpStatusCodePattern = Pattern.compile("^\\S+\\s+(\\d+)");
     
     /**
      * Controller for SLI Exceptions
@@ -70,24 +67,13 @@ public class ErrorController extends GenericLayoutController {
         Map<String, String> exceptionMap = new HashMap<String, String>();
         
         ErrorDescriptor error = ErrorDescriptor.DEFAULT;
-        
-        //if errorType is null, then read status code from http header.
-        //format will should be HTTP/1.1 ### http response message..
-        //httpStatusCodePattern will parse out ### status code
-        if (errorType == null) {
-            String header = response.toString();
-            Matcher matcher = httpStatusCodePattern.matcher(header);
-            if(matcher.find()) {
-                errorType = matcher.group(1);
-            }
-        }
         if (errorType != null) {
             ErrorDescriptor specificError = ErrorDescriptor.findByType(errorType);
             if (specificError != null) {
                 error = specificError;
             }
         }
-   
+        
         model.addAttribute(Constants.ATTR_ERROR_HEADING, error.getHeading());
         model.addAttribute(Constants.ATTR_ERROR_CONTENT, error.getContent());
         
