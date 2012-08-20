@@ -175,7 +175,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
-        update(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
+        updateFirst(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
 
     @Override

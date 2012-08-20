@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service.query;
 
 import java.util.HashMap;
@@ -22,6 +21,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.commons.lang.StringUtils;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -38,7 +39,7 @@ public class ApiQuery extends NeutralQuery {
     private static final UriInfoToApiQueryConverter QUERY_CONVERTER = new UriInfoToApiQueryConverter();
 
     public static final int API_QUERY_DEFAULT_LIMIT = 50;
-    
+
     private Map<String, Object> selector = null;
 
     /* General default. Used when a more specific default selector is not available. */
@@ -66,9 +67,9 @@ public class ApiQuery extends NeutralQuery {
     protected String toSelectorString(Map<?, ?> map) {
         StringBuffer selectorStringBuffer = new StringBuffer();
         selectorStringBuffer.append(":(");
-        
+
         boolean first = true;
-        for (Entry<?, ?> entry  : map.entrySet()) {
+        for (Entry<?, ?> entry : map.entrySet()) {
             if (!first) {
                 selectorStringBuffer.append(",");
             }
@@ -83,50 +84,38 @@ public class ApiQuery extends NeutralQuery {
                 }
             }
         }
-        
+
         selectorStringBuffer.append(")");
         return selectorStringBuffer.toString();
     }
-    
+
     @Override
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder("offset=" + getOffset() + "&limit=" + getLimit());
 
-        stringBuffer.append("offset=");
-        stringBuffer.append(super.offset);
-        stringBuffer.append("&limit=");
-        stringBuffer.append(super.limit);
-
-        if (super.includeFields != null) {
-            stringBuffer.append("&includeFields=");
-            stringBuffer.append(super.includeFields);
+        if (getIncludeFields() != null) {
+            stringBuffer.append("&includeFields=" + StringUtils.join(getIncludeFields(), ","));
         }
 
-        if (super.excludeFields != null) {
-            stringBuffer.append("&excludeFields=");
-            stringBuffer.append(super.excludeFields);
+        if (getExcludeFields() != null) {
+            stringBuffer.append("&excludeFields=" + StringUtils.join(getExcludeFields(), ","));
         }
 
-        if (super.sortBy != null) {
-            stringBuffer.append("&sortBy=");
-            stringBuffer.append(super.sortBy);
+        if (getSortBy() != null) {
+            stringBuffer.append("&sortBy=" + getSortBy());
         }
 
-        if (super.sortOrder != null) {
-            stringBuffer.append("&sortOrder=");
-            stringBuffer.append(super.sortOrder);
+        if (getSortOrder() != null) {
+            stringBuffer.append("&sortOrder=" + getSortOrder());
         }
-        
+
         if (this.selector != null) {
-            stringBuffer.append("&selector=");
-            stringBuffer.append(this.toSelectorString(this.selector));
+            stringBuffer.append("&selector=" + this.toSelectorString(this.selector));
         }
 
-        for (NeutralCriteria neutralCriteria : super.queryCriteria) {
-            stringBuffer.append("&");
-            stringBuffer.append(neutralCriteria.getKey());
-            stringBuffer.append(neutralCriteria.getOperator());
-            stringBuffer.append(neutralCriteria.getValue());
+        for (NeutralCriteria neutralCriteria : getCriteria()) {
+            stringBuffer.append("&" + neutralCriteria.getKey() + neutralCriteria.getOperator()
+                    + neutralCriteria.getValue());
         }
 
         return stringBuffer.toString();

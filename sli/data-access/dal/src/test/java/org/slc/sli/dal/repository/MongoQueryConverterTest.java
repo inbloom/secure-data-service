@@ -17,26 +17,29 @@
 
 package org.slc.sli.dal.repository;
 
-import com.mongodb.DBObject;
-
-import org.bson.types.BasicBSONList;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.domain.NeutralCriteria;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import com.mongodb.DBObject;
+
+import org.bson.types.BasicBSONList;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
 
 /**
  * JUnits for DAL
@@ -47,10 +50,10 @@ public class MongoQueryConverterTest {
 
     @Autowired
     private MongoQueryConverter mongoQueryConverter; //class under test
-    
+
     @Test
     public void testKeyPrefixing() {
-        
+
         NeutralCriteria neutralCriteria1 = new NeutralCriteria("metadata.x", "=", "1");
         NeutralCriteria neutralCriteria2 = new NeutralCriteria("metadata.x", "=", "1", false);
         NeutralCriteria neutralCriteria3 = new NeutralCriteria("_id", "=", "1");
@@ -104,7 +107,7 @@ public class MongoQueryConverterTest {
     @Test
     public void testIncludeFieldConvert() {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setIncludeFields("populationServed,uniqueSectionCode");
+        neutralQuery.setIncludeFieldString("populationServed,uniqueSectionCode");
 
         Query query = mongoQueryConverter.convert("section", neutralQuery);
         assertNotNull("Should not be null", query);
@@ -117,7 +120,7 @@ public class MongoQueryConverterTest {
     @Test
     public void testExcludeFieldConvert() {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setExcludeFields("populationServed,uniqueSectionCode");
+        neutralQuery.setExcludeFieldString("populationServed,uniqueSectionCode");
 
         Query query = mongoQueryConverter.convert("section", neutralQuery);
         assertNotNull("Should not be null", query);
@@ -278,37 +281,37 @@ public class MongoQueryConverterTest {
     /**
      * Checks the conversion of NeutralQueries (containing ORed criteria)
      * into Mongo-appropriate Query objects.
-     * 
+     *
      * This test uses an example similar to:
-     * 
-     * select * 
+     *
+     * select *
      *   from student
      *  where economicDisadvantaged = true
      *    and (metaData.tenantId = 'Security' or studentUniqueStateId = '000000054')
-     * 
+     *
      */
     @Test
     public void testOrConvert() {
         NeutralQuery mainQuery = new NeutralQuery();
-        
+
         //not part of the or, so added to the main query
         mainQuery.addCriteria(new NeutralCriteria("economicDisadvantaged=true"));
-        
+
         //construct a query representing all the criteria in 1 or branch
         NeutralQuery orQuery1 = new NeutralQuery();
         orQuery1.addCriteria(new NeutralCriteria("metaData.tenantId", "=", "Security", false));
-        
+
         //construct a query representing all the criteria in a second or branch
         NeutralQuery orQuery2 = new NeutralQuery();
         orQuery2.addCriteria(new NeutralCriteria("studentUniqueStateId", "=", "000000054"));
-        
+
         //add the or queries
         mainQuery.addOrQuery(orQuery1);
         mainQuery.addOrQuery(orQuery2);
-        
+
         //the converter will convert the NeutralQuery into a mongo Query Object
         Query query = mongoQueryConverter.convert("student", mainQuery);
-        
+
         assertNotNull("Should not be null", query);
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
