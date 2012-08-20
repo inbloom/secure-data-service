@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.MongoException;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +136,21 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
+    boolean update(String collectionName, Entity entity, List<Entity> failed, ErrorReport errorReport) {
+        boolean res = false;
+
+        try {
+            res = entityRepository.update(collectionName, entity);
+            if (!res) {
+                failed.add(entity);
+            }
+        } catch (MongoException e) {
+            reportWarnings(e.getCause().getMessage(), collectionName, errorReport);
+        }
+
+        return res;
+    }
+
     private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
@@ -143,11 +160,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
             if (entity.getEntityId() != null) {
-                if (!entityRepository.update(collectionName, entity)) {
-                    failed.add(entity);
-                }
+                update(collectionName, entity, failed, errorReport);
             } else {
-                preMatchEntity(memory, entityConfig, errorReport, entity);
+              preMatchEntity(memory, entityConfig, errorReport, entity);
             }
         }
 
@@ -165,14 +180,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         try {
             entityRepository.insert(queued, collectionName);
-        } catch (DuplicateKeyException e) {
-            reportWarnings(e.getRootCause().getMessage(), collectionName, errorReport);
         } catch(Exception e) {
+            //Assuming there would NOT be DuplicateKeyException at this point.
+            //Because "queued" only contains new records(with no Id), and we don't have unique indexes
+
             //Try to do individual upsert again for other exceptions
-            for(SimpleEntity entity : entities) {
-                if(!entityRepository.update(collectionName, entity)) {
-                    failed.add(entity);
-                }
+            for(Entity entity : queued) {
+                update(collectionName, entity, failed, errorReport);
             }
         }
 
