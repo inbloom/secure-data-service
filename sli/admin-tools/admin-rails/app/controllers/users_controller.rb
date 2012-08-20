@@ -119,7 +119,7 @@ class UsersController < ApplicationController
 
     if resend==nil || resend==false
       begin
-        reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
+        reset_password_link = "#{APP_CONFIG['email_replace_uri']}/reset_password"
         ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],params[:user][:primary_role],reset_password_link).deliver
       rescue =>e
         logger.error "Could not send email to #{@user.email}."
@@ -279,11 +279,13 @@ class UsersController < ApplicationController
       check = Check.get ""
       @login_user_edorg_name = check['edOrg']
       @edorgs={check['edOrg']=> check ['edOrg']}
+    end
+
+    if is_sea_admin?
       if @login_user_edorg_name !=nil
         current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => @login_user_edorg_name})
       end
       while current_edorgs !=nil && current_edorgs.length>0
-
         child_edorgs=[]
         current_edorgs.each do |edorg|
           edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edorg.id } )
@@ -307,7 +309,6 @@ class UsersController < ApplicationController
       logger.info("the edorg options are #{@edorgs.to_json}")
     end
   end
-
 
   def set_role_options
     if APP_CONFIG['is_sandbox']
