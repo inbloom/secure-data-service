@@ -17,51 +17,30 @@
 package org.slc.sli.dal;
 
 import com.mongodb.MongoException;
-
-import org.slf4j.Logger;
-import org.springframework.data.mongodb.core.MongoTemplate;
-
 /**
  * Way to retry mongo commands
  *
  * @author tshewchuk
  *
  */
-public class RetryMongoCommand {
-    private final MongoTemplate template;
-    private final Logger LOG;
-
-    private static final int MONGO_DUPLICATE_KEY_ERROR = 11000;
-    private static int retryInterval;
-
-    private Object record;
-    private String collectionName;
-
-    public RetryMongoCommand(MongoTemplate template, Logger log) {
-        this.template = template;
-        this.LOG = log;
-        retryInterval = 1000;  // msec.  FOR NOW!!
-    }
-
-
-    /**
-     * Retry n times performing a mongo template command
-     *
-     * @param command
-     *            enumeration of mongo template command
-     * @param tries
-     *            number of attempts, or 0 if unsuccessful
-     */
-    private void retryTemplateCommand(int tries) {
-        int retries = 1;
-        while (retries <= tries) {
+public abstract class RetryMongoCommand {
+    public Object executeOperation(int noOfRetries) throws Exception {
+        Object result = null;
+        while (noOfRetries > 0) {
             try {
+               result = execute();
+                break;
             } catch (MongoException me) {
-                if (me.getCode() == MONGO_DUPLICATE_KEY_ERROR) {
+                if (me.getCode() == 11000) {
                     break;
                 }
-                retries++;
+                noOfRetries--;
+            } catch (Exception ex) {
+                throw ex;
             }
         }
+        return result;
     }
+
+    public abstract Object execute();
 }
