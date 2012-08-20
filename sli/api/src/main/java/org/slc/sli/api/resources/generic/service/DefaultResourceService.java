@@ -51,7 +51,9 @@ public class DefaultResourceService implements ResourceService {
     private List<EntityDecorator> entityDecorators;
 
     @Autowired
-    private View optionalView;
+    private ModelProvider provider;
+
+
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -64,16 +66,13 @@ public class DefaultResourceService implements ResourceService {
 
         List<EntityBody> entities = logic.run(resource.getResourceType(), definition);
 
-        //add the optional views
-        entities = optionalView.add(entities, resource.getResourceType(), queryParams);
-
         return entities;
     }
 
     @Override
     public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
 
-        return handle(resource, queryParams, new ServiceLogic() {
+        return handle(resource, new ServiceLogic() {
             @Override
             public List<EntityBody> run(final String resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
@@ -111,7 +110,7 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public List<EntityBody> getEntities(final Resource resource, final URI requestURI) {
 
-        return handle(resource, queryParams, new ServiceLogic() {
+        return handle(resource, new ServiceLogic() {
             @Override
             public List<EntityBody> run(final String resource, EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;

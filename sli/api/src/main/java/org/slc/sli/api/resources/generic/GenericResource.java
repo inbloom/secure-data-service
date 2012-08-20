@@ -57,6 +57,9 @@ public abstract class GenericResource {
     @Autowired
     private List<EntityDecorator> entityDecorators;
 
+    @Autowired
+    private View optionalView;
+
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupportedMethods;
@@ -93,6 +96,7 @@ public abstract class GenericResource {
 
         //run the resource logic
         List<EntityBody> entities = logic.run(resource);
+        entities = optionalView.add(entities, resource.getResourceType(), uriInfo.getQueryParameters());
 
         //add the links
         entities = hateoasLink.add(resource.getResourceType(), entities, uriInfo);
