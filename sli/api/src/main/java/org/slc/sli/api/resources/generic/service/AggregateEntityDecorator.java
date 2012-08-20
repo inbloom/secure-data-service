@@ -19,7 +19,7 @@ public class AggregateEntityDecorator implements EntityDecorator {
     @Override
     public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
         boolean includeAggregateValues = definition.supportsAggregates() &&
-                "true".equals(queryParams.get(ParameterConstants.INCLUDE_AGGREGATES));
+                Boolean.valueOf(queryParams.get(ParameterConstants.INCLUDE_AGGREGATES).get(0));
 
         if (includeAggregateValues) {
             String entityId = (String) entity.get("id");
