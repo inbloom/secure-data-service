@@ -37,6 +37,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -395,13 +396,13 @@ public class EntityRepositoryTest {
         Map<String, Object> studentBody = buildTestStudentEntity();
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
-        int noOfRetries = 5;
+        int noOfRetries = 3;
 
-        Mockito.doThrow(new MongoException(11001, "Test Exception")).when(mockRepo).update("student", entity);
+        Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo).update("student", entity);
         Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
 
         mockRepo.updateWithRetries("student", entity, noOfRetries);
 
-        Mockito.verify(mockRepo, Mockito.times(1)).update("student", entity);
+        Mockito.verify(mockRepo, Mockito.times(3)).update("student", entity);
     }
 }
