@@ -21,16 +21,35 @@ Scenario: As an app developer I request a production account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
-  @test
 Scenario: As an app developer I want to verify my registration email
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 
 Scenario: As an SLC Operator I want to approve the app developer account
+  Given I go to the production account approval page
 
-
-
+@test
+Scenario: Admin Logs into dashboard from portal
+  Given I have an open web browser
+  And I go to the portal page on RC
+  When I select the "Shared Learning Collaborative" realm
+  Then I should be redirected to the "Simple" IDP Login page
+  When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+  Then I should be on Portal home page
+  Then I should see Admin link
+  And I click on Admin
+  Then I should be on the admin page
+  And I click on Account Approval
+  Then I should be on the Authorize Developer Account page
+  Then I see one account with name "Test Developer"
+  And his account status is "pending"
+  When I click the "Approve" button
+    And I am asked "Do you really want to approve this user account?"
+    When I click on Ok
+  Then his account status changed to "approved"
+  And I should see "Account was successfully updated"
+  And I click on Sign Out
 
 
 
