@@ -39,7 +39,7 @@
 					<xs:element name="student" type="student" />
 					<xs:element name="studentCompetency" type="studentCompetency" />
 					<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
-					<xs:element name="teacher" type="teacher" />
+					<xs:element name="SLI-Teacher" type="SLI-Teacher" />
 				</xs:choice>
 			</xs:sequence>
 		</xs:complexType>
