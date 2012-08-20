@@ -19,16 +19,20 @@ public interface ResourceService {
 
     public List<EntityBody> getEntities(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
 
-    public String postEntity(String resource, EntityBody entity);
-
-    public String getEntityType(String resource);
-
-    public Long getEntityCount(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
-
     public List<EntityBody> getEntities(String base, String id, String resource, URI requestURI);
 
     public List<EntityBody> getEntities(String base, String id, String association,
                                         String resource, UriInfo uriInfo);
+
+    public String postEntity(String resource, EntityBody entity);
+
+    public void putEntity(String resource, String id, EntityBody entity);
+
+    public void deleteEntity(String resource, String id);
+
+    public Long getEntityCount(String resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+
+    public String getEntityType(String resource);
 
     public EntityDefinition getEntityDefinition(String resource);
 

@@ -131,12 +131,13 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public long getEntityCount(String resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
+    public Long getEntityCount(String resource, final URI requestURI, MultivaluedMap<String, String> queryParams) {
         EntityDefinition definition = getEntityDefinition(resource);
         ApiQuery apiQuery = getApiQuery(definition, requestURI);
+        long count = 0;
 
         if (definition.getService() == null) {
-            return 0;
+            return count;
         }
 
         if (apiQuery == null) {
@@ -147,9 +148,11 @@ public class DefaultResourceService implements ResourceService {
         int originalOffset = apiQuery.getOffset();
         apiQuery.setLimit(0);
         apiQuery.setOffset(0);
-        long count = definition.getService().count(apiQuery);
+
+        count = definition.getService().count(apiQuery);
         apiQuery.setLimit(originalLimit);
         apiQuery.setOffset(originalOffset);
+
         return count;
     }
 
@@ -165,6 +168,23 @@ public class DefaultResourceService implements ResourceService {
         EntityDefinition definition = getEntityDefinition(resource);
 
         return definition.getService().create(entity);
+    }
+
+    @Override
+    public void putEntity(String resource, String id, EntityBody entity) {
+        EntityDefinition definition = getEntityDefinition(resource);
+
+        EntityBody copy = new EntityBody(entity);
+        copy.remove(ResourceConstants.LINKS);
+
+        definition.getService().update(id, copy);
+    }
+
+    @Override
+    public void deleteEntity(String resource, String id) {
+        EntityDefinition definition = getEntityDefinition(resource);
+
+        definition.getService().delete(id);
     }
 
     public EntityDefinition getEntityDefinition(final String resource) {
