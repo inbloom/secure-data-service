@@ -107,10 +107,6 @@ def check_email_for_verification(subject_substring = nil, content_substring)
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
 
-Given /^test$/ do
-  check_email_for_verification
-end
-
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
  user_name = user_name+"_"+Socket.gethostname
   puts "And i am looking to find the element with id username.", user_name
@@ -124,12 +120,8 @@ Then /^his account status is "([^"]*)"$/ do |arg1|
   assert(status.text==arg1,"user account status is not #{arg1}")
 end
 
-When /^I click the "([^"]*)" button$/ do |button_name|
-  @driver.find_element(:id,button_name.downcase+"_button_"+@user_name).click
-end
-
 When /^I am asked "([^"]*)"$/ do |arg1|
-     # do nothing
+   # do nothing
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
@@ -142,61 +134,6 @@ Then /^his account status changed to "([^"]*)"$/ do |arg1|
   end  
   assert(found,"user account status is not #{arg1}")
   clear_users()
-end
-
-
-Then /^User Name in the "([^"]*)" column$/ do |arg1|
-  user_names=@driver.find_elements(:xpath,"//td[@class='user_name']")
-  assert(user_names.length>0,"didnt find User name in #{arg1} column")
-end
-
-Then /^status in the "([^"]*)" column$/ do |arg1|
-  status_elements=@driver.find_elements(:xpath,"//td[@class='account_management_table_pendingStatus']")
-  assert(status_elements.length>0,"didnt find status in #{arg1} column")
-end
-
-Then /^the "([^"]*)" column has (\d+) buttons "([^"]*)", "([^"]*)", "([^"]*)", and "([^"]*)"$/ do |arg1,arg2,approve_button, reject_button, disable_button, enable_button|
- approve_buttons=@driver.find_elements(:xpath,"//input[@value='Approve']")
- assert(approve_buttons.length>0,"didnt find #{approve_button} in action column")
- reject_buttons=@driver.find_elements(:xpath,"//input[@value='Reject']")
- assert(reject_buttons.length>0,"didnt find #{reject_button} in action column")
- disable_buttons=@driver.find_elements(:xpath,"//input[@value='Disable']")
- assert(disable_buttons.length>0,"didnt find #{disable_button} in action column")
- enable_buttons=@driver.find_elements(:xpath,"//input[@value='Enable']")
- assert(enable_buttons.length>0,"didnt find #{enable_button} in action column")
-end
-
-Then /^I see a table with headings of "([^"]*)" and "([^"]*)" and "([^"]*)" and "([^"]*)" and "([^"]*)"$/ do |vendor, user_name, last_update, status, action|
- vendor_header= @driver.find_element(:id,"vendor")
- assert(vendor_header.text==vendor,"didnt find #{vendor} in the heading")
- user_name_header= @driver.find_element(:id,"user_name")
- assert(user_name_header.text==user_name,"didnt find #{user_name} in the heading")
- last_update_header= @driver.find_element(:id,"last_update")
- assert(last_update_header.text==last_update,"didnt find #{last_update} in the heading")
- status_header= @driver.find_element(:id,"status")
- assert(status_header.text==status,"didnt find #{status} in the heading")
- action_header= @driver.find_element(:id,"action")
- assert(action_header.text==action,"didnt find #{action} in the heading")
-end
-
-Given /^there are accounts in requests pending in the system$/ do
-  clear_users()
-  sleep(1)
-  user_info = {
-      :first => "Loraine",
-      :last => "Plyler_"+Socket.gethostname, 
-       :email => @email,
-       :password => "secret", 
-       :emailtoken => "token",
-       :vendor => "Macro Corp",
-       :status => "pending",
-       :homedir => "test",
-       :uidnumber => "500",
-       :gidnumber => "500",
-       :emailAddress => @email
-   }
-  @ldap.create_user(user_info)
-  sleep(1)
 end
 
 When /^I select the "([^"]*)" realm$/ do |arg1|
@@ -216,8 +153,3 @@ end
 Then /^I should be on the Authorize Developer Account page$/ do
   assert(@driver.page_source.include?("Authorize Developer Account"))
 end
-
-Then /^I click on Sign Out$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
