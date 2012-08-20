@@ -1751,23 +1751,21 @@
         </xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="SLI-StudentAssessment">
-		<xs:annotation>
-			<xs:documentation>This entity represents the analysis or scoring of a
-				student's response on an assessment. The analysis results in a value
-				that represents a student's performance on a set of items on a test.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
+    <xs:complexType name="SLI-StudentAssessment">
+        <xs:annotation>
+            <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment.
+                The analysis results in a value that represents a student's performance on a set of items on a test.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="StudentAssessment">
                 <xs:sequence>
                     <xs:element name="SLI-AdministrationLanguage" type="languageItemType" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>The language in which an assessment is written
-                                and/or administered.
+                            <xs:documentation>The language in which an assessment is written and/or administered.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -1777,13 +1775,16 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SLI-StudentObjectiveAssessments" type="studentObjectiveAssessment" maxOccurs="unbounded" minOccurs="0">
+                    <xs:element name="SLI-StudentObjectiveAssessments" type="studentObjectiveAssessment"
+                                maxOccurs="unbounded" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>The score and or performance level(s) earned for each objective assessment by the student.
+                            <xs:documentation>The score and or performance level(s) earned for each objective assessment
+                                by the student.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SLI-StudentAssessmentItems" type="studentAssessmentItem" maxOccurs="unbounded" minOccurs="0">
+                    <xs:element name="SLI-StudentAssessmentItems" type="studentAssessmentItem" maxOccurs="unbounded"
+                                minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>This entity represents the student's responses to assessment items.
                             </xs:documentation>
@@ -1792,8 +1793,7 @@
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-
-	</xs:complexType>
+    </xs:complexType>
 
 	<xs:complexType name="studentAssessmentItem">
 		<xs:annotation>
@@ -2104,27 +2104,29 @@
         </xs:sequence>
     </xs:complexType>
 
-	<xs:complexType name="SLI-StudentSchoolAssociation">
-		<xs:annotation>
-			<xs:documentation>This association represents the school to which a student is enrolled.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
+    <xs:complexType name="SLI-StudentSchoolAssociation">
+        <xs:annotation>
+            <xs:documentation>This association represents the school to which a student is enrolled.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="StudentSchoolAssociation">
                 <xs:sequence>
                     <xs:element name="SLI-EntryGradeLevel" type="gradeLevelType">
                         <xs:annotation>
-                            <xs:documentation>The grade level or primary instructional level at which a student enters and
-                                receives services in a school or an educational institution during a given academic session.
+                            <xs:documentation>The grade level or primary instructional level at which a student enters
+                                and receives services in a school or an educational institution during a given academic
+                                session.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="SLI-EntryType" type="entryType" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>The process by which a student enters a school during a given academic session.
+                            <xs:documentation>The process by which a student enters a school during a given academic
+                                session.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -2139,9 +2141,9 @@
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-	</xs:complexType>
+    </xs:complexType>
 
-	<xs:complexType name="SLI-StudentGradebookEntry">
+    <xs:complexType name="SLI-StudentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
 				StudentGradebookEntry
