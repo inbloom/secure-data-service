@@ -38,6 +38,9 @@ import org.slc.sli.domain.QueryParseException;
  */
 public class UriInfoToApiQueryConverter {
 
+    //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
+    private static final int HARD_ENTITY_COUNT_LIMIT = 1000;
+
     private SelectionConverter selectionConverter = new Selector2MapOfMaps();
 
     /**
@@ -164,8 +167,12 @@ public class UriInfoToApiQueryConverter {
                     throw new QueryParseException(re.getMessage(), queryString);
                 }
             }
+
+            int limit = apiQuery.getLimit();
+            if (0 == limit || limit > HARD_ENTITY_COUNT_LIMIT) {
+                apiQuery.setLimit(HARD_ENTITY_COUNT_LIMIT);
+            }
         }
-        
         return apiQuery;
     }
 

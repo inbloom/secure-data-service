@@ -98,7 +98,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 RoleBuilder
                         .makeRole(REALM_ADMINISTRATOR)
                         .addRights(
-                                new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES,
+                                new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
                                         Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
         
         Right[] appDevRights = null;

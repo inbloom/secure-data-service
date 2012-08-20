@@ -1,0 +1,36 @@
+{
+  "calculated_value" : {
+      "metadata" : {
+          "type" : "Assessment",
+          "value_type" : "java.lang.Double",
+          "description" : "Calculate the highest ever score per student for the grade 7 state math assessment.",
+          "abbreviation" : "HE-SMA-7"
+      },
+
+      "hadoop" : {
+          "map" : {
+              "class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+              "input" : {
+                  "collection" : "sli.studentAssessmentAssociation",
+                  "key_field" : "body.studentId",
+                  "query" : { "body.assessmentId" : "@ID@", "body.scoreResults.assessmentReportingMethod" : "Scale score" },
+                  "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.scoreResults" : 1 },
+                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat",
+                  "read_from_secondaries" : true
+              },
+              "output" : {
+                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter"
+              }
+          },
+          "reduce" : {
+              "class" : "org.slc.sli.aggregation.mapreduce.reduce.Highest",
+              "collection" : "sli.student",
+              "field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore"
+          }
+      }
+  }
+}

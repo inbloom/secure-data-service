@@ -21,6 +21,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 
@@ -57,7 +58,9 @@ public class IdFieldEmittableKey extends EmittableKey {
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(getId().toString());
+        for (Entry<Writable, Writable> s : entrySet()) {
+            data.writeBytes(s.getValue().toString());
+        }
     }
 
     @Override
