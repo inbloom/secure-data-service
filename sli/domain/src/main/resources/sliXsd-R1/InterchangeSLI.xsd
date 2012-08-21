@@ -25,7 +25,7 @@
 					<xs:element name="SLI-Cohort" type="SLI-Cohort" />
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 					<xs:element name="SLI-Course" type="SLI-Course" />
-					<xs:element name="educationOrganization" type="educationOrganization" />
+					<xs:element name="SLI-EducationOrganization" type="SLI-EducationOrganization" />
 					<xs:element name="SLI-GradingPeriod" type="SLI-GradingPeriod" />
 					<xs:element name="SLI-GraduationPlan" type="SLI-GraduationPlan" />
 					<xs:element name="learningObjective" type="learningObjective" />

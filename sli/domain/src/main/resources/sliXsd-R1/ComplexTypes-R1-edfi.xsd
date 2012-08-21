@@ -2383,145 +2383,34 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="educationOrganization">
+    <xs:complexType name="SLI-EducationOrganization">
         <xs:annotation>
-            <xs:documentation>This entity represents any public or private
-                institution,
-                organization, or agency that provides instructional or
-                support services to
-                students
-                or staff at any level.
+            <xs:documentation>This entity represents any public or private institution, organization, or agency that
+                provides instructional or support services to students or staff at any level.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-                <sli:SecuritySphere>Public</sli:SecuritySphere>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="stateOrganizationId" type="identificationCode">
-                <xs:annotation>
-                    <xs:documentation>The identifier assigned to an education
-                        organization
-                        by the State Education Agency (SEA).
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>A unique number or alphanumeric code assigned
-                        to
-                        an education organization by a school, school system, a state,
-                        or
-                        other agency or entity.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="nameOfInstitution" type="nameOfInstitution">
-                <xs:annotation>
-                    <xs:documentation>The full, legally accepted name of the
-                        institution.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="shortNameOfInstitution" type="nameOfInstitution"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>A short name for the institution.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="organizationCategories" type="educationOrganizationCategoryType"
-                        maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The classification of the education agency
-                        within
-                        the
-                        geographic boundaries of a state according to the
-                        level of
-                        administrative and operational control granted by the
-                        state.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="address" type="address" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The set of elements that describes the physical
-                        location of the education entity, including the street address,
-                        city, state, ZIP code, and ZIP code + 4.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="telephone" type="institutionTelephone"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The 10-digit telephone number, including the
-                        area
-                        code, for the education entity.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="webSite" type="webSite" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The public web site address (URL) for the
-                        educational
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="operationalStatus" type="operationalStatusType"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The current operational status of the education
-                        organization (e.g., active, inactive).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="accountabilityRatings" type="accountabilityRating"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The accountability ratings assessed for the
-                        education
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="programReference" type="xs:string"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The programs offered at the education
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="agencyHierarchyName" type="agencyHierarchyType"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>An optional hierarchical name for the Ed Org
-                        using '.' separators.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="parentEducationAgencyReference" type="reference"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Reference to the parent Education Organization
-                        in
-                        a hierarchy.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="EducationOrganization">
+                <xs:sequence>
+                    <!-- NOTE SLI edOrg does not contain EducationOrganizationPeerReference -->
+                    <xs:element name="SLI-AgencyHierarchyName" type="agencyHierarchyType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An optional hierarchical name for the Ed Org using '.' separators.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-ParentEducationAgencyReference" type="reference" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Reference to the parent Education Organization in a hierarchy.
+                            </xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="educationOrgIdentificationCode">
