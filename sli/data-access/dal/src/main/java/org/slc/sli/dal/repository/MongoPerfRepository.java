@@ -80,6 +80,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
+        @SuppressWarnings("unchecked")
         Entity entity = (Entity) new MongoEntity(type, null, body, metaData, PADDING);
         perfDbtemplate.insert(entity, collectionName);
         return entity;
@@ -219,5 +220,11 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

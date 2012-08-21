@@ -222,4 +222,10 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return false;
     }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

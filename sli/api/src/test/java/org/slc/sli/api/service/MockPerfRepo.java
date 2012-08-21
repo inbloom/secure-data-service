@@ -191,4 +191,10 @@ public class MockPerfRepo implements Repository<Entity> {
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
         return false;
     }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
