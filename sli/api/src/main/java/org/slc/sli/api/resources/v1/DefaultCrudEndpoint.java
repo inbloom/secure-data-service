@@ -664,7 +664,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        return new CustomEntityResource(id, entityDef);
+        return null;
+//        return new CustomEntityResource(id, entityDef);
     }
 
     @Path("{id}/" + PathConstants.CALCULATED_VALUES)
