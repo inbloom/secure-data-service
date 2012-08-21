@@ -32,6 +32,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
@@ -49,6 +50,7 @@ public abstract class SliEntity {
     private String creatorRefId = null;
     private String otherSifRefId = null;
     private String zoneId = null;
+    private Entity matchedEntity;
 
     /**
      * Constructor
@@ -157,6 +159,23 @@ public abstract class SliEntity {
     @JsonIgnore
     public boolean hasOtherSifRefId() {
         return this.otherSifRefId != null && this.otherSifRefId.length() > 0;
+    }
+
+    /**
+     * matchedEntity is a helper attribute which is excluded from json body.
+     *
+     * It is a org.slc.sli.api.client.Entity which is previously created and matched with this SliEntity.
+     * When set, it can be used to merge with this SliEntity.
+     *
+     */
+    @JsonIgnore
+    public Entity getMatchedEntity() {
+        return this.matchedEntity;
+    }
+
+    @JsonIgnore
+    public void setMatchedEntity(Entity matchedEntity) {
+        this.matchedEntity = matchedEntity;
     }
 
     /**

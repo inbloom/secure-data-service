@@ -129,6 +129,21 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
+    public Entity getSliEntityByType(String sifId, String sliType, String zoneId) {
+
+        synchronized (lock) {
+
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            if (!idMap.containsKey(sifId+"-"+sliType)) {
+                return null;
+            }
+
+            SliId sliId = new SliId(idMap.get(sifId+"-"+sliType));
+            return digUpSliEntity(sliId);
+        }
+    }
+
+    @Override
     public Entity getSliEntity(String sifId, String zoneId) {
 
         synchronized (lock) {

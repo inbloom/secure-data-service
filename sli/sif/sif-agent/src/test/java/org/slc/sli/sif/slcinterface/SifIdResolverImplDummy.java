@@ -52,4 +52,10 @@ public class SifIdResolverImplDummy implements SifIdResolver {
     public void putSliGuidForOtherSifId(String sifId, String sliType,
             String sliId, String zoneId) {
     }
+
+    @Override
+    public Entity getSliEntityByType(String sifId, String sliType, String zoneId)
+    {
+        return null;
+    }
 }
