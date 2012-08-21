@@ -31,10 +31,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  * An GenericEntity in the SLI domain. Each SLI Entity can be converted to a
@@ -51,9 +49,6 @@ public abstract class SliEntity {
     private String creatorRefId = null;
     private String otherSifRefId = null;
     private String zoneId = null;
-
-    @Autowired
-    protected SifIdResolver sifIdResolver;
 
     /**
      * Constructor
@@ -157,6 +152,11 @@ public abstract class SliEntity {
     @JsonIgnore
     public void setOtherSifRefId(String otherSifRefId) {
         this.otherSifRefId = otherSifRefId;
+    }
+
+    @JsonIgnore
+    public boolean hasOtherSifRefId() {
+        return this.otherSifRefId != null && this.otherSifRefId.length() > 0;
     }
 
     /**

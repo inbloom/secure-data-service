@@ -44,7 +44,7 @@ public interface SifIdResolver {
      *            TODO
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
-    public String getSliGuidForType(String sifId, String sliType, String zoneId);
+    public String getSliGuidByType(String sifId, String sliType, String zoneId);
 
     /**
      * Given a sif reference id, returns corresponding sli entity
@@ -88,5 +88,5 @@ public interface SifIdResolver {
      * @param zoneId
      *            TODO
      */
-    public void putSliGuidForType(String sifId, String sliType, String sliId, String zoneId);
+    public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId);
 }

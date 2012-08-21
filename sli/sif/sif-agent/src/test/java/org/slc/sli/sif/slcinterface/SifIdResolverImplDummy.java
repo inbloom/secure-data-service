@@ -43,14 +43,14 @@ public class SifIdResolverImplDummy implements SifIdResolver {
     }
 
     @Override
-    public String getSliGuidForType(String sifId, String sliType, String zoneId)
+    public String getSliGuidByType(String sifId, String sliType, String zoneId)
     {
         return null;
     }
 
     @Override
-    public void putSliGuidForType(String sifId, String sliType, String sliId,
-            String zoneId)
+    public void putSliGuidForOtherSifId(String sifId, String sliType,
+            String sliId, String zoneId)
     {
     }
 }

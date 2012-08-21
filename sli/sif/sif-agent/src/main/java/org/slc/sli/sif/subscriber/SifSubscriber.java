@@ -94,7 +94,7 @@ public class SifSubscriber implements Subscriber {
                         // take care of cases when two or more SIF entities map into the same SLI entity
                         if (sliEntity.isCreatedByOthers()) {
                             matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
-                            changeEntity(sifData, sliEntity, matchedEntity);
+                            changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
                             sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(), matchedEntity.getId(), zone.getZoneId());
                         } else {
                             addEntity(sifData, zone.getZoneId(), sliEntity);
@@ -105,7 +105,7 @@ public class SifSubscriber implements Subscriber {
                     // TODO, we can potentially get multiple matched entities
                     matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
                     for (SliEntity sliEntity : entities) {
-                        changeEntity(sifData, sliEntity, matchedEntity);
+                        changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
                     }
                     break;
                 case UNDEFINED:
@@ -122,16 +122,22 @@ public class SifSubscriber implements Subscriber {
         LOG.info("addEntity " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
         if (guid != null) {
             sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
+            if (sliEntity.hasOtherSifRefId()) {
+                sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), guid, zoneId);
+            }
         }
     }
 
-    private void changeEntity(SIFDataObject sifData, SliEntity sliEntity, Entity matchedEntity) {
+    private void changeEntity(SIFDataObject sifData, SliEntity sliEntity, String zoneId, Entity matchedEntity) {
         if (matchedEntity == null) {
             LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             return;
         }
         updateMap(matchedEntity.getData(), sliEntity.createBody());
         slcInterface.update(matchedEntity);
+        if (sliEntity.hasOtherSifRefId()) {
+            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), matchedEntity.getId(), zoneId);
+        }
         LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 

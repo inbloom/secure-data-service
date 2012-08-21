@@ -113,7 +113,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
-    public String getSliGuidForType(String sifId, String sliType, String zoneId) {
+    public String getSliGuidByType(String sifId, String sliType, String zoneId) {
 
         synchronized (lock) {
 
@@ -173,7 +173,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
-    public void putSliGuidForType(String sifId, String sliType, String sliId, String zoneId) {
+    public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId) {
 
         synchronized (lock) {
 
