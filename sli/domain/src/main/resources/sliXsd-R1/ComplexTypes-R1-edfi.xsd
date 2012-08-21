@@ -8,250 +8,91 @@
     <xs:include schemaLocation="../edfiXsd-1-1-0/Ed-Fi-Core.xsd"/>
 
     <!-- This file contains the complex types for the SLI database schema representation. -->
-    <xs:complexType name="assessment">
+    <xs:complexType name="SLI-Assessment">
         <xs:annotation>
             <xs:documentation>
-                This entity represents a tool, instrument, process,
-                or exhibition composed of a systematic sampling of
-                behavior for
-                measuring a student's competence,
-                knowledge, skills or behavior. An
-                assessment can be
-                used to measure differences in individuals or
-                groups and changes in performance from one occasion
-                to the next.
+                This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of
+                behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used
+                to measure differences in individuals or groups and changes in performance from one occasion to the
+                next.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>assessment</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="assessmentTitle" type="assessmentTitle">
-                <xs:annotation>
-                    <xs:documentation>
-                        The title or name of the assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentFamilyHierarchyName"
-                        type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>
-                        A hierarchical name for the assessment
-                        using '.'
-                        separators.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" name="assessmentIdentificationCode"
-                        type="assessmentIdentificationCode">
-                <xs:annotation>
-                    <xs:documentation>
-                        A unique number or alphanumeric code
-                        assigned to
-                        an assessment by a school,
-                        school system, a state, or other
-                        agency.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentCategory" type="assessmentCategoryType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The category of an assessment based on format
-                        and
-                        content, such as "Achievement test,"
-                        "Advanced placement
-                        test,"
-                        "Alternate assessment/grade-level standards,"
-                        "Attitudinal
-                        test,"
-                        and
-                        "Cognitive and perceptual skills test."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The content or subject area of an
-                        assessment,
-                        such
-                        as arts,
-                        mathematics, reading, stenography,
-                        or a foreign
-                        language.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="gradeLevelAssessed" type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The grade level this assessment is most
-                        typically
-                        associated with. If it spans
-                        multiple grade levels, this
-                        should be
-                        the
-                        highest grade level for the assessment, and
-                        the
-                        lowest grade
-                        level is provided in the
-                        "lowestGradeLevelAsssessed"
-                        attribute.
-                        Examples include "Adult," "Prekindergarten,"
-                        "First
-                        Grade," "Second
-                        Grade," and so on.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="lowestGradeLevelAssessed"
-                        type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The lowest grade assessed when the
-                        assessments
-                        spans a range of grade levels
-                        (see "gradeLevelAssessed"),
-                        otherwise
-                        omitted.
-                        Examples include "Adult," "Prekindergarten,"
-                        "First Grade,"
-                        "Second Grade," and so on.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="assessmentPerformanceLevel" type="assessmentPerformanceLevel">
-                <xs:annotation>
-                    <xs:documentation>
-                        Definition of the performance levels and the
-                        associated cut scores. Three styles are
-                        supported: (1)
-                        specification of performance
-                        level by min and max score, (2)
-                        specification
-                        of performance level by cut score - min only,
-                        and (3)
-                        specification of performance level
-                        without any mapping to scores.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="contentStandard" type="contentStandardType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Identifier for whether an assessment
-                        conforms to
-                        a
-                        standard. Examples include
-                        "Local standard," "Statewide
-                        standard,"
-                        "Regional standard," "Association standard,"
-                        and "School
-                        standard."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentForm" type="assessmentForm">
-                <xs:annotation>
-                    <xs:documentation>
-                        The form or format of assessment, such
-                        as a
-                        regular versus makeup form, or multiple
-                        choice versus constructed
-                        response.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="version" type="version">
-                <xs:annotation>
-                    <xs:documentation>
-                        The version identifier for the assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="revisionDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        The month, day, and year that the conceptual
-                        design for the assessment had its most recent
-                        substantial
-                        revision.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="maxRawScore" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>
-                        The maximum raw score achievable across all
-                        assessment items that are correct and scored
-                        at the maximum.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="minRawScore" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>
-                        The minimum raw score achievable across all
-                        assessment items that are correct and scored
-                        at the minimum.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="nomenclature" type="nomenclature">
-                <xs:annotation>
-                    <xs:documentation>
-                        The specific nomenclature used for assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentPeriodDescriptor"
-                        type="assessmentPeriodDescriptor">
-                <xs:annotation>
-                    <xs:documentation>
-                        The period or window in which an assessment
-                        is
-                        supposed to be administered. Examples
-                        include "Beginning of Year,"
-                        "Middle of Year,"
-                        and "End of Year."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="objectiveAssessment" type="objectiveAssessment">
-                <xs:annotation>
-                    <xs:documentation>
-                        Subsets of the assessment that address
-                        specific
-                        learning objectives.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="assessmentItem" type="assessmentItem">
-                <xs:annotation>
-                    <xs:documentation>
-                        Individual test items, if appropriate.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="sectionReferences" type="reference" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The section(s) which the assessment is associated with
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>section</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="Assessment">
+                <xs:sequence>
+                    <!-- NOTE SLI uses enum for AcademicSubject, LowestGradeLevelAssessed and GradeLevelAssessed,
+                       slight variation in EdFi-AssessmentPeriod and SLI-AssessmentPeriodDescriptor,
+                       sli contains ObjectiveAssessment compared to EdFi ObjectiveAssessmentReference
+                       sli contains AssessmentItem compared to EdFi AssessmentItemReference
+                       sli contains AssessmentFamilyHierarchyName and MinRawScore,
+                       EdFi contains AssessmentItemReference and AssessmentFamilyReference -->
+                    <xs:element name="SLI-AcademicSubject" type="academicSubjectType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The content or subject area of an assessment, such as arts, mathematics, reading,
+                                stenography, or a foreign language.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-MinRawScore" type="xs:int" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The minimum raw score achievable across all assessment items that are correct and scored
+                                at the minimum.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-LowestGradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The lowest grade assessed when the assessments spans a range of grade levels (see
+                                "gradeLevelAssessed"), otherwise omitted. Examples include "Adult," "Prekindergarten,"
+                                "First Grade," "Second Grade," and so on.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-GradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The grade level this assessment is most typically associated with. If it spans multiple
+                                grade levels, this should be the highest grade level for the assessment, and the lowest
+                                grade level is provided in the "lowestGradeLevelAsssessed" attribute. Examples include
+                                "Adult," "Prekindergarten," "First Grade," "Second Grade," and so on.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentPeriodDescriptor" type="assessmentPeriodDescriptor" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The period or window in which an assessment is supposed to be administered. Examples
+                                include "Beginning of Year," "Middle of Year," and "End of Year."
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-ObjectiveAssessment" type="objectiveAssessment" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Subsets of the assessment that address specific learning objectives.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentItem" type="assessmentItem" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Individual test items, if appropriate.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentFamilyHierarchyName" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                            <xs:documentation>
+                                A hierarchical name for the assessment using '.' separators.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="assessmentIdentificationCode">
@@ -289,6 +130,7 @@
         </xs:sequence>
     </xs:complexType>
 
+    <!-- TODO inherit from Ed-Fi AssessmentItem -->
     <xs:complexType name="assessmentItem">
         <xs:annotation>
             <xs:documentation>This entity represents one of many single measures
@@ -664,6 +506,7 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- TODO inherit from Ed-Fi ObjectiveAssessment -->
     <xs:complexType name="objectiveAssessment">
         <xs:annotation>
             <xs:documentation>This entity represents subtests that assess
@@ -1208,7 +1051,7 @@
                     <!-- NOTE SLI School does not contain ClassPeriodReference LocationReference InternetAccess.
                        EdFi=LocalEducationAgencyReference maps to SLI-ParentEducationAgencyReference -->
                     <xs:element name="SLI-GradesOffered" type="gradeLevelType" minOccurs="0" maxOccurs="unbounded">
-                    <xs:annotation>
+                        <xs:annotation>
                             <xs:documentation>The grade levels served at the school.
                             </xs:documentation>
                         </xs:annotation>
