@@ -429,6 +429,15 @@ public interface APIClient {
      */
     public GenericEntity getTeacher(String token, String id);
 
+    
+    /**
+     * Similar to getTeacher, but also returns all the sections associated with the teacher.
+     * @param token
+     * @param id
+     * @return
+     */
+    public GenericEntity getTeacherWithSections(String token, String id);
+    
     /**
      * Get the teacher for a specified section
      *

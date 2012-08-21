@@ -343,12 +343,16 @@ public class EntityManager extends ApiClientManager {
 			if (link.getLinkName().equals(Constants.GET_STUDENT_SECTION_ASSOCIATIONS)) {
     			
 				//Retrieve all associations.
-				List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString());
+				List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, link.getResourceURL().toString()+"?limit=0");
     			
 				//Iterate over associations
 				for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
     				
 					GenericEntity toAdd = new GenericEntity();
+					
+					if(studentSectionAssociation.getString(Constants.ATTR_ID).equals("2012en-03720e8d-e7c7-11e1-b76b-001e4f459459")) {
+						System.out.println("Huzzah");
+					}
 					
 					//Retrieve, course, teacher, and subject for the studentSectionAssociation.
 					GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
@@ -390,6 +394,7 @@ public class EntityManager extends ApiClientManager {
     	}
     	}catch(Exception e) {
     		log.error(e.getMessage());
+    		e.printStackTrace();
     	}
     	
     	GenericEntity ge = new GenericEntity();
