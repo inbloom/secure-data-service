@@ -443,17 +443,21 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
             if (customConfigMap != null) {
                 Map<String, Config> configByMap = customConfigMap.getConfig();
-                Collection<Config> customConfigs = configByMap.values();
-                Iterator<Config> customConfigIterator = customConfigs.iterator();
-                while (customConfigIterator.hasNext()) {
-                    Config customConfig = customConfigIterator.next();
-                    
-                    // if parentId from customConfig does not exist in DriverConfig,
-                    // then ignore.
-                    String parentId = customConfig.getParentId();
-                    if (parentId != null && configIdLookup.contains(parentId)) {
-                        if (!filterConfig(customConfig, layoutName)) {
-                            customConfigByType.add(customConfig);
+                if (configByMap != null) {
+                    Collection<Config> customConfigs = configByMap.values();
+                    if (customConfigs != null) {
+                        Iterator<Config> customConfigIterator = customConfigs.iterator();
+                        while (customConfigIterator.hasNext()) {
+                            Config customConfig = customConfigIterator.next();
+                            
+                            // if parentId from customConfig does not exist in DriverConfig,
+                            // then ignore.
+                            String parentId = customConfig.getParentId();
+                            if (parentId != null && configIdLookup.contains(parentId)) {
+                                if (!filterConfig(customConfig, layoutName)) {
+                                    customConfigByType.add(customConfig);
+                                }
+                            }
                         }
                     }
                 }
