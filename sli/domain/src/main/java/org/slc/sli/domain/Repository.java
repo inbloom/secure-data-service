@@ -300,4 +300,7 @@ public interface Repository<T> {
 
     public long count(String collectionName, Query query);
 
+    public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries);
+
+    public boolean updateWithRetries(String collection, T object, int noOfRetries);
 }

@@ -324,12 +324,12 @@ public class BatchJobMongoDATest {
         Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
         MongoException exception = Mockito.mock(MongoException.class);
         Mockito.when(collection
-                .insert(Mockito.any(DBObject.class))).thenThrow(exception);
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
 
         Mockito.when(exception.getCode()).thenReturn(DUP_KEY_CODE);
         mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
 
-        Mockito.verify(exception).getCode();
+        Mockito.verify(exception, times(2)).getCode();
    }
 
     @Test
@@ -343,7 +343,7 @@ public class BatchJobMongoDATest {
 
         mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
 
-        Mockito.verify(collection).insert(Mockito.any(DBObject.class));
+        Mockito.verify(collection).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
    }
 
     @Test
@@ -383,6 +383,24 @@ public class BatchJobMongoDATest {
 
         return errors;
     }
+
+    @Test
+    public void testExceptionAttemptTentantLockForJobRetry() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
+        MongoException exception = Mockito.mock(MongoException.class);
+        MongoException duplicateKey = Mockito.mock(MongoException.DuplicateKey.class);
+
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception, exception, duplicateKey);
+
+        Mockito.when(exception.getCode()).thenReturn(11222);
+        Mockito.when(duplicateKey.getCode()).thenReturn(11000);
+
+        Assert.assertFalse(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
+
+        Mockito.verify(collection, times(3)).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
+   }
 
     @Test
     public void testExceptionAttemptTentantLockForJob() {

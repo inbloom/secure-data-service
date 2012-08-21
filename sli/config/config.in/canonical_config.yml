@@ -194,6 +194,9 @@ default:
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature  
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
+        
+        # Number of retries for mongo operations in ingestion
+        sli.ingestion.totalRetries: 5
 
         sli.ingestion.sampleDataSet.directory: ../../acceptance-tests/test/features/ingestion/test_data
 

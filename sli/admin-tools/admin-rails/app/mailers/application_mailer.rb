@@ -75,9 +75,8 @@ class ApplicationMailer < ActionMailer::Base
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
 
-  def notify_operator(support_email, app, first_name, dev_name)
+  def notify_operator(support_email, app, dev_name)
     @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
-    @firstName = first_name
     @dev_name = dev_name
     @app = app
     if !@app.nil? and support_email =~ /(\w|-)+@\w+\.\w+/
