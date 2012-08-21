@@ -67,6 +67,7 @@ public class InterchangeWriter<T> {
         System.out.println("Creating interchange " + interchangeName);
         try {
             JAXBContext context = JAXBContext.newInstance(interchange);
+        	//JAXBContext context = JAXBContext.newInstance(org.slc.sli.test.edfi.entitiesR1.Section.class);
             streamMarshaller = context.createMarshaller();
             // Doesn't work for XMLStreamWriter
 //            streamMarshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -105,7 +106,8 @@ public class InterchangeWriter<T> {
             });
             
             writer.writeStartElement(interchangeName);
-            writer.writeNamespace(null, "http://ed-fi.org/0100");
+           // writer.writeNamespace(null, "http://ed-fi.org/0100");
+            writer.writeNamespace(null, "http://slc-sli/ed-org/0.1");
             
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -148,6 +150,7 @@ public class InterchangeWriter<T> {
      */
     @SuppressWarnings("unused")
     public void marshal(Object objectToMarshal) {
+    	System.out.println("objectToMarshal ===========>" + objectToMarshal.toString());
         if (objectToMarshal != null) {
 
             try {                

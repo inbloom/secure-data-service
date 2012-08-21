@@ -122,10 +122,11 @@ class ApplicationController < ActionController::Base
     if oauth.enabled?
       if oauth.token != nil
         begin
-          @header = PortalHeader.get("")
-          @footer = PortalFooter.get("")
-        rescue Exception
-          logger.warn {"We couldn't load the portal header and footer"}
+          @header = PortalHeader.get("", :isAdmin => true)
+          @footer = PortalFooter.get("", :isAdmin => true)
+        rescue Exception => e
+          logger.warn
+          logger.warn {"We couldn't load the portal header and footer #{e.message}"}
         end
         SessionResource.access_token = oauth.token
         Check.url_type = "check"

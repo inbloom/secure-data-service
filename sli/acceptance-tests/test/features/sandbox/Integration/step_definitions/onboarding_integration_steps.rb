@@ -145,11 +145,18 @@ Then /^a verification email is sent to "([^"]*)"$/ do |email_address|
     verifyEmail()
 end
 
-When /^the developer click link in verification email$/ do
-  sleep(2)
-  url=getVerificationLink()
-  puts url
-  @driver.get url
+When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
+  if(environment == "sandbox")
+    approval_email_subject = "Welcome to the SLC Developer Sandbox"
+  elsif(environment == "production")
+    approval_email_subject = "Welcome to the Shared Learning Collaborative"
+  end
+  @email_content = check_email(approval_email_subject, nil) do
+    sleep(2)
+    url = getVerificationLink()
+    puts url
+    @driver.get url
+  end
 end
 
 Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
@@ -161,13 +168,6 @@ end
 Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
   sleep(10)
   @email = email
-  verifyEmail()
-  if environment == "sandbox"
-    approval_email_subject = "Welcome to the SLC Developer Sandbox"
-  elsif environment == "production"
-    approval_email_subject = "Welcome to the Shared Learning Collaborative"
-  end
-  assert(@email_subject.downcase.include?(approval_email_subject.downcase), "<#{@email_subject}> does not include <#{approval_email_subject.downcase}>")
 end
 
 Then /^the email has a "([^"]*)"$/ do |link|
@@ -428,4 +428,47 @@ end
 
 def sha256(to_hash)
   Digest::SHA256.hexdigest(to_hash)
+end
+
+# TODO: refactor this out. copied and pasted from multiple files
+def check_email(subject_substring = nil, content_substring)
+  imap_host = PropLoader.getProps['email_imap_host']
+  imap_port = PropLoader.getProps['email_imap_port']
+  imap_user = PropLoader.getProps['email_imap_registration_user']
+  imap_password = PropLoader.getProps['email_imap_registration_pass']
+  imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
+  imap.authenticate('LOGIN', imap_user, imap_password)
+  imap.examine('INBOX')
+  not_so_distant_past = Date.today.prev_day.prev_day
+  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
+  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
+  imap.disconnect
+
+  yield
+
+  retry_attempts = 30
+  retry_attempts.times do
+    sleep 1
+    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
+    imap.authenticate('LOGIN', imap_user, imap_password)
+    imap.examine('INBOX')
+
+    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
+    messages_new = messages_after - messages_before
+    messages_before = messages_after
+    unless(messages_new.empty?)
+      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
+      messages.each do |message|
+        puts "message received = #{message}"
+        content = message.attr["BODY[TEXT]"]
+        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
+            (subject_substring.nil? || (!subject.nil? && subject.downcase.include?(subject_substring.downcase))))
+          return content
+        end
+      end
+    end
+    imap.disconnect
+  end
+  fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end

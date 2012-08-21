@@ -139,7 +139,8 @@ def isIframePresent()
     puts "iframe found"
     @driver.switch_to.frame(iframe.attribute('id'))
     puts "iframe switched"
-    @driver.find_element(:id,"notice")
+    # This might not be a good solution that works for all
+    @driver.find_element(:id,"messageContainer")
     puts "iframe contents appears to be loaded"
     return iframe
   rescue  

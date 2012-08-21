@@ -24,6 +24,8 @@ import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
 
+import org.slc.sli.aggregation.util.BSONUtilities;
+
 /**
  * DoubleValueMapper - mongo value mapper that emits double values.
  */
@@ -40,7 +42,7 @@ class DoubleValueMapper extends ValueMapper {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue(entity, fieldName);
+            value = BSONUtilities.getValue(entity, fieldName);
 
             if (value != null) {
                 rval = new DoubleWritable(Double.parseDouble(value.toString()));

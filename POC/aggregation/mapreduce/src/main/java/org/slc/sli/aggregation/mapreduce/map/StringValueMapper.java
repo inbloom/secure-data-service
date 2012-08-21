@@ -22,6 +22,8 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
+import org.slc.sli.aggregation.util.BSONUtilities;
+
 /**
  * StringValueMapper - mongo value mapper that emits String values.
  */
@@ -35,7 +37,7 @@ class StringValueMapper extends ValueMapper {
     public Writable getValue(BSONWritable entity) {
         Writable rval = NullWritable.get();
 
-        String value = BSONValueLookup.getValue(entity, fieldName);
+        String value = BSONUtilities.getValue(entity, fieldName);
         if (value != null && value instanceof String) {
             rval = new Text(value);
         }
