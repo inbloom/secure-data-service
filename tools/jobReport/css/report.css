@@ -1,12 +1,12 @@
 body
 {
 	font-family: 'Arial';
-	background-color: #333333;
-	color: white;
+	background-color: white;
+	color: #110044;
 }
 a, h4
 {
-	color: #eecc88;
+	color: #110044;
 }
 #progressbar
 {

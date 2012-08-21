@@ -55,7 +55,7 @@
         job.recordCount = recordCount;
 
         $('#job_summary')
-          .css({'color': 'white'})
+          .css({'color': 'black'})
           .append('Job Status: ' + job.status + '<br/>')
           .append('EdFi Record Count: ' +recordCount + '<br/>')
 
@@ -281,8 +281,8 @@
           width : 1500,
           height: 600,
           chartArea: { left:0, top:0, width:"100%", height:"100%"},
-          legend: { textStyle: { color: '#eecc88' }},
-          backgroundColor: '#333333',
+          legend: { textStyle: { color: 'black' }},
+          backgroundColor: 'white',
           is3D: 'true'
         };
 
@@ -293,16 +293,16 @@
       function drawBarChart(myTitle, div, dataTable) {
         var chartOptions = {
           title: myTitle,
-          titleTextStyle: { color: '#eecc88' },
+          titleTextStyle: { color: '#110044' },
           fontName: 'Arial Narrow',
-          series: [{color:'#4466ff'},{color:'#ee0077'}],
+          series: [{color:'#e17009'},{color:'#2e6e9e'}],
           chartArea: {left: 0, width: '90%', height: '95%'},
-          legend: {position: 'right', alignment: 'start', textStyle: { color: '#eecc88' }},
-          hAxis: {textPosition: 'out', gridlines: { count: 0 }, textStyle: { color: 'white' } }, 
-          vAxis: {textPosition: 'in', textStyle: { color: 'white' }},
+          legend: {position: 'right', alignment: 'start', textStyle: { color: 'black' }},
+          hAxis: {textPosition: 'out', gridlines: { count: 0 }, textStyle: { color: 'black' } }, 
+          vAxis: {textPosition: 'in', textStyle: { color: 'black' }},
           width : 1500,
           height : 1200,
-          backgroundColor: '#333333'
+          backgroundColor: 'white'
         };
         var persistenceChart = new google.visualization.BarChart(document.getElementById(div));
         persistenceChart.draw(dataTable, chartOptions);
@@ -311,16 +311,16 @@
       function drawComboChart(myTitle, vTitle, hTitle, div, dataTable) {
         var chartOptions = {
           title : myTitle,
-          titleTextStyle: { color: '#eecc88' },
-          vAxis: {title: vTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, baseline: 0, baselineColor: 'white' },
-          hAxis: {title: hTitle, textStyle: { color: 'white' }, titleTextStyle: { color: '#eecc88' }, slantedText: 'true', slantedTextAngle: 45 },
+          titleTextStyle: { color: '#110044' },
+          vAxis: {title: vTitle, textStyle: { color: 'black' }, titleTextStyle: { color: 'black' }, baseline: 0, baselineColor: 'black' },
+          hAxis: {title: hTitle, textStyle: { color: 'black' }, titleTextStyle: { color: 'black' }, slantedText: 'true', slantedTextAngle: 45 },
           seriesType: "lines",
           pointSize: 3,
           lineWidth: 1,
           width : 1500,
           height: 600,
-          legend: { textStyle: { color: '#eecc88' }},
-          backgroundColor: '#333333'
+          legend: { textStyle: { color: 'black' }},
+          backgroundColor: 'white'
         };
 
         var chart = new google.visualization.ComboChart(document.getElementById(div));
