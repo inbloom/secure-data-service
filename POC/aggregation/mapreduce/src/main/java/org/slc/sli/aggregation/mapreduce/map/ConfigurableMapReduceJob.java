@@ -17,9 +17,9 @@
 package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import com.mongodb.BasicDBObject;
@@ -31,19 +31,23 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.InputFormat;
+import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hsqldb.lib.StringInputStream;
 
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandsConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.ConfigSections;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.HadoopConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.RangeConfig;
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
- * ConfigurableCalculatedValue
+ * ConfigurableMapReduceJob
  *
  * A configurable mapper implementation that allows for the creation of a map via configuration
  * rather than hard-coding.
@@ -51,22 +55,38 @@ import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
  * @see @link https://thesli.onconfluence.com/display/sli/US3042+%28Spike%29+Configurable+Aggregates
  *    for format.
  */
-public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritable, EmittableKey, BSONWritable> {
+public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable, EmittableKey, BSONWritable> {
 
-    static Logger log = Logger.getLogger("ConfigurableCalculatedValue");
+    static Logger log = Logger.getLogger("ConfigurableMapReduceJob");
 
-    List<JobConf> chained = new LinkedList<JobConf>();
+    static ObjectMapper om = new ObjectMapper();
 
     public static JobConf parseMapper(Configuration conf, final String resourcePath) throws IOException {
-        ConfigSections s = JobConfiguration.readResource(resourcePath);
-        return parseMapper(conf, s.getCalculatedValue());
+
+        String configString = updatePlaceholders(conf, resourcePath);
+
+        ConfigSections s = JobConfiguration.readStream(new StringInputStream(configString));
+        JobConf rval = new JobConf(conf);
+        if (s.getCalculatedValue() != null) {
+            rval = ConfigurableMapReduceJob.parseCalculatedValueConfig(rval, s.getCalculatedValue());
+        }
+        if (s.getAggregation() != null) {
+            rval = ConfigurableMapReduceJob.parseAggregationConfig(rval, s.getAggregation());
+        }
+        return rval;
     }
 
-    @SuppressWarnings({ "rawtypes" })
-    public static JobConf parseMapper(Configuration conf, JobConfiguration.CalculatedValueConfig mapperDef) throws IOException {
+    public static JobConf parseCalculatedValueConfig(JobConf conf, JobConfiguration.CalculatedValueConfig mapperDef) throws IOException {
+        return parseMapperConfig(conf, mapperDef.getMetadata(), mapperDef.getHadoop());
+    }
 
-        JobConfiguration.MetadataConfig metadata = mapperDef.getMetadata();
-        JobConfiguration.HadoopConfig hadoop = mapperDef.getHadoop();
+    public static JobConf parseAggregationConfig(JobConf conf, JobConfiguration.AggregationConfig mapperDef) throws IOException {
+        return parseMapperConfig(conf, mapperDef.getMetadata(), mapperDef.getHadoop());
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected static JobConf parseMapperConfig(JobConf conf, MetadataConfig metadata, HadoopConfig hadoop) throws IOException {
+
         JobConfiguration.MapConfig mapper = hadoop.getMapper();
         JobConfiguration.ReduceConfig reducer = hadoop.getReduce();
         Class<? extends Mapper> mapperClass = mapper.getMapperClass();
@@ -183,10 +203,17 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
             }
         }
 
+        if (updateField.indexOf("@ID@") >= 0 && id != null) {
+            updateField = updateField.replace("@ID@", id);
+        }
+        if (updateField.indexOf("@TENANT_ID@") >= 0 && tenantId != null) {
+            updateField = updateField.replace("@TENANT_ID@", tenantId);
+        }
+
         MongoConfigUtil.setQuery(mapperConf, new BasicDBObject(query));
         MongoConfigUtil.setFields(mapperConf, new BasicDBObject(fields));
         MongoConfigUtil.setInputKey(mapperConf, keyFieldName);
-        MongoConfigUtil.setInputURI(mapperConf, "mongodb://" + collectionName);
+        MongoConfigUtil.setInputURI(mapperConf, "mongodb://localhost:27017/" + collectionName);
         MongoConfigUtil.setMapperOutputKey(mapperConf, outputKeyType);
         MongoConfigUtil.setMapperOutputValue(mapperConf, outputValueType);
         MongoConfigUtil.setOutputKey(mapperConf, outputKeyType);
@@ -196,12 +223,14 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
         mapperConf.setClass("mapred.input.key.class", inputKeyType, Object.class);
         mapperConf.setClass("mapred.input.value.class", inputValueType, Object.class);
         if (inputFormatType != null) {
+            mapperConf.setClass("mapreduce.inputformat.class", inputFormatType, InputFormat.class);
             MongoConfigUtil.setInputFormat(mapperConf,  inputFormatType);
         }
 
         mapperConf.setClass("mapred.output.key.class", outputKeyType, Object.class);
         mapperConf.setClass("mapred.output.value.class", inputValueType, Object.class);
         if (outputFormatType != null) {
+            mapperConf.setClass("mapreduce.outputformat.class", outputFormatType, MongoOutputFormat.class);
             MongoConfigUtil.setOutputFormat(mapperConf, outputFormatType);
         }
 
@@ -224,8 +253,24 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
         MongoConfigUtil.setShardChunkSplittingEnabled(mapperConf, false);
         MongoConfigUtil.setReadSplitsFromShards(mapperConf, false);
 
-        MongoConfigUtil.setOutputURI(mapperConf, "mongodb://" + updateCollection);
+        MongoConfigUtil.setOutputURI(mapperConf, "mongodb://localhost:27017/" + updateCollection);
         mapperConf.set(MongoAggFormatter.UPDATE_FIELD, updateField);
+
+        if (reducer.getIdMap() != null) {
+            mapperConf.set(JobConfiguration.ID_MAP_PROPERTY, om.writeValueAsString(reducer.getIdMap()));
+        }
+        if (reducer.getMapField() != null) {
+            mapperConf.set(JobConfiguration.MAP_FIELD_PROPERTY, reducer.getMapField());
+        }
+
+        if (metadata.getValidRange() != null) {
+            mapperConf.set(JobConfiguration.VALID_RANGE_PROPERTY, om.writeValueAsString(metadata.getValidRange()));
+        }
+
+        if (metadata.getBands() != null) {
+            mapperConf.set(JobConfiguration.BANDS_PROPERTY, om.writeValueAsString(metadata.getBands()));
+        }
+
         /**
          * Any additional hadoop options are added to the configuration as key/value pairs.
          */
@@ -238,8 +283,43 @@ public class ConfigurableCalculatedValue extends Mapper<EmittableKey, BSONWritab
         mapperConf.setJarByClass(mapperClass);
 
         MongoConfigUtil.setMapper(mapperConf,  mapperClass);
+        mapperConf.setClass(JobContext.MAP_CLASS_ATTR, mapperClass, Mapper.class);
+
         MongoConfigUtil.setReducer(mapperConf, reducerClass);
+        mapperConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
 
         return mapperConf;
+    }
+
+
+    /**
+     * UpdatePlaceholders - Update all fields, replacing any placeholder values with configuration
+     * properties.
+     *
+     * @param conf - configuration containing placeholder values.
+     * @param metadata - job metadata information.
+     * @param hadoop - job hadoop configuration.
+     */
+    protected static String updatePlaceholders(Configuration conf, final String resourcePath) {
+
+        InputStream s = ConfigSections.class.getClassLoader().getResourceAsStream(resourcePath);
+        String confString = new Scanner(s, "UTF-8").useDelimiter("\\A").next();
+
+        String id = conf.get("@ID@");
+        String tenantId = conf.get("@TENANT_ID@");
+
+        if (id == null && tenantId == null) {
+            return confString;
+        }
+
+
+        if (confString.indexOf("@ID@") >= 0 && id != null) {
+            confString = confString.replaceAll("@ID@", id);
+        }
+        if (confString.indexOf("@TENANT_ID@") >= 0 && tenantId != null) {
+            confString = confString.replaceAll("@TENANT_ID@", tenantId);
+        }
+
+        return confString;
     }
 }
