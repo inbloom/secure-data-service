@@ -8,7 +8,8 @@ public enum ResourceTemplate {
     TWO_PART("/rest/{version}/{resource}/{id}"),
     THREE_PART("/rest/{version}/{base}/{id}/{resource}"),
     FOUR_PART("/rest/{version}/{base}/{id}/{association}/{resource}"),
-    CUSTOM("/rest/{version}/{resource}/{id}/custom");
+    CUSTOM("/rest/{version}/{resource}/{id}/custom"),
+    AGGREGATES("/rest/{version}/{resource}/{id}/aggregates");
 
     private final String template;
 
