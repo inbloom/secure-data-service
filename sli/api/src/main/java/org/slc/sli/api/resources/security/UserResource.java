@@ -266,6 +266,12 @@ public class UserResource {
 
 
     private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
+
+        if (userInLdap.getGroups() == null || userInLdap.getGroups().size() == 0) {
+            //this user does not belong to any group, can't be the last super admin
+            return null;
+        }
+
         String groupToVerify = null;
         Collection<User> users = null;
 

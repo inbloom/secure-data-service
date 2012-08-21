@@ -19,7 +19,7 @@ Then the developer is redirected to a page with terms and conditions
 When the developer click "Accept" 
 Then the developer is directed to an acknowledgement page. 
  And a verification email is sent to "<USER_EMAIL>"
-When the developer click link in verification email
+When the developer click link in verification email in "sandbox"
 Then an account entry is made in ldap with "Approved" status
 And a "sandbox" approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PORTAL>"
@@ -67,7 +67,7 @@ Then the developer is redirected to a page with terms and conditions
 When the developer click "Accept" 
 Then the developer is directed to an acknowledgement page. 
 And a verification email is sent to "<USER_EMAIL>"
-When the developer click link in verification email
+When the developer click link in verification email in "production"
 Then an account entry is made in ldap with "pending" status
 When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
 And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
