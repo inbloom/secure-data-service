@@ -17,7 +17,8 @@
     {id: "col0", name: "Term", type:"FIELD", datatype: "string", field: "term", width: 100},
     {id: "col1", name: "School", type:"FIELD", datatype: "string", field: "schoolName", width: 210},
     {id: "col1", name: "Grade Level", type:"FIELD", datatype: "string", field: "gradeLevel", align: "right", width: 100},
-    {id: "col2", name: "% Present", type:"FIELD", datatype: "string", field: "present", align: "right", width: 75, formatter: 'CutPoint', params:{cutPoints:{89:{style:'color-widget-red'}, 94:{style: 'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style:'color-widget-darkgreen'}}}},
+//	temporary disabled by PO
+//    {id: "col2", name: "% Present", type:"FIELD", datatype: "string", field: "present", align: "right", width: 75, formatter: 'CutPoint', params:{cutPoints:{89:{style:'color-widget-red'}, 94:{style: 'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style:'color-widget-darkgreen'}}}},
     {id: "col3", name: "Total Absences", type:"FIELD", datatype: "string", field: "totalAbsencesCount", align: "right", width: 100},
     {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", style:"color-column-blue", align: "right", width: 70},
     {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", style:"color-column-red", align: "right", width: 80},
