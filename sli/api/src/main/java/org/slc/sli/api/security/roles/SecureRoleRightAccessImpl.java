@@ -24,6 +24,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
@@ -31,8 +34,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -73,46 +74,46 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .makeRole(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
                         .makeRole(SEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,
                 RoleBuilder
                         .makeRole(SANDBOX_SLC_OPERATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_SLC_OPERATOR,
-                                        Right.CRUD_SANDBOX_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_SANDBOX_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
         adminRoles
                 .put(SANDBOX_ADMINISTRATOR,
                         RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
-                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN }).setAdmin(true)
+                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.ADMIN_APPS }).setAdmin(true)
                                 .build());
         adminRoles.put(
                 REALM_ADMINISTRATOR,
                 RoleBuilder
                         .makeRole(REALM_ADMINISTRATOR)
                         .addRights(
-                                new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES,
-                                        Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
+                                new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
+                                        Right.READ_PUBLIC, Right.CRUD_ROLE, Right.ADMIN_APPS }).setAdmin(true).build());
         
         Right[] appDevRights = null;
         if (isSandboxEnabled) {
             appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC,
-                    Right.CRUD_ROLE };
+                    Right.CRUD_ROLE, Right.ADMIN_APPS };
         } else {
-            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC };
+            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC, Right.ADMIN_APPS };
         }
         adminRoles.put(APP_DEVELOPER, RoleBuilder.makeRole(APP_DEVELOPER).addRights(appDevRights).setAdmin(true)
                 .build());
         
         adminRoles.put(INGESTION_USER,
-                RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
+                RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS, Right.ADMIN_APPS })
                         .setAdmin(true).build());
         adminRoles.put(
                 SLC_OPERATOR,
@@ -121,7 +122,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
                                         Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
-                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
         
     }
     
@@ -160,15 +161,16 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 Map<String, Object> roleDefs = doc.getBody();
                 
                 if (roleDefs != null) {
-                    List<Map<String, List<String>>> roleData = (List<Map<String, List<String>>>) roleDefs.get("roles");
+                    List<Map<String, Object>> roleData = (List<Map<String, Object>>) roleDefs.get("roles");
                     
-                    for (Map<String, List<String>> role : roleData) {
-                        List<String> names = role.get("names");
+                    for (Map<String, Object> role : roleData) {
+                        List<String> names = (List<String>) role.get("names");
                         
                         for (String roleName : names) {
                             if (roleNames.contains(roleName)) {
-                                List<String> rights = role.get("rights");
+                                List<String> rights = (List<String>) role.get("rights");
                                 roles.add(RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build());
+                                roles.add(RoleBuilder.makeRole((String) role.get("groupTitle")).build());
                             }
                         }
                     }

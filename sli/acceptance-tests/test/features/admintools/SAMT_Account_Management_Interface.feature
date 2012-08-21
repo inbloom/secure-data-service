@@ -96,7 +96,6 @@ And I am redirected to "Add a User" page
 
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
 And I can update the "Email" field to "prodtestuser@testwgen.net"
-#Then the only options in the "Role" drop-down are "LEA Administrator", "Ingestion User", "Realm Administrator"
 Then I can select "Ingestion User" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 

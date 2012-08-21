@@ -41,7 +41,6 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -66,7 +65,7 @@ public class AdminDelegationResource {
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
-    
+
     @Autowired
     DelegationUtil util;
 

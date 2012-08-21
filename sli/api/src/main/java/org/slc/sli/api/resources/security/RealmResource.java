@@ -119,7 +119,7 @@ public class RealmResource {
     public Response updateRealm(@PathParam("realmId") String realmId, EntityBody updatedRealm,
             @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
+        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
             return SecurityUtil.forbiddenResponse();
         }
 
@@ -155,7 +155,7 @@ public class RealmResource {
     @DELETE
     @Path("{realmId}")
     public Response deleteRealm(@PathParam("realmId") String realmId, @Context final UriInfo uriInfo) {
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
+        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
             return SecurityUtil.forbiddenResponse();
         }
         EntityBody deletedRealm = service.get(realmId);
@@ -170,7 +170,7 @@ public class RealmResource {
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
+        if (!SecurityUtil.hasRight(Right.CRUD_REALM)) {
             return SecurityUtil.forbiddenResponse();
         }
 
