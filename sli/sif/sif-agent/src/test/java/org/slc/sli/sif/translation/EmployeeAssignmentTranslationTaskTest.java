@@ -45,10 +45,8 @@ public class EmployeeAssignmentTranslationTaskTest extends AdkTest {
     @Mock
     SifIdResolver mockSifIdResolver;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

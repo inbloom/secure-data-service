@@ -48,10 +48,8 @@ public class NameConverterTest extends AdkTest {
     private List<String> prefixes;
     private List<String> suffixes;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
 
         prefixes = new ArrayList<String>();
         prefixes.add("Colonel");

@@ -53,10 +53,8 @@ public class SifTranslationTest extends AdkTest {
 
     private static final String ZONE_ID = "TestZone";
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

@@ -31,8 +31,11 @@ public abstract class AdkTest {
     public static final String ADK_LOG_FILE = "sif-openadk.log";
     public static final String ADK_LOG_PATH = ADK_LOG_DIR + File.separator + ADK_LOG_FILE;
 
+    /*
+     * Final so that it isn't unintentionally overridden
+     */
     @Before
-    public void setup() {
+    public final void setupAdk() {
         try {
             System.setProperty("adk.log.file", ADK_LOG_PATH);
             ADK.initialize();

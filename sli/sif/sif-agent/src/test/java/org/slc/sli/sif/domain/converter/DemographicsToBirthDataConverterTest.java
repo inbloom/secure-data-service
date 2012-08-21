@@ -97,10 +97,8 @@ public class DemographicsToBirthDataConverterTest extends AdkTest {
         SLI_STATE_CODES.add("WY");
     }
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
 
         birthDate.set(1992, 11, 25);
         countryArrivalDate.set(2011, 06, 04);
