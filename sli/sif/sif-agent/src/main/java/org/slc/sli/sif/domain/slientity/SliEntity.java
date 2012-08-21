@@ -47,6 +47,8 @@ public abstract class SliEntity {
     protected static final Logger LOG = LoggerFactory.getLogger(SliEntity.class);
 
     private String creatorRefId = null;
+    private String otherSifRefId = null;
+    private String zoneId = null;
 
     /**
      * Constructor
@@ -97,6 +99,8 @@ public abstract class SliEntity {
     }
 
     /**
+     * creatorRefId is a helper attribute which is excluded from json body.
+     *
      * Return true if this entity can be created by more than one SIF data objects
      * and the entity is already created by one of them.
      * For example, EmployeePersonal and StaffPersonal both can create a StaffEntity.
@@ -117,6 +121,37 @@ public abstract class SliEntity {
     @JsonIgnore
     public void setCreatorRefId(String creatorRefId) {
         this.creatorRefId = creatorRefId;;
+    }
+
+    /**
+     * zoneId is a helper attribute which is excluded from json body.
+     *
+     */
+    @JsonIgnore
+    public String getZoneId() {
+        return this.zoneId;
+    }
+
+    @JsonIgnore
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;;
+    }
+
+    /**
+     * otherSifRefId is a helper attribute which is excluded from json body.
+     *
+     * It is an SIF RefId of other SIF Data Object.
+     * When set, it can be used together with zoneId to query the SLI guid of the matched entity.
+     *
+     */
+    @JsonIgnore
+    public String getOtherSifRefId() {
+        return this.otherSifRefId;
+    }
+
+    @JsonIgnore
+    public void setOtherSifRefId(String otherSifRefId) {
+        this.otherSifRefId = otherSifRefId;;
     }
 
     /**

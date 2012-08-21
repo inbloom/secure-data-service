@@ -19,8 +19,6 @@ package org.slc.sli.sif.translation;
 import java.util.List;
 
 import junit.framework.Assert;
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.hrfin.EmployeePersonal;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
@@ -32,10 +30,12 @@ import openadk.library.student.Title1Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
@@ -46,20 +46,18 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/spring/test-applicationContext.xml" })
-public class SifTranslationTest {
+public class SifTranslationTest extends AdkTest {
 
     @Autowired
     private SifTranslationManager translationManager;
 
     private static final String ZONE_ID = "TestZone";
 
+    @Override
     @Before
-    public void setup() throws ADKException {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
+        super.setup();
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

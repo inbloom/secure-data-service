@@ -18,8 +18,6 @@ package org.slc.sli.sif.translation;
 
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.hrfin.EmployeeAssignment;
 
 import org.junit.Assert;
@@ -29,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
@@ -38,7 +37,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * @author slee
  *
  */
-public class EmployeeAssignmentTranslationTaskTest {
+public class EmployeeAssignmentTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final EmployeeAssignmentTranslationTask translator = new EmployeeAssignmentTranslationTask();
@@ -46,13 +45,10 @@ public class EmployeeAssignmentTranslationTaskTest {
     @Mock
     SifIdResolver mockSifIdResolver;
 
+    @Override
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
+        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -60,7 +56,7 @@ public class EmployeeAssignmentTranslationTaskTest {
     public void testNotNull() throws SifTranslationException {
         List<SliEntity> result = translator.translate(new EmployeeAssignment(), "");
         Assert.assertNotNull("Result was null", result);
-        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(3, result.size());
     }
 
 }
