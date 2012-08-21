@@ -74,9 +74,13 @@ public class RestResourceHelper implements ResourceHelper {
     }
     @Override
     public EntityDefinition getEntityDefinition(final Resource resource) {
-        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+        return getEntityDefinition(resource.getResourceType());
+    }
+    @Override
+    public EntityDefinition getEntityDefinition(String resource) {
+        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
         if (definition == null) {
-            definition = entityDefinitionStore.lookupByResourceName(REST_RESOURCE_NAME_MAPPING.get(resource.getResourceType()));
+            definition = entityDefinitionStore.lookupByResourceName(REST_RESOURCE_NAME_MAPPING.get(resource));
         }
         return definition;
     }

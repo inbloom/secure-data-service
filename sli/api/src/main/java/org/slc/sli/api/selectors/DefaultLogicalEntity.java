@@ -19,6 +19,7 @@ package org.slc.sli.api.selectors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -55,7 +56,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
     private SelectorDocument selectorDocument;
 
     @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
+    private ResourceHelper resourceHelper;
 
     private static final List<String> UNSUPPORTED_RESOURCE_LIST = new ArrayList<String>();
     static {
@@ -70,7 +71,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
             throw new NullPointerException("apiQuery");
         }
 
-        final EntityDefinition typeDef = entityDefinitionStore.lookupByResourceName(resourceName);
+        final EntityDefinition typeDef = resourceHelper.getEntityDefinition(resourceName);
         // TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME
         // This is ugly - we have to capitalize here because our model
         // and API are not in sync
