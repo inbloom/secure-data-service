@@ -659,7 +659,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public CalculatedDataListingResource<String> getCalculatedValueListings(@PathParam("id") String id) {
         EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
         CalculatedData<String> data = service.getCalculatedValues(id);
-        return new CalculatedDataListingResource<String>(data);
+//        return new CalculatedDataListingResource<String>(data);
+        return null;
     }
 
     @Path("{id}/" + PathConstants.AGGREGATIONS)
@@ -670,7 +671,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         if (entityDef.supportsAggregates()) {
             EntityService service = entityDef.getService();
             CalculatedData<Map<String, Integer>> data = service.getAggregates(id);
-            return new CalculatedDataListingResource<Map<String, Integer>>(data);
+//            return new CalculatedDataListingResource<Map<String, Integer>>(data);
         }
         return null;
     }
