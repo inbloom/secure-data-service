@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.generic;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -41,7 +42,7 @@ public class TwoPartResource extends GenericResource {
 
         return handleGet(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
-            public List<EntityBody> run(Resource resource) {
+            public ServiceResponse run(Resource resource) {
                 return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
             }
         });
