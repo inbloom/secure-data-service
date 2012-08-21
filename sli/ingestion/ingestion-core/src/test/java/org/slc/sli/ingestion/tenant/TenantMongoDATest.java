@@ -225,11 +225,12 @@ public class TenantMongoDATest {
         preloadDef.put(TenantMongoDA.PRELOAD_FILES, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
         landingZone.get(0).put(TenantMongoDA.PRELOAD_DATA, preloadDef);
         when(mockRepository.findAll(eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
+        when(mockRepository.doUpdate(eq("tenant"), any(NeutralQuery.class), any(Update.class))).thenReturn(true);
         assertEquals(tenantsForPreloading, tenantDA.getPreloadFiles("ingestion_server_host"));
-        verify(mockRepository).doUpdate(eq("tenant"), eq(tenant.getEntityId()), argThat(new ArgumentMatcher<Update>() {
+        verify(mockRepository).doUpdate(eq("tenant"), any(NeutralQuery.class), argThat(new ArgumentMatcher<Update>() {
             @Override
             public boolean matches(Object argument) {
-                Update expectedUpdate = Update.update(TenantMongoDA.LANDING_ZONE + "." + TenantMongoDA.PRELOAD_DATA
+                Update expectedUpdate = Update.update("body." + TenantMongoDA.LANDING_ZONE + ".$." + TenantMongoDA.PRELOAD_DATA
                         + "." + TenantMongoDA.PRELOAD_STATUS, "started");
                 return ((Update) argument).getUpdateObject().equals(expectedUpdate.getUpdateObject());
             }

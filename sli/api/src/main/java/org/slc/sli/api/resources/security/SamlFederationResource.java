@@ -346,7 +346,7 @@ public class SamlFederationResource {
 
             URI redirect = builder.build();
             return Response.status(Response.Status.FOUND)
-                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", 300, false))
+                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", -1, false))
                     .location(redirect).build();
         }
     }
