@@ -247,7 +247,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     
     @Override
     public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs) {
-        return getConfigsByAttribute(token, edOrgKey, attrs, false);
+        return getConfigsByAttribute(token, edOrgKey, attrs, true);
     }
     
     @Override
