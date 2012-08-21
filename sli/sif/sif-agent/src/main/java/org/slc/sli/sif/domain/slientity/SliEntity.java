@@ -125,7 +125,7 @@ public abstract class SliEntity {
 
     @JsonIgnore
     public void setCreatorRefId(String creatorRefId) {
-        this.creatorRefId = creatorRefId;;
+        this.creatorRefId = creatorRefId;
     }
 
     /**

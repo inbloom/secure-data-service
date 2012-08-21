@@ -96,10 +96,9 @@ public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<E
         // to catch the HrProgramType
         TeacherEntity te = new TeacherEntity();
         TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
-        if (seoae.getStaffClassification() != null &&
-            seoae.getStaffClassification().equals("Teacher") &&
-            ea.getProgramType() != null)
-        {
+        if (seoae.getStaffClassification() != null
+                && seoae.getStaffClassification().equals("Teacher")
+                && ea.getProgramType() != null) {
 
             if (staffGuid != null) {
                 // A staff entity is previously created

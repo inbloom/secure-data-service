@@ -25,8 +25,8 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.bson.BSONObject;
 
-import org.slc.sli.aggregation.mapreduce.map.BSONValueLookup;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
  * MongoAggReader
@@ -52,7 +52,7 @@ public class MongoIdRecordReader extends RecordReader<IdFieldEmittableKey, BSONW
         BSONObject obj = privateReader.getCurrentValue();
 
         // TODO -- generalize this class to support any EmittableKey key type.
-        String id = BSONValueLookup.getValue(obj, keyField);
+        String id = BSONUtilities.getValue(obj, keyField);
 
         IdFieldEmittableKey rval = new IdFieldEmittableKey(keyField);
         rval.setId(new Text(id));

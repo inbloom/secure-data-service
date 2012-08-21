@@ -97,7 +97,7 @@ Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do 
 end
 
 def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
-  success = system("#{MONGO_BIN}mongoimport -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
   assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 

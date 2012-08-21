@@ -36,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
@@ -68,10 +69,11 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
     @Mock
     ExitTypeConverter exitTypeConverter;
 
-    @Override
+    @Mock
+    DateConverter dateConverter;
+
     @Before
-    public void setup() {
-        super.setup();
+    public void setupMocks() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -89,8 +91,6 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
         sse.setStudentPersonalRefId("studentRefID");
         sse.setSchoolInfoRefId("SchoolInfoRefID");
         sse.setSchoolYear(Integer.valueOf(2001));
-        sse.setEntryDate(new GregorianCalendar(2004, Calendar.FEBRUARY, 29));
-        sse.setExitDate(new GregorianCalendar(2012, Calendar.DECEMBER, 29));
 
         Mockito.when(mockSifIdResolver.getSliGuid("studentRefID", null)).thenReturn("SLI_StudentGUID");
         Mockito.when(mockSifIdResolver.getSliGuid("SchoolInfoRefID", null)).thenReturn("SLI_SchoolGUID");
@@ -102,8 +102,6 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
         Assert.assertEquals("student Id is expected to be 'SLI_StudentGUID'", "SLI_StudentGUID", entity.getStudentId());
         Assert.assertEquals("school Id is expected to be 'SLI_SchoolGUID'", "SLI_SchoolGUID", entity.getSchoolId());
         Assert.assertEquals("school yewar is expected to be '2001'", "2001", entity.getSchoolYear());
-        Assert.assertEquals("entry date is expected to be '2004-02-29'", "2004-02-29", entity.getEntryDate());
-        Assert.assertEquals("exit withdraw date is expected to be '2012-12-29'", "2012-12-29", entity.getExitWithdrawDate());
     }
 
     @Test
@@ -116,7 +114,8 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
         List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'", "Transfer from a charter school", entity.getEntryType());
+        Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'",
+                "Transfer from a charter school", entity.getEntryType());
     }
 
     @Test
@@ -129,7 +128,8 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
         List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'", "Died or is permanently incapacitated", entity.getExitWithdrawType());
+        Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'",
+                "Died or is permanently incapacitated", entity.getExitWithdrawType());
     }
 
     @Test
@@ -142,6 +142,27 @@ public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
         List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getEntryGradeLevel());
+        Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade",
+                entity.getEntryGradeLevel());
+    }
+
+    @Test
+    public void testDates() throws SifTranslationException {
+        StudentSchoolEnrollment sse = new StudentSchoolEnrollment();
+
+        Calendar hire = new GregorianCalendar(2004, Calendar.FEBRUARY, 1);
+        Calendar terminate = new GregorianCalendar(2005, Calendar.DECEMBER, 29);
+
+        sse.setEntryDate(hire);
+        sse.setExitDate(terminate);
+
+        Mockito.when(dateConverter.convert(hire)).thenReturn("hireDate");
+        Mockito.when(dateConverter.convert(terminate)).thenReturn("terminateDate");
+
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
+        Assert.assertEquals(1, result.size());
+        StudentSchoolAssociationEntity entity = result.get(0);
+        Assert.assertEquals("hireDate", entity.getEntryDate());
+        Assert.assertEquals("terminateDate", entity.getExitWithdrawDate());
     }
 }
