@@ -36,7 +36,6 @@ public abstract class RetryMongoCommand {
     protected static final int MONGO_DUPLICATE_KEY_CODE_2 = 11001;
 
     protected static final Logger LOG = LoggerFactory.getLogger(RetryMongoCommand.class);
-    protected int totalRetries;
 
     /**
      * Retry executing a mongo command until successful or retries are exhausted.
@@ -49,23 +48,23 @@ public abstract class RetryMongoCommand {
      * @throws Exception
      */
     public Object executeOperation(int noOfRetries) throws Exception {
-        totalRetries = noOfRetries;
+        int totalRetries = noOfRetries;
         Exception except = null;
         while (noOfRetries > 0) {
             try {
                 Object result = execute();
                 return result;
             } catch (MongoException me) {
-                noOfRetries = handleException(me.getCode(), noOfRetries, me);
+                noOfRetries = handleException(me.getCode(), noOfRetries, totalRetries, me);
                 except = me;
             } catch (DataAccessResourceFailureException ex) {
-                noOfRetries = handleException(0, noOfRetries, ex);
+                noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 except = ex;
             } catch (InvalidDataAccessApiUsageException ex) {
-                noOfRetries = handleException(0, noOfRetries, ex);
+                noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 except = ex;
             } catch (InvalidDataAccessResourceUsageException ex) {
-                noOfRetries = handleException(0, noOfRetries, ex);
+                noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 except = ex;
             }
         }
@@ -73,7 +72,7 @@ public abstract class RetryMongoCommand {
         throw except;
     }
 
-    private int handleException(int code, int noOfRetries, Exception ex) throws MongoException {
+    private int handleException(int code, int noOfRetries, int totalRetries, Exception ex) throws MongoException {
         int retryNum = (totalRetries - noOfRetries) + 1;
         LOG.debug("RetryMongoCommand: Exception caught at attempt #" + retryNum + " of " + totalRetries, ex);
         if (code == MONGO_DUPLICATE_KEY_CODE_1 | code == MONGO_DUPLICATE_KEY_CODE_2) {
