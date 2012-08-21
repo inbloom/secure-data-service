@@ -27,20 +27,28 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.api.spring.Autowire;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Subresource for custom entities
  *
  */
+@Component
+@Scope("request")
 public class CustomEntityResource {
 
     String entityId;
+    @Autowired
     EntityDefinition entityDef;
 
+    @Autowired
     public CustomEntityResource(String entityId, EntityDefinition entityDef) {
         this.entityId = entityId;
         this.entityDef = entityDef;
@@ -52,7 +60,6 @@ public class CustomEntityResource {
      * @return the response to the GET request
      */
     @GET
-    @Path("/")
     public Response read() {
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
@@ -72,7 +79,6 @@ public class CustomEntityResource {
      * @return the response to the PUT request
      */
     @PUT
-    @Path("/")
     public Response createOrUpdatePut(EntityBody customEntity) {
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
@@ -89,7 +95,6 @@ public class CustomEntityResource {
      * @return the response to the POST request
      */
     @POST
-    @Path("/")
     public Response createOrUpdatePost(EntityBody customEntity, @Context UriInfo uriInfo) {
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
@@ -107,7 +112,6 @@ public class CustomEntityResource {
      * @return the response tot he DELETE request
      */
     @DELETE
-    @Path("/")
     public Response delete() {
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
