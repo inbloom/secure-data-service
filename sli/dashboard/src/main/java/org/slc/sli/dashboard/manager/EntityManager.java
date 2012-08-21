@@ -302,19 +302,25 @@ public class EntityManager extends ApiClientManager {
             }
         }
 
-        List<GenericEntity> sections = new ArrayList<GenericEntity>();
-        sections.add(section);
-
-        // Retrieve courses for the section, and add the course name and subject area to the section
-        // entity.
-        List<GenericEntity> courses = getApiClient().getCourseSectionMappings(sections, token);
-
-        if (courses != null && courses.size() > 0) {
-            GenericEntity course = courses.get(0);
-            section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
-            section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
+        List<Link> links = section.getLinks();
+        
+        //Navigate links to retrieve course and subject.
+        for (Link link : links) {
+        	if(link.getLinkName().equals("getCourseOffering")) {
+        		GenericEntity courseOffering = getApiClient().readEntity(token, link.getResourceURL().toString());
+        		if(courseOffering != null) {
+        			String courseId = courseOffering.getString(Constants.ATTR_COURSE_ID);
+        			if(courseId != null) {
+	        			GenericEntity course = getApiClient().getCourse(token, courseId);
+	        			if(course != null) {
+		                    section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
+		                    section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
+	        			}
+        			}
+        		}
+        	}
         }
-
+        
         return section;
     }
 
