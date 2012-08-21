@@ -46,6 +46,7 @@ public class SuperAdminServiceTest {
         Entity user = Mockito.mock(Entity.class);
         HashMap<String, Object> body = new HashMap<String, Object>();
         body.put("stateOrganizationId", "ID");
+        body.put("organizationCategories", Arrays.asList("State Education Agency"));
         Mockito.when(user.getBody()).thenReturn(body);
 
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class)))

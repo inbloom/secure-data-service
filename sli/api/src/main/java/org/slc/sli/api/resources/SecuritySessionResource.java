@@ -135,6 +135,7 @@ public class SecuritySessionResource {
             sessionDetails.put("tenantId", principal.getTenantId());
             sessionDetails.put("external_id", principal.getExternalId());
             sessionDetails.put("email", getUserEmail(principal));
+            sessionDetails.put("rights", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
         } else {
             sessionDetails.put("authenticated", false);
