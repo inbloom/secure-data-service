@@ -27,7 +27,7 @@ import java.util.List;
  * be included in-line or by reference using the <code>include</code> element. No particular data
  * format definition language is mandated.
  */
-public final class Grammars extends WadlElement {
+public class Grammars extends WadlElement {
     private final List<Include> includes;
 
     public Grammars(final List<Documentation> doc, final List<Include> includes) {

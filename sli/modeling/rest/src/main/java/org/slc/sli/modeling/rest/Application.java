@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * The <code>application</code> element forms the root of a WADL description.
  */
-public final class Application extends WadlElement {
+public class Application extends WadlElement {
     private final Grammars grammars;
     private final Resources resources;
     private final List<ResourceType> resourceTypes;

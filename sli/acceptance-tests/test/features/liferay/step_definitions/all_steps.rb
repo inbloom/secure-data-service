@@ -130,6 +130,10 @@ Then /^I switch to the iframe$/ do
   wait.until{(iframe = isIframePresent()) != nil}
 end
 
+Then /^I exit out of the iframe$/ do
+  @driver.switch_to.default_content
+end
+
 def isIframePresent()
   #TODO figure out how to determine when page is loaded instead of using sleep
   sleep 2
