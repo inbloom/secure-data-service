@@ -139,7 +139,7 @@ public abstract class SliEntity {
 
     @JsonIgnore
     public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;;
+        this.zoneId = zoneId;
     }
 
     /**
