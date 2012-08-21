@@ -25,7 +25,7 @@ import java.util.List;
  * A <code>response</code> element describes the output that results from performing an HTTP method
  * on a resource.
  */
-public final class Response extends WadlElement {
+public class Response extends WadlElement {
     private final List<String> statusCodes;
     private final List<Param> params;
     private final List<Representation> representations;

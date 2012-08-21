@@ -58,52 +58,52 @@ import org.slc.sli.modeling.xmi.XmiElementName;
 /**
  * Reads from a file (by name) or {@link InputStream} to produce a UML {@link Model}.
  */
-public final class XmiReader {
+public class XmiReader {
     /**
      * If an empty name is acceptable then use this symbolic constant.
      */
-    private static final String DEFAULT_EMPTY_NAME = "";
-    private static final List<NamespaceOwnedElement> EMPTY_NAMESPACE_OWNED_ELEMENTS = Collections.emptyList();
-    private static final List<TaggedValue> EMPTY_TAGGED_VALUE_LIST = Collections.emptyList();
-    private static final String GLOBAL_NAMESPACE = "";
-    
-    private static final void assertName(final QName name, final XMLStreamReader reader) {
+    protected static final String DEFAULT_EMPTY_NAME = "";
+    protected static final List<NamespaceOwnedElement> EMPTY_NAMESPACE_OWNED_ELEMENTS = Collections.emptyList();
+    protected static final List<TaggedValue> EMPTY_TAGGED_VALUE_LIST = Collections.emptyList();
+    protected static final String GLOBAL_NAMESPACE = "";
+
+    protected static final void assertName(final QName name, final XMLStreamReader reader) {
         if (!match(name, reader)) {
             throw new AssertionError(reader.getLocalName());
         }
     }
-    
+
     /**
      * A programmatic assertion that we have the reader positioned on the correct element.
-     * 
+     *
      * @param expectLocalName
      *            The local name that we expect.
      * @param reader
      *            The reader.
      */
-    private static final void assertName(final XmiElementName name, final XMLStreamReader reader) {
+    protected static final void assertName(final XmiElementName name, final XMLStreamReader reader) {
         if (!match(name, reader)) {
             throw new AssertionError(reader.getLocalName());
         }
     }
-    
-    private static final <T> T assertNotNull(final T obj) {
+
+    protected static final <T> T assertNotNull(final T obj) {
         if (obj != null) {
             return obj;
         } else {
             throw new AssertionError();
         }
     }
-    
-    private static final void closeQuiet(final Closeable closeable) {
+
+    protected static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
         } catch (final IOException e) {
             e.printStackTrace();
         }
     }
-    
-    private static final boolean getBoolean(final XmiAttributeName name, final boolean defaultValue,
+
+    protected static final boolean getBoolean(final XmiAttributeName name, final boolean defaultValue,
             final XMLStreamReader reader) {
         final String value = reader.getAttributeValue(GLOBAL_NAMESPACE, name.getLocalName());
         if (value != null) {
@@ -112,12 +112,12 @@ public final class XmiReader {
             return defaultValue;
         }
     }
-    
-    private static final Identifier getId(final XMLStreamReader reader) {
+
+    protected static final Identifier getId(final XMLStreamReader reader) {
         return Identifier.fromString(reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.ID.getLocalName()));
     }
-    
-    private static final Identifier getIdRef(final XMLStreamReader reader) throws XmiMissingAttributeException {
+
+    protected static final Identifier getIdRef(final XMLStreamReader reader) throws XmiMissingAttributeException {
         final String value = reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.IDREF.getLocalName());
         if (value != null) {
             return Identifier.fromString(value);
@@ -125,8 +125,8 @@ public final class XmiReader {
             throw new XmiMissingAttributeException(XmiAttributeName.IDREF.getLocalName());
         }
     }
-    
-    private static final String getName(final XMLStreamReader reader, final String defaultName) {
+
+    protected static final String getName(final XMLStreamReader reader, final String defaultName) {
         final String name = reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.NAME.getLocalName());
         if (name != null) {
             return name;
@@ -134,8 +134,8 @@ public final class XmiReader {
             return defaultName;
         }
     }
-    
-    private static final Occurs getOccurs(final XMLStreamReader reader, final XmiAttributeName name) {
+
+    protected static final Occurs getOccurs(final XMLStreamReader reader, final XmiAttributeName name) {
         final int value = Integer.valueOf(reader.getAttributeValue(GLOBAL_NAMESPACE, name.getLocalName()));
         switch (value) {
             case 0: {
@@ -152,20 +152,20 @@ public final class XmiReader {
             }
         }
     }
-    
-    private static final boolean match(final QName name, final XMLStreamReader reader) {
+
+    protected static final boolean match(final QName name, final XMLStreamReader reader) {
         return name.equals(reader.getName());
     }
-    
-    private static final boolean match(final XmiElementName name, final XMLStreamReader reader) {
+
+    protected static final boolean match(final XmiElementName name, final XMLStreamReader reader) {
         return name.getLocalName().equals(reader.getLocalName());
     }
-    
-    private static final boolean match(final XmiElementName name, final QName qname) {
+
+    protected static final boolean match(final XmiElementName name, final QName qname) {
         return name.getLocalName().equals(qname.getLocalPart());
     }
-    
-    private static final XmiAssociationConnection readAssociationConnection(final XMLStreamReader reader) {
+
+    protected static final XmiAssociationConnection readAssociationConnection(final XMLStreamReader reader) {
         try {
             assertName(XmiElementName.ASSOCIATION_DOT_CONNECTION, reader);
             final List<AssociationEnd> ends = new ArrayList<AssociationEnd>();
@@ -198,8 +198,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final AssociationEnd readAssociationEnd(final XMLStreamReader reader) {
+
+    protected static final AssociationEnd readAssociationEnd(final XMLStreamReader reader) {
         try {
             assertName(XmiElementName.ASSOCIATION_END, reader);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -246,8 +246,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Multiplicity readAssociationEndMultiplicity(final XMLStreamReader reader)
+
+    protected static final Multiplicity readAssociationEndMultiplicity(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.ASSOCIATION_END_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
@@ -277,8 +277,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Identifier readAssociationEndParticipant(final XMLStreamReader reader)
+
+    protected static final Identifier readAssociationEndParticipant(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.ASSOCIATION_END_DOT_PARTICIPANT, reader);
         Identifier reference = null;
@@ -310,8 +310,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Attribute readAttribute(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Attribute readAttribute(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ATTRIBUTE, reader);
         final Identifier id = getId(reader);
         final String name = getName(reader, null);
@@ -328,7 +328,7 @@ public final class XmiReader {
                         try {
                             type = assertNotNull(readIdentifierWrapper(XmiElementName.STRUCTURAL_FEATURE_DOT_TYPE,
                                     reader));
-                        } catch (final RuntimeException e) {
+                        } catch (final AssertionError e) {
                             throw new XmiBadAttributeException(name.toString(), e);
                         }
                     } else if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
@@ -353,8 +353,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final List<Attribute> readClassifierDotFeature(final XMLStreamReader reader)
+
+    protected static final List<Attribute> readClassifierDotFeature(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.CLASSIFIER_DOT_FEATURE, reader);
         final List<Attribute> attributes = new LinkedList<Attribute>();
@@ -386,8 +386,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final ClassType readClassType(final QName elementName, final XMLStreamReader reader)
+
+    protected static final ClassType readClassType(final QName elementName, final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(elementName, reader);
         boolean isAbstract = false;
@@ -405,7 +405,7 @@ public final class XmiReader {
                     } else if (match(XmiElementName.CLASSIFIER_DOT_FEATURE, reader)) {
                         try {
                             attributes.addAll(readClassifierDotFeature(reader));
-                        } catch (final RuntimeException e) {
+                        } catch (final AssertionError e) {
                             throw new XmiBadModelElementException(name.toString(), e);
                         }
                     } else if ("GeneralizableElement.generalization".equals(reader.getLocalName())) {
@@ -447,8 +447,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Model readContent(final XMLStreamReader reader) {
+
+    protected static final Model readContent(final XMLStreamReader reader) {
         try {
             if ("XMI.content".equals(reader.getLocalName())) {
                 Model model = null;
@@ -493,8 +493,8 @@ public final class XmiReader {
             throw new RuntimeException(e);
         }
     }
-    
-    private static final DataType readDataType(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final DataType readDataType(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.DATA_TYPE, reader);
         boolean isAbstract = false;
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -507,7 +507,7 @@ public final class XmiReader {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
                         try {
                             taggedValues.addAll(readTaggedValueGroup(reader));
-                        } catch (final RuntimeException e) {
+                        } catch (final AssertionError e) {
                             throw new XmiBadModelElementException(name, e);
                         }
                     } else if (match(XmiElementName.CLASSIFIER_DOT_FEATURE, reader)) {
@@ -532,8 +532,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Model readDocument(final XMLStreamReader reader) {
+
+    protected static final Model readDocument(final XMLStreamReader reader) {
         try {
             if (XMLStreamConstants.START_DOCUMENT == reader.getEventType()) {
                 Model model = null;
@@ -570,8 +570,8 @@ public final class XmiReader {
             throw new RuntimeException(e);
         }
     }
-    
-    private static final EnumType readEnumeration(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final EnumType readEnumeration(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION, reader);
         final List<EnumLiteral> literals = new LinkedList<EnumLiteral>();
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -605,8 +605,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final EnumLiteral readEnumerationLiteral(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final EnumLiteral readEnumerationLiteral(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION_LITERAL, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
@@ -637,8 +637,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final List<EnumLiteral> readEnumerationLiteralGroup(final XMLStreamReader reader)
+
+    protected static final List<EnumLiteral> readEnumerationLiteralGroup(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION_LITERAL_GROUP, reader);
         final List<EnumLiteral> literals = new LinkedList<EnumLiteral>();
@@ -668,8 +668,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Generalization readGeneralization(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Generalization readGeneralization(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.GENERALIZATION, reader);
         final Identifier id = getId(reader);
         final String name = getName(reader, DEFAULT_EMPTY_NAME);
@@ -710,8 +710,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Identifier readIdentifier(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Identifier readIdentifier(final XMLStreamReader reader) throws XMLStreamException {
         final XmiElementName name = assertNotNull(XmiElementName.getElementName(reader.getLocalName()));
         final Identifier id = getIdRef(reader);
         while (reader.hasNext()) {
@@ -736,8 +736,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Identifier readIdentifierWrapper(final XmiElementName name, final XMLStreamReader reader)
+
+    protected static final Identifier readIdentifierWrapper(final XmiElementName name, final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(name, reader);
         Identifier reference = null;
@@ -773,7 +773,7 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
+
     public static final Model readModel(final File file) throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -782,10 +782,10 @@ public final class XmiReader {
             closeQuiet(istream);
         }
     }
-    
+
     /**
      * Reads XMI from an {@link InputStream}.
-     * 
+     *
      * @param stream
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
@@ -803,7 +803,7 @@ public final class XmiReader {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static final Model readModel(final String fileName) throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -812,8 +812,8 @@ public final class XmiReader {
             closeQuiet(istream);
         }
     }
-    
-    private static final Model readModel(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Model readModel(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MODEL, reader);
         final Identifier id = getId(reader);
         final String name = getName(reader, null);
@@ -847,11 +847,11 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Multiplicity readMultiplicity(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Multiplicity readMultiplicity(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY, reader);
         final Identifier id = getId(reader);
-        
+
         Range range = null;
         while (reader.hasNext()) {
             reader.next();
@@ -880,8 +880,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Range readMultiplicityDotRange(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Range readMultiplicityDotRange(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY_DOT_RANGE, reader);
         Range range = null;
         while (reader.hasNext()) {
@@ -911,8 +911,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Range readMultiplicityRange(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Range readMultiplicityRange(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY_RANGE, reader);
         final Identifier id = getId(reader);
         final Occurs lowerBound = getOccurs(reader, XmiAttributeName.LOWER);
@@ -939,14 +939,14 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
+
     /**
      * The UML:Namespace.ownedElement is simply a list of model elements that can belong in a
      * name-space.
-     * 
+     *
      * It has no identity of its own and is only present in the serialization format.
      */
-    private static final List<NamespaceOwnedElement> readNamespaceOwnedElement(final XMLStreamReader reader)
+    protected static final List<NamespaceOwnedElement> readNamespaceOwnedElement(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT, reader);
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
@@ -993,8 +993,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final UmlPackage readPackage(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final UmlPackage readPackage(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.PACKAGE, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
@@ -1029,8 +1029,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Multiplicity readStructuralFeatureDotMultiplicity(final XMLStreamReader reader)
+
+    protected static final Multiplicity readStructuralFeatureDotMultiplicity(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.STRUCTURAL_FEATURE_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
@@ -1061,8 +1061,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final TagDefinition readTagDefinition(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final TagDefinition readTagDefinition(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAG_DEFINITION, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
@@ -1096,8 +1096,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Multiplicity readTagDefinitionMultiplicity(final XMLStreamReader reader)
+
+    protected static final Multiplicity readTagDefinitionMultiplicity(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.TAG_DEFINITION_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
@@ -1128,8 +1128,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final TaggedValue readTaggedValue(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final TaggedValue readTaggedValue(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAGGED_VALUE, reader);
         final Identifier id = getId(reader);
         String dataValue = "";
@@ -1162,8 +1162,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final String readTaggedValueData(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final String readTaggedValueData(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAGGED_VALUE_DOT_DATA_VALUE, reader);
         final StringBuilder sb = new StringBuilder();
         while (reader.hasNext()) {
@@ -1187,8 +1187,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final List<TaggedValue> readTaggedValueGroup(final XMLStreamReader reader) {
+
+    protected static final List<TaggedValue> readTaggedValueGroup(final XMLStreamReader reader) {
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         try {
             if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
@@ -1227,8 +1227,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Identifier readTaggedValueType(final XMLStreamReader reader) throws XMLStreamException {
+
+    protected static final Identifier readTaggedValueType(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAGGED_VALUE_DOT_TYPE, reader);
         Identifier reference = null;
         while (reader.hasNext()) {
@@ -1257,8 +1257,8 @@ public final class XmiReader {
         }
         throw new AssertionError();
     }
-    
-    private static final Model readXMI(final XMLStreamReader reader) {
+
+    protected static final Model readXMI(final XMLStreamReader reader) {
         try {
             if ("XMI".equals(reader.getLocalName())) {
                 Model model = null;
@@ -1306,14 +1306,14 @@ public final class XmiReader {
         }
         return null;
     }
-    
+
     /**
      * Skips (recursively) over the element in question. Also useful during development.
-     * 
+     *
      * @param reader
      *            The StAX {@link XMLStreamReader}.
      */
-    private static final void skipElement(final XMLStreamReader reader, final boolean check) throws XMLStreamException {
+    protected static final void skipElement(final XMLStreamReader reader, final boolean check) throws XMLStreamException {
         if (check) {
             throw new AssertionError(reader.getName());
         }

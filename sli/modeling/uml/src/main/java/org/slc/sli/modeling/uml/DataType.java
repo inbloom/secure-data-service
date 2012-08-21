@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * A data type is a type that typically has no references to other types.
  */
-public final class DataType extends NamespaceOwnedElement implements SimpleType {
+public class DataType extends NamespaceOwnedElement implements SimpleType {
     private final boolean isAbstract;
     
     public DataType(final Identifier id, final String name) {
