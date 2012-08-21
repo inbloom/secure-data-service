@@ -37,6 +37,10 @@ import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
+/**
+ * Tests for EmploymentRecordToStaffEdOrgTranslationTask
+ *
+ */
 public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
 
     @InjectMocks

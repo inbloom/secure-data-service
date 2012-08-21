@@ -756,6 +756,7 @@ task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
                    :sifStudentLEARelationshipTest,
+                   :sifStaffTest,
                    :sifSmokeTests,
                    :sifIntegratedTest
                    ] do

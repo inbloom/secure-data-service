@@ -74,6 +74,11 @@ public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<E
                 // It is expected that educationOrganizationReference will be set correctly
                 // by StaffAssignment that will be received later
                 seoae.setEducationOrganizationReference(sifIdResolver.getZoneSea(zoneId));
+                // We need to allow the to be created StaffEducationOrganizationAssociationEntity
+                // serachable using ea.getEmployeePersonalRefId()
+                // so that it can be correlated by a corresponding StaffAssignment later
+                seoae.setZoneId(zoneId);
+                seoae.setOtherSifRefId(ea.getEmployeePersonalRefId());
             }
             if (ea.getJobStartDate() != null) {
                 seoae.setBeginDate(DATE_FORMAT.format(ea.getJobStartDate().getTime()));
@@ -93,9 +98,9 @@ public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<E
         // to catch the HrProgramType
         TeacherEntity te = new TeacherEntity();
         TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
-        if (seoae.getStaffClassification() != null &&
-            seoae.getStaffClassification().equals("Teacher") &&
-            ea.getProgramType() != null) {
+        if (seoae.getStaffClassification() != null
+                && seoae.getStaffClassification().equals("Teacher")
+                && ea.getProgramType() != null) {
 
             if (staffGuid != null) {
                 // A staff entity is previously created
@@ -104,8 +109,10 @@ public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<E
                 // By setting TeacherEntity's setCreatorRefId
                 // The previous StaffEntity will be merged into the new TeacherEntity
                 te.setCreatorRefId(ea.getEmployeePersonalRefId());
-                // now we need a way to set TeacherId for TeacherSchoolAssociationEntity
-                // which must be set to the newly created teacherGuid
+                // now we need a way to set mandatory TeacherId for TeacherSchoolAssociationEntity
+                // and allow the created TeacherSchoolAssociationEntity
+                // serachable using ea.getEmployeePersonalRefId()
+                // so that it can be correlated by a corresponding StaffAssignment later
                 tsae.setZoneId(zoneId);
                 tsae.setOtherSifRefId(ea.getEmployeePersonalRefId());
                 // again, since there is no school info attached in EmployeeAssignment

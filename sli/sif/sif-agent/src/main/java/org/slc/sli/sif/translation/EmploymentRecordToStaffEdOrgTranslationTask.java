@@ -27,6 +27,10 @@ import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
+/**
+ * Translation task to translate SIF EmploymentRecord to SLI staffEducationOrganizationAssociation
+ *
+ */
 public class EmploymentRecordToStaffEdOrgTranslationTask extends
         AbstractTranslationTask<EmploymentRecord, StaffEducationOrganizationAssociationEntity> {
 
@@ -55,7 +59,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
         Entity staff = sifIdResolver.getSliEntity(sifData.getSIF_RefId(), zoneId);
         Entity edOrg = sifIdResolver.getSliEntity(sifData.getLEAInfoRefId(), zoneId);
 
-        if( TEACHER_TYPE.equals(staff.getEntityType()) && SCHOOL_TYPE.equals(edOrg.getEntityType())){
+        if (TEACHER_TYPE.equals(staff.getEntityType()) && SCHOOL_TYPE.equals(edOrg.getEntityType())) {
             // not handled by this translator
             return result;
         }
@@ -70,7 +74,6 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
 
         // This is a default value, missing field in SIF
         e.setStaffClassification("Other");
-
 
         result.add(e);
         return result;

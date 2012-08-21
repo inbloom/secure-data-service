@@ -42,10 +42,10 @@ public class HrOtherIdListConverterTest extends AdkTest {
 
     @Test
     public void testNullObject() {
-        List<StaffIdentificationCode> result = converter.convert((HrOtherIdList)null);
+        List<StaffIdentificationCode> result = converter.convert((HrOtherIdList) null);
         Assert.assertNull("StaffIdentificationCode list should be null", result);
 
-        result = converter.convert((OtherIdList)null);
+        result = converter.convert((OtherIdList) null);
         Assert.assertNull("StaffIdentificationCode list should be null", result);
     }
 

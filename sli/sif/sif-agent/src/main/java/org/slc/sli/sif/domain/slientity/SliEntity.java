@@ -120,7 +120,7 @@ public abstract class SliEntity {
 
     @JsonIgnore
     public void setCreatorRefId(String creatorRefId) {
-        this.creatorRefId = creatorRefId;;
+        this.creatorRefId = creatorRefId;
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class SliEntity {
 
     @JsonIgnore
     public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;;
+        this.zoneId = zoneId;
     }
 
     /**
@@ -151,7 +151,12 @@ public abstract class SliEntity {
 
     @JsonIgnore
     public void setOtherSifRefId(String otherSifRefId) {
-        this.otherSifRefId = otherSifRefId;;
+        this.otherSifRefId = otherSifRefId;
+    }
+
+    @JsonIgnore
+    public boolean hasOtherSifRefId() {
+        return this.otherSifRefId != null && this.otherSifRefId.length() > 0;
     }
 
     /**
