@@ -52,7 +52,13 @@ class LandingZoneController < ApplicationController
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
+      
+       if sample_data_select!=nil && sample_data_select!=""
+       @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
+       @landingzone[:preload] =sample_data_select
+       else
        @landingzone = LandingZone.provision ed_org_id, tenant, uid, @public_key
+       end
     end
   end
 
