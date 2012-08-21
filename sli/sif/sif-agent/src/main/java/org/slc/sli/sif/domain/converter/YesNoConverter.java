@@ -19,23 +19,25 @@ package org.slc.sli.sif.domain.converter;
 import java.util.HashMap;
 import java.util.Map;
 
+import openadk.library.common.YesNo;
+
 import org.springframework.stereotype.Component;
 
 /**
- * A custom converter to convert SIF YesNoUnknown to SLI boolean.
+ * A custom converter to convert SIF YesNo to SLI boolean.
  *
- * @author slee
+ * @author vmcglaughlin
  *
  */
 @Component
-public class YesNoUnknownConverter {
-    private static final Map<String, Boolean> BOOLEAN_MAP = new HashMap<String, Boolean>();
+public class YesNoConverter {
+    private static final Map<YesNo, Boolean> BOOLEAN_MAP = new HashMap<YesNo, Boolean>();
     static {
-        BOOLEAN_MAP.put("Yes", Boolean.TRUE);
-        BOOLEAN_MAP.put("No", Boolean.FALSE);
+        BOOLEAN_MAP.put(YesNo.YES, Boolean.TRUE);
+        BOOLEAN_MAP.put(YesNo.NO, Boolean.FALSE);
     }
 
-    public Boolean convert(String value) {
+    public Boolean convert(YesNo value) {
         return value == null ? null : BOOLEAN_MAP.get(value);
     }
 
