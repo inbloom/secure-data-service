@@ -62,7 +62,7 @@ public class MongoIterableTest {
         collection = repository.getCollection(collectionName);
         collection.drop();
         for (DBObject o : objects) {
-            collection.insert(objects);
+            collection.insert(o);
 
         }
     }

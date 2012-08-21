@@ -17,22 +17,33 @@
 
 package org.slc.sli.ingestion.handler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.mongodb.MongoException;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 
+import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
@@ -50,7 +61,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
     private Repository<Entity> entityRepository;
-
+    private EntityConfigFactory entityConfigurations;
     private MessageSource messageSource;
 
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
@@ -64,6 +75,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Autowired
     private SchemaRepository schemaRepository;
+
+    @Autowired
+    private EntityValidator validator;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -82,9 +96,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), errorReport);
         }
         return null;
+    }
+
+    @Override
+    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+        return persist(entities, errorReport);
     }
 
     /**
@@ -120,6 +139,91 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
+    boolean update(String collectionName, Entity entity, List<Entity> failed, ErrorReport errorReport) {
+        boolean res = false;
+
+        try {
+            res = entityRepository.update(collectionName, entity);
+            if (!res) {
+                failed.add(entity);
+            }
+        } catch (MongoException e) {
+            reportWarnings(e.getCause().getMessage(), collectionName, errorReport);
+        }
+
+        return res;
+    }
+
+    private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
+        List<Entity> failed = new ArrayList<Entity>();
+        List<Entity> queued = new ArrayList<Entity>();
+        Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
+        String collectionName = getCollectionName(entities.get(0));
+        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
+
+        for (SimpleEntity entity : entities) {
+            if (entity.getEntityId() != null) {
+                update(collectionName, entity, failed, errorReport);
+            } else {
+              preMatchEntity(memory, entityConfig, errorReport, entity);
+            }
+        }
+
+        for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
+            SimpleEntity entity = entry.getValue();
+            try {
+                validator.validate(entity);
+                addTimestamps(entity);
+                queued.add(entity);
+            } catch (EntityValidationException e) {
+                reportErrors(e.getValidationErrors(), entity, errorReport);
+                failed.add(entity);
+            }
+        }
+
+        try {
+            entityRepository.insert(queued, collectionName);
+        } catch(Exception e) {
+            //Assuming there would NOT be DuplicateKeyException at this point.
+            //Because "queued" only contains new records(with no Id), and we don't have unique indexes
+
+            //Try to do individual upsert again for other exceptions
+            for(Entity entity : queued) {
+                update(collectionName, entity, failed, errorReport);
+            }
+        }
+
+        return failed;
+    }
+
+    private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig, ErrorReport errorReport, SimpleEntity entity) {
+        List<String> keyFields = entityConfig.getKeyFields();
+        if (keyFields.size() > 0) {
+            List<Object> keyValues = new ArrayList<Object>();
+            for (String field : keyFields) {
+                try {
+                    keyValues.add(PropertyUtils.getProperty(entity, field));
+                } catch (Exception e) {
+                    String errorMessage = "Issue finding key field: " + field + " for entity of type: " + entity.getType() + "\n";
+                    errorReport.error(errorMessage, this);
+                }
+            }
+            memory.put(keyValues, entity);
+        }
+    }
+
+    private String getCollectionName(Entity entity) {
+        String collectionName = null;
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
+        }
+        return collectionName;
+    }
+
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
@@ -134,21 +238,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     /**
-     * Generic error reporting function.
-     *
-     * @param errorMessage
-     *            Error message reported by entity.
-     * @param entity
-     *            Entity reporting error.
-     * @param errorReport
-     *            Reference to error report to log error message in.
-     */
-    private void reportErrors(String errorMessage, SimpleEntity entity, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + entity.getType() + ") reports failure: " + errorMessage;
-        errorReport.error(assembledMessage, this);
-    }
-
-    /**
      * Generic warning reporting function.
      *
      * @param warningMessage
@@ -158,8 +247,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report to log warning message in.
      */
-    private void reportWarnings(String warningMessage, SimpleEntity entity, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+    private void reportWarnings(String warningMessage, String type, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
         errorReport.warning(assembledMessage, this);
     }
 
@@ -177,5 +266,19 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public EntityConfigFactory getEntityConfigurations() {
+        return entityConfigurations;
+    }
+
+    public void setEntityConfigurations(EntityConfigFactory entityConfigurations) {
+        this.entityConfigurations = entityConfigurations;
+    }
+
+    private void addTimestamps(Entity entity) {
+        Date now = DateTimeUtil.getNowInUTC();
+        entity.getMetaData().put("created", now);
+        entity.getMetaData().put("updated", now);
     }
 }

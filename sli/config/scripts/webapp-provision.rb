@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!c:\software\Ruby193\bin\ruby
 
 =begin
 

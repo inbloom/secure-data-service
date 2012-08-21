@@ -4,7 +4,7 @@
 	elementFormDefault="qualified" attributeFormDefault="qualified"
 	xmlns="http://slcedu.org/schema/0100" targetNamespace="http://slcedu.org/schema/0100">
 
-	<xs:include schemaLocation="ComplexTypes-R1-edfi.xsd" />
+	<xs:include schemaLocation="InterchangeTypes.xsd" />
 	<xs:annotation>
 		<xs:documentation>===== SLI Bulk Interchange Model =====
 		</xs:documentation>

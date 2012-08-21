@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.validation;
 
 import java.util.HashMap;
@@ -154,7 +153,7 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
-     // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         return null;
     }
 
@@ -211,7 +210,6 @@ public class DummyEntityRepository implements Repository<Entity> {
         return null;
     }
 
-
     @Override
     public boolean doUpdate(String collection, String id, Update update) {
         // TODO Auto-generated method stub
@@ -235,6 +233,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

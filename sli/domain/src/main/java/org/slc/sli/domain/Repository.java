@@ -71,6 +71,8 @@ public interface Repository<T> {
      */
     public T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
+    public List<T> insert(List<T> records, String collectionName);
+
     /**
      * @param collectionName
      *            the name of the collection to look in

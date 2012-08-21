@@ -132,7 +132,19 @@ Then /^the developer is redirected to a page with terms and conditions$/ do
 end
 
 When /^the developer click "([^"]*)"$/ do |button|
-  @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  if(button == "Accept")
+    if(@prod)
+      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil) do
+        @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+      end
+    else
+      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil) do
+        @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+      end
+    end
+  else
+    @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  end
 end
 
 Then /^the developer is directed to an acknowledgement page\.$/ do
@@ -141,17 +153,20 @@ Then /^the developer is directed to an acknowledgement page\.$/ do
 end
 
 Then /^a verification email is sent to "([^"]*)"$/ do |email_address|
-   sleep(2)
-    verifyEmail()
+   #sleep(2)
+    #verifyEmail()
 end
 
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
     approval_email_subject = "Welcome to the SLC Developer Sandbox"
+    @email_content = check_email(approval_email_subject, nil) do
+      sleep(2)
+      url = getVerificationLink()
+      puts url
+      @driver.get url
+    end
   elsif(environment == "production")
-    approval_email_subject = "Welcome to the Shared Learning Collaborative"
-  end
-  @email_content = check_email(approval_email_subject, nil) do
     sleep(2)
     url = getVerificationLink()
     puts url
@@ -302,8 +317,16 @@ When /^the SLC operator accesses the "([^"]*)"$/ do |page|
 end
 
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
-  @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
-  @driver.switch_to().alert().accept()
+  if(@prod)
+    approval_email_subject = "Welcome to the Shared Learning Collaborative"
+    @email_content = check_email(approval_email_subject, nil) do
+      @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
+      @driver.switch_to().alert().accept()
+    end
+  else
+    @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
+    @driver.switch_to().alert().accept()
+  end
 end
 
 When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
