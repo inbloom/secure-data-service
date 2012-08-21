@@ -35,6 +35,10 @@ public class CalculatedDataListingResource<T> {
 
     private final CalculatedData<T> data;
 
+    public CalculatedDataListingResource() {
+        this.data = null;
+    }
+
     public CalculatedDataListingResource(CalculatedData<T> data) {
         super();
         this.data = data;
