@@ -20,6 +20,10 @@ import java.util.Calendar;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Convert Calendar instances to SLI date format
+ *
+ */
 @Component
 public class DateConverter {
 

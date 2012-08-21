@@ -25,21 +25,21 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  */
 public class StaffIdentificationCode {
-    private String ID;
+    private String id;
     private String identificationSystem;
 
     public StaffIdentificationCode() {
 
     }
 
-    @JsonProperty("ID")
+    @JsonProperty("id")
     public String getID() {
-        return this.ID;
+        return this.id;
     }
 
-    @JsonProperty("ID")
-    public void setID(String ID) {
-        this.ID = ID;
+    @JsonProperty("id")
+    public void setID(String id) {
+        this.id = id;
     }
 
     public String getIdentificationSystem() {

@@ -38,6 +38,10 @@ import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.api.client.util.Query;
 
+/**
+ * Id resolver implementation using custom data
+ *
+ */
 public class SifIdResolverCustomData implements SifIdResolver {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifIdResolverCustomData.class);

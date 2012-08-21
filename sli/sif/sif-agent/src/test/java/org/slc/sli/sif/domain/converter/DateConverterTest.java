@@ -22,6 +22,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+/**
+ * Tests for DateConverter
+ *
+ */
 public class DateConverterTest {
 
     DateConverter converter = new DateConverter();
