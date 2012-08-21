@@ -16,4 +16,4 @@ sli/ingestion/ingestion-service/src/main/resources/ingestion-dev.properties
 Demo/EdFiSampleData/
 sli/dashboard/src/main/resources/local.properties
 sli/databrowser/log
-tools/jobReport/node_modules
+tools/jobReport/server/node_modules
