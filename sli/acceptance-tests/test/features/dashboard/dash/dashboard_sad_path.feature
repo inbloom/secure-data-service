@@ -58,7 +58,6 @@ And click Save
 Then I should be shown a success message
 
 # Need to get a user that this is valid for now that we have realm enforcement
-@wip
 Scenario: No sections
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
