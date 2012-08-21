@@ -5,6 +5,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.representation.HateoasLink;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.EntityDecorator;
 import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.service.ResourceService;
@@ -69,7 +70,7 @@ public abstract class GenericResource {
     }
 
     protected static interface GetResourceLogic {
-        public List<EntityBody> run(Resource resource);
+        public ServiceResponse run(Resource resource);
     }
 
     protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
@@ -95,7 +96,8 @@ public abstract class GenericResource {
         Resource resource = constructAndCheckResource(uriInfo, template, method);
 
         //run the resource logic
-        List<EntityBody> entities = logic.run(resource);
+        ServiceResponse serviceResponse = logic.run(resource);
+        List<EntityBody> entities = serviceResponse.getEntityBodyList();
         entities = optionalView.add(entities, resource.getResourceType(), uriInfo.getQueryParameters());
 
         //add the links
@@ -109,7 +111,7 @@ public abstract class GenericResource {
         }
 
         //get the page count
-        long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri());
+        long pagingHeaderTotalCount = serviceResponse.getEntityCount();
 
         //add the paging headers and return the data
         return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resource), entities)),

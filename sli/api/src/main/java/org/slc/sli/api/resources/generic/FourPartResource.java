@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
@@ -32,7 +33,7 @@ public class FourPartResource extends GenericResource {
 
         return handleGet(uriInfo, ResourceTemplate.FOUR_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
-            public List<EntityBody> run(Resource resource) {
+            public ServiceResponse run(Resource resource) {
                 final Resource base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.FOUR_PART);
                 final Resource association = resourceHelper.getAssociationName(uriInfo, ResourceTemplate.FOUR_PART);
                 return resourceService.getEntities(base, id, association, resource, uriInfo.getRequestUri());

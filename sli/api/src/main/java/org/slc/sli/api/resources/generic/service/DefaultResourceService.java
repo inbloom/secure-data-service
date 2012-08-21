@@ -8,8 +8,8 @@ import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -51,23 +51,23 @@ public class DefaultResourceService implements ResourceService {
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     protected static interface ServiceLogic {
-        public List<EntityBody> run(final String resource, EntityDefinition definition);
+        public ServiceResponse run(final String resource, EntityDefinition definition);
     }
 
-    protected List<EntityBody> handle(final Resource resource, ServiceLogic logic) {
+    protected ServiceResponse handle(final Resource resource, ServiceLogic logic) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        List<EntityBody> entities = logic.run(resource.getResourceType(), definition);
+        ServiceResponse serviceResponse  = logic.run(resource.getResourceType(), definition);
 
-        return entities;
+        return serviceResponse;
     }
 
     @Override
-    public List<EntityBody> getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
+    public ServiceResponse getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
 
         return handle(resource, new ServiceLogic() {
             @Override
-            public List<EntityBody> run(final String resource, EntityDefinition definition) {
+            public ServiceResponse run(final String resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
 
                 if (idLength > MAX_MULTIPLE_UUIDS) {
@@ -95,19 +95,19 @@ public class DefaultResourceService implements ResourceService {
                 if (idLength == 1 && finalResults.isEmpty()) {
                     throw new EntityNotFoundException(ids.get(0));
                 }
-
-                return finalResults;
+                long count = getEntityCount(definition,apiQuery);
+                return new ServiceResponse(finalResults, count);
             }
         });
     }
 
     @Override
-    public List<EntityBody> getEntities(final Resource resource, final URI requestURI,
-                                        final boolean getAllEntities) {
+    public ServiceResponse getEntities(final Resource resource, final URI requestURI,
+                                       final boolean getAllEntities) {
 
         return handle(resource, new ServiceLogic() {
             @Override
-            public List<EntityBody> run(final String resource, EntityDefinition definition) {
+            public ServiceResponse run(final String resource, EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
@@ -126,8 +126,8 @@ public class DefaultResourceService implements ResourceService {
                         entityBodies = definition.getService().list(apiQuery);
                     }
                 }
-
-                return (List<EntityBody>) entityBodies;
+                long count = getEntityCount(definition,apiQuery);
+                return new ServiceResponse((List<EntityBody>) entityBodies, count) ;
             }
         });
     }
@@ -143,10 +143,7 @@ public class DefaultResourceService implements ResourceService {
         return apiQuery;
     }
 
-    @Override
-    public long getEntityCount(Resource resource, final URI requestURI) {
-        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        ApiQuery apiQuery = getApiQuery(definition, requestURI);
+    private long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
         long count = 0;
 
         if (definition.getService() == null) {
@@ -206,7 +203,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public List<EntityBody> getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
+    public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
@@ -221,12 +218,13 @@ public class DefaultResourceService implements ResourceService {
             entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
         }
 
-        return entityBodyList;
+        long count = getEntityCount(definition,apiQuery);
+        return new ServiceResponse(entityBodyList, count) ;
     }
 
     @Override
     // TODO
-    public List<EntityBody> getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
+    public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
         final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
         final String associationKey = getConnectionKey(base, association);
@@ -248,10 +246,11 @@ public class DefaultResourceService implements ResourceService {
         try {
             entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
         } catch (final UnsupportedSelectorException e) {
-            entityBodyList = (List<EntityBody>) finalEntity.getService().list(apiQuery);
+            entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
         }
 
-        return entityBodyList;
+        long count = getEntityCount(finalEntity,finalApiQuery);
+        return new ServiceResponse(entityBodyList, count) ;
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {

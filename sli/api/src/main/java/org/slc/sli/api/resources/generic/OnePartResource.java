@@ -4,6 +4,7 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
@@ -36,7 +37,7 @@ public class OnePartResource extends GenericResource {
     public Response getAll(@Context final UriInfo uriInfo) {
         return handleGet(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
-            public List<EntityBody> run(Resource resource) {
+            public ServiceResponse run(Resource resource) {
 
                 return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
             }
