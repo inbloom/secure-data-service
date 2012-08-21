@@ -25,6 +25,7 @@ public class SectionMeta {
     public final String courseId;
     public final String sessionId;
     public final String programId;
+    //public final String studentId;
 
     public final String simpleId;
 
@@ -40,6 +41,7 @@ public class SectionMeta {
         this.courseId = courseMeta.id;
         this.sessionId = sessionMeta.id;
         this.programId = programMeta == null ? null : programMeta.id;
+       // this.studentId = studentMeta.id;
 
         this.simpleId = id;
     }

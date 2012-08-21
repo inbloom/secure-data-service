@@ -49,11 +49,10 @@ import org.springframework.stereotype.Component;
  *   Student Support Services Staff 
  *   School Leader 
  *   Substitute Teacher
- * Conditionally map, depends on lea or school:  
- *   LEA Administrator (Mapped from OFFICIAL_ADMINISTRATIVE) 
+ *   LEA Administrator 
  *   LEA Specialist 
  *   LEA System Administrator 
- *   LEA Administrative Support Staff (Mapped from OFFICE_CLERICAL_ADMINISTRATIVE)
+ *   LEA Administrative Support Staff 
  *   School Administrator (Mapped from OFFICIAL_ADMINISTRATIVE) 
  *   School Specialist 
  *   School Administrative Support Staff (Mapped from OFFICE_CLERICAL_ADMINISTRATIVE)
@@ -62,8 +61,6 @@ import org.springframework.stereotype.Component;
 public class JobClassificationConverter {
 
     private static final Map<JobClassificationCode, String> JOB_CLASSIFICATION_MAP = new HashMap<JobClassificationCode, String>();
-    private static final Map<JobClassificationCode, String> JOB_CLASSIFICATION_MAP_LEA_SPECIFIC = new HashMap<JobClassificationCode, String>();
-    private static final Map<JobClassificationCode, String> JOB_CLASSIFICATION_MAP_SCHOOL_SPECIFIC = new HashMap<JobClassificationCode, String>();
     static {
         JOB_CLASSIFICATION_MAP.put(JobClassificationCode.SECURITY_GUARD, "Other");
         JOB_CLASSIFICATION_MAP.put(JobClassificationCode.SPEECH_LANGUAGE_TECHNICIAN, "Other");
@@ -245,19 +242,10 @@ public class JobClassificationConverter {
         JOB_CLASSIFICATION_MAP.put(JobClassificationCode.ADMINISTRATIVE_SUPERVISORY, "Other");
         JOB_CLASSIFICATION_MAP.put(JobClassificationCode.PROFESSIONAL_EDUCATIONAL, "Other");
         JOB_CLASSIFICATION_MAP.put(JobClassificationCode.LABORER, "Other");
-        
-        JOB_CLASSIFICATION_MAP_LEA_SPECIFIC.put(JobClassificationCode.OFFICIAL_ADMINISTRATIVE, "LEA Administrator");
-        JOB_CLASSIFICATION_MAP_LEA_SPECIFIC.put(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE, "LEA Administrative Support Staff");
-        JOB_CLASSIFICATION_MAP_SCHOOL_SPECIFIC.put(JobClassificationCode.OFFICIAL_ADMINISTRATIVE, "School Administrator");
-        JOB_CLASSIFICATION_MAP_SCHOOL_SPECIFIC.put(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE, "School Administrative Support Staff");
+        JOB_CLASSIFICATION_MAP.put(JobClassificationCode.OFFICIAL_ADMINISTRATIVE, "School Administrator");
+        JOB_CLASSIFICATION_MAP.put(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE, "School Administrative Support Staff");
     }
 
-    public enum EdOrgType {
-        SCHOOL,
-        LEA,
-        OTHER
-    }
-    
     /**
      * Converts a SIF JobClassification into SLI staffClassificationType enum. 
      * 
@@ -265,26 +253,16 @@ public class JobClassificationConverter {
      * @param edorgType - whether the associated staff is at a school or lea
      * @return
      */
-    public String convert(JobClassification jobClassification, EdOrgType edorgType) {
+    public String convert(JobClassification jobClassification) {
         if (jobClassification == null) {
             return null;
         }
-        return toSliEntryType(JobClassificationCode.wrap(jobClassification.getCode()), edorgType);
+        return toSliEntryType(JobClassificationCode.wrap(jobClassification.getCode()));
     }
 
-    private String toSliEntryType(JobClassificationCode entryTypeCode, EdOrgType edorgType) {
+    private String toSliEntryType(JobClassificationCode entryTypeCode) {
         String mapping = null; 
         mapping = JOB_CLASSIFICATION_MAP.get(entryTypeCode);
-        if (mapping != null) {
-            return mapping;
-        }
-        // try edorg type specific mappings
-        if (edorgType == EdOrgType.SCHOOL) {
-            mapping = JOB_CLASSIFICATION_MAP_SCHOOL_SPECIFIC.get(entryTypeCode);
-        }
-        if (edorgType == EdOrgType.LEA) {
-            mapping = JOB_CLASSIFICATION_MAP_LEA_SPECIFIC.get(entryTypeCode);
-        }
         return mapping == null ? "Other" : mapping;
     }
 }

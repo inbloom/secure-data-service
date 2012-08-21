@@ -20,8 +20,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.EntryType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitType;
@@ -39,6 +37,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.sif.domain.converter.DateConverter;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -51,7 +50,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * StudentSchoolEnrollmentTranslationTask unit tests
  *
  */
-public class StudentSchoolEnrollmentTranslationTaskTest {
+public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
     @InjectMocks
     private final StudentSchoolEnrollmentTranslationTask translator = new StudentSchoolEnrollmentTranslationTask();
 
@@ -74,12 +73,7 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
     DateConverter dateConverter;
 
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setupMocks() {
         MockitoAnnotations.initMocks(this);
     }
 

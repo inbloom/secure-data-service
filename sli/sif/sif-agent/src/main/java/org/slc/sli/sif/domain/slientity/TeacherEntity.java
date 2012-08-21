@@ -24,7 +24,6 @@ package org.slc.sli.sif.domain.slientity;
  */
 public class TeacherEntity extends StaffEntity {
     // optional fields
-    private String teacherUniqueStateId;
     private boolean highlyQualifiedTeacher;
 
     /**
@@ -35,11 +34,11 @@ public class TeacherEntity extends StaffEntity {
     }
 
     public String getTeacherUniqueStateId() {
-        return this.teacherUniqueStateId;
+        return getStaffUniqueStateId();
     }
 
     public void setTeacherUniqueStateId(String teacherUniqueStateId) {
-        this.teacherUniqueStateId = teacherUniqueStateId;
+        setStaffUniqueStateId(teacherUniqueStateId);
     }
 
     public boolean getHighlyQualifiedTeacher() {

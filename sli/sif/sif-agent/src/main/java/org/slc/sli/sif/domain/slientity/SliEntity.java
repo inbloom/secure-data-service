@@ -47,6 +47,8 @@ public abstract class SliEntity {
     protected static final Logger LOG = LoggerFactory.getLogger(SliEntity.class);
 
     private String creatorRefId = null;
+    private String otherSifRefId = null;
+    private String zoneId = null;
 
     /**
      * Constructor
@@ -97,6 +99,8 @@ public abstract class SliEntity {
     }
 
     /**
+     * creatorRefId is a helper attribute which is excluded from json body.
+     *
      * Return true if this entity can be created by more than one SIF data objects
      * and the entity is already created by one of them.
      * For example, EmployeePersonal and StaffPersonal both can create a StaffEntity.
@@ -106,7 +110,7 @@ public abstract class SliEntity {
      */
     @JsonIgnore
     public boolean isCreatedByOthers() {
-        return this.creatorRefId!=null && this.creatorRefId.length()>0;
+        return this.creatorRefId != null && this.creatorRefId.length() > 0;
     }
 
     @JsonIgnore
@@ -117,6 +121,37 @@ public abstract class SliEntity {
     @JsonIgnore
     public void setCreatorRefId(String creatorRefId) {
         this.creatorRefId = creatorRefId;;
+    }
+
+    /**
+     * zoneId is a helper attribute which is excluded from json body.
+     *
+     */
+    @JsonIgnore
+    public String getZoneId() {
+        return this.zoneId;
+    }
+
+    @JsonIgnore
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;;
+    }
+
+    /**
+     * otherSifRefId is a helper attribute which is excluded from json body.
+     *
+     * It is an SIF RefId of other SIF Data Object.
+     * When set, it can be used together with zoneId to query the SLI guid of the matched entity.
+     *
+     */
+    @JsonIgnore
+    public String getOtherSifRefId() {
+        return this.otherSifRefId;
+    }
+
+    @JsonIgnore
+    public void setOtherSifRefId(String otherSifRefId) {
+        this.otherSifRefId = otherSifRefId;;
     }
 
     /**
@@ -132,9 +167,9 @@ public abstract class SliEntity {
     // removes all keys from this map that has a null value. If some values are
     // maps,
     // do it recursively
-    private static void clearNullValueKeys(Map m) {
-        Set keySet = m.keySet();
-        Set keysToRemove = new HashSet();
+    private static void clearNullValueKeys(Map<String, Object> m) {
+        Set<String> keySet = m.keySet();
+        Set<Object> keysToRemove = new HashSet<Object>();
         for (Object k : keySet) {
             if (isNullValue(m.get(k))) {
                 keysToRemove.add(k);
@@ -145,8 +180,8 @@ public abstract class SliEntity {
         }
     }
 
-    private static void clearNullValueFromList(List l) {
-        ListIterator it = l.listIterator();
+    private static void clearNullValueFromList(List<?> l) {
+        ListIterator<?> it = l.listIterator();
         while (it.hasNext()) {
             Object o = it.next();
             if (isNullValue(o)) {
@@ -155,16 +190,17 @@ public abstract class SliEntity {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static boolean isNullValue(Object o) {
         if (o == null) {
             return true;
         }
         if (o instanceof Map) {
-            clearNullValueKeys((Map) o);
-            return ((Map) o).isEmpty();
+            clearNullValueKeys((Map<String, Object>) o);
+            return ((Map<?, ?>) o).isEmpty();
         } else if (o instanceof List) {
-            clearNullValueFromList((List) o);
-            return ((List) o).isEmpty();
+            clearNullValueFromList((List<?>) o);
+            return ((List<?>) o).isEmpty();
         }
         return false;
     }

@@ -70,7 +70,17 @@ Then /^I should see my available links labeled$/ do
 end
 
 When /^I click on the Logout link$/ do
-  @driver.find_element(:link, "Logout").click
+
+  # current logout functionaly means delete all the cookies
+  @driver.manage.delete_all_cookies
+  browser = PropLoader.getProps['browser'].downcase
+  # cannot delete httponly cookie in IE
+  if (browser == "ie")
+    @driver.quit
+    @driver = Selenium::WebDriver.for :ie
+  end
+  #@driver.find_element(:css, "a.menulink").click
+  #@driver.find_element(:link, "Logout").click
 end
 
 Then /^I am redirected to a page that informs me that I have signed out$/ do
@@ -165,8 +175,8 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
     @driver.find_element(:link_text, hash["Page"]).click
     
-    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "Home")}
-    @driver.find_element(:link_text, "Home").click
+    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "The SLC Data Browser")}
+    @driver.find_element(:link_text, "The SLC Data Browser").click
 
     assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 

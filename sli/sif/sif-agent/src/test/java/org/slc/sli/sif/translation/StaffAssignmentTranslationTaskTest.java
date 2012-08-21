@@ -18,8 +18,6 @@ package org.slc.sli.sif.translation;
 
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.student.StaffAssignment;
 
 import org.junit.Assert;
@@ -29,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
@@ -38,7 +37,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * @author slee
  *
  */
-public class StaffAssignmentTranslationTaskTest {
+public class StaffAssignmentTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final StaffAssignmentTranslationTask translator = new StaffAssignmentTranslationTask();
@@ -46,13 +45,10 @@ public class StaffAssignmentTranslationTaskTest {
     @Mock
     SifIdResolver mockSifIdResolver;
 
+    @Override
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
+        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

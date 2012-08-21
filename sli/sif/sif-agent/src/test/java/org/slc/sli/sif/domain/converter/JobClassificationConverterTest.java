@@ -33,46 +33,27 @@ public class JobClassificationConverterTest extends AdkTest {
 
     @Test
     public void testNullObject() {
-        String result = converter.convert(null, null);
+        String result = converter.convert(null);
         Assert.assertNull("Entry Type should be null", result);
     }
 
     @Test
     public void testMappings() {
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.ATHLETIC_TRAINER), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Athletic Trainer");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.INTERPRETER), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Certified Interpreter");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.COUNSELOR), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Counselor");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.TEACHING_CLASSROOM_AIDE), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Instructional Aide");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.LIBRARIAN_MEDIA_CONSULTANT), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Librarians/Media Specialists");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.PRINCIPAL_HEADMASTER_HEADMISTRESS), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Principal");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.PHYSICAL_THERAPIST), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Physical Therapist");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.RESPIRATORY_THERAPIST), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Physical Therapist");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.TEACHER), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Teacher");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.SUPERINTENDENT_COMMISSIONER), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "Superintendent");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.NURSE_PRACTITIONER), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "School Nurse");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.LICENSED_PRACTICAL_NURSE), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "School Nurse");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.REGISTERED_NURSE), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "School Nurse");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICIAL_ADMINISTRATIVE), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "School Administrator");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE), JobClassificationConverter.EdOrgType.SCHOOL), 
-                "School Administrative Support Staff");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICIAL_ADMINISTRATIVE), JobClassificationConverter.EdOrgType.LEA), 
-                "LEA Administrator");
-        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE), JobClassificationConverter.EdOrgType.LEA), 
-                "LEA Administrative Support Staff");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.ATHLETIC_TRAINER)), "Athletic Trainer");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.INTERPRETER)), "Certified Interpreter");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.COUNSELOR)), "Counselor");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.TEACHING_CLASSROOM_AIDE)), "Instructional Aide");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.LIBRARIAN_MEDIA_CONSULTANT)), "Librarians/Media Specialists");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.PRINCIPAL_HEADMASTER_HEADMISTRESS)), "Principal");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.PHYSICAL_THERAPIST)), "Physical Therapist");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.RESPIRATORY_THERAPIST)), "Physical Therapist");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.TEACHER)), "Teacher");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.SUPERINTENDENT_COMMISSIONER)), "Superintendent");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.NURSE_PRACTITIONER)), "School Nurse");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.LICENSED_PRACTICAL_NURSE)), "School Nurse");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.REGISTERED_NURSE)), "School Nurse");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICIAL_ADMINISTRATIVE)), "School Administrator");
+        Assert.assertEquals(converter.convert(getJobClassification(JobClassificationCode.OFFICE_CLERICAL_ADMINISTRATIVE)), "School Administrative Support Staff");
     }
 
     private JobClassification getJobClassification(JobClassificationCode code) {
