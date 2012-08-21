@@ -28,6 +28,13 @@ public class ResourceAccessLog {
     public void logAccessToRestrictedEntity(final UriInfo uriInfo, final Resource resource, final String loggingClass) {
 
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
+
+        if (definition == null) {
+            System.out.print("");
+
+            definition = resourceHelper.getEntityDefinition(resource);
+        }
+
         if (definition.isRestrictedForLogging()) {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(loggingClass,

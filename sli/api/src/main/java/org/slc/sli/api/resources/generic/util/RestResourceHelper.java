@@ -24,10 +24,6 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
 
-    public static final Map<String, String> REST_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
-    static {
-        REST_RESOURCE_NAME_MAPPING.put("staffEducationOrgAssignmentAssociations", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
-    }
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
@@ -74,9 +70,7 @@ public class RestResourceHelper implements ResourceHelper {
     @Override
     public EntityDefinition getEntityDefinition(final Resource resource) {
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-        if (definition == null) {
-            definition = entityDefinitionStore.lookupByResourceName(REST_RESOURCE_NAME_MAPPING.get(resource.getResourceType()));
-        }
+
         return definition;
     }
 
