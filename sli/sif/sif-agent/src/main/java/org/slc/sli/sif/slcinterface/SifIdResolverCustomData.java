@@ -55,14 +55,15 @@ public class SifIdResolverCustomData implements SifIdResolver {
     // private final String STATE_ORG_ID = "IL";
 
     @Value("${sli.sif-agent.zonemap}")
-    String zonemap; // TODO: This is temporary; when we have a clear and approved sif id
+    String zonemap; // TODO: This is temporary; when we have a clear and
+                    // approved sif id
                     // resolution strategy this can get swapped out
 
     private Map<String, SliId> zoneIdToSliIdMap;
 
     /**
-     * Helper class
-     */
+    * Helper class
+    */
     private static class SliId {
         String type, id, field;
 
@@ -118,11 +119,11 @@ public class SifIdResolverCustomData implements SifIdResolver {
         synchronized (lock) {
 
             Map<String, Map<String, String>> idMap = getIdMap(zoneId);
-            if (!idMap.containsKey(sifId+"-"+sliType)) {
+            if (!idMap.containsKey(sifId + "-" + sliType)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId+"-"+sliType));
+            SliId sliId = new SliId(idMap.get(sifId + "-" + sliType));
             return digUpSliGuid(sliId);
         }
     }
@@ -183,7 +184,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
             Map<String, Map<String, String>> idMap = getIdMap(zoneId);
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
-            idMap.put(sifId+"-"+sliType, id.toMap());
+            idMap.put(sifId + "-" + sliType, id.toMap());
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
             String guid = slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
@@ -191,7 +192,8 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     // /**
-    // * Ensures that an edorg has been found that can be used to store custom data
+    // * Ensures that an edorg has been found that can be used to store custom
+    // data
     // */
     // private void ensureEdOrgId() {
     // if (customDataEdOrgId == null) {
@@ -203,7 +205,8 @@ public class SifIdResolverCustomData implements SifIdResolver {
     // }
     // }
     // if (customDataEdOrgId == null) {
-    // throw new RuntimeException("No EdOrg was found with a stateOrganizationId of '" +
+    // throw new
+    // RuntimeException("No EdOrg was found with a stateOrganizationId of '" +
     // STATE_ORG_ID
     // + "'. One is required to support SifIdResolver using custom data.");
     // }
