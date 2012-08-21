@@ -106,7 +106,7 @@ public abstract class SliEntity {
      */
     @JsonIgnore
     public boolean isCreatedByOthers() {
-        return this.creatorRefId!=null && this.creatorRefId.length()>0;
+        return this.creatorRefId != null && this.creatorRefId.length() > 0;
     }
 
     @JsonIgnore
@@ -132,9 +132,9 @@ public abstract class SliEntity {
     // removes all keys from this map that has a null value. If some values are
     // maps,
     // do it recursively
-    private static void clearNullValueKeys(Map m) {
-        Set keySet = m.keySet();
-        Set keysToRemove = new HashSet();
+    private static void clearNullValueKeys(Map<String, Object> m) {
+        Set<String> keySet = m.keySet();
+        Set<Object> keysToRemove = new HashSet<Object>();
         for (Object k : keySet) {
             if (isNullValue(m.get(k))) {
                 keysToRemove.add(k);
@@ -145,8 +145,8 @@ public abstract class SliEntity {
         }
     }
 
-    private static void clearNullValueFromList(List l) {
-        ListIterator it = l.listIterator();
+    private static void clearNullValueFromList(List<?> l) {
+        ListIterator<?> it = l.listIterator();
         while (it.hasNext()) {
             Object o = it.next();
             if (isNullValue(o)) {
@@ -155,16 +155,17 @@ public abstract class SliEntity {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static boolean isNullValue(Object o) {
         if (o == null) {
             return true;
         }
         if (o instanceof Map) {
-            clearNullValueKeys((Map) o);
-            return ((Map) o).isEmpty();
+            clearNullValueKeys((Map<String, Object>) o);
+            return ((Map<?, ?>) o).isEmpty();
         } else if (o instanceof List) {
-            clearNullValueFromList((List) o);
-            return ((List) o).isEmpty();
+            clearNullValueFromList((List<?>) o);
+            return ((List<?>) o).isEmpty();
         }
         return false;
     }
