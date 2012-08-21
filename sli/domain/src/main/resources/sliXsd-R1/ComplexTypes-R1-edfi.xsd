@@ -3541,91 +3541,20 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="graduationPlan">
+    <xs:complexType name="SLI-GraduationPlan">
         <xs:annotation>
-            <xs:documentation>This entity is a plan outlining the required
-                credits, credits by
-                subject, credits by course, and other criteria
-                required for graduation. A
-                graduation
-                plan may be one or more standard
-                plans defined by an education
-                organization and/or
-                individual plans for
-                some or all students.
+            <xs:documentation>This entity is a plan outlining the required credits, credits by subject, credits by
+                course, and other criteria required for graduation. A graduation plan may be one or more standard plans
+                defined by an education organization and/or individual plans for some or all students.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>graduationPlan</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="graduationPlanType">
-                <xs:annotation>
-                    <xs:documentation>The type of academic plan the student is
-                        following for
-                        graduation: for example, Minimum, Recommended,
-                        Distinguished, or
-                        Standard.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="graduationPlanType"/>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="individualPlan" type="xs:boolean"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>An indicator of whether the graduation plan is
-                        tailored for an individual.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="totalCreditsRequired" type="credits">
-                <xs:annotation>
-                    <xs:documentation>The total number of credits required for
-                        graduation
-                        under this plan.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="creditsBySubject" type="creditsBySubject"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The total credits required in subject to
-                        graduate.
-                        Only those courses identified as a high school course
-                        requirement
-                        are eligible to meet subject credit requirements.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="creditsByCourse" type="creditsByCourse"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The total credits required to graduation by
-                        taking a
-                        specific course, or by taking one or more from a set of
-                        courses.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="GraduationPlan">
+                <xs:sequence>
+                    <!-- NOTE SLI GraduationPlan does not contain a student or edOrg reference -->
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="institutionTelephone">
