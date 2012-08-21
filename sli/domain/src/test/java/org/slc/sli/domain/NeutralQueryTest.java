@@ -117,18 +117,9 @@ public class NeutralQueryTest {
         assertFalse(neutralQuery1.equals(neutralQuery2));
         neutralQuery1.addCriteria(new NeutralCriteria("x=2"));
         assertFalse(neutralQuery1.equals(neutralQuery2));
-        neutralQuery2.addCriteria(new NeutralCriteria("x=1"));
+        neutralQuery2.prependCriteria(new NeutralCriteria("x=1"));
         assertTrue(neutralQuery1.equals(neutralQuery2));
 
-
-        NeutralQuery neutralQuery3 = new NeutralQuery(neutralQuery1);
-        neutralQuery1.addOrQuery(neutralQuery3);
-        neutralQuery2.addOrQuery(new NeutralQuery());
-        assertFalse(neutralQuery1.equals(neutralQuery2));
-        neutralQuery2.addOrQuery(neutralQuery3);
-        assertFalse(neutralQuery1.equals(neutralQuery2));
-        neutralQuery1.addOrQuery(new NeutralQuery());
-        assertTrue(neutralQuery1.equals(neutralQuery2));
     }
 
     @Test

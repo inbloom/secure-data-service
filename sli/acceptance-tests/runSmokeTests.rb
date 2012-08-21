@@ -60,6 +60,7 @@ log_dir = "#{dir}/everyLog"
 Dir.mkdir(log_dir) unless File.exists?(log_dir)
 
 jetty_pattern=/Starting scanner at interval of 5 seconds/
+tomcat_pattern=/INFO: Starting Coyote HTTP\/1.1 on http-/
 
 procs = [
   {name: 'API', port: 8080, dir: "#{dir}/api", exec: "mvn -o jetty:run", pattern: jetty_pattern},
@@ -67,7 +68,9 @@ procs = [
   {name: 'Dashboard', port: 8888, dir: "#{dir}/dashboard", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'SimpleIDP', port: 8082, dir: "#{dir}/simple-idp", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle install; bundle exec rails server", pattern: />> Listening on/},
-  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
+  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/},
+  {name: 'MockZIS', port: 8087, dir: "#{dir}/sif/mock-zis", exec: "mvn -o jetty:run", pattern: jetty_pattern},
+  {name: 'SIFAgent', port: 1337, dir: "#{dir}/sif/sif-agent", exec: "mvn -o tomcat:run", pattern: tomcat_pattern}
 ]
 
 procs.each { |p|

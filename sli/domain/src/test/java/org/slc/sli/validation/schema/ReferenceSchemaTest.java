@@ -37,6 +37,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -280,9 +281,35 @@ public class ReferenceSchemaTest {
         }
 
         @Override
+        public boolean doUpdate(String collection, String id, Update update) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+                String collectionName, int noOfRetries) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
         public List<Entity> insert(List<Entity> records, String collectionName) {
             // TODO Auto-generated method stub
             return null;
         }
+
     }
 }

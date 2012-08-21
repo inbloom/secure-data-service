@@ -583,18 +583,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 entityDef.getService().patch(id, copy);
 
                 return Response.status(Status.NO_CONTENT).build();
-
-                // List<EntityBody> finalResults = new ArrayList<EntityBody>();
-                // EntityBody blah = new EntityBody();
-                // blah.put("test", "Hello World");
-                // blah.put("id", id);
-                //
-                // finalResults.add(blah);
-                //
-                // long pagingHeaderTotalCount = 1;
-                // return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
-                // finalResults.get(0))),
-                // pagingHeaderTotalCount, uriInfo).build();
             }
         });
 

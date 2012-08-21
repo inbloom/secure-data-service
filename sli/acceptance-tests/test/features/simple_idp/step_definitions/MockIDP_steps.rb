@@ -85,6 +85,6 @@ Then /^I should see my roles as "(.*?)"$/ do |arg1|
   assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
 
-Then /^I should see my rights as "(.*?)"$/ do |arg1|
+Then /^I should see my rights include "(.*?)"$/ do |arg1|
   assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end

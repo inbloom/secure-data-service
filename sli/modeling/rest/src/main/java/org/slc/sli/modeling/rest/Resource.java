@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Describes a set of {@link Resource}, each identified by a URI that follows a common pattern.
  */
-public final class Resource extends WadlElement {
+public class Resource extends WadlElement {
     private final String id;
     private final List<String> type;
     private final String queryType;

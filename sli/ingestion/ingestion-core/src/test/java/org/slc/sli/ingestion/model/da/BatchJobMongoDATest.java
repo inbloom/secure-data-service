@@ -324,12 +324,12 @@ public class BatchJobMongoDATest {
         Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
         MongoException exception = Mockito.mock(MongoException.class);
         Mockito.when(collection
-                .insert(Mockito.any(DBObject.class))).thenThrow(exception);
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
 
         Mockito.when(exception.getCode()).thenReturn(DUP_KEY_CODE);
         mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
 
-        Mockito.verify(exception).getCode();
+        Mockito.verify(exception, times(2)).getCode();
    }
 
     @Test
@@ -343,14 +343,18 @@ public class BatchJobMongoDATest {
 
         mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
 
-        Mockito.verify(collection).insert(Mockito.any(DBObject.class));
+        Mockito.verify(collection).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
    }
 
     @Test
     public void testRemoveStagedEntityForJob() {
-        BasicDBObject result = new BasicDBObject();
 
-        result.put("recordTypes", new ArrayList<String>());
+        Map<String, Boolean> entitiesMap = new HashMap<String, Boolean>();
+        entitiesMap.put("assessment", Boolean.TRUE);
+        entitiesMap.put("student", Boolean.TRUE);
+
+        BasicDBObject result = new BasicDBObject();
+        result.put("entities", entitiesMap);
 
         DBCollection collection = Mockito.mock(DBCollection.class);
         Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
@@ -359,11 +363,8 @@ public class BatchJobMongoDATest {
                 .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
                         Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
 
-        Assert.assertNotNull(mockBatchJobMongoDA.removeStagedEntityForJob(BATCHJOBID, "student"));
+        Assert.assertTrue(mockBatchJobMongoDA.markStagedEntityComplete(BATCHJOBID, "student"));
    }
-
-
-
 
     private List<Error> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {
         List<Error> errors = new ArrayList<Error>();
@@ -382,6 +383,24 @@ public class BatchJobMongoDATest {
 
         return errors;
     }
+
+    @Test
+    public void testExceptionAttemptTentantLockForJobRetry() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
+        MongoException exception = Mockito.mock(MongoException.class);
+        MongoException duplicateKey = Mockito.mock(MongoException.DuplicateKey.class);
+
+        Mockito.when(collection
+                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception, exception, duplicateKey);
+
+        Mockito.when(exception.getCode()).thenReturn(11222);
+        Mockito.when(duplicateKey.getCode()).thenReturn(11000);
+
+        Assert.assertFalse(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
+
+        Mockito.verify(collection, times(3)).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
+   }
 
     @Test
     public void testExceptionAttemptTentantLockForJob() {

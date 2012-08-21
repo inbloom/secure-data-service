@@ -16,7 +16,7 @@
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/ingestion-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>${logging.path}/ingestion-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
       <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
@@ -28,11 +28,21 @@
     <File>${logging.path}/Security.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>${logging.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="PERF_STATS" class="ch.qos.logback.core.FileAppender">
+    <File>${logging.path}/mongo_perf.log</File>
+    <Append>true</Append>
+    <encoder>
+      <pattern>%date{dd MMM yyyy HH:mm:ss.SSSZ},%msg%n</pattern>
+      <!-- this quadruples logging throughput -->
+      <immediateFlush>false</immediateFlush>
     </encoder>
   </appender>
 
@@ -55,6 +65,10 @@
 
   <logger name="SecurityMonitor" level="INFO">
     <appender-ref ref="SECURITY_FILE" />
+  </logger>
+
+  <logger name="MongoPerformance" level="INFO">
+    <appender-ref ref="PERF_STATS" />
   </logger>
 
   <!-- Do not pollute our logs with awful Smooks / groovy warnings -->

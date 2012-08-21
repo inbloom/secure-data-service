@@ -17,21 +17,410 @@
 package org.slc.sli.aggregation.mapreduce.io;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.RawComparator;
+import org.apache.hadoop.mapreduce.InputFormat;
+import org.apache.hadoop.mapreduce.JobID;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.OutputFormat;
+import org.apache.hadoop.mapreduce.Partitioner;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.TaskAttemptID;
+import org.apache.hadoop.security.Credentials;
 
 /**
  * MockTaskAttemptContext - mock for a mongo hadoop task context instance.
  */
-public class MockTaskAttemptContext extends TaskAttemptContext {
-    
+public class MockTaskAttemptContext implements TaskAttemptContext {
+
+    protected Configuration conf = new Configuration();
+
     public MockTaskAttemptContext() throws IOException {
-        super(new Configuration(), new TaskAttemptID());
-        
         conf.set(MongoAggFormatter.KEY_FIELD, "_id");
         conf.set(MongoAggFormatter.UPDATE_FIELD, "body.name");
         conf.set("mongo.output.uri", "mongodb://test.server:27017/test.collection");
+    }
+
+    @Override
+    public Configuration getConfiguration() {
+        return conf;
+    }
+
+    @Override
+    public Credentials getCredentials() {
+        return null;
+    }
+
+    @Override
+    public JobID getJobID() {
+        return new JobID();
+    }
+
+    @Override
+    public int getNumReduceTasks() {
+        return 0;
+    }
+
+    @Override
+    public Path getWorkingDirectory() throws IOException {
+        return null;
+    }
+
+    @Override
+    public Class<?> getOutputKeyClass() {
+        return null;
+    }
+
+    @Override
+    public Class<?> getOutputValueClass() {
+        return null;
+    }
+
+    @Override
+    public Class<?> getMapOutputKeyClass() {
+        return null;
+    }
+
+    @Override
+    public Class<?> getMapOutputValueClass() {
+        return null;
+    }
+
+    @Override
+    public String getJobName() {
+        return null;
+    }
+
+    @Override
+    public boolean userClassesTakesPrecedence() {
+        return false;
+    }
+
+    @Override
+    public Class<? extends InputFormat<?, ?>> getInputFormatClass() throws ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Class<? extends Mapper<?, ?, ?, ?>> getMapperClass() throws ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Class<? extends Reducer<?, ?, ?, ?>> getCombinerClass() throws ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Class<? extends Reducer<?, ?, ?, ?>> getReducerClass() throws ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Class<? extends OutputFormat<?, ?>> getOutputFormatClass() throws ClassNotFoundException {
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getPartitionerClass
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getPartitionerClass()
+     */
+    @Override
+    public Class<? extends Partitioner<?, ?>> getPartitionerClass() throws ClassNotFoundException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getSortComparator
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getSortComparator()
+     */
+    @Override
+    public RawComparator<?> getSortComparator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getJar
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getJar()
+     */
+    @Override
+    public String getJar() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getGroupingComparator
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getGroupingComparator()
+     */
+    @Override
+    public RawComparator<?> getGroupingComparator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getJobSetupCleanupNeeded
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getJobSetupCleanupNeeded()
+     */
+    @Override
+    public boolean getJobSetupCleanupNeeded() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getProfileEnabled
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getProfileEnabled()
+     */
+    @Override
+    public boolean getProfileEnabled() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getProfileParams
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getProfileParams()
+     */
+    @Override
+    public String getProfileParams() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getUser
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getUser()
+     */
+    @Override
+    public String getUser() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getSymlink
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getSymlink()
+     */
+    @Override
+    public boolean getSymlink() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getArchiveClassPaths
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getArchiveClassPaths()
+     */
+    @Override
+    public Path[] getArchiveClassPaths() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getCacheArchives
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getCacheArchives()
+     */
+    @Override
+    public URI[] getCacheArchives() throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getCacheFiles
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getCacheFiles()
+     */
+    @Override
+    public URI[] getCacheFiles() throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getLocalCacheArchives
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getLocalCacheArchives()
+     */
+    @Override
+    public Path[] getLocalCacheArchives() throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getLocalCacheFiles
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getLocalCacheFiles()
+     */
+    @Override
+    public Path[] getLocalCacheFiles() throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getFileClassPaths
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getFileClassPaths()
+     */
+    @Override
+    public Path[] getFileClassPaths() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getArchiveTimestamps
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getArchiveTimestamps()
+     */
+    @Override
+    public String[] getArchiveTimestamps() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getFileTimestamps
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getFileTimestamps()
+     */
+    @Override
+    public String[] getFileTimestamps() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getMaxMapAttempts
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getMaxMapAttempts()
+     */
+    @Override
+    public int getMaxMapAttempts() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getMaxReduceAttempts
+     *
+     * @see org.apache.hadoop.mapreduce.JobContext#getMaxReduceAttempts()
+     */
+    @Override
+    public int getMaxReduceAttempts() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * progress
+     *
+     * @see org.apache.hadoop.util.Progressable#progress()
+     */
+    @Override
+    public void progress() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getTaskAttemptID
+     *
+     * @see org.apache.hadoop.mapreduce.TaskAttemptContext#getTaskAttemptID()
+     */
+    @Override
+    public TaskAttemptID getTaskAttemptID() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * setStatus
+     *
+     * @see org.apache.hadoop.mapreduce.TaskAttemptContext#setStatus(java.lang.String)
+     */
+    @Override
+    public void setStatus(String msg) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * getStatus
+     *
+     * @see org.apache.hadoop.mapreduce.TaskAttemptContext#getStatus()
+     */
+    @Override
+    public String getStatus() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

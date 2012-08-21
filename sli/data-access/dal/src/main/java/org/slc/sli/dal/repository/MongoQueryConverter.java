@@ -122,6 +122,7 @@ public class MongoQueryConverter {
 
         // =
         this.operatorImplementations.put("=", new MongoCriteriaGenerator() {
+            @Override
             @SuppressWarnings("unchecked")
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 Object value = neutralCriteria.getValue();
@@ -137,6 +138,7 @@ public class MongoQueryConverter {
 
         // =
         this.operatorImplementations.put("in", new MongoCriteriaGenerator() {
+            @Override
             @SuppressWarnings("unchecked")
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
@@ -155,7 +157,7 @@ public class MongoQueryConverter {
         });
 
         this.operatorImplementations.put("nin", new MongoCriteriaGenerator() {
-            @SuppressWarnings("unchecked")
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
@@ -174,6 +176,7 @@ public class MongoQueryConverter {
 
         // >=
         this.operatorImplementations.put(">=", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.gte(neutralCriteria.getValue());
@@ -187,6 +190,7 @@ public class MongoQueryConverter {
 
         // <=
         this.operatorImplementations.put("<=", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.lte(neutralCriteria.getValue());
@@ -200,6 +204,7 @@ public class MongoQueryConverter {
 
         // !=
         this.operatorImplementations.put("!=", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.ne(neutralCriteria.getValue());
@@ -213,6 +218,7 @@ public class MongoQueryConverter {
 
         // =~
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.regex((String) neutralCriteria.getValue());
@@ -226,6 +232,7 @@ public class MongoQueryConverter {
 
         // <
         this.operatorImplementations.put("<", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.lt(neutralCriteria.getValue());
@@ -239,6 +246,7 @@ public class MongoQueryConverter {
 
         // >
         this.operatorImplementations.put(">", new MongoCriteriaGenerator() {
+            @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (criteria != null) {
                     criteria.gt(neutralCriteria.getValue());
@@ -286,12 +294,12 @@ public class MongoQueryConverter {
 
         if (neutralQuery != null) {
             // Include fields
-            if (neutralQuery.getIncludeFieldString() != null) {
-                for (String includeField : neutralQuery.getIncludeFieldString().split(",")) {
+            if (neutralQuery.getIncludeFields() != null) {
+                for (String includeField : neutralQuery.getIncludeFields()) {
                     mongoQuery.fields().include(MONGO_BODY + includeField);
                 }
-            } else if (neutralQuery.getExcludeFieldString() != null) {
-                for (String excludeField : neutralQuery.getExcludeFieldString().split(",")) {
+            } else if (neutralQuery.getExcludeFields() != null) {
+                for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }
             }
@@ -415,8 +423,9 @@ public class MongoQueryConverter {
 
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
-        if (schema == null)
+        if (schema == null) {
             return null;
+        }
 
         switch (schema.getSchemaType()) {
             case STRING:
@@ -462,8 +471,9 @@ public class MongoQueryConverter {
             schema = this.getNestedSchema(schema, field);
             if (schema != null) {
                 LOG.debug("nested schema type is {}", schema.getSchemaType());
-            } else
+            } else {
                 LOG.debug("nested schema type is {}", "NULL");
+            }
         }
 
         return schema;

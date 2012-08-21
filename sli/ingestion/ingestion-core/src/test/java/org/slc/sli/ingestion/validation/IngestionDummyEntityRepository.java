@@ -27,6 +27,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -36,7 +37,7 @@ import org.slc.sli.domain.Repository;
 /**
  * Mock entity repository for testing purposes
  *
- * @author nbrown
+ * @author someone other than nbrown who copied my code and forgot to update the author annotation
  *
  */
 @Component("validationRepo")
@@ -195,6 +196,31 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     @Override
