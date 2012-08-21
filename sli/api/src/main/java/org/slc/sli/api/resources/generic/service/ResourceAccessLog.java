@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.generic.service;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,16 @@ import javax.ws.rs.core.UriInfo;
 @Component
 public class ResourceAccessLog {
 
+
     @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
+    private ResourceHelper resourceHelper;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
     public void logAccessToRestrictedEntity(final UriInfo uriInfo, final Resource resource, final String loggingClass) {
-        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
 
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         if (definition.isRestrictedForLogging()) {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(loggingClass,

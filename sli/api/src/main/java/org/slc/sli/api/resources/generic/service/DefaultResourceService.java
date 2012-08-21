@@ -198,7 +198,7 @@ public class DefaultResourceService implements ResourceService {
 
     @Override
     public String getEntityType(Resource resource) {
-        return entityDefinitionStore.lookupByResourceName(resource.getResourceType()).getType();
+        return resourceHelper.getEntityDefinition(resource).getType();
     }
 
     @Override
@@ -229,7 +229,7 @@ public class DefaultResourceService implements ResourceService {
         final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
-        final ApiQuery apiQuery = getApiQuery(assocEntity, requestUri);
+        final ApiQuery apiQuery = getApiQuery(assocEntity, null);
         apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
 
         final String resourceKey = getConnectionKey(association, resource);
