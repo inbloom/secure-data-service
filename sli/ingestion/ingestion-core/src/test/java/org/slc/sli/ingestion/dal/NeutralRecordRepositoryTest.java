@@ -408,7 +408,7 @@ public class NeutralRecordRepositoryTest {
         assertEquals(2, repository.countByQuery(collectionName, mongoQuery));
     }
 
-    @Test
+    @Test (expected = MongoException.class)
     public void testInsertWithError() {
 
         NeutralRecordRepository mockRepo = Mockito.spy(repository);
@@ -423,7 +423,7 @@ public class NeutralRecordRepositoryTest {
         Mockito.verify(mockRepo, Mockito.times(noOfRetries)).insert(record);
     }
 
-    @Test
+    @Test (expected = DataAccessResourceFailureException.class)
     public void testInsertAllWithError() {
 
         NeutralRecordRepository mockRepo = Mockito.spy(repository);
