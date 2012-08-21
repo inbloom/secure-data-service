@@ -28,6 +28,7 @@ import openadk.library.common.StudentLEARelationship;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -56,6 +57,10 @@ public class StudentLeaRelationshipTranslationTask extends
     @Autowired
     ExitTypeConverter exitTypeConverter;
 
+    @Autowired
+    DateConverter dateConverter;
+
+
     public StudentLeaRelationshipTranslationTask() {
         super(StudentLEARelationship.class);
     }
@@ -75,10 +80,8 @@ public class StudentLeaRelationshipTranslationTask extends
         Integer schoolYear = slr.getSchoolYear();
         result.setSchoolYear(schoolYearConverter.convert(schoolYear));
         Calendar entryDate = slr.getEntryDate();
-        if (entryDate != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            result.setEntryDate(dateFormat.format(entryDate.getTime()));
-        }
+        result.setEntryDate(dateConverter.convert(entryDate));
+
         GradeLevel gradeLevel = slr.getGradeLevel();
         result.setEntryGradeLevel(gradeLevelsConverter.convert(gradeLevel));
 
@@ -86,10 +89,7 @@ public class StudentLeaRelationshipTranslationTask extends
         result.setEntryType(entryTypeConverter.convert(entryType));
 
         Calendar exitDate = slr.getExitDate();
-        if (exitDate != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            result.setExitWithdrawDate(dateFormat.format(exitDate.getTime()));
-        }
+        result.setExitWithdrawDate(dateConverter.convert(exitDate));
 
         ExitType exitType = slr.getExitType();
         result.setExitWithdrawType(exitTypeConverter.convert(exitType));
