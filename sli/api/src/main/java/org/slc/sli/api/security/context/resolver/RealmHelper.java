@@ -75,6 +75,9 @@ public class RealmHelper {
             Entity realm = getRealm(edOrgEntity);
             if (realm != null) {
                 toReturn.add(realm.getEntityId());
+                debug("User is directly associated with realm {} through edorg {}", 
+                        realm.getBody().get("name"),
+                        edOrgEntity.getBody().get("nameOfInstitution"));
             }
         }
 
@@ -136,7 +139,14 @@ public class RealmHelper {
             Entity edorgEntity = repo.findById("educationOrganization", id);
             
             if (isValidForLogin(edorgEntity, realm)) {
+                debug("User is allowed to login to realm {} through edorg {}", 
+                        realm.getBody().get("name"),
+                        edorgEntity.getBody().get("nameOfInstitution"));
                 return true;
+            } else {
+                debug("User cannot login to realm {} through edorg {}", 
+                        realm.getBody().get("name"),
+                        edorgEntity.getBody().get("nameOfInstitution"));
             }
         }
     
