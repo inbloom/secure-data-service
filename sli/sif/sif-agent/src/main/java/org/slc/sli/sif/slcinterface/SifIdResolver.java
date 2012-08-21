@@ -34,6 +34,19 @@ public interface SifIdResolver {
     public String getSliGuid(String sifId, String zoneId);
 
     /**
+     * Given a sif reference id, returns the sli guid of the entity of the corresponding sli type
+     *
+     * This allows to find a sli guid by using the combination of sif reference id and a sli type
+     *
+     * @param sifId
+     * @param sliType
+     * @param zoneId
+     *            TODO
+     * @return The SLI guid if the entity exists in SLI, null otherwise
+     */
+    public String getSliGuidForType(String sifId, String sliType, String zoneId);
+
+    /**
      * Given a sif reference id, returns corresponding sli entity
      *
      * @param sifId
@@ -62,4 +75,18 @@ public interface SifIdResolver {
      *            TODO
      */
     public void putSliGuid(String sifId, String sliType, String sliId, String zoneId);
+
+    /**
+     * Given a sif reference id and the guid and type of the corresponding entity,
+     * saves the association.
+     *
+     * This allows later to find a sli guid by using the combination of sif reference id and a sli type
+     *
+     * @param sifId
+     * @param sliType
+     * @param sliId
+     * @param zoneId
+     *            TODO
+     */
+    public void putSliGuidForType(String sifId, String sliType, String sliId, String zoneId);
 }

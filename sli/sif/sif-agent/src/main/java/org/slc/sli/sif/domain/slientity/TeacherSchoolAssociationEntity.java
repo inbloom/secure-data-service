@@ -18,10 +18,6 @@ package org.slc.sli.sif.domain.slientity;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.sif.slcinterface.SifIdResolver;
-
 /**
  * Represents the teacherSchoolAssociation in SLI datamodel
  *
@@ -37,9 +33,6 @@ public class TeacherSchoolAssociationEntity extends SliEntity {
     // optional fields
     private List<String> instructionalGradeLevels;
     private List<String> academicSubjects;
-
-    @Autowired
-    SifIdResolver sifIdResolver;
 
     /**
      * Constructor
