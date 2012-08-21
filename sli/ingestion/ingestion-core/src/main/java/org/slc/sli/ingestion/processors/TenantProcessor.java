@@ -205,7 +205,9 @@ public class TenantProcessor implements Processor {
     boolean preLoad(String landingZone, List<String> preLoadedFiles) {
         File landingZoneDir = new File(landingZone);
         try {
-            landingZoneDir.createNewFile();
+            if (!landingZoneDir.exists()) {
+                landingZoneDir.createNewFile();
+            }
         } catch (IOException e) {
             LOG.error("Could not create landing zone", e);
             return false;
