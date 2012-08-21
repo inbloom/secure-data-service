@@ -374,7 +374,7 @@ public class EntityRepositoryTest {
         assertEquals(1, repository.count("student", neutralQuery));
     }
 
-    @Test
+    @Test (expected = MongoException.class)
     public void testCreateRetryWithError() {
 
         Repository<Entity> mockRepo = Mockito.spy(repository);
@@ -382,15 +382,17 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         int noOfRetries = 5;
 
-        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).create("student", studentBody, studentMetaData, "student");
-        Mockito.doCallRealMethod().when(mockRepo).createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo)
+                .create("student", studentBody, studentMetaData, "student");
+        Mockito.doCallRealMethod().when(mockRepo)
+                .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
 
         mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
 
         Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
     }
 
-    @Test
+    @Test (expected = InvalidDataAccessApiUsageException.class)
     public void testUpdateRetryWithError() {
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
@@ -398,7 +400,8 @@ public class EntityRepositoryTest {
         Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
         int noOfRetries = 3;
 
-        Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo).update("student", entity);
+        Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo)
+                .update("student", entity);
         Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
 
         mockRepo.updateWithRetries("student", entity, noOfRetries);
