@@ -45,7 +45,7 @@ public class PublicOnePartResource extends OnePartResource {
     @Override
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        return handleGet(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
+        return handleGetAll(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 

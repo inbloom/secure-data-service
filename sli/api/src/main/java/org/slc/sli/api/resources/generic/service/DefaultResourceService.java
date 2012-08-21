@@ -190,6 +190,16 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    public void patchEntity(Resource resource, String id, EntityBody entity) {
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
+
+        EntityBody copy = new EntityBody(entity);
+        copy.remove(ResourceConstants.LINKS);
+
+        definition.getService().patch(id, copy);
+    }
+
+    @Override
     public void deleteEntity(Resource resource, String id) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 

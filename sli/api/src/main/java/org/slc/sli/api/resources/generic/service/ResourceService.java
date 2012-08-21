@@ -27,6 +27,8 @@ public interface ResourceService {
 
     public void putEntity(Resource resource, String id, EntityBody entity);
 
+    public void patchEntity(Resource resource, String id, EntityBody entity);
+
     public void deleteEntity(Resource resource, String id);
 
     public String getEntityType(Resource resource);

@@ -1,13 +1,12 @@
 package org.slc.sli.api.resources.generic;
 
-import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.ResourceService;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.util.PATCH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -19,9 +18,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Resource for handling two part URIs
@@ -75,6 +71,23 @@ public class TwoPartResource extends GenericResource {
                 return Response.status(Response.Status.NO_CONTENT).build();
             }
         });
+    }
+
+    @PATCH
+    public Response patch(@PathParam("id") final String id,
+                          final EntityBody entityBody,
+                          @Context final UriInfo uriInfo) {
+
+        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PATCH, new ResourceLogic() {
+
+            @Override
+            public Response run(Resource resource) {
+                resourceService.patchEntity(resource, id, entityBody);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
+
     }
 
 }
