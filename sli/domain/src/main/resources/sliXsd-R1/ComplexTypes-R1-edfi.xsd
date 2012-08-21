@@ -620,7 +620,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="educationOrganization">
+            <xs:extension base="SLI-EducationOrganization">
                 <xs:sequence>
                     <xs:element name="LEACategory" type="LEACategoryType">
                         <xs:annotation>
@@ -1486,7 +1486,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="educationOrganization"/>
+            <xs:extension base="SLI-EducationOrganization"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -1590,6 +1590,9 @@
         <xs:complexContent>
             <xs:extension base="StudentAcademicRecord">
                 <xs:sequence>
+                    <!-- NOTE in SLI is '+' in Ed-Fi is '-'
+                      +SLI-CourseTranscript -SessionCreditsEarned -SessionCreditsAttempted -SessionGradePointsEarned
+                      -SessionGradePointAverage -StudentReference(inherited) -ReportCardReference -Diploma -->
                     <xs:element name="SLI-CourseTranscript" type="SLI-CourseTranscript" minOccurs="0"
                                 maxOccurs="unbounded">
                         <xs:annotation>
