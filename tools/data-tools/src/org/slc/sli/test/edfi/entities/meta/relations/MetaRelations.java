@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -51,6 +52,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
@@ -69,6 +71,7 @@ public final class MetaRelations {
     public static boolean INTERCHANGE_ASSESSMENT_META_DATA = true;
     public static boolean INTERCHANGE_STUDENT_ASSESSMENT = true;
     public static boolean INTERCHANGE_STUDENT_GRADE = true;
+    public static String XSDVersionPath ="1.0.04";
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -184,6 +187,8 @@ public final class MetaRelations {
         }
       
         try {
+        	
+        XSDVersionPath = String.valueOf(XSDVersionPath);
         INTERCHANGE_ED_ORG = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG", "true"));
         INTERCHANGE_ED_ORG_CALENDAR = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG_CALENDAR", "true"));
         INTERCHANGE_MASTER_SCHEDULE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_MASTER_SCHEDULE", "true"));
@@ -728,6 +733,7 @@ public final class MetaRelations {
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
                     sectionMapForSchool.put(sectionMeta.id, sectionMeta);
                     SECTION_MAP.put(sectionMeta.id, sectionMeta);
+
                 }
             }
         }
@@ -926,7 +932,7 @@ public final class MetaRelations {
         for (StudentMeta studentMeta : studentsForSchool.values()) {
             
             // TODO students should not belong to simultaneous sections
-            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) {
+            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) { //
                 if (sectionCounter >= sectionMetas.length) {
                     sectionCounter = 0;
                 }
@@ -937,6 +943,42 @@ public final class MetaRelations {
 //                studentMeta.sectionIds.add(sectionMeta.id);
 //            }
         }
+        
+        
+    }
+    
+//    private static void addSectionsToStudents(Map<String, SectionMeta> sectionsForSchool,
+//            Map<String, StudentMeta> studentsForSchool) {
+//    	
+//    }
+    
+    
+    private static void addSectionsToStudents(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, StudentMeta> studentsForSchool) {
+//    	Object [] superSectionMetas = new Object[];
+        Object[] sectionMetas = sectionsForSchool.values().toArray();
+        List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
+        Object [] superSectionMetas = new Object[sectionMetas.length];
+        int sectionCounter = 0;
+        
+        for (SectionMeta sectionMeta : sectionsForSchool.values()) {
+            
+            // TODO students should not belong to simultaneous sections
+            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) { //
+                if (sectionCounter >= sectionMetas.length) {
+                    sectionCounter = 0;
+                }
+                superSectionMetas[i] = new SuperSectionMeta(sectionMeta.id, sectionMeta, studentMetas);
+                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+               // studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                sectionCounter++;
+            }
+//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
+//                studentMeta.sectionIds.add(sectionMeta.id);
+//            }
+        }
+        
+        
     }
     
     /**

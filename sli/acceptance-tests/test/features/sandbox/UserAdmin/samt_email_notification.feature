@@ -45,6 +45,7 @@ When I click button "Save"
 Then a "Success" message is displayed 
 And a verify email notification is sent to user
 
+# This was manually tested in RC and it works as described. It is not possible to test this locally email server does not reject invalid email.
 @wip
 Scenario: An admin creates an account with a invalid email, initial notification is sent, exception caught
 Given I have access to SAMT tool
