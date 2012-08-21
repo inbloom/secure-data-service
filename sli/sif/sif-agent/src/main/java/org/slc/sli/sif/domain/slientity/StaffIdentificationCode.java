@@ -32,12 +32,12 @@ public class StaffIdentificationCode {
 
     }
 
-    @JsonProperty("id")
+    @JsonProperty("ID")
     public String getID() {
         return this.id;
     }
 
-    @JsonProperty("id")
+    @JsonProperty("ID")
     public void setID(String id) {
         this.id = id;
     }
