@@ -34,12 +34,21 @@ import org.slc.sli.sif.domain.slientity.StaffIdentificationCode;
  * A customized converter to convert SIF HrOtherIdList to SLI StaffIdentificationCode list.
  *
  * SLI values:
- * Main
- * Administrative
- * HealthClinic
- * Attendance
- * Other
- * Fax
+ *  Drivers License
+ *  Health Record
+ *  Medicaid
+ *  Professional Certificate
+ *  School
+ *  District
+ *  State
+ *  Federal
+ *  Other Federal
+ *  Selective Service
+ *  SSN
+ *  US Visa
+ *  PIN
+ *  Canadian SIN
+ *  Other
  *
  * @author slee
  *

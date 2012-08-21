@@ -32,6 +32,23 @@ import org.slc.sli.sif.domain.slientity.StaffIdentificationCode;
 /**
  * A customized converter to convert SIF OtherIdList to SLI StaffIdentificationCode list.
  *
+ * SLI values:
+ *  Drivers License
+ *  Health Record
+ *  Medicaid
+ *  Professional Certificate
+ *  School
+ *  District
+ *  State
+ *  Federal
+ *  Other Federal
+ *  Selective Service
+ *  SSN
+ *  US Visa
+ *  PIN
+ *  Canadian SIN
+ *  Other
+ *
  * @author vmcglaughlin
  *
  */
@@ -85,7 +102,7 @@ public class OtherIdListConverter {
     /**
      * Converts the SIF OtherIdList into a list of SLI StaffIdentificationCodes
      *
-     * @param phoneNumberList
+     * @param otherIdList
      * @return
      */
     public List<StaffIdentificationCode> convert(OtherIdList otherIdList) {
