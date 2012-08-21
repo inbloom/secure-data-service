@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.security;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,6 +24,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -37,6 +40,10 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -53,6 +60,8 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class UserResource {
 
+    private static final Logger LOG = LoggerFactory.getLogger("audit");
+
     @Autowired
     private LdapService ldapService;
 
@@ -67,6 +76,26 @@ public class UserResource {
 
     @Autowired
     private SecurityUtilProxy secUtil;
+
+    private static final String API_APPLICATION_ID = "API";
+    private SecurityEvent createSecurityEvent(String logMessage) {
+        SecurityEvent event = new SecurityEvent();
+        event.setAppId(API_APPLICATION_ID);
+        event.setClassName(this.getClass().getName());
+        event.setTimeStamp(DateTimeUtil.getNowInUTC());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setLogLevel(LogLevelType.TYPE_INFO);
+        event.setLogMessage(logMessage);
+        event.setUser(secUtil.getUid());
+        try {
+            event.setExecutedOn(LoggingUtils.getCanonicalHostName());
+        } catch (RuntimeException e) {
+            event.setLogLevel(LogLevelType.TYPE_TRACE);
+            event.setLogMessage("Runtime exception: " + e.getLocalizedMessage());
+        }
+        event.setTenantId(secUtil.getTenantId());
+        return event;
+    }
 
     @POST
     public final Response create(final User newUser) {
@@ -84,6 +113,8 @@ public class UserResource {
         } catch (NameAlreadyBoundException e) {
             return Response.status(Status.CONFLICT).build();
         }
+
+        LOG.info(createSecurityEvent("Created user " + newUser.getUid()).toString());
         return Response.status(Status.CREATED).build();
     }
 
@@ -132,6 +163,8 @@ public class UserResource {
         }
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
+
+        LOG.info(createSecurityEvent("Updated user " + updateUser.getUid()).toString());
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -146,6 +179,8 @@ public class UserResource {
         }
 
         ldapService.removeUser(realm, uid);
+
+        LOG.info(createSecurityEvent("Deleted user " + uid).toString());
         return Response.status(Status.NO_CONTENT).build();
     }
 
