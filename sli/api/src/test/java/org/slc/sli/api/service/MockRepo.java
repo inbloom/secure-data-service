@@ -36,6 +36,7 @@ import org.bson.BasicBSONObject;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -631,5 +632,17 @@ public class MockRepo implements Repository<Entity> {
         }
 
         return (List<String>) obj;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

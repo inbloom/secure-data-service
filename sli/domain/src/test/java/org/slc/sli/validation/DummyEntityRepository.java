@@ -27,6 +27,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -204,9 +205,22 @@ public class DummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

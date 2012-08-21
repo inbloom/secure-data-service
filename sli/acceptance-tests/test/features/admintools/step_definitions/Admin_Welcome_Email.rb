@@ -31,7 +31,9 @@ Before do
 end
 
 After do |scenario|
-  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  unless @do_not_run_after
+    cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  end
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
@@ -186,7 +188,7 @@ def create_user(uid_prefix, groups, mode)
   }
   if (["SLC Operator", "Sandbox SLC Operator"] & groups).empty?
     new_user["tenant"] = "Midgar"
-    new_user["edorg"] = "IL"
+    new_user["edorg"] = "IL-DAYBREAK"
   end
   puts "creating user = #{new_user}"
   restHttpPost("/users", new_user.to_json, format, sessionId)

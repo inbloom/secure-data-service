@@ -142,7 +142,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getEntities(String token, String type, String ids, Map<String, String> params) {
-        return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
+    	return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
     }
 
     /**
@@ -558,7 +558,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getSection(String token, String id) {
-        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id, id);
+        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id);
         ensureSectionName(section);
         return section;
     }
@@ -1089,7 +1089,6 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
-
         try {
             List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
@@ -1111,7 +1110,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     protected GenericEntity readEntity(String token, String url, String id) {
-        if ((id == null) || (id.length() <= 0)) {
+    	if ((id == null) || (id.length() <= 0)) {
             return null;
         } else {
             return readEntity(token, url);
@@ -1127,7 +1126,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     public List<GenericEntity> readEntityList(String token, String url) {
-        List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
+    	List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
             List<Entity> entityList = getClient(token).read(url);
             for (Entity entity : entityList) {
