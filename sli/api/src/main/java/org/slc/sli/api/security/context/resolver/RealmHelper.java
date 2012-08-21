@@ -89,10 +89,14 @@ public class RealmHelper {
      * @return
      */
     public Entity getRealm(Entity edOrg) {
-        return repo.findOne("realm", 
-                new NeutralQuery(new NeutralCriteria("edOrg", "=", edOrg.getBody().get("stateOrganizationId"))));
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("edOrg", "=", edOrg.getBody().get("stateOrganizationId")));
+        query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", edOrg.getMetaData().get("tenantId"), false));
+        return repo.findOne("realm", query);
+                
     }
 
+    
     /**
      * Determine if the user is allowed to login to the specified realm.
      * 
