@@ -29,7 +29,7 @@ public class ThreePartResource extends GenericResource {
     public Response get(@Context final UriInfo uriInfo,
                         @PathParam("id") final String id) {
 
-         return handleGet(uriInfo, ResourceTemplate.THREE_PART, ResourceMethod.GET, new GetResourceLogic() {
+         return handleGetAll(uriInfo, ResourceTemplate.THREE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
                 final Resource base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.THREE_PART);
