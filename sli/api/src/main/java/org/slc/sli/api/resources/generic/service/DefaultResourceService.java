@@ -9,7 +9,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.slc.sli.modeling.uml.ClassType;
 
-import javax.ws.rs.core.MultivaluedMap;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
