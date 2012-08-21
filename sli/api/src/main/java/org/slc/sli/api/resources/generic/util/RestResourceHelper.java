@@ -27,6 +27,7 @@ public class RestResourceHelper implements ResourceHelper {
     public static final Map<String, String> REST_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
     static {
         REST_RESOURCE_NAME_MAPPING.put("staffEducationOrgAssignmentAssociations", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
+        REST_RESOURCE_NAME_MAPPING.put("studentAssessments",ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS);
     }
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
