@@ -77,28 +77,28 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
 
 
 
-        if (sa.getJobClassification() != null) {
-
-            if (staffGuid != null) {
-                seoae.setStaffReference(staffGuid);
-                // there is no school info attached in EmployeeAssignment
-                // but educationOrganizationReference in StaffEducationOrganizationAssociationEntity must be set
-                // Let's set it to the SEA corresponding to the zone
-                // It is expected that educationOrganizationReference will be set correctly
-                // by StaffAssignment that will be received later
-                seoae.setEducationOrganizationReference(sifIdResolver.getZoneSea(zoneId));
-            }
-            if (sa.getJobStartDate() != null) {
-                seoae.setBeginDate(DATE_FORMAT.format(sa.getJobStartDate().getTime()));
-
-            }
-            if (sa.getJobEndDate() != null) {
-                seoae.setEndDate(DATE_FORMAT.format(sa.getJobEndDate().getTime()));
-
-            }
-            seoae.setStaffClassification(jobClassificationConverter.convert(sa.getJobClassification()));
-
-        }
+//        if (sa.getJobClassification() != null) {
+//
+//            if (staffGuid != null) {
+//                seoae.setStaffReference(staffGuid);
+//                // there is no school info attached in EmployeeAssignment
+//                // but educationOrganizationReference in StaffEducationOrganizationAssociationEntity must be set
+//                // Let's set it to the SEA corresponding to the zone
+//                // It is expected that educationOrganizationReference will be set correctly
+//                // by StaffAssignment that will be received later
+//                seoae.setEducationOrganizationReference(sifIdResolver.getZoneSea(zoneId));
+//            }
+//            if (sa.getJobStartDate() != null) {
+//                seoae.setBeginDate(DATE_FORMAT.format(sa.getJobStartDate().getTime()));
+//
+//            }
+//            if (sa.getJobEndDate() != null) {
+//                seoae.setEndDate(DATE_FORMAT.format(sa.getJobEndDate().getTime()));
+//
+//            }
+//            seoae.setStaffClassification(jobClassificationConverter.convert(sa.getJobClassification()));
+//
+//        }
 
         // Now we check if the JobClassification is "Teacher" and
         // if  a HrProgramType is set in the EmployeeAssignment
@@ -106,34 +106,34 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
         // to catch the HrProgramType
         TeacherEntity te = new TeacherEntity();
         TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
-        if (seoae.getStaffClassification().equals("Teacher") && sa.getProgramType() != null) {
-
-            if (staffGuid != null) {
-                // A staff entity is previously created
-                // Now we knoe this staff is a 'Teacher' from the StaffClassification
-                // So we need to create TeacherEntity to catch it
-                // By setting TeacherEntity's setCreatorRefId
-                // The previous StaffEntity will be merged into the new TeacherEntity
-                te.setCreatorRefId(sa.getEmployeePersonalRefId());
-                // now we need a way to set TeacherId for TeacherSchoolAssociationEntity
-                // which must be set to the newly created teacherGuid
-                tsae.setZoneId(zoneId);
-                tsae.setOtherSifRefId(sa.getEmployeePersonalRefId());
-                // again, since there is no school info attached in EmployeeAssignment
-                // but schoolId in TeacherSchoolAssociationEntity must be set
-                // Let's set it to the SEA corresponding to the zone
-                // It is expected that schoolId will be set correctly
-                // by StaffAssignment that will be received later
-                tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
-            }
-            //convert sa.getProgramType()
-
-        }
+//        if (seoae.getStaffClassification().equals("Teacher") && sa.getProgramType() != null) {
+//
+//            if (staffGuid != null) {
+//                // A staff entity is previously created
+//                // Now we knoe this staff is a 'Teacher' from the StaffClassification
+//                // So we need to create TeacherEntity to catch it
+//                // By setting TeacherEntity's setCreatorRefId
+//                // The previous StaffEntity will be merged into the new TeacherEntity
+//                te.setCreatorRefId(sa.getEmployeePersonalRefId());
+//                // now we need a way to set TeacherId for TeacherSchoolAssociationEntity
+//                // which must be set to the newly created teacherGuid
+//                tsae.setZoneId(zoneId);
+//                tsae.setOtherSifRefId(sa.getEmployeePersonalRefId());
+//                // again, since there is no school info attached in EmployeeAssignment
+//                // but schoolId in TeacherSchoolAssociationEntity must be set
+//                // Let's set it to the SEA corresponding to the zone
+//                // It is expected that schoolId will be set correctly
+//                // by StaffAssignment that will be received later
+//                tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
+//            }
+//            //convert sa.getProgramType()
+//
+//        }
 
         List<SliEntity> list = new ArrayList<SliEntity>(3);
         list.add(seoae);
-        list.add(te);
-        list.add(tsae);
+//        list.add(te);
+//        list.add(tsae);
         return list;
     }
 
