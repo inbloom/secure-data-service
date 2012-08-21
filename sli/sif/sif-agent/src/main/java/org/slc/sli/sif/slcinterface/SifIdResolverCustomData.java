@@ -134,11 +134,11 @@ public class SifIdResolverCustomData implements SifIdResolver {
         synchronized (lock) {
 
             Map<String, Map<String, String>> idMap = getIdMap(zoneId);
-            if (!idMap.containsKey(sifId+"-"+sliType)) {
+            if (!idMap.containsKey(sifId + "-" + sliType)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId+"-"+sliType));
+            SliId sliId = new SliId(idMap.get(sifId + "-" + sliType));
             return digUpSliEntity(sliId);
         }
     }
