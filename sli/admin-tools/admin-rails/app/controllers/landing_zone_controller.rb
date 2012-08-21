@@ -38,6 +38,9 @@ class LandingZoneController < ApplicationController
     if APP_CONFIG["is_sandbox"]
       ed_org_id = params[:ed_org]
       ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+      sample_data_select = params[:sample_data_select]
+      logger.info("received the sample data selection is: #{sample_data_select}")
+      logger.info("received the edorg selection is: #{ed_org_id}")
     else
       ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
     end
@@ -55,6 +58,7 @@ class LandingZoneController < ApplicationController
 
   def index
     @edOrgs = LandingZone.possible_edorgs
+    @sample_data =LandingZone.possible_sample_data
   end
   
   def handle_validation_error(exception)
