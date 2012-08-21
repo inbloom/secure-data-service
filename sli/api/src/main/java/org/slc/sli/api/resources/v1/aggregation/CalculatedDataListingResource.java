@@ -21,8 +21,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.api.spring.Autowire;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CalculatedDatum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Resource for displaying aggregate listings
