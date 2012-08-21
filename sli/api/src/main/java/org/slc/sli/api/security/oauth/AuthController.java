@@ -215,7 +215,7 @@ public class AuthController {
             HttpServletResponse res, Model model) throws IOException {
 
         String realmId = getRealmId(sessionId);
-        boolean forceAuthn = (sessionId != null && realmId != null) ? false : true;
+        boolean forceAuthn = (sessionId != null && realmId != null && !isSessionExpired(sessionId)) ? false : true;
 
         //Ugly, but we need both sudo access and full tenant access
         Entity realmEnt = SecurityUtil.sudoRun(new SecurityTask<Entity>() {
@@ -282,6 +282,22 @@ public class AuthController {
         }
 
         return realmId;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isSessionExpired(final String sessionId) {
+        boolean isExpired = true;
+        if (sessionId != null) {
+            Entity session = sessionManager.getSession(sessionId);
+            if (session != null) {
+                Map<String, Object> body = session.getBody();
+                long expiration = (Long) body.get("expiration");
+                long hardLogout = (Long) body.get("hardLogout");
+                long now = System.currentTimeMillis();
+                isExpired = (now >= expiration || now >= hardLogout);
+            }
+        }
+        return isExpired;
     }
 
     @SuppressWarnings("unused")
