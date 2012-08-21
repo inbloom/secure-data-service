@@ -27,7 +27,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 When I click on the Logout link
-Then I am redirected to a page that informs me that I have signed out
+#Then I am redirected to a page that informs me that I have signed out
 And I am forced to reauthenticate to access the databrowser
 
 @smoke

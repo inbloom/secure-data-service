@@ -58,31 +58,35 @@ public abstract class RetryMongoCommand {
             } catch (MongoException me) {
                 noOfRetries = handleException(me.getCode(), noOfRetries, totalRetries, me);
                 if (noOfRetries <= 0) {
+                    LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
                     throw me;
                 }
             } catch (DataAccessResourceFailureException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 if (noOfRetries <= 0) {
+                    LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
                     throw ex;
                 }
             } catch (InvalidDataAccessApiUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 if (noOfRetries <= 0) {
+                    LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
                     throw ex;
                 }
             } catch (InvalidDataAccessResourceUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 if (noOfRetries <= 0) {
+                    LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
                     throw ex;
                 }
             } catch (UncategorizedMongoDbException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
                 if (noOfRetries <= 0) {
+                    LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
                     throw ex;
                 }
             }
         }
-        LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
         return result;
     }
 

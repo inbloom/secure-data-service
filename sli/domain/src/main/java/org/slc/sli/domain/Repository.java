@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain;
 
 import java.util.List;
@@ -26,7 +25,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
-
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -162,6 +161,38 @@ public interface Repository<T> {
     public boolean update(String collection, T object);
 
     /**
+     * Make an update to an entity.
+     * Note, this does not go through the validator, caller is expected to ensure the update will
+     * keep the object valid
+     * It also does not encrypt values, so it cannot be used to update PII data
+     *
+     * @param collection
+     *            the collection the entity is in
+     * @param id
+     *            the id of the entity
+     * @param update
+     *            the update to make
+     * @return whether or not the object was updated
+     */
+    public boolean doUpdate(String collection, String id, Update update);
+
+    /**
+     * Make an update to a single entity through a query
+     * Note, this does not go through the validator, caller is expected to ensure the update will
+     * keep the object valid
+     * It also does not encrypt values, so it cannot be used to update PII data
+     *
+     * @param collection
+     *            the collection the entity is in
+     * @param query
+     *            the query to make
+     * @param update
+     *            the update to make
+     * @return whether or not the object was updated
+     */
+    public boolean doUpdate(String collection, NeutralQuery query, Update update);
+
+    /**
      * @param collectionName
      *            the name of the collection to delete from
      * @param id
@@ -178,7 +209,8 @@ public interface Repository<T> {
     /**
      * Execute a mongo command
      *
-     * @param command the command to execute
+     * @param command
+     *            the command to execute
      * @return the result of that command
      */
     public abstract CommandResult execute(DBObject command);
@@ -186,7 +218,8 @@ public interface Repository<T> {
     /**
      * Get the actual db collection
      *
-     * @param collectionName the collection name
+     * @param collectionName
+     *            the collection name
      * @return the mongo db collection
      */
     public DBCollection getCollection(String collectionName);
@@ -225,14 +258,17 @@ public interface Repository<T> {
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max);
 
-    /**check if the collection exists in database
+    /**
+     * check if the collection exists in database
      *
-     * @param collection: name of the collection
+     * @param collection
+     *            : name of the collection
      * @return
      */
     public boolean collectionExists(String collection);
 
-    /**Create a collection
+    /**
+     * Create a collection
      *
      * @param collection
      */
@@ -241,8 +277,10 @@ public interface Repository<T> {
     /**
      * ensureIndex for a collection the database
      *
-     * @param index   : the index to be ensured
-     * @param collection : name of collection
+     * @param index
+     *            : the index to be ensured
+     * @param collection
+     *            : name of collection
      */
     public void ensureIndex(IndexDefinition index, String collection);
 
@@ -255,6 +293,7 @@ public interface Repository<T> {
 
     /**
      * Support configurability of performing refrence checking as a part of schema validation
+     *
      * @param referenceCheck
      */
     public void setReferenceCheck(String referenceCheck);

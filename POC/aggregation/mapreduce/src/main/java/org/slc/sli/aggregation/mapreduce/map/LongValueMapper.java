@@ -24,6 +24,8 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
 
+import org.slc.sli.aggregation.util.BSONUtilities;
+
 /**
  * LongValueMapper - mongo value mapper that emits long values.
  */
@@ -40,7 +42,7 @@ class LongValueMapper extends ValueMapper {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue(entity, fieldName);
+            value = BSONUtilities.getValue(entity, fieldName);
             if (value != null) {
                 rval = new LongWritable(Long.parseLong(value.toString()));
             }

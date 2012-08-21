@@ -36,24 +36,28 @@ import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
 
-    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
+    //private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
 
-    private static final String SCHEMAS[] = {
-            "Interchange-AssessmentMetadata.xsd",
-            "Interchange-EducationOrgCalendar.xsd",
-            "Interchange-EducationOrganization.xsd",
-            "Interchange-HSGeneratedStudentTranscript.xsd",
-            "Interchange-MasterSchedule.xsd",
-            "Interchange-StaffAssociation.xsd",
-            "Interchange-Student.xsd",
-            "Interchange-StudentAssessment.xsd",
-            "Interchange-StudentAttendance.xsd",
-            "Interchange-StudentCohort.xsd",
-            "Interchange-StudentDiscipline.xsd",
-            "Interchange-StudentEnrollment.xsd",
-            "Interchange-StudentGrade.xsd",
-            "Interchange-StudentParent.xsd",
-            "Interchange-StudentProgram.xsd" };
+	private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";
+	
+	private static final String SCHEMAS[] = { "Interchange-Section.xsd"};
+	
+//    private static final String SCHEMAS[] = {
+//            "Interchange-AssessmentMetadata.xsd",
+//            "Interchange-EducationOrgCalendar.xsd",
+//            "Interchange-EducationOrganization.xsd",
+//            "Interchange-HSGeneratedStudentTranscript.xsd",
+//            "Interchange-MasterSchedule.xsd",
+//            "Interchange-StaffAssociation.xsd",
+//            "Interchange-Student.xsd",
+//            "Interchange-StudentAssessment.xsd",
+//            "Interchange-StudentAttendance.xsd",
+//            "Interchange-StudentCohort.xsd",
+//            "Interchange-StudentDiscipline.xsd",
+//            "Interchange-StudentEnrollment.xsd",
+//            "Interchange-StudentGrade.xsd",
+//            "Interchange-StudentParent.xsd",
+//            "Interchange-StudentProgram.xsd" };
 
     public static String check(String xmlDir) throws Exception {
 
@@ -72,14 +76,20 @@ public class ValidateSchema {
                         .replace(".xml", "");
                 if (schemaMap.get(baseName) != null) {
                     String schemaFile = schemaMap.get(baseName);
-
-                    SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                   
+                   SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                    //SchemaFactory factory = SchemaFactory.newInstance("http://slcedu.org/schema/0100");
+                    
                     File schemaLocation = new File(schemaFile);
+                    
                     Schema schema = factory.newSchema(schemaLocation);
+                    
                     Validator validator = schema.newValidator();
                     Source source = new StreamSource(file);
-
+                    
+                
                     final Map<String, List<Integer>> errorReport = new HashMap<String, List<Integer>>();
+                    
                     try {
 
                             validator.setErrorHandler(new ErrorHandler() {
@@ -87,16 +97,20 @@ public class ValidateSchema {
                             @Override
                             public void warning(SAXParseException exception) throws SAXException {
                                 handle(exception);
+                              
                             }
 
                             @Override
                             public void fatalError(SAXParseException exception) throws SAXException {
                                 handle(exception);
+                               
                             }
 
                             @Override
                             public void error(SAXParseException exception) throws SAXException {
+                               
                                 handle(exception);
+                                
                             }
                                                         
                             private void handle(SAXParseException exception) {

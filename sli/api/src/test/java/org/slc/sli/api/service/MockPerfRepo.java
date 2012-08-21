@@ -27,6 +27,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -164,6 +165,18 @@ public class MockPerfRepo implements Repository<Entity> {
     @Override
     public long count(String collectionName, Query query) {
         return 0;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 

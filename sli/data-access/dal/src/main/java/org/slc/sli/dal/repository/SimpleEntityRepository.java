@@ -26,6 +26,7 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -187,6 +188,18 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
     public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName, int noOfRetries) {
         // TODO Auto-generated method stub
@@ -198,5 +211,4 @@ public class SimpleEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

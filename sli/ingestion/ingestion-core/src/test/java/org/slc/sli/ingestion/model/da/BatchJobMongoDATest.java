@@ -348,9 +348,13 @@ public class BatchJobMongoDATest {
 
     @Test
     public void testRemoveStagedEntityForJob() {
-        BasicDBObject result = new BasicDBObject();
 
-        result.put("recordTypes", new ArrayList<String>());
+        Map<String, Boolean> entitiesMap = new HashMap<String, Boolean>();
+        entitiesMap.put("assessment", Boolean.TRUE);
+        entitiesMap.put("student", Boolean.TRUE);
+
+        BasicDBObject result = new BasicDBObject();
+        result.put("entities", entitiesMap);
 
         DBCollection collection = Mockito.mock(DBCollection.class);
         Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
@@ -359,11 +363,8 @@ public class BatchJobMongoDATest {
                 .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
                         Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean())).thenReturn(result);
 
-        Assert.assertNotNull(mockBatchJobMongoDA.removeStagedEntityForJob(BATCHJOBID, "student"));
+        Assert.assertTrue(mockBatchJobMongoDA.markStagedEntityComplete(BATCHJOBID, "student"));
    }
-
-
-
 
     private List<Error> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {
         List<Error> errors = new ArrayList<Error>();
