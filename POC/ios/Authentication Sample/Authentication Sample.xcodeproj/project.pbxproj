@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C83686CB15E3E08E00455303 /* NOTICE in Resources */ = {isa = PBXBuildFile; fileRef = C83686CA15E3E08E00455303 /* NOTICE */; };
 		C8EF501915616B000063510A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8EF501815616B000063510A /* UIKit.framework */; };
 		C8EF501B15616B000063510A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8EF501A15616B000063510A /* Foundation.framework */; };
 		C8EF501D15616B000063510A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8EF501C15616B000063510A /* CoreGraphics.framework */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C83686CA15E3E08E00455303 /* NOTICE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTICE; sourceTree = "<group>"; };
 		C8EF501415616B000063510A /* Authentication Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Authentication Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8EF501815616B000063510A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C8EF501A15616B000063510A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -171,6 +173,7 @@
 		C8EF500915616B000063510A = {
 			isa = PBXGroup;
 			children = (
+				C83686CA15E3E08E00455303 /* NOTICE */,
 				C8EF501E15616B000063510A /* Authentication Sample */,
 				C8EF504215616B010063510A /* Authentication SampleTests */,
 				C8EF501715616B000063510A /* Frameworks */,
@@ -420,6 +423,7 @@
 				C8EF503215616B010063510A /* MasterViewController.xib in Resources */,
 				C8EF503515616B010063510A /* DetailViewController.xib in Resources */,
 				C8EF507A15618A620063510A /* README-GHUnit in Resources */,
+				C83686CB15E3E08E00455303 /* NOTICE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
