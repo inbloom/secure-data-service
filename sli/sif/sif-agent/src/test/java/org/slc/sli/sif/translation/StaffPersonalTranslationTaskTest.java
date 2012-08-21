@@ -19,8 +19,6 @@ package org.slc.sli.sif.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.AddressList;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
@@ -40,6 +38,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
@@ -64,7 +63,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * @author slee
  *
  */
-public class StaffPersonalTranslationTaskTest {
+public class StaffPersonalTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final StaffPersonalTranslationTask translator = new StaffPersonalTranslationTask();
@@ -102,13 +101,10 @@ public class StaffPersonalTranslationTaskTest {
     @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
+    @Override
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
+        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

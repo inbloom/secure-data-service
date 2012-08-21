@@ -18,6 +18,10 @@ package org.slc.sli.sif.domain.slientity;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.sif.slcinterface.SifIdResolver;
+
 /**
  * Represents the teacherSchoolAssociation in SLI datamodel
  *
@@ -34,6 +38,9 @@ public class TeacherSchoolAssociationEntity extends SliEntity {
     private List<String> instructionalGradeLevels;
     private List<String> academicSubjects;
 
+    @Autowired
+    SifIdResolver sifIdResolver;
+
     /**
      * Constructor
      */
@@ -42,6 +49,12 @@ public class TeacherSchoolAssociationEntity extends SliEntity {
     }
 
     public String getTeacherId() {
+
+        if (getZoneId() != null && getOtherSifRefId() != null) {
+            String teacherGuid = sifIdResolver.getSliGuid(getOtherSifRefId(), getZoneId());
+            return teacherGuid;
+        }
+
         return this.teacherId;
     }
 
