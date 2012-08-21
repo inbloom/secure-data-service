@@ -154,6 +154,11 @@ public abstract class SliEntity {
         this.otherSifRefId = otherSifRefId;
     }
 
+    @JsonIgnore
+    public boolean hasOtherSifRefId() {
+        return this.otherSifRefId != null && this.otherSifRefId.length() > 0;
+    }
+
     /**
      * Output this object as a JSON String
      */

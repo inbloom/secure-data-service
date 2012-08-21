@@ -39,7 +39,7 @@ public class TeacherSchoolAssociationEntity extends SliEntity {
     private List<String> academicSubjects;
 
     @Autowired
-    SifIdResolver sifIdResolver;
+    private SifIdResolver sifIdResolver;
 
     /**
      * Constructor

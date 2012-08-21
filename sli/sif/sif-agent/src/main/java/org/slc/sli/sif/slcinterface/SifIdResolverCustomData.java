@@ -113,6 +113,21 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
+    public String getSliGuidByType(String sifId, String sliType, String zoneId) {
+
+        synchronized (lock) {
+
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            if (!idMap.containsKey(sifId+"-"+sliType)) {
+                return null;
+            }
+
+            SliId sliId = new SliId(idMap.get(sifId+"-"+sliType));
+            return digUpSliGuid(sliId);
+        }
+    }
+
+    @Override
     public Entity getSliEntity(String sifId, String zoneId) {
 
         synchronized (lock) {
@@ -151,6 +166,24 @@ public class SifIdResolverCustomData implements SifIdResolver {
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
             idMap.put(sifId, id.toMap());
+
+            GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
+            String guid = slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
+        }
+    }
+
+    @Override
+    public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId) {
+
+        synchronized (lock) {
+
+            String seaGuid = getZoneSea(zoneId);
+
+            // check if it is in the map
+            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
+
+            idMap.put(sifId+"-"+sliType, id.toMap());
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
             String guid = slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");

@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
+import org.slc.sli.sif.domain.slientity.TeacherEntity;
+import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
@@ -72,6 +74,9 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
         // If yes, then a StaffEducationOrganizationAssociationEntity should be created
         // to catch the JobClassification
         StaffEducationOrganizationAssociationEntity seoae = new StaffEducationOrganizationAssociationEntity();
+
+
+
 //        if (sa.getJobClassification() != null) {
 //
 //            if (staffGuid != null) {
@@ -99,8 +104,8 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
         // if  a HrProgramType is set in the EmployeeAssignment
         // If yes, then a TeacherSchoolAssociationEntity should be created
         // to catch the HrProgramType
-//        TeacherEntity te = new TeacherEntity();
-//        TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
+        TeacherEntity te = new TeacherEntity();
+        TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
 //        if (seoae.getStaffClassification().equals("Teacher") && sa.getProgramType() != null) {
 //
 //            if (staffGuid != null) {
