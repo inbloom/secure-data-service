@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.slc.sli.modeling.uml.ClassType;
 
-import javax.ws.rs.core.MultivaluedMap;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
