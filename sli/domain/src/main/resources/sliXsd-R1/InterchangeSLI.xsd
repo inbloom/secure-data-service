@@ -20,7 +20,6 @@
 			<xs:sequence>
 				<xs:element name="action" type="interchangeAction" default="POST" />
 				<xs:choice maxOccurs="unbounded">
-
 					<xs:element name="assessment" type="assessment" />
 					<xs:element name="SLI-Cohort" type="SLI-Cohort" />
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
