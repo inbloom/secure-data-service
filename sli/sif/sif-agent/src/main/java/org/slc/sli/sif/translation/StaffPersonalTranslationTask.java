@@ -93,7 +93,6 @@ public class StaffPersonalTranslationTask extends AbstractTranslationTask<StaffP
         e.setOtherName(otherNameConverter.convert(sp.getOtherNames()));
         e.setStaffIdentificationCode(hrOtherIdListConverter.convert(sp.getOtherIdList()));
 
-
         if (demographics != null) {
             e.setBirthData(birthDataConverter.convert(demographics));
             e.setRace(raceListConverter.convert(demographics.getRaceList()));

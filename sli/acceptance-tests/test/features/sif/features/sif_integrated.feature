@@ -180,3 +180,62 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
      | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
      | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
+
+Scenario: Add an Employee
+Given the following collections are clean and bootstrapped in datastore:
+     | collectionName    |
+     | staff             |
+And I want to POST a(n) "sifEvent_EmployeePersonal_add" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile            |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_add |
+
+Scenario: Update an Employee
+Given I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile               |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_change |
+
+ Scenario: Add an Staff with existing employee record
+And I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile               |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_add_exist |
+
+Scenario: Change a Staff record
+And I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile            |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_change |

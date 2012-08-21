@@ -69,10 +69,16 @@ task :sifStudentPersonalTest => [:realmInit] do
   runTests("test/features/sif/features/sif_StudentPersonal.feature")
 end
 
-desc "Run SIF Staff Tests"
-task :sifStaffTest => [:realmInit] do
+desc "Run SIF StaffPersonal Tests"
+task :sifStaffPersonalTest => [:realmInit] do
   Rake::Task["importSifBootstrapData"].execute
-  runTests("test/features/sif/features/sif_Staff.feature")
+  runTests("test/features/sif/features/sif_StaffPersonal.feature")
+end
+
+desc "Run SIF EmployeePersonal Tests"
+task :sifEmployeePersonalTest => [:realmInit] do
+  Rake::Task["importSifBootstrapData"].execute
+  runTests("test/features/sif/features/sif_EmployeePersonal.feature")
 end
 
 ############################################################
