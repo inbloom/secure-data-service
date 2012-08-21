@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -30,6 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -265,6 +270,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
             } catch (DataAccessResourceFailureException darfe) {
                 LOG.error("Exception processing record with entityPersistentHandler", darfe);
+            } catch (InvalidDataAccessApiUsageException  ex) {
+                LOG.error("Exception processing record with entityPersistentHandler", ex);
+            } catch (InvalidDataAccessResourceUsageException  ex) {
+                LOG.error("Exception processing record with entityPersistentHandler", ex);
+            } catch (MongoException  me) {
+                LOG.error("Exception processing record with entityPersistentHandler", me);
+            } catch (UncategorizedMongoDbException ex) {
+                LOG.error("Exception processing record with entityPersistentHandler", ex);
             }
 
             if (errorReportForNrEntity.hasErrors()) {

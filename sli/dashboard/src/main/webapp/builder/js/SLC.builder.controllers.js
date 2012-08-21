@@ -21,12 +21,12 @@
 
 // Header Controller
 function headerCtrl() {
-	$("#header").load("/dashboard/s/m/header");
+	$("#header").load("../s/m/header");
 }
 
 // Footer Controller
 function footerCtrl() {
-	$("#footer").load("/dashboard/s/m/footer");
+	$("#footer").load("../s/m/footer");
 }
 
 // Profile List Controller

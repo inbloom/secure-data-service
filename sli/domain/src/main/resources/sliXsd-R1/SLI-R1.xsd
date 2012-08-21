@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- 
 <xs:schema xmlns:sli="http://slcedu.org/schema/0100" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            attributeFormDefault="qualified" elementFormDefault="qualified">
-
+ -->
+ 
+ <xs:schema xmlns:sli="http://slcedu.org/schema/0100" xmlns:xs="http://www.w3.org/2001/XMLSchema"  targetNamespace="http://slc-sli/ed-org/0.1"
+           attributeFormDefault="qualified" elementFormDefault="qualified">
+           
+           
   <xs:include schemaLocation="ComplexTypes-R1.xsd" />
 
   <!-- The top-level elements for the SLI database schema representation. -->
@@ -11,7 +17,6 @@
   <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
   <xs:element name="course" type="course" />
   <xs:element name="educationOrganization" type="educationOrganization" />
-  
   <xs:element name="gradingPeriod" type="gradingPeriod" />
   <xs:element name="graduationPlan" type="graduationPlan" />
   <xs:element name="learningObjective" type="learningObjective" />

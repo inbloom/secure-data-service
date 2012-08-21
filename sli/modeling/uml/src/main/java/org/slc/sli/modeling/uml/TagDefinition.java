@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A UML TagDefinition defines a the type of a TaggedValue.
  */
-public final class TagDefinition extends NamespaceOwnedElement implements HasMultiplicity {
+public class TagDefinition extends NamespaceOwnedElement implements HasMultiplicity {
     
     private final Multiplicity multiplicity;
     

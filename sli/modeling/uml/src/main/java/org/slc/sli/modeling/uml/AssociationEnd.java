@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * The end of an association between two classes.
  */
-public final class AssociationEnd extends Feature {
+public class AssociationEnd extends Feature {
     /**
      * Determines whether the association is navigable in this direction.
      */
