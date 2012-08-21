@@ -95,7 +95,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             + "$&exclude=\\.in\\.*&preMove="
             + inboundDir + "/.done&moveFailed=" + inboundDir
             + "/.error"
-            + "&readLock=fileLock&readLockCheckInterval=1000")
+            + "&readLock=changed&readLockCheckInterval=1000")
                     .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
                     .process(filePreProcessor)
                     .choice()
