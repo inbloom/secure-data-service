@@ -38,6 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -87,6 +88,9 @@ public class EntityPersistHandlerTest {
     private final Iterable<Entity> schoolFound = schoolList;
     private final LinkedList<Entity> studentSchoolAssociationList = new LinkedList<Entity>();
     private final Iterable<Entity> studentSchoolAssociationFound = studentSchoolAssociationList;
+
+    @Value("${sli.ingestion.totalRetries}")
+    private int totalRetries;
 
     @Before
     public void setup() {
@@ -148,12 +152,12 @@ public class EntityPersistHandlerTest {
         List<Entity> le = new ArrayList<Entity>();
         le.add(studentEntity);
         when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(le);
-        when(entityRepository.update(studentEntity.getType(), studentEntity)).thenReturn(true);
+        when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
-        verify(entityRepository).update(studentEntity.getType(), studentEntity);
+        verify(entityRepository).updateWithRetries(studentEntity.getType(), studentEntity, totalRetries);
 
         //Test student entity without entity ID, so that repository will create a new one
         le.clear();
@@ -162,8 +166,8 @@ public class EntityPersistHandlerTest {
 
         entityPersistHandler.doHandling(studentEntity2, fr);
 
-        verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
-                "student");
+        verify(entityRepository).createWithRetries(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
+                "student", totalRetries);
 
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
@@ -189,13 +193,13 @@ public class EntityPersistHandlerTest {
         when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(
                 Arrays.asList((Entity) existingStudentEntity));
 
-        when(entityRepository.update("student", studentEntity)).thenReturn(true);
+        when(entityRepository.updateWithRetries("student", studentEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
-        verify(entityRepository).update("student", studentEntity);
+        verify(entityRepository).updateWithRetries("student", studentEntity, totalRetries);
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
@@ -218,7 +222,7 @@ public class EntityPersistHandlerTest {
 
         ValidationError error = new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, "field", null,
                 new String[] { "String" });
-        when(entityRepository.update("student", studentEntity)).thenThrow(
+        when(entityRepository.updateWithRetries("student", studentEntity, totalRetries)).thenThrow(
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
         entityPersistHandler.setEntityRepository(entityRepository);
@@ -270,9 +274,9 @@ public class EntityPersistHandlerTest {
         entityPersistHandler.setEntityRepository(entityRepository);
         studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
-        verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
+        verify(entityRepository).createWithRetries(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
-                studentSchoolAssociationEntity.getType());
+                studentSchoolAssociationEntity.getType(), totalRetries);
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
@@ -314,13 +318,13 @@ public class EntityPersistHandlerTest {
         when(entityRepository.findAllByPaths(eq("studentSchoolAssociation"), eq(studentSchoolAssociationFilterFields), any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList((Entity) existingStudentSchoolAssociationEntity));
 
-        when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
+        when(entityRepository.updateWithRetries("studentSchoolAssociation", studentSchoolAssociationEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
-        verify(entityRepository).update("studentSchoolAssociation", studentSchoolAssociationEntity);
+        verify(entityRepository).updateWithRetries("studentSchoolAssociation", studentSchoolAssociationEntity, totalRetries);
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
@@ -462,9 +466,9 @@ public class EntityPersistHandlerTest {
         entityPersistHandler.setEntityRepository(entityRepository);
         teacherSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
-        verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
+        verify(entityRepository).createWithRetries(teacherSchoolAssociationEntity.getType(),
                 teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),
-                teacherSchoolAssociationEntity.getType());
+                teacherSchoolAssociationEntity.getType(), totalRetries);
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 

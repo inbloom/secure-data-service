@@ -59,6 +59,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
 
+    @Value("${sli.ingestion.totalRetries}")
+    private int totalRetries;
+
     @Autowired
     private SchemaRepository schemaRepository;
 
@@ -106,14 +109,14 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         if (entity.getEntityId() != null) {
 
-            if (!entityRepository.update(collectionName, entity)) {
+            if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
             }
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName);
+            return entityRepository.createWithRetries(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName, totalRetries);
         }
     }
 

@@ -23,6 +23,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.io.Files;
@@ -93,6 +95,8 @@ public class TenantProcessor implements Processor {
             updateLzRoutes();
 
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_SUCCESS);
+
+            doPreloads();
 
         } catch (Exception e) {
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_FAILURE);
@@ -198,10 +202,12 @@ public class TenantProcessor implements Processor {
      *            the files to preload
      * @return whether or not every file was successfully preloaded
      */
-    public boolean preLoad(String landingZone, List<String> preLoadedFiles) {
+    boolean preLoad(String landingZone, List<String> preLoadedFiles) {
         File landingZoneDir = new File(landingZone);
         try {
-            landingZoneDir.createNewFile();
+            if (!landingZoneDir.exists()) {
+                landingZoneDir.createNewFile();
+            }
         } catch (IOException e) {
             LOG.error("Could not create landing zone", e);
             return false;
@@ -228,6 +234,25 @@ public class TenantProcessor implements Processor {
             return result;
         }
         return false;
+    }
+
+    /**
+     * Perform preloading
+     *
+     * @return
+     */
+    boolean doPreloads() {
+        try {
+            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles(getHostname());
+            boolean result = true;
+            for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
+                result &= preLoad(entry.getKey(), entry.getValue());
+            }
+            return result;
+        } catch (UnknownHostException e) {
+            LOG.error("Error preloading files", e);
+            return false;
+        }
     }
 
     String getSampleDataSetDirectory() {

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * The meta-data for a class.
  */
-public final class ClassType extends ComplexType implements Navigable {
+public class ClassType extends ComplexType implements Navigable {
     private static final List<Attribute> EMPTY_ATTRIBUTE_LIST = Collections.emptyList();
     
     /**

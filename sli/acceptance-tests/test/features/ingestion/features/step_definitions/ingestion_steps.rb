@@ -548,24 +548,23 @@ def copyFilesInDir(file_name)
       end
     end
   end
-
 end
 
 #get the max number of errors or warnings to be written to error or warning log
-def getMaxErrorWarnCount
-    maxError = 0
-    maxWarning = 0
-    file=File.open(INGESTION_PROPERTIES_FILE,"r") 
-    file.each_line do |line|
-       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
-          maxError = line[line.rindex('=')+1,line.length-1]
-       end
-       if(line.rindex('sli.ingestion.warningsCountPerInterchange'))
-          maxWarning = line[line.rindex('=')+1, line.length-1]
-       end
-    end
-    return Integer(maxError), Integer(maxWarning)
-end
+#def getMaxErrorWarnCount
+#    maxError = 0
+#    maxWarning = 0
+#    file=File.open(INGESTION_PROPERTIES_FILE,"r") 
+#    file.each_line do |line|
+#       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
+#          maxError = line[line.rindex('=')+1,line.length-1]
+#       end
+#       if(line.rindex('sli.ingestion.warningsCountPerInterchange'))
+#          maxWarning = line[line.rindex('=')+1, line.length-1]
+#       end
+#    end
+#    return Integer(maxError), Integer(maxWarning)
+#end
 
 #get the number of errors actually be written to error log
 def getErrorCount
@@ -586,6 +585,8 @@ def getErrorCount
     end
     return resourceToErrorCount
 end
+
+
 
 #get the number of warnings actually be written to warning log
 def getWarnCount
@@ -608,9 +609,11 @@ def getWarnCount
 end
     
 #check if the actually error count is less than the max error count
-def verifyErrorCount
-   maxError, maxWarn = getMaxErrorWarnCount
+def verifyErrorCount(count)
+   maxError = Integer(count)
 
+   puts "maxError = "
+   puts maxError
    resourceToErrorCount = Hash.new(0)
    resourceToErrorCount = getErrorCount
 
@@ -625,9 +628,11 @@ def verifyErrorCount
 end
 
 #check if the actually warn count is less than the max warn count
-def verifyWarnCount
-   maxError, maxWarn = getMaxErrorWarnCount
+def verifyWarnCount(count)
+   maxWarn = Integer(count)
 
+   puts "maxWarn = "
+   puts maxWarn
    resourceToWarnCount = Hash.new(0)
    resourceToWarnCount = getWarnCount
 
@@ -640,12 +645,14 @@ def verifyWarnCount
     end
 end
 
-Given /^I should see the number of errors in error log  is no more than the error count limitation$/ do
-   verifyErrorCount
+
+Given /^I should see the number of errors in error log is no more than the error count limitation (\d+)$/ do |count|
+   puts "shan"
+   verifyErrorCount(count)
 end
 
-Given /^I should see the number of warnings in warn log  is no more than the warningss count limitation$/ do
-   verifyWarnCount
+Given /^I should see the number of warnings in warn log is no more than the warning count limitation (\d+)$/ do |count|
+   verifyWarnCount(count)
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|

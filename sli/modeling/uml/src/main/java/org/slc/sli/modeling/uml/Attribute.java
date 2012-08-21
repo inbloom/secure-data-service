@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A feature of a class which is embedded.
  */
-public final class Attribute extends Feature {
+public class Attribute extends Feature {
 
     public Attribute(final Identifier id, final String name, final Identifier type, final Multiplicity multiplicity,
             final List<TaggedValue> taggedValues) {

@@ -24,13 +24,15 @@ import org.bson.BasicBSONObject;
 import org.bson.types.BasicBSONList;
 import org.junit.Test;
 
+import org.slc.sli.aggregation.util.BSONUtilities;
+
 /**
  * BSONValueLookupTest
  *
- * Extends BSONValueLookup to avoid emma coverage report mis-reporting that the constructor
- * has no converage. BSONValueLookup holds static helper functions only.
+ * Extends BSONUtilities to avoid emma coverage report mis-reporting that the constructor
+ * has no converage. BSONUtilities holds static helper functions only.
  */
-public class BSONValueLookupTest extends BSONValueLookup {
+public class BSONValueLookupTest extends BSONUtilities {
 
     @Test
     public void testGetValue() {
@@ -47,7 +49,7 @@ public class BSONValueLookupTest extends BSONValueLookup {
         body.put("body", profile);
         root.put("root", body);
 
-        assertEquals(BSONValueLookup.getValue(root, "root.body.profile.name.first"), "George");
+        assertEquals(BSONUtilities.getValue(root, "root.body.profile.name.first"), "George");
     }
 
     @Test
@@ -64,7 +66,7 @@ public class BSONValueLookupTest extends BSONValueLookup {
         body.put("body", list);
         root.put("root", body);
 
-        String[] values = BSONValueLookup.getValues(root,  "root.body");
+        String[] values = BSONUtilities.getValues(root,  "root.body");
         assertNotNull(values);
         assertEquals(values.length, 3);
     }
@@ -72,7 +74,7 @@ public class BSONValueLookupTest extends BSONValueLookup {
     @Test
     public void testSetValue() {
 
-        BSONObject root = BSONValueLookup.setValue("root.body.profile.name.first", "George");
+        BSONObject root = BSONUtilities.setValue("root.body.profile.name.first", "George");
         assertNotNull(root);
         BSONObject body = (BSONObject) root.get("body");
         assertNotNull(body);

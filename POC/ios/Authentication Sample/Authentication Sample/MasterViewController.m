@@ -55,21 +55,29 @@
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
+- (void)startOauth {
+    //OAuth Check
+    OAuthViewController *vc = [[OAuthViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController *modal = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentModalViewController:modal animated:YES];
+    [vc release];
+    [modal release];
+}
+
+- (void)loadStudents {
+    NSString *url = [NSString stringWithFormat:@"%@students", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"apiBase"]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
+    [request setDelegate:self];
+    [request startAsynchronous];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
     if(![OAuthViewController isAuthenticated]) {
-        //OAuth Check
-        OAuthViewController *vc = [[OAuthViewController alloc] initWithNibName:nil bundle:nil];
-        UINavigationController *modal = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentModalViewController:modal animated:YES];
-        [vc release];
-        [modal release];
+        [self startOauth];
     }
     else {
-        NSString *url = [NSString stringWithFormat:@"%@students", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"apiBase"]];
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-        [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
-        [request setDelegate:self];
-        [request startAsynchronous];
+        [self loadStudents];
                                    
     }
 }
@@ -158,6 +166,33 @@
     NSLog(@"Student list received");
     _objects = [[request responseString] JSONValue];
     [self.tableView reloadData];
+}
+
+- (void) requestFailed:(ASIHTTPRequest *)request {
+    //Find out why?
+    if (request.responseStatusCode == 401) {
+        //401 means we need to log in. So that's what we'll do.
+        NSLog(@"Token has expired, attempting to get a new one");
+        [self startOauth];
+    }
+    else {
+        //Friendly neighborhood alert.
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Failed" message:@"There has been a problem fetching the data you need" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Try again", nil];
+        [alert show];
+    }
+}
+
+/**
+ * Alert View Delegate
+ */
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            [self loadStudents];
+            break;
+        default:
+            break;
+    }
 }
 
 @end

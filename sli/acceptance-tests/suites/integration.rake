@@ -31,13 +31,20 @@ task :rcSamtTests do
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
 end
 
+desc "Run RC Cleanup"
+task :rcCleanUpTests do
+  runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
+end
+
 desc "Run RC Tests"
-task :rcTests => [:rcSamtTests,
-                  :rcProvisioningTests,
-                  :rcIngestionTests, 
-                  :rcAppApprovalTests,
-                  :rcDashboardTests
-                  ] do
+task :rcTests do
+  OTHER_TAGS = OTHER_TAGS+" --tags @rc"
+  Rake::Task["rcSamtTests"].execute
+  Rake::Task["rcProvisioningTests"].execute
+  Rake::Task["rcIngestionTests"].execute
+  Rake::Task["rcAppApprovalTests"].execute
+  Rake::Task["rcDashboardTests"].execute
+  
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

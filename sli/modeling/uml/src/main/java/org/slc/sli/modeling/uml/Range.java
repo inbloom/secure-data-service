@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Provides the lower and upper bounds for a type.
  */
-public final class Range extends ModelElement {
+public class Range extends ModelElement {
     /**
      * The lower bound of the attribute. Typically 0 or 1. Never <code>null</code>.
      */
