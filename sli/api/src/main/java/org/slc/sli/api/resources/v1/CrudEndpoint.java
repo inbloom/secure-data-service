@@ -150,15 +150,6 @@ public interface CrudEndpoint {
     public Response delete(String resourceName, String id, HttpHeaders headers, UriInfo uriInfo);
 
     /**
-     * Returns a sub resource responsible for handling custom entity requests.
-     *
-     * @param id
-     *            ID of object being deleted
-     * @return a sub resource responsible for handling custom entity requests
-     */
-    public CustomEntityResource getCustomEntityResource(String id);
-
-    /**
      * Patches a given entity in a specific location or collection, which means that
      * less than the full entity body is passed in the request and only passed keys are
      * updated and the rest of the entity remains the same.
