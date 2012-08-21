@@ -17,7 +17,7 @@
             </ns2:resource>
             <ns2:resource path="{id}/aggregates" resourceClass="org.slc.sli.api.resources.aggregation.AggregateListingResource">
                 <ns2:method id="read" name="GET"/>
-            </ns2:resource> -->
+            </ns2:resource>-->
             <ns2:method id="create" name="POST"/>
             <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
