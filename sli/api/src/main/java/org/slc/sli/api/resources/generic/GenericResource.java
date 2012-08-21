@@ -111,10 +111,12 @@ public abstract class GenericResource {
         //get the page count
         long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri());
 
-        //add the paging headers and return the data
-        return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resource), entities)),
-                pagingHeaderTotalCount, uriInfo).build();
+        // TODO change this?
+        final Object retVal = entities.size() == 1 ? entities.get(0) : entities;
 
+        //add the paging headers and return the data
+        return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resource), retVal)),
+                pagingHeaderTotalCount, uriInfo).build();
     }
 
     protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
