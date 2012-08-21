@@ -25,7 +25,6 @@ import com.mongodb.MongoException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -43,10 +42,7 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class RetryMongoCommandTest {
 
-    private MongoTemplate mockedGoodMongoTemplate;
-    private MongoTemplate mockedBadMongoTemplate;
-    private MongoTemplate mockedNotSoBadMongoTemplate;
-    private MongoTemplate mockedDuplicateMongoTemplate;
+    private static final int MONGO_DUPLICATE_KEY_CODE_1 = 11000;
     MongoEntity student;
     int count;
 
@@ -77,10 +73,10 @@ public class RetryMongoCommandTest {
         count = 0;
         try {
             found = findOneWithRetries("bad_student", new NeutralQuery(), tries);
-            fail();
-        } catch (Exception ex) {
             assertEquals(3, count);
             assertNull(found);
+       } catch (Exception ex) {
+            fail();
         }
     }
 
@@ -146,7 +142,7 @@ public class RetryMongoCommandTest {
 
     public Entity create(final Entity record, final String collectionName) {
         count++;
-        throw new MongoException(RetryMongoCommand.MONGO_DUPLICATE_KEY_ERROR, "Duplicate key");
+        throw new MongoException(MONGO_DUPLICATE_KEY_CODE_1, "Duplicate key");
     }
 
     private Entity createWithRetries(final Entity record, final String collectionName, int retries) throws Exception {

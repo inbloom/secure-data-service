@@ -18,6 +18,8 @@ package org.slc.sli.dal;
 
 import com.mongodb.MongoException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
@@ -25,35 +27,64 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 /**
  * Way to retry mongo commands
  *
- * @author tshewchuk
+ * @author Tom Shewchuk tshewchuk@wgen.net
  *
  */
 public abstract class RetryMongoCommand {
+
+    protected static final int MONGO_DUPLICATE_KEY_CODE_1 = 11000;
+    protected static final int MONGO_DUPLICATE_KEY_CODE_2 = 11001;
+
+    protected static final Logger LOG = LoggerFactory.getLogger(RetryMongoCommand.class);
+    protected int totalRetries;
+
+    /**
+     * Retry executing a mongo command until successful or retries are exhausted.
+     *
+     * @param noOfRetries
+     *            Designated number of times to retry command.
+     *
+     * @return Object
+     *         Return value of execute method.
+     * @throws Exception
+     */
     public Object executeOperation(int noOfRetries) {
         Object result = null;
+        totalRetries = noOfRetries;
         while (noOfRetries > 0) {
             try {
-               result = execute();
+                result = execute();
                 break;
-            } catch (MongoException  me) {
+            } catch (MongoException me) {
                 noOfRetries = handleException(me.getCode(), noOfRetries, me);
-            } catch (DataAccessResourceFailureException  ex) {
+            } catch (DataAccessResourceFailureException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
-            } catch (InvalidDataAccessApiUsageException  ex) {
+            } catch (InvalidDataAccessApiUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
-            } catch (InvalidDataAccessResourceUsageException  ex) {
+            } catch (InvalidDataAccessResourceUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
             }
         }
+        LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
         return result;
     }
 
-    private int handleException(int code, int noOfRetries, Exception ex) {
-        if (code == 11000 | code == 11001) {
+    private int handleException(int code, int noOfRetries, Exception ex) throws MongoException {
+        int retryNum = (totalRetries - noOfRetries) + 1;
+        LOG.debug("RetryMongoCommand: Exception caught at attempt #" + retryNum + " of " + totalRetries, ex);
+        if (code == MONGO_DUPLICATE_KEY_CODE_1 | code == MONGO_DUPLICATE_KEY_CODE_2) {
             throw (MongoException) ex;
         }
         return --noOfRetries;
 
     }
+
+    /**
+     * The method to be retried by executeOperation, implemented within mongo command code
+     * elsewhere.
+     *
+     * @return Object
+     *         Return value of execute method implemented within mongo command elsewhere.
+     */
     public abstract Object execute();
 }
