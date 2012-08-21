@@ -24,6 +24,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
  * IDMapper
@@ -46,9 +47,10 @@ public class IDMapper extends Mapper<IdFieldEmittableKey, BSONWritable, IdFieldE
         // Values in the getIdNames Set are dot-separated Mongo field names.
         Text[] idFieldNames = id.getFieldNames();
         for (Text field : idFieldNames) {
-            String value = BSONValueLookup.getValue(entity, field.toString());
+            String value = BSONUtilities.getValue(entity, field.toString());
             if (value != null) {
-                identifier.put(field, new Text(value));
+                identifier.setFieldName(field.toString());
+                identifier.setId(new Text(value));
             }
         }
         context.write(identifier, entity);

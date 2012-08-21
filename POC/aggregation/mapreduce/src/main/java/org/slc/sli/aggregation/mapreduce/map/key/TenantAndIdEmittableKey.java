@@ -67,14 +67,18 @@ public class TenantAndIdEmittableKey extends EmittableKey {
 
     @Override
     public void readFields(DataInput data) throws IOException {
+        fieldNames[TENANT_FIELD] = new Text(data.readLine());
         setTenantId(new Text(data.readLine()));
+        fieldNames[ID_FIELD] = new Text(data.readLine());
         setId(new Text(data.readLine()));
     }
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(getTenantId().toString());
-        data.writeBytes(getId().toString());
+        data.writeBytes(getTenantIdField().toString() + "\n");
+        data.writeBytes(getTenantId().toString() + "\n");
+        data.writeBytes(getIdField().toString() + "\n");
+        data.writeBytes(getId().toString() + "\n");
     }
 
     @Override

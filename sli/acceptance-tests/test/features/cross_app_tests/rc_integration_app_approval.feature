@@ -21,7 +21,7 @@ Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page  
+When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -94,6 +94,7 @@ And I entered the name "1.o" into the field titled "Version"
 And I entered the name "McDerp" into the field titled "Vendor"
 And I entered the name "http://localhost" into the field titled "Application_URL"
 And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
+And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
@@ -102,12 +103,11 @@ And I enable my app for all districts
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 
-
-Scenario:  Daybreakadmin approves Dashboard and Databrowser
+Scenario:  LEA approves Dashboard, Databrowser and Dev App
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page    
+When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -233,10 +233,9 @@ When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
-# Enable after we know what the dev app is
-#And under My Applications, I see the following apps: "SLC Dashboards;"
-#And under My Applications, I click on "Dev App"
-#Then I should see "app"
+And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
+And under My Applications, I click on "Schlemiel"
+Then my current url is "http://localhost/"
 	
 Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it

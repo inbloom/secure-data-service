@@ -5,27 +5,51 @@ Feature:  RC Integration SAMT Tests
 Background:
 Given I have an open web browser
 
-Scenario: SLC Operator logs into SAMT and creates SEA Admin for tenant "RCTestTenant". SEA Admin then completes the user creation process.
-  When I navigate to the User Management Page
-  Then I will be redirected to realm selector web page
-  When I select the "Shared Learning Collaborative" realm
+Scenario: SLC Operator logs into SAMT and creates SEA Administrator for tenant "RCTestTenant". SEA Administrator then completes the user creation flow.
+  When I navigate to the user account management page
+  Then I will be redirected to the realm selector web page
+  When I select the realm "Shared Learning Collaborative"
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-  Then I delete the RC SEA Administrator "RCTestFN RCTestLN" if exists
-  Then I click on "Add User" button
-  And I am redirected to "Add a User" page
-  And I can directly update the "Full Name" field to "RCTestFN RCTestLN"
+  Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN" if exists
+  Then I click on the "Add User" button
+  And I am redirected to the "Add a User" page
+  And I can directly update the "Full Name" field to "RCTestSeaAdminFN RCTestSeaAdminLN"
   And I can directly update the "Email" field to "testuser0.wgen@gmail.com"
 
-  And I can select "SEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+  And I can select "SEA Administrator" from a choice of "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
   And I can update the "Tenant" field to "RCTestTenant"
   And I can update the "EdOrg" field to "RCTestEdOrg"
 
   When I click button "Save"
-  Then I am redirected to "Admin Account Management" page
-  And a "Success" message is displayed
-  And the new user has "Tenant" updated to "RCTestTenant"
-  And the new user has "EdOrg" updated to "RCTestEdOrg"
-  And the user has Roles as "SEA Administrator"
+  Then I am redirected to the "Admin Account Management" page
+  And the "Success" message is displayed
+  And the newly created user has "Tenant" updated to "RCTestTenant"
+  And the newly created user has "EdOrg" updated to "RCTestEdOrg"
 
-  Then I set my password
+  Then I set my password to "test1234"
+
+Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and ingestion_user roles.
+  When I navigate to the user account management page
+  Then I will be redirected to the realm selector web page
+  When I select the realm "Shared Learning Collaborative"
+  Then I am redirected to "Simple" login page
+  When I submit the credentials "testuser0.wgen@gmail.com" "test1234" for the "Simple" login page
+  Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN" if exists
+  Then I click on "Add User" button
+  And I am redirected to the "Add a User" page
+  And I can directly update the "Full Name" field to "RCTestLeaAdminFN RCTestLeaAdminLN"
+  And I can directly update the "Email" field to "testuser1.wgen@gmail.com"
+
+  And I can select "LEA Administrator" from a choice of "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+  And I can also check "Realm Administrator" Role
+  And I can also check "Ingestion User" Role
+  And I can change the EdOrg dropdown to "RCTestEdOrg"
+
+  When I click button "Save"
+  Then I am redirected to the "Admin Account Management" page
+  And the "Success" message is displayed
+  And the newly created user has "Tenant" updated to "RCTestTenant"
+  And the newly created user has "EdOrg" updated to "RCTestEdOrg"
+
+  Then I set my password to "test1234"
