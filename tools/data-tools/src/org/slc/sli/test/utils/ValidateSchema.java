@@ -77,17 +77,19 @@ public class ValidateSchema {
                 if (schemaMap.get(baseName) != null) {
                     String schemaFile = schemaMap.get(baseName);
                    
-                    SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                   SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                    //SchemaFactory factory = SchemaFactory.newInstance("http://slcedu.org/schema/0100");
+                    
                     File schemaLocation = new File(schemaFile);
                     
                     Schema schema = factory.newSchema(schemaLocation);
-                    System.out.println("==========lina chen======="+ schemaLocation);
+                    
                     Validator validator = schema.newValidator();
                     Source source = new StreamSource(file);
-                    System.out.println("==========lina chen======="+ file);
+                    
                 
                     final Map<String, List<Integer>> errorReport = new HashMap<String, List<Integer>>();
-                    System.out.println("==========lina chen======="+ errorReport.size());
+                    
                     try {
 
                             validator.setErrorHandler(new ErrorHandler() {
@@ -106,7 +108,7 @@ public class ValidateSchema {
 
                             @Override
                             public void error(SAXParseException exception) throws SAXException {
-                                System.out.println("==========lina chen======="+ exception.getMessage());
+                               
                                 handle(exception);
                                 
                             }
