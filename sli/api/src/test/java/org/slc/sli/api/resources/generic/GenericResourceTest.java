@@ -44,41 +44,7 @@ public class GenericResourceTest {
     @Qualifier("onePartResource")
     private GenericResource resource;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
 
-    private static final String URI_KEY = "v1/students";
-    private static final String URI = "http://some.net/api/generic/v1/students";
-
-    private URI requestURI;
-    private UriInfo uriInfo;
-
-    @Before
-    public void setup() throws URISyntaxException {
-        Set<String> methods = new HashSet<String>();
-        methods.add("GET");
-
-        resourceSupprtedMethods.put(URI_KEY, methods);
-
-        requestURI = new URI(URI);
-
-        uriInfo = mock(UriInfo.class);
-        when(uriInfo.getRequestUri()).thenReturn(requestURI);
-    }
-
-    @Test(expected = MethodNotAllowedException.class)
-    public void testNotSupportedMethod() {
-        resource.constructAndCheckResource(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST);
-    }
-
-    @Test
-    public void testConstructAndCheckResource() {
-        Resource resourceContainer = resource.constructAndCheckResource(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET);
-
-        assertNotNull("Should not be null", resourceContainer);
-        assertEquals("Should match", "v1", resourceContainer.getNamespace());
-        assertEquals("Should match", "students", resourceContainer.getResourceType());
-    }
 
 
 }
