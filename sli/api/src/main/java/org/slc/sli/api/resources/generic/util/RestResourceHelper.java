@@ -2,12 +2,14 @@ package org.slc.sli.api.resources.generic.util;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class RestResourceHelper implements ResourceHelper {
     private static final String ASSOCIATION_KEY = "association";
     private static final String SEP = "/";
 
+    public static final Map<String, String> REST_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
+    static {
+        REST_RESOURCE_NAME_MAPPING.put("staffEducationOrgAssignmentAssociations", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
+    }
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
@@ -67,7 +73,11 @@ public class RestResourceHelper implements ResourceHelper {
     }
     @Override
     public EntityDefinition getEntityDefinition(final Resource resource) {
-        return entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+        if (definition == null) {
+            definition = entityDefinitionStore.lookupByResourceName(REST_RESOURCE_NAME_MAPPING.get(resource.getResourceType()));
+        }
+        return definition;
     }
 
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
