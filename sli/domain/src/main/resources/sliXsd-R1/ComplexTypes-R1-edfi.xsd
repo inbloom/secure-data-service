@@ -3480,76 +3480,35 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="gradingPeriod">
+    <xs:complexType name="SLI-GradingPeriod">
         <xs:annotation>
             <xs:documentation>
-                This entity represents the time span for which
-                grades are reported.
+                This entity represents the time span for which grades are reported.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>gradingPeriod</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The name of the period for which grades are
-                        reported
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="beginDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        Month, day, and year of the first day of the
-                        grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="endDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        Month, day, and year of the last day of the
-                        grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="totalInstructionalDays">
-                <xs:annotation>
-                    <xs:documentation>
-                        Total days available for educational
-                        instruction
-                        during the grading period.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:int">
-                        <xs:minInclusive value="0"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="calendarDateReference" type="reference"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Days associated with the grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>calendarDate</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="GradingPeriod">
+                <xs:sequence>
+                    <!-- NOTE ed=fi core Grading Period does not contain grading PeriodIdentityType
+                      it does however include gradingPeriodType -->
+                    <xs:element name="SLI-SchoolYear" type="schoolYearType">
+                        <xs:annotation>
+                            <xs:documentation>The identifier for the school year.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-SchoolId" type="reference">
+                        <xs:annotation>
+                            <xs:documentation>The identifier assigned to an education agency by
+                                the State Education Agency (SEA). Also known as the State LEA ID.
+                            </xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="gradingPeriodIdentityType">

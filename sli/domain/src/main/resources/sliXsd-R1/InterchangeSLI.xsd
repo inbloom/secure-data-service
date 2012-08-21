@@ -26,7 +26,7 @@
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 					<xs:element name="SLI-Course" type="SLI-Course" />
 					<xs:element name="educationOrganization" type="educationOrganization" />
-					<xs:element name="gradingPeriod" type="gradingPeriod" />
+					<xs:element name="SLI-GradingPeriod" type="SLI-GradingPeriod" />
 					<xs:element name="graduationPlan" type="graduationPlan" />
 					<xs:element name="learningObjective" type="learningObjective" />
 					<xs:element name="SLI-LearningStandard" type="SLI-LearningStandard" />
