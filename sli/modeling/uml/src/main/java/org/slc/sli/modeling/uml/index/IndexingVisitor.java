@@ -47,7 +47,7 @@ import org.slc.sli.modeling.uml.Visitor;
 /**
  * {@link Visitor} implementation for indexing the UML model.
  */
-final class IndexingVisitor implements Visitor {
+class IndexingVisitor implements Visitor {
     
     private static final <K, V> void record(final K key, final V value, final Map<K, Set<V>> map) {
         if (map.containsKey(key)) {

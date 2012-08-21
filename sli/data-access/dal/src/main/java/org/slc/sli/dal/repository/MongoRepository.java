@@ -617,6 +617,4 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return collections;
     }
-
-
 }
