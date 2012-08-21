@@ -73,10 +73,10 @@ public class RetryMongoCommandTest {
         count = 0;
         try {
             found = findOneWithRetries("bad_student", new NeutralQuery(), tries);
+            fail();
+        } catch (Exception ex) {
             assertEquals(3, count);
             assertNull(found);
-       } catch (Exception ex) {
-            fail();
         }
     }
 
@@ -112,21 +112,19 @@ public class RetryMongoCommandTest {
         count++;
         if (collectionName.equals("good_student")) {
             return student;
-        }
-        else if (collectionName.equals("not_so_bad_student")) {
+        } else if (collectionName.equals("not_so_bad_student")) {
             if (count == 2) {
                 return student;
-            }
-            else {
+            } else {
                 throw new MongoException("Cannot find record");
             }
-        }
-        else {
+        } else {
             throw new MongoException("Cannot find record");
         }
     }
 
-    private MongoEntity findOneWithRetries(final String collectionName, final NeutralQuery neutralQuery, int retries) throws Exception {
+    private MongoEntity findOneWithRetries(final String collectionName, final NeutralQuery neutralQuery, int retries)
+            throws Exception {
         RetryMongoCommand retryMongoCommand = new RetryMongoCommand() {
             @Override
             public Object execute() {
@@ -136,7 +134,7 @@ public class RetryMongoCommandTest {
         try {
             return (MongoEntity) retryMongoCommand.executeOperation(retries);
         } catch (Exception e) {
-            throw(e);
+            throw (e);
         }
     }
 
@@ -155,7 +153,7 @@ public class RetryMongoCommandTest {
         try {
             return (MongoEntity) retryMongoCommand.executeOperation(retries);
         } catch (Exception e) {
-            throw(e);
+            throw (e);
         }
     }
 }

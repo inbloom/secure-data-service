@@ -48,25 +48,29 @@ public abstract class RetryMongoCommand {
      *         Return value of execute method.
      * @throws Exception
      */
-    public Object executeOperation(int noOfRetries) {
-        Object result = null;
+    public Object executeOperation(int noOfRetries) throws Exception {
         totalRetries = noOfRetries;
+        Exception except = null;
         while (noOfRetries > 0) {
             try {
-                result = execute();
-                break;
+                Object result = execute();
+                return result;
             } catch (MongoException me) {
                 noOfRetries = handleException(me.getCode(), noOfRetries, me);
+                except = me;
             } catch (DataAccessResourceFailureException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
+                except = ex;
             } catch (InvalidDataAccessApiUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
+                except = ex;
             } catch (InvalidDataAccessResourceUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, ex);
+                except = ex;
             }
         }
         LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
-        return result;
+        throw except;
     }
 
     private int handleException(int code, int noOfRetries, Exception ex) throws MongoException {
