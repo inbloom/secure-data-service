@@ -79,6 +79,8 @@ public final class Method extends WadlElement {
             return verb;
         } else if (NAME_HTTP_DELETE.equals(verb)) {
             return verb;
+        } else if (NAME_HTTP_PATCH.equals(verb)) {
+            return verb;
         } else {
             throw new IllegalArgumentException("verb : " + verb);
         }
