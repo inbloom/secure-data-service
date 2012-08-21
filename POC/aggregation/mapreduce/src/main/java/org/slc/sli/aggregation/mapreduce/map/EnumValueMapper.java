@@ -24,6 +24,8 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
+import org.slc.sli.aggregation.util.BSONUtilities;
+
 /**
  * EnumValueMapper - mongo value mapper that emits the enumerated value for the given value.
  *
@@ -46,7 +48,7 @@ class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
         Writable rval = NullWritable.get();
         String value = null;
         try {
-            value = BSONValueLookup.getValue(entity, fieldName);
+            value = BSONUtilities.getValue(entity, fieldName);
             if (value != null) {
                 value = Enum.valueOf(enumClass, value).toString();
                 rval = new Text(value);

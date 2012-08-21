@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.aggregation.mapreduce.map;
+package org.slc.sli.aggregation.util;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +24,10 @@ import org.bson.BasicBSONObject;
 import org.bson.types.BasicBSONList;
 
 /**
- * BSONValueLookup - Helper class that looks up a leaf node in a BSON object given a typical
+ * BSONUtilities - Helper class that looks up a leaf node in a BSON object given a typical
  * mongo dot notation field name.
  */
-public class BSONValueLookup {
+public class BSONUtilities {
 
     /**
      * Given a dot-separated field, return the resulting value if it exists in the entity.

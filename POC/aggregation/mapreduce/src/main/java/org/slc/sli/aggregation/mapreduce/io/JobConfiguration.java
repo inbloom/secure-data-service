@@ -214,6 +214,11 @@ public class JobConfiguration {
         public void setRank(final Long v) { rank = v; }
         public final Long getRank() { return rank; }
 
+        @JsonProperty(ABBREVIATION_PROPERTY)
+        private String abbreviation;
+        public void setAbbreviation(final String v) { abbreviation = v; }
+        public final String getAbbreviation() { return abbreviation; }
+
         public BandConfig() { }
     }
 
@@ -431,7 +436,6 @@ public class JobConfiguration {
         @JsonGetter(CLASS_PROPERTY)
         public final String getReducerType() { return reducerType; }
 
-
         @JsonProperty(COLLECTION_PROPERTY)
         private String collection;
         public void setCollection(final String v) { collection = v; }
@@ -441,6 +445,16 @@ public class JobConfiguration {
         private String field;
         public void setField(final String v) { field = v; }
         public final String getField() { return field; }
+
+        @JsonProperty(ID_MAP_PROPERTY)
+        private Map<String, String> idMap;
+        public void setIdMap(final Map<String, String> v) { idMap = v; }
+        public final Map<String, String> getIdMap() { return idMap; }
+
+        @JsonProperty(MAP_FIELD_PROPERTY)
+        private String mapField;
+        public void setMapField(final String v) { mapField = v; }
+        public final String getMapField() { return mapField; }
 
         public ReduceConfig() { }
     }
@@ -504,7 +518,7 @@ public class JobConfiguration {
                 // REDUCE key
                 REDUCE,
                     // REDUCE values
-                    /* CLASS, COLLECTION, */ FIELD,
+                    /* CLASS, COLLECTION, */ FIELD, ID_MAP, MAP_FIELD,
                 // OPTIONS key
                 OPTIONS,
         // AGGREGATION key
@@ -591,4 +605,17 @@ public class JobConfiguration {
     public static final String COMMAND_PROPERTY = "command";
     public static final String ARGUMENTS_PROPERTY = "arguments";
     public static final String RETRY_ON_FAILURE_PROPERTY = "retry_on_failure";
+    public static final String ID_MAP_PROPERTY = "id_map";
+    public static final String MAP_FIELD_PROPERTY = "map_field";
+
+    /**
+     * Placeholder values that are substituted with their real values by the top level M/R job.
+     */
+    public static final String ID_PLACEHOLDER = "@ID@";
+    public static final String TENANT_ID_PLACEHOLDER = "@TENANT_ID@";
+
+    /**
+     * For assessments, the score type to use when calculating values and aggregates.
+     */
+    public static final String ASSESSMENT_SCORE_TYPE = "ASSESSMENT_SCORE_TYPE";
 }

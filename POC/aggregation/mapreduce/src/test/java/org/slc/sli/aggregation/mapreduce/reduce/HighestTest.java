@@ -38,9 +38,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
-import org.slc.sli.aggregation.mapreduce.map.BSONValueLookup;
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
  * HighestTest - Tests for he Highest value reducer
@@ -59,12 +59,12 @@ public class HighestTest {
 
         ArrayList<BSONWritable> results = new ArrayList<BSONWritable>();
 
-        BSONWritable result1 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 16.0));
-        BSONWritable result2 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 31.0));
-        BSONWritable result3 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 5.0));
-        BSONWritable result4 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 12.0));
-        BSONWritable result5 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 3.0));
-        BSONWritable result6 = new BSONWritable(BSONValueLookup.setValue("body.scoreResults.result", 27.0));
+        BSONWritable result1 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 16.0));
+        BSONWritable result2 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 31.0));
+        BSONWritable result3 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 5.0));
+        BSONWritable result4 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 12.0));
+        BSONWritable result5 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 3.0));
+        BSONWritable result6 = new BSONWritable(BSONUtilities.setValue("body.scoreResults.result", 27.0));
 
         results.add(result1);
         results.add(result2);
@@ -93,7 +93,7 @@ public class HighestTest {
                 assertEquals(id.getId().toString(), "MytestId");
 
                 BSONWritable e = (BSONWritable) args[1];
-                String val = BSONValueLookup.getValue(e, "test.reduce.output.field");
+                String val = BSONUtilities.getValue(e, "test.reduce.output.field");
                 assertNotNull(val);
                 assertEquals(31.0D, Double.parseDouble(val), 0.001D);
                 return null;

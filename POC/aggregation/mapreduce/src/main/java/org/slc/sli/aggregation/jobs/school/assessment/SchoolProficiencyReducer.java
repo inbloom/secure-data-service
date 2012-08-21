@@ -1,10 +1,10 @@
-package org.slc.sli.aggregation;
+package org.slc.sli.aggregation.jobs.school.assessment;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.MapWritable;
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -13,7 +13,7 @@ import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 /**
  * Aggregate Math scores and at the school level based on scale score.
  *
- * The following buckets are defined:
+ * Buckets are defined in the job configuration file.  For example,
  *
  *  Scale value      1-character code    Description
  *  6 <= n <= 14            W            Warning
@@ -26,9 +26,9 @@ import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
  * @author asaarela
  */
 public class SchoolProficiencyReducer
-        extends Reducer<TenantAndIdEmittableKey, Text, TenantAndIdEmittableKey, MapWritable> {
+        extends Reducer<TenantAndIdEmittableKey, Text, TenantAndIdEmittableKey, BSONWritable> {
 
-    MapWritable counts = new MapWritable();
+    BSONWritable counts = new BSONWritable();
 
     @Override
     public void reduce(final TenantAndIdEmittableKey pKey,
@@ -45,32 +45,21 @@ public class SchoolProficiencyReducer
 
     protected void count(Text key) {
         System.err.println(key.toString());
-        LongWritable w = (LongWritable) counts.get(key);
+        Long w =  (Long) counts.get(key.toString());
         if (w != null) {
-            w.set(w.get() + 1);
-            counts.put(key, w);
+            w = w + 1;
+            counts.put(key.toString(), w);
         }
     }
 
     public SchoolProficiencyReducer() {
-        Text t = new Text();
-        t.set("W");
-        counts.put(t, new LongWritable(0));
-        t = new Text();
-        t.set("B");
-        counts.put(t, new LongWritable(0));
-        t = new Text();
-        t.set("S");
-        counts.put(t, new LongWritable(0));
-        t = new Text();
-        t.set("E");
-        counts.put(t, new LongWritable(0));
-        t = new Text();
-        t.set("!");
-        counts.put(t, new LongWritable(0));
-        t = new Text();
-        t.set("-");
-        counts.put(t, new LongWritable(0));
+        // TODO - replace this with rankings from the configuration.
+        counts.put("W", 0L);
+        counts.put("B", 0L);
+        counts.put("S", 0L);
+        counts.put("E", 0L);
+        counts.put("!", 0L);
+        counts.put("-", 0L);
     }
 
 }
