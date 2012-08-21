@@ -50,8 +50,7 @@ public class SifIdResolverImplDummy implements SifIdResolver {
 
     @Override
     public void putSliGuidForOtherSifId(String sifId, String sliType,
-            String sliId, String zoneId)
-    {
+            String sliId, String zoneId) {
     }
 
     @Override
