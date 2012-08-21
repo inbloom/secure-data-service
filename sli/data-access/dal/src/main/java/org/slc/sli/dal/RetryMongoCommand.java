@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
 /**
  * Way to retry mongo commands
@@ -47,34 +48,47 @@ public abstract class RetryMongoCommand {
      *         Return value of execute method.
      * @throws Exception
      */
-    public Object executeOperation(int noOfRetries) throws Exception {
+    public Object executeOperation(int noOfRetries) throws MongoException, DataAccessResourceFailureException, InvalidDataAccessApiUsageException, InvalidDataAccessResourceUsageException, UncategorizedMongoDbException {
         int totalRetries = noOfRetries;
-        Exception except = null;
+        Object result = null;
         while (noOfRetries > 0) {
             try {
-                Object result = execute();
+                result = execute();
                 return result;
             } catch (MongoException me) {
                 noOfRetries = handleException(me.getCode(), noOfRetries, totalRetries, me);
-                except = me;
+                if (noOfRetries <= 0) {
+                    throw me;
+                }
             } catch (DataAccessResourceFailureException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
-                except = ex;
+                if (noOfRetries <= 0) {
+                    throw ex;
+                }
             } catch (InvalidDataAccessApiUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
-                except = ex;
+                if (noOfRetries <= 0) {
+                    throw ex;
+                }
             } catch (InvalidDataAccessResourceUsageException ex) {
                 noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
-                except = ex;
+                if (noOfRetries <= 0) {
+                    throw ex;
+                }
+            } catch (UncategorizedMongoDbException ex) {
+                noOfRetries = handleException(0, noOfRetries, totalRetries, ex);
+                if (noOfRetries <= 0) {
+                    throw ex;
+                }
             }
         }
         LOG.error("RetryMongoCommand: Retry attempts exhausted at {}", totalRetries);
-        throw except;
+        return result;
     }
 
     private int handleException(int code, int noOfRetries, int totalRetries, Exception ex) throws MongoException {
         int retryNum = (totalRetries - noOfRetries) + 1;
-        LOG.debug("RetryMongoCommand: Exception caught at attempt #" + retryNum + " of " + totalRetries, ex);
+        LOG.debug("RetryMongoCommand: Exception caught at attempt # {} of {}" + retryNum + " of " + totalRetries, ex);
         if (code == MONGO_DUPLICATE_KEY_CODE_1 | code == MONGO_DUPLICATE_KEY_CODE_2) {
             throw (MongoException) ex;
         }
