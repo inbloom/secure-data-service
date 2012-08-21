@@ -92,8 +92,15 @@ public class SifSubscriber implements Subscriber {
                 case ADD:
                     for (SliEntity sliEntity : entities) {
                         // take care of cases when two or more SIF entities map into the same SLI entity
-                        if (sliEntity.isCreatedByOthers()) {
-                            matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
+                        if (sliEntity.isCreatedByOthers() || sliEntity.getMatchedEntity() != null) {
+                            if (sliEntity.isCreatedByOthers())
+                            {
+                                matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
+                            } else
+                            {
+                                matchedEntity = sliEntity.getMatchedEntity();
+                            }
+
                             changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
                             sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(), matchedEntity.getId(), zone.getZoneId());
                         } else {

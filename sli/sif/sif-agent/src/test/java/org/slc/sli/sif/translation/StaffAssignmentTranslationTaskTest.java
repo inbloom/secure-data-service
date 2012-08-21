@@ -56,7 +56,7 @@ public class StaffAssignmentTranslationTaskTest extends AdkTest {
     public void testNotNull() throws SifTranslationException {
         List<SliEntity> result = translator.translate(new StaffAssignment(), "");
         Assert.assertNotNull("Result was null", result);
-        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(2, result.size());
     }
 
 }

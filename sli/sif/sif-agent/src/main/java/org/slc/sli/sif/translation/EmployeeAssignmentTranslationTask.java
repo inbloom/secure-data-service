@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.translation;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ import openadk.library.hrfin.EmployeeAssignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.converter.JobClassificationConverter;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
@@ -39,13 +39,15 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  *
  */
 public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<EmployeeAssignment, SliEntity> {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     SifIdResolver sifIdResolver;
 
     @Autowired
     JobClassificationConverter jobClassificationConverter;
+
+    @Autowired
+    DateConverter dateConverter;
 
     public EmployeeAssignmentTranslationTask() {
         super(EmployeeAssignment.class);
@@ -81,11 +83,11 @@ public class EmployeeAssignmentTranslationTask extends AbstractTranslationTask<E
                 seoae.setOtherSifRefId(ea.getEmployeePersonalRefId());
             }
             if (ea.getJobStartDate() != null) {
-                seoae.setBeginDate(DATE_FORMAT.format(ea.getJobStartDate().getTime()));
+                seoae.setBeginDate(dateConverter.convert(ea.getJobStartDate()));
 
             }
             if (ea.getJobEndDate() != null) {
-                seoae.setEndDate(DATE_FORMAT.format(ea.getJobEndDate().getTime()));
+                seoae.setEndDate(dateConverter.convert(ea.getJobEndDate()));
 
             }
             seoae.setStaffClassification(jobClassificationConverter.convert(ea.getJobClassification()));

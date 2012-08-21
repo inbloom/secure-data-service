@@ -53,4 +53,10 @@ public class SifIdResolverImplDummy implements SifIdResolver {
             String sliId, String zoneId)
     {
     }
+
+    @Override
+    public Entity getSliEntityByType(String sifId, String sliType, String zoneId)
+    {
+        return null;
+    }
 }
