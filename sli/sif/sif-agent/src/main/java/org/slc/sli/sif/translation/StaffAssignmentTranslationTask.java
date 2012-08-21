@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.converter.DateConverter;
+import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.TeachingAssignmentConverter;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
@@ -43,6 +45,12 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
 
     @Autowired
     DateConverter dateConverter;
+
+    @Autowired
+    GradeLevelsConverter gradeLevelsConverter;
+
+    @Autowired
+    TeachingAssignmentConverter teachingAssignmentConverter;
 
     public StaffAssignmentTranslationTask() {
         super(StaffAssignment.class);
@@ -95,10 +103,10 @@ public class StaffAssignmentTranslationTask extends AbstractTranslationTask<Staf
                 tsae.setSchoolId(schoolGuid);
             }
             if (sa.getTeachingAssignment() != null) {
-
+                tsae.setAcademicSubjects(teachingAssignmentConverter.convert(sa.getTeachingAssignment()));
             }
             if (sa.getGradeLevels() != null) {
-
+                tsae.setInstructionalGradeLevels(gradeLevelsConverter.convert(sa.getGradeLevels()));
             }
             // If there is a previous EmployeeAssignment of the same EmployeePersonalRefId
             // We need to check if a Matched Entity can be found
