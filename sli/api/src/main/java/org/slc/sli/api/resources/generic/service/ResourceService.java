@@ -1,11 +1,8 @@
 package org.slc.sli.api.resources.generic.service;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public interface ResourceService {
     public List<EntityBody> getEntities(Resource base, String id, Resource association,
                                         Resource resource, URI requestURI);
 
-    public long getEntityCount(Resource resource, URI requestURI, MultivaluedMap<String, String> requestParams);
+    public long getEntityCount(Resource resource, URI requestURI);
 
     public String postEntity(Resource resource, EntityBody entity);
 

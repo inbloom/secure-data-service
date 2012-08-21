@@ -109,7 +109,7 @@ public abstract class GenericResource {
         }
 
         //get the page count
-        long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri(), uriInfo.getQueryParameters());
+        long pagingHeaderTotalCount = resourceService.getEntityCount(resource, uriInfo.getRequestUri());
 
         //add the paging headers and return the data
         return addPagingHeaders(Response.ok(new EntityResponse(resourceService.getEntityType(resource), entities)),
