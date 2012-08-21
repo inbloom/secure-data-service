@@ -198,7 +198,8 @@ default:
         # Number of retries for mongo operations in ingestion
         sli.ingestion.totalRetries: 5
 
-        sli.ingestion.sampleDataSet.directory: ../../acceptance-tests/test/features/ingestion/test_data
+        sli.ingestion.dataset.sample:
+            small: [../../acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
 
     dashboard: &DASHBOARD-DEFAULT
 
