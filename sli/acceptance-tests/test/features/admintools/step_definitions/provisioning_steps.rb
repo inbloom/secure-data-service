@@ -91,6 +91,7 @@ Then /^I can only enter a custom high\-level ed\-org$/ do
 end
 
 When /^I set the custom high\-level ed\-org to "([^"]*)"$/ do |arg1|
+  @driver.find_element(:id, "custom").click
   @driver.find_element(:id, "custom_ed_org").send_keys arg1
 end
 
