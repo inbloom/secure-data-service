@@ -653,21 +653,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return false;
     }
 
-    /**
-     * Returns the sub-resource responsible for responding to requests for custom entity data
-     *
-     * @param id
-     *            the id of the entity the custom resource is applied to
-     */
-    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        return null;
-//        return new CustomEntityResource(id, entityDef);
-    }
-
     @Path("{id}/" + PathConstants.CALCULATED_VALUES)
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
     @Override
