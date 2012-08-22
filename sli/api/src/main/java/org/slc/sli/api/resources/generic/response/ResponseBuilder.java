@@ -32,7 +32,7 @@ public abstract class ResponseBuilder {
     protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
                                                  final ResourceMethod method) {
         final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
-        Resource resource = resourceHelper.getResourceName(uriInfo,template);
+        Resource resource = resourceHelper.getResourceName(uriInfo, template);
 
         Set<String> values = resourceSupportedMethods.get(resourcePath);
         if (!values.contains(method.getMethod())) {

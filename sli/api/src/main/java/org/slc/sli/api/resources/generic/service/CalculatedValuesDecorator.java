@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class CalculatedValuesDecorator implements EntityDecorator {
     @Override
-    public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
+    public void decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
         List<String> params = queryParams.get(ParameterConstants.INCLUDE_CALCULATED);
         final Boolean includeCalculatedValues = Boolean.valueOf((params != null) ? params.get(0) : "false");
 
@@ -28,7 +28,5 @@ public class CalculatedValuesDecorator implements EntityDecorator {
                 entity.put(ResourceConstants.CALCULATED_VALUE_TYPE, calculatedValues.getCalculatedValues());
             }
         }
-
-        return entity;
     }
 }

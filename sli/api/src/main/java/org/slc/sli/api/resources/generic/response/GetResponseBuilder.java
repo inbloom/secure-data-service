@@ -4,14 +4,11 @@ import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.GenericResource;
-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
 import org.slc.sli.api.resources.generic.representation.HateoasLink;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.EntityDecorator;
-import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.service.ResourceService;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.v1.view.View;
@@ -24,8 +21,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Builds a get response
@@ -68,7 +63,7 @@ public class GetResponseBuilder extends ResponseBuilder {
         //apply the decorators
         for (EntityBody entityBody : entities) {
             for (EntityDecorator entityDecorator : entityDecorators) {
-                entityBody = entityDecorator.decorate(entityBody, resourceHelper.getEntityDefinition(resource), uriInfo.getQueryParameters());
+                entityDecorator.decorate(entityBody, resourceHelper.getEntityDefinition(resource), uriInfo.getQueryParameters());
             }
         }
 

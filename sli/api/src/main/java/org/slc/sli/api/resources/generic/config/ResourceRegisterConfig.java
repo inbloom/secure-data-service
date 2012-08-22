@@ -25,7 +25,6 @@ import java.util.Set;
 public class ResourceRegisterConfig extends DefaultResourceConfig {
 
     private static final String WADL = "/wadl/base_wadl.wadl";
-    private static final String PREFIX = "generic/";
 
     @javax.annotation.Resource(name = "resourceSupportedMethods")
     private Map<String, Set<String>> resourceSupprtedMethods;
@@ -61,9 +60,7 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
             }
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-
+            error("Class load error", e);
         }
     }
 

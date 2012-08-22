@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources.generic.service;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -30,8 +29,6 @@ public class ResourceAccessLog {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         if (definition == null) {
-            System.out.print("");
-
             definition = resourceHelper.getEntityDefinition(resource);
         }
 

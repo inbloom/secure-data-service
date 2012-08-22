@@ -17,7 +17,7 @@ import java.util.List;
 public class CustomEntityDecorator implements EntityDecorator {
 
     @Override
-    public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
+    public void decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
         List<String> params = queryParams.get(ParameterConstants.INCLUDE_CUSTOM);
         final Boolean includeCustomEntity = Boolean.valueOf((params != null) ? params.get(0) : "false");
 
@@ -28,7 +28,5 @@ public class CustomEntityDecorator implements EntityDecorator {
                 entity.put(ResourceConstants.CUSTOM, custom);
             }
         }
-
-        return entity;
     }
 }

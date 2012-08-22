@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.generic.config;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
@@ -8,7 +7,6 @@ import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

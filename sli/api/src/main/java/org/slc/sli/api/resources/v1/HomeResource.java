@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +36,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
@@ -53,7 +51,6 @@ import org.slc.sli.domain.Entity;
  * @author pghosh
  *
  */
-//@Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8" })

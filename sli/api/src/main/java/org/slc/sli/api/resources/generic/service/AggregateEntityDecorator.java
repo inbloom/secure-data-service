@@ -18,10 +18,10 @@ import java.util.Map;
 @Component
 public class AggregateEntityDecorator implements EntityDecorator {
     @Override
-    public EntityBody decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
+    public void decorate(EntityBody entity, EntityDefinition definition, MultivaluedMap<String, String> queryParams) {
         List<String> params = queryParams.get(ParameterConstants.INCLUDE_AGGREGATES);
-        boolean includeAggregateValues = definition.supportsAggregates() &&
-                Boolean.valueOf((params != null) ? params.get(0) : "false");
+        boolean includeAggregateValues = definition.supportsAggregates()
+                && Boolean.valueOf((params != null) ? params.get(0) : "false");
 
         if (includeAggregateValues) {
             String entityId = (String) entity.get("id");
@@ -30,7 +30,5 @@ public class AggregateEntityDecorator implements EntityDecorator {
                 entity.put(ResourceConstants.AGGREGATE_VALUE_TYPE, aggregates.getCalculatedValues());
             }
         }
-
-        return entity;
     }
 }

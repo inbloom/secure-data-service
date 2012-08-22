@@ -55,6 +55,9 @@ public class DefaultResourceService implements ResourceService {
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
+    /**
+     * @author jstokes
+     */
     protected static interface ServiceLogic {
         public ServiceResponse run(final Resource resource, EntityDefinition definition);
     }
@@ -136,7 +139,7 @@ public class DefaultResourceService implements ResourceService {
                 }
                 long count = getEntityCount(definition, apiQuery);
 
-                return new ServiceResponse((List<EntityBody>) entityBodies, count) ;
+                return new ServiceResponse((List<EntityBody>) entityBodies, count);
             }
         });
     }
@@ -240,15 +243,15 @@ public class DefaultResourceService implements ResourceService {
             entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
         }
 
-        long count = getEntityCount(definition,apiQuery);
-        return new ServiceResponse(entityBodyList, count) ;
+        long count = getEntityCount(definition, apiQuery);
+        return new ServiceResponse(entityBodyList, count);
     }
 
     @Override
     // TODO
     public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
-        final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
+        final EntityDefinition  assocEntity = resourceHelper.getEntityDefinition(association);
         final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
@@ -273,7 +276,7 @@ public class DefaultResourceService implements ResourceService {
 
         long count = getEntityCount(finalEntity, finalApiQuery);
 
-        return new ServiceResponse(entityBodyList, count) ;
+        return new ServiceResponse(entityBodyList, count);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
@@ -283,7 +286,7 @@ public class DefaultResourceService implements ResourceService {
         ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));
         ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
 
-        return provider.getConnectionPath(fromEntityType,toEntityType);
+        return provider.getConnectionPath(fromEntityType, toEntityType);
     }
 
     protected List<EntityBody> injectErrors(EntityDefinition definition, final List<String> ids, List<EntityBody> finalResults) {

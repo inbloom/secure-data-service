@@ -5,7 +5,6 @@ import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 
 import java.net.URI;
-import java.util.List;
 
 /**
  * Resource service.
