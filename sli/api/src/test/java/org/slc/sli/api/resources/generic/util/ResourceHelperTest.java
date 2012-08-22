@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.generic.util;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,16 +35,23 @@ public class ResourceHelperTest {
 
     @Test
     public void testGetResourceName() throws URISyntaxException {
+        Resource resource;
+
         when(mockUriInfo.getRequestUri()).thenReturn(new URI("/generic/v1/sections"));
-        assertEquals("v1/sections", resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.ONE_PART));
+        resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.ONE_PART);
+        assertEquals("sections", resource.getResourceType());
+        assertEquals("sections", resource.getNamespace());
 
         when(mockUriInfo.getRequestUri()).thenReturn(new URI("/generic/v1/sections/1234"));
+        resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.TWO_PART);
         assertEquals("v1/sections", resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.TWO_PART));
 
         when(mockUriInfo.getRequestUri()).thenReturn(new URI("/generic/v1/sections/1234/studentSectionAssociations"));
+        resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.THREE_PART);
         assertEquals("v1/studentSectionAssociations", resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.THREE_PART));
 
         when(mockUriInfo.getRequestUri()).thenReturn(new URI("/generic/v1/sections/1234/studentSectionAssociations/students"));
+        resource = resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.FOUR_PART);
         assertEquals("v1/students", resourceHelper.getResourceName(mockUriInfo, ResourceTemplate.FOUR_PART));
     }
 

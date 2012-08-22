@@ -16,6 +16,7 @@
 package org.slc.sli.api.resources.v1.aggregation;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
@@ -44,7 +45,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-public class CalculatedDataListingResource<T> {
+public class AggregateDataListingResource<T> {
 
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
@@ -62,18 +63,26 @@ public class CalculatedDataListingResource<T> {
      * @return
      */
     @GET
-    public Response getCalculatedValues(@Context final UriInfo uriInfo,
+    public Response getAggregatedValues(@Context final UriInfo uriInfo,
                                         @PathParam("id") final String id,
                                         @QueryParam("type") final String type,
                                         @QueryParam("window") final String window,
                                         @QueryParam("method") final String methodology,
                                         @QueryParam("name") final String name) {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
         final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-        final CalculatedData<String> data = entityDef.getService().getCalculatedValues(id);
-        final List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
-        return Response.ok(aggs).build();
+
+        // TODO : not needed?
+        if (entityDef.supportsAggregates()) {
+            final CalculatedData<Map<String, Integer>> data = entityDef.getService().getAggregates(id);
+            final List<CalculatedDatum<Map<String, Integer>>> aggs = data.getCalculatedValues(type, window, methodology, name);
+            return Response.ok(aggs).build();
+        }
+
+        // TODO : do we really want to return null?
+        return null;
     }
 
 }
+
