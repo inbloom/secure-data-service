@@ -1,19 +1,20 @@
 package org.slc.sli.api.resources.generic.service;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -22,12 +23,12 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Unit Tests
@@ -40,7 +41,7 @@ import static org.junit.Assert.assertNotNull;
 public class DefaultResourceServiceTest {
 
     @Autowired
-    private ResourceService resourceService;
+    private DefaultResourceService resourceService;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -141,6 +142,72 @@ public class DefaultResourceServiceTest {
         assertEquals("Should match", "staff", resourceService.getEntityType(new Resource("v1", "staff")));
         assertEquals("Should match", "teacher", resourceService.getEntityType(new Resource("v1", "teachers")));
     }
+
+    @Test
+    public void testAddTypeCriteria() {
+        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.TEACHERS);
+        ApiQuery query = new ApiQuery();
+
+        query = resourceService.addTypeCriteria(def, query);
+
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 1, criteriaList.size());
+
+        NeutralCriteria criteria = criteriaList.get(0);
+        assertEquals("Should match", "type", criteria.getKey());
+        assertEquals("Should match", NeutralCriteria.CRITERIA_IN, criteria.getOperator());
+        assertEquals("Should match", Arrays.asList(def.getType()), criteria.getValue());
+    }
+
+    @Test
+    public void testAddTypeCriteriaNoChange() {
+        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
+        ApiQuery query = new ApiQuery();
+
+        query = resourceService.addTypeCriteria(def, query);
+
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 0, criteriaList.size());
+    }
+
+    @Test
+    public void testAddTypeCriteriaNullValues() {
+        ApiQuery query = null;
+
+        assertNull("Should be null", resourceService.addTypeCriteria(null, null));
+
+        query = new ApiQuery();
+        query = resourceService.addTypeCriteria(null, query);
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 0, criteriaList.size());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testReadAll() {
+        // create one entity
+        resourceService.postEntity(resource, new EntityBody(createTestEntity()));
+
+        ServiceResponse response = resourceService.getEntities(resource, requestURI, false);
+
+        List<EntityBody> entities = response.getEntityBodyList();
+        assertNotNull("Should return an entity", entities);
+        assertTrue("Should have at least one entity", entities.size() > 0);
+    }
+
+    @Test
+    public void testGetEntityCount() {
+        // create one entity
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
+
+        ApiQuery apiQuery = new ApiQuery();
+        apiQuery.addCriteria(new NeutralCriteria("_id", "in", Arrays.asList(id)));
+
+        Long count = resourceService.getEntityCount(entityDefs.lookupByResourceName(resource.getResourceType()), apiQuery);
+
+        assertEquals("Should match", 1, count.longValue());
+    }
+
 
     private String getIDList() {
         // create one entity

@@ -152,7 +152,7 @@ public class DefaultResourceService implements ResourceService {
         return apiQuery;
     }
 
-    private long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
+    protected long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
         long count = 0;
 
         if (definition.getService() == null) {
