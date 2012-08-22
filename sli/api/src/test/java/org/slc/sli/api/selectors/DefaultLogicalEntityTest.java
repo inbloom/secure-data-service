@@ -25,7 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.selectors.doc.Constraint;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
@@ -68,6 +68,9 @@ public class DefaultLogicalEntityTest {
     private EntityDefinitionStore entityDefinitionStore;
 
     @Mock
+    private ResourceHelper resourceHelper;
+
+    @Mock
     private ApiQuery apiQuery;
 
     @InjectMocks
@@ -82,7 +85,8 @@ public class DefaultLogicalEntityTest {
     public void testCreateEntities() {
         final EntityDefinition mockEntityDefinition = mock(EntityDefinition.class);
         when(mockEntityDefinition.getType()).thenReturn("TEST");
-        when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(mockEntityDefinition);
+        when(resourceHelper.getEntityDefinition(anyString())).thenReturn(mockEntityDefinition);
+
         @SuppressWarnings("unchecked")
         final SelectorQuery mockPlan = mock(SelectorQuery.class);
         when(selectorQueryEngine.assembleQueryPlan(any(SemanticSelector.class))).thenReturn(mockPlan);
