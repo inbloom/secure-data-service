@@ -74,10 +74,11 @@ public class SliSchemaVersionValidator {
                         objectToSave.put("SARJE", 0);
                         mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
-                        int lastKnownDalVersion = ((Double) dbObject.get("dal_sv")).intValue();
+                        int lastKnownDalVersion = Double.valueOf(dbObject.get("dal_sv").toString()).intValue();
 
                         if (lastKnownDalVersion < schemaVersion) {
                             Update update = new Update().set("dal_sv", schemaVersion).set("SARJE", 1);
+                            System.out.println("RUNNING UPDATE");
                             mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
                         }
                     }
