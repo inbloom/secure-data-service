@@ -45,4 +45,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   When I click on Ok
   Then I should see "Account was successfully updated"
   And his account status is "approved"
-  And I should receive an email telling me my account is approved
+  And he should receive an email telling him his account is approved
