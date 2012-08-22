@@ -50,6 +50,9 @@ import org.slc.sli.validation.schema.NeutralSchema;
  */
 public class SliSchemaVersionValidatorTest {
 
+    public static final String STUDENT = "student";
+    public static final String SECTION = "section";
+    public static final String TEACHER = "teacher";
     @InjectMocks
     private SliSchemaVersionValidator sliSchemaVersionValidator;
 
@@ -82,25 +85,25 @@ public class SliSchemaVersionValidatorTest {
     public void test() {
 
         List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
-        neutralSchemas.add(this.createMockSchema("student", 1));
-        neutralSchemas.add(this.createMockSchema("section", 2));
-        neutralSchemas.add(this.createMockSchema("student", 1));
+        neutralSchemas.add(this.createMockSchema(STUDENT, 1));
+        neutralSchemas.add(this.createMockSchema(SECTION, 2));
+        neutralSchemas.add(this.createMockSchema(TEACHER, 1));
 
         when(entitySchemaRepository.getSchemas()).thenReturn(neutralSchemas);
 
         BasicDBObject studentDbObject = new BasicDBObject();
-        studentDbObject.put("_id", "student");
-        studentDbObject.put("dal_sv", new Double(1.0));
+        studentDbObject.put(SliSchemaVersionValidator.ID, STUDENT);
+        studentDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
         BasicDBObject sectionDbObject = new BasicDBObject();
-        sectionDbObject.put("_id", "section");
-        sectionDbObject.put("dal_sv", new Double(1.0));
+        sectionDbObject.put(SliSchemaVersionValidator.ID, SECTION);
+        sectionDbObject.put(SliSchemaVersionValidator.DAL_SV, new Double(1.0));
 
         final List<DBObject> findOnes = new ArrayList<DBObject>();
         findOnes.add(studentDbObject);
         findOnes.add(sectionDbObject);
         findOnes.add(null);
 
-        when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.eq("metaData"))).thenAnswer(new Answer<DBObject>() {
+        when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.eq(SliSchemaVersionValidator.METADATA_COLLECTION))).thenAnswer(new Answer<DBObject>() {
             @Override
             public DBObject answer(InvocationOnMock invocation) throws Throwable {
                 return findOnes.remove(0);
