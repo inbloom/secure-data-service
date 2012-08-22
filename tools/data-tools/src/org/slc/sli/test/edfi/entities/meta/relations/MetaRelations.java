@@ -72,7 +72,7 @@ public final class MetaRelations {
     public static boolean INTERCHANGE_ASSESSMENT_META_DATA = true;
     public static boolean INTERCHANGE_STUDENT_ASSESSMENT = true;
     public static boolean INTERCHANGE_STUDENT_GRADE = true;
-    public static String XSDVersionPath ="1.0.04";
+   
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -108,6 +108,7 @@ public final class MetaRelations {
     public static  int GRADUATION_PLAN_PER_SCHOOL=1;
     public static  int GRADING_PERIOD_PER_SESSIONS=2;
     
+   
     public static  int STUDENTS_PER_SECTION = 2;
     public static  int TEACHERS_PER_SECTION = 2;
     public static  int GRADEBOOKENTRY_PER_SECTION=2;
@@ -197,7 +198,8 @@ public final class MetaRelations {
       
         try {
         	
-        XSDVersionPath = String.valueOf(XSDVersionPath);
+       
+      
         INTERCHANGE_ED_ORG = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG", "true"));
         INTERCHANGE_ED_ORG_CALENDAR = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG_CALENDAR", "true"));
         INTERCHANGE_MASTER_SCHEDULE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_MASTER_SCHEDULE", "true"));
@@ -292,6 +294,9 @@ public final class MetaRelations {
 		
 		ID_DELIMITER = properties.getProperty("ID_DELIMITER");
 		
+		//String XSDVersion = properties.getProperty("XSDVersionPath");
+		//StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
+		  StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
 		String fidelity = properties.getProperty("fidelityOfData");
 		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
 			

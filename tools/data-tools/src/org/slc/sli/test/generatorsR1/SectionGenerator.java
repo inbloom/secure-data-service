@@ -24,14 +24,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
+
 import org.slc.sli.test.edfi.entitiesR1.ClassroomPositionType;
 import org.slc.sli.test.edfi.entitiesR1.GradebookEntry;
 import org.slc.sli.test.edfi.entitiesR1.RepeatIdentifierType;
 import org.slc.sli.test.edfi.entitiesR1.CreditType;
 import org.slc.sli.test.edfi.entitiesR1.Credits;
 import org.slc.sli.test.edfi.entitiesR1.EducationalEnvironmentType;
-import org.slc.sli.test.edfi.entitiesR1.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entitiesR1.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entitiesR1.PopulationServedType;
 import org.slc.sli.test.edfi.entitiesR1.Program;
@@ -70,8 +69,8 @@ public class SectionGenerator {
 //        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
 //        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
        // edOrgIdentityType.setStateOrganizationId(schoolId);
-        SessionIdentityType sessionIdentity = new SessionIdentityType();
-        sessionIdentity.setSessionName(sessionId);
+//        SessionIdentityType sessionIdentity = new SessionIdentityType();
+//        sessionIdentity.setSessionName(sessionId);
         
         section.setSchoolId(schoolId);
         section.setSessionId(sessionId);
@@ -113,7 +112,7 @@ public class SectionGenerator {
         	tsa.setHighlyQualifiedTeacher(true);
         	tsa.setClassroomPosition(getClassroomPositionType());
         	section.getTeacherAssociations().add(tsa);
-        	System.out.println("section of teacher=====================>" + tsa.getTeacherId());
+
         	
         }
     

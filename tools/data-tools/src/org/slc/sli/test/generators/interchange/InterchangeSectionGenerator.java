@@ -37,8 +37,7 @@ public class InterchangeSectionGenerator {
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeSection> iWriter) {
 
         generateSections(iWriter, MetaRelations.SUPERSECTION_MAP.values());
-        //generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
-
+   
     }
 
     /**
@@ -72,26 +71,5 @@ public class InterchangeSectionGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateStudents(InterchangeWriter<InterchangeStudent> iWriter, Collection<StudentMeta> studentMetas) {
-        long startTime = System.currentTimeMillis();
-
-        for (StudentMeta studentMeta : studentMetas) {
-
-            Student student;
-
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                student = null;
-            } else {
-                student = FastStudentGenerator.generateLowFi(studentMeta.id);
-            }
-
-
-            iWriter.marshal(student);
-
-        }
-
-        System.out.println("generated " + studentMetas.size() + " Student objects in: "
-                + (System.currentTimeMillis() - startTime));
-    }
     
 }
