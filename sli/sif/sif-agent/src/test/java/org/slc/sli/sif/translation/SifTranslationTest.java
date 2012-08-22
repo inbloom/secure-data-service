@@ -134,7 +134,7 @@ public class SifTranslationTest extends AdkTest {
         Assert.assertEquals("Should create a single SLI entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
         Assert.assertEquals("Mapped SLI entitiy should be of type staffEducationOrganizationAssociation",
-                "staffEducationOrganizationAssociation", entities.get(0).entityType());
+                "staffEducationOrgAssignmentAssociation", entities.get(0).entityType());
 
     }
 
