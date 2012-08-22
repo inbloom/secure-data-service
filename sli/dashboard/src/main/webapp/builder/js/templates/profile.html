@@ -7,7 +7,7 @@
             <div class="show-{{checked}}">
                 <form ng-submit="savePageTitle();">
                     <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" required>
-                    <button class="btn btn-primary" ng-click="savePageTitle();" >add</button>
+                    <button class="btn btn-primary" ng-click="savePageTitle();" >save</button>
                     <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
                 </form>
             </div>
@@ -47,7 +47,7 @@
         </ul>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-toggle="modal" ng-click="addNewPanel()" id="addNewPanelBtn" ><i class="icon-plus"></i> Add new panel</button>
+        <!--<button class="btn" data-toggle="modal" ng-click="addNewPanel()" id="addNewPanelBtn" ><i class="icon-plus"></i> Add new panel</button>-->
         <button class="btn simplemodal-close" data-dismiss="modal" tabindex="3">Cancel</button>
         <button class="btn btn-primary" ng-click="addAvailPanels()"  tabindex="4">Save</button>
     </div>
