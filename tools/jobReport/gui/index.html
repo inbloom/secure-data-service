@@ -11,32 +11,50 @@
 
       var API_URL = 'http://localhost:8080';
       //var API_URL = 'http://devgalactus.slidev.org:9090/';
-      var MONGO_HOST_PORT = null; // defaults and set in html input
+      var MONGO_HOST_PORT = 'localhost:27017'; // defaults and set in html input
+      var DEFAULT_JOB_ID = null;
       
       google.load('visualization', '1', {'packages':['corechart']});
 
-      google.setOnLoadCallback(listJobs);
+      google.setOnLoadCallback(onLoadCallback);
 
       var jobCache = {};
+
+      function onLoadCallback() {
+        // parse optional mongo query parameter
+        if (window.location.getParameter('mongo') != null) {
+          MONGO_HOST_PORT = window.location.getParameter('mongo');
+        }
+        $('#mongo_host').val(MONGO_HOST_PORT); // set mongo host value on text input
+
+        // list all jobs at this mongo host
+        listJobs();
+
+        // parse optional jobid query parameter
+        if (window.location.getParameter('jobid') != null) {
+          DEFAULT_JOB_ID = window.location.getParameter('jobid');
+          jobSummary(DEFAULT_JOB_ID);
+        }
+
+        updateHotLink();
+      }
 
       function listJobs() {
         $('#job_chooser').empty();
         $('#job_chooser_toggle').empty();
 
         clearJobSpecificDivs();
-
-        MONGO_HOST_PORT = $('#mongo_host').val(); // initialize
         
         var jobs = getApiResource('/jobids');
 
         if (jobs != null) {
           $('#job_chooser_toggle')
-            .append('<h4>' + jobs.length + ' Available Jobs (<a href="#" onclick="toggleJobChooser()">show/hide</a>):');
+            .append('<h4>' + jobs.length + ' Available Jobs (<a href="#" onclick="toggleJobChooser();return false;">show/hide</a>):');
 
           $.each(jobs, function(key, val) {
             $('#job_chooser')
               .append('<input type="checkbox" class="job_checkbox" name="'+val._id+'" />')
-              .append('<a href="#" onclick="jobSummary(\''+val._id+'\')">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
+              .append('<a href="#" onclick="jobSummary(\''+val._id+'\');return false;">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
           });
 
           $('#job_chooser')
@@ -46,6 +64,8 @@
       }
 
       function jobSummary(jobId) {
+        DEFAULT_JOB_ID = jobId;
+        updateHotLink();
         clearJobSpecificDivs();
         $('#job_summary').append('<h4>Job Summary: ' + jobId + '</h4>');
 
@@ -431,6 +451,25 @@
         $('#progressbar').show();
       }
 
+      function mongoHostChange() {
+        MONGO_HOST_PORT = $('#mongo_host').val();
+        DEFAULT_JOB_ID = null;
+        updateHotLink();
+        listJobs();
+      }
+
+      function updateHotLink() {
+        var live_url = window.location.href;
+        if (window.location.search != null) {
+          live_url = live_url.replace(window.location.search,'');
+        }
+        live_url += '?mongo=' + MONGO_HOST_PORT;
+        if (DEFAULT_JOB_ID != null) {
+          live_url += '&jobid=' + DEFAULT_JOB_ID;
+        }
+        $('#url_link').text(live_url);
+      }
+
       function getReadableTime(rawSeconds) {
         var hours = Math.floor(rawSeconds / 3600);
         var min_divisor = rawSeconds % (3600);
@@ -470,6 +509,29 @@
         return recordCount;
       }
 
+      if (!window.location.getParameter ) {
+        window.location.getParameter = function(key) {
+          function parseParams() {
+              var params = {},
+                  e,
+                  a = /\+/g,  // Regex for replacing addition symbol with a space
+                  r = /([^&=]+)=?([^&]*)/g,
+                  d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                  q = window.location.search.substring(1);
+
+              while (e = r.exec(q))
+                  params[d(e[1])] = d(e[2]);
+
+              return params;
+          }
+
+          if (!this.queryStringParams)
+              this.queryStringParams = parseParams(); 
+
+          return this.queryStringParams[key];
+        };
+      }
+
       function clearJobSpecificDivs() {
         $('#job_chooser').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
@@ -494,9 +556,10 @@
     </script>
     </head>
     <body>
+        <p id="url_link"></p>
         <div id="mongo_chooser">
-          <form onsubmit='listJobs();return false;'>
-            (mongo_host:port) <input id="mongo_host" type="text" value="localhost:27017" size="30"/>
+          <form onsubmit='mongoHostChange();return false;'>
+            (mongo_host:port) <input id="mongo_host" type="text" size="30"/>
             <input type='submit'/>
           </form>
         </div>

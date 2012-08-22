@@ -27,6 +27,7 @@ require 'test/unit'
 require 'active_support/inflector'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+require_relative '../../../utils/email.rb'
 
 SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
@@ -134,11 +135,11 @@ end
 When /^the developer click "([^"]*)"$/ do |button|
   if(button == "Accept")
     if(@prod)
-      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil) do
+      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil, PropLoader.getProps['email_imap_registration_user']) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     else
-      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil) do
+      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil, PropLoader.getProps['email_imap_registration_user']) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     end
@@ -160,7 +161,7 @@ end
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
     approval_email_subject = "Welcome to the SLC Developer Sandbox"
-    @email_content = check_email(approval_email_subject, nil) do
+    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
       sleep(2)
       url = getVerificationLink()
       puts url
@@ -319,7 +320,7 @@ end
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   if(@prod)
     approval_email_subject = "Welcome to the Shared Learning Collaborative"
-    @email_content = check_email(approval_email_subject, nil) do
+    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
       @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
       @driver.switch_to().alert().accept()
     end
@@ -453,45 +454,3 @@ def sha256(to_hash)
   Digest::SHA256.hexdigest(to_hash)
 end
 
-# TODO: refactor this out. copied and pasted from multiple files
-def check_email(subject_substring = nil, content_substring)
-  imap_host = PropLoader.getProps['email_imap_host']
-  imap_port = PropLoader.getProps['email_imap_port']
-  imap_user = PropLoader.getProps['email_imap_registration_user']
-  imap_password = PropLoader.getProps['email_imap_registration_pass']
-  imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-  imap.authenticate('LOGIN', imap_user, imap_password)
-  imap.examine('INBOX')
-  not_so_distant_past = Date.today.prev_day.prev_day
-  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  imap.disconnect
-
-  yield
-
-  retry_attempts = 30
-  retry_attempts.times do
-    sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.authenticate('LOGIN', imap_user, imap_password)
-    imap.examine('INBOX')
-
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
-    unless(messages_new.empty?)
-      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      messages.each do |message|
-        puts "message received = #{message}"
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.downcase.include?(subject_substring.downcase))))
-          return content
-        end
-      end
-    end
-    imap.disconnect
-  end
-  fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
-end

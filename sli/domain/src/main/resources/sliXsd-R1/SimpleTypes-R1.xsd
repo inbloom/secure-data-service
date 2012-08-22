@@ -70,17 +70,17 @@
 				or other agencies to refer to an education organization.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="School" />
-			<xs:enumeration value="ACT" />
-			<xs:enumeration value="LEA" />
-			<xs:enumeration value="SEA" />
-			<xs:enumeration value="NCES" />
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="DUNS" />
-			<xs:enumeration value="Other Federal" />
-			<xs:enumeration value="Other" />
-		</xs:restriction>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="ACT"/>
+            <xs:enumeration value="LEA"/>
+            <xs:enumeration value="SEA"/>
+            <xs:enumeration value="NCES"/>
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="DUNS"/>
+            <xs:enumeration value="Other Federal"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="nameOfInstitution">
@@ -752,12 +752,12 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Main" />
-			<xs:enumeration value="Administrative" />
-			<xs:enumeration value="HealthClinic" />
-			<xs:enumeration value="Attendance" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Fax" />
+            <xs:enumeration value="Main"/>
+            <xs:enumeration value="Administrative"/>
+            <xs:enumeration value="HealthClinic"/>
+            <xs:enumeration value="Attendance"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Fax"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1912,51 +1912,51 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Achievement/proficiency level" />
-			<xs:enumeration value="ACT score" />
-			<xs:enumeration value="Adaptive scale score" />
-			<xs:enumeration value="Age score" />
-			<xs:enumeration value="C-scaled scores" />
-			<xs:enumeration value="College Board examination scores" />
-			<xs:enumeration value="Composite Score" />
-			<xs:enumeration value="Composite Rating" />
-			<xs:enumeration value="Composition Score" />
-			<xs:enumeration value="Grade equivalent or grade-level indicator" />
-			<xs:enumeration value="Grade equivalent or grade-level indicator" />
-			<xs:enumeration value="Graduation score" />
-			<xs:enumeration value="Growth/value-added/indexing" />
-			<xs:enumeration value="International Baccalaureate score" />
-			<xs:enumeration value="Letter grade/mark" />
-			<xs:enumeration value="Mastery level" />
-			<xs:enumeration value="Normal curve equivalent" />
-			<xs:enumeration value="Normalized standard score" />
-			<xs:enumeration value="Number score" />
-			<xs:enumeration value="Pass-fail" />
-			<xs:enumeration value="Percentile" />
-			<xs:enumeration value="Percentile rank" />
-			<xs:enumeration value="Proficiency level" />
-			<xs:enumeration value="Promotion score" />
-			<xs:enumeration value="Ranking" />
-			<xs:enumeration value="Ratio IQ's" />
-			<xs:enumeration value="Raw score" />
-			<xs:enumeration value="Scale score" />
-			<xs:enumeration value="Standard age score" />
-			<xs:enumeration value="Standard error measurement" />
-			<xs:enumeration value="Stanine score" />
-			<xs:enumeration value="Sten score" />
-			<xs:enumeration value="Theta" />
-			<xs:enumeration value="T-score" />
-			<xs:enumeration value="Vertical score" />
-			<xs:enumeration value="Workplace readiness score" />
-			<xs:enumeration value="Z-score" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Not applicable" />
+            <xs:enumeration value="Achievement/proficiency level"/>
+            <xs:enumeration value="ACT score"/>
+            <xs:enumeration value="Adaptive scale score"/>
+            <xs:enumeration value="Age score"/>
+            <xs:enumeration value="C-scaled scores"/>
+            <xs:enumeration value="College Board examination scores"/>
+            <xs:enumeration value="Composite Score"/>
+            <xs:enumeration value="Composite Rating"/>
+            <xs:enumeration value="Composition Score"/>
+            <xs:enumeration value="Grade equivalent or grade-level indicator"/>
+            <xs:enumeration value="Grade equivalent or grade-level indicator"/>
+            <xs:enumeration value="Graduation score"/>
+            <xs:enumeration value="Growth/value-added/indexing"/>
+            <xs:enumeration value="International Baccalaureate score"/>
+            <xs:enumeration value="Letter grade/mark"/>
+            <xs:enumeration value="Mastery level"/>
+            <xs:enumeration value="Normal curve equivalent"/>
+            <xs:enumeration value="Normalized standard score"/>
+            <xs:enumeration value="Number score"/>
+            <xs:enumeration value="Pass-fail"/>
+            <xs:enumeration value="Percentile"/>
+            <xs:enumeration value="Percentile rank"/>
+            <xs:enumeration value="Proficiency level"/>
+            <xs:enumeration value="Promotion score"/>
+            <xs:enumeration value="Ranking"/>
+            <xs:enumeration value="Ratio IQ's"/>
+            <xs:enumeration value="Raw score"/>
+            <xs:enumeration value="Scale score"/>
+            <xs:enumeration value="Standard age score"/>
+            <xs:enumeration value="Standard error measurement"/>
+            <xs:enumeration value="Stanine score"/>
+            <xs:enumeration value="Sten score"/>
+            <xs:enumeration value="Theta"/>
+            <xs:enumeration value="T-score"/>
+            <xs:enumeration value="Vertical score"/>
+            <xs:enumeration value="Workplace readiness score"/>
+            <xs:enumeration value="Z-score"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Not applicable"/>
             <xs:enumeration value="Quantile Measure"/>
             <xs:enumeration value="Lexile Measure"/>
             <xs:enumeration value="Vertical Scale Score"/>
             <xs:enumeration value="National College-Bound Percentile"/>
             <xs:enumeration value="State College-Bound Percentile"/>
-		</xs:restriction>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="attendanceEventCategoryType">
@@ -1988,18 +1988,18 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="behaviorCategoryType">
+	<xs:simpleType name="behaviorMapType">
 		<xs:annotation>
 			<xs:documentation>Enumeration items defining the categories of
 				behavior coded for use in describing an incident.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="State Law Crime" />
-			<xs:enumeration value="State Offense" />
-			<xs:enumeration value="School Violation" />
-			<xs:enumeration value="School Code of Conduct" />
-		</xs:restriction>
+            <xs:enumeration value="State Law Crime"/>
+            <xs:enumeration value="State Offense"/>
+            <xs:enumeration value="School Violation"/>
+            <xs:enumeration value="School Code of Conduct"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="calendarEventType">
@@ -2685,21 +2685,21 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Drivers License" />
-			<xs:enumeration value="Health Record" />
-			<xs:enumeration value="Medicaid" />
-			<xs:enumeration value="Professional Certificate" />
-			<xs:enumeration value="School" />
-			<xs:enumeration value="District" />
-			<xs:enumeration value="State" />
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="Other Federal" />
-			<xs:enumeration value="Selective Service" />
-			<xs:enumeration value="SSN" />
-			<xs:enumeration value="US Visa" />
-			<xs:enumeration value="PIN" />
-			<xs:enumeration value="Canadian SIN" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Drivers License"/>
+            <xs:enumeration value="Health Record"/>
+            <xs:enumeration value="Medicaid"/>
+            <xs:enumeration value="Professional Certificate"/>
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="District"/>
+            <xs:enumeration value="State"/>
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="Other Federal"/>
+            <xs:enumeration value="Selective Service"/>
+            <xs:enumeration value="SSN"/>
+            <xs:enumeration value="US Visa"/>
+            <xs:enumeration value="PIN"/>
+            <xs:enumeration value="Canadian SIN"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2712,18 +2712,19 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Displaced Homemaker" />
-			<xs:enumeration value="Foster Care" />
-			<xs:enumeration value="Homeless" />
-			<xs:enumeration value="Immigrant" />
-			<xs:enumeration value="Migratory" />
-			<xs:enumeration value="Parent in Military" />
-			<xs:enumeration value="Pregnant" />
-			<xs:enumeration value="Single Parent" />
-			<xs:enumeration value="Unaccompanied Youth" />
-			<xs:enumeration value="Unschooled Asylee" />
-			<xs:enumeration value="Unschooled Refugee" />
-		</xs:restriction>
+            <xs:enumeration value="Displaced Homemaker"/>
+            <xs:enumeration value="Foster Care"/>
+            <xs:enumeration value="Homeless"/>
+            <xs:enumeration value="Immigrant"/>
+            <xs:enumeration value="Migratory"/>
+            <xs:enumeration value="Parent in Military"/>
+            <xs:enumeration value="Pregnant"/>
+            <xs:enumeration value="Section 504 Handicapped"/>
+            <xs:enumeration value="Single Parent"/>
+            <xs:enumeration value="Unaccompanied Youth"/>
+            <xs:enumeration value="Unschooled Asylee"/>
+            <xs:enumeration value="Unschooled Refugee"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="studentIdentificationSystemType">
@@ -2939,20 +2940,19 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Athletic awards" />
-			<xs:enumeration value="Awarding of units of value" />
-			<xs:enumeration value="Citizenship award/recognition" />
-			<xs:enumeration
-				value="Completion of requirement, but no units of value awarded" />
-			<xs:enumeration value="Certificate" />
-			<xs:enumeration value="Honor award" />
-			<xs:enumeration value="Letter of commendation" />
-			<xs:enumeration value="Medals" />
-			<xs:enumeration value="Monogram/letter" />
-			<xs:enumeration value="Points" />
-			<xs:enumeration value="Promotion or advancement" />
-			<xs:enumeration value="Other" />
-		</xs:restriction>
+            <xs:enumeration value="Athletic awards"/>
+            <xs:enumeration value="Awarding of units of value"/>
+            <xs:enumeration value="Citizenship award/recognition"/>
+            <xs:enumeration value="Completion of requirement, but no units of value awarded"/>
+            <xs:enumeration value="Certificate"/>
+            <xs:enumeration value="Honor award"/>
+            <xs:enumeration value="Letter of commendation"/>
+            <xs:enumeration value="Medals"/>
+            <xs:enumeration value="Monogram/letter"/>
+            <xs:enumeration value="Points"/>
+            <xs:enumeration value="Promotion or advancement"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="relationType">
@@ -3351,10 +3351,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Home/Personal" />
-			<xs:enumeration value="Organization" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Work" />
+            <xs:enumeration value="Home/Personal"/>
+            <xs:enumeration value="Organization"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Work"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3520,21 +3520,21 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Baptismal or church certificate" />
-			<xs:enumeration value="Birth certificate" />
-			<xs:enumeration value="Drivers license" />
-			<xs:enumeration value="Entry in family Bible" />
-			<xs:enumeration value="Hospital certificate" />
-			<xs:enumeration value="Immigration document/visa" />
-			<xs:enumeration value="Life insurance policy" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Other non-official document" />
-			<xs:enumeration value="Other official document" />
-			<xs:enumeration value="Parents affidavit" />
-			<xs:enumeration value="Passport" />
-			<xs:enumeration value="Physicians certificate" />
-			<xs:enumeration value="Previously verified school records" />
-			<xs:enumeration value="State-issued ID" />
+            <xs:enumeration value="Baptismal or church certificate"/>
+            <xs:enumeration value="Birth certificate"/>
+            <xs:enumeration value="Drivers license"/>
+            <xs:enumeration value="Entry in family Bible"/>
+            <xs:enumeration value="Hospital certificate"/>
+            <xs:enumeration value="Immigration document/visa"/>
+            <xs:enumeration value="Life insurance policy"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Other non-official document"/>
+            <xs:enumeration value="Other official document"/>
+            <xs:enumeration value="Parents affidavit"/>
+            <xs:enumeration value="Passport"/>
+            <xs:enumeration value="Physicians certificate"/>
+            <xs:enumeration value="Previously verified school records"/>
+            <xs:enumeration value="State-issued ID"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3559,10 +3559,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Voluntary separation" />
-			<xs:enumeration value="Involuntary separation" />
-			<xs:enumeration value="Mutual agreement" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Voluntary separation"/>
+            <xs:enumeration value="Involuntary separation"/>
+            <xs:enumeration value="Mutual agreement"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3600,29 +3600,29 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Employment in education" />
-			<xs:enumeration value="Employment outside of education" />
-			<xs:enumeration value="Retirement" />
-			<xs:enumeration value="Family/personal relocation" />
-			<xs:enumeration value="Change of assignment" />
-			<xs:enumeration value="Formal study or research" />
-			<xs:enumeration value="Illness/disability" />
-			<xs:enumeration value="Homemaking/caring for a family member" />
-			<xs:enumeration value="Layoff due to budgetary reduction" />
-			<xs:enumeration value="Layoff due to organizational restructuring" />
-			<xs:enumeration value="Layoff due to decreased workload" />
-			<xs:enumeration value="Discharge due to unsuitability" />
-			<xs:enumeration value="Discharge due to misconduct" />
-			<xs:enumeration value="Discharge due to continued absence or tardiness" />
-			<xs:enumeration value="Discharge due to a falsified application form" />
-			<xs:enumeration value="Discharge due to credential revoked or suspended" />
-			<xs:enumeration value="Discharge due to unsatisfactory work performance" />
-			<xs:enumeration value="Death" />
-			<xs:enumeration value="Personal reason" />
-			<xs:enumeration value="Lay off due to lack of funding" />
-			<xs:enumeration value="Lost credential" />
-			<xs:enumeration value="Unknown" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Employment in education"/>
+            <xs:enumeration value="Employment outside of education"/>
+            <xs:enumeration value="Retirement"/>
+            <xs:enumeration value="Family/personal relocation"/>
+            <xs:enumeration value="Change of assignment"/>
+            <xs:enumeration value="Formal study or research"/>
+            <xs:enumeration value="Illness/disability"/>
+            <xs:enumeration value="Homemaking/caring for a family member"/>
+            <xs:enumeration value="Layoff due to budgetary reduction"/>
+            <xs:enumeration value="Layoff due to organizational restructuring"/>
+            <xs:enumeration value="Layoff due to decreased workload"/>
+            <xs:enumeration value="Discharge due to unsuitability"/>
+            <xs:enumeration value="Discharge due to misconduct"/>
+            <xs:enumeration value="Discharge due to continued absence or tardiness"/>
+            <xs:enumeration value="Discharge due to a falsified application form"/>
+            <xs:enumeration value="Discharge due to credential revoked or suspended"/>
+            <xs:enumeration value="Discharge due to unsatisfactory work performance"/>
+            <xs:enumeration value="Death"/>
+            <xs:enumeration value="Personal reason"/>
+            <xs:enumeration value="Lay off due to lack of funding"/>
+            <xs:enumeration value="Lost credential"/>
+            <xs:enumeration value="Unknown"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3637,31 +3637,6 @@
 			<xs:enumeration value="Full price" />
 			<xs:enumeration value="Reduced price" />
 			<xs:enumeration value="Unknown" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="disabilityType">
-		<xs:annotation>
-			<xs:documentation>A disability condition that describes a child's
-				impairment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="Autistic/Autism" />
-			<xs:enumeration value="Deaf-Blindness" />
-			<xs:enumeration value="Deafness" />
-			<xs:enumeration value="Developmental Delay" />
-			<xs:enumeration value="Emotional Disturbance" />
-			<xs:enumeration value="Hearing/Auditory Impairment" />
-			<xs:enumeration value="Infants and Toddlers with Disabilities" />
-			<xs:enumeration value="Mental Retardation" />
-			<xs:enumeration value="Multiple Disabilities" />
-			<xs:enumeration value="Orthopedic Impairment" />
-			<xs:enumeration value="Other Health Impairment" />
-			<xs:enumeration value="Speech or Language Impairment" />
-			<xs:enumeration value="Specific Learning Disability" />
-			<xs:enumeration value="Traumatic Brain Delay" />
-			<xs:enumeration value="Visual Impairment" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3872,6 +3847,23 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <!--<xs:pattern value= ".*[^\.]" />-->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="currency">
+        <xs:annotation>
+            <xs:documentation>US currency in dollars and cents.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="uri">
+        <xs:annotation>
+            <xs:documentation>The public web site address (URL), file, or ftp locator.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="255"/>
         </xs:restriction>
     </xs:simpleType>
 
