@@ -90,7 +90,7 @@ Scenario:  SLC Operator can modify limited fields on their own account
 Given there is a production "SLC Operator" with tenancy " " and in " "
 Then I can navigate to the User Management Page with that production user
 Then I am redirected to "Admin Account Management" page 
-When I click the "edit" link for "SAMT Test"
+When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 And I do not see Role selection nor EdOrg dropdown menu 
 Then I can update the "Full Name" field to "SAMT Changed"
@@ -104,7 +104,7 @@ Scenario: As a SEA Admin I am able to edit any field for my account
 Given there is a production "SEA Administrator" with tenancy "Midgar" and in "IL"
 Then I can navigate to the User Management Page with that production user
 Then I am redirected to "Admin Account Management" page 
-When I click the "edit" link for "SAMT Test"
+When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 #all fields are editable except primary role
 And I can delete text in "Full Name" field 
@@ -130,7 +130,7 @@ Scenario: As a LEA Admin I am able to edit any field for my account
 Given there is a production "LEA Administrator" with tenancy "Midgar" and in "IL"
 Then I can navigate to the User Management Page with that production user
 Then I am redirected to "Admin Account Management" page 
-When I click the "edit" link for "SAMT Test"
+When I click the "edit" link for "SAMT Test_hostname"
 Then I am redirected to "Update a User" page
 #all fields are editable except primary role
 And I can delete text in "Full Name" field 
