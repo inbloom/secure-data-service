@@ -31,7 +31,7 @@
 			<% end %>
 			<div class="provisionBlock">
 	                  <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton" /> 
-			  <label for="custom"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
+			  <label for="custom" rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
 			  <div class="edOrgIdSelect">
 			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
@@ -40,7 +40,7 @@
 		<% else %>
 			<input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton" >
 			<div class="provisionBlock">
-			  <label><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
+			  <label rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
 			  <div class="edOrgIdSelect">
 			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
