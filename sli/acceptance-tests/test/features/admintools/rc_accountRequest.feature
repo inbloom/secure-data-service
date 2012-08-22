@@ -25,6 +25,7 @@ Scenario: As an app developer I want to verify my registration email
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
+  And I should receive an email telling me my account is approved
 
 Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
@@ -44,5 +45,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   When I approve his account
   Then I am asked "Do you really want to approve this user account?"
   When I click on Ok
-  Then his account status changed to "approved"
-  And I should see "Account was successfully updated"
+  Then I should see "Account was successfully updated"

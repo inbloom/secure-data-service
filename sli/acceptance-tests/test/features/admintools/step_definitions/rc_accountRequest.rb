@@ -24,7 +24,8 @@ require_relative '../../liferay/step_definitions/all_steps.rb'
 
 
 Before do
-  @rc_admintools_url = "https://rcadmin.slidev.org"
+  #@rc_admintools_url = "https://rcadmin.slidev.org"
+  @rc_admintools_url = "http://local.slidev.org:3001"
   @rc_portal_url = "https://rcportal.slidev.org/portal"
 end
 
@@ -73,6 +74,13 @@ Then /^I should be notified that my email is verified$/ do
   assertText("Email Confirmed")
 end
 
+Then /^I should receive an email telling me my account is approved$/ do
+  subject_string = "Welcome to the Shared Learning Collaborative"
+  content_string = "Welcome RCTest"
+  content = check_email_for_verification(subject_string, content_string)
+  assert(!content.nil?, "Cannot find email telling me that my account is approved")
+end
+
 Then /^I should see an account with name "([^\"]*)"$/ do |user_name|
   user = @driver.find_element(:id, "username."+user_name)
   assert(user.text == user_name, "Didnt find the account with name #{user_name}")
@@ -98,24 +106,16 @@ def check_email_for_verification(subject_substring = nil, content_substring = ni
   imap_port = 993
   imap_user = 'testdev.wgen@gmail.com'
   imap_password = 'testdev.wgen1234'
-  not_so_distant_past = Date.today.prev_day.prev_day
+  not_so_distant_past = Date.today.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
   imap.login(imap_user, imap_password)
   imap.examine('INBOX')
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  imap.disconnect
 
   retry_attempts = 30
   retry_attempts.times do
     sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.login(imap_user, imap_password)
-    imap.examine('INBOX')
-
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
+    messages_new = imap.search(['SINCE', not_so_distant_past_imap_date])
     unless(messages_new.empty?)
       messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
       messages.each do |message|
@@ -127,7 +127,7 @@ def check_email_for_verification(subject_substring = nil, content_substring = ni
         end
       end
     end
-    imap.disconnect
   end
+  imap.disconnect
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
