@@ -90,6 +90,8 @@
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
+
+        drawStagePerfChart(job);
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -128,10 +130,75 @@
         });
       }
 
+      function drawStagePerfChart(job) {
+        var stageStatsMap = getStagePerfStruct(job);
+        var stages = [];
+
+        // construct, populate, and draw google DataTables
+        var dataTable = new google.visualization.DataTable();
+        //first column is the time
+        dataTable.addColumn('string', 'Time');
+
+        //for each time spot
+        $.each(stageStatsMap, function(key, time) {
+          //for each for processor within this time spot
+          $.each(time, function(proc, val){
+            if(stages.indexOf(proc) == -1 ) {
+              stages.push(proc);
+              dataTable.addColumn('number', proc);
+            }
+          });
+        });
+
+        $.each(stageStatsMap, function(key, proc){
+          var row = [key];
+          $.each(stages, function(stage, v){
+            if(typeof proc[v] == 'undefined'){
+              row.push(0);
+            } else {
+              row.push(proc[v]);
+            }
+          });
+          dataTable.addRow(row);
+        });
+
+        //dataTable.sort([{column: 2, desc:true}, {column:1, desc:true}]); // sort by elapsed time, descending
+        drawComboChart('Job OP Distribution', '# Records', 'Time', 'job_dist_linechart_div', dataTable);
+      }
+
+      //get records distribution over the execution time
+      function getStagePerfStruct(job) {
+        var stageStatsMap = {};
+        //ex. {'hh:mm:ss':{'PersistenceProcessor':123}}
+
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, stage) {
+
+          if(typeof (stage.startTimestamp) != 'undefined') {
+            var Time = stage.startTimestamp.split('.')[0];
+            if (typeof stageStatsMap[Time] == 'undefined') {
+              stageStatsMap[Time] = {};
+            }
+
+            //for those without stageName, will be under [time]['undefined']
+            if(typeof stageStatsMap[Time][stage.stageName] == 'undefined') {
+              stageStatsMap[Time][stage.stageName] = 0;
+            }
+
+            $.each(stage.metrics, function(key, metric) {
+              stageStatsMap[Time][stage.stageName] += metric.recordCount;
+            });
+          }
+        });
+
+        return stageStatsMap;
+      }
+
       function getStageEntityPerfStruct(job) {
         var entityStatsMap = {};
         // ex. [{ 'PersistenceProcessor': { 'assessment': {'recordCount': 123, 'elapsedTime': 456, 'rps': 200, 'displayLabel': 'somestring'} } }];
-        
+
         var stagesForJob = getApiResource('/job/' + job._id + '/stage');
 
         $.each(stagesForJob, function(key, stage) {
@@ -413,6 +480,7 @@
         $('#TransformationProcessor_entity_div').empty();
         $('#PersistenceProcessor_entity_jobcompare_div').empty();
         $('#TransformationProcessor_entity_jobcompare_div').empty();
+        $('#job_dist_linechart_div').empty();
       }
 
       function toggleJobChooser() {
@@ -442,5 +510,6 @@
         <div id="TransformationProcessor_entity_div"></div>
         <div id="PersistenceProcessor_entity_jobcompare_div"></div>
         <div id="TransformationProcessor_entity_jobcompare_div"></div>
+        <div id="job_dist_linechart_div"></div>
     </body>
 </html>

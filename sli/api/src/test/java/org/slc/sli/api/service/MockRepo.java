@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -574,6 +573,7 @@ public class MockRepo implements Repository<Entity> {
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
     }
+
     @Override
     public long count(String collectionName, Query query) {
         // TODO Auto-generated method stub
@@ -622,5 +622,11 @@ public class MockRepo implements Repository<Entity> {
     @Override
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
         return false;
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

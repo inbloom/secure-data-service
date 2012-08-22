@@ -68,7 +68,7 @@ public class StageTrackingAspect {
         return proceedAndTrackCall(pjp);
     }
 
-    @Around("(call(* org.slc.sli.domain.Repository.create(..)) || call(* org.slc.sli.domain.Repository.update(..))) && !within(org..*Test)")
+    @Around("(call(* org.slc.sli.domain.Repository.create(..)) || call(* org.slc.sli.domain.Repository.update(..)) || call(* org.slc.sli.domain.Repository.insert(..))) && !within(org..*Test)")
     public Object trackRepositoryWrites(ProceedingJoinPoint pjp) throws Throwable {
 
         return proceedAndTrackCall(pjp);

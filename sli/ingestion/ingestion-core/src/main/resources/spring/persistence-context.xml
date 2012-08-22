@@ -17,11 +17,12 @@
   <!-- Used for new (plain and transformed) entities -->
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
+    <property name="entityConfigurations" ref="entityConfigurationsFactory" />
     <property name="messageSource" ref="messageSource" />
   </bean>
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
-  <util:set id="newPipelinePlainEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+  <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -65,7 +66,7 @@
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
-  <util:set id="newPipelineTransformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+  <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
     <value>attendance</value>
     <value>learningObjective</value>
@@ -88,11 +89,11 @@
     <entry key="stagedOnlyEntities">
       <ref local="stagedOnlyEntities" />
     </entry>
-    <entry key="newPipelinePlainEntities">
-      <ref local="newPipelinePlainEntities" />
+    <entry key="passthroughEntities">
+      <ref local="passthroughEntities" />
     </entry>
-    <entry key="newPipelineTransformedEntities">
-      <ref local="newPipelineTransformedEntities" />
+    <entry key="transformedEntities">
+      <ref local="transformedEntities" />
     </entry>
   </util:map>
 
