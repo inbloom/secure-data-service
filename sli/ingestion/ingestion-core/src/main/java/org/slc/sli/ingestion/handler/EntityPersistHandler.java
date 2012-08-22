@@ -143,7 +143,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         boolean res = false;
 
         try {
-            res = entityRepository.update(collectionName, entity);
+            res = entityRepository.updateWithRetries(collectionName, entity, totalRetries);
             if (!res) {
                 failed.add(entity);
             }

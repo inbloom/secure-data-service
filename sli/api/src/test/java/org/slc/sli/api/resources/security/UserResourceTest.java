@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,8 +30,10 @@ import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
 import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -53,6 +56,9 @@ public class UserResourceTest {
 
     @Mock
     SuperAdminService adminService;
+
+    @Mock
+    SecurityEventBuilder securityEventBuilder;
 
     private static final GrantedAuthority[] EMPTY_RIGHT = {};
     private static final GrantedAuthority[] NO_ADMIN_RIGHT = { Right.INGEST_DATA, Right.ANONYMOUS_ACCESS };
@@ -78,6 +84,7 @@ public class UserResourceTest {
                 new HashSet<String>(Arrays.asList(EDORG1, EDORG2)));
         Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
                                                                 // CRUD_SLC_OPERATOR.
+        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (UriInfo) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
     }
 
     @Test
@@ -370,7 +377,7 @@ public class UserResourceTest {
         newUser.setUid(UUID2);
         Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(newUser);
         Response res = resource.delete(newUser.getUid());
-        Mockito.verify(ldap).getUser(REALM, newUser.getUid());
+        Mockito.verify(ldap, Mockito.atLeastOnce()).getUser(REALM, newUser.getUid());
         Mockito.verify(ldap).removeUser(REALM, newUser.getUid());
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
