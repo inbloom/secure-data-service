@@ -1,12 +1,11 @@
-@rc @wip
+@rc
 Feature: User requests for an account for production or sandbox account
 
 Background: None
 
 Scenario: As an app developer I request a production account
   Given I have an open web browser
-  And I go to the account registration page on RC
-  Given I go to the production account registration page
+  And I go to the account registration page
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
@@ -25,11 +24,10 @@ Scenario: As an app developer I want to verify my registration email
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
-  And I should receive an email telling me my account is approved
 
 Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
-  And I go to the portal page on RC
+  And I navigate to the Portal home page
   When I select the "Shared Learning Collaborative" realm
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
@@ -47,3 +45,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   When I click on Ok
   Then I should see "Account was successfully updated"
   And his account status is "approved"
+  And I should receive an email telling me my account is approved
