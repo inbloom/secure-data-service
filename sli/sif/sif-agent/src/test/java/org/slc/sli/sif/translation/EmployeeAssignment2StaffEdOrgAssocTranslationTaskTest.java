@@ -56,10 +56,8 @@ public class EmployeeAssignment2StaffEdOrgAssocTranslationTaskTest extends AdkTe
     @Mock
     JobClassificationConverter mockJobClassificationConverter;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 
