@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -85,22 +88,26 @@ public class SliSchemaVersionValidatorTest {
 
         when(entitySchemaRepository.getSchemas()).thenReturn(neutralSchemas);
 
-
-
-
-
         BasicDBObject studentDbObject = new BasicDBObject();
         studentDbObject.put("_id", "student");
-        studentDbObject.put("dal_sv", 1);
+        studentDbObject.put("dal_sv", new Double(1.0));
         BasicDBObject sectionDbObject = new BasicDBObject();
         sectionDbObject.put("_id", "section");
-        sectionDbObject.put("dal_sv", 1);
+        sectionDbObject.put("dal_sv", new Double(1.0));
+
+        final List<DBObject> findOnes = new ArrayList<DBObject>();
+        findOnes.add(studentDbObject);
+        findOnes.add(sectionDbObject);
+        findOnes.add(null);
+
+        when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.eq("metaData"))).thenAnswer(new Answer<DBObject>() {
+            @Override
+            public DBObject answer(InvocationOnMock invocation) throws Throwable {
+                return findOnes.remove(0);
+            }
+        });
 
         this.sliSchemaVersionValidator.validate();
-
-        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(studentDbObject);
-        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(sectionDbObject);
-        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(null);
 
         Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.any(String.class));
         Mockito.verify(mongoTemplate, Mockito.times(1)).insert(Mockito.any(Object.class), Mockito.any(String.class));
