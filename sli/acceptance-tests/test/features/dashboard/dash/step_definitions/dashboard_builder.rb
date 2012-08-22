@@ -43,9 +43,10 @@ When /^I add a Page named "(.*?)"$/ do |pageName|
   if (@currentProfile == "section")
     uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
   end
-  @driver.find_element(:id, "content_json").send_keys(:backspace)
-  @driver.find_element(:id, "content_json").send_keys(:backspace)
-  @driver.find_element(:id, "content_json").send_keys(uploadText)
+  inputBox = @driver.find_element(:id, "content_json")
+  inputBox.send_keys(:backspace)
+  inputBox.send_keys(:backspace)
+  inputBox.send_keys(uploadText)
   saveDashboardBuilder()
 end
 
@@ -79,11 +80,19 @@ When /^I move Page "(.*?)" to become Page Number "(.*?)"$/ do |pageName, pageInd
 end
 
 When /^I see the following page order "(.*?)" in the builder$/ do |pages|
-  checkPageOrder(pages, 1)
+  expected = pages.split(';')  
+  actual = @driver.find_element(:css, "[class*='tabbable']").find_element(:tag_name, "ul").find_elements(:tag_name, "li") 
+  assert(expected.length == actual.length - 1 , "size of pages are not equal Actual: " + (actual.length - 1).to_s + " Expected: " + expected.length.to_s )
+  for index in 0..actual.length - 2 #ignore the las page  
+    page = actual[index]
+    pageText = page.find_element(:tag_name,"a").text
+    assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
+  end
+
 end
 
 def getPageByName(pageName)
-  pages = @driver.find_element(:id, "tabs").find_elements(:tag_name, "li")
+  pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
     puts page.text
     if (page.text == pageName)
@@ -100,8 +109,7 @@ def getPageByIndex(index)
 end
 
 def setPageName(pageName)
-  popup = @driver.find_element(:class, "modal-body")
-  popup.find_element(:tag_name, "input").send_keys pageName
+  @driver.find_element(:id, "pageTitle").send_keys pageName
 end
 
 def hoverOverPage(pageName, mode)
@@ -109,21 +117,19 @@ def hoverOverPage(pageName, mode)
   assert(page != nil, "Page #{pageName} is not found")
   
   @driver.action.move_to(page).perform
-  #ensure that it is hovering on it
-  page.find_element(:class, "updatePage")
-  
-  edit = page.find_elements(:tag_name, "span")
-  assert(edit.length == 3)
+  page.find_element(:tag_name,"a")
+
   if (mode == "edit")
-    edit[1].click  
-    ensurePopupLoaded()
+    page.click
+    #TODO
   elsif (mode == "delete")
-    edit[2].click
+    page.click
+    @driver.find_element(:id, "removePage").click
   end  
 end
 
 def saveDashboardBuilder()
-  save = @driver.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
+  save = @driver.find_element(:id, "modalBox").find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
@@ -134,11 +140,11 @@ def saveDashboardBuilder()
 end
 
 def ensurePopupLoaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
+  @explicitWait.until {(style = @driver.find_element(:id, "modalBox").attribute('style').strip)  == "display: block;" }
 end
 
 def ensurePopupUnloaded() 
    @driver.manage.timeouts.implicit_wait = 2
-   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @explicitWait.until{(@driver.find_elements(:id, "modalBoxr").length) == 0}
    @driver.manage.timeouts.implicit_wait = 10
 end
