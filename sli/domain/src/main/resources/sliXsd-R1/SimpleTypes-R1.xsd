@@ -259,7 +259,7 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="countryCodeType">
+	<xs:simpleType name="countryType">
 		<xs:annotation>
 			<xs:documentation>The names of countries. (Note: A list of countries
 				and codes is currently maintained and updated by the ISO as ISO 3166
@@ -537,13 +537,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Home" />
-			<xs:enumeration value="Physical" />
-			<xs:enumeration value="Billing" />
-			<xs:enumeration value="Mailing" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Temporary" />
-			<xs:enumeration value="Work" />
+            <xs:enumeration value="Home"/>
+            <xs:enumeration value="Physical"/>
+            <xs:enumeration value="Billing"/>
+            <xs:enumeration value="Mailing"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Temporary"/>
+            <xs:enumeration value="Work"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1123,13 +1123,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Carnegie unit" />
-			<xs:enumeration value="Semester hour credit" />
-			<xs:enumeration value="Trimester hour credit" />
-			<xs:enumeration value="Quarter hour credit" />
-			<xs:enumeration value="Nine month year hour credit" />
-			<xs:enumeration value="Twelve month year hour credit" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Carnegie unit"/>
+            <xs:enumeration value="Semester hour credit"/>
+            <xs:enumeration value="Trimester hour credit"/>
+            <xs:enumeration value="Quarter hour credit"/>
+            <xs:enumeration value="Nine month year hour credit"/>
+            <xs:enumeration value="Twelve month year hour credit"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1795,11 +1795,11 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="AP" />
-			<xs:enumeration value="Dual credit" />
-			<xs:enumeration value="IB" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Vocational" />
+            <xs:enumeration value="AP"/>
+            <xs:enumeration value="Dual credit"/>
+            <xs:enumeration value="IB"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Vocational"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1875,13 +1875,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="School" />
-			<xs:enumeration value="District" />
-			<xs:enumeration value="State" />
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="Other Federal" />
-			<xs:enumeration value="Test Contractor" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="District"/>
+            <xs:enumeration value="State"/>
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="Other Federal"/>
+            <xs:enumeration value="Test Contractor"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2182,16 +2182,16 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="CSSC course code" />
-			<xs:enumeration value="Intermediate agency course code" />
-			<xs:enumeration value="LEA course code" />
-			<xs:enumeration value="NCES Pilot SNCCS course code" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="SCED course code" />
-			<xs:enumeration value="School course code" />
-			<xs:enumeration value="State course code" />
-			<xs:enumeration value="University course code" />
-		</xs:restriction>
+            <xs:enumeration value="CSSC course code"/>
+            <xs:enumeration value="Intermediate agency course code"/>
+            <xs:enumeration value="LEA course code"/>
+            <xs:enumeration value="NCES Pilot SNCCS course code"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="SCED course code"/>
+            <xs:enumeration value="School course code"/>
+            <xs:enumeration value="State course code"/>
+            <xs:enumeration value="University course code"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="courseDefinedByType">
@@ -2230,25 +2230,24 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Honor roll" />
-			<xs:enumeration value="Honor society" />
-			<xs:enumeration value="Honorable mention" />
-			<xs:enumeration value="Honors program" />
-			<xs:enumeration value="Prize awards" />
-			<xs:enumeration value="Scholarships" />
-			<xs:enumeration value="Awarding of units of value" />
-			<xs:enumeration value="Citizenship award/recognition" />
-			<xs:enumeration
-				value="Completion of requirement, but no units of value awarded" />
-			<xs:enumeration value="Attendance award" />
-			<xs:enumeration value="Certificate" />
-			<xs:enumeration value="Honor award" />
-			<xs:enumeration value="Letter of student commendation" />
-			<xs:enumeration value="Medals" />
-			<xs:enumeration value="National Merit scholar" />
-			<xs:enumeration value="Points" />
-			<xs:enumeration value="Promotion or advancement" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Honor roll"/>
+            <xs:enumeration value="Honor society"/>
+            <xs:enumeration value="Honorable mention"/>
+            <xs:enumeration value="Honors program"/>
+            <xs:enumeration value="Prize awards"/>
+            <xs:enumeration value="Scholarships"/>
+            <xs:enumeration value="Awarding of units of value"/>
+            <xs:enumeration value="Citizenship award/recognition"/>
+            <xs:enumeration value="Completion of requirement, but no units of value awarded"/>
+            <xs:enumeration value="Attendance award"/>
+            <xs:enumeration value="Certificate"/>
+            <xs:enumeration value="Honor award"/>
+            <xs:enumeration value="Letter of student commendation"/>
+            <xs:enumeration value="Medals"/>
+            <xs:enumeration value="National Merit scholar"/>
+            <xs:enumeration value="Points"/>
+            <xs:enumeration value="Promotion or advancement"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2491,20 +2490,21 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="All Level (Grade Level PK-12)" />
-			<xs:enumeration value="All-Level (Grade Level EC-12)" />
-			<xs:enumeration value="Early Childhood (PK-K)" />
-			<xs:enumeration value="Elementary (Grade Level 1-6)" />
-			<xs:enumeration value="Elementary (Grade Level 1-8)" />
-			<xs:enumeration value="Elementary (Grade Level 4-8)" />
-			<xs:enumeration value="Elementary (Grade Level EC-4)" />
-			<xs:enumeration value="Elementary (Grade Level EC-6)" />
-			<xs:enumeration value="Elementary (Grade Level PK-5)" />
-			<xs:enumeration value="Elementary (Grade Level PK-6)" />
-			<xs:enumeration value="Grade Level NA" />
-			<xs:enumeration value="Junior High (Grade Level 6-8)" />
-			<xs:enumeration value="Secondary (Grade Level 6-12)" />
-			<xs:enumeration value="Secondary (Grade Level 8-12)" />
+            <xs:enumeration value="All Level (Grade Level PK-12)"/>
+            <xs:enumeration value="All-Level (Grade Level EC-12)"/>
+            <xs:enumeration value="Early Childhood (PK-K)"/>
+            <xs:enumeration value="Elementary (Grade Level 1-6)"/>
+            <xs:enumeration value="Elementary (Grade Level 1-8)"/>
+            <xs:enumeration value="Elementary (Grade Level 4-8)"/>
+            <xs:enumeration value="Elementary (Grade Level EC-4)"/>
+            <xs:enumeration value="Elementary (Grade Level EC-6)"/>
+            <xs:enumeration value="Elementary (Grade Level PK-5)"/>
+            <xs:enumeration value="Elementary (Grade Level PK-6)"/>
+            <xs:enumeration value="Grade Level NA"/>
+            <xs:enumeration value="Junior High (Grade Level 6-8)"/>
+            <xs:enumeration value="Secondary (Grade Level 6-12)"/>
+            <xs:enumeration value="Secondary (Grade Level 8-12)"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2771,16 +2771,15 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="4-year bachelor's degree" />
-			<xs:enumeration value="5-year bachelor's degree" />
-			<xs:enumeration value="Master's degree" />
-			<xs:enumeration value="Doctoral degree" />
-			<xs:enumeration value="Met state testing requirement" />
-			<xs:enumeration value="Special/alternative program completion" />
-			<xs:enumeration value="Relevant experience" />
-			<xs:enumeration
-				value="Credentials based on reciprocation with another state" />
-		</xs:restriction>
+            <xs:enumeration value="4-year bachelor's degree"/>
+            <xs:enumeration value="5-year bachelor's degree"/>
+            <xs:enumeration value="Master's degree"/>
+            <xs:enumeration value="Doctoral degree"/>
+            <xs:enumeration value="Met state testing requirement"/>
+            <xs:enumeration value="Special/alternative program completion"/>
+            <xs:enumeration value="Relevant experience"/>
+            <xs:enumeration value="Credentials based on reciprocation with another state"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="teachingCredentialType">
@@ -2790,39 +2789,39 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Emergency" />
-			<xs:enumeration value="Emergency Certified" />
-			<xs:enumeration value="Emergency Non-Certified" />
-			<xs:enumeration value="Emergency Teaching" />
-			<xs:enumeration value="Intern" />
-			<xs:enumeration value="Master" />
-			<xs:enumeration value="Nonrenewable" />
-			<xs:enumeration value="One Year" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Paraprofessional" />
-			<xs:enumeration value="Professional" />
-			<xs:enumeration value="Probationary" />
-			<xs:enumeration value="Provisional" />
-			<xs:enumeration value="Regular" />
-			<xs:enumeration value="Retired" />
-			<xs:enumeration value="Specialist" />
-			<xs:enumeration value="Substitute" />
-			<xs:enumeration value="TeacherAssistant" />
-			<xs:enumeration value="Temporary" />
-			<xs:enumeration value="Special Assignment" />
-			<xs:enumeration value="Standard" />
-			<xs:enumeration value="Standard Professional" />
-			<xs:enumeration value="Temporary Classroom" />
-			<xs:enumeration value="Temporary Exemption" />
-			<xs:enumeration value="Unknown" />
-			<xs:enumeration value="Unknown Permit" />
-			<xs:enumeration value="Vocational" />
-			<xs:enumeration value="Standard Paraprofessional" />
-			<xs:enumeration value="Probationary Extension" />
-			<xs:enumeration value="Probationary Second Extension" />
-			<xs:enumeration value="Visiting International Teacher" />
-			<xs:enumeration value="District Local" />
-		</xs:restriction>
+            <xs:enumeration value="Emergency"/>
+            <xs:enumeration value="Emergency Certified"/>
+            <xs:enumeration value="Emergency Non-Certified"/>
+            <xs:enumeration value="Emergency Teaching"/>
+            <xs:enumeration value="Intern"/>
+            <xs:enumeration value="Master"/>
+            <xs:enumeration value="Nonrenewable"/>
+            <xs:enumeration value="One Year"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Paraprofessional"/>
+            <xs:enumeration value="Professional"/>
+            <xs:enumeration value="Probationary"/>
+            <xs:enumeration value="Provisional"/>
+            <xs:enumeration value="Regular"/>
+            <xs:enumeration value="Retired"/>
+            <xs:enumeration value="Specialist"/>
+            <xs:enumeration value="Substitute"/>
+            <xs:enumeration value="TeacherAssistant"/>
+            <xs:enumeration value="Temporary"/>
+            <xs:enumeration value="Special Assignment"/>
+            <xs:enumeration value="Standard"/>
+            <xs:enumeration value="Standard Professional"/>
+            <xs:enumeration value="Temporary Classroom"/>
+            <xs:enumeration value="Temporary Exemption"/>
+            <xs:enumeration value="Unknown"/>
+            <xs:enumeration value="Unknown Permit"/>
+            <xs:enumeration value="Vocational"/>
+            <xs:enumeration value="Standard Paraprofessional"/>
+            <xs:enumeration value="Probationary Extension"/>
+            <xs:enumeration value="Probationary Second Extension"/>
+            <xs:enumeration value="Visiting International Teacher"/>
+            <xs:enumeration value="District Local"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="telephoneNumberType">
@@ -3656,11 +3655,11 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Certification" />
-			<xs:enumeration value="Endorsement" />
-			<xs:enumeration value="Licensure" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Registration" />
+            <xs:enumeration value="Certification"/>
+            <xs:enumeration value="Endorsement"/>
+            <xs:enumeration value="Licensure"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Registration"/>
 		</xs:restriction>
 	</xs:simpleType>
 

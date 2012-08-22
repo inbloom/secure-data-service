@@ -16,12 +16,11 @@ limitations under the License.
 
 =end
 
-require "selenium-webdriver"
-require "socket"
-require 'net/imap'
-require_relative '../../cross_app_tests/step_definitions/rc_integration_samt'
 require_relative '../../liferay/step_definitions/all_steps.rb'
 
+###############################################################################
+# BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
+###############################################################################
 
 Before do
   @rc_admintools_url = "https://rcadmin.slidev.org"
@@ -45,7 +44,7 @@ Given /^I received an email to verify my email address$/ do
   content_string = "RCTest"
   content = check_email_for_verification(subject_string, content_string)
   content.split("\n").each do |line|
-    if(/#{@rc_admintools_url}/.match(line))
+    if(/#{PropLoader.getProps['admintools_server_url']}/.match(line))
       @email_verification_link = line
     end
   end
@@ -73,7 +72,7 @@ Then /^I should be notified that my email is verified$/ do
   assertText("Email Confirmed")
 end
 
-Then /^I should receive an email telling me my account is approved$/ do
+Then /^he should receive an email telling him his account is approved$/ do
   subject_string = "Welcome to the Shared Learning Collaborative"
   content_string = "Welcome RCTest"
   content = check_email_for_verification(subject_string, content_string)
