@@ -2269,6 +2269,227 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="enrollment">
+		<xs:annotation>
+			<xs:documentation>Enrollment
+			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>enrollment</sli:CollectionType>
+				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>School enrolling the student.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The value of the school year for the school.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entryDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year on which an individual
+						enters and
+						begins to receive instructional services in a school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entryGradeLevel" type="gradeLevelType">
+				<xs:annotation>
+					<xs:documentation>The grade level or primary instructional level
+						at
+						which a
+						student enters and receives services in a school or an
+						educational
+						institution during a given academic session.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entryType" type="entryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The process by which a student enters a school
+						during a given
+						academic session.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="repeatGradeIndicator" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indicator of whether the student is enrolling
+						to repeat a
+						grade level, either by failure or an agreement to hold
+						the student
+						back.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="classOf" type="schoolYearType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Projected High School graduation year
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolChoiceTransfer" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication of whether students transferred in
+						or out of the
+						school did so during the school year under the
+						provisions for public
+						school
+						choice in accordance with Title I,
+						Part
+						A, Section 1116.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="exitWithdrawDate" type="xs:date"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year of the first day after
+						the date of an
+						individual's last attendance at a school (if
+						known),
+						the day on which an
+						individual graduated, or the date on
+						which it
+						becomes known
+						officially that
+						an individual left school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="exitWithdrawType" type="exitWithdrawType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The circumstances under which the student exited
+						from
+						membership in an educational institution.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationalPlans" type="educationalPlanItemType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The type of Education Plan(s) the student is
+						following, if
+						appropriate. For example:
+						Special education IEP
+						Vocational
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Attendance records of the student per school.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Report cards for the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="academicRecords" type="studentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Academic Records for the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="address" type="address" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The set of elements that describes an address,
+						including the street address, city, state, and ZIP code.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:PersonallyIdentifiableInfo>true
+						</sli:PersonallyIdentifiableInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentIdentificationCode" type="studentIdentificationCode"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A coding scheme that is used for identification
+						and
+						record-keeping purposes by schools, social services, or other
+						agencies to refer to a student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Assessments associated with the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="loginId" type="identificationCode"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The login ID for the user; used for security
+						access
+						control interface.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:PersonallyIdentifiableInfo>true
+						</sli:PersonallyIdentifiableInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sessionIds" type="reference">
+				<xs:annotation>
+					<xs:documentation>Sessions the student is enrolled in.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="programIds" type="reference">
+				<xs:annotation>
+					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>program</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cohortIds" type="reference">
+				<xs:annotation>
+					<xs:documentation>Cohorts the student is enrolled in.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>cohort</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sectionIds" type="reference">
+				<xs:annotation>
+					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>section</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="student">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual for whom
@@ -2300,16 +2521,6 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="studentIdentificationCode" type="studentIdentificationCode"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>A coding scheme that is used for identification
-						and
-						record-keeping purposes by schools, social services, or other
-						agencies to refer to a student.
-					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -2350,18 +2561,6 @@
 					<xs:documentation>The set of elements that capture relevant data
 						regarding a person's birth, including birth date and place of
 						birth.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="address" type="address" minOccurs="0"
-				maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The set of elements that describes an address,
-						including the street address, city, state, and ZIP code.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
@@ -2539,12 +2738,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="specialEducationAttributes" type="studentSpecialEdAttributes" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>A collection of student attributes for special education.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="specialEducationAttributes" type="studentSpecialEdAttributes" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>A collection of student attributes for special education.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="displacementStatus" type="displacementStatusType"
 				minOccurs="0">
 				<xs:annotation>
@@ -2558,31 +2757,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programParticipations" type="programParticipation"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Key programs the student is participating in or
-						receives services.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="learningStyles" type="learningStyles"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The student's relative preference to visual,
 						auditory
 						and tactile learning expressed as percentages.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="cohortYears" type="cohortYear"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The type and year of a cohort (e.g., 9th grade)
-						the
-						student belongs to as determined by the year that student
-						entered a
-						specific grade.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2597,56 +2777,19 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="loginId" type="identificationCode"
-				minOccurs="0">
+			<xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The login ID for the user; used for security
-						access
-						control interface.
+					<xs:documentation>Assessments associated with the student.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Report cards for the student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="academicRecords" type="studentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Academic Records for the student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolAssociations" type="studentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Schools associated with the student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Assessments associated with the student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Attendance records of the student per school.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="disciplineIncidents" type="disciplineIncident" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Represents discipline incidents for this student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+			<xs:element name="disciplineIncidents" type="disciplineIncident" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Represents discipline incidents for this student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentAcademicRecord">
@@ -3547,146 +3690,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentSchoolAssociation">
-		<xs:annotation>
-			<xs:documentation>This association represents the school to which a
-				student is enrolled.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>School enrolling the student.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The value of the school year for the school.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year on which an individual
-						enters and
-						begins to receive instructional services in a school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryGradeLevel" type="gradeLevelType">
-				<xs:annotation>
-					<xs:documentation>The grade level or primary instructional level
-						at
-						which a
-						student enters and receives services in a school or an
-						educational
-						institution during a given academic session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="entryType" type="entryType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The process by which a student enters a school
-						during a given
-						academic session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="repeatGradeIndicator" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An indicator of whether the student is enrolling
-						to repeat a
-						grade level, either by failure or an agreement to hold
-						the student
-						back.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="classOf" type="schoolYearType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Projected High School graduation year
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolChoiceTransfer" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>An indication of whether students transferred in
-						or out of the
-						school did so during the school year under the
-						provisions for public
-						school
-						choice in accordance with Title I,
-						Part
-						A, Section 1116.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="exitWithdrawDate" type="xs:date"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The month, day, and year of the first day after
-						the date of an
-						individual's last attendance at a school (if
-						known),
-						the day on which an
-						individual graduated, or the date on
-						which it
-						becomes known
-						officially that
-						an individual left school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="exitWithdrawType" type="exitWithdrawType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The circumstances under which the student exited
-						from
-						membership in an educational institution.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="educationalPlans" type="educationalPlanItemType"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The type of Education Plan(s) the student is
-						following, if
-						appropriate. For example:
-						Special education IEP
-						Vocational
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-            <!-- 
-			<xs:element name="graduationPlan" type="graduationPlan"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The graduation plan associated with the student
-						enrolled in
-						the school.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-             -->
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="studentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
@@ -4579,7 +4582,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ratingOrganization" type="ratingOrganization"
+            <xs:element name="SchoolYear" type="schoolYearType">
+                <xs:annotation>
+                    <xs:documentation>The school year for which the accountability rating is assessed.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ratingOrganization" type="ratingOrganization"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The organization that assessed the rating.
@@ -4634,6 +4643,10 @@
 				address, city, state, and ZIP code.
 			</xs:documentation>
 		</xs:annotation>
+        <xs:annotation>
+            <xs:documentation>NOTE: 'address' does not support ed-fi AddressLine / international choice
+            </xs:documentation>
+        </xs:annotation>
 		<xs:sequence>
 			<xs:element name="streetNumberName">
 				<xs:annotation>
@@ -4719,7 +4732,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="countryCode" type="countryCodeType"
+			<xs:element name="country" type="countryType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The unique two character International
@@ -4741,7 +4754,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="openDate" type="xs:date" minOccurs="0">
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The first date the address is valid. For physical
 						addresses,
@@ -4749,7 +4762,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="closeDate" type="xs:date" minOccurs="0">
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The last date the address is valid. For physical
 						addresses,
@@ -4810,7 +4823,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="credentialField" type="credentialFieldDescriptor">
+			<xs:element name="credentialField" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>The field of certification for the certificate
 						(e.g.,
@@ -4952,7 +4965,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradeLevel" type="gradeLevelType"
+			<xs:element name="gradeLevel" type="descriptorReferenceType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The grade level when the student is planned to
@@ -4975,7 +4988,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="subjectArea" type="academicSubjectType">
+			<xs:element name="subjectArea" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>The intended major subject area of the graduation
 						requirement.
@@ -6558,7 +6571,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="countryOfBirthCode" type="countryCodeType"
+			<xs:element name="countryOfBirthCode" type="countryType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The unique two digit International Organization
