@@ -21,7 +21,7 @@ import java.util.List;
  * This multiplicity element is supported distinct from {@link Range} to maintain round-trip
  * fidelity.
  */
-public final class Multiplicity extends ModelElement {
+public class Multiplicity extends ModelElement {
     /**
      * The lower and upper bound range.
      */

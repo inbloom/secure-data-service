@@ -89,29 +89,36 @@ public class SifSubscriber implements Subscriber {
             Entity matchedEntity;
 
             switch (event.getAction()) {
-                case ADD:
-                    for (SliEntity sliEntity : entities) {
-                        // take care of cases when two or more SIF entities map into the same SLI entity
+            case ADD:
+                for (SliEntity sliEntity : entities) {
+                    // take care of cases when two or more SIF entities map into
+                    // the same SLI entity
+                    if (sliEntity.isCreatedByOthers() || sliEntity.getMatchedEntity() != null) {
                         if (sliEntity.isCreatedByOthers()) {
                             matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
-                            changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
-                            sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(), matchedEntity.getId(), zone.getZoneId());
                         } else {
-                            addEntity(sifData, zone.getZoneId(), sliEntity);
+                            matchedEntity = sliEntity.getMatchedEntity();
                         }
-                    }
-                    break;
-                case CHANGE:
-                    // TODO, we can potentially get multiple matched entities
-                    matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
-                    for (SliEntity sliEntity : entities) {
+
                         changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
+                        sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(),
+                                matchedEntity.getId(), zone.getZoneId());
+                    } else {
+                        addEntity(sifData, zone.getZoneId(), sliEntity);
                     }
-                    break;
-                case UNDEFINED:
-                default:
-                    LOG.error("Unsupported SIF Action: " + event.getAction());
-                    break;
+                }
+                break;
+            case CHANGE:
+                // TODO, we can potentially get multiple matched entities
+                matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
+                for (SliEntity sliEntity : entities) {
+                    changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
+                }
+                break;
+            case UNDEFINED:
+            default:
+                LOG.error("Unsupported SIF Action: " + event.getAction());
+                break;
             }
         }
     }
@@ -123,7 +130,8 @@ public class SifSubscriber implements Subscriber {
         if (guid != null) {
             sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
             if (sliEntity.hasOtherSifRefId()) {
-                sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), guid, zoneId);
+                sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), guid,
+                        zoneId);
             }
         }
     }
@@ -136,20 +144,21 @@ public class SifSubscriber implements Subscriber {
         updateMap(matchedEntity.getData(), sliEntity.createBody());
         slcInterface.update(matchedEntity);
         if (sliEntity.hasOtherSifRefId()) {
-            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), matchedEntity.getId(), zoneId);
+            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(),
+                    matchedEntity.getId(), zoneId);
         }
         LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
     // /-======================== HELPER UTILs ======
     /**
-     * Applies the values from map u to the keys in map m, recursively
-     *
-     * @param map
-     *            : the map to be updated
-     * @param u
-     *            : the map containing the updates
-     */
+    * Applies the values from map u to the keys in map m, recursively
+    *
+    * @param map
+    *            : the map to be updated
+    * @param u
+    *            : the map containing the updates
+    */
     private static void updateMap(Map<String, Object> map, Map<String, Object> u) {
         for (Entry<String, Object> uEntry : u.entrySet()) {
             if (!map.containsKey(uEntry.getKey())) {

@@ -663,4 +663,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return "TransformableXmlString [string=" + string + ", isTransformed=" + isTransformed + "]";
         }
     }
+
+    @Override
+    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

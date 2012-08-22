@@ -174,13 +174,22 @@ public class TenantProcessorTest {
     public void testPreLoad() {
         File landingZone = Files.createTempDir();
         try {
-            String fileName = "SmallSampleDataSet/InterchangeAssessmentMetadata-ACT.xml";
-            assertTrue(tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList(fileName)));
+            assertTrue(tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList("small")));
             assertTrue(new File(landingZone, "InterchangeAssessmentMetadata-ACT.xml").exists());
+            assertTrue(new File(landingZone, "MainControlFile.ctl").exists());
         } finally {
             landingZone.delete();
         }
+    }
 
+    @Test
+    public void testPreLoadBadDataSet() {
+        File landingZone = Files.createTempDir();
+        try {
+            assertTrue(!tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList("smallish")));
+        } finally {
+            landingZone.delete();
+        }
     }
 
 }

@@ -199,6 +199,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @param collectionName Name of collection to insert record in.
      * @return Successfully inserted record.
      */
+    @Override
     public List<T> insert(List<T> records, String collectionName) {
         template.insert(records, collectionName);
         LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
@@ -617,6 +618,4 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return collections;
     }
-
-
 }

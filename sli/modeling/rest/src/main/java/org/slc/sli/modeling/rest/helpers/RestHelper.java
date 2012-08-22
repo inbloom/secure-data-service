@@ -9,7 +9,10 @@ import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.ParamStyle;
 import org.slc.sli.modeling.rest.Resource;
 
-public final class RestHelper {
+/**
+ * @author dholmes
+ */
+public class RestHelper {
     public static final List<Param> computeRequestTemplateParams(final Resource resource,
             final Stack<Resource> ancestors) {
         final List<Param> params = new LinkedList<Param>();
