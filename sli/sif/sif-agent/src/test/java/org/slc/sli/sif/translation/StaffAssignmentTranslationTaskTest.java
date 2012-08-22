@@ -66,10 +66,8 @@ public class StaffAssignmentTranslationTaskTest extends AdkTest {
     @Mock
     TeachingAssignmentConverter mockTeachingAssignmentConverter;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

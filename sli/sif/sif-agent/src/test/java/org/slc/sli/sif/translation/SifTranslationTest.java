@@ -20,6 +20,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolInfo;
@@ -37,9 +38,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolverImplDummy;
+import org.slc.sli.sif.slcinterface.SimpleEntity;
 
 /**
  * Integration test for the configured SIF->SLI translation.
+ *
  * @author jtully
  *
  */
@@ -51,13 +55,15 @@ public class SifTranslationTest extends AdkTest {
     @Autowired
     private SifTranslationManager translationManager;
 
+    @Autowired
+    private SifIdResolverImplDummy idResolver;
+
     private static final String ZONE_ID = "TestZone";
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
+        idResolver.reset();
     }
 
     @Test
@@ -67,8 +73,8 @@ public class SifTranslationTest extends AdkTest {
 
         Assert.assertEquals("Should create a single SLI school entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization",
-                "school", entities.get(0).entityType());
+        Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization", "school", entities.get(0)
+                .entityType());
     }
 
     @Test
@@ -78,8 +84,8 @@ public class SifTranslationTest extends AdkTest {
 
         Assert.assertEquals("Should create a single SLI LEA entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization",
-                "educationOrganization", entities.get(0).entityType());
+        Assert.assertEquals("Mapped SLI entitiy should be of type educationOrganization", "educationOrganization",
+                entities.get(0).entityType());
     }
 
     @Test
@@ -89,8 +95,7 @@ public class SifTranslationTest extends AdkTest {
 
         Assert.assertEquals("Should create a single SLI student entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type student",
-                "student", entities.get(0).entityType());
+        Assert.assertEquals("Mapped SLI entitiy should be of type student", "student", entities.get(0).entityType());
     }
 
     @Test
@@ -100,8 +105,7 @@ public class SifTranslationTest extends AdkTest {
 
         Assert.assertEquals("Should create a single SLI staff entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type staff",
-                "staff", entities.get(0).entityType());
+        Assert.assertEquals("Mapped SLI entitiy should be of type staff", "staff", entities.get(0).entityType());
     }
 
     @Test
@@ -111,8 +115,47 @@ public class SifTranslationTest extends AdkTest {
 
         Assert.assertEquals("Should create a single SLI staff entity", 1, entities.size());
         Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type staff",
-                "staff", entities.get(0).entityType());
+        Assert.assertEquals("Mapped SLI entitiy should be of type staff", "staff", entities.get(0).entityType());
+    }
+
+    @Test
+    public void shouldTranslateEmploymentRecordToStaffEdoOrgAssoc() {
+
+        // set up id resolution
+        idResolver.putEntity("sifStaffId", new SimpleEntity("staff"));
+        idResolver.putEntity("sifEdOrgId", new SimpleEntity("educationOrganization"));
+
+        EmploymentRecord info = new EmploymentRecord();
+        info.setLEAInfoRefId("sifEdOrgId");
+        info.setSIF_RefId("sifStaffId");
+
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+
+        Assert.assertEquals("Should create a single SLI entity", 1, entities.size());
+        Assert.assertNotNull("NULL sli entity", entities.get(0));
+        Assert.assertEquals("Mapped SLI entitiy should be of type staffEducationOrganizationAssociation",
+                "staffEducationOrganizationAssociation", entities.get(0).entityType());
+
+    }
+
+    @Test
+    public void shouldTranslateEmploymentRecordToTeacherSchoolAssoc() {
+
+        // set up id resolution
+        idResolver.putEntity("sifStaffId", new SimpleEntity("teacher"));
+        idResolver.putEntity("sifEdOrgId", new SimpleEntity("school"));
+
+        EmploymentRecord info = new EmploymentRecord();
+        info.setLEAInfoRefId("sifEdOrgId");
+        info.setSIF_RefId("sifStaffId");
+
+        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
+
+        Assert.assertEquals("Should create a single SLI entity", 1, entities.size());
+        Assert.assertNotNull("NULL sli entity", entities.get(0));
+        Assert.assertEquals("Mapped SLI entitiy should be of type teacherSchoolAssociation",
+                "teacherSchoolAssociation", entities.get(0).entityType());
+
     }
 
     private SchoolInfo createSchoolInfo() {

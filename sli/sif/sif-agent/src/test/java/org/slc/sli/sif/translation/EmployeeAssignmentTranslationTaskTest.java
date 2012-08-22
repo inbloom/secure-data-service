@@ -60,10 +60,8 @@ public class EmployeeAssignmentTranslationTaskTest extends AdkTest {
     @Mock
     HRProgramTypeConverter mockHRProgramTypeConverter;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 

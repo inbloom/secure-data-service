@@ -86,6 +86,19 @@
             </list>
         </constructor-arg>
     </bean>
+    
+    <bean id="employmentRecordToStaffEdOrdTranslationTask" class="org.slc.sli.sif.translation.EmploymentRecordToStaffEdOrgTranslationTask" />
+    <bean id="employmentRecordToTeacherSchoolTranslationTask" class="org.slc.sli.sif.translation.EmploymentRecordToTeacherSchoolTranslationTask" />
+
+    <bean id="EmploymentRecordTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employmentRecordToStaffEdOrdTranslationTask" />
+                <ref local="employmentRecordToTeacherSchoolTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
 
     <util:map id="translationMap" key-type="java.lang.String"
         value-type="org.slc.sli.sif.translation.TranslationTask">
@@ -109,6 +122,9 @@
         </entry>
         <entry key="EmployeePersonal">
             <ref bean="EmployeePersonalTranslationTaskList" />
+        </entry>
+        <entry key="EmploymentRecord">
+            <ref bean="EmploymentRecordTranslationTaskList" />
         </entry>
     </util:map>
 

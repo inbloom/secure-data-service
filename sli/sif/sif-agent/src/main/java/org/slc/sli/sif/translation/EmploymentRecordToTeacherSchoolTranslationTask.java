@@ -24,15 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.converter.DateConverter;
-import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
+import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
-/**
- * Translation task to translate SIF EmploymentRecord to SLI staffEducationOrganizationAssociation
- *
- */
-public class EmploymentRecordToStaffEdOrgTranslationTask extends
-        AbstractTranslationTask<EmploymentRecord, StaffEducationOrganizationAssociationEntity> {
+public class EmploymentRecordToTeacherSchoolTranslationTask extends
+        AbstractTranslationTask<EmploymentRecord, TeacherSchoolAssociationEntity> {
 
     @Autowired
     SifIdResolver sifIdResolver;
@@ -43,13 +39,13 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
     private static final String TEACHER_TYPE = "teacher";
     private static final String SCHOOL_TYPE = "school";
 
-    public EmploymentRecordToStaffEdOrgTranslationTask() {
+    public EmploymentRecordToTeacherSchoolTranslationTask() {
         super(EmploymentRecord.class);
     }
 
     @Override
-    public List<StaffEducationOrganizationAssociationEntity> doTranslate(EmploymentRecord sifData, String zoneId) {
-        List<StaffEducationOrganizationAssociationEntity> result = new ArrayList<StaffEducationOrganizationAssociationEntity>();
+    public List<TeacherSchoolAssociationEntity> doTranslate(EmploymentRecord sifData, String zoneId) {
+        List<TeacherSchoolAssociationEntity> result = new ArrayList<TeacherSchoolAssociationEntity>();
 
         if (sifData == null) {
             return result;
@@ -62,21 +58,18 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
             return result;
         }
 
-        if (TEACHER_TYPE.equals(staff.getEntityType()) && SCHOOL_TYPE.equals(edOrg.getEntityType())) {
+        if (!TEACHER_TYPE.equals(staff.getEntityType()) || !SCHOOL_TYPE.equals(edOrg.getEntityType())) {
             // not handled by this translator
             return result;
         }
 
-        StaffEducationOrganizationAssociationEntity e = new StaffEducationOrganizationAssociationEntity();
+        TeacherSchoolAssociationEntity e = new TeacherSchoolAssociationEntity();
 
-        e.setEducationOrganizationReference(edOrg.getId());
-        e.setStaffReference(staff.getId());
-        e.setPositionTitle(sifData.getPositionTitle());
-        e.setBeginDate(dateConverter.convert(sifData.getHireDate()));
-        e.setEndDate(dateConverter.convert(sifData.getTerminationDate()));
+        e.setSchoolId(edOrg.getId());
+        e.setTeacherId(staff.getId());
 
         // This is a default value, missing field in SIF
-        e.setStaffClassification("Other");
+        e.setProgramAssignment("Regular Education");
 
         result.add(e);
         return result;

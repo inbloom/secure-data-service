@@ -53,10 +53,8 @@ public class OtherNamesConverterTest extends AdkTest {
 
     private final String defaultName = "Unknown";
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
 
         converter = new OtherNamesConverter();
         converter.setNameConverter(new NameConverter());

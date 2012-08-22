@@ -36,6 +36,7 @@ import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
+import org.slc.sli.sif.slcinterface.SimpleEntity;
 
 /**
  * Tests for EmploymentRecordToStaffEdOrgTranslationTask
@@ -78,14 +79,46 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
     }
 
     @Test
+    public void shouldReturnNothingWhenMissingStaff() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setLEAInfoRefId("schoolId");
+        er.setSIF_RefId("teacherId");
+
+        Entity school = new GenericEntity("school", new HashMap<String, Object>());
+
+        Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(school);
+        Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(null);
+
+        List<StaffEducationOrganizationAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void shouldReturnNothingWhenMissingEdorg() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setLEAInfoRefId("schoolId");
+        er.setSIF_RefId("teacherId");
+
+        Entity staff = new GenericEntity("teacher", new HashMap<String, Object>());
+
+        Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(null);
+        Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(staff);
+
+        List<StaffEducationOrganizationAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
     public void shouldTranslateLeaRefId() {
         EmploymentRecord er = new EmploymentRecord();
         er.setLEAInfoRefId("leaSifId");
 
-        Mockito.when(sifIdResolver.getSliGuid("leaSifId", "zone")).thenReturn("leaSliGuid");
-
         // mock the lookup of the staff/edorg
-        Entity entity = new GenericEntity("entityType", new HashMap<String, Object>());
+        Entity entity = new SimpleEntity("entityType", "leaSliGuid");
         Mockito.when(sifIdResolver.getSliEntity(Mockito.anyString(), Mockito.anyString())).thenReturn(entity);
 
         List<StaffEducationOrganizationAssociationEntity> result = translator.doTranslate(er, "zone");
@@ -96,6 +129,25 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
         StaffEducationOrganizationAssociationEntity e = result.get(0);
 
         Assert.assertEquals("leaSliGuid", e.getEducationOrganizationReference());
+    }
+
+    @Test
+    public void shouldTranslateStaffId() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setSIF_RefId("sifStaffId");
+
+        // mock the lookup of the staff/edorg
+        Entity entity = new SimpleEntity("entityType", "staffSliGuid");
+        Mockito.when(sifIdResolver.getSliEntity(Mockito.anyString(), Mockito.anyString())).thenReturn(entity);
+
+        List<StaffEducationOrganizationAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+
+        StaffEducationOrganizationAssociationEntity e = result.get(0);
+
+        Assert.assertEquals("staffSliGuid", e.getStaffReference());
     }
 
     @Test
@@ -186,5 +238,12 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
         Assert.assertEquals("terminateDate", e.getEndDate());
 
     }
+
+
+
+
+
+
+
 
 }

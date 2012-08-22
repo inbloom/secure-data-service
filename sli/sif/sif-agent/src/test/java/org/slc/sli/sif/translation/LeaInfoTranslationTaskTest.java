@@ -62,10 +62,8 @@ public class LeaInfoTranslationTaskTest extends AdkTest {
     @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
         MockitoAnnotations.initMocks(this);
     }
 
