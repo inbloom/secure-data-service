@@ -69,8 +69,8 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
 
         StaffEducationOrganizationAssociationEntity e = new StaffEducationOrganizationAssociationEntity();
 
-        String leaId = sifData.getLEAInfoRefId();
-        e.setEducationOrganizationReference(sifIdResolver.getSliGuid(leaId, zoneId));
+        e.setEducationOrganizationReference(edOrg.getId());
+        e.setStaffReference(staff.getId());
         e.setPositionTitle(sifData.getPositionTitle());
         e.setBeginDate(dateConverter.convert(sifData.getHireDate()));
         e.setEndDate(dateConverter.convert(sifData.getTerminationDate()));

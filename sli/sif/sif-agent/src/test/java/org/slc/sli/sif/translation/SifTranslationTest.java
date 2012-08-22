@@ -17,7 +17,6 @@
 package org.slc.sli.sif.translation;
 
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.Assert;
 import openadk.library.hrfin.EmployeePersonal;
@@ -37,11 +36,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.Link;
 import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolverImplDummy;
+import org.slc.sli.sif.slcinterface.SimpleEntity;
 
 /**
  * Integration test for the configured SIF->SLI translation.
@@ -124,8 +122,8 @@ public class SifTranslationTest extends AdkTest {
     public void shouldTranslateEmploymentRecordToStaffEdoOrgAssoc() {
 
         // set up id resolution
-        idResolver.putEntity("sifStaffId", new TypedEntity("staff"));
-        idResolver.putEntity("sifEdOrgId", new TypedEntity("educationOrganization"));
+        idResolver.putEntity("sifStaffId", new SimpleEntity("staff"));
+        idResolver.putEntity("sifEdOrgId", new SimpleEntity("educationOrganization"));
 
         EmploymentRecord info = new EmploymentRecord();
         info.setLEAInfoRefId("sifEdOrgId");
@@ -144,8 +142,8 @@ public class SifTranslationTest extends AdkTest {
     public void shouldTranslateEmploymentRecordToTeacherSchoolAssoc() {
 
         // set up id resolution
-        idResolver.putEntity("sifStaffId", new TypedEntity("teacher"));
-        idResolver.putEntity("sifEdOrgId", new TypedEntity("school"));
+        idResolver.putEntity("sifStaffId", new SimpleEntity("teacher"));
+        idResolver.putEntity("sifEdOrgId", new SimpleEntity("school"));
 
         EmploymentRecord info = new EmploymentRecord();
         info.setLEAInfoRefId("sifEdOrgId");
@@ -180,41 +178,5 @@ public class SifTranslationTest extends AdkTest {
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
 
         return info;
-    }
-
-    /**
-     * An entity that only allows 'type' to be set
-     */
-    private class TypedEntity implements Entity {
-
-        private String type;
-
-        public TypedEntity(String type) {
-            this.type = type;
-        }
-
-        @Override
-        public Map<String, Object> getData() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getEntityType() {
-            return type;
-        }
-
-        @Override
-        public String getId() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public List<Link> getLinks() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
     }
 }

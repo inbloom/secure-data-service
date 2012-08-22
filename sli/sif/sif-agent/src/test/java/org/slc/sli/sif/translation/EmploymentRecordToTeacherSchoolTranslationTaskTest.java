@@ -34,6 +34,7 @@ import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
+import org.slc.sli.sif.slcinterface.SimpleEntity;
 
 public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest {
 
@@ -71,8 +72,6 @@ public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest 
     public void shouldTranslateLeaRefId() {
         EmploymentRecord er = createEmploymentRecord();
 
-        Mockito.when(sifIdResolver.getSliGuid("schoolId", "zone")).thenReturn("schoolSliGuid");
-
         List<TeacherSchoolAssociationEntity> result = translator.doTranslate(er, "zone");
 
         Assert.assertNotNull(result);
@@ -81,6 +80,22 @@ public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest 
         TeacherSchoolAssociationEntity e = result.get(0);
 
         Assert.assertEquals("schoolSliGuid", e.getSchoolId());
+    }
+
+    @Test
+    public void shouldTranslateTeacherId() {
+        EmploymentRecord er = createEmploymentRecord();
+
+        Mockito.when(sifIdResolver.getSliGuid("teacherId", "zone")).thenReturn("teacherSliGuid");
+
+        List<TeacherSchoolAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+
+        TeacherSchoolAssociationEntity e = result.get(0);
+
+        Assert.assertEquals("teacherSliGuid", e.getTeacherId());
     }
 
     @Test
@@ -139,8 +154,8 @@ public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest 
         er.setSIF_RefId("teacherId");
 
         // handle the lookup of staff/edOrg type
-        Entity teacher = new GenericEntity("teacher", new HashMap<String, Object>());
-        Entity school = new GenericEntity("school", new HashMap<String, Object>());
+        Entity teacher = new SimpleEntity("teacher", "teacherSliGuid");
+        Entity school = new SimpleEntity("school", "schoolSliGuid");
         Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(school);
         Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(teacher);
 

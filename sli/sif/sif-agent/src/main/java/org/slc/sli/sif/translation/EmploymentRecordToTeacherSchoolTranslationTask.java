@@ -65,8 +65,8 @@ public class EmploymentRecordToTeacherSchoolTranslationTask extends
 
         TeacherSchoolAssociationEntity e = new TeacherSchoolAssociationEntity();
 
-        String leaId = sifData.getLEAInfoRefId();
-        e.setSchoolId(sifIdResolver.getSliGuid(leaId, zoneId));
+        e.setSchoolId(edOrg.getId());
+        e.setTeacherId(staff.getId());
 
         // This is a default value, missing field in SIF
         e.setProgramAssignment("Regular Education");
