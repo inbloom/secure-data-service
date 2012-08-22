@@ -197,6 +197,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         }
     }
 
+    @Override
     public List<NeutralSchema> getSchemas() {
         ArrayList<NeutralSchema> allSchemas = new ArrayList<NeutralSchema>(schemas.values());
         allSchemas.addAll(elementSchemas.values());

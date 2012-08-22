@@ -47,6 +47,11 @@ public class AppInfo extends Annotation {
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
     protected static final String NATURAL_KEY = "naturalKey";
     protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
+    protected static final String SCHEMA_VERSION = "schemaVersion";
+
+    public static final int NOT_VERSIONED = -1;
+
+    protected static final int DEFAULT_SCHEMA_VERSION = NOT_VERSIONED;
 
     private final Map<String, String> values = new LinkedHashMap<String, String>();
 
@@ -192,9 +197,16 @@ public class AppInfo extends Annotation {
         return null;
     }
 
+    public int getSchemaVersion() {
+        if (values.containsKey(SCHEMA_VERSION)) {
+            return Integer.parseInt(values.get(SCHEMA_VERSION));
+        }
+
+        return DEFAULT_SCHEMA_VERSION;
+    }
+
     public String getValue(String key) {
         return values.get(key);
-
     }
 
     /**
@@ -230,6 +242,8 @@ public class AppInfo extends Annotation {
                     values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.READ_GENERAL.toString());
                 }
                 break;
+            default:
+                break;
         }
 
         switch (parentInfo.getWriteAuthority()) {
@@ -250,6 +264,8 @@ public class AppInfo extends Annotation {
                 if (getWriteAuthority() == Right.ANONYMOUS_ACCESS) {
                     values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, Right.WRITE_GENERAL.toString());
                 }
+                break;
+            default:
                 break;
         }
 
