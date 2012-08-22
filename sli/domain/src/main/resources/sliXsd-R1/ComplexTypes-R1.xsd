@@ -3741,6 +3741,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="CompetencyLevel" type="descriptorReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The competency level assessed for the student for the referenced learning
+                        objective.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="diagnosticStatement" type="text"
 				minOccurs="0">
 				<xs:annotation>

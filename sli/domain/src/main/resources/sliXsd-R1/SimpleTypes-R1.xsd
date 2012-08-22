@@ -3850,6 +3850,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="currency">
+        <xs:annotation>
+            <xs:documentation>US currency in dollars and cents.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal"/>
+    </xs:simpleType>
+
     <xs:simpleType name="uri">
         <xs:annotation>
             <xs:documentation>The public web site address (URL), file, or ftp locator.</xs:documentation>
