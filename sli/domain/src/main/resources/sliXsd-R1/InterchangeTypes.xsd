@@ -4938,7 +4938,7 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ServiceProviders" type="ServiceProvider" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="SLI-ServiceProviders" type="SLI-ServiceProvider" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The staff providing special education services to the student.
                             </xs:documentation>
@@ -8609,30 +8609,15 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-    <xs:complexType name="SecondaryBehavior">
-        <xs:annotation>
-            <xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SecondaryBehavior" type="SecondaryBehaviorsType">
-                <xs:annotation>
-                    <xs:documentation>The description of the behavior of a student for a discipline incident.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="BehaviorMap" type="BehaviorMapType" use="required">
-            <xs:annotation>
-                <xs:documentation>The category of the incident behavior for classification purposes</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="ServiceProvider">
+
+
+    
+    <xs:complexType name="SLI-ServiceProvider">
         <xs:annotation>
             <xs:documentation>The student's special education Service Provider</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="StaffReference" type="StaffReferenceType"/>
+            <xs:element name="SLI-StaffUniqueStateId" type="StaffIdentificationCode"/>
         </xs:sequence>
         <xs:attribute name="PrimaryProvider" type="xs:boolean">
             <xs:annotation>

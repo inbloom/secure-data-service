@@ -1654,7 +1654,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="behaviorCategory" type="behaviorCategoryType">
+			<xs:element name="behaviorMap" type="behaviorMapType">
 				<xs:annotation>
 					<xs:documentation>The category of the incident behavior for
 						classification
@@ -1665,7 +1665,33 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staffCohortAssociation">
+    <xs:complexType name="serviceProvider">
+        <xs:annotation>
+            <xs:documentation>The student's special education Service Provider</xs:documentation>
+        </xs:annotation>
+        <xs:appinfo>
+            <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+        </xs:appinfo>
+        <xs:sequence>
+            <xs:element name="staffId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>The teacher assigned to the section.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>staff</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="primaryProvider" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Primary service provider</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="staffCohortAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association indicates the staff associated
@@ -3415,6 +3441,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
+            <xs:element name="ServiceProviders" type="serviceProvider" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The staff providing special education services to the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
             <xs:annotation>
                     <xs:documentation>The setting in which a child receives special

@@ -1988,18 +1988,18 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="behaviorCategoryType">
+	<xs:simpleType name="behaviorMapType">
 		<xs:annotation>
 			<xs:documentation>Enumeration items defining the categories of
 				behavior coded for use in describing an incident.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="State Law Crime" />
-			<xs:enumeration value="State Offense" />
-			<xs:enumeration value="School Violation" />
-			<xs:enumeration value="School Code of Conduct" />
-		</xs:restriction>
+            <xs:enumeration value="State Law Crime"/>
+            <xs:enumeration value="State Offense"/>
+            <xs:enumeration value="School Violation"/>
+            <xs:enumeration value="School Code of Conduct"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="calendarEventType">
