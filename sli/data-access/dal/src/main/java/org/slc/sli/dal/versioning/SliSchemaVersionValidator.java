@@ -25,6 +25,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -42,7 +43,6 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * @author kmyers
  *
  */
-@Component
 public class SliSchemaVersionValidator {
 
     public static final String SARJE = "SARJE";
@@ -55,6 +55,7 @@ public class SliSchemaVersionValidator {
     protected SchemaRepository entitySchemaRepository;
 
     @Autowired
+    @Qualifier("mongoTemplate")
     protected MongoTemplate mongoTemplate;
 
 
