@@ -81,7 +81,11 @@ public class RestResourceHelper implements ResourceHelper {
 
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
-        return uriTemplate.match(uriInfo.getRequestUri().getPath());
+        String path = uriInfo.getRequestUri().getPath();
+        if (path.endsWith("/")) {
+            path = path.substring(0,(path.length() - 1));
+        }
+        return uriTemplate.match(path);
     }
 
     private String getFourPartPath(final Map<String, String> matchList) {
