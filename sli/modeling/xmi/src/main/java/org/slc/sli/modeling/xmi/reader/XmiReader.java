@@ -126,8 +126,7 @@ public class XmiReader {
         }
     }
 
-    protected static final String getName(final XMLStreamReader reader, final String defaultName,final
-                                        XmiAttributeName attr) {
+    protected static final String getName(final XMLStreamReader reader, final String defaultName, final XmiAttributeName attr) {
         final String name = reader.getAttributeValue(GLOBAL_NAMESPACE, attr.getLocalName());
         if (name != null) {
             return name;
