@@ -101,57 +101,8 @@ public class DefaultResourceService implements ResourceService {
                     throw new EntityNotFoundException(ids.get(0));
                 }
 
-                if (idLength > 1) {
-                    Collections.sort(finalResults, new Comparator<EntityBody>() {
-                        @Override
-                        public int compare(EntityBody o1, EntityBody o2) {
-                            return ids.indexOf(o1.get("id")) - ids.indexOf(o2.get("id"));
-                        }
-
-                    });
-
-                    int finalResultsSize = finalResults.size();
-
-                    // loop if results quantity does not matched requested quantity
-                    for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
-
-                        String checkedId = ids.get(i);
-
-                        boolean checkedIdMissing = false;
-
-                        try {
-                            checkedIdMissing = !(finalResults.get(i).get("id").equals(checkedId));
-                        } catch (IndexOutOfBoundsException ioobe) {
-                            checkedIdMissing = true;
-                        }
-
-                        // if a particular input ID is not present in the results at the appropriate
-                        // spot
-                        if (checkedIdMissing) {
-
-                            Map<String, Object> errorResult = new HashMap<String, Object>();
-
-                            // try individual lookup to capture specific error message (type)
-                            try {
-                                definition.getService().get(ids.get(i));
-                            } catch (EntityNotFoundException enfe) {
-                                errorResult.put("type", "Not Found");
-                                errorResult.put("message", "Entity not found: " + checkedId);
-                                errorResult.put("code", Response.Status.NOT_FOUND.getStatusCode());
-                            } catch (AccessDeniedException ade) {
-                                errorResult.put("type", "Forbidden");
-                                errorResult.put("message", "Access DENIED: " + ade.getMessage());
-                                errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
-                            } catch (Exception e) {
-                                errorResult.put("type", "Internal Server Error");
-                                errorResult.put("message", "Internal Server Error: " + e.getMessage());
-                                errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-                            }
-
-                            finalResults.add(i, new EntityBody(errorResult));
-                        }
-                    }
-                }
+                //inject error entities if needed
+                finalResults = injectErrors(definition, ids, finalResults);
 
                 return new ServiceResponse(finalResults, idLength);
             }
@@ -333,6 +284,63 @@ public class DefaultResourceService implements ResourceService {
         ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
 
         return provider.getConnectionPath(fromEntityType,toEntityType);
+    }
+
+    protected List<EntityBody> injectErrors(EntityDefinition definition, final List<String> ids, List<EntityBody> finalResults) {
+        int idLength = ids.size();
+
+        if (idLength > 1) {
+            Collections.sort(finalResults, new Comparator<EntityBody>() {
+                @Override
+                public int compare(EntityBody o1, EntityBody o2) {
+                    return ids.indexOf(o1.get("id")) - ids.indexOf(o2.get("id"));
+                }
+            });
+
+            int finalResultsSize = finalResults.size();
+
+            // loop if results quantity does not matched requested quantity
+            for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
+
+                String checkedId = ids.get(i);
+
+                boolean checkedIdMissing = false;
+
+                try {
+                    checkedIdMissing = !(finalResults.get(i).get("id").equals(checkedId));
+                } catch (IndexOutOfBoundsException ioobe) {
+                    checkedIdMissing = true;
+                }
+
+                // if a particular input ID is not present in the results at the appropriate
+                // spot
+                if (checkedIdMissing) {
+
+                    Map<String, Object> errorResult = new HashMap<String, Object>();
+
+                    // try individual lookup to capture specific error message (type)
+                    try {
+                        definition.getService().get(ids.get(i));
+                    } catch (EntityNotFoundException enfe) {
+                        errorResult.put("type", "Not Found");
+                        errorResult.put("message", "Entity not found: " + checkedId);
+                        errorResult.put("code", Response.Status.NOT_FOUND.getStatusCode());
+                    } catch (AccessDeniedException ade) {
+                        errorResult.put("type", "Forbidden");
+                        errorResult.put("message", "Access DENIED: " + ade.getMessage());
+                        errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
+                    } catch (Exception e) {
+                        errorResult.put("type", "Internal Server Error");
+                        errorResult.put("message", "Internal Server Error: " + e.getMessage());
+                        errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+                    }
+
+                    finalResults.add(i, new EntityBody(errorResult));
+                }
+            }
+        }
+
+        return finalResults;
     }
 
 }
