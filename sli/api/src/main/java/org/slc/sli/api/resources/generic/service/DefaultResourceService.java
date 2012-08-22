@@ -300,15 +300,23 @@ public class DefaultResourceService implements ResourceService {
 
         final String resourceKey = getConnectionKey(association, resource);
         final List<String> filteredIdList = new ArrayList<String>();
+        String key = "_id";
         for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-            for(String filteredId :entityBody.getId(resourceKey)) {
-                filteredIdList.add(filteredId);
+            List<String> filteredIds = entityBody.getId(resourceKey);
+            if((filteredIds == null ) || (filteredIds.isEmpty())) {
+               key = resourceKey;
+               filteredIdList.addAll(valueList);
+               break;
+            } else {
+                for(String filteredId : filteredIds) {
+                    filteredIdList.add(filteredId);
+                }
             }
         }
 
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = getApiQuery(finalEntity, requestUri);
-        finalApiQuery.addCriteria(new NeutralCriteria("_id", "in", filteredIdList));
+        finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
 
         try {
             entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
