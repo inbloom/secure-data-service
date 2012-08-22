@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * A package is a collection of owned elements with a name.
  */
-public final class UmlPackage extends NamespaceOwnedElement {
+public class UmlPackage extends NamespaceOwnedElement {
 
     private final List<NamespaceOwnedElement> ownedElements;
 

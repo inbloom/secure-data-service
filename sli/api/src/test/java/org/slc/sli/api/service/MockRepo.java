@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -391,45 +390,8 @@ public class MockRepo implements Repository<Entity> {
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery) {
 
-        if (entityType.equals("realm")) {
-            final Map<String, Object> body = new HashMap<String, Object>();
-            body.put("tenantId", "SLI");
-
-            return new Entity() {
-                @Override
-                public String getEntityId() {
-                    return null;
-                }
-
-                @Override
-                public Map<String, Object> getMetaData() {
-                    return new BasicBSONObject();
-                }
-
-                @Override
-                public Map<String, Object> getBody() {
-                    return body;
-                }
-
-                @Override
-                public String getType() {
-                    return "realm";
-                }
-
-                @Override
-                public CalculatedData<String> getCalculatedValues() {
-                    return null;
-                }
-
-                @Override
-                public CalculatedData<Map<String, Integer>> getAggregates() {
-                    return null;
-                }
-            };
-        } else {
-            Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
-            return iter.hasNext() ? iter.next() : null;
-        }
+        Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
+        return iter.hasNext() ? iter.next() : null;
     }
 
     @Override
@@ -450,6 +412,7 @@ public class MockRepo implements Repository<Entity> {
     public Entity create(final String type, Map<String, Object> body, String collectionName) {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
         final String id = generateId();
+
         Entity newEntity = new Entity() {
             @Override
             public String getEntityId() {
@@ -532,6 +495,7 @@ public class MockRepo implements Repository<Entity> {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
         final HashMap<String, Object> clonedMetadata = new HashMap<String, Object>(metaData);
         final String id = generateId();
+
         Entity newEntity = new Entity() {
             @Override
             public String getEntityId() {
@@ -609,6 +573,7 @@ public class MockRepo implements Repository<Entity> {
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
     }
+
     @Override
     public long count(String collectionName, Query query) {
         // TODO Auto-generated method stub
@@ -644,5 +609,24 @@ public class MockRepo implements Repository<Entity> {
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+
+    @Override
+    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        return null;
+    }
+
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+        return false;
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

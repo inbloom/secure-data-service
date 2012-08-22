@@ -23,19 +23,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.MongoException;
+
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -134,9 +140,21 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         if (recordsPerisisted != 0) {
             for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
                 if (entry.getValue().size() > 0) {
-                    nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
-                    LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
-                    queuedWrites.get(entry.getKey()).clear();
+                    try {
+                        nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                        LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                        queuedWrites.get(entry.getKey()).clear();
+                    } catch (DataAccessResourceFailureException darfe) {
+                        LOG.error("Exception processing record with entityPersistentHandler", darfe);
+                    } catch (InvalidDataAccessApiUsageException  ex) {
+                        LOG.error("Exception processing record with entityPersistentHandler", ex);
+                    } catch (InvalidDataAccessResourceUsageException  ex) {
+                        LOG.error("Exception processing record with entityPersistentHandler", ex);
+                    } catch (MongoException  me) {
+                        LOG.error("Exception processing record with entityPersistentHandler", me);
+                    } catch (UncategorizedMongoDbException ex) {
+                        LOG.error("Exception processing record with entityPersistentHandler", ex);
+                    }
                 }
             }
         }

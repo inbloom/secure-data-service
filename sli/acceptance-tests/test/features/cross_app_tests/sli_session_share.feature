@@ -12,7 +12,7 @@ Scenario: Session sharring between Databrowser & Dashboard
 	Given I have an open web browser
 	And I have navigated to the databrowser page
 	And I was redirected to the realmchooser page
-	And I selected the realm "Illinois Sunset School District 4526"
+	And I selected the realm "Illinois Daybreak School District 4529"
 	When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	Then I am redirected to the databrowser home page
 	When I navigate to the dashboard page
