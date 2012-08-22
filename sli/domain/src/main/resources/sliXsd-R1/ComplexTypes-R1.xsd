@@ -1654,7 +1654,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="behaviorCategory" type="behaviorCategoryType">
+			<xs:element name="behaviorMap" type="behaviorMapType">
 				<xs:annotation>
 					<xs:documentation>The category of the incident behavior for
 						classification
@@ -1665,7 +1665,33 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staffCohortAssociation">
+    <xs:complexType name="serviceProvider">
+        <xs:annotation>
+            <xs:documentation>The student's special education Service Provider</xs:documentation>
+        </xs:annotation>
+        <xs:appinfo>
+            <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+        </xs:appinfo>
+        <xs:sequence>
+            <xs:element name="staffId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>The teacher assigned to the section.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>staff</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="primaryProvider" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Primary service provider</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="staffCohortAssociation">
 		<xs:annotation>
 			<xs:documentation>
 				This association indicates the staff associated
@@ -3415,6 +3441,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
+            <xs:element name="ServiceProviders" type="serviceProvider" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The staff providing special education services to the student.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
             <xs:annotation>
                     <xs:documentation>The setting in which a child receives special
@@ -3709,6 +3741,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="CompetencyLevel" type="descriptorReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The competency level assessed for the student for the referenced learning
+                        objective.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="diagnosticStatement" type="text"
 				minOccurs="0">
 				<xs:annotation>
@@ -4095,8 +4134,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="telephoneNumberType" type="telephoneNumberType"
-				minOccurs="0">
+			<xs:element name="telephoneNumberType" type="telephoneNumberType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of communication number listed for an
 						individual or
@@ -4104,8 +4142,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="primaryTelephoneNumberIndicator" type="xs:boolean"
-				minOccurs="0">
+			<xs:element name="primaryTelephoneNumberIndicator" type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An indication that the telephone number should be
 						used as the
@@ -4113,6 +4150,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="TextMessageCapabilityIndicator" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An indication that the telephone number is technically capable of sending and
+                        receiving Short Message Service (SMS) text messages.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -4127,7 +4171,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="disability" type="disabilityType">
+			<xs:element name="disability" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>A disability category that describes a child's
 						impairment.
@@ -4490,6 +4534,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="primaryEmailAddressIndicator" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An indication that the electronic mail address should be used as the principal
+                        electronic mail address for an individual or organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6235,7 +6286,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="behaviorCategory" type="behaviorCategoryType">
+			<xs:element name="behaviorMap" type="behaviorMapType">
 				<xs:annotation>
 					<xs:documentation>A classification of the behavior for reporting
 						types.
@@ -7174,7 +7225,66 @@
 		</xs:sequence>
 	</xs:complexType>
 
-  <xs:complexType name="home">
+    <xs:complexType name="descriptorReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides references for descriptors during interchange. Use XML IDREF to reference a descriptor record that is included in the interchange.  To lookup when already loaded, specify either CodeValue OR Description OR ShortDescription.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="referenceType">
+                <xs:sequence>
+                    <xs:choice>
+                        <xs:element name="codeValue" type="codeValue">
+                            <xs:annotation>
+                                <xs:documentation>A code or abbreviation that is used to refer to the descriptor</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="shortDescription" type="shortDescription">
+                            <xs:annotation>
+                                <xs:documentation>A shortened description for descriptor.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="description" type="description">
+                            <xs:annotation>
+                                <xs:documentation>The long description.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                    <xs:element name="asOfDate" type="xs:date" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The date context in which this reference should be considered. This is important when descriptors change over time. If omitted, assumed to be the current descriptor.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="namespace" type="uri">
+                        <xs:annotation>
+                            <xs:documentation>A globally unique namespace that identifies this descriptor set. Author is strongly encouraged to use the Universal Resource Identifier (http, ftp, file, etc.) for the source of the descriptor definition. Best practice is for this source to be the descriptor file itself, so that it can be machine-readable and be fetched in real-time, if necessary.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="referenceType">
+        <xs:annotation>
+            <xs:documentation>This is the base type for association references.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <!-- TODO change types of elements from XML IDs -->
+            <xs:element name="id" type="xs:ID">
+                <xs:annotation>
+                    <xs:documentation>The XML ID associated with this complex object.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ref" type="xs:IDREF">
+                <xs:annotation>
+                    <xs:documentation>The XML IDREF that references the object associated with this object. </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="home">
     <xs:annotation>
       <xs:documentation>TODO: Placeholder documentation</xs:documentation>
     </xs:annotation>
