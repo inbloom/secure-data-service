@@ -14,24 +14,31 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+
+import com.google.common.io.Files;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
@@ -62,6 +69,8 @@ public class TenantProcessor implements Processor {
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
 
+    private Map<String, List<String>> dataSetLookup;
+
     @Autowired
     private NoExtractProcessor noExtractProcessor;
     public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
@@ -71,21 +80,23 @@ public class TenantProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
+        // We need to extract the TenantID for each thread, so the DAL has access to it.
+        // try {
+        // ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+        // ControlFile cf = cfd.getFileItem();
+        // String tenantId = cf.getConfigProperties().getProperty("tenantId");
+        // TenantContext.setTenantId(tenantId);
+        // } catch (NullPointerException ex) {
+        // LOG.error("Could Not find Tenant ID.");
+        // TenantContext.setTenantId(null);
+        // }
 
         try {
             updateLzRoutes();
 
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_SUCCESS);
+
+            doPreloads();
 
         } catch (Exception e) {
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_FAILURE);
@@ -96,12 +107,14 @@ public class TenantProcessor implements Processor {
     public void setWorkItemQueueUri(String workItemQueueUri) {
         this.workItemQueueUri = workItemQueueUri;
     }
+
     /**
      * Update the landing zone routes based on the tenant DB collection.
+     *
      * @throws Exception
      */
     private void updateLzRoutes() throws Exception {
-        //get the new list of lz paths from the tenant DB collection
+        // get the new list of lz paths from the tenant DB collection
         LOG.debug("Localhost is {}", getHostname());
         List<String> newLzPaths = tenantDA.getLzPaths(getHostname());
         Set<String> oldLzPaths = getLzRoutePaths();
@@ -116,12 +129,12 @@ public class TenantProcessor implements Processor {
             }
         }
 
-        //add new routes
+        // add new routes
         if (routesToAdd.size() > 0) {
             addRoutes(routesToAdd);
         }
 
-        //remove routes for oldLzPaths that were not found in DB collection
+        // remove routes for oldLzPaths that were not found in DB collection
         removeRoutes(oldLzPaths);
     }
 
@@ -145,13 +158,15 @@ public class TenantProcessor implements Processor {
 
     /**
      * Remove routes from camel context.
-     * @throws Exception if a route cannot be removed
+     *
+     * @throws Exception
+     *             if a route cannot be removed
      */
     private void removeRoutes(Set<String> routesToRemove) throws Exception {
         for (String routePath : routesToRemove) {
             String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
             String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
-            //initiate graceful shutdown of these routes
+            // initiate graceful shutdown of these routes
             camelContext.stopRoute(zipRouteId);
             camelContext.stopRoute(ctrlRouteId);
         }
@@ -159,20 +174,126 @@ public class TenantProcessor implements Processor {
 
     /**
      * Add routes to camel context.
-     * @throws Exception if a route cannot be resolved
+     *
+     * @throws Exception
+     *             if a route cannot be resolved
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
-        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd,
-                workItemQueueUri, zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
+        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri,
+                zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }
 
     /**
      * Obtain the hostname for the ingestion server running.
+     *
      * @throws UnknownHostException
      */
     private String getHostname() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostName();
+    }
+
+    /**
+     * Preload the given files into the given landing zone
+     *
+     * @param landingZone
+     *            the landing zone to preload the files into
+     * @param dataSets
+     *            the files to preload
+     * @return whether or not every file was successfully preloaded
+     */
+    boolean preLoad(String landingZone, List<String> dataSets) {
+        File landingZoneDir = new File(landingZone);
+        try {
+            if (!landingZoneDir.exists()) {
+                landingZoneDir.createNewFile();
+            }
+        } catch (IOException e) {
+            LOG.error("Could not create landing zone", e);
+            return false;
+        }
+        if (landingZoneDir.exists() && landingZoneDir.isDirectory()) {
+            boolean result = true;
+            for (String dataSet : dataSets) {
+                List<String> fileNames = getDataSetLookup().get(dataSet);
+                if (fileNames != null) {
+                    for (String fileName : fileNames) {
+                        File sampleFile = new File(fileName);
+                        if (sampleFile.exists()) {
+                            result &= sendToLandingZone(landingZoneDir, sampleFile);
+                        } else {
+                            LOG.error("sample data set {} doesn't exists", fileName);
+                            result = false;
+                        }
+                    }
+                } else {
+                    result = false;
+                }
+            }
+            return result;
+        }
+        return false;
+    }
+
+    /**
+     * Send the given file to the landing zone
+     *
+     * @param landingZoneDir
+     *            the file representing the ladnding zone
+     * @param sampleFile
+     *            the file to send to the landing zone
+     * @return true if the file (or all of its children if it is a directory) was successfully
+     *         copied over to the landing zone directory
+     */
+    private boolean sendToLandingZone(File landingZoneDir, File sampleFile) {
+        boolean result = true;
+        if (sampleFile.isDirectory()) {
+            for (File f : sampleFile.listFiles()) {
+                result &= sendToLandingZone(landingZoneDir, f);
+            }
+        } else {
+            File preloadedFile = new File(landingZoneDir, sampleFile.getName());
+            try {
+                preloadedFile.createNewFile();
+                Files.copy(sampleFile, preloadedFile);
+            } catch (IOException e) {
+                LOG.error(
+                        "Error copying file " + sampleFile.getAbsolutePath() + " to landingZone"
+                                + landingZoneDir.getAbsolutePath(), e);
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Perform preloading
+     *
+     * @return
+     */
+    boolean doPreloads() {
+        try {
+            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles(getHostname());
+            boolean result = true;
+            for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
+                result &= preLoad(entry.getKey(), entry.getValue());
+            }
+            return result;
+        } catch (UnknownHostException e) {
+            LOG.error("Error preloading files", e);
+            return false;
+        }
+    }
+
+    Map<String, List<String>> getDataSetLookup() {
+        return dataSetLookup;
+    }
+
+    @Value("${sli.ingestion.dataset.sample}")
+    @SuppressWarnings("unchecked")
+    void setDataSetLookup(String dataSetLookup) throws IOException {
+        ObjectMapper om = new ObjectMapper();
+        this.dataSetLookup = om.readValue(dataSetLookup, Map.class);
     }
 
 }

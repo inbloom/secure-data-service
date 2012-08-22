@@ -43,21 +43,7 @@
 		<div class="realm-name">
 			<h1>
 				<span class="heading">
-					<c:choose>
-						<c:when test ="${realm=='SLIAdmin'}">
-							<img src="resources/SLIAdmin.png" alt="SLC IDP Logo"/>
-						</c:when>
-						<c:when test="${is_sandbox}">
-							<img src="resources/sandbox.png" alt="Sandbox IDP Logo"/>
-						</c:when>
-						<c:when test="${realm!=null}">
-							<img src="resources/${fn:escapeXml(realm)}.png" alt="${fn:escapeXml(realm)} IDP Logo"/>
-						</c:when>
-						<c:otherwise>
-							<img src="resources/default.png" alt="IDP Logo"/>
-						</c:otherwise>
-					</c:choose>
-					
+					<img src="resources/default.png" alt="SLC IDP Logo"/>
 					<c:choose>
 						<c:when test ="${realm=='SLIAdmin'}">
 							Shared Learning Collaborative

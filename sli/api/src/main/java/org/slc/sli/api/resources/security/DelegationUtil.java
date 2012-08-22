@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.util.SecurityUtil;
@@ -28,9 +32,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * Common methods for classes that deal with delegation
@@ -47,36 +48,37 @@ public class DelegationUtil {
     Repository<Entity> repo;
 
     public List<String> getAppApprovalDelegateEdOrgs() {
-    	List<String> delegateEdOrgs = getDelegateEdOrgs("appApprovalEnabled");
+        List<String> delegateEdOrgs = getDelegateEdOrgs("appApprovalEnabled");
         debug("Ed orgs that have delegated ApplicationApproval are {}", delegateEdOrgs);
         return delegateEdOrgs;
     }
 
     public List<String> getSecurityEventDelegateStateIds() {
-    	List<String> delegateEdOrgs = getSecurityEventDelegateEdOrgs();
-    	NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", "in", delegateEdOrgs));
+        List<String> delegateEdOrgs = getSecurityEventDelegateEdOrgs();
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", "in", delegateEdOrgs));
         List<String> stateIds = new ArrayList<String>();
-    	Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-    	if(edOrgs != null)
-    	for(Entity edOrg:edOrgs) {    		
-    		Map<String, Object> body = edOrg.getBody();
-    		if(body != null) {
-    			String stateId = (String)body.get("stateOrganizationId");
-    			if(stateId != null) {
-    				stateIds.add(stateId);
-    			}
-    		}
-    	}
-    	return stateIds;
+        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        if (edOrgs != null) {
+            for (Entity edOrg:edOrgs) {
+                Map<String, Object> body = edOrg.getBody();
+                if (body != null) {
+                    String stateId = (String) body.get("stateOrganizationId");
+                    if (stateId != null) {
+                        stateIds.add(stateId);
+                    }
+                }
+            }
+        }
+        return stateIds;
     }
-    
+
     public List<String> getSecurityEventDelegateEdOrgs() {
-    	List<String> delegateEdOrgs = getDelegateEdOrgs("viewSecurityEventsEnabled");
+        List<String> delegateEdOrgs = getDelegateEdOrgs("viewSecurityEventsEnabled");
         debug("Ed orgs that have delegated SecurityEventViewing are {}", delegateEdOrgs);
         return delegateEdOrgs;
     }
-    
-    private List<String> getDelegateEdOrgs(String delegateFeature){
+
+    private List<String> getDelegateEdOrgs(String delegateFeature) {
         String edOrgId = SecurityUtil.getEdOrgId();
         List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrgId);
         List<String> delegateEdOrgs = new ArrayList<String>();

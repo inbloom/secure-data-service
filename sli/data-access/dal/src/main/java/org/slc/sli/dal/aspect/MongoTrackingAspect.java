@@ -48,6 +48,8 @@ public class MongoTrackingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
 
+    private static final Logger PERF_LOG = LoggerFactory.getLogger("MongoPerformance");
+
     private static final long SLOW_QUERY_THRESHOLD = 50;  // ms
 
     private static boolean enabled = false;
@@ -63,7 +65,7 @@ public class MongoTrackingAspect {
     }
 
     @Pointcut("if()")
-    public static boolean isEnabled(){
+    public static boolean isEnabled() {
         return enabled;
     }
 
@@ -118,6 +120,8 @@ public class MongoTrackingAspect {
             Pair<AtomicLong, AtomicLong> pair = stats.get(jobId).get(statsKey);
             pair.getLeft().incrementAndGet();
             pair.getRight().addAndGet(elapsed);
+
+            PERF_LOG.info(function + "," + db + "," + collection + "," + elapsed);
         }
     }
 

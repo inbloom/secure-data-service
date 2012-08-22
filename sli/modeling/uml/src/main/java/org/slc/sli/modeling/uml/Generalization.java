@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A generalization expresses the child isA parent relationship between two model elements.
  */
-public final class Generalization extends NamespaceOwnedElement {
+public class Generalization extends NamespaceOwnedElement {
     
     private final Identifier child;
     private final Identifier parent;

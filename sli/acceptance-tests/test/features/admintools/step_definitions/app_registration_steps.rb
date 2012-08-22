@@ -175,6 +175,20 @@ When /^I entered the name "([^"]*)" into the field titled "([^"]*)"$/ do |arg1, 
   @driver.find_element(:id, "app_#{arg2.downcase}").send_keys arg1
 end
 
+When /^I select the app display method to "(.*?)"$/ do |arg1|
+  displayMethod = @driver.find_element(:id, "app_behavior")
+  all_options = displayMethod.find_elements(:tag_name, "option")
+  optionFound = false
+  all_options.each do |option|
+    if option.attribute("text") == arg1
+      optionFound = true
+      option.click
+      break
+    end
+  end  
+  assert(optionFound, "Desired option '" + arg1 + "' was not found")
+end
+
 Then /^I am redirected to a new application page$/ do
   assertWithWait("Failed to navigate to the New Applicaation page")  {@driver.page_source.index("New Application") != nil}
 end
@@ -253,14 +267,14 @@ end
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
  invisible = @driver.find_elements(:css, "tr[display='none']").count
  visible = @driver.find_elements(:css, "tr.odd").count
- assert(invisible == visible -1)
+ assert(invisible == visible - 1)
 end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
   @form = @driver.find_element(:id, "edit_app_#{@id}")
   editable = @form.find_elements(:css, "input").count
-  uneditable = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(uneditable == 2, "Found #{uneditable} elements")
+  not_editable = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(not_editable == 2, "Found #{not_editable} elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

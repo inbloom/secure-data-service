@@ -25,7 +25,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 /**
  * Convenience functions for accessing tagged values.
  */
-public final class TaggedValueHelper {
+public class TaggedValueHelper {
 
     public static final boolean getBooleanTag(final String name, final Taggable element, final ModelIndex lookup,
             final boolean defaultValue) {

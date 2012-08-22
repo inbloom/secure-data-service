@@ -70,13 +70,13 @@ class ApplicationMailerTest < ActionMailer::TestCase
   
   def test_notify_operator
     app = App.new(@app_fixtures['admin'])
-    email = ApplicationMailer.notify_operator('operator@slidev.org', app, "UserFn", "DevFn DevLn").deliver
+    email = ApplicationMailer.notify_operator('operator@slidev.org', app, "DevFn DevLn").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
   end
   
   def test_notify_operator_bad
     app = App.new(@app_fixtures['admin'])
-    email = ApplicationMailer.notify_operator(nil, app, "UserFN", "DevFn DevLn").deliver
+    email = ApplicationMailer.notify_operator(nil, app, "DevFn DevLn").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
     assert email.to.nil?, "Bad addresses don't go through"
   end
