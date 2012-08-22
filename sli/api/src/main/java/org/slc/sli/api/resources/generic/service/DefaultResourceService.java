@@ -18,13 +18,19 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.slc.sli.modeling.uml.ClassType;
 
+import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Default implementation of the resource service.
@@ -50,13 +56,13 @@ public class DefaultResourceService implements ResourceService {
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     protected static interface ServiceLogic {
-        public ServiceResponse run(final String resource, EntityDefinition definition);
+        public ServiceResponse run(final Resource resource, EntityDefinition definition);
     }
 
     protected ServiceResponse handle(final Resource resource, ServiceLogic logic) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        ServiceResponse serviceResponse  = logic.run(resource.getResourceType(), definition);
+        ServiceResponse serviceResponse  = logic.run(resource, definition);
 
         return serviceResponse;
     }
@@ -66,7 +72,7 @@ public class DefaultResourceService implements ResourceService {
 
         return handle(resource, new ServiceLogic() {
             @Override
-            public ServiceResponse run(final String resource, EntityDefinition definition) {
+            public ServiceResponse run(final Resource resource, EntityDefinition definition) {
                 final int idLength = idList.split(",").length;
 
                 if (idLength > MAX_MULTIPLE_UUIDS) {
@@ -75,7 +81,7 @@ public class DefaultResourceService implements ResourceService {
                     throw new PreConditionFailedException(errorMessage);
                 }
 
-                final List<String> ids = Arrays.asList(StringUtils.split(idList));
+                final List<String> ids = Arrays.asList(idList.split(","));
 
                 ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
@@ -86,7 +92,7 @@ public class DefaultResourceService implements ResourceService {
                 // final/resulting information
                 List<EntityBody> finalResults = null;
                 try {
-                    finalResults = logicalEntity.getEntities(apiQuery, resource);
+                    finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
                 }
@@ -94,8 +100,60 @@ public class DefaultResourceService implements ResourceService {
                 if (idLength == 1 && finalResults.isEmpty()) {
                     throw new EntityNotFoundException(ids.get(0));
                 }
-                long count = getEntityCount(definition,apiQuery);
-                return new ServiceResponse(finalResults, count);
+
+                if (idLength > 1) {
+                    Collections.sort(finalResults, new Comparator<EntityBody>() {
+                        @Override
+                        public int compare(EntityBody o1, EntityBody o2) {
+                            return ids.indexOf(o1.get("id")) - ids.indexOf(o2.get("id"));
+                        }
+
+                    });
+
+                    int finalResultsSize = finalResults.size();
+
+                    // loop if results quantity does not matched requested quantity
+                    for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
+
+                        String checkedId = ids.get(i);
+
+                        boolean checkedIdMissing = false;
+
+                        try {
+                            checkedIdMissing = !(finalResults.get(i).get("id").equals(checkedId));
+                        } catch (IndexOutOfBoundsException ioobe) {
+                            checkedIdMissing = true;
+                        }
+
+                        // if a particular input ID is not present in the results at the appropriate
+                        // spot
+                        if (checkedIdMissing) {
+
+                            Map<String, Object> errorResult = new HashMap<String, Object>();
+
+                            // try individual lookup to capture specific error message (type)
+                            try {
+                                definition.getService().get(ids.get(i));
+                            } catch (EntityNotFoundException enfe) {
+                                errorResult.put("type", "Not Found");
+                                errorResult.put("message", "Entity not found: " + checkedId);
+                                errorResult.put("code", Response.Status.NOT_FOUND.getStatusCode());
+                            } catch (AccessDeniedException ade) {
+                                errorResult.put("type", "Forbidden");
+                                errorResult.put("message", "Access DENIED: " + ade.getMessage());
+                                errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
+                            } catch (Exception e) {
+                                errorResult.put("type", "Internal Server Error");
+                                errorResult.put("message", "Internal Server Error: " + e.getMessage());
+                                errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+                            }
+
+                            finalResults.add(i, new EntityBody(errorResult));
+                        }
+                    }
+                }
+
+                return new ServiceResponse(finalResults, idLength);
             }
         });
     }
@@ -106,7 +164,7 @@ public class DefaultResourceService implements ResourceService {
 
         return handle(resource, new ServiceLogic() {
             @Override
-            public ServiceResponse run(final String resource, EntityDefinition definition) {
+            public ServiceResponse run(final Resource resource, EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = getApiQuery(definition, requestURI);
 
@@ -115,17 +173,18 @@ public class DefaultResourceService implements ResourceService {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, resource);
+                            return logicalEntity.getEntities(apiQuery, resource.getResourceType());
                         }
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, resource);
+                        entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                     } catch (UnsupportedSelectorException e) {
                         entityBodies = definition.getService().list(apiQuery);
                     }
                 }
-                long count = getEntityCount(definition,apiQuery);
+                long count = getEntityCount(definition, apiQuery);
+
                 return new ServiceResponse((List<EntityBody>) entityBodies, count) ;
             }
         });
@@ -261,15 +320,18 @@ public class DefaultResourceService implements ResourceService {
             entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
         }
 
-        long count = getEntityCount(finalEntity,finalApiQuery);
+        long count = getEntityCount(finalEntity, finalApiQuery);
+
         return new ServiceResponse(entityBodyList, count) ;
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
         final EntityDefinition toEntityDef = resourceHelper.getEntityDefinition(toEntity);
         final EntityDefinition fromEntityDef = resourceHelper.getEntityDefinition(fromEntity);
+
         ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));
         ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
+
         return provider.getConnectionPath(fromEntityType,toEntityType);
     }
 
