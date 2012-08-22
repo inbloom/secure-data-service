@@ -93,18 +93,19 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTaskTest extends AdkTe
         Mockito.when(mockSifIdResolver.getSliGuid(staffPersonalRefId, zoneId)).thenReturn(staffPersonalRefId);
         Mockito.when(mockSifIdResolver.getSliGuid(schoolInfoRefId, zoneId)).thenReturn(schoolInfoRefId);
         Mockito.when(mockGradeLevelsConverter.convert(gradeLevels)).thenReturn(instructionalGradeLevels);
-        Mockito.when(mockSifIdResolver.getSliEntityByType(employeePersonalRefId, "teacherSchoolAssociation", zoneId)).thenReturn(staffEdOrgAssocEntity);
+        Mockito.when(mockSifIdResolver.getSliEntityByType(employeePersonalRefId, (new TeacherSchoolAssociationEntity()).entityType(), zoneId)).thenReturn(staffEdOrgAssocEntity);
 
         List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
 
-        TeacherSchoolAssociationEntity entity = result.get(0);
-        TeacherSchoolAssociationEntity tsae = entity;
-        Assert.assertEquals("schoolInfoRefId is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, tsae.getSchoolId());
-        Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, tsae.getTeacherId());
-        Assert.assertEquals(instructionalGradeLevels, tsae.getInstructionalGradeLevels());
-        Assert.assertNull("ProgramAssignment is expected to be 'null'", tsae.getProgramAssignment());
-        Assert.assertNull("AcademicSubjects is expected to be 'null'", tsae.getAcademicSubjects());
+        TeacherSchoolAssociationEntity e = result.get(0);
+        Assert.assertEquals("schoolInfoRefId is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, e.getSchoolId());
+        Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, e.getTeacherId());
+        Assert.assertEquals(instructionalGradeLevels, e.getInstructionalGradeLevels());
+        Assert.assertEquals("staffEdOrgAssocEntity is expected to be '" + staffEdOrgAssocEntity + "'", staffEdOrgAssocEntity, e.getMatchedEntity());
+        Assert.assertNull("ProgramAssignment is expected to be 'null'", e.getProgramAssignment());
+        Assert.assertNull("ProgramAssignment is expected to be 'null'", e.getProgramAssignment());
+        Assert.assertNull("AcademicSubjects is expected to be 'null'", e.getAcademicSubjects());
 
     }
 
@@ -121,13 +122,12 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTaskTest extends AdkTe
         List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
 
-        TeacherSchoolAssociationEntity entity = result.get(0);
-        TeacherSchoolAssociationEntity tsae = entity;
-        Assert.assertNull("TeacherId is expected to be 'null'", tsae.getTeacherId());
-        Assert.assertNull("SchoolId is expected to be 'null'", tsae.getSchoolId());
-        Assert.assertNull("InstructionalGradeLevels is expected to be 'null'", tsae.getInstructionalGradeLevels());
-        Assert.assertEquals("ProgramAssignment is expected to be 'Regular Education'", "Regular Education", tsae.getProgramAssignment());
-        Assert.assertEquals(academicSubjects, tsae.getAcademicSubjects());
+        TeacherSchoolAssociationEntity e = result.get(0);
+        Assert.assertNull("TeacherId is expected to be 'null'", e.getTeacherId());
+        Assert.assertNull("SchoolId is expected to be 'null'", e.getSchoolId());
+        Assert.assertNull("InstructionalGradeLevels is expected to be 'null'", e.getInstructionalGradeLevels());
+        Assert.assertEquals("ProgramAssignment is expected to be 'Regular Education'", "Regular Education", e.getProgramAssignment());
+        Assert.assertEquals(academicSubjects, e.getAcademicSubjects());
 
     }
 }

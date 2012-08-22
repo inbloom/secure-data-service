@@ -92,14 +92,13 @@ public class StaffAssignment2StaffEdOrgAssocTranslationTaskTest extends AdkTest 
         List<StaffEducationOrganizationAssociationEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
 
-        StaffEducationOrganizationAssociationEntity entity = result.get(0);
-        StaffEducationOrganizationAssociationEntity seoae = entity;
-        Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, seoae.getStaffReference());
-        Assert.assertEquals("educationOrganizationReference is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, seoae.getEducationOrganizationReference());
-        Assert.assertNull("End Date is expected to be 'null'", seoae.getEndDate());
-        Assert.assertNotNull("Begin Date is expected to be not 'null'", seoae.getBeginDate());
-        Assert.assertEquals("Begin Date is expected to be '" + today + "'", today, seoae.getBeginDate());
-        Assert.assertEquals("StaffClassification is expected to be 'Other'", "Other", seoae.getStaffClassification());
+        StaffEducationOrganizationAssociationEntity e = result.get(0);
+        Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, e.getStaffReference());
+        Assert.assertEquals("educationOrganizationReference is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, e.getEducationOrganizationReference());
+        Assert.assertNull("End Date is expected to be 'null'", e.getEndDate());
+        Assert.assertNotNull("Begin Date is expected to be not 'null'", e.getBeginDate());
+        Assert.assertEquals("Begin Date is expected to be '" + today + "'", today, e.getBeginDate());
+        Assert.assertEquals("StaffClassification is expected to be 'Other'", "Other", e.getStaffClassification());
 
     }
 
@@ -111,19 +110,18 @@ public class StaffAssignment2StaffEdOrgAssocTranslationTaskTest extends AdkTest 
         String zoneId = "zoneId";
         Entity staffEdOrgAssocEntity = new GenericEntity(null, null);
 
-        Mockito.when(mockSifIdResolver.getSliEntityByType(employeePersonalRefId, "staffEducationOrganizationAssociation", zoneId)).thenReturn(staffEdOrgAssocEntity);
+        Mockito.when(mockSifIdResolver.getSliEntityByType(employeePersonalRefId, (new StaffEducationOrganizationAssociationEntity()).entityType(), zoneId)).thenReturn(staffEdOrgAssocEntity);
 
         List<StaffEducationOrganizationAssociationEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
 
-        StaffEducationOrganizationAssociationEntity entity = result.get(0);
-        StaffEducationOrganizationAssociationEntity seoae = entity;
-//        Assert.assertEquals("staffEdOrgAssocEntity is expected to be '" + staffEdOrgAssocEntity + "'", staffEdOrgAssocEntity, seoae.getMatchedEntity());
-        Assert.assertNull("staffPersonalRefId is expected to be 'null'", seoae.getStaffReference());
-        Assert.assertNull("educationOrganizationReference is expected to be 'null'", seoae.getEducationOrganizationReference());
-        Assert.assertNull("End Date is expected to be 'null'", seoae.getBeginDate());
-        Assert.assertNull("Begin Date is expected to be 'null'", seoae.getEndDate());
-//        Assert.assertNull("StaffClassification is expected to be 'null'", seoae.getStaffClassification());
+        StaffEducationOrganizationAssociationEntity e = result.get(0);
+        Assert.assertEquals("staffEdOrgAssocEntity is expected to be '" + staffEdOrgAssocEntity + "'", staffEdOrgAssocEntity, e.getMatchedEntity());
+        Assert.assertNull("StaffClassification is expected to be 'null'", e.getStaffClassification());
+        Assert.assertNull("staffPersonalRefId is expected to be 'null'", e.getStaffReference());
+        Assert.assertNull("educationOrganizationReference is expected to be 'null'", e.getEducationOrganizationReference());
+        Assert.assertNull("End Date is expected to be 'null'", e.getBeginDate());
+        Assert.assertNull("Begin Date is expected to be 'null'", e.getEndDate());
 
     }
 
