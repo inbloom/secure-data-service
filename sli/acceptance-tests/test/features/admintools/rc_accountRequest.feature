@@ -46,3 +46,4 @@ Scenario: As an SLC Operator I want to approve the app developer account
   Then I am asked "Do you really want to approve this user account?"
   When I click on Ok
   Then I should see "Account was successfully updated"
+  And his account status is "approved"
