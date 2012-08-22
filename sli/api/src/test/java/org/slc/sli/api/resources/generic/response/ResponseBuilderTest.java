@@ -46,7 +46,7 @@ public class ResponseBuilderTest {
     private Map<String, Set<String>> resourceSupprtedMethods;
 
     private static final String URI_KEY = "v1/students";
-    private static final String URI = "http://some.net/api/generic/v1/students";
+    private static final String URI = "http://some.net/api/rest/v1/students";
 
     private java.net.URI requestURI;
     private UriInfo uriInfo;

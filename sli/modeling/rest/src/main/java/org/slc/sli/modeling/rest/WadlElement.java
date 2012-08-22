@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author dholmes
+ */
 public abstract class WadlElement {
     private final List<Documentation> doc;
 

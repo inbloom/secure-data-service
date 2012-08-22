@@ -24,7 +24,7 @@ import java.util.List;
  * represented by its parent <code>param</code> element. An <code>option</code> element has a
  * required <code>value</code> attribute that defines the value.
  */
-public final class Option extends WadlElement {
+public class Option extends WadlElement {
     private final String value;
 
     public Option(final String value, final List<Documentation> doc) {

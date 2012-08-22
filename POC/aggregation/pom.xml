@@ -51,8 +51,6 @@
 
     <modules>
         <module>mapreduce</module>
-        <module>Math-HighestEver</module>
-        <module>Math-Proficiency-Aggregation</module>
     </modules>
 
     <dependencyManagement>

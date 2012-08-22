@@ -21,7 +21,8 @@ And I have an open web browser
 When I go to the provisioning application
 And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
 Then I can select between the the high level ed-org of the sample data sets or enter a custom high-level ed-org
-When I select the first sample data set
+#When I select the first sample data set
+When I set the custom high-level ed-org to "Test Ed Org"
 And I click the Provision button
 Then I get the success message
 Then I check to find if default roles were created for the tenant

@@ -17,6 +17,7 @@
 
 package org.slc.sli.modeling.wadl;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,5 +80,12 @@ public class WadlSyntaxTestCase extends TestCase {
         assertEquals("a b c", WadlSyntax.encodeStringList(immutableList));
 
         assertNull(WadlSyntax.encodeStringList(null));
+    }
+
+    public void testPrivateConstructor() throws Throwable {
+        Constructor<?> constructor = WadlSyntax.class.getDeclaredConstructor((Class<?>[]) null);
+        constructor.setAccessible(true);
+        constructor.newInstance((Object[]) null);
+
     }
 }

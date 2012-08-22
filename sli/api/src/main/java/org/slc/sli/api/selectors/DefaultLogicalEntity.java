@@ -25,9 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;

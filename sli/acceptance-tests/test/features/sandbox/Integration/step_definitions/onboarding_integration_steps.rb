@@ -27,6 +27,7 @@ require 'test/unit'
 require 'active_support/inflector'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+require_relative '../../../utils/email.rb'
 
 SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
@@ -132,7 +133,19 @@ Then /^the developer is redirected to a page with terms and conditions$/ do
 end
 
 When /^the developer click "([^"]*)"$/ do |button|
-  @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  if(button == "Accept")
+    if(@prod)
+      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil, PropLoader.getProps['email_imap_registration_user']) do
+        @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+      end
+    else
+      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil, PropLoader.getProps['email_imap_registration_user']) do
+        @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+      end
+    end
+  else
+    @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  end
 end
 
 Then /^the developer is directed to an acknowledgement page\.$/ do
@@ -141,15 +154,25 @@ Then /^the developer is directed to an acknowledgement page\.$/ do
 end
 
 Then /^a verification email is sent to "([^"]*)"$/ do |email_address|
-   sleep(2)
-    verifyEmail()
+   #sleep(2)
+    #verifyEmail()
 end
 
-When /^the developer click link in verification email$/ do
-  sleep(2)
-  url=getVerificationLink()
-  puts url
-  @driver.get url
+When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
+  if(environment == "sandbox")
+    approval_email_subject = "Welcome to the SLC Developer Sandbox"
+    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+      sleep(2)
+      url = getVerificationLink()
+      puts url
+      @driver.get url
+    end
+  elsif(environment == "production")
+    sleep(2)
+    url = getVerificationLink()
+    puts url
+    @driver.get url
+  end
 end
 
 Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
@@ -161,13 +184,6 @@ end
 Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
   sleep(10)
   @email = email
-  verifyEmail()
-  if environment == "sandbox"
-    approval_email_subject = "Welcome to the SLC Developer Sandbox"
-  elsif environment == "production"
-    approval_email_subject = "Welcome to the Shared Learning Collaborative"
-  end
-  assert(@email_subject.downcase.include?(approval_email_subject.downcase), "<#{@email_subject}> does not include <#{approval_email_subject.downcase}>")
 end
 
 Then /^the email has a "([^"]*)"$/ do |link|
@@ -302,8 +318,16 @@ When /^the SLC operator accesses the "([^"]*)"$/ do |page|
 end
 
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
-  @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
-  @driver.switch_to().alert().accept()
+  if(@prod)
+    approval_email_subject = "Welcome to the Shared Learning Collaborative"
+    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+      @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
+      @driver.switch_to().alert().accept()
+    end
+  else
+    @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
+    @driver.switch_to().alert().accept()
+  end
 end
 
 When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
@@ -429,3 +453,4 @@ end
 def sha256(to_hash)
   Digest::SHA256.hexdigest(to_hash)
 end
+

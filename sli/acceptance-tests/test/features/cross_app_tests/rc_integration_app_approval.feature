@@ -4,24 +4,11 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
-#This is just a sample of how portal is integrated
-Scenario: SEA Login
-When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page    
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Account Approval"
-And I click on log out
-
 Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page  
+When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -33,12 +20,14 @@ And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
 And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into IDP URL
 And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into Redirect Endpoint
-And I should enter "IL-Daybreak" into Realm Identifier
+And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
 And I should see that I am on the "Daybreak Test Realm" edit page
+And I exit out of the iframe
+And I click on log out
 
 Scenario: User cannot access Bootstrapped Apps before approval
 When I navigate to the Portal home page
@@ -50,6 +39,7 @@ Then I should not see "SLC Dashboards"
 And I click on Admin
 And I should be on the admin page
 And I should not see "SLC Data Browser"
+And I click on log out
 
 Scenario: App developer creates new installed app
 When I navigate to the Portal home page
@@ -61,8 +51,8 @@ Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Registration"
-Then I am redirected to the Application Registration Tool page
 And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
 When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
@@ -72,6 +62,7 @@ And I entered the name "McDerp" into the field titled "Vendor"
 And I make my app an installed app
 #And I have entered data into the other required fields except for the shared secret and the app id which are read-only
 And I click on the button Submit
+And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 #These steps should not be needed if RC is in app-auto-approve mode
@@ -82,7 +73,7 @@ And my new apps client ID is present
 And my new apps shared secret is present
 When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 And I enable my app for all districts
-And I clicked Save
+And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 #Scenario: App developer creates a new web-app
 And I have clicked to the button New
@@ -93,20 +84,20 @@ And I entered the name "1.o" into the field titled "Version"
 And I entered the name "McDerp" into the field titled "Vendor"
 And I entered the name "http://localhost" into the field titled "Application_URL"
 And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
+And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 When I clicked on the button Edit for the application "Schlemiel"
 And I enable my app for all districts
-And I clicked Save
+And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 
-
-Scenario:  Daybreakadmin approves Dashboard and Databrowser
+Scenario:  LEA approves Dashboard, Databrowser and Dev App
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "daybreakadmin" "daybreakadmin1234" for the "Simple" login page    
+When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -168,23 +159,8 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
-#  deny
- # And I see an application "SLC Dashboards" in the table
- # And in Status it says "Approved"
- # And I click on the "Deny" button next to it
- # And I am asked 'Do you really want deny access to this application of the district's data'
- # When I click on Ok
- # Then the application is denied to use data of "Daybreak School District 4529"
-  # And I see an application "SLC Data Browser" in the table
-  #And in Status it says "Approved"
-  #And I click on the "Deny" button next to it
-  #And I am asked 'Do you really want deny access to this application of the district's data'
-  #When I click on Ok
-  # Not exactly sure why i need to switch to iframe again
-#And I switch to the iframe
-  #Then the application is denied to use data of "Daybreak School District 4529"
-  #TODO switch context back
-#And I click on log out
+And I exit out of the iframe
+And I click on log out
 
 Scenario: User Logs into databrowser from portal
 When I navigate to the Portal home page
@@ -232,10 +208,9 @@ When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
-# Enable after we know what the dev app is
-#And under My Applications, I see the following apps: "SLC Dashboards;"
-#And under My Applications, I click on "Dev App"
-#Then I should see "app"
+And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
+And under My Applications, I click on "Schlemiel"
+Then my current url is "http://localhost/"
 	
 Scenario: User logs into recently created installed app
 #We cannot use the portal to access the installed app, since you cannot navigate to a URL to use it

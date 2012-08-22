@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.resources.generic.service;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +71,9 @@ public class DefaultResourceService implements ResourceService {
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
+    /**
+     * @author jstokes
+     */
     protected static interface ServiceLogic {
         public ServiceResponse run(final Resource resource, EntityDefinition definition);
     }
@@ -137,7 +155,7 @@ public class DefaultResourceService implements ResourceService {
                 }
                 long count = getEntityCount(definition, apiQuery);
 
-                return new ServiceResponse((List<EntityBody>) entityBodies, count) ;
+                return new ServiceResponse((List<EntityBody>) entityBodies, count);
             }
         });
     }
@@ -153,7 +171,7 @@ public class DefaultResourceService implements ResourceService {
         return apiQuery;
     }
 
-    private long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
+    protected long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
         long count = 0;
 
         if (definition.getService() == null) {
@@ -247,8 +265,8 @@ public class DefaultResourceService implements ResourceService {
             entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
         }
 
-        long count = getEntityCount(definition,apiQuery);
-        return new ServiceResponse(entityBodyList, count) ;
+        long count = getEntityCount(definition, apiQuery);
+        return new ServiceResponse(entityBodyList, count);
     }
 
     @Override
@@ -300,7 +318,7 @@ public class DefaultResourceService implements ResourceService {
 
         long count = getEntityCount(finalEntity, finalApiQuery);
 
-        return new ServiceResponse(entityBodyList, count) ;
+        return new ServiceResponse(entityBodyList, count);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
@@ -310,7 +328,7 @@ public class DefaultResourceService implements ResourceService {
         ClassType fromEntityType = provider.getClassType(StringUtils.capitalize(fromEntityDef.getType()));
         ClassType toEntityType = provider.getClassType(StringUtils.capitalize(toEntityDef.getType()));
 
-        return provider.getConnectionPath(fromEntityType,toEntityType);
+        return provider.getConnectionPath(fromEntityType, toEntityType);
     }
 
     protected List<EntityBody> injectErrors(EntityDefinition definition, final List<String> ids, List<EntityBody> finalResults) {
