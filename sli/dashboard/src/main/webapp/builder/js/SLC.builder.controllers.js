@@ -71,6 +71,7 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 
 		$scope.id = $scope.profile.id;
 
+		// get all available panels for the profile
 		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId});
 
 	}, function(error) {
@@ -93,7 +94,7 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		}
 
 		try {
-			if (configs.mode === "page" && configs.id === "") {
+			if (configs.mode === "page" && configs.id === "") { // add new page
 				var pageId = dbSharedService.generatePageId($scope.pages);
 				$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), parentId:pageId, type:"TAB"});
 				$rootScope.$broadcast("tabAdded", pageId, configs.pageTitle);
@@ -101,7 +102,7 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 			else if (configs.mode === "panel" && configs.id === "") { // add a new panel into the page
 				page.items.push({id:configs.pageTitle, type:"PANEL"});
 			}
-			else {
+			else { // update page
 				page.name = configs.pageTitle;
 				page.items = $.parseJSON(configs.contentJSON);
 				dbSharedService.setPage(page);
@@ -119,34 +120,30 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 
 	// Add selected panels from the list of available panels into the page
 	$scope.addPanelsToPage = function () {
-		var configs = dbSharedService.getModalConfig(),
-			page = dbSharedService.getPage(),
+		var page = dbSharedService.getPage(),
 			i;
 
-		if ($scope.panelsSelected.length === 0) {
+		if ($scope.selectedPanels.length === 0) {
 			$("#errorMessage").show().addClass("alert alert-error");
 			return;
 		}
 
-		for (i = 0; i < $scope.panelsSelected.length; i++) {
-			var formElem = {};
+		for (i = 0; i < $scope.selectedPanels.length; i++) {
+			var panel = {};
 
-			formElem.pageTitle = $scope.panelsSelected[i].id;
-			formElem.contentJSON = [];
+			panel.id = $scope.selectedPanels[i].id;
+			panel.type = $scope.selectedPanels[i].type;
+			panel.contentJSON = [];
 
-			dbSharedService.setModalConfig(formElem);
-			page.items.push({id:configs.pageTitle, parentId:configs.pageTitle, type:"PANEL"});
+			page.items.push({id:panel.id, parentId:panel.id, type:panel.type});
 		}
 
 		$.modal.close();
 		$scope.saveProfile();
-		configs.mode = "";
-		$scope.panelsSelected = [];
-		dbSharedService.setModalConfig(configs);
+		$scope.selectedPanels = [];
 	};
 
 	$scope.saveProfile = function () {
-		$scope.profile.items = [];
 		$scope.profileItemArray = $scope.panels.concat($scope.pages);
 		$scope.profile.items = $scope.profileItemArray;
 		dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
@@ -170,22 +167,39 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 }
 profileCtrl.$inject = ['$scope', '$rootScope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
 
-// Panel controller
-function panelCtrl($scope, $rootScope, dbSharedService) {
-	$scope.pagePanels = $scope.page.items;
-	$scope.done = false;
+// Page controller
+function pageCtrl($scope, $rootScope, dbSharedService) {
+	// The panel view gets changed whenever there is a change in the page config
+	$scope.$watch('page.items', function(newValue, oldValue) {
+		$scope.pagePanels = newValue;
+	});
 
 	$scope.pageName = $scope.page.name;
+	$scope.checked = false;
 
-	$scope.addNewPanel = function () {
-		dbSharedService.showModal("#modalBox", {mode: "panel", id: "", modalTitle: "Add New Panel", contentJSON: "[]", pageTitle: ""});
-		dbSharedService.setPage($scope.page);
+	$scope.cancelPageTitle = function () {
+		$scope.checked = false;
+	};
+
+	$scope.editPageTitle = function () {
+		$scope.checked = true;
+		$(".pageName").focus();
 	};
 
 	$scope.savePageTitle = function () {
 		$scope.page.name = $scope.pageName;
-		$scope.done = false;
 		this.saveProfile();
+		$scope.checked = false;
+	};
+
+	$scope.editPage = function () {
+		dbSharedService.setPage($scope.page);
+		this.editDialog();
+	};
+
+	$scope.addNewPanel = function () {
+		dbSharedService.showModal("#modalBox", {mode: "panel", id: "", modalTitle: "Add New Panel", contentJSON: "[]", pageTitle: ""});
+		dbSharedService.setPage($scope.page);
 	};
 
 	$scope.removePage = function () {
@@ -197,14 +211,9 @@ function panelCtrl($scope, $rootScope, dbSharedService) {
 		dbSharedService.showModal("#allPanelsModal", {mode: "panel", id: "", modalTitle: "Add A Panel"});
 		dbSharedService.setPage($scope.page);
 	};
-
-	$scope.editPageTitle = function () {
-		$scope.done = true;
-		$("#allPanelsModal #pageName").focus();
-	};
 }
 
-panelCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
+pageCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
 
 
 // Modal Box Controller
@@ -213,7 +222,7 @@ function modalCtrl($scope, dbSharedService) {
 	$scope.$on("modalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
 
-		$("#pageTitle").focus();
+		//$("#pageTitle").focus();
 		$("#modalBox h3").html(configs.modalTitle);
 		$("#pageTitle").val(configs.pageTitle);
 		$("#content_json").val(configs.contentJSON);
@@ -237,21 +246,20 @@ modalCtrl.$inject = ['$scope', 'dbSharedService'];
 // All available panels list controller
 function allPanelListCtrl($scope, AllPanels, dbSharedService) {
 
-	$scope.$parent.panelsSelected = [];
-	$scope.predicate = '-educationAgencyName';
+	$scope.$parent.selectedPanels = [];
 
 	$scope.$on("allPanelsModalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
-		$scope.$parent.panelsSelected = [];
+		$scope.$parent.selectedPanels = [];
 
 		$("#allPanelsModal h3").html(configs.modalTitle);
 
 		$("#panelSelectable").selectable({
 			stop: function() {
-				$scope.$parent.panelsSelected = [];
+				$scope.$parent.selectedPanels = [];
 				$( ".ui-selected", this ).each(function() {
 					var index = $( "#panelSelectable li" ).index( this );
-					$scope.$parent.panelsSelected.push($scope.allPanels[index]);
+					$scope.$parent.selectedPanels.push($scope.allPanels[index]);
 				});
 			}
 		});

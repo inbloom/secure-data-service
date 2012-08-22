@@ -26,25 +26,6 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			templateUrl: "js/templates/header.html"
 		};
 	})
-	.directive('ngTabs', function($rootScope) {
-		return function(scope, elm) {
-			setTimeout(function(){
-				if(elm.children().length > 0) {
-					elm.ready(function () {
-						elm.tabs();
-					});
-				}
-			}, 300);
-
-			$rootScope.$on("tabAdded", function (event, index) {
-				//elm.tabs("add", id, title);
-				setTimeout(function(){
-					elm.tabs();
-				}, 300);
-			});
-
-		};
-	})
 	.directive('ngModal', function() {
 		return {
 			restrict: 'E',
