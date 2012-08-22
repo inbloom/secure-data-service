@@ -275,12 +275,12 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         newLandingZone.put(LZ_PATH, path);
         newLandingZone.put(LZ_USER_NAMES, userNames);
 
-        Map<String, Object> preload = new HashMap<String, Object>();
         if ((preloadFiles != null) && (!preloadFiles.isEmpty())) {
+            Map<String, Object> preload = new HashMap<String, Object>();
             preload.put(LZ_PRELOAD_FILES, preloadFiles);
             preload.put(LZ_PRELOAD_STATUS, LZ_PRELOAD_STATUS_READY);
+            newLandingZone.put(LZ_PRELOAD, preload);
         }
-        newLandingZone.put(LZ_PRELOAD, preload);
         return newLandingZone;
     }
 
