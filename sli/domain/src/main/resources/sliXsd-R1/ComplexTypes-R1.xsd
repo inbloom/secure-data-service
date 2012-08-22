@@ -4579,7 +4579,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ratingOrganization" type="ratingOrganization"
+            <xs:element name="SchoolYear" type="schoolYearType">
+                <xs:annotation>
+                    <xs:documentation>The school year for which the accountability rating is assessed.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ratingOrganization" type="ratingOrganization"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The organization that assessed the rating.
@@ -4634,6 +4640,10 @@
 				address, city, state, and ZIP code.
 			</xs:documentation>
 		</xs:annotation>
+        <xs:annotation>
+            <xs:documentation>NOTE: 'address' does not support ed-fi AddressLine / international choice
+            </xs:documentation>
+        </xs:annotation>
 		<xs:sequence>
 			<xs:element name="streetNumberName">
 				<xs:annotation>
@@ -4719,7 +4729,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="countryCode" type="countryCodeType"
+			<xs:element name="country" type="countryType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The unique two character International
@@ -4741,7 +4751,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="openDate" type="xs:date" minOccurs="0">
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The first date the address is valid. For physical
 						addresses,
@@ -4749,7 +4759,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="closeDate" type="xs:date" minOccurs="0">
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The last date the address is valid. For physical
 						addresses,
@@ -4810,7 +4820,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="credentialField" type="credentialFieldDescriptor">
+			<xs:element name="credentialField" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>The field of certification for the certificate
 						(e.g.,
@@ -4952,7 +4962,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradeLevel" type="gradeLevelType"
+			<xs:element name="gradeLevel" type="descriptorReferenceType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The grade level when the student is planned to
@@ -4975,7 +4985,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="subjectArea" type="academicSubjectType">
+			<xs:element name="subjectArea" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>The intended major subject area of the graduation
 						requirement.
@@ -6558,7 +6568,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="countryOfBirthCode" type="countryCodeType"
+			<xs:element name="countryOfBirthCode" type="countryType"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The unique two digit International Organization
