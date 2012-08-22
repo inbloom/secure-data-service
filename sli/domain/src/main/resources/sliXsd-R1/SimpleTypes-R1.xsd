@@ -2685,21 +2685,21 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Drivers License" />
-			<xs:enumeration value="Health Record" />
-			<xs:enumeration value="Medicaid" />
-			<xs:enumeration value="Professional Certificate" />
-			<xs:enumeration value="School" />
-			<xs:enumeration value="District" />
-			<xs:enumeration value="State" />
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="Other Federal" />
-			<xs:enumeration value="Selective Service" />
-			<xs:enumeration value="SSN" />
-			<xs:enumeration value="US Visa" />
-			<xs:enumeration value="PIN" />
-			<xs:enumeration value="Canadian SIN" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Drivers License"/>
+            <xs:enumeration value="Health Record"/>
+            <xs:enumeration value="Medicaid"/>
+            <xs:enumeration value="Professional Certificate"/>
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="District"/>
+            <xs:enumeration value="State"/>
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="Other Federal"/>
+            <xs:enumeration value="Selective Service"/>
+            <xs:enumeration value="SSN"/>
+            <xs:enumeration value="US Visa"/>
+            <xs:enumeration value="PIN"/>
+            <xs:enumeration value="Canadian SIN"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2712,18 +2712,19 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Displaced Homemaker" />
-			<xs:enumeration value="Foster Care" />
-			<xs:enumeration value="Homeless" />
-			<xs:enumeration value="Immigrant" />
-			<xs:enumeration value="Migratory" />
-			<xs:enumeration value="Parent in Military" />
-			<xs:enumeration value="Pregnant" />
-			<xs:enumeration value="Single Parent" />
-			<xs:enumeration value="Unaccompanied Youth" />
-			<xs:enumeration value="Unschooled Asylee" />
-			<xs:enumeration value="Unschooled Refugee" />
-		</xs:restriction>
+            <xs:enumeration value="Displaced Homemaker"/>
+            <xs:enumeration value="Foster Care"/>
+            <xs:enumeration value="Homeless"/>
+            <xs:enumeration value="Immigrant"/>
+            <xs:enumeration value="Migratory"/>
+            <xs:enumeration value="Parent in Military"/>
+            <xs:enumeration value="Pregnant"/>
+            <xs:enumeration value="Section 504 Handicapped"/>
+            <xs:enumeration value="Single Parent"/>
+            <xs:enumeration value="Unaccompanied Youth"/>
+            <xs:enumeration value="Unschooled Asylee"/>
+            <xs:enumeration value="Unschooled Refugee"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="studentIdentificationSystemType">
