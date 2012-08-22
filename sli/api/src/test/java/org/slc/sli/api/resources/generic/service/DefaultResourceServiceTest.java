@@ -14,7 +14,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -218,27 +217,27 @@ public class DefaultResourceServiceTest {
         return id1 + "," + id2;
     }
 
-    public Map<String, Object> createTestEntity() {
+    private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Male");
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
 
-    public Map<String, Object> createTestUpdateEntity() {
+    private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Female");
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
 
-    public Map<String, Object> createTestPatchEntity() {
+    private Map<String, Object> createTestPatchEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Female");
         return entity;
     }
 
-    public Map<String, Object> createTestSecondaryEntity() {
+    private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Female");
         entity.put("studentUniqueStateId", 5678);
