@@ -24,8 +24,7 @@ require_relative '../../liferay/step_definitions/all_steps.rb'
 
 
 Before do
-  #@rc_admintools_url = "https://rcadmin.slidev.org"
-  @rc_admintools_url = "http://local.slidev.org:3001"
+  @rc_admintools_url = "https://rcadmin.slidev.org"
   @rc_portal_url = "https://rcportal.slidev.org/portal"
 end
 
