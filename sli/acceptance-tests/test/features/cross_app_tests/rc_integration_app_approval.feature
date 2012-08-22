@@ -45,7 +45,7 @@ Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "developer-test@slidev.org" "test1234" for the "Simple" login page    
+When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
