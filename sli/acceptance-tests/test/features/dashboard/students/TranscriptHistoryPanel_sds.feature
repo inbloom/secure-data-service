@@ -27,11 +27,7 @@ Feature: Student Transcript History Panel
     And the lozenges include "ELL"
 
     And there are "4" Tabs
-    And Tab has a title named "Middle School Overview"
-    And Tab has a title named "Attendance and Discipline"
-    And Tab has a title named "Assessments"
-    And Tab has a title named "Grades and Credits"
-    And in "Grades and Credits" tab, there are "1" Panels
+    And in "Grades and Credits" tab, there are "2" Panels
 
     When I look at the "Transcript History" panel under "Grades and Credits"
     Then I should find 8 rows of transcript history
