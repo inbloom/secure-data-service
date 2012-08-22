@@ -16,8 +16,6 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-
-
 /**
  * Represents the staffEducationOrganizationAssociation in SLI datamodel
  *
@@ -92,7 +90,7 @@ public class StaffEducationOrganizationAssociationEntity extends SliEntity {
 
     @Override
     public String entityType() {
-        return "staffEducationOrganizationAssociation";
+        return "staffEducationOrgAssignmentAssociation";
     }
 
 }

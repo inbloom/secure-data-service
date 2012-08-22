@@ -51,6 +51,8 @@ public class EmploymentRecordToTeacherSchoolTranslationTask extends
             return result;
         }
 
+        sifData.setRefId(sifData.getSIF_RefId() + ":" + sifData.getSIF_RefObject());
+
         Entity staff = sifIdResolver.getSliEntity(sifData.getSIF_RefId(), zoneId);
         Entity edOrg = sifIdResolver.getSliEntity(sifData.getLEAInfoRefId(), zoneId);
 

@@ -68,6 +68,25 @@ public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest 
         Assert.assertEquals(0, result.size());
     }
 
+    /*
+     * Since the EmploymentRecord event doesn't populate sifId,
+     * generate one so that sifIdResolver works
+     */
+    @Test
+    public void shouldGenerateSifId() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setSIF_RefId("staffId");
+        er.setSIF_RefObject("EmployeePersonal");
+
+        // mock the lookup of the staff/edorg
+        Entity entity = new GenericEntity("entityType", new HashMap<String, Object>());
+        Mockito.when(sifIdResolver.getSliEntity(Mockito.anyString(), Mockito.anyString())).thenReturn(entity);
+
+        translator.doTranslate(er, "zone");
+
+        Assert.assertEquals("staffId:EmployeePersonal", er.getRefId());
+    }
+
     @Test
     public void shouldTranslateLeaRefId() {
         EmploymentRecord er = createEmploymentRecord();
