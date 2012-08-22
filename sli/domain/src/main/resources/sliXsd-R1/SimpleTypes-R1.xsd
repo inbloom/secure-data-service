@@ -70,17 +70,17 @@
 				or other agencies to refer to an education organization.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="School" />
-			<xs:enumeration value="ACT" />
-			<xs:enumeration value="LEA" />
-			<xs:enumeration value="SEA" />
-			<xs:enumeration value="NCES" />
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="DUNS" />
-			<xs:enumeration value="Other Federal" />
-			<xs:enumeration value="Other" />
-		</xs:restriction>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="ACT"/>
+            <xs:enumeration value="LEA"/>
+            <xs:enumeration value="SEA"/>
+            <xs:enumeration value="NCES"/>
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="DUNS"/>
+            <xs:enumeration value="Other Federal"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="nameOfInstitution">
@@ -752,12 +752,12 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Main" />
-			<xs:enumeration value="Administrative" />
-			<xs:enumeration value="HealthClinic" />
-			<xs:enumeration value="Attendance" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Fax" />
+            <xs:enumeration value="Main"/>
+            <xs:enumeration value="Administrative"/>
+            <xs:enumeration value="HealthClinic"/>
+            <xs:enumeration value="Attendance"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Fax"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3351,10 +3351,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Home/Personal" />
-			<xs:enumeration value="Organization" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Work" />
+            <xs:enumeration value="Home/Personal"/>
+            <xs:enumeration value="Organization"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Work"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3559,10 +3559,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Voluntary separation" />
-			<xs:enumeration value="Involuntary separation" />
-			<xs:enumeration value="Mutual agreement" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Voluntary separation"/>
+            <xs:enumeration value="Involuntary separation"/>
+            <xs:enumeration value="Mutual agreement"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3600,29 +3600,29 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Employment in education" />
-			<xs:enumeration value="Employment outside of education" />
-			<xs:enumeration value="Retirement" />
-			<xs:enumeration value="Family/personal relocation" />
-			<xs:enumeration value="Change of assignment" />
-			<xs:enumeration value="Formal study or research" />
-			<xs:enumeration value="Illness/disability" />
-			<xs:enumeration value="Homemaking/caring for a family member" />
-			<xs:enumeration value="Layoff due to budgetary reduction" />
-			<xs:enumeration value="Layoff due to organizational restructuring" />
-			<xs:enumeration value="Layoff due to decreased workload" />
-			<xs:enumeration value="Discharge due to unsuitability" />
-			<xs:enumeration value="Discharge due to misconduct" />
-			<xs:enumeration value="Discharge due to continued absence or tardiness" />
-			<xs:enumeration value="Discharge due to a falsified application form" />
-			<xs:enumeration value="Discharge due to credential revoked or suspended" />
-			<xs:enumeration value="Discharge due to unsatisfactory work performance" />
-			<xs:enumeration value="Death" />
-			<xs:enumeration value="Personal reason" />
-			<xs:enumeration value="Lay off due to lack of funding" />
-			<xs:enumeration value="Lost credential" />
-			<xs:enumeration value="Unknown" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Employment in education"/>
+            <xs:enumeration value="Employment outside of education"/>
+            <xs:enumeration value="Retirement"/>
+            <xs:enumeration value="Family/personal relocation"/>
+            <xs:enumeration value="Change of assignment"/>
+            <xs:enumeration value="Formal study or research"/>
+            <xs:enumeration value="Illness/disability"/>
+            <xs:enumeration value="Homemaking/caring for a family member"/>
+            <xs:enumeration value="Layoff due to budgetary reduction"/>
+            <xs:enumeration value="Layoff due to organizational restructuring"/>
+            <xs:enumeration value="Layoff due to decreased workload"/>
+            <xs:enumeration value="Discharge due to unsuitability"/>
+            <xs:enumeration value="Discharge due to misconduct"/>
+            <xs:enumeration value="Discharge due to continued absence or tardiness"/>
+            <xs:enumeration value="Discharge due to a falsified application form"/>
+            <xs:enumeration value="Discharge due to credential revoked or suspended"/>
+            <xs:enumeration value="Discharge due to unsatisfactory work performance"/>
+            <xs:enumeration value="Death"/>
+            <xs:enumeration value="Personal reason"/>
+            <xs:enumeration value="Lay off due to lack of funding"/>
+            <xs:enumeration value="Lost credential"/>
+            <xs:enumeration value="Unknown"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3637,31 +3637,6 @@
 			<xs:enumeration value="Full price" />
 			<xs:enumeration value="Reduced price" />
 			<xs:enumeration value="Unknown" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="disabilityType">
-		<xs:annotation>
-			<xs:documentation>A disability condition that describes a child's
-				impairment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="Autistic/Autism" />
-			<xs:enumeration value="Deaf-Blindness" />
-			<xs:enumeration value="Deafness" />
-			<xs:enumeration value="Developmental Delay" />
-			<xs:enumeration value="Emotional Disturbance" />
-			<xs:enumeration value="Hearing/Auditory Impairment" />
-			<xs:enumeration value="Infants and Toddlers with Disabilities" />
-			<xs:enumeration value="Mental Retardation" />
-			<xs:enumeration value="Multiple Disabilities" />
-			<xs:enumeration value="Orthopedic Impairment" />
-			<xs:enumeration value="Other Health Impairment" />
-			<xs:enumeration value="Speech or Language Impairment" />
-			<xs:enumeration value="Specific Learning Disability" />
-			<xs:enumeration value="Traumatic Brain Delay" />
-			<xs:enumeration value="Visual Impairment" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -3872,6 +3847,16 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <!--<xs:pattern value= ".*[^\.]" />-->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="uri">
+        <xs:annotation>
+            <xs:documentation>The public web site address (URL), file, or ftp locator.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="255"/>
         </xs:restriction>
     </xs:simpleType>
 
