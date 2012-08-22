@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.resources.generic.util;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -30,14 +45,14 @@ public class RestResourceHelper implements ResourceHelper {
     @Override
     public Resource getResourceName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return getResource(RESOURCE_KEY,matchList);
+        return getResource(RESOURCE_KEY, matchList);
     }
 
 
     @Override
     public Resource getBaseName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return getResource(BASE_KEY,matchList);
+        return getResource(BASE_KEY, matchList);
     }
 
     @Override
@@ -65,7 +80,7 @@ public class RestResourceHelper implements ResourceHelper {
     @Override
     public Resource getAssociationName(final UriInfo uriInfo, final ResourceTemplate template) {
         final Map<String, String> matchList = getMatchList(uriInfo, template);
-        return getResource(ASSOCIATION_KEY,matchList);
+        return getResource(ASSOCIATION_KEY, matchList);
     }
     @Override
     public EntityDefinition getEntityDefinition(final Resource resource) {
@@ -83,7 +98,7 @@ public class RestResourceHelper implements ResourceHelper {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
         String path = uriInfo.getRequestUri().getPath();
         if (path.endsWith("/")) {
-            path = path.substring(0,(path.length() - 1));
+            path = path.substring(0, (path.length() - 1));
         }
         return uriTemplate.match(path);
     }
@@ -102,7 +117,7 @@ public class RestResourceHelper implements ResourceHelper {
                 + SEP + "{id}" + SEP + matchList.get(RESOURCE_KEY);
     }
 
-    private Resource getResource(final String resourceType,final Map<String, String> matchList) {
+    private Resource getResource(final String resourceType, final Map<String, String> matchList) {
         String namespace = matchList.get(VERSION_KEY);
         String type =  matchList.get(resourceType);
         return new Resource(namespace, type);
