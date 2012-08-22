@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
 
 import java.util.List;
@@ -38,6 +37,8 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
     List<? extends Validator<T>> postValidators;
 
     protected abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
+
+    protected abstract List<O> doHandling(List<T> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
 
     void pre(T item, ErrorReport errorReport) {
         if (preValidators != null) {
@@ -73,20 +74,28 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
         return handle(item, errorReport, new FileProcessStatus());
     }
 
+    @Override
+    public List<O> handle(List<T> items, ErrorReport errorReport) {
+        return handle(items, errorReport, new FileProcessStatus());
+    }
+
     public O handle(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-
         O o = null;
-
         pre(item, errorReport);
-
         if (!errorReport.hasErrors()) {
-
             o = doHandling(item, errorReport, fileProcessStatus);
-
             post(item, errorReport);
         }
-
         return o;
+    }
+
+    public List<O> handle(List<T> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+        // TODO: add pre and post validation that will iterate through the list and perform
+        // appropriate validations
+        if (!errorReport.hasErrors()) {
+            return doHandling(items, errorReport, fileProcessStatus);
+        }
+        return null;
     }
 
     public void setPreValidators(List<Validator<T>> preValidators) {

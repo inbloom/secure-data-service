@@ -8,250 +8,91 @@
     <xs:include schemaLocation="../edfiXsd-1-1-0/Ed-Fi-Core.xsd"/>
 
     <!-- This file contains the complex types for the SLI database schema representation. -->
-    <xs:complexType name="assessment">
+    <xs:complexType name="SLI-Assessment">
         <xs:annotation>
             <xs:documentation>
-                This entity represents a tool, instrument, process,
-                or exhibition composed of a systematic sampling of
-                behavior for
-                measuring a student's competence,
-                knowledge, skills or behavior. An
-                assessment can be
-                used to measure differences in individuals or
-                groups and changes in performance from one occasion
-                to the next.
+                This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of
+                behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used
+                to measure differences in individuals or groups and changes in performance from one occasion to the
+                next.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>assessment</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="assessmentTitle" type="assessmentTitle">
-                <xs:annotation>
-                    <xs:documentation>
-                        The title or name of the assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentFamilyHierarchyName"
-                        type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>
-                        A hierarchical name for the assessment
-                        using '.'
-                        separators.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" name="assessmentIdentificationCode"
-                        type="assessmentIdentificationCode">
-                <xs:annotation>
-                    <xs:documentation>
-                        A unique number or alphanumeric code
-                        assigned to
-                        an assessment by a school,
-                        school system, a state, or other
-                        agency.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentCategory" type="assessmentCategoryType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The category of an assessment based on format
-                        and
-                        content, such as "Achievement test,"
-                        "Advanced placement
-                        test,"
-                        "Alternate assessment/grade-level standards,"
-                        "Attitudinal
-                        test,"
-                        and
-                        "Cognitive and perceptual skills test."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The content or subject area of an
-                        assessment,
-                        such
-                        as arts,
-                        mathematics, reading, stenography,
-                        or a foreign
-                        language.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="gradeLevelAssessed" type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The grade level this assessment is most
-                        typically
-                        associated with. If it spans
-                        multiple grade levels, this
-                        should be
-                        the
-                        highest grade level for the assessment, and
-                        the
-                        lowest grade
-                        level is provided in the
-                        "lowestGradeLevelAsssessed"
-                        attribute.
-                        Examples include "Adult," "Prekindergarten,"
-                        "First
-                        Grade," "Second
-                        Grade," and so on.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="lowestGradeLevelAssessed"
-                        type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The lowest grade assessed when the
-                        assessments
-                        spans a range of grade levels
-                        (see "gradeLevelAssessed"),
-                        otherwise
-                        omitted.
-                        Examples include "Adult," "Prekindergarten,"
-                        "First Grade,"
-                        "Second Grade," and so on.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="assessmentPerformanceLevel" type="assessmentPerformanceLevel">
-                <xs:annotation>
-                    <xs:documentation>
-                        Definition of the performance levels and the
-                        associated cut scores. Three styles are
-                        supported: (1)
-                        specification of performance
-                        level by min and max score, (2)
-                        specification
-                        of performance level by cut score - min only,
-                        and (3)
-                        specification of performance level
-                        without any mapping to scores.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="contentStandard" type="contentStandardType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Identifier for whether an assessment
-                        conforms to
-                        a
-                        standard. Examples include
-                        "Local standard," "Statewide
-                        standard,"
-                        "Regional standard," "Association standard,"
-                        and "School
-                        standard."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentForm" type="assessmentForm">
-                <xs:annotation>
-                    <xs:documentation>
-                        The form or format of assessment, such
-                        as a
-                        regular versus makeup form, or multiple
-                        choice versus constructed
-                        response.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="version" type="version">
-                <xs:annotation>
-                    <xs:documentation>
-                        The version identifier for the assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="revisionDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        The month, day, and year that the conceptual
-                        design for the assessment had its most recent
-                        substantial
-                        revision.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="maxRawScore" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>
-                        The maximum raw score achievable across all
-                        assessment items that are correct and scored
-                        at the maximum.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="minRawScore" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>
-                        The minimum raw score achievable across all
-                        assessment items that are correct and scored
-                        at the minimum.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="nomenclature" type="nomenclature">
-                <xs:annotation>
-                    <xs:documentation>
-                        The specific nomenclature used for assessment.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="assessmentPeriodDescriptor"
-                        type="assessmentPeriodDescriptor">
-                <xs:annotation>
-                    <xs:documentation>
-                        The period or window in which an assessment
-                        is
-                        supposed to be administered. Examples
-                        include "Beginning of Year,"
-                        "Middle of Year,"
-                        and "End of Year."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="objectiveAssessment" type="objectiveAssessment">
-                <xs:annotation>
-                    <xs:documentation>
-                        Subsets of the assessment that address
-                        specific
-                        learning objectives.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0"
-                        name="assessmentItem" type="assessmentItem">
-                <xs:annotation>
-                    <xs:documentation>
-                        Individual test items, if appropriate.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="sectionReferences" type="reference" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The section(s) which the assessment is associated with
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>section</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="Assessment">
+                <xs:sequence>
+                    <!-- NOTE SLI uses enum for AcademicSubject, LowestGradeLevelAssessed and GradeLevelAssessed,
+                       slight variation in EdFi-AssessmentPeriod and SLI-AssessmentPeriodDescriptor,
+                       sli contains ObjectiveAssessment compared to EdFi ObjectiveAssessmentReference
+                       sli contains AssessmentItem compared to EdFi AssessmentItemReference
+                       sli contains AssessmentFamilyHierarchyName and MinRawScore,
+                       EdFi contains AssessmentItemReference and AssessmentFamilyReference -->
+                    <xs:element name="SLI-AcademicSubject" type="academicSubjectType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The content or subject area of an assessment, such as arts, mathematics, reading,
+                                stenography, or a foreign language.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-MinRawScore" type="xs:int" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The minimum raw score achievable across all assessment items that are correct and scored
+                                at the minimum.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-LowestGradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The lowest grade assessed when the assessments spans a range of grade levels (see
+                                "gradeLevelAssessed"), otherwise omitted. Examples include "Adult," "Prekindergarten,"
+                                "First Grade," "Second Grade," and so on.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-GradeLevelAssessed" type="gradeLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The grade level this assessment is most typically associated with. If it spans multiple
+                                grade levels, this should be the highest grade level for the assessment, and the lowest
+                                grade level is provided in the "lowestGradeLevelAsssessed" attribute. Examples include
+                                "Adult," "Prekindergarten," "First Grade," "Second Grade," and so on.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentPeriodDescriptor" type="assessmentPeriodDescriptor" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The period or window in which an assessment is supposed to be administered. Examples
+                                include "Beginning of Year," "Middle of Year," and "End of Year."
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-ObjectiveAssessment" type="objectiveAssessment" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Subsets of the assessment that address specific learning objectives.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentItem" type="assessmentItem" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Individual test items, if appropriate.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-AssessmentFamilyHierarchyName" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                            <xs:documentation>
+                                A hierarchical name for the assessment using '.' separators.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="assessmentIdentificationCode">
@@ -289,6 +130,7 @@
         </xs:sequence>
     </xs:complexType>
 
+    <!-- TODO inherit from Ed-Fi AssessmentItem -->
     <xs:complexType name="assessmentItem">
         <xs:annotation>
             <xs:documentation>This entity represents one of many single measures
@@ -620,7 +462,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="educationOrganization">
+            <xs:extension base="SLI-EducationOrganization">
                 <xs:sequence>
                     <xs:element name="LEACategory" type="LEACategoryType">
                         <xs:annotation>
@@ -664,6 +506,7 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- TODO inherit from Ed-Fi ObjectiveAssessment -->
     <xs:complexType name="objectiveAssessment">
         <xs:annotation>
             <xs:documentation>This entity represents subtests that assess
@@ -1196,91 +1039,20 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="school">
+    <xs:complexType name="SLI-School">
         <xs:annotation>
-            <xs:documentation>This entity represents an educational organization
-                that includes staff and students who participate in classes and
-                educational activity groups.
+            <xs:documentation>This entity represents an educational organization that includes staff and students who
+                participate in classes and educational activity groups.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:SecuritySphere>Public</sli:SecuritySphere>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-            </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="educationOrganization">
+            <xs:extension base="SLI-EducationOrganization">
                 <xs:sequence>
-                    <xs:element maxOccurs="unbounded" minOccurs="0"
-                                name="gradesOffered"
-                                type="gradeLevelType">
+                    <!-- NOTE SLI School does not contain ClassPeriodReference LocationReference InternetAccess.
+                       EdFi=LocalEducationAgencyReference maps to SLI-ParentEducationAgencyReference -->
+                    <xs:element name="SLI-GradesOffered" type="gradeLevelType" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The grade levels served at the school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element maxOccurs="unbounded" minOccurs="0"
-                                name="schoolCategories" type="schoolCategoryItemType">
-                        <xs:annotation>
-                            <xs:documentation>The one or more categories of school. For
-                                example:
-                                High School, Middle School, and/or Elementary School.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="schoolType" type="schoolType">
-                        <xs:annotation>
-                            <xs:documentation>The type of education institution as
-                                classified
-                                by its
-                                primary focus.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="charterStatus" type="charterStatusType">
-                        <xs:annotation>
-                            <xs:documentation>A school or agency providing free public
-                                elementary or
-                                secondary education to eligible students under a
-                                specific charter
-                                granted by the state legislature or other
-                                appropriate authority
-                                and
-                                designated by such authority to be a
-                                charter school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="titleIPartASchoolDesignation"
-                                type="titleIPartASchoolDesignationType">
-                        <xs:annotation>
-                            <xs:documentation>Denotes the Title I Part A designation for the
-                                school.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element minOccurs="0"
-                                name="magnetSpecialProgramEmphasisSchool" type="magnetSpecialProgramEmphasisSchoolType">
-                        <xs:annotation>
-                            <xs:documentation>A school that has been designed: 1) to attract
-                                students of different racial/ethnic backgrounds for the purpose
-                                of
-                                reducing, preventing, or eliminating racial isolation; and/or
-                                2) to
-                                provide an academic or social focus on a particular theme
-                                (e.g.,
-                                science/math, performing arts, gifted/talented, or
-                                foreign
-                                language).
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="administrativeFundingControl"
-                                type="administrativeFundingControlType">
-                        <xs:annotation>
-                            <xs:documentation>The type of education institution as
-                                classified
-                                by its
-                                funding source, for example public or private.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -1557,7 +1329,7 @@
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="educationOrganization"/>
+            <xs:extension base="SLI-EducationOrganization"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -1661,6 +1433,9 @@
         <xs:complexContent>
             <xs:extension base="StudentAcademicRecord">
                 <xs:sequence>
+                    <!-- NOTE in SLI is '+' in Ed-Fi is '-'
+                      +SLI-CourseTranscript -SessionCreditsEarned -SessionCreditsAttempted -SessionGradePointsEarned
+                      -SessionGradePointAverage -StudentReference(inherited) -ReportCardReference -Diploma -->
                     <xs:element name="SLI-CourseTranscript" type="SLI-CourseTranscript" minOccurs="0"
                                 maxOccurs="unbounded">
                         <xs:annotation>
@@ -2383,145 +2158,34 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="educationOrganization">
+    <xs:complexType name="SLI-EducationOrganization">
         <xs:annotation>
-            <xs:documentation>This entity represents any public or private
-                institution,
-                organization, or agency that provides instructional or
-                support services to
-                students
-                or staff at any level.
+            <xs:documentation>This entity represents any public or private institution, organization, or agency that
+                provides instructional or support services to students or staff at any level.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-                <sli:SecuritySphere>Public</sli:SecuritySphere>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="stateOrganizationId" type="identificationCode">
-                <xs:annotation>
-                    <xs:documentation>The identifier assigned to an education
-                        organization
-                        by the State Education Agency (SEA).
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>A unique number or alphanumeric code assigned
-                        to
-                        an education organization by a school, school system, a state,
-                        or
-                        other agency or entity.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="nameOfInstitution" type="nameOfInstitution">
-                <xs:annotation>
-                    <xs:documentation>The full, legally accepted name of the
-                        institution.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="shortNameOfInstitution" type="nameOfInstitution"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>A short name for the institution.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="organizationCategories" type="educationOrganizationCategoryType"
-                        maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The classification of the education agency
-                        within
-                        the
-                        geographic boundaries of a state according to the
-                        level of
-                        administrative and operational control granted by the
-                        state.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="address" type="address" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The set of elements that describes the physical
-                        location of the education entity, including the street address,
-                        city, state, ZIP code, and ZIP code + 4.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="telephone" type="institutionTelephone"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The 10-digit telephone number, including the
-                        area
-                        code, for the education entity.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="webSite" type="webSite" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The public web site address (URL) for the
-                        educational
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="operationalStatus" type="operationalStatusType"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The current operational status of the education
-                        organization (e.g., active, inactive).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="accountabilityRatings" type="accountabilityRating"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The accountability ratings assessed for the
-                        education
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="programReference" type="xs:string"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The programs offered at the education
-                        organization.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="agencyHierarchyName" type="agencyHierarchyType"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>An optional hierarchical name for the Ed Org
-                        using '.' separators.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="parentEducationAgencyReference" type="reference"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Reference to the parent Education Organization
-                        in
-                        a hierarchy.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="EducationOrganization">
+                <xs:sequence>
+                    <!-- NOTE SLI edOrg does not contain EducationOrganizationPeerReference -->
+                    <xs:element name="SLI-AgencyHierarchyName" type="agencyHierarchyType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An optional hierarchical name for the Ed Org using '.' separators.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-ParentEducationAgencyReference" type="reference" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Reference to the parent Education Organization in a hierarchy.
+                            </xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="educationOrgIdentificationCode">
@@ -3480,76 +3144,35 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="gradingPeriod">
+    <xs:complexType name="SLI-GradingPeriod">
         <xs:annotation>
             <xs:documentation>
-                This entity represents the time span for which
-                grades are reported.
+                This entity represents the time span for which grades are reported.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>gradingPeriod</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The name of the period for which grades are
-                        reported
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="beginDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        Month, day, and year of the first day of the
-                        grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="endDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>
-                        Month, day, and year of the last day of the
-                        grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="totalInstructionalDays">
-                <xs:annotation>
-                    <xs:documentation>
-                        Total days available for educational
-                        instruction
-                        during the grading period.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:int">
-                        <xs:minInclusive value="0"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="calendarDateReference" type="reference"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Days associated with the grading period.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>calendarDate</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="GradingPeriod">
+                <xs:sequence>
+                    <!-- NOTE ed=fi core Grading Period does not contain grading PeriodIdentityType
+                      it does however include gradingPeriodType -->
+                    <xs:element name="SLI-SchoolYear" type="schoolYearType">
+                        <xs:annotation>
+                            <xs:documentation>The identifier for the school year.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-SchoolId" type="reference">
+                        <xs:annotation>
+                            <xs:documentation>The identifier assigned to an education agency by
+                                the State Education Agency (SEA). Also known as the State LEA ID.
+                            </xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="gradingPeriodIdentityType">
@@ -3582,91 +3205,20 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="graduationPlan">
+    <xs:complexType name="SLI-GraduationPlan">
         <xs:annotation>
-            <xs:documentation>This entity is a plan outlining the required
-                credits, credits by
-                subject, credits by course, and other criteria
-                required for graduation. A
-                graduation
-                plan may be one or more standard
-                plans defined by an education
-                organization and/or
-                individual plans for
-                some or all students.
+            <xs:documentation>This entity is a plan outlining the required credits, credits by subject, credits by
+                course, and other criteria required for graduation. A graduation plan may be one or more standard plans
+                defined by an education organization and/or individual plans for some or all students.
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>graduationPlan</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="graduationPlanType">
-                <xs:annotation>
-                    <xs:documentation>The type of academic plan the student is
-                        following for
-                        graduation: for example, Minimum, Recommended,
-                        Distinguished, or
-                        Standard.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="graduationPlanType"/>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="individualPlan" type="xs:boolean"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>An indicator of whether the graduation plan is
-                        tailored for an individual.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="totalCreditsRequired" type="credits">
-                <xs:annotation>
-                    <xs:documentation>The total number of credits required for
-                        graduation
-                        under this plan.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="creditsBySubject" type="creditsBySubject"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The total credits required in subject to
-                        graduate.
-                        Only those courses identified as a high school course
-                        requirement
-                        are eligible to meet subject credit requirements.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="creditsByCourse" type="creditsByCourse"
-                        minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The total credits required to graduation by
-                        taking a
-                        specific course, or by taking one or more from a set of
-                        courses.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="GraduationPlan">
+                <xs:sequence>
+                    <!-- NOTE SLI GraduationPlan does not contain a student or edOrg reference -->
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="institutionTelephone">
@@ -4657,86 +4209,24 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="studentCompetencyObjective">
+    <xs:complexType name="SLI-StudentCompetencyObjective">
         <xs:annotation>
-            <xs:documentation>This entity holds additional competencies for
-                student achievement that are not associated with specific learning
-                objectives (e.g., paying attention in class).
+            <xs:documentation>This entity holds additional competencies for student achievement that are not associated
+                with specific learning objectives (e.g., paying attention in class).
             </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
-                <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-            </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="studentCompetencyObjectiveId" type="identificationCode"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The Identifier for the student competency.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="objective" type="objective">
-                <xs:annotation>
-                    <xs:documentation>The designated title of the student competency
-                        objective.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:naturalKey>true</sli:naturalKey>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="description" type="description"
-                        minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The description of the student competency
-                        objective.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="objectiveGradeLevel" type="gradeLevelType">
-                <xs:annotation>
-                    <xs:documentation>The grade level for which the competency
-                        objective is targeted,
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="educationOrganizationId" type="reference">
-                <xs:annotation>
-                    <xs:documentation>The Education Organization that defines the
-                        curriculum and courses offered - often the LEA or school.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="home">
-        <xs:annotation>
-            <xs:documentation>TODO: Placeholder documentation</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="links" type="links" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="links">
-        <xs:annotation>
-            <xs:documentation>TODO: Placeholder documentation</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="rel" type="xs:string"/>
-            <xs:element name="href" type="xs:string"/>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="StudentCompetencyObjective">
+                <xs:sequence>
+                    <xs:element name="SLI-ObjectiveGradeLevel" type="gradeLevelType">
+                        <xs:annotation>
+                            <xs:documentation>The grade level for which the competency objective is targeted,
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
 </xs:schema>

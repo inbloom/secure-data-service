@@ -190,11 +190,16 @@ default:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
         
                 
-        #Used to limit the total number of errors or warnings being printed   
-        sli.ingestion.errorsCountPerInterchange: 100
-        sli.ingestion.warningsCountPerInterchange: 100
+        #Used to limit the total number of errors or warnings being printed
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature  
+        sli.ingestion.errorsCountPerInterchange: 15
+        sli.ingestion.warningsCountPerInterchange: 15
+        
+        # Number of retries for mongo operations in ingestion
+        sli.ingestion.totalRetries: 5
 
-        sli.ingestion.sampleDataSet.directory: ../../acceptance-tests/test/features/ingestion/test_data
+        sli.ingestion.dataset.sample:
+            small: [../../acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
 
     dashboard: &DASHBOARD-DEFAULT
 

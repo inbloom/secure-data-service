@@ -64,7 +64,7 @@ public class ConfigurationTest {
 
         Configuration initialConf = new Configuration();
         initialConf.set("@ID@", "123-456-789-1011-1213-1415");
-        JobConf conf = ConfigurableCalculatedValue.parseMapper(initialConf, "CalculatedValue.json");
+        JobConf conf = ConfigurableMapReduceJob.parseMapper(initialConf, "CalculatedValue.json");
 
         assertEquals(conf.getMapOutputKeyClass(), IdFieldEmittableKey.class);
         assertEquals(conf.getMapOutputValueClass(), BSONWritable.class);
@@ -191,56 +191,56 @@ public class ConfigurationTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNoCollection() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NoCollection.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NoCollection.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoFields() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NoFields.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NoFields.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoKeyField() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NoKeyField.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NoKeyField.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoQuery() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NoQUery.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NoQUery.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNotAMapper() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NotAMapper.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NotAMapper.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testUnknownMapper() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "UnknownMapper.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "UnknownMapper.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMissingClasses() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "MissingClasses.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "MissingClasses.json");
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMissingRootKey() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "MissingRootKey.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "MissingRootKey.json");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidConfigFile() throws Exception {
         Configuration emptyConf = new Configuration();
-        ConfigurableCalculatedValue.parseMapper(emptyConf, "NotJson.json");
+        ConfigurableMapReduceJob.parseMapper(emptyConf, "NotJson.json");
 
     }
 

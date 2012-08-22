@@ -76,12 +76,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         resolveReferences(item, errorReport);
 
         if (errorReport.hasErrors()) {
+            LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");
             return Collections.emptyList();
         }
 
         List<SimpleEntity> transformed = transform(item, errorReport);
 
         if (errorReport.hasErrors()) {
+            LOG.info("Issue was detected in EdFi2SLITransformer.transform()");
             return Collections.emptyList();
         }
 

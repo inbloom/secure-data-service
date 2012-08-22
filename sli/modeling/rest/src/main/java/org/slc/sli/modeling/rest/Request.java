@@ -25,7 +25,7 @@ import java.util.List;
  * A <code>request</code> element describes the input to be included when applying an HTTP method to
  * a resource.
  */
-public final class Request extends WadlElement {
+public class Request extends WadlElement {
     private final List<Param> params;
     private final List<Representation> representations;
 

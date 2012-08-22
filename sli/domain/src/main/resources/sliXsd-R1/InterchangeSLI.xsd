@@ -4,7 +4,7 @@
 	elementFormDefault="qualified" attributeFormDefault="qualified"
 	xmlns="http://slcedu.org/schema/0100" targetNamespace="http://slcedu.org/schema/0100">
 
-	<xs:include schemaLocation="ComplexTypes-R1-edfi.xsd" />
+	<xs:include schemaLocation="InterchangeTypes.xsd" />
 	<xs:annotation>
 		<xs:documentation>===== SLI Bulk Interchange Model =====
 		</xs:documentation>
@@ -20,25 +20,24 @@
 			<xs:sequence>
 				<xs:element name="action" type="interchangeAction" default="POST" />
 				<xs:choice maxOccurs="unbounded">
-
-					<xs:element name="assessment" type="assessment" />
+					<xs:element name="SLI-Assessment" type="SLI-Assessment" />
 					<xs:element name="SLI-Cohort" type="SLI-Cohort" />
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 					<xs:element name="SLI-Course" type="SLI-Course" />
-					<xs:element name="educationOrganization" type="educationOrganization" />
-					<xs:element name="gradingPeriod" type="gradingPeriod" />
-					<xs:element name="graduationPlan" type="graduationPlan" />
+					<xs:element name="SLI-EducationOrganization" type="SLI-EducationOrganization" />
+					<xs:element name="SLI-GradingPeriod" type="SLI-GradingPeriod" />
+					<xs:element name="SLI-GraduationPlan" type="SLI-GraduationPlan" />
 					<xs:element name="learningObjective" type="learningObjective" />
 					<xs:element name="SLI-LearningStandard" type="SLI-LearningStandard" />
 					<xs:element name="SLI-Parent" type="SLI-Parent" />
 					<xs:element name="SLI-Program" type="SLI-Program" />
-					<xs:element name="school" type="school" />
+					<xs:element name="SLI-School" type="SLI-School" />
 					<xs:element name="SLI-Section" type="SLI-Section" />
 					<xs:element name="SLI-Session" type="SLI-Session" />
 					<xs:element name="SLI-Staff" type="SLI-Staff" />
 					<xs:element name="SLI-Student" type="SLI-Student" />
 					<xs:element name="SLI-StudentCompetency" type="SLI-StudentCompetency" />
-					<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
+					<xs:element name="SLI-StudentCompetencyObjective" type="SLI-StudentCompetencyObjective" />
 					<xs:element name="SLI-Teacher" type="SLI-Teacher" />
 				</xs:choice>
 			</xs:sequence>

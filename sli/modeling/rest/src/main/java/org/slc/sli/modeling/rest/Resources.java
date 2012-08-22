@@ -25,7 +25,7 @@ import java.util.List;
  * The <code>resources</code> element acts as a container for the resources provided by the
  * application.
  */
-public final class Resources extends WadlElement {
+public class Resources extends WadlElement {
     private final String base;
     private final List<Resource> resources;
 

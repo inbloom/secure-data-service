@@ -85,7 +85,7 @@ import javax.xml.bind.annotation.XmlType;
     "studentAssociations",
     "teacherAssociations"
 })
-@XmlRootElement(name = "Section")
+@XmlRootElement(name = "section")
 public class Section {
 
     @XmlElement(required = true)

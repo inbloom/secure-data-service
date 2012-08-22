@@ -2,10 +2,14 @@ package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 
+import org.slc.sli.test.edfi.entities.InterchangeStudent;
+import org.slc.sli.test.edfi.entities.Student;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entitiesR1.InterchangeSection;
 import org.slc.sli.test.edfi.entitiesR1.Section;
+import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.generatorsR1.SectionGenerator;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -32,6 +36,7 @@ public class InterchangeSectionGenerator {
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeSection> iWriter) {
 
         generateSections(iWriter, MetaRelations.SECTION_MAP.values());
+        //generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
 
     }
 
@@ -53,7 +58,7 @@ public class InterchangeSectionGenerator {
                 section = null;
             } else {
             	section = SectionGenerator.generateMediumFiSliXsdRI(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
-                        sectionMeta.sessionId);
+                        sectionMeta.sessionId, sectionMeta.programId);
             	System.out.println("section has UniqueSectionCode ==============>" + section.getUniqueSectionCode());
             }
 
@@ -64,4 +69,26 @@ public class InterchangeSectionGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
+    private static void generateStudents(InterchangeWriter<InterchangeStudent> iWriter, Collection<StudentMeta> studentMetas) {
+        long startTime = System.currentTimeMillis();
+
+        for (StudentMeta studentMeta : studentMetas) {
+
+            Student student;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                student = null;
+            } else {
+                student = FastStudentGenerator.generateLowFi(studentMeta.id);
+            }
+
+
+            iWriter.marshal(student);
+
+        }
+
+        System.out.println("generated " + studentMetas.size() + " Student objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+    
 }
