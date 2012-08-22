@@ -9,7 +9,8 @@ public enum ResourceTemplate {
     THREE_PART("/rest/{version}/{base}/{id}/{resource}"),
     FOUR_PART("/rest/{version}/{base}/{id}/{association}/{resource}"),
     CUSTOM("/rest/{version}/{resource}/{id}/custom"),
-    AGGREGATES("/rest/{version}/{resource}/{id}/aggregates");
+    AGGREGATES("/rest/{version}/{resource}/{id}/aggregations"),
+    CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues");
 
     private final String template;
 
