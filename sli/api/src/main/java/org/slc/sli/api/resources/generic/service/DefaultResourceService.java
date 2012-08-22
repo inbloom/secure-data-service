@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.generic.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -227,6 +228,12 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
+
+        if (isAssociation(base)){
+            final String key = "_id";
+            return getAssociatedEntities(base, id, resource, key, requestURI);
+        }
+
         final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
         List<String> valueList = Arrays.asList(id.split(","));
@@ -245,11 +252,29 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    // TODO
     public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
+        final String associationKey = getConnectionKey(base, association);
+        return getAssociatedEntities(association, id, resource, associationKey, requestUri);
+    }
+
+    private boolean isAssociation(Resource base) {
+        boolean isAssociation = false;
+
+        final EntityDefinition baseEntityDef = resourceHelper.getEntityDefinition(base);
+        ClassType baseEntityType = provider.getClassType(StringUtils.capitalize(baseEntityDef.getType()));
+
+        if(baseEntityType.isAssociation()) {
+            isAssociation = true;
+        } else if(baseEntityDef instanceof AssociationDefinition) {
+            isAssociation = true;
+        }
+
+        return isAssociation;
+    }
+    private ServiceResponse getAssociatedEntities(final Resource association, final String id,
+                                                       final Resource resource, final String associationKey,final URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
         final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
-        final String associationKey = getConnectionKey(base, association);
 
         List<String> valueList = Arrays.asList(id.split(","));
         final ApiQuery apiQuery = getApiQuery(assocEntity);
@@ -258,7 +283,9 @@ public class DefaultResourceService implements ResourceService {
         final String resourceKey = getConnectionKey(association, resource);
         final List<String> filteredIdList = new ArrayList<String>();
         for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-           filteredIdList.add(entityBody.get(resourceKey).toString());
+            for(String filteredId :entityBody.getId(resourceKey)) {
+                filteredIdList.add(filteredId);
+            }
         }
 
         List<EntityBody> entityBodyList;
