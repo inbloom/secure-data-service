@@ -855,6 +855,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | studentCompetency           | 59    |
         | grade                       | 4     |
         | reportCard                  | 2     |
+        | staffCohortAssociation      | 3     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -862,6 +863,9 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | studentCompetency           | 0                   | body.competencyLevel.codeValue | 99                      | string               |
         | grade                       | 0                   | body.letterGradeEarned         | U                       | string               |
         | reportCard                  | 0                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
 	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
 	And zip file is scp to ingestion landing zone
@@ -873,6 +877,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | studentCompetency           | 59    |
         | grade                       | 4     |
         | reportCard                  | 2     |
+        | staffCohortAssociation      | 4     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -880,3 +885,6 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | studentCompetency           | 1                   | body.competencyLevel.codeValue | 99                      | string               |
         | grade                       | 1                   | body.letterGradeEarned         | U                       | string               |
         | reportCard                  | 1                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |

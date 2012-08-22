@@ -2277,6 +2277,13 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="primaryEmailAddressIndicator" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An indication that the electronic mail address should be used as the principal
+                        electronic mail address for an individual or organization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
