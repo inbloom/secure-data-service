@@ -8526,92 +8526,9 @@
         </xs:annotation>
         <xs:restriction base="xs:int"/>
     </xs:simpleType>
-    <xs:complexType name="ProgramParticipation">
-        <xs:annotation>
-            <xs:documentation>Programs the student is participating in or receiving services.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Program" type="ProgramType">
-                <xs:annotation>
-                    <xs:documentation>The program the student is associated with or receiving services from.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="BeginDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The date the student was associated with the program or service.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The date the program participation ended.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="DesignatedBy" type="DesignatedBy" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The person, organization, or department that designated the program association.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Recognition">
-        <xs:annotation>
-            <xs:documentation>Recognition given to the student for accomplishments in a co-curricular, or
-                extra-curricular activity.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="RecognitionType" type="RecognitionType">
-                <xs:annotation>
-                    <xs:documentation>The nature of recognition given to the student for accomplishments in a
-                        co-curricular, or extra-curricular activity.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="RecognitionDescription" type="RecognitionDescription" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>A description of the type of academic distinctions earned by or awarded to the
-                        individual.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="RecognitionAwardDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The date the recognition was awarded or earned.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="ScoreResult">
-        <xs:annotation>
-            <xs:documentation>A meaningful raw score or statistical expression of the performance of an individual. The
-                results can be expressed as a number, percentile, range, level, etc.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Result" type="Result">
-                <xs:annotation>
-                    <xs:documentation>The value of a meaningful raw score or statistical expression of the performance
-                        of an individual. The results can be expressed as a number, percentile, range, level, etc.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="AssessmentReportingMethod" type="AssessmentReportingMethodType" use="required">
-            <xs:annotation>
-                <xs:documentation>The method that the administrator of the assessment uses to report the performance and
-                    achievement of all students. It may be a qualitative method such as performance level descriptors or
-                    a quantitative method such as a numerical grade or cut score. More than one type of reporting method
-                    may be used.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
 
 
-    
+
     <xs:complexType name="SLI-ServiceProvider">
         <xs:annotation>
             <xs:documentation>The student's special education Service Provider</xs:documentation>

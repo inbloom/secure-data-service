@@ -6272,7 +6272,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="behaviorCategory" type="behaviorCategoryType">
+			<xs:element name="behaviorMap" type="behaviorMapType">
 				<xs:annotation>
 					<xs:documentation>A classification of the behavior for reporting
 						types.

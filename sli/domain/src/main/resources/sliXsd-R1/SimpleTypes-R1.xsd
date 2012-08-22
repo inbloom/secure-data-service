@@ -1912,51 +1912,51 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Achievement/proficiency level" />
-			<xs:enumeration value="ACT score" />
-			<xs:enumeration value="Adaptive scale score" />
-			<xs:enumeration value="Age score" />
-			<xs:enumeration value="C-scaled scores" />
-			<xs:enumeration value="College Board examination scores" />
-			<xs:enumeration value="Composite Score" />
-			<xs:enumeration value="Composite Rating" />
-			<xs:enumeration value="Composition Score" />
-			<xs:enumeration value="Grade equivalent or grade-level indicator" />
-			<xs:enumeration value="Grade equivalent or grade-level indicator" />
-			<xs:enumeration value="Graduation score" />
-			<xs:enumeration value="Growth/value-added/indexing" />
-			<xs:enumeration value="International Baccalaureate score" />
-			<xs:enumeration value="Letter grade/mark" />
-			<xs:enumeration value="Mastery level" />
-			<xs:enumeration value="Normal curve equivalent" />
-			<xs:enumeration value="Normalized standard score" />
-			<xs:enumeration value="Number score" />
-			<xs:enumeration value="Pass-fail" />
-			<xs:enumeration value="Percentile" />
-			<xs:enumeration value="Percentile rank" />
-			<xs:enumeration value="Proficiency level" />
-			<xs:enumeration value="Promotion score" />
-			<xs:enumeration value="Ranking" />
-			<xs:enumeration value="Ratio IQ's" />
-			<xs:enumeration value="Raw score" />
-			<xs:enumeration value="Scale score" />
-			<xs:enumeration value="Standard age score" />
-			<xs:enumeration value="Standard error measurement" />
-			<xs:enumeration value="Stanine score" />
-			<xs:enumeration value="Sten score" />
-			<xs:enumeration value="Theta" />
-			<xs:enumeration value="T-score" />
-			<xs:enumeration value="Vertical score" />
-			<xs:enumeration value="Workplace readiness score" />
-			<xs:enumeration value="Z-score" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Not applicable" />
+            <xs:enumeration value="Achievement/proficiency level"/>
+            <xs:enumeration value="ACT score"/>
+            <xs:enumeration value="Adaptive scale score"/>
+            <xs:enumeration value="Age score"/>
+            <xs:enumeration value="C-scaled scores"/>
+            <xs:enumeration value="College Board examination scores"/>
+            <xs:enumeration value="Composite Score"/>
+            <xs:enumeration value="Composite Rating"/>
+            <xs:enumeration value="Composition Score"/>
+            <xs:enumeration value="Grade equivalent or grade-level indicator"/>
+            <xs:enumeration value="Grade equivalent or grade-level indicator"/>
+            <xs:enumeration value="Graduation score"/>
+            <xs:enumeration value="Growth/value-added/indexing"/>
+            <xs:enumeration value="International Baccalaureate score"/>
+            <xs:enumeration value="Letter grade/mark"/>
+            <xs:enumeration value="Mastery level"/>
+            <xs:enumeration value="Normal curve equivalent"/>
+            <xs:enumeration value="Normalized standard score"/>
+            <xs:enumeration value="Number score"/>
+            <xs:enumeration value="Pass-fail"/>
+            <xs:enumeration value="Percentile"/>
+            <xs:enumeration value="Percentile rank"/>
+            <xs:enumeration value="Proficiency level"/>
+            <xs:enumeration value="Promotion score"/>
+            <xs:enumeration value="Ranking"/>
+            <xs:enumeration value="Ratio IQ's"/>
+            <xs:enumeration value="Raw score"/>
+            <xs:enumeration value="Scale score"/>
+            <xs:enumeration value="Standard age score"/>
+            <xs:enumeration value="Standard error measurement"/>
+            <xs:enumeration value="Stanine score"/>
+            <xs:enumeration value="Sten score"/>
+            <xs:enumeration value="Theta"/>
+            <xs:enumeration value="T-score"/>
+            <xs:enumeration value="Vertical score"/>
+            <xs:enumeration value="Workplace readiness score"/>
+            <xs:enumeration value="Z-score"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Not applicable"/>
             <xs:enumeration value="Quantile Measure"/>
             <xs:enumeration value="Lexile Measure"/>
             <xs:enumeration value="Vertical Scale Score"/>
             <xs:enumeration value="National College-Bound Percentile"/>
             <xs:enumeration value="State College-Bound Percentile"/>
-		</xs:restriction>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="attendanceEventCategoryType">
@@ -2940,20 +2940,19 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Athletic awards" />
-			<xs:enumeration value="Awarding of units of value" />
-			<xs:enumeration value="Citizenship award/recognition" />
-			<xs:enumeration
-				value="Completion of requirement, but no units of value awarded" />
-			<xs:enumeration value="Certificate" />
-			<xs:enumeration value="Honor award" />
-			<xs:enumeration value="Letter of commendation" />
-			<xs:enumeration value="Medals" />
-			<xs:enumeration value="Monogram/letter" />
-			<xs:enumeration value="Points" />
-			<xs:enumeration value="Promotion or advancement" />
-			<xs:enumeration value="Other" />
-		</xs:restriction>
+            <xs:enumeration value="Athletic awards"/>
+            <xs:enumeration value="Awarding of units of value"/>
+            <xs:enumeration value="Citizenship award/recognition"/>
+            <xs:enumeration value="Completion of requirement, but no units of value awarded"/>
+            <xs:enumeration value="Certificate"/>
+            <xs:enumeration value="Honor award"/>
+            <xs:enumeration value="Letter of commendation"/>
+            <xs:enumeration value="Medals"/>
+            <xs:enumeration value="Monogram/letter"/>
+            <xs:enumeration value="Points"/>
+            <xs:enumeration value="Promotion or advancement"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="relationType">
