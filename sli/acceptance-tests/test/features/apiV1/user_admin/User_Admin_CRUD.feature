@@ -171,6 +171,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |Ingestion User      |PUT      |403 |403      |0        |Ingestion User11 |Ingestion_User11 |Ingestion_User@test.com|    |Midgar| IL-SUNSET| 
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer J Simpson |homerSimpson      |homersimpson@test.com|               |      |           |
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer           |homerThePoet      |homerpoet@test.com|               |      |           |
+	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST     |201 |200      |1 or more|LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
 
 
 @production 
@@ -208,8 +209,6 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
-# lea can't create peer lea even in same ed-org -- this just become a happy path item, should work!
-	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |201 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
 # lea creates a lea in a different part of the ed-org hierarchy
 	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator15  |LEA_Administrator15  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-DAYBREAK|
 # operator creates a lea with ed-org in different tenant.

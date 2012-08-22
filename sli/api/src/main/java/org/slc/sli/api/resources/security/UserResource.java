@@ -242,12 +242,54 @@ public class UserResource {
             return result;
         }
 
+        result = validateLEAExistForDistrict(user);
+        if (result != null) {
+            return result;
+        }
+
         if (user.getEmail() == null) {
             return badRequest("No email address");
         } else if (user.getFullName() == null) {
             return badRequest("No name");
         } else if (user.getUid() == null) {
             return badRequest("No uid");
+        }
+
+        return null;
+    }
+
+    private Response validateLEAExistForDistrict(User user) {
+        //only care about realm admin and ingestion user in prod mode
+        if (isProdMode() && user.getGroups() != null) {
+            Collection<String> adminRoles = Arrays.asList(ADMIN_ROLES);
+            Set<String> userGroups = new HashSet<String>(user.getGroups());
+            userGroups.retainAll(adminRoles);
+
+            if (userGroups.size() != 0) {
+                //user is an admin, not realm / ingestion user
+                return null;
+            }
+
+            String userEdorg = user.getEdorg();
+            Set<String> districtEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg(),
+                    Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
+
+            if (districtEdorgs.contains(userEdorg)) {
+                //only care about ingestion user and realm admin in district level
+                boolean foundLEA = false;
+                Collection<User> users = ldapService.findUsersByGroups(realm,
+                        RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), user.getTenant(), Arrays.asList(userEdorg));
+                for (User userInLdap : users) {
+                    if (isUserLeaAdmin(userInLdap)) {
+                        foundLEA = true;
+                        break;
+                    }
+                }
+
+                if (!foundLEA) {
+                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in this Education Organization");
+                }
+            }
         }
 
         return null;
@@ -511,23 +553,23 @@ public class UserResource {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
             // if prod mode
-            if (secUtil.hasRight(Right.CRUD_LEA_ADMIN) || secUtil.hasRight(Right.CRUD_SEA_ADMIN)
-                    || secUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
+            if (isProdMode()) {
                 // Ed-Org must already exist in the tenant
-                String restrictByEdorg = null;
-                if (isLeaAdmin()) {
-                    restrictByEdorg = secUtil.getEdOrg();
-                    if (!restrictByEdorg.equals(user.getEdorg())) {
-                        return composeBadDataResponse("Cannot make changes to user in this edorg");
-                    }
-                }
-                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
+                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg());
                 if (!allowedEdorgs.contains(user.getEdorg())) {
                     return composeBadDataResponse("Invalid edorg");
                 }
             }
         }
         return null;
+    }
+
+    /*
+     *  Determine if this is in ProdMode
+     */
+    private boolean isProdMode() {
+        return (secUtil.hasRight(Right.CRUD_LEA_ADMIN) || secUtil.hasRight(Right.CRUD_SEA_ADMIN)
+                    || secUtil.hasRight(Right.CRUD_SLC_OPERATOR));
     }
 
     /*

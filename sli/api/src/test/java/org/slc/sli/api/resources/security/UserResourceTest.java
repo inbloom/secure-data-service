@@ -131,8 +131,6 @@ public class UserResourceTest {
         Mockito.verify(ldap, Mockito.times(3)).createUser(REALM, newUser);
 
         // LEA - unhappy, can't create LEA in other EdOrgs
-        Mockito.when(secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)).thenReturn(true);
-        newUser.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
         newUser.setEdorg(EDORG2);
         res = resource.create(newUser);
         Assert.assertNotNull(res);
@@ -143,6 +141,46 @@ public class UserResourceTest {
         res = resource.create(newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(403, res.getStatus());
+    }
+
+    @Test
+    public void testCreateWithOrWithoutLEA() {
+        Collection<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+        rights.addAll(Arrays.asList(Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN));
+        Mockito.when(secUtil.getAllRights()).thenReturn(rights);
+        Mockito.when(secUtil.hasRight(Right.CRUD_SLC_OPERATOR)).thenReturn(true);
+        Mockito.when(adminService.getAllowedEdOrgs(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyCollectionOf(String.class), Mockito.anyBoolean())).thenReturn(
+                new HashSet<String>(Arrays.asList(EDORG1)));
+        Mockito.when(adminService.getAllowedEdOrgs(Mockito.anyString(), Mockito.anyString())).thenReturn(
+                new HashSet<String>(Arrays.asList(EDORG1)));
+        User newUser = new User();
+        newUser.setGroups(Arrays.asList(RoleInitializer.REALM_ADMINISTRATOR));
+        newUser.setFullName("Eddard Stark");
+        newUser.setEmail("nedstark@winterfell.gov");
+        newUser.setUid("nedstark");
+        newUser.setEdorg(EDORG1);
+        newUser.setTenant(TENANT);
+        //without LEA
+        Response res = resource.create(newUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(400, res.getStatus());
+
+        //With LEA
+        User lea = new User();
+        lea.setGroups(Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR));
+        lea.setFullName("Eddard2 Stark");
+        lea.setEmail("nedstark2@winterfell.gov");
+        lea.setUid("nedstark2");
+        lea.setEdorg(EDORG1);
+        lea.setTenant(TENANT);
+        Mockito.when(
+                ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),
+                         Mockito.anyString(), Mockito.anyCollectionOf(String.class))).thenReturn(Arrays.asList(lea));
+        res = resource.create(newUser);
+        Mockito.verify(ldap).createUser(REALM, newUser);
+        Assert.assertNotNull(res);
+        Assert.assertEquals(201, res.getStatus());
     }
 
     @Test
