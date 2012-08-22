@@ -16,7 +16,27 @@
 
 package org.slc.sli.dal.versioning;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mongodb.BasicDBObject;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Tests for schema version checking logic.
@@ -27,8 +47,62 @@ import org.junit.Test;
  */
 public class SliSchemaVersionValidatorTest {
 
+    @InjectMocks
+    private SliSchemaVersionValidator sliSchemaVersionValidator;
+
+    @Mock
+    private SchemaRepository entitySchemaRepository;
+
+    @Mock
+    private MongoTemplate mongoTemplate;
+
+    @Before
+    public void setUp() throws Exception {
+        sliSchemaVersionValidator = new SliSchemaVersionValidator();
+        MockitoAnnotations.initMocks(this);
+    }
+
+    private AppInfo createAppInfo(int version) {
+        AppInfo appInfo = new AppInfo(null);
+        appInfo.put(AppInfo.SCHEMA_VERSION, "" + version);
+        return appInfo;
+    }
+
+    private NeutralSchema createMockSchema(String type, int version) {
+        NeutralSchema mockNeutralSchema = mock(NeutralSchema.class);
+        when(mockNeutralSchema.getAppInfo()).thenReturn(this.createAppInfo(version));
+        when(mockNeutralSchema.getType()).thenReturn(type);
+        return mockNeutralSchema;
+    }
+
     @Test
     public void test() {
 
+        List<NeutralSchema> neutralSchemas = new ArrayList<NeutralSchema>();
+        neutralSchemas.add(this.createMockSchema("student", 1));
+        neutralSchemas.add(this.createMockSchema("section", 2));
+        neutralSchemas.add(this.createMockSchema("student", 1));
+
+        when(entitySchemaRepository.getSchemas()).thenReturn(neutralSchemas);
+
+
+
+
+
+        BasicDBObject studentDbObject = new BasicDBObject();
+        studentDbObject.put("_id", "student");
+        studentDbObject.put("dal_sv", 1);
+        BasicDBObject sectionDbObject = new BasicDBObject();
+        sectionDbObject.put("_id", "section");
+        sectionDbObject.put("dal_sv", 1);
+
+        this.sliSchemaVersionValidator.validate();
+
+        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(studentDbObject);
+        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(sectionDbObject);
+        Mockito.when(mongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(BasicDBObject.class), Mockito.any(String.class))).thenReturn(null);
+
+        Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.any(String.class));
+        Mockito.verify(mongoTemplate, Mockito.times(1)).insert(Mockito.any(Object.class), Mockito.any(String.class));
     }
 }
