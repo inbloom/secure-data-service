@@ -17,10 +17,17 @@
 
 package org.slc.sli.test.generatorsR1;
 
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
-
-
+import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
+import org.slc.sli.test.edfi.entitiesR1.ClassroomPositionType;
+import org.slc.sli.test.edfi.entitiesR1.GradebookEntry;
+import org.slc.sli.test.edfi.entitiesR1.RepeatIdentifierType;
 import org.slc.sli.test.edfi.entitiesR1.CreditType;
 import org.slc.sli.test.edfi.entitiesR1.Credits;
 import org.slc.sli.test.edfi.entitiesR1.EducationalEnvironmentType;
@@ -29,13 +36,27 @@ import org.slc.sli.test.edfi.entitiesR1.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entitiesR1.PopulationServedType;
 import org.slc.sli.test.edfi.entitiesR1.Program;
 import org.slc.sli.test.edfi.entitiesR1.Section;
-import org.slc.sli.test.edfi.entitiesR1.Student;
+import org.slc.sli.test.edfi.entitiesR1.StudentGradebookEntry;
+import org.slc.sli.test.edfi.entitiesR1.StudentSectionAssociation;
+import org.slc.sli.test.edfi.entitiesR1.TeacherSectionAssociation;
+
 
 
 public class SectionGenerator {
 	static Random generator = new Random();
-
-    public static Section generateMediumFiSliXsdRI(String sectionId, String schoolId, String courseId, String sessionId, String programId) {
+	private static int idCount = 0;
+	private static final String[] GRADES = {"A", "B", "C", "D", "E", "F"};
+	private static String thisDay, oneYearAgo, oneYearHence;
+	
+	 static {
+	        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+	        thisDay = dateFormatter.format(new Date());
+	        oneYearAgo = dateFormatter.format(new Date(new Date().getTime() - 365 * 24 * 60 * 60 * 1000));
+	        oneYearHence = dateFormatter.format(new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000));
+	    }
+    
+	public static Section generateMediumFiSliXsdRI(String sectionId, String schoolId, String courseId, 
+    		String sessionId, String programId, List<String> studentIds, List<String> teacherIds) {
  	 Section section = new Section();
 //        String[] temp;
 //        temp = courseId.split("-");
@@ -44,8 +65,14 @@ public class SectionGenerator {
         section.setUniqueSectionCode(sectionId);
         section.setSequenceOfCourse(1);
         section.setEducationalEnvironment(getEducationalEnvironmentType());
-       // construct and add the school reference
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+       
+     // construct and add the school reference
+//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+//        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+       // edOrgIdentityType.setStateOrganizationId(schoolId);
+        SessionIdentityType sessionIdentity = new SessionIdentityType();
+        sessionIdentity.setSessionName(sessionId);
+        
         section.setSchoolId(schoolId);
         section.setSessionId(sessionId);
         section.setCourseId(courseId);
@@ -64,18 +91,82 @@ public class SectionGenerator {
         pg.setProgramId(programId);
         section.getProgramReference().add(programId);
         
-//        Student stu = new Student();
-//        stu.setStudentUniqueStateId(studentId);
+       
+        //StudentSectionAssociation stu = new StudentSectionAssociation();
+        for (int i = 0; i < studentIds.size(); i++) {
+        	StudentSectionAssociation stu = new StudentSectionAssociation();
+        	stu.setStudentId(studentIds.get(i));
+        	stu.setBeginDate("2012-01-25");
+        	stu.setEndDate("2012-05-20");
+        	stu.setHomeroomIndicator(true);
+        	stu.setRepeatIdentifier(getRepeatIdentifierType());
+        	section.getStudentAssociations().add(stu);
+        	
+        }
         
-       // section.
         
+        for (int i = 0; i < teacherIds.size(); i++) {
+        	TeacherSectionAssociation tsa = new TeacherSectionAssociation();
+        	tsa.setTeacherId(teacherIds.get(i));
+        	tsa.setEndDate("2012-01-25");        	
+        	tsa.setEndDate("2012-05-20");
+        	tsa.setHighlyQualifiedTeacher(true);
+        	tsa.setClassroomPosition(getClassroomPositionType());
+        	section.getTeacherAssociations().add(tsa);
+        	System.out.println("section of teacher=====================>" + tsa.getTeacherId());
+        	
+        }
+    
         
-        
+        for (int i = 0; i < org.slc.sli.test.edfi.entities.meta.relations.MetaRelations.GRADEBOOKENTRY_PER_SECTION; i++) {
+            idCount++;
+            GradebookEntry gbe = new GradebookEntry();
+            gbe.setDateAssigned(thisDay);
 
-        
-   
+            String gradeBookEntry = "Quiz Test".split(" ")[generator.nextInt(2)] + " " + idCount;
+            gbe.setDescription(gradeBookEntry);
+            gbe.setGradebookEntryType(gradeBookEntry);
+            
+            for(int k = 0; k < studentIds.size(); k++ ) {
+            	StudentGradebookEntry sgbe = new StudentGradebookEntry();
+            	sgbe.setStudentId(studentIds.get(k));
+                sgbe.setDateFulfilled(thisDay);
+                sgbe.setLetterGradeEarned(GRADES[generator.nextInt(GRADES.length)]);
+                sgbe.setNumericGradeEarned(BigInteger.ONE);
+                gbe.getStudentGradebookEntries().add(sgbe);
+
+            }
+            section.getGradeBookEntries().add(gbe);
+        }
         return section;
    }
+    
+ 
+    public static ClassroomPositionType getClassroomPositionType() {
+    	int roll = generator.nextInt(2) + 1;
+		switch (roll) {
+		case 1:return ClassroomPositionType.ASSISTANT_TEACHER;
+		case 2:return ClassroomPositionType.SUBSTITUTE_TEACHER;
+		case 3:return ClassroomPositionType.SUPPORT_TEACHER;
+		
+		
+		default: return ClassroomPositionType.TEACHER_OF_RECORD;
+	
+	}
+    	
+    }
+    public static RepeatIdentifierType getRepeatIdentifierType() {
+    	int roll = generator.nextInt(2) + 1;
+		switch (roll) {
+			case 1:return RepeatIdentifierType.REPEATED_COUNTED_IN_GRADE_POINT_AVERAGE;
+			case 2:return RepeatIdentifierType.REPEATED_NOT_COUNTED_IN_GRADE_POINT_AVERAGE;
+			case 3:return RepeatIdentifierType.NOT_REPEATED;
+			
+			
+			default: return RepeatIdentifierType.OTHER;
+		
+		}
+    }
     
     public static EducationalEnvironmentType getEducationalEnvironmentType()
     {
