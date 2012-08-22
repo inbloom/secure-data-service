@@ -147,4 +147,41 @@ public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest 
         return er;
     }
 
+
+    @Test
+    public void shouldReturnNothingWhenMissingEdorg() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setLEAInfoRefId("schoolId");
+        er.setSIF_RefId("teacherId");
+
+        Entity teacher = new GenericEntity("teacher", new HashMap<String, Object>());
+
+        Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(null);
+        Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(teacher);
+
+        List<TeacherSchoolAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void shouldReturnNothingWhenMissingTeacher() {
+        EmploymentRecord er = new EmploymentRecord();
+        er.setLEAInfoRefId("schoolId");
+        er.setSIF_RefId("teacherId");
+
+        Entity school = new GenericEntity("school", new HashMap<String, Object>());
+
+        Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(school);
+        Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(null);
+
+        List<TeacherSchoolAssociationEntity> result = translator.doTranslate(er, "zone");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+    }
+
+
+
 }

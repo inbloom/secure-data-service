@@ -54,6 +54,10 @@ public class EmploymentRecordToTeacherSchoolTranslationTask extends
         Entity staff = sifIdResolver.getSliEntity(sifData.getSIF_RefId(), zoneId);
         Entity edOrg = sifIdResolver.getSliEntity(sifData.getLEAInfoRefId(), zoneId);
 
+        if (staff == null || edOrg == null) {
+            return result;
+        }
+
         if (!TEACHER_TYPE.equals(staff.getEntityType()) || !SCHOOL_TYPE.equals(edOrg.getEntityType())) {
             // not handled by this translator
             return result;

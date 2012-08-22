@@ -43,7 +43,6 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
     private static final String TEACHER_TYPE = "teacher";
     private static final String SCHOOL_TYPE = "school";
 
-
     public EmploymentRecordToStaffEdOrgTranslationTask() {
         super(EmploymentRecord.class);
     }
@@ -58,6 +57,10 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
 
         Entity staff = sifIdResolver.getSliEntity(sifData.getSIF_RefId(), zoneId);
         Entity edOrg = sifIdResolver.getSliEntity(sifData.getLEAInfoRefId(), zoneId);
+
+        if (staff == null || edOrg == null) {
+            return result;
+        }
 
         if (TEACHER_TYPE.equals(staff.getEntityType()) && SCHOOL_TYPE.equals(edOrg.getEntityType())) {
             // not handled by this translator
