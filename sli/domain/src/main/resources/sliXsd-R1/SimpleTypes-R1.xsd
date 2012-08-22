@@ -3520,21 +3520,21 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Baptismal or church certificate" />
-			<xs:enumeration value="Birth certificate" />
-			<xs:enumeration value="Drivers license" />
-			<xs:enumeration value="Entry in family Bible" />
-			<xs:enumeration value="Hospital certificate" />
-			<xs:enumeration value="Immigration document/visa" />
-			<xs:enumeration value="Life insurance policy" />
-			<xs:enumeration value="Other" />
-			<xs:enumeration value="Other non-official document" />
-			<xs:enumeration value="Other official document" />
-			<xs:enumeration value="Parents affidavit" />
-			<xs:enumeration value="Passport" />
-			<xs:enumeration value="Physicians certificate" />
-			<xs:enumeration value="Previously verified school records" />
-			<xs:enumeration value="State-issued ID" />
+            <xs:enumeration value="Baptismal or church certificate"/>
+            <xs:enumeration value="Birth certificate"/>
+            <xs:enumeration value="Drivers license"/>
+            <xs:enumeration value="Entry in family Bible"/>
+            <xs:enumeration value="Hospital certificate"/>
+            <xs:enumeration value="Immigration document/visa"/>
+            <xs:enumeration value="Life insurance policy"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Other non-official document"/>
+            <xs:enumeration value="Other official document"/>
+            <xs:enumeration value="Parents affidavit"/>
+            <xs:enumeration value="Passport"/>
+            <xs:enumeration value="Physicians certificate"/>
+            <xs:enumeration value="Previously verified school records"/>
+            <xs:enumeration value="State-issued ID"/>
 		</xs:restriction>
 	</xs:simpleType>
 
