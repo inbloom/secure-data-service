@@ -20,9 +20,10 @@ package org.slc.sli.api.security;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.domain.Entity;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
  * Contract for handling
@@ -31,7 +32,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
  *
  */
 public interface OauthSessionManager {
-    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId);
+    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId, boolean sessionExpired);
     public Entity getSessionForSamlId(String samlId);
     public Map<String, Object> getAppSession(String samlId, Entity session);
     public void updateSession(Entity session);
