@@ -37,7 +37,15 @@ public class JobValidator extends SimpleValidatorSpring<Job> {
 
     @Override
     public boolean isValid(Job job, ErrorReport callback) {
-        return batchJobDAO.attemptTentantLockForJob(job.getTenantId(), job.getId());
+        while (!batchJobDAO.attemptTentantLockForJob(job.getTenantId(), job.getId())) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+        return true;
     }
 
 }
