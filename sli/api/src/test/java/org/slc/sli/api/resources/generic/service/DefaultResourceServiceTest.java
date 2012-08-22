@@ -21,10 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +28,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 
 /**
  * Unit Tests
@@ -98,6 +92,7 @@ public class DefaultResourceServiceTest {
         List<EntityBody> entities = response.getEntityBodyList();
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
+        assertEquals("Should match", 1, response.getEntityCount());
         assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
@@ -114,6 +109,7 @@ public class DefaultResourceServiceTest {
         List<EntityBody> entities = response.getEntityBodyList();
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
+        assertEquals("Should match", 1, response.getEntityCount());
         assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
@@ -128,6 +124,7 @@ public class DefaultResourceServiceTest {
         List<EntityBody> entities = response.getEntityBodyList();
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 2, entities.size());
+        assertEquals("Should match", 2, response.getEntityCount());
 
         EntityBody body1 = entities.get(0);
         assertNotNull("Should not be null", body1);
@@ -136,6 +133,13 @@ public class DefaultResourceServiceTest {
         EntityBody body2 = entities.get(1);
         assertNotNull("Should not be null", body2);
         assertEquals("studentUniqueStateId should be 5678", body2.get("studentUniqueStateId"), 5678);
+    }
+
+    @Test
+    public void testGetEntityType() {
+        assertEquals("Should match", "student", resourceService.getEntityType(new Resource("v1", "students")));
+        assertEquals("Should match", "staff", resourceService.getEntityType(new Resource("v1", "staff")));
+        assertEquals("Should match", "teacher", resourceService.getEntityType(new Resource("v1", "teachers")));
     }
 
     private String getIDList() {
