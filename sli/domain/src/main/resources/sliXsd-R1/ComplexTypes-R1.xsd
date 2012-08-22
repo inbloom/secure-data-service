@@ -4095,8 +4095,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="telephoneNumberType" type="telephoneNumberType"
-				minOccurs="0">
+			<xs:element name="telephoneNumberType" type="telephoneNumberType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of communication number listed for an
 						individual or
@@ -4104,8 +4103,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="primaryTelephoneNumberIndicator" type="xs:boolean"
-				minOccurs="0">
+			<xs:element name="primaryTelephoneNumberIndicator" type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An indication that the telephone number should be
 						used as the
@@ -4113,6 +4111,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="TextMessageCapabilityIndicator" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>An indication that the telephone number is technically capable of sending and
+                        receiving Short Message Service (SMS) text messages.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
