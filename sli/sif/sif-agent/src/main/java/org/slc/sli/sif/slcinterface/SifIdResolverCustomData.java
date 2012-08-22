@@ -286,7 +286,13 @@ public class SifIdResolverCustomData implements SifIdResolver {
         if (retVal.size() > 1) {
             throw new RuntimeException("  SIF Ref ID Resolution error: resolves to more than one entity: " + sliId);
         }
-        return retVal.get(0);
+
+        Entity entity = retVal.get(0);
+        if ("staffEducationOrganizationAssociation".equals(entity.getEntityType())) {
+            entity = new GenericEntity("staffEducationOrgAssignmentAssociation", entity.getData());
+        }
+
+        return entity;
     }
 
     // init function helper
