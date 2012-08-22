@@ -27,6 +27,9 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			query: {method:'GET', params:{profilePageId:''}, isArray:true}
 		});
 	})
+	.factory('AllPanels', function($resource){
+		return $resource('../s/c/cfg/all?layoutName=:profileId', {profileId:''});
+	})
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
 			modalConfig = {};
@@ -49,7 +52,12 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 					dialog.data.hide();
 					dialog.container.fadeIn('fast', function () {
 						dialog.data.slideDown('fast');
-						$rootScope.$broadcast("modalDisplayed");
+						if(modalId === "#allPanelsModal") {
+							$rootScope.$broadcast("allPanelsModalDisplayed");
+						}
+						else {
+							$rootScope.$broadcast("modalDisplayed");
+						}
 					});
 				});
 			}});
@@ -66,7 +74,6 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 					});
 				});
 			}});
-			$rootScope.$broadcast("modalDisplayed");
 		}
 
 		function getModalConfig() {
@@ -114,14 +121,14 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		}
 
 		function showError(errorStatus, errorMsg) {
-			
+
 			// when the user session times out, the ajax request returns with
 			// error status 0. when that happens, reload the page, forcing re-login
 			if (errorStatus === 0) {
 				location.reload();
 				return;
 			}
-			
+
 			$(".errorMessage").removeClass("hide");
 			$("#banner").addClass("hide");
 			$(".profileList").addClass("hide");

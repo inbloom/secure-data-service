@@ -1,8 +1,8 @@
 <h3>Modify: {{profile.name}}</h3>
-<div id="tabs" ng-tabs>
-    <ul ng-sortable="pages">
-        <li class="ui-state-default {{status}}" id="{{page.id}}" ng-controller="pageCtrl" ng-sortable-index="{{$index}}" ng-repeat="page in pages" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection(this)">
-            <a class="pageName">{{page.name}}</a>
+<!--<div id="tabs" ng-tabs>
+    <ul ng-sortable="pages" >
+        <li ng-sortable-index="{{$index}}" ng-controller="pageCtrl" ng-repeat="page in pages">
+            <a class="pageName" href="javascript:;" ng-click="showPage()">{{page.name}}</a>
             <div class="updatePage">
                 <span href="#"><i class="icon-move"></i></span>
                 <span href="#" ng-click="editPage()"><i class="icon-edit"></i></span>
@@ -10,9 +10,79 @@
             </div>
         </li>
         <li class="addPageSection">
-            <button class="btn btn-primary" data-toggle="modal" ng-click="addDialog()" >+</button>
+            <button class="btn btn-primary" data-toggle="modal" ng-click="addPage()" >+</button>
         </li>
     </ul>
+
+    <div id="{{page.id}}" ng-repeat="page in pages">
+        <p>
+            <div>
+                <span>{{page.name}}</span>
+            </div>
+            <form ng-submit="savePageTitle">
+                <input type="text" id="pageName" class="input-medium" ng-model="pageName" tabindex="1" value="{{page.name}}">
+            </form>
+        </p>
+        <button class="btn btn-primary" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
+        <button class="btn btn-primary" data-toggle="modal" ng-click="addNewPanel()" ><i class="icon-plus icon-white"></i> Add new panel</button>
+        <ul class="panels">
+            <li ng-repeat="panel in pagePanels">
+                <span>{{panel.id}}</span>
+            </li>
+        </ul>
+    </div>
+</div>-->
+
+<tabs>
+    <pane title="{{page.name}}" ng-repeat="page in pages">
+        <div ng-controller="panelCtrl" class="panels">
+            <div id="pageTitleInfo" class="show-{{!done}}">Page title: {{pageName}} <a ng-click="editPageTitle()"><i class="icon-edit"></i></a></div>
+            <div id="editPageTitle" class="show-{{done}}">
+                <form ng-submit="savePageTitle()">
+                    <input type="text" id="pageName" class="input-large" ng-model="pageName" tabindex="1" value="{{page.name}}" required>
+                    <br/>
+                </form>
+            </div>
+            <br/>
+            <div>
+                <button class="btn btn-primary btn-large btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
+            </div>
+            <li ng-repeat="panel in pagePanels">
+                <span>{{panel.id}}</span>
+            </li>
+            <button class="btn" id="removePage" data-toggle="modal" ng-click="removePage()" ><i class="icon-trash"></i> Remove Page</button>
+        </div>
+    </pane>
+</tabs>
+
+
+<!-- List of available panels modal box -->
+<div class="modal hide" id="allPanelsModal" ng-controller="allPanelListCtrl" >
+    <div class="modal-header">
+        <button type="button" class="close simplemodal-close" data-dismiss="modal">×</button>
+        <h3></h3>
+    </div>
+    <div class="modal-body">
+        <div id="errorMessage">Please select the panel.</div>
+        <ul>
+            <li>
+                <div class="educationAgencyName"><strong>Origin</strong></div>
+                <div class="panelName"><strong>Panel Name</strong></div>
+            </li>
+        </ul>
+        <ul id="panelSelectable">
+            <li ng-repeat="panel in allPanels">
+                <div class="educationAgencyName">{{panel.educationAgencyName}}</div>
+                <div class="panelName">{{panel.id}}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-toggle="modal" ng-click="addNewPanel()" id="addNewPanelBtn" ><i class="icon-plus"></i> Add new panel</button>
+        <button class="btn simplemodal-close" data-dismiss="modal" tabindex="3">Cancel</button>
+        <button class="btn btn-primary" ng-click="addAvailPanels()"  tabindex="4">Save</button>
+    </div>
 </div>
 
+<!-- Add/Edit page/panel modal box -->
 <ng-modal></ng-modal>

@@ -1,3 +1,9 @@
+[class^="icon-"],[class*=" icon-"] {
+    background-image:url("../../static/images/glyphicons-halflings.png");
+}
+.icon-white, .nav > .active > a > [class^="icon-"], .nav > .active > a > [class*=" icon-"], .dropdown-menu > li > a:hover > [class^="icon-"], .dropdown-menu > li > a:hover > [class*=" icon-"], .dropdown-menu > .active > a > [class^="icon-"], .dropdown-menu > .active > a > [class*=" icon-"]  {
+    background-image:url("../../static/images/glyphicons-halflings-white.png");
+}
 /* dashboard builder styles */
 html, body {
     height: 100%;
@@ -52,25 +58,14 @@ ul.menu_n a {
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 150px; float: left; padding: 20px; clear: both;}
 .profilePageWrapper { padding: 20px; margin-left: 170px; }
-.profilePageWrapper ul { clear: none !imporatant; height: 44px; }
+.profilePageWrapper ul { clear: none !important; height: 35px; }
 .profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }
 .profile_list { list-style-type: none; padding: 0; margin: 0;}
 .profile_list a {  color: #000000; text-decoration: none; }
 .profile_list a:hover { text-decoration: underline; }
-.ui-tabs .ui-tabs-nav li { top: 0; }
-.ui-tabs .ui-tabs-nav li:hover { background: #fff; border: solid 2px #000; border-bottom: 0 none;}
-.ui-tabs .ui-tabs-nav li a { height: 25px; width: 100px; padding: 8px; white-space: normal; line-height: 15px;}
-.ui-tabs .ui-tabs-nav li div { height: 26px; padding: 8px; white-space: normal; width: 100px; }
-.ui-tabs .ui-tabs-nav li div span { cursor: pointer; padding: 8px; }
-.ui-tabs .ui-tabs-nav li.addPageSection { top: 12px; margin-left: 5px; }
-.ui-tabs .ui-tabs-nav li.addPageSection:hover { top: 12px; border: none;}
 
-.pageName { display: block; }
-.updatePage { display: none; }
-.tabHover .pageName { display: none; }
-.tabHover .updatePage { display: block; }
-
+.addPageSection { margin-left: 10px; }
 .addPageSection .btn { padding: 6px 14px; }
 #txt_input { width: 350px; }
 .dialogBox { display: none;}
@@ -81,3 +76,24 @@ ul.menu_n a {
 .error .formError { display: block; color: #b94a48; }
 #footer { bottom: auto !important; clear: both; height: 20px; position: absolute !important; width: 100%; }
 #sli_footer .sli_footer_wrap { border-top: 2px solid #000000 !important; padding-bottom: 5px; }
+
+.tab-content { clear: both; }
+.nav-tabs { border-bottom: 2px solid #000000; }
+.nav-tabs > li > a { border-radius: 0; line-height: 19px; color: #000; background-color: #f2f2f2; line-height: 17px; }
+.nav-tabs > li > a:hover { line-height: 17px; }
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover { line-height: 19px; color: #000; font-weight: bold; border: solid 2px #000000; border-bottom: 0 none; }
+
+ul.panels { list-style-type: none; margin: 0; padding: 0; }
+.panels li { background: #f2f2f2; padding: 5px; margin: 10px 0; }
+#removePage { float: right; }
+#allPanelsModal ul { list-style-type: none; margin: 0; padding: 0; }
+#allPanelsModal ul li { margin: 10px; padding: 5px; background: #f2f2f2; }
+.educationAgencyName { width: 100px; float: right;}
+
+#panelSelectable .ui-selecting { background: #ccc; }
+#panelSelectable .ui-selected { background: #49AFCD; color: white; }
+
+#errorMessage { display: none; }
+#addNewPanelBtn { float: left; }
+.show-true { display: block; }
+.show-false { display: none; }
