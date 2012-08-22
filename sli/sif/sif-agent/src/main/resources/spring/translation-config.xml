@@ -99,6 +99,31 @@
         </constructor-arg>
     </bean>
 
+    <bean id="employeeAssignment2StaffEdOrgAssocTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2StaffEdOrgAssocTranslationTask" />
+    <bean id="employeeAssignment2TeacherSchoolAssocTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2TeacherSchoolAssocTranslationTask" />
+    <bean id="employeeAssignment2TeacherTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2TeacherTranslationTask" />
+
+    <bean id="EmployeeAssignmentTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employeeAssignment2StaffEdOrgAssocTranslationTask" />
+                <ref local="employeeAssignment2TeacherSchoolAssocTranslationTask" />
+                <ref local="employeeAssignment2TeacherTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="staffAssignment2StaffEdOrgAssocTranslationTask" class="org.slc.sli.sif.translation.StaffAssignment2StaffEdOrgAssocTranslationTask" />
+    <bean id="staffAssignment2TeacherSchoolAssocTranslationTask" class="org.slc.sli.sif.translation.StaffAssignment2TeacherSchoolAssocTranslationTask" />
+
+    <bean id="StaffAssignmentTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="staffAssignment2StaffEdOrgAssocTranslationTask" />
+                <ref local="staffAssignment2TeacherSchoolAssocTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
     <util:map id="translationMap" key-type="java.lang.String"
         value-type="org.slc.sli.sif.translation.TranslationTask">
@@ -125,6 +150,12 @@
         </entry>
         <entry key="EmploymentRecord">
             <ref bean="EmploymentRecordTranslationTaskList" />
+        </entry>
+        <entry key="EmployeeAssignment">
+            <ref bean="EmployeeAssignmentTranslationTaskList" />
+        </entry>
+        <entry key="StaffAssignment">
+            <ref bean="StaffAssignmentTranslationTaskList" />
         </entry>
     </util:map>
 
