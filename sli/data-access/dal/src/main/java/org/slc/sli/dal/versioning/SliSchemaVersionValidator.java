@@ -45,13 +45,18 @@ import org.slc.sli.validation.schema.NeutralSchema;
 @Component
 public class SliSchemaVersionValidator {
 
+    public static final String SARJE = "SARJE";
+    public static final String DAL_SV = "dal_sv";
+    public static final String ID = "_id";
+    public static final String MONGO_SV = "mongo_sv";
+    public static final String METADATA_COLLECTION = "metaData";
+
     @Autowired
     protected SchemaRepository entitySchemaRepository;
 
     @Autowired
     protected MongoTemplate mongoTemplate;
 
-    private static final String METADATA_COLLECTION = "metaData";
 
     @PostConstruct
     public void validate() {
@@ -62,23 +67,22 @@ public class SliSchemaVersionValidator {
                 int schemaVersion = appInfo.getSchemaVersion();
                 if (schemaVersion != AppInfo.NOT_VERSIONED) {
                     Query query = new Query();
-                    query.addCriteria(Criteria.where("_id").is(neutralSchema.getType()));
+                    query.addCriteria(Criteria.where(ID).is(neutralSchema.getType()));
 
                     DBObject dbObject = mongoTemplate.findOne(query, BasicDBObject.class, METADATA_COLLECTION);
 
                     if (dbObject == null) {
                         Map<String, Object> objectToSave = new HashMap<String, Object>();
-                        objectToSave.put("_id", neutralSchema.getType());
-                        objectToSave.put("dal_sv", 1);
-                        objectToSave.put("mongo_sv", 1);
-                        objectToSave.put("SARJE", 0);
+                        objectToSave.put(ID, neutralSchema.getType());
+                        objectToSave.put(DAL_SV, 1);
+                        objectToSave.put(MONGO_SV, 1);
+                        objectToSave.put(SARJE, 0);
                         mongoTemplate.insert(objectToSave, METADATA_COLLECTION);
                     } else {
-                        int lastKnownDalVersion = Double.valueOf(dbObject.get("dal_sv").toString()).intValue();
+                        int lastKnownDalVersion = Double.valueOf(dbObject.get(DAL_SV).toString()).intValue();
 
                         if (lastKnownDalVersion < schemaVersion) {
-                            Update update = new Update().set("dal_sv", schemaVersion).set("SARJE", 1);
-                            System.out.println("RUNNING UPDATE");
+                            Update update = new Update().set(DAL_SV, schemaVersion).set(SARJE, 1);
                             mongoTemplate.updateFirst(query, update, METADATA_COLLECTION);
                         }
                     }
