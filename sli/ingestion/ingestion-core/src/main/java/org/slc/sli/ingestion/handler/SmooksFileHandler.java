@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -110,5 +111,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
+    }
+
+    @Override
+    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
+        return null;
     }
 }

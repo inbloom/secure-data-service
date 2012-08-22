@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * The representation of an enumeration.
  */
-public final class EnumType extends NamespaceOwnedElement implements SimpleType {
+public class EnumType extends NamespaceOwnedElement implements SimpleType {
     /**
      * The literals that are part of the enumeration.
      */

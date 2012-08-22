@@ -26,7 +26,7 @@ import javax.xml.namespace.QName;
 /**
  * A <code>representation</code> element describes a representation of a resource's state.
  */
-public final class Representation extends WadlElement {
+public class Representation extends WadlElement {
     private final String id;
     private final QName elementName;
     private final String mediaType;
