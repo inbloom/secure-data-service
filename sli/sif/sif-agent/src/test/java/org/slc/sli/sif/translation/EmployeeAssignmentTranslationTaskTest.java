@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.translation;
 
+import java.util.Calendar;
 import java.util.List;
 
 import openadk.library.hrfin.EmployeeAssignment;
@@ -25,10 +26,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.sif.AdkTest;
+import org.slc.sli.sif.domain.converter.DateConverter;
+import org.slc.sli.sif.domain.converter.HRProgramTypeConverter;
+import org.slc.sli.sif.domain.converter.JobClassificationConverter;
 import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
@@ -45,6 +51,15 @@ public class EmployeeAssignmentTranslationTaskTest extends AdkTest {
     @Mock
     SifIdResolver mockSifIdResolver;
 
+    @Mock
+    DateConverter mockDateConverter;
+
+    @Mock
+    JobClassificationConverter mockJobClassificationConverter;
+
+    @Mock
+    HRProgramTypeConverter mockHRProgramTypeConverter;
+
     @Override
     @Before
     public void setup() {
@@ -58,6 +73,81 @@ public class EmployeeAssignmentTranslationTaskTest extends AdkTest {
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(3, result.size());
     }
+
+    @Test
+    public void testBasics() throws SifTranslationException {
+        EmployeeAssignment info = new EmployeeAssignment();
+        String employeePersonalRefId = "employeePersonalRefId";
+        info.setEmployeePersonalRefId(employeePersonalRefId);
+        String zoneId = "zoneId";
+        String zoneSea = "zoneSea";
+        Calendar calendar = Calendar.getInstance();
+        info.setJobStartDate(calendar);
+        String today = "today";
+
+        Mockito.when(mockSifIdResolver.getSliGuid(employeePersonalRefId, zoneId)).thenReturn(employeePersonalRefId);
+        Mockito.when(mockSifIdResolver.getZoneSea(zoneId)).thenReturn(zoneSea);
+        Mockito.when(mockDateConverter.convert(calendar)).thenReturn(today);
+
+        List<SliEntity> result = translator.translate(info, zoneId);
+        Assert.assertEquals(3, result.size());
+
+        for (SliEntity entity : result) {
+            if (entity.entityType().equals("staffEducationOrganizationAssociation")) {
+                StaffEducationOrganizationAssociationEntity seoae = (StaffEducationOrganizationAssociationEntity) entity;
+                Assert.assertEquals("staffPersonalRefId is expected to be '" + employeePersonalRefId + "'", employeePersonalRefId, seoae.getStaffReference());
+                Assert.assertEquals("zoneId is expected to be '" + zoneId + "'", zoneId, seoae.getZoneId());
+                Assert.assertEquals("otherSifRefId is expected to be '" + employeePersonalRefId + "'", employeePersonalRefId, seoae.getOtherSifRefId());
+                Assert.assertEquals("educationOrganizationReference is expected to be '" + zoneSea + "'", zoneSea, seoae.getEducationOrganizationReference());
+                Assert.assertNull("StaffClassification is expected to be 'null'", seoae.getStaffClassification());
+                Assert.assertNull("End Date is expected to be 'null'", seoae.getEndDate());
+                Assert.assertNotNull("Begin Date is expected to be not 'null'", seoae.getBeginDate());
+                Assert.assertEquals("Begin Date is expected to be '" + today + "'", today, seoae.getBeginDate());
+            }
+//            if (entity.entityType().equals("teacherSchoolAssociation")) {
+//                TeacherSchoolAssociationEntity tsae = (TeacherSchoolAssociationEntity) entity;
+//                Assert.assertNull("TeacherId is expected to be 'null'", tsae.getTeacherId());
+//                Assert.assertNull("SchoolId is expected to be 'null'", tsae.getSchoolId());
+//            }
+        }
+    }
+
+    @Test
+    public void testBasicsAA() throws SifTranslationException {
+        EmployeeAssignment info = new EmployeeAssignment();
+        String employeePersonalRefId = "employeePersonalRefId";
+        info.setEmployeePersonalRefId(employeePersonalRefId);
+        String zoneId = "zoneId";
+        Calendar calendar = Calendar.getInstance();
+        info.setJobStartDate(calendar);
+        String today = "today";
+
+        Mockito.when(mockSifIdResolver.getSliGuid(employeePersonalRefId, zoneId)).thenReturn(employeePersonalRefId);
+        Mockito.when(mockDateConverter.convert(calendar)).thenReturn(today);
+
+        List<SliEntity> result = translator.translate(info, zoneId);
+        Assert.assertEquals(3, result.size());
+
+        for (SliEntity entity : result) {
+            if (entity.entityType().equals("staffEducationOrganizationAssociation")) {
+                StaffEducationOrganizationAssociationEntity seoae = (StaffEducationOrganizationAssociationEntity) entity;
+//                Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, seoae.getStaffReference());
+//                Assert.assertEquals("educationOrganizationReference is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, seoae.getEducationOrganizationReference());
+                Assert.assertNull("StaffClassification is expected to be 'null'", seoae.getStaffClassification());
+                Assert.assertNull("End Date is expected to be 'null'", seoae.getEndDate());
+                Assert.assertNotNull("Begin Date is expected to be not 'null'", seoae.getBeginDate());
+                Assert.assertEquals("Begin Date is expected to be '" + today + "'", today, seoae.getBeginDate());
+//                Assert.assertEquals("StaffClassification is expected to be 'Other'", "Other", seoae.getStaffClassification());
+            }
+//            if (entity.entityType().equals("teacherSchoolAssociation")) {
+//                TeacherSchoolAssociationEntity tsae = (TeacherSchoolAssociationEntity) entity;
+//                Assert.assertNull("TeacherId is expected to be 'null'", tsae.getTeacherId());
+//                Assert.assertNull("SchoolId is expected to be 'null'", tsae.getSchoolId());
+//            }
+        }
+    }
+
+
 
 }
 
