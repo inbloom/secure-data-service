@@ -21,6 +21,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
 import org.junit.Test;
@@ -152,6 +158,25 @@ public class TenantAndIdEmittableKeyTest {
 
         key3.setId(new Text(""));
         assertTrue(key2.equals(key3));
+    }
 
+    @Test
+    public void testReadWrite() throws IOException {
+        TenantAndIdEmittableKey control =
+            new TenantAndIdEmittableKey("meta.data.tenantId", "test.id.key.field");
+        control.setTenantId(new Text("tenant1"));
+        control.setId(new Text("abcd"));
+
+        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey();
+
+        ByteArrayOutputStream outBuf = new ByteArrayOutputStream();
+        DataOutputStream outStream = new DataOutputStream(outBuf);
+        control.write(outStream);
+
+        ByteArrayInputStream inBuf = new ByteArrayInputStream(outBuf.toByteArray());
+        DataInputStream inStream = new DataInputStream(inBuf);
+        key.readFields(inStream);
+
+        assertEquals(control, key);
     }
 }

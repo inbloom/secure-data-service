@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+ 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" attributeFormDefault="qualified"
-	xmlns:sli="http://slcedu.org/schema/0100">
-
+	elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
+	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
+	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
@@ -241,6 +241,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="sectionReferences" type="reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The section(s) which the assessment is associated with
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1328,7 +1337,24 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
+            <!-- TODO exists in ed-fi 1.1.0
+            <xs:element name="SectionCharacteristics" type="DescriptorReferenceType" minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Reflects important characteristics of the section, such as whether or not
+                        attendance is taken and the section is graded.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SLI-ClassroomIdCode" type="ClassroomIdentificationCode" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The location, typically a classroom, where the section meets.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            -->
+
+            <xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
@@ -1369,16 +1395,6 @@
                     </xs:documentation>
                     <xs:appinfo>
                         <sli:ReferenceType>course</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="assessmentReferences" type="reference"
-                minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The assessment(s) which the section is associated with
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>assessment</sli:ReferenceType>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -2586,7 +2602,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="assessmentAssociations" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Assessments associated with the student.
                     </xs:documentation>
@@ -2779,7 +2795,7 @@
         </xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentAssessmentAssociation">
+	<xs:complexType name="studentAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity represents the analysis or scoring of a
 				student's response on an assessment. The analysis results in a value
@@ -7075,18 +7091,27 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationId" type="reference"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Association to the student-section association
-						with which the competency is evaluated.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+            <xs:element name="studentId" type="reference" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reference to the evaluated student.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sectionId" type="reference" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reference to the section with which the competency is evaluated.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>section</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentCompetencyObjective">

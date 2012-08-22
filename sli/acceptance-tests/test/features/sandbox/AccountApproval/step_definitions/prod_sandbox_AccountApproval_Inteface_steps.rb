@@ -23,6 +23,9 @@ require "socket"
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
+Before do
+  extend Test::Unit::Assertions
+end
 
 Given /^I navigate to the account management page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/account_managements"

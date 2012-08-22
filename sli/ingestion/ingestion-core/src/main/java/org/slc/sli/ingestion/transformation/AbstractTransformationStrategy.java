@@ -32,19 +32,20 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Base TransformationStrategy.
- * 
+ *
  * @author dduran
  * @author shalka
  */
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(AbstractTransformationStrategy.class);
-    
+
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     protected static final String CREATION_TIME = "creationTime";
     protected static final String TYPE_KEY = "type";
@@ -52,6 +53,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     private String batchJobId;
     private Job job;
     private WorkNote workNote;
+
+    @Value("${sli.ingestion.totalRetries}")
+    private int numberOfRetries;
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
@@ -169,7 +173,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            Neutral Record to be written to data store.
      */
     public void insertRecord(NeutralRecord record) {
-        neutralRecordMongoAccess.getRecordRepository().insert(record);
+        neutralRecordMongoAccess.getRecordRepository().insertWithRetries(record, numberOfRetries);
     }
 
     /**
@@ -183,7 +187,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            Collection to write Neutral Records to in data store.
      */
     public void insertRecords(List<NeutralRecord> records, String collectionName) {
-        neutralRecordMongoAccess.getRecordRepository().insertAll(records, collectionName);
+        neutralRecordMongoAccess.getRecordRepository().insertAllWithRetries(records, collectionName, numberOfRetries);
         LOG.info("Successfully persisted {} records for collection: {}", records.size(), collectionName);
     }
 

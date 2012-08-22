@@ -30,8 +30,19 @@ class LandingZone
     []
     end
   end
+  
+  def self.possible_sample_data
+    if APP_CONFIG["is_sandbox"]
+      sample_data=[]
+      sample_data << [ "Small Dataset (40k Records)","small"]
+      sample_data << ["Medium Dataset (400k Records)","medium"]
+      return sample_data
+    else
+      return []
+    end
+  end
 
-  def self.provision(edorg_id, tenant, uid, public_key = nil)
+  def self.provision(edorg_id, tenant, uid, sample_data_select =nil, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
     Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
     
@@ -83,7 +94,11 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
+        if sample_data_select !=nil && sample_data_select !=""
+        ApplicationMailer.auto_provision_email(user_info[:emailAddress],user_info[:first]).deliver 
+        else
         ApplicationMailer.provision_email(user_info[:emailAddress],user_info[:first],@server,edorg_id).deliver
+        end
       rescue => e
         Rails.logger.error "Could not send email to #{email[:email_addr]}."
       end

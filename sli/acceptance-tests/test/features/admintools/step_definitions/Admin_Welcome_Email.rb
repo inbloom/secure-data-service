@@ -22,6 +22,7 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../utils/email.rb'
 
 SAMT_WELCOME_TEST_UID_PREFIX = "SAMT_Welcome_Email_"
 NEW_PASSWORD = "password1234"
@@ -31,7 +32,9 @@ Before do
 end
 
 After do |scenario|
-  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  unless @do_not_run_after
+    cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  end
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
@@ -41,7 +44,7 @@ Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
 end
 
 When /^I set my password$/ do
-  content = check_email(@newly_created_user[:firstname]) do
+  content = check_email(@newly_created_user[:firstname], PropLoader.getProps['email_imap_registration_user']) do
     @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @newly_created_user[:uid]
@@ -58,7 +61,7 @@ When /^I set my password$/ do
   puts "reset password link = #{reset_password_link}"
   @driver.get(reset_password_link)
 
-  @welcome_email_content = check_email(@newly_created_user[:firstname]) do
+  @welcome_email_content = check_email(@newly_created_user[:firstname], PropLoader.getProps['email_imap_registration_user']) do
     @driver.find_element(:id, "new_account_password_new_pass").clear
     @driver.find_element(:id, "new_account_password_new_pass").send_keys NEW_PASSWORD
     @driver.find_element(:id, "new_account_password_confirmation").clear
@@ -186,50 +189,9 @@ def create_user(uid_prefix, groups, mode)
   }
   if (["SLC Operator", "Sandbox SLC Operator"] & groups).empty?
     new_user["tenant"] = "Midgar"
-    new_user["edorg"] = "IL"
+    new_user["edorg"] = "IL-DAYBREAK"
   end
   puts "creating user = #{new_user}"
   restHttpPost("/users", new_user.to_json, format, sessionId)
   {:firstname => firstname, :uid => uid, :password => new_user["password"]}
-end
-
-def check_email(subject_substring = nil, content_substring)
-  imap_host = PropLoader.getProps['email_imap_host']
-  imap_port = PropLoader.getProps['email_imap_port']
-  imap_user = PropLoader.getProps['email_imap_registration_user']
-  imap_password = PropLoader.getProps['email_imap_registration_pass']
-  imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-  imap.authenticate('LOGIN', imap_user, imap_password)
-  imap.examine('INBOX')
-  not_so_distant_past = Date.today.prev_day.prev_day
-  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  imap.disconnect
-
-  yield
-
-  retry_attempts = 30
-  retry_attempts.times do
-    sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.authenticate('LOGIN', imap_user, imap_password)
-    imap.examine('INBOX')
-
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
-    unless(messages_new.empty?)
-      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      messages.each do |message|
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
-          return content
-        end
-      end
-    end
-    imap.disconnect
-  end
-  fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end

@@ -420,7 +420,7 @@ public class StateEdFiXmlGenerator {
     	InterchangeSectionGenerator.generate(iWriter);
         iWriter.close();
         
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Section", iWriter.getXmlFilePath());
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "section", iWriter.getXmlFilePath());
     }
 
 }

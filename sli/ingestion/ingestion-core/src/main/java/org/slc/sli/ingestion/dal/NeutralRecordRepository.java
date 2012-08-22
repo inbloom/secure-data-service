@@ -26,11 +26,13 @@ import com.mongodb.DBCollection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -98,9 +100,33 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return insert(neutralRecord, collectionName);
     }
 
+    public NeutralRecord insertWithRetries(final NeutralRecord neutralRecord, int numberOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return insert(neutralRecord);
+            }
+        };
+        return (NeutralRecord) rc.executeOperation(numberOfRetries);
+    }
+
     public NeutralRecord insert(NeutralRecord neutralRecord) {
         return insert(neutralRecord, neutralRecord.getRecordType());
     }
+
+    @SuppressWarnings("unchecked")
+    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return insertAll(entities, collectionName);
+            }
+        };
+        return (List<NeutralRecord>) rc.executeOperation(noOfRetries);
+    }
+
 
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
@@ -208,5 +234,18 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
+    }
+
+    @Override
+    public NeutralRecord createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean updateWithRetries(String collection, NeutralRecord object, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

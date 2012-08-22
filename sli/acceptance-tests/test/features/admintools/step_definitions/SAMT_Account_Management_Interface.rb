@@ -33,7 +33,9 @@ Before do
 end
 
 After do
-step "the prod testing user does not already exists in LDAP"
+  unless @do_no_run_after
+    step "the prod testing user does not already exists in LDAP"
+  end
 end
 
 
@@ -115,11 +117,13 @@ When /^I navigate to the User Management Page$/ do
 end
 
 Given /^the prod testing user does not already exists in LDAP$/ do
-  idpRealmLogin("operator", nil)
-  sessionId = @sessionId
-  format = "application/json"
-  restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser@testwgen.net", format, sessionId)
-  restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser2@testwgen.net", format, sessionId)
+  unless @do_not_run_after
+    idpRealmLogin("operator", nil)
+    sessionId = @sessionId
+    format = "application/json"
+    restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser@testwgen.net", format, sessionId)
+    restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser2@testwgen.net", format, sessionId)
+  end
 end
 
 
