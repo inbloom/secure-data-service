@@ -87,52 +87,40 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             if (!isValidDirName(inboundDir) || !createValidDir(inboundDir)) {
                 continue;
             }
-
-            // routeId: FilePoller-inboundDir
+			
+			// routeId: ctlFilePoller-inboundDir
             from(
-                    "file:" + inboundDir + "?include=^(.*)\\.(" + FileFormat.CONTROL_FILE.getExtension()
-            + "|" +  FileFormat.ZIP_FILE.getExtension() + ")"
-            + "$&exclude=\\.in\\.*&preMove="
-            + inboundDir + "/.done&moveFailed=" + inboundDir
-            + "/.error"
+                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
+            + "&delete=true"
             + "&readLock=changed&readLockCheckInterval=1000")
-                    .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
-                    .process(filePreProcessor)
-                    .choice()
-                        .when(header("hasErrors").isEqualTo(true))
-                            .to("direct:stop")
-                        .when(header("fileType").isEqualTo(FileFormat.CONTROL_FILE.getExtension()))
-                            .to("direct:ctlFilePoller" + inboundDir)
-                        .when(header("fileType").isEqualTo(FileFormat.ZIP_FILE.getExtension()))
-                            .to("direct:zipFilePoller" + inboundDir);
+                    .routeId(CTRL_POLLER_PREFIX + inboundDir)
+                    .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
+                    .process(controlFilePreProcessor)
+                    .choice().when(header("hasErrors").isEqualTo(true))
+                        .to("direct:stop")
+                    .otherwise()
+                        .to(workItemQueueUri);
 
             // routeId: zipFilePoller-inboundDir
-            from("direct:zipFilePoller" + inboundDir)
-                .routeId(ZIP_POLLER_PREFIX + inboundDir)
-                .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
-                .process(zipFileProcessor)
-                .choice()
-                    .when(header("hasErrors").isEqualTo(true))
+            from(
+                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension()
+            + "$&exclude=\\.in\\.*&preMove="
+                            + inboundDir + "/.done&moveFailed=" + inboundDir
+                            + "/.error"
+                            + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
+                    .routeId(ZIP_POLLER_PREFIX + inboundDir)
+                    .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
+                    .process(zipFileProcessor)
+                    .choice().when(header("hasErrors").isEqualTo(true))
                         .to("direct:stop")
                     .otherwise()
                         .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
                         .process(controlFilePreProcessor)
-                        .choice()
-                            .when(header("hasErrors").isEqualTo(true))
+                            .choice().when(header("hasErrors").isEqualTo(true))
                                 .to("direct:stop")
                             .otherwise()
                                 .to(workItemQueueUri);
 
-            // routeId: ctlFilePoller-inboundDir
-            from("direct:ctlFilePoller" + inboundDir)
-                .routeId(CTRL_POLLER_PREFIX + inboundDir)
-                .log(LoggingLevel.INFO, "CamelRouting", "No errors in file preprocessing. Routing to ControlFilePreProcessor.")
-                .process(controlFilePreProcessor)
-                .choice()
-                    .when(header("hasErrors").isEqualTo(true))
-                        .to("direct:stop")
-                    .otherwise()
-                        .to(workItemQueueUri);
 
             from(
                     "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir

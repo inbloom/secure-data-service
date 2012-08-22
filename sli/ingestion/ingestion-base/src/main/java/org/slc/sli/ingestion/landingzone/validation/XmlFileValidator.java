@@ -38,8 +38,7 @@ import org.slf4j.LoggerFactory;
 public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
-	private boolean retry = false;
-
+	
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         LOG.debug("validating xml...");
@@ -62,23 +61,9 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
-            if(retry == false) {
-                retry = true;
-                LOG.info("XmlFileValidator : sleeping");
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    LOG.info("XmlFileValidator : exception in sleep");
-                    LOG.info(e1.getLocalizedMessage());
-                }
-                LOG.info("XmlFileValidator : woke up, will retry");
-                isEmptyOrUnreadable(fileEntry, errorReport);
-            } else {
-                LOG.error("File not found: " + fileEntry.getFileName(), e);
-                errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
-                isEmpty = true;
-                retry = false;
-            }
+           LOG.error("File not found: " + fileEntry.getFileName(), e);
+           errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
+           isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", fileEntry.getFileName()), XmlFileValidator.class);
