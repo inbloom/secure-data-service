@@ -110,9 +110,10 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             for (IngestionFileEntry entry : entries) {
                 boolean copied = FileUtils.renameFile(new File(lzFile +  File.separator + entry.getFileName()), new File(lzFile +  File.separator + ".done" + File.separator + entry.getFileName()));
                 if (!copied) {
-                    LOG.info("FilePreProcessor: Files Copy failed " + topLevelLandingZone.getLZId());
-                }
-
+                    LOG.info("FilePreProcessor: File " + lzFile.getName() + " Copy failed " + topLevelLandingZone.getLZId());
+                } else {
+					LOG.info("FilePreProcessor: File " + lzFile.getName() + " Copy successful " + topLevelLandingZone.getLZId());
+				}
             }
         }
     }
