@@ -45,6 +45,8 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.FileMonitor;
+import org.slc.sli.ingestion.util.FileMonitor.FileListener;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 
@@ -53,11 +55,12 @@ import org.slc.sli.ingestion.util.LogUtil;
  *
  */
 @Component
-public class FilePreProcessor  implements Processor, MessageSourceAware  {
+public class FilePreProcessor  implements Processor, MessageSourceAware, FileListener  {
 
     private static final Logger LOG = LoggerFactory.getLogger(FilePreProcessor.class);
     private MessageSource messageSource;
     private static final String BATCH_JOB_STAGE_NAME = "FilePreProcessor";
+    private Exchange exchange;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -66,27 +69,54 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
     @Override
-    public void process(Exchange exchange) {
+    public void process(Exchange currentExchange) {
 
-        String inputFileName = "control_file";
-        File fileForControlFile = null;
-        NewBatchJob newBatchJob = null;
+        exchange = currentExchange;
+        File fileForControlFile = exchange.getIn().getBody(File.class);
+        FileMonitor fileMonitor = new FileMonitor(100, this, "CtlFile");
+        fileMonitor.addFile(fileForControlFile);
+        fileMonitor.startFileMonitor();
+    }
+
+    @Override
+    public void fileUpdateComplete(Object sender) {
+
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        String inputFileName = "input_file";
+        File fileForControlFile = exchange.getIn().getBody(File.class);
+        inputFileName = fileForControlFile.getName();
+        NewBatchJob newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
+        FileMonitor fileMonitor = (FileMonitor) sender;
 
         try {
-            fileForControlFile = exchange.getIn().getBody(File.class);
-            inputFileName = fileForControlFile.getName();
-            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
+            if (fileMonitor != null) {
+                Object tag = fileMonitor.getTag();
+                if (tag.equals("CtlFile")) {
 
-            moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
+                        moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
 
-            exchange.getIn().setHeader("BatchJobId", batchJobId);
-            if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
-                exchange.getIn().setHeader("fileType", FileFormat.CONTROL_FILE.getExtension());
-            } else if (inputFileName.endsWith(FileFormat.ZIP_FILE.getExtension())) {
-                exchange.getIn().setHeader("fileType", FileFormat.ZIP_FILE.getExtension());
+                        exchange.getIn().setHeader("BatchJobId", batchJobId);
+                        if (inputFileName.endsWith(FileFormat.CONTROL_FILE.getExtension())) {
+                            exchange.getIn().setHeader("fileType", FileFormat.CONTROL_FILE.getExtension());
+                        } else if (inputFileName.endsWith(FileFormat.ZIP_FILE.getExtension())) {
+                            exchange.getIn().setHeader("fileType", FileFormat.ZIP_FILE.getExtension());
+                        }
+
+                } else if (tag.equals("Xmlfile")) {
+
+                    File lzFile = new File(newBatchJob.getTopLevelSourceId());
+                    LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
+                    ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+                    List<IngestionFileEntry> entries = controlFile.getFileEntries();
+
+                    for (IngestionFileEntry entry : entries) {
+                        boolean copied = FileUtils.renameFile(new File(lzFile +  File.separator + entry.getFileName()), new File(lzFile +  File.separator + ".done" + File.separator + entry.getFileName()));
+                        if (!copied) {
+                            LOG.info("FilePreProcessor: File Copy failed " + topLevelLandingZone.getLZId());
+                        }
+                    }
+                }
             }
-
         } catch (IOException ioException) {
             handleExceptions(exchange, batchJobId, ioException, inputFileName);
         } catch (SubmissionLevelException submissionLevelException) {
@@ -96,6 +126,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
         } catch (IllegalArgumentException illegalArgException) {
             handleExceptions(exchange, batchJobId, illegalArgException, inputFileName);
         }
+
     }
 
     private void moveControlFileDependencies(String inputFileName,
@@ -107,14 +138,11 @@ public class FilePreProcessor  implements Processor, MessageSourceAware  {
             LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
             ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
             List<IngestionFileEntry> entries = controlFile.getFileEntries();
+            FileMonitor fileMonitor = new FileMonitor(1000, this, "Xmlfile");
             for (IngestionFileEntry entry : entries) {
-                boolean copied = FileUtils.renameFile(new File(lzFile +  File.separator + entry.getFileName()), new File(lzFile +  File.separator + ".done" + File.separator + entry.getFileName()));
-                if (!copied) {
-                    LOG.info("FilePreProcessor: File " + lzFile.getName() + " Copy failed " + topLevelLandingZone.getLZId());
-                } else {
-					LOG.info("FilePreProcessor: File " + lzFile.getName() + " Copy successful " + topLevelLandingZone.getLZId());
-				}
+                fileMonitor.addFile(new File(lzFile +  File.separator + entry.getFileName()));
             }
+            fileMonitor.startFileMonitor();
         }
     }
 
