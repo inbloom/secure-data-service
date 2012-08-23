@@ -57,6 +57,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
 
+    private static final String TENANT_JOB_LOCK_COLLECTION = "tenantJobLock";
+
     private static final Logger LOG = LoggerFactory.getLogger(BatchJobMongoDA.class);
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
@@ -75,6 +77,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private int numberOfRetries;
 
     private MongoTemplate batchJobMongoTemplate;
+
+    private MongoTemplate sliMongo;
 
     @Value("${sli.ingestion.errors.tracking}")
     private String trackIngestionErrors;
@@ -168,7 +172,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                     @Override
                     public Object execute() {
-                        batchJobMongoTemplate.getCollection("tenantJobLock").insert(tenantLock, WriteConcern.SAFE);
+                        sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).insert(tenantLock, WriteConcern.SAFE);
                         return null;
                     }
 
@@ -202,7 +206,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                 @Override
                 public Object execute() {
-                    batchJobMongoTemplate.getCollection("tenantJobLock").remove(tenantLock, WriteConcern.SAFE);
+                    sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).remove(tenantLock, WriteConcern.SAFE);
                     return null;
                 }
 
@@ -615,6 +619,14 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     public void setNumberOfRetries(int numberOfRetries) {
         this.numberOfRetries = numberOfRetries;
+    }
+
+    public MongoTemplate getSliMongo() {
+        return sliMongo;
+    }
+
+    public void setSliMongo(MongoTemplate sliMongo) {
+        this.sliMongo = sliMongo;
     }
 
 }
