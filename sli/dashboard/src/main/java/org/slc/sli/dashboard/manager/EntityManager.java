@@ -325,6 +325,30 @@ public class EntityManager extends ApiClientManager {
     }
 
     
+    public GenericEntity getEdorgProfile(String token, String id) {
+		// TODO Auto-generated method stub
+		GenericEntity edorg = getApiClient().getEducationalOrganization(token, id);
+		GenericEntity ge = new GenericEntity();
+		
+		if(edorg != null) {
+			ge.put(Constants.ATTR_NAME_OF_INST, edorg.getString(Constants.ATTR_NAME_OF_INST));
+			Link link = edorg.getLink(Constants.ATTR_GET_FEEDER_SCHOOLS);
+			List<GenericEntity> schools = getApiClient().readEntityList(token, link.getResourceURL().toString());
+			LinkedList<GenericEntity> schoolList = new LinkedList<GenericEntity>();
+			
+			for (GenericEntity school : schools) {
+				GenericEntity tempSchool = new GenericEntity();
+				tempSchool.put(Constants.ATTR_ID, school.getString(Constants.ATTR_ID));
+				tempSchool.put(Constants.ATTR_NAME_OF_INST, school.getString(Constants.ATTR_NAME_OF_INST));
+				schoolList.add(tempSchool);
+			}
+			
+		ge.put("schoolList", schoolList);
+		}
+
+		return ge;    	
+    }
+    
     /**
      * Returns the grades and associated courses, by traversing student section asssociations.
      * @param token
@@ -408,5 +432,4 @@ public class EntityManager extends ApiClientManager {
     	
     	return ge;
     }
-
 }

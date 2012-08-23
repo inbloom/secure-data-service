@@ -1125,8 +1125,9 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
+    @Override
     public List<GenericEntity> readEntityList(String token, String url) {
-    	List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
+        List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
             List<Entity> entityList = getClient(token).read(url);
             for (Entity entity : entityList) {

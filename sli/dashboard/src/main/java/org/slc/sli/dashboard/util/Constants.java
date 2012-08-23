@@ -306,6 +306,8 @@ public final class Constants {
     public static final String ATTENDANCE_EARLY_DEPARTURE = "earlyDepartureCount";
     public static final String ATTR_ATTENDANCE_LIST = "attendanceList";
 
+	public static final String ATTR_GET_FEEDER_SCHOOLS = "getFeederSchools";
+
 	public static final String GRADE_TYPE = "gradeType";
 
 	public static final String COURSES_AND_GRADES = "coursesAndGrades";

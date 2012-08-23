@@ -1,0 +1,14 @@
+{
+	id: "edorg",
+	type: "LAYOUT",
+	data :{
+		entity: "edorgInfo",
+		cacheKey: "edorgInfo"
+	},
+	items: [
+		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+		{id: "edorgInfo", type: "PANEL"},
+		{id: "schoolList", type: "GRID"}
+	]
+	
+}

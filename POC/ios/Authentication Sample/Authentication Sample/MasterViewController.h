@@ -17,7 +17,7 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController<ASIHTTPRequestDelegate>
+@interface MasterViewController : UITableViewController<ASIHTTPRequestDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 

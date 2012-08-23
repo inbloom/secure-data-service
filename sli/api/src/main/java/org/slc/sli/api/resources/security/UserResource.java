@@ -35,8 +35,10 @@ import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -52,7 +54,6 @@ import org.slc.sli.domain.enums.Right;
 @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class UserResource {
-
     @Autowired
     private LdapService ldapService;
 
@@ -67,6 +68,16 @@ public class UserResource {
 
     @Autowired
     private SecurityUtilProxy secUtil;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
+        SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage);
+        securityEvent.setTenantId(tenantId);
+        securityEvent.setTargetEdOrg(edorg);
+        return securityEvent;
+    }
 
     @POST
     public final Response create(final User newUser) {
@@ -84,6 +95,8 @@ public class UserResource {
         } catch (NameAlreadyBoundException e) {
             return Response.status(Status.CONFLICT).build();
         }
+
+        audit(createSecurityEvent("Created user " + newUser.getUid(), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -132,6 +145,8 @@ public class UserResource {
         }
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
+
+        audit(createSecurityEvent("Updated user " + updateUser.getUid(), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -145,7 +160,10 @@ public class UserResource {
             return result;
         }
 
+        User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
+
+        audit(createSecurityEvent("Deleted user " + uid, userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
