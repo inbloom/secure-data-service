@@ -22,6 +22,7 @@ class LandingZoneController < ApplicationController
   rescue_from ProvisioningError, :with => :handle_error
   rescue_from KeyValidationError, :with => :handle_validation_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
+  rescue_from ActiveResource::BadRequest, :with => :handle_error
   
   def provision
     if (params[:cancel] == "Cancel")

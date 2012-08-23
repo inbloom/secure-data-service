@@ -31,10 +31,10 @@ SEA_ADMINISTRATOR_EMAIL = 'testuser0.wgen@gmail.com'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @do_not_run_after = true
 end
 
 When /^I navigate to the user account management page$/ do
+  @do_not_run_after = true
   samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
 end

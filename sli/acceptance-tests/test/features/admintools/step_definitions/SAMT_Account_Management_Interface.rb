@@ -84,7 +84,7 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
   @user_info = {
        :first => "SAMT",
-       :last => "Test",
+       :last => "Test_#{Socket.gethostname}",
        :email => @email,
        :emailAddress => @email,
        :password => "test1234",
