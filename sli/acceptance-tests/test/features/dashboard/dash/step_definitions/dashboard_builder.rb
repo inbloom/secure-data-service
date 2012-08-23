@@ -36,18 +36,13 @@ end
 When /^I add a Page named "(.*?)"$/ do |pageName|
   addSection = @driver.find_element(:class, "addPageSection")
   addSection.find_element(:tag_name, "button").click
-  ensurePopupLoaded()
+  
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='New page']")
+  
   setPageName(pageName) 
   
-  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
-  if (@currentProfile == "section")
-    uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
-  end
-  inputBox = @driver.find_element(:id, "content_json")
-  inputBox.send_keys(:backspace)
-  inputBox.send_keys(:backspace)
-  inputBox.send_keys(uploadText)
-  saveDashboardBuilder()
+  viewSourceCode()
+  uploadJson()
 end
 
 When /^I append the text "(.*?)" to the name of Page "(.*?)"$/ do |appendedText, pageName|
@@ -109,7 +104,13 @@ def getPageByIndex(index)
 end
 
 def setPageName(pageName)
-  @driver.find_element(:id, "pageTitle").send_keys pageName
+  @currentPage.find_element(:class,"icon-edit").click
+  input = @currentPage.find_element(:class,"show-true").find_element(:tag_name, "input")  
+  for i in (0..8)
+    input.send_keys(:backspace)
+  end
+  input.send_keys pageName
+  @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
 end
 
 def hoverOverPage(pageName, mode)
@@ -126,6 +127,24 @@ def hoverOverPage(pageName, mode)
     link.click
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
   end  
+end
+
+def viewSourceCode()
+  @currentPage.find_element(:link_text,"View Source Code").click
+  ensurePopupLoaded()  
+end
+
+def uploadJson()
+  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
+  if (@currentProfile == "section")
+    uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
+  end
+  inputBox = @driver.find_element(:id, "content_json")
+  inputBox.send_keys(:backspace)
+  inputBox.send_keys(:backspace)
+  inputBox.send_keys(uploadText)
+    
+  saveDashboardBuilder()
 end
 
 def saveDashboardBuilder()
