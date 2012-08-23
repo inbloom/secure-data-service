@@ -279,11 +279,13 @@ class UsersController < ApplicationController
       check = Check.get ""
       @login_user_edorg_name = check['edOrg']
       @edorgs={check['edOrg']=> check ['edOrg']}
+    end
+
+    if is_sea_admin?
       if @login_user_edorg_name !=nil
         current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => @login_user_edorg_name})
       end
       while current_edorgs !=nil && current_edorgs.length>0
-
         child_edorgs=[]
         current_edorgs.each do |edorg|
           edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edorg.id } )
@@ -307,7 +309,6 @@ class UsersController < ApplicationController
       logger.info("the edorg options are #{@edorgs.to_json}")
     end
   end
-
 
   def set_role_options
     if APP_CONFIG['is_sandbox']

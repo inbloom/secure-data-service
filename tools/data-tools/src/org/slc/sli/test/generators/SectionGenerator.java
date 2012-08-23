@@ -72,6 +72,8 @@ public class SectionGenerator {
         return s;
     }
 
+ 
+    
     public static Section generateMediumFi(String sectionId, String schoolId, String courseId, String sessionId) {
     	 Section section = new Section();
 //         String[] temp;
@@ -79,7 +81,7 @@ public class SectionGenerator {
 //         String courseTemp= temp[temp.length -1];
 //         section.setUniqueSectionCode(sectionId + "-" + courseTemp);
          section.setUniqueSectionCode(sectionId);
-
+         
          section.setSequenceOfCourse(1);
          // construct and add the school reference
          EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
@@ -119,10 +121,7 @@ public class SectionGenerator {
 
          section.setSessionReference(sessionRef);
 
-         
-         
-
-         
+ 
          return section;
     }
 

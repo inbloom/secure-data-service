@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
@@ -86,6 +87,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    public Entity createWithRetries(final String type, final Map<String, Object> body, final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return create(type, body, metaData, collectionName);
+            }
+        };
+        return (Entity) rc.executeOperation(noOfRetries);
+    }
+
+    @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
@@ -130,6 +143,24 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    public boolean updateWithRetries(final String collection, final Entity entity, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return update(collection, entity);
+            }
+        };
+        Object result = rc.executeOperation(noOfRetries);
+        if (result != null) {
+            return (Boolean) result;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
 
@@ -157,5 +188,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-
+    
+    public void setValidator(EntityValidator validator) {
+    	this.validator=validator;
+    }
+    
 }

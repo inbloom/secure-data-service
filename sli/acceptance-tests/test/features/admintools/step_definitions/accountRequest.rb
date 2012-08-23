@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require "selenium-webdriver"
+require 'net/imap'
 require 'approval'
 require 'active_support/inflector'
 require_relative '../../utils/sli_utils.rb'

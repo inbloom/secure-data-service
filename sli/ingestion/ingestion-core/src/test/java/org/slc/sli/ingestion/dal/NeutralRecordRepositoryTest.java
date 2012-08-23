@@ -34,6 +34,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 
 import org.junit.Before;
@@ -42,12 +45,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -359,4 +366,98 @@ public class NeutralRecordRepositoryTest {
         assertEquals(5, idList.size());
     }
 
+    @Test
+    public void testInsertRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", 123);
+        body.put("firstName", "Jane");
+        body.put("lastName", "Doe");
+        body.put("studentSchoolId", "LNAME-FNAME-000");
+        NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setRecordId("testInsert");
+        neutralRecord.setRecordType("student");
+        neutralRecord.setAttributes(body);
+
+        when(mockedMongoTemplate.findOne(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(
+                neutralRecord);
+
+        repository.insertWithRetries(neutralRecord, 2);
+
+        Query mongoQuery = new Query(new Criteria("studentSchoolId=LNAME-FNAME-000"));
+
+        assertEquals(neutralRecord, repository.findOne("student", mongoQuery));
+    }
+
+    @Test
+    public void testInsertAllRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        String collectionName = "student";
+
+        List<NeutralRecord> batchOfRecords = new ArrayList<NeutralRecord>();
+        batchOfRecords.add(buildTestStudentNeutralRecord());
+        batchOfRecords.add(buildTestStudentNeutralRecord());
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        when(collection.count(any(DBObject.class))).thenReturn(2L);
+        when(mockedMongoTemplate.getCollection(eq(collectionName))).thenReturn(collection);
+
+        repository.insertAllWithRetries(batchOfRecords, collectionName, 3);
+
+        Query mongoQuery = new Query();
+
+        assertEquals(2, repository.countByQuery(collectionName, mongoQuery));
+    }
+
+    @Test
+    public void testInsertWithError() {
+
+        NeutralRecordRepository mockRepo = Mockito.spy(repository);
+        NeutralRecord record = buildTestStudentNeutralRecord();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).insert(record);
+
+        try {
+            mockRepo.insertWithRetries(record, noOfRetries);
+        } catch (MongoException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).insert(record);
+    }
+
+    @Test
+    public void testInsertAllWithError() {
+
+        NeutralRecordRepository mockRepo = Mockito.spy(repository);
+        String collectionName = "student";
+        List<NeutralRecord> batchOfRecords = new ArrayList<NeutralRecord>();
+        batchOfRecords.add(buildTestStudentNeutralRecord());
+        batchOfRecords.add(buildTestStudentNeutralRecord());
+
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new DataAccessResourceFailureException("Test Exception")).when(mockRepo).insertAll(batchOfRecords, collectionName);
+
+        try {
+            mockRepo.insertAllWithRetries(batchOfRecords, collectionName, noOfRetries);
+        } catch (DataAccessResourceFailureException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).insertAll(batchOfRecords, collectionName);
+    }
+
+    @Test
+    public void testRetry() {
+        NeutralRecordRepository mockRepo = Mockito.spy(repository);
+        NeutralRecord record = buildTestStudentNeutralRecord();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new UncategorizedMongoDbException("Operation Failed", new MongoException("Test Exception"))).doReturn(record).when(mockRepo).insert(record);
+        mockRepo.insertWithRetries(record, noOfRetries);
+
+        Mockito.verify(mockRepo, Mockito.times(2)).insert(record);
+    }
 }

@@ -199,6 +199,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @param collectionName Name of collection to insert record in.
      * @return Successfully inserted record.
      */
+    @Override
     public List<T> insert(List<T> records, String collectionName) {
         template.insert(records, collectionName);
         LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
@@ -396,7 +397,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return true;
     }
 
-    public WriteResult update(NeutralQuery query, Map<String, Object> update, String collectionName) {
+    public WriteResult updateFirst(NeutralQuery query, Map<String, Object> update, String collectionName) {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
@@ -421,6 +422,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
+    }
+
+    @Override
+    public boolean doUpdate(String collection, String id, Update update) {
+        return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        return template.updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
     }
 
     protected abstract Query getUpdateQuery(T entity);
@@ -607,6 +618,4 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return collections;
     }
-
-
 }

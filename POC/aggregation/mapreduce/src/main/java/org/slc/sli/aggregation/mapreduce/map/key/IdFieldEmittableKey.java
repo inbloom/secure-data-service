@@ -52,12 +52,14 @@ public class IdFieldEmittableKey extends EmittableKey {
 
     @Override
     public void readFields(DataInput data) throws IOException {
-        setId(new Text(data.readLine()));
+        this.setFieldName(data.readLine());
+        this.setId(new Text(data.readLine()));
     }
 
     @Override
     public void write(DataOutput data) throws IOException {
-        data.writeBytes(getId().toString());
+        data.writeBytes(getIdField().toString() + "\n");
+        data.writeBytes(getId().toString() + "\n");
     }
 
     @Override

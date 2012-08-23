@@ -18,12 +18,6 @@
 package org.slc.sli.test.xmlgen;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Properties;
-
 
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
@@ -43,6 +37,7 @@ import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGene
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeSectionGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentAssessmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
@@ -55,7 +50,6 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerato
 import org.slc.sli.test.utils.DataUtils;
 import org.slc.sli.test.utils.EdfiStats;
 import org.slc.sli.test.utils.InterchangeWriter;
-import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
 
 /**
@@ -75,12 +69,14 @@ public class StateEdFiXmlGenerator {
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
     public static String propertyPath = "config.properties";
+    public static String rootOutputPath = "./data";
+	public static String XSDVersionPath = "1.0.04";
     
+    					
     /**
      * used to determine the output directory for generated interchange and control files
      */
-    public static String rootOutputPath = "./data";
-    
+
     
 //    public static String rootOutputPath = "./data";
     /**
@@ -98,10 +94,23 @@ public class StateEdFiXmlGenerator {
     public static void main(String[] args) throws Exception {
    
         processProgramArguments(args);
-        
+
         MetaRelations.construct();
+ 
+        //if (XSDVersionPath.equals("1.0.04") ) {
+        if ("1.0.04".equalsIgnoreCase(XSDVersionPath)) {
         
-        generateAndMarshalInterchanges();
+        	generateAndMarshalInterchangesForSliXsdRI();
+        	
+        	
+        }
+        else {
+ 
+        	generateAndMarshalInterchanges();
+        	
+        }
+        
+       // generateAndMarshalInterchanges();
         
         ValidateSchema.check(rootOutputPath);
         
@@ -143,6 +152,12 @@ public class StateEdFiXmlGenerator {
         
     }
 
+    private static void generateAndMarshalInterchangesForSliXsdRI() throws Exception {
+    	
+             section();
+             masterSchedule();
+         
+    }
     private static void generateAndMarshalInterchanges() throws Exception {
 
         if (MetaRelations.INTERCHANGE_ED_ORG) {
@@ -397,6 +412,20 @@ public class StateEdFiXmlGenerator {
         iWriter.close();
         
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", iWriter.getXmlFilePath());
+    }
+
+    /**
+     * Generate InterchangeSection data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void section() throws Exception {
+    	InterchangeWriter<org.slc.sli.test.edfi.entitiesR1.InterchangeSection> iWriter = 
+                new InterchangeWriter<org.slc.sli.test.edfi.entitiesR1.InterchangeSection>(org.slc.sli.test.edfi.entitiesR1.InterchangeSection.class);
+    	InterchangeSectionGenerator.generate(iWriter);
+        iWriter.close();
+        
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "section", iWriter.getXmlFilePath());
     }
 
 }

@@ -29,7 +29,8 @@
         <powermock.version>1.4.12</powermock.version>
         <emma.version>1.2</emma.version>
 
-        <hadoop-core.version>1.0.3</hadoop-core.version>
+        <hadoop-core.version>2.0.0-mr1-cdh4.0.1</hadoop-core.version>
+        <mongo-hadoop-core.artifact>mongo-hadoop-core_cdh4b1</mongo-hadoop-core.artifact>
         <mongo-hadoop-core.version>1.0.0</mongo-hadoop-core.version>
         <mongo-java.version>2.8.0</mongo-java.version>
 
@@ -50,8 +51,6 @@
 
     <modules>
         <module>mapreduce</module>
-        <module>Math-HighestEver</module>
-        <module>Math-Proficiency-Aggregation</module>
     </modules>
 
     <dependencyManagement>
@@ -118,7 +117,7 @@
 
             <dependency>
                 <groupId>org.mongodb</groupId>
-                <artifactId>mongo-hadoop-core</artifactId>
+                <artifactId>${mongo-hadoop-core.artifact}</artifactId>
                 <version>${mongo-hadoop-core.version}</version>
             </dependency>
 
@@ -158,7 +157,7 @@
 
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-hadoop-core</artifactId>
+            <artifactId>${mongo-hadoop-core.artifact}</artifactId>
         </dependency>
 
         <dependency>
@@ -372,6 +371,11 @@
        <repository>
           <id>powermock-repo</id>
           <url>http://powermock.googlecode.com/svn/repo/</url>
+       </repository>
+
+       <repository>
+          <id>cloudera CDH4</id>
+          <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
        </repository>
 
     </repositories>

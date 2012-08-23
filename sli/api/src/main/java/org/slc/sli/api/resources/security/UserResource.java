@@ -35,8 +35,10 @@ import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -52,7 +54,6 @@ import org.slc.sli.domain.enums.Right;
 @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class UserResource {
-
     @Autowired
     private LdapService ldapService;
 
@@ -67,6 +68,16 @@ public class UserResource {
 
     @Autowired
     private SecurityUtilProxy secUtil;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
+        SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage);
+        securityEvent.setTenantId(tenantId);
+        securityEvent.setTargetEdOrg(edorg);
+        return securityEvent;
+    }
 
     @POST
     public final Response create(final User newUser) {
@@ -84,6 +95,8 @@ public class UserResource {
         } catch (NameAlreadyBoundException e) {
             return Response.status(Status.CONFLICT).build();
         }
+
+        audit(createSecurityEvent("Created user " + newUser.getUid(), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -93,7 +106,6 @@ public class UserResource {
         assertEnabled();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
-        String myUid = secUtil.getUid();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
@@ -115,21 +127,13 @@ public class UserResource {
         Collection<User> users = ldapService.findUsersByGroups(realm,
                 RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), groupsToIgnore, secUtil.getTenantId(), edorgs);
 
-        // filtering peer LEAs
-        Collection<User> filteredUsers = new LinkedList<User>();
-        boolean isLea = isLeaAdmin();
-
         if (users != null && users.size() > 0) {
             for (User user : users) {
                 user.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapGroupToRoles(user.getGroups())));
-                if (myUid.equals(user.getUid()) || !(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
-                    filteredUsers.add(user);
-                }
-
             }
         }
 
-        return Response.status(Status.OK).entity(filteredUsers).build();
+        return Response.status(Status.OK).entity(users).build();
     }
 
     @PUT
@@ -141,6 +145,8 @@ public class UserResource {
         }
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
+
+        audit(createSecurityEvent("Updated user " + updateUser.getUid(), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -154,7 +160,10 @@ public class UserResource {
             return result;
         }
 
+        User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
+
+        audit(createSecurityEvent("Deleted user " + uid, userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -244,8 +253,7 @@ public class UserResource {
         }
 
         if (userInLdap.getGroups() != null) {
-            result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
-                    RoleToGroupMapper.getInstance().mapGroupToRoles(userInLdap.getGroups()));
+            result = validateUserGroupsAllowed(getGroupsAllowed(), userInLdap.getGroups());
             if (result != null) {
                 return result;
             }
@@ -266,14 +274,59 @@ public class UserResource {
             return result;
         }
 
-        result = validateLEACannotUpdateOwnsRolesTenancyEdorg(user);
+        result = validateCannotRemoveLastSuperAdmin(user, userInLdap);
         if (result != null) {
             return result;
         }
 
-        result = validateCannotOperateOnPeerLEA(user, secUtil.getEdOrg());
-        if (result != null) {
-            return result;
+        return null;
+    }
+
+
+    private Response validateCannotRemoveLastSuperAdmin(User updateTo, User userInLdap) {
+
+        if (userInLdap.getGroups() == null || userInLdap.getGroups().size() == 0) {
+            //this user does not belong to any group, can't be the last super admin
+            return null;
+        }
+
+        String groupToVerify = null;
+        Collection<User> users = null;
+
+        if (!isUserLeaAdmin(updateTo) && userInLdap.getGroups().contains(RoleToGroupMapper.GROUP_LEA_ADMINISTRATOR)) {
+
+            groupToVerify = RoleToGroupMapper.GROUP_LEA_ADMINISTRATOR;
+            List<String> edorgs = new ArrayList<String>();
+            edorgs.add(userInLdap.getEdorg());
+
+            users = ldapService.findUsersByGroups(realm,
+                    RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), userInLdap.getTenant(), edorgs);
+
+        } else if (!updateTo.getGroups().contains(RoleInitializer.SEA_ADMINISTRATOR)
+                && userInLdap.getGroups().contains(RoleToGroupMapper.GROUP_SEA_ADMINISTRATOR)) {
+
+            groupToVerify = RoleToGroupMapper.GROUP_SEA_ADMINISTRATOR;
+            users = ldapService.findUsersByGroups(realm,
+                    RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), userInLdap.getTenant());
+        } else {
+            //no need to check
+            return null;
+        }
+
+        if (users == null) {
+            return composeBadDataResponse("Can not remove the last administrator");
+        }
+
+        boolean otherSuperAdminExists = false;
+        for (User user : users) {
+            if (user.getGroups().contains(groupToVerify) && !user.getUid().equals(updateTo.getUid())) {
+                otherSuperAdminExists = true;
+                break;
+            }
+        }
+
+        if (!otherSuperAdminExists) {
+            return composeBadDataResponse("Can not remove the last administrator");
         }
 
         return null;
@@ -311,23 +364,6 @@ public class UserResource {
             return result;
         }
 
-        result = validateCannotOperateOnPeerLEA(userToDelete, secUtil.getEdOrg());
-        if (result != null) {
-            return result;
-        }
-
-        return null;
-    }
-
-    private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
-        if (isLeaAdmin() && isUserLeaAdmin(userToModify)
-                && !userToModify.getUid().equals(secUtil.getUid())) { //only blocking peer LEA
-
-            if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
-                return composeBadDataResponse("not allowed to execute this operation on peer admin users");
-            }
-        }
-
         return null;
     }
 
@@ -349,33 +385,6 @@ public class UserResource {
         return null;
     }
 
-
-    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
-        if (isLeaAdmin() && user.getUid().equals(secUtil.getUid())) {
-            User currentUser = ldapService.getUser(realm, secUtil.getUid());
-
-            String error = null;
-            if (!currentUser.getGroups().containsAll(RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups()))
-                    || !RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups())
-                            .containsAll(currentUser.getGroups())) {
-                error = "cannot update own roles";
-            }
-
-            if (!currentUser.getTenant().equals(user.getTenant())) {
-                error = "cannot update own tenancy";
-            }
-
-            if (!currentUser.getEdorg().equals(user.getEdorg())) {
-                error = "cannot update own edorg";
-            }
-
-            if (error != null) {
-                return composeBadDataResponse(error);
-            }
-        }
-
-        return null;
-    }
 
     private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(secUtil.getUid())) {
@@ -457,6 +466,7 @@ public class UserResource {
             if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
+            //can't enforce SLC operator create SEA in invalid edorg
         } else if (user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR)) {
             // tenant and edorg should not be null for LEA
             if (user.getTenant() == null || user.getEdorg() == null) {
@@ -470,12 +480,9 @@ public class UserResource {
             String restrictByEdorg = null;
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
-                // restrict peer level LEA
-                if (restrictByEdorg.equals(user.getEdorg()) && !user.getUid().equals(secUtil.getUid())) {
-                    return composeForbiddenResponse("Can not operate on peer level LEA");
-                }
             }
-            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
+            //edorgs must already exist in db
+            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
             if (!allowedEdorgs.contains(user.getEdorg())) {
                 return composeBadDataResponse("Invalid edorg");
             }
@@ -493,6 +500,9 @@ public class UserResource {
                 String restrictByEdorg = null;
                 if (isLeaAdmin()) {
                     restrictByEdorg = secUtil.getEdOrg();
+                    if (!restrictByEdorg.equals(user.getEdorg())) {
+                        return composeBadDataResponse("Cannot make changes to user in this edorg");
+                    }
                 }
                 Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
                 if (!allowedEdorgs.contains(user.getEdorg())) {
@@ -633,6 +643,17 @@ public class UserResource {
      *
      */
     static final class RoleToGroupMapper {
+
+        //Groups in LDAP
+        private static final String GROUP_SLC_OPERATOR = "SLC Operator";
+        private static final String GROUP_LEA_ADMINISTRATOR = "LEA Administrator";
+        private static final String GROUP_SEA_ADMINISTRATOR = "SEA Administrator";
+        private static final String GROUP_REALM_ADMINISTRATOR = "Realm Administrator";
+        private static final String GROUP_APP_DEVELOPER = "application_developer";
+        private static final String GROUP_INGESTION_USER = "ingestion_user";
+        private static final String GROUP_SANDBOX_SLC_OPERATOR = "Sandbox SLC Operator";
+        private static final String GROUP_SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
+
         private static final RoleToGroupMapper INSTANCE = new RoleToGroupMapper();
 
         public static RoleToGroupMapper getInstance() {
@@ -646,23 +667,23 @@ public class UserResource {
             roleToGroupMap = new HashMap<String, String>();
             groupToRoleMap = new HashMap<String, String>();
 
-            roleToGroupMap.put(RoleInitializer.SLC_OPERATOR, "SLC Operator");
-            roleToGroupMap.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
-            roleToGroupMap.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
-            roleToGroupMap.put(RoleInitializer.LEA_ADMINISTRATOR, "LEA Administrator");
-            roleToGroupMap.put(RoleInitializer.APP_DEVELOPER, "application_developer");
-            roleToGroupMap.put(RoleInitializer.INGESTION_USER, "ingestion_user");
-            roleToGroupMap.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
-            roleToGroupMap.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
+            roleToGroupMap.put(RoleInitializer.SLC_OPERATOR, GROUP_SLC_OPERATOR);
+            roleToGroupMap.put(RoleInitializer.REALM_ADMINISTRATOR, GROUP_REALM_ADMINISTRATOR);
+            roleToGroupMap.put(RoleInitializer.SEA_ADMINISTRATOR, GROUP_SEA_ADMINISTRATOR);
+            roleToGroupMap.put(RoleInitializer.LEA_ADMINISTRATOR, GROUP_LEA_ADMINISTRATOR);
+            roleToGroupMap.put(RoleInitializer.APP_DEVELOPER, GROUP_APP_DEVELOPER);
+            roleToGroupMap.put(RoleInitializer.INGESTION_USER, GROUP_INGESTION_USER);
+            roleToGroupMap.put(RoleInitializer.SANDBOX_SLC_OPERATOR, GROUP_SANDBOX_SLC_OPERATOR);
+            roleToGroupMap.put(RoleInitializer.SANDBOX_ADMINISTRATOR, GROUP_SANDBOX_ADMINISTRATOR);
 
-            groupToRoleMap.put("SLC Operator", RoleInitializer.SLC_OPERATOR);
-            groupToRoleMap.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
-            groupToRoleMap.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
-            groupToRoleMap.put("LEA Administrator", RoleInitializer.LEA_ADMINISTRATOR);
-            groupToRoleMap.put("application_developer", RoleInitializer.APP_DEVELOPER);
-            groupToRoleMap.put("ingestion_user", RoleInitializer.INGESTION_USER);
-            groupToRoleMap.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
-            groupToRoleMap.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
+            groupToRoleMap.put(GROUP_SLC_OPERATOR, RoleInitializer.SLC_OPERATOR);
+            groupToRoleMap.put(GROUP_REALM_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR);
+            groupToRoleMap.put(GROUP_SEA_ADMINISTRATOR, RoleInitializer.SEA_ADMINISTRATOR);
+            groupToRoleMap.put(GROUP_LEA_ADMINISTRATOR, RoleInitializer.LEA_ADMINISTRATOR);
+            groupToRoleMap.put(GROUP_APP_DEVELOPER, RoleInitializer.APP_DEVELOPER);
+            groupToRoleMap.put(GROUP_INGESTION_USER, RoleInitializer.INGESTION_USER);
+            groupToRoleMap.put(GROUP_SANDBOX_SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR);
+            groupToRoleMap.put(GROUP_SANDBOX_ADMINISTRATOR, RoleInitializer.SANDBOX_ADMINISTRATOR);
         }
 
         public Collection<String> mapRoleToGroups(Collection<String> roles) {
