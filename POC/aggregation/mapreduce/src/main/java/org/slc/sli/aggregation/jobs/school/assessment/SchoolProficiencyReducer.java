@@ -7,8 +7,16 @@ import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.bson.BSONObject;
+import org.bson.BasicBSONObject;
 
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandsConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
+import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
+import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
  * Aggregate Math scores and at the school level based on scale score.
@@ -28,7 +36,8 @@ import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 public class SchoolProficiencyReducer
         extends Reducer<TenantAndIdEmittableKey, Text, TenantAndIdEmittableKey, BSONWritable> {
 
-    BSONWritable counts = new BSONWritable();
+    BSONObject counts = new BasicBSONObject();
+    private BandsConfig bands;
 
     @Override
     public void reduce(final TenantAndIdEmittableKey pKey,
@@ -40,7 +49,11 @@ public class SchoolProficiencyReducer
             count(result);
         }
         Logger.getLogger("SchoolProficiencyReducer").warning("writing reduce record to: " + pKey.toString());
-        context.write(pKey, counts);
+
+        String field = context.getConfiguration().get(MongoAggFormatter.UPDATE_FIELD);
+        BSONObject obj = BSONUtilities.setValue(field, counts);
+        BSONWritable output = new BSONWritable(obj);
+        context.write(pKey, output);
     }
 
     protected void count(Text key) {
@@ -52,14 +65,18 @@ public class SchoolProficiencyReducer
         }
     }
 
-    public SchoolProficiencyReducer() {
-        // TODO - replace this with rankings from the configuration.
-        counts.put("W", 0L);
-        counts.put("B", 0L);
-        counts.put("S", 0L);
-        counts.put("E", 0L);
-        counts.put("!", 0L);
-        counts.put("-", 0L);
-    }
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    protected void setup(Reducer.Context context) throws IOException, InterruptedException {
+        super.setup(context);
 
+        MetadataConfig cfg = JobConfiguration.getAggregateMetadata(context.getConfiguration());
+        bands = cfg.getBands();
+
+        BandConfig[] config = bands.toArray(new BandConfig[0]);
+
+        for (BandConfig band : config) {
+            counts.put(band.getAbbreviation(), 0L);
+        }
+    }
 }
