@@ -88,10 +88,8 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends Abstra
         // and jobClassification cannot be converted to "Teacher"
         // then there is no need to translate the EmployeeAssignment to a TeacherSchoolAssociationEntity
         String staffClassificationType = jobClassificationConverter.convert(ea.getJobClassification());
-        if (staffGuid == null &&
-                tsae.getProgramAssignment() == null &&
-                (staffClassificationType == null ||
-                !staffClassificationType.equals("Teacher"))) {
+        if (staffGuid == null && tsae.getProgramAssignment() == null
+                && (staffClassificationType == null || !staffClassificationType.equals("Teacher"))) {
             return new ArrayList<TeacherSchoolAssociationEntity>();
         }
 

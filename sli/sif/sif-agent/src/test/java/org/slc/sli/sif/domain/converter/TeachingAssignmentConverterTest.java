@@ -149,7 +149,7 @@ public class TeachingAssignmentConverterTest extends AdkTest {
     }
 
     private List<TeachingAssignment> getTeachingAssignments() {
-        List<TeachingAssignment> tas = new ArrayList<TeachingAssignment>(map.size()+1);
+        List<TeachingAssignment> tas = new ArrayList<TeachingAssignment>(map.size() + 1);
         for (TeachingArea code : map.keySet()) {
             tas.add(new TeachingAssignment(code));
         }

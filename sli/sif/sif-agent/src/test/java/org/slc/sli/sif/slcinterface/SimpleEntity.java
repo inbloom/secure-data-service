@@ -21,13 +21,17 @@ import java.util.Map;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 
+/**
+ * Simple default implementation for Entity
+ *
+ */
 public class SimpleEntity implements Entity {
 
     private String type;
     private String id;
 
     public SimpleEntity(String type) {
-        this(type,"id");
+        this(type, "id");
     }
 
     public SimpleEntity(String type, String id) {

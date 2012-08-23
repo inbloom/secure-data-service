@@ -136,7 +136,7 @@ public class HRProgramTypeConverterTest extends AdkTest {
     }
 
     private List<HRProgramType> getHRProgramTypes() {
-        List<HRProgramType> list = new ArrayList<HRProgramType>(map.size()+1);
+        List<HRProgramType> list = new ArrayList<HRProgramType>(map.size() + 1);
         for (ProgramTypeCode code : map.keySet()) {
             HRProgramType hr = new HRProgramType();
             hr.setCode(code);

@@ -35,7 +35,7 @@ public class SifIdResolverImplDummy implements SifIdResolver {
         sifToSliEntityMap = new HashMap<String, Entity>();
     }
 
-    public void putEntity(String sifId, Entity e){
+    public void putEntity(String sifId, Entity e) {
         sifToSliEntityMap.put(sifId, e);
     }
 

@@ -59,9 +59,7 @@ public class EmployeeAssignment2TeacherTranslationTask extends AbstractTranslati
         // If a staff entity is not previously created
         // and jobClassification cannot be converted to "Teacher"
         // then there is no need to translate the EmployeeAssignment to a TeacherEntity
-        if (staffGuid == null &&
-                (staffClassificationType == null ||
-                !staffClassificationType.equals("Teacher"))) {
+        if (staffGuid == null && (staffClassificationType == null || !staffClassificationType.equals("Teacher"))) {
             return new ArrayList<TeacherEntity>();
         }
 

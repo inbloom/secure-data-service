@@ -36,6 +36,10 @@ import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SimpleEntity;
 
+/**
+ * Tests for EmploymentRecordToTeacherSchoolTranslation
+ *
+ */
 public class EmploymentRecordToTeacherSchoolTranslationTaskTest extends AdkTest {
 
     @InjectMocks

@@ -27,6 +27,10 @@ import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
+/**
+ * Translation task to map SIF EmploymentRecord to SLI teacherSchoolAssociation
+ *
+ */
 public class EmploymentRecordToTeacherSchoolTranslationTask extends
         AbstractTranslationTask<EmploymentRecord, TeacherSchoolAssociationEntity> {
 
