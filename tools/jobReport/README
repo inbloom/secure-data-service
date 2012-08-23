@@ -16,3 +16,13 @@ API server
 GUI
   The html file does not need to be served by a web server, it can be run directly from the file system.
   If you do want to serve from Tomcat, copy the contents of jobReport/gui to a new directory in your tomcat /webapps/ directory.
+
+Features:
+* List all the jobs on a default (localhost) or requested (via input field or 'mongo' url param) mongo host.
+* If any tenants are locked, display what job holds the lock and link to release the lock.
+* Summary information for a selected job from the above list.
+* If still running, information to indicate how much processing remains (including progress bar).
+* Pie chart depicting the breakdown of time spent in a job by stage.
+* Bar charts depicting the #records,total time, and rps for each entity in TransformationProcessor and PersistenceProcessor.
+* Ability to select multiple jobs on one mongo host (checkboxes) and view charts comparing their RPS for stages and individual entity performance in TransformationProcessor and PersistenceProcessor.
+* 'Hot link' for sharing that directly hits a mongo host ('mongo' url param) and job ('job' url param).

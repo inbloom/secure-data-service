@@ -18,8 +18,8 @@ And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into IDP URL
-And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into Redirect Endpoint
+And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
+And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
