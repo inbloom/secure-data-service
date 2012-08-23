@@ -16,6 +16,8 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.util.List;
+
 import org.slc.sli.api.client.Entity;
 
 /**
@@ -32,6 +34,7 @@ public interface SifIdResolver {
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
     public String getSliGuid(String sifId, String zoneId);
+    public List<String> getSliGuidList(String sifId, String zoneId);
 
     /**
      * Given a sif reference id, returns the sli guid of the entity of the corresponding sli type
@@ -45,6 +48,7 @@ public interface SifIdResolver {
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
     public String getSliGuidByType(String sifId, String sliType, String zoneId);
+    public List<String> getSliGuidListByType(String sifId, String sliType, String zoneId);
 
     /**
      * Given a sif reference id, returns corresponding sli entity
@@ -55,6 +59,7 @@ public interface SifIdResolver {
      * @return The SLI entity if the entity exists in SLI, null otherwise
      */
     public Entity getSliEntity(String sifId, String zoneId);
+    public List<Entity> getSliEntityList(String sifId, String zoneId);
 
     /**
      * Given a sif reference id, returns the sli entity of the corresponding sli type
@@ -69,6 +74,7 @@ public interface SifIdResolver {
      * @return The SLI entity if the entity exists in SLI, null otherwise
      */
     public Entity getSliEntityByType(String sifId, String sliType, String zoneId);
+    public List<Entity> getSliEntityListByType(String sifId, String sliType, String zoneId);
 
     /**
      * Given a sif Zone, returns the sli guid of the corresponding SEA

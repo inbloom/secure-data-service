@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2011-01-02</BeginDate> <!-- change: should make a new entity -->
+    <EndDate>2012-02-15</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>msmith</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2010-01-15</BeginDate>
+    <EndDate>2012-02-15</EndDate> <!-- change (add): should update existing entity -->
+    <StudentRecordAccess>false</StudentRecordAccess> <!-- change: should update existing entity -->
+  </StaffCohortAssociation>
+</InterchangeStudentCohort>

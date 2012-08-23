@@ -374,7 +374,7 @@ public class EntityRepositoryTest {
         assertEquals(1, repository.count("student", neutralQuery));
     }
 
-    @Test (expected = MongoException.class)
+    @Test
     public void testCreateRetryWithError() {
 
         Repository<Entity> mockRepo = Mockito.spy(repository);
@@ -387,12 +387,16 @@ public class EntityRepositoryTest {
         Mockito.doCallRealMethod().when(mockRepo)
                 .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
 
-        mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+        try {
+            mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+        } catch (MongoException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
 
         Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
     }
 
-    @Test (expected = InvalidDataAccessApiUsageException.class)
+    @Test
     public void testUpdateRetryWithError() {
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
@@ -404,8 +408,12 @@ public class EntityRepositoryTest {
                 .update("student", entity);
         Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
 
-        mockRepo.updateWithRetries("student", entity, noOfRetries);
+        try {
+            mockRepo.updateWithRetries("student", entity, noOfRetries);
+        } catch (InvalidDataAccessApiUsageException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
 
-        Mockito.verify(mockRepo, Mockito.times(3)).update("student", entity);
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity);
     }
 }

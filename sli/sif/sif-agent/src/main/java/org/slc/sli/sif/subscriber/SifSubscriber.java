@@ -110,9 +110,13 @@ public class SifSubscriber implements Subscriber {
                 break;
             case CHANGE:
                 // TODO, we can potentially get multiple matched entities
-                matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId(), zone.getZoneId());
+                List<Entity> matchedEntities = sifIdResolver.getSliEntityList(sifData.getRefId(), zone.getZoneId());
                 for (SliEntity sliEntity : entities) {
-                    changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
+                    for (Entity e : matchedEntities) {
+                        if (sliEntity.entityType().equals(e.getEntityType())) {
+                            changeEntity(sifData, sliEntity, zone.getZoneId(), e);
+                        }
+                    }
                 }
                 break;
             case UNDEFINED:

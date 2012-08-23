@@ -100,64 +100,142 @@ public class SifIdResolverCustomData implements SifIdResolver {
 
     @Override
     public String getSliGuid(String sifId, String zoneId) {
+        List<String> guidList = getSliGuidList(sifId, zoneId);
+        if (guidList != null && !guidList.isEmpty()) {
+            return guidList.get(0);
+        }
 
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidList(String sifId, String zoneId) {
         synchronized (lock) {
 
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            // check if it is in the map
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId));
-            return digUpSliGuid(sliId);
+            List<String> guidList = new ArrayList<String>();
+
+            List<Map<String, String>> listOfSliIds = idMap.get(sifId);
+            for (Map<String, String> sliIdMap : listOfSliIds) {
+                SliId sliId = new SliId(sliIdMap);
+                String guid = digUpSliGuid(sliId);
+                if (guid != null) {
+                    guidList.add(guid);
+                }
+            }
+
+            return guidList;
         }
     }
 
     @Override
     public String getSliGuidByType(String sifId, String sliType, String zoneId) {
+        List<String> guidList = getSliGuidListByType(sifId, sliType, zoneId);
+        if (guidList != null && !guidList.isEmpty()) {
+            return guidList.get(0);
+        }
 
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidListByType(String sifId, String sliType, String zoneId) {
         synchronized (lock) {
 
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId + "-" + sliType)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId + "-" + sliType));
-            return digUpSliGuid(sliId);
+            List<String> guidList = new ArrayList<String>();
+            // Return the first guid you find (in case type is repeated)
+            List<Map<String, String>> listOfSliIds = idMap.get(sifId + "-" + sliType);
+            for (Map<String, String> sliIdMap : listOfSliIds) {
+                SliId sliId = new SliId(sliIdMap);
+                String guid = digUpSliGuid(sliId);
+                if (guid != null) {
+                    guidList.add(guid);
+                }
+            }
+
+            return guidList;
         }
     }
 
     @Override
     public Entity getSliEntityByType(String sifId, String sliType, String zoneId) {
+        List<Entity> entityList = getSliEntityListByType(sifId, sliType, zoneId);
+        if (entityList != null && !entityList.isEmpty()) {
+            return entityList.get(0);
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityListByType(String sifId, String sliType, String zoneId) {
 
         synchronized (lock) {
 
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId + "-" + sliType)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId + "-" + sliType));
-            return digUpSliEntity(sliId);
+            List<Entity> entityList = new ArrayList<Entity>();
+
+            List<Map<String, String>> listOfSliIds = idMap.get(sifId + "-" + sliType);
+            for (Map<String, String> sliIdMap : listOfSliIds) {
+                SliId sliId = new SliId(sliIdMap);
+                Entity entity = digUpSliEntity(sliId);
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+
+            return entityList;
+
         }
     }
 
     @Override
     public Entity getSliEntity(String sifId, String zoneId) {
+        List<Entity> entityList = getSliEntityList(sifId, zoneId);
+        if (entityList != null && !entityList.isEmpty()) {
+            return entityList.get(0);
+        }
 
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityList(String sifId, String zoneId) {
         synchronized (lock) {
 
             // check if it is in the map
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             if (!idMap.containsKey(sifId)) {
                 return null;
             }
 
-            SliId sliId = new SliId(idMap.get(sifId));
-            return digUpSliEntity(sliId);
-        }
+            List<Entity> entityList = new ArrayList<Entity>();
 
+            List<Map<String, String>> listOfSliIds = idMap.get(sifId);
+            for (Map<String, String> sliIdMap : listOfSliIds) {
+                SliId sliId = new SliId(sliIdMap);
+                Entity entity = digUpSliEntity(sliId);
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+
+            return entityList;
+        }
     }
 
     @Override
@@ -178,13 +256,19 @@ public class SifIdResolverCustomData implements SifIdResolver {
             String seaGuid = getZoneSea(zoneId);
 
             // check if it is in the map
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
-            idMap.put(sifId, id.toMap());
+            List<Map<String, String>> existingIdList = idMap.get(sifId);
+            if (existingIdList == null) {
+                existingIdList = new ArrayList<Map<String, String>>();
+            }
+            existingIdList.add(id.toMap());
+
+            idMap.put(sifId, existingIdList);
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
-            String guid = slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
+            slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
         }
     }
 
@@ -196,13 +280,19 @@ public class SifIdResolverCustomData implements SifIdResolver {
             String seaGuid = getZoneSea(zoneId);
 
             // check if it is in the map
-            Map<String, Map<String, String>> idMap = getIdMap(zoneId);
+            Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
-            idMap.put(sifId + "-" + sliType, id.toMap());
+            List<Map<String, String>> existingIdList = idMap.get(sifId);
+            if (existingIdList == null) {
+                existingIdList = new ArrayList<Map<String, String>>();
+            }
+            existingIdList.add(id.toMap());
+
+            idMap.put(sifId + "-" + sliType, existingIdList);
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
-            String guid = slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
+            slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
         }
     }
 
@@ -228,7 +318,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
     // }
     // }
 
-    private Map<String, Map<String, String>> getIdMap(String zoneId) {
+    private Map<String, List<Map<String, String>>> getIdMap(String zoneId) {
 
         String seaGuid = getZoneSea(zoneId);
 
@@ -238,22 +328,23 @@ public class SifIdResolverCustomData implements SifIdResolver {
             Map<String, Object> rawMap = list.get(0).getData();
             return toSpecificMap(rawMap);
         }
-        return new HashMap<String, Map<String, String>>();
+        return new HashMap<String, List<Map<String, String>>>();
     }
 
-    private Map<String, Object> toGenericMap(Map<String, Map<String, String>> map) {
+    private Map<String, Object> toGenericMap(Map<String, List<Map<String, String>>> map) {
         Map<String, Object> result = new HashMap<String, Object>();
-        for (Entry<String, Map<String, String>> entry : map.entrySet()) {
+        for (Entry<String, List<Map<String, String>>> entry : map.entrySet()) {
             result.put(entry.getKey(), entry.getValue());
         }
         return result;
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Map<String, String>> toSpecificMap(Map<String, Object> map) {
-        Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
+    private Map<String, List<Map<String, String>>> toSpecificMap(Map<String, Object> map) {
+        Map<String, List<Map<String, String>>> result = new HashMap<String, List<Map<String, String>>>();
         for (Entry<String, Object> entry : map.entrySet()) {
-            result.put(entry.getKey(), (Map<String, String>) entry.getValue());
+            List<Map<String, String>> idList = (List<Map<String, String>>) entry.getValue();
+            result.put(entry.getKey(), idList);
         }
         return result;
     }
@@ -286,7 +377,13 @@ public class SifIdResolverCustomData implements SifIdResolver {
         if (retVal.size() > 1) {
             throw new RuntimeException("  SIF Ref ID Resolution error: resolves to more than one entity: " + sliId);
         }
-        return retVal.get(0);
+
+        Entity entity = retVal.get(0);
+        if ("staffEducationOrganizationAssociation".equals(entity.getEntityType())) {
+            entity = new GenericEntity("staffEducationOrgAssignmentAssociation", entity.getData());
+        }
+
+        return entity;
     }
 
     // init function helper

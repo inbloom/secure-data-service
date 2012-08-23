@@ -322,14 +322,14 @@ public class BatchJobMongoDATest {
     public void testExceptionSetStagedEntitiesForJob() {
         DBCollection collection = Mockito.mock(DBCollection.class);
         Mockito.when(mockMongoTemplate.getCollection("stagedEntities")).thenReturn(collection);
-        MongoException exception = Mockito.mock(MongoException.class);
+        MongoException exception = Mockito.mock(MongoException.DuplicateKey.class);
         Mockito.when(collection
                 .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
 
         Mockito.when(exception.getCode()).thenReturn(DUP_KEY_CODE);
         mockBatchJobMongoDA.setStagedEntitiesForJob(new HashSet<IngestionStagedEntity>(), "student");
 
-        Mockito.verify(exception, times(2)).getCode();
+        Mockito.verify(exception, times(1)).getCode();
    }
 
     @Test

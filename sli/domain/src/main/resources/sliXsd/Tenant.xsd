@@ -72,7 +72,22 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element name="preload" type="preload" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
    
+
+    <xs:complexType name="preload">
+    	<xs:sequence>
+    		<xs:element name="status">
+    			<xs:simpleType>
+    				<xs:restriction base="xs:token">
+    					<xs:enumeration value="ready"></xs:enumeration>
+    					<xs:enumeration value="started"></xs:enumeration>
+    				</xs:restriction>
+    			</xs:simpleType>
+    		</xs:element>
+    		<xs:element name="files" type="xs:string" maxOccurs="unbounded"></xs:element>
+    	</xs:sequence>
+    </xs:complexType>
 </xs:schema>
