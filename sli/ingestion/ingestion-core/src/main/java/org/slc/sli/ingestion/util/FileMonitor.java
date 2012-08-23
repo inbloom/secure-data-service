@@ -85,8 +85,8 @@ public class FileMonitor {
         for (File file : fileModifiedTimeCollection.keySet()) {
             long lastModifiedTime = fileModifiedTimeCollection.get(file).longValue();
             long newModifiedTime  = file.exists() ? file.lastModified() : -1;
-            // Chek if file has changed
-            if (newModifiedTime != lastModifiedTime) {
+            // Check if file has changed
+            if ((newModifiedTime != lastModifiedTime) || (newModifiedTime == -1)) {
                 try {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
