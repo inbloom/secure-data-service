@@ -37,14 +37,11 @@ import javax.ws.rs.core.UriInfo;
 @Scope("request")
 public class FourPartResource extends GenericResource {
 
-    @Autowired
-    private ResourceService resourceService;
-
     @GET
     public Response get(@Context final UriInfo uriInfo,
                         @PathParam("id") final String id) {
 
-        return handleGetAll(uriInfo, ResourceTemplate.FOUR_PART, ResourceMethod.GET, new GetResourceLogic() {
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.FOUR_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
                 final Resource base = resourceHelper.getBaseName(uriInfo, ResourceTemplate.FOUR_PART);
@@ -53,5 +50,6 @@ public class FourPartResource extends GenericResource {
                 return resourceService.getEntities(base, id, association, resource, uriInfo.getRequestUri());
             }
         });
+
     }
 }

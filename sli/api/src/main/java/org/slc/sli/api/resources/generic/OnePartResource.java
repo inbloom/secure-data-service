@@ -44,19 +44,22 @@ public class OnePartResource extends GenericResource {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        return handleGetAll(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
+
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 
                 return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
             }
         });
+
     }
 
     @POST
     public Response post(final EntityBody entityBody,
                          @Context final UriInfo uriInfo) {
-        return handle(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST, new ResourceLogic() {
+
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST, new ResourceLogic() {
             @Override
             public Response run(Resource resource) {
                 final String id = resourceService.postEntity(resource, entityBody);
@@ -67,5 +70,6 @@ public class OnePartResource extends GenericResource {
                 return Response.status(Response.Status.CREATED).header("Location", uri).build();
             }
         });
+
     }
 }

@@ -43,20 +43,18 @@ import javax.ws.rs.core.UriInfo;
 @Scope("request")
 public class TwoPartResource extends GenericResource {
 
-    @Autowired
-    private ResourceService resourceService;
-
 
     @GET
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
 
-        return handleGet(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
+        return getResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
                 return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
             }
         });
+
     }
 
     @PUT
@@ -64,7 +62,7 @@ public class TwoPartResource extends GenericResource {
                         final EntityBody entityBody,
                         @Context final UriInfo uriInfo) {
 
-        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
 
             public Response run(Resource resource) {
                 resourceService.putEntity(resource, id, entityBody);
@@ -78,7 +76,7 @@ public class TwoPartResource extends GenericResource {
     public Response delete(@PathParam("id") final String id,
                            @Context final UriInfo uriInfo) {
 
-        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.DELETE, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.DELETE, new ResourceLogic() {
             @Override
             public Response run(Resource resource) {
                 resourceService.deleteEntity(resource, id);
@@ -86,6 +84,7 @@ public class TwoPartResource extends GenericResource {
                 return Response.status(Response.Status.NO_CONTENT).build();
             }
         });
+
     }
 
     @PATCH
@@ -93,7 +92,7 @@ public class TwoPartResource extends GenericResource {
                           final EntityBody entityBody,
                           @Context final UriInfo uriInfo) {
 
-        return handle(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PATCH, new ResourceLogic() {
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PATCH, new ResourceLogic() {
 
             @Override
             public Response run(Resource resource) {

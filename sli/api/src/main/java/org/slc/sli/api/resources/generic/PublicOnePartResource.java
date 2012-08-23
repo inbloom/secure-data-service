@@ -43,13 +43,15 @@ public class PublicOnePartResource extends OnePartResource {
     @Override
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
-        return handleGetAll(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
+
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 
                 return resourceService.getEntities(resource, uriInfo.getRequestUri(), true);
             }
         });
+
     }
 
 }

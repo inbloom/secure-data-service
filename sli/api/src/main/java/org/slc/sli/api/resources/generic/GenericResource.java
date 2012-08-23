@@ -57,9 +57,6 @@ public abstract class GenericResource {
     @Autowired
     protected ResourceHelper resourceHelper;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupportedMethods;
-
     @Autowired
     protected GetResponseBuilder getResponseBuilder;
 
@@ -77,24 +74,7 @@ public abstract class GenericResource {
         public ServiceResponse run(Resource resource);
     }
 
-    protected Response handleGet(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
-                                 final GetResourceLogic logic) {
 
-        return getResponseBuilder.build(uriInfo, template, method, logic);
-    }
-
-    protected Response handleGetAll(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
-                                    final GetResourceLogic logic) {
-
-        return getAllResponseBuilder.build(uriInfo, template, method, logic);
-
-    }
-
-    protected Response handle(final UriInfo uriInfo, final ResourceTemplate template, final ResourceMethod method,
-                            final ResourceLogic logic) {
-
-        return defaultResponseBuilder.build(uriInfo, template, method, logic);
-    }
 
 
 
