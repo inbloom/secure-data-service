@@ -21,5 +21,4 @@
             </ns2:param>
         </ns2:request>
     </merge>
-    <merge type="node" action="removeAggs" xpath="//ns2:resource[@path='{id}/aggregations']" />
 </merges>
