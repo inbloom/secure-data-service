@@ -231,7 +231,6 @@ public class DefaultResourceServiceTest {
         String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
 
         List<EntityBody> entityBodyList = resourceService.getEntities(ssaResource,ssaId,resource,requestURI).getEntityBodyList();
-        System.out.print(entityBodyList);
         assertNotNull("Should return an entity", entityBodyList);
         assertEquals(id, entityBodyList.get(0).get("id").toString());
     }
