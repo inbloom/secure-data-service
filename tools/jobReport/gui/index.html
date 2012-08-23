@@ -42,6 +42,7 @@
       function listJobs() {
         $('#job_chooser').empty();
         $('#job_chooser_toggle').empty();
+        $('#tenant_job_lock').empty();
 
         clearJobSpecificDivs();
         
@@ -54,13 +55,21 @@
           $.each(jobs, function(key, val) {
             $('#job_chooser')
               .append('<input type="checkbox" class="job_checkbox" name="'+val._id+'" />')
-              .append('<a href="#" onclick="jobSummary(\''+val._id+'\');return false;">'+val._id+'</a> '+val.jobStartTimestamp+'<br/>');
+              .append('<a href="#" onclick="jobSummary(\''+val._id+'\');return false;">'+val._id+'</a> <i>'+val.jobStartTimestamp+'</i><br/>');
           });
 
           $('#job_chooser')
             .append('<input type="button" name="select" value="Select" onclick="jobCompare()">');
+
+          var tenantJobLocks = getApiResource('/tenantjoblock');
+          if (tenantJobLocks != null) {
+            $.each(tenantJobLocks, function(key, tenantJobLock) {
+              $('#tenant_job_lock')
+                .append('Tenant "' + tenantJobLock._id + '" is locked by job: <a href="#" onclick="jobSummary(\''+tenantJobLock.batchJobId+'\');return false;">' + tenantJobLock.batchJobId + '</a> <a href="#" onclick="releaseTenantJobLock(\''+tenantJobLock._id+'\');return false;">(release)</a><br/>');
+            });
+          }
         }
-        $('#job_chooser').show('fast');
+        $('#mongo_status').show('fast');
       }
 
       function jobSummary(jobId) {
@@ -497,6 +506,17 @@
         return jQuery.parseJSON(jsonData);
       }
 
+      function releaseTenantJobLock(tenantId) {
+        var jsonData = $.ajax({
+          url: API_URL + '/tenantjoblock/' + tenantId,
+          type: 'DELETE',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+        listJobs();
+      }
+
       function getRecordCountForJob(job) {
         var recordCount = 0;
         $.each(job.stages, function(key, val) {
@@ -533,7 +553,7 @@
       }
 
       function clearJobSpecificDivs() {
-        $('#job_chooser').hide('fast'); // hide the job chooser as it can be huge
+        $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
         $('#progressbar').hide();
         $('#stage_breakdown_piechart_div').empty();
@@ -546,10 +566,10 @@
       }
 
       function toggleJobChooser() {
-        if($('#job_chooser').is(':visible')) {
-          $('#job_chooser').hide('fast');
+        if($('#mongo_status').is(':visible')) {
+          $('#mongo_status').hide('fast');
         } else {
-          $('#job_chooser').show('fast');
+          $('#mongo_status').show('fast');
         }
       }
 
@@ -564,7 +584,12 @@
           </form>
         </div>
         <div id="job_chooser_toggle"></div>
-        <div id="job_chooser"></div>
+        <table id="mongo_status">
+          <tr>
+            <td><div id="job_chooser"></div></td>
+            <td><div id="tenant_job_lock"></div></td>
+          </tr>
+        </table>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
         <div id="progressbar"></div>

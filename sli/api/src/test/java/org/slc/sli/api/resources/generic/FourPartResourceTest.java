@@ -42,9 +42,9 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class ThreePartResourceTest {
+public class FourPartResourceTest {
     @Autowired
-    private ThreePartResource threePartResource;
+    private FourPartResource fourPartResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -55,16 +55,17 @@ public class ThreePartResourceTest {
     @Autowired
     private DefaultResourceService resourceService;
 
-    private Resource studentResource;
-    private Resource sectionResource;
-    private Resource ssaResource;
     private java.net.URI requestURI;
     private UriInfo uriInfo;
 
     private static final String BASE_URI = "http://some.net/api/rest/v1/students";
+    private Resource studentResource;
+    private Resource sectionResource;
+    private Resource ssaResource;
 
     @Before
     public void setup() throws Exception {
+
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
 
@@ -88,15 +89,16 @@ public class ThreePartResourceTest {
         });
     }
 
+
     @Test
     public void testGet() throws URISyntaxException {
         String studentId = resourceService.postEntity(studentResource, createTestEntity());
         String sectionId = resourceService.postEntity(sectionResource, createSectionEntity());
         String assocId = resourceService.postEntity(ssaResource,
                 createAssociationEntity(studentId, sectionId));
-        setupMocks(BASE_URI + "/" + studentId + "/studentSectionAssociations");
+        setupMocks(BASE_URI + "/" + studentId + "/studentSectionAssociations/sections");
 
-        Response response = threePartResource.get(uriInfo, studentId);
+        Response response = fourPartResource.get(uriInfo, studentId);
         assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
     }
 

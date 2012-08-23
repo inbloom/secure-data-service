@@ -42,15 +42,8 @@ public class ServiceResponse {
         return entityBodyList;
     }
 
-    public void setEntityBodyList(List<EntityBody> entityBodyList) {
-        this.entityBodyList = entityBodyList;
-    }
 
     public long getEntityCount() {
         return entityCount;
-    }
-
-    public void setEntityCount(long entityCount) {
-        this.entityCount = entityCount;
     }
 }

@@ -72,44 +72,7 @@ public class SectionGenerator {
         return s;
     }
 
-    public static Section generateMediumFiSliXsdRI(String sectionId, String schoolId, String courseId, String sessionId) {
-   	 Section section = new Section();
-//        String[] temp;
-//        temp = courseId.split("-");
-//        String courseTemp= temp[temp.length -1];
-//        section.setUniqueSectionCode(sectionId + "-" + courseTemp);
-        section.setUniqueSectionCode(sectionId);
-
-        System.out.println("===============SECTION size ==" + section.toString());
-//        section.setSequenceOfCourse(1);
-//        // construct and add the school reference
-//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-//        edOrgIdentityType.setStateOrganizationId(schoolId);
-//
-//        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
-//        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
-//
-//        section.setSchoolReference(schoolRef);
-//
-//        // construct and add the course reference
-//        CourseCode courseCode = new CourseCode();
-//        courseCode.setID(courseId);
-//        courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
-// 
-//        
-//        ObjectFactory of = new ObjectFactory();
-// 
-//        // construct and add the session reference
-//        SessionIdentityType sessionIdentity = new SessionIdentityType();
-//        sessionIdentity.setSessionName(sessionId);
-//
-//        SessionReferenceType sessionRef = new SessionReferenceType();
-//        sessionRef.setSessionIdentity(sessionIdentity);
-//
-//        section.setSessionReference(sessionRef);
-   
-        return section;
-   }
+ 
     
     public static Section generateMediumFi(String sectionId, String schoolId, String courseId, String sessionId) {
     	 Section section = new Section();
@@ -158,10 +121,7 @@ public class SectionGenerator {
 
          section.setSessionReference(sessionRef);
 
-         
-         
-
-         
+ 
          return section;
     }
 

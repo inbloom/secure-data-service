@@ -169,7 +169,7 @@ public interface CrudEndpoint {
     public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
 
     /**
-     * Get aggregates and derived values for the given entity.
+     * Get derived values for the given entity.
      *
      * @param id
      *            the id of the entity
@@ -178,7 +178,7 @@ public interface CrudEndpoint {
     public CalculatedDataListingResource<String> getCalculatedValueListings(String id);
 
     /**
-     * Get aggregates and derived values for the given entity, if applicable to this resource type
+     * Get aggregates and derived values for the given entity
      *
      * @param id
      *            the id of the entity
