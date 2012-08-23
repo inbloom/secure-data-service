@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
 	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
 	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
@@ -1669,9 +1668,6 @@
         <xs:annotation>
             <xs:documentation>The student's special education Service Provider</xs:documentation>
         </xs:annotation>
-        <xs:appinfo>
-            <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-        </xs:appinfo>
         <xs:sequence>
             <xs:element name="staffId" type="reference">
                 <xs:annotation>
@@ -4643,10 +4639,12 @@
 				address, city, state, and ZIP code.
 			</xs:documentation>
 		</xs:annotation>
+		<!-- 
         <xs:annotation>
             <xs:documentation>NOTE: 'address' does not support ed-fi AddressLine / international choice
             </xs:documentation>
         </xs:annotation>
+         -->
 		<xs:sequence>
 			<xs:element name="streetNumberName">
 				<xs:annotation>

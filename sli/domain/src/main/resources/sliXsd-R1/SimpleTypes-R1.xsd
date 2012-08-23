@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://slc-sli/ed-org/0.1"
-	elementFormDefault="qualified" attributeFormDefault="qualified"
-	xmlns:sli="http://slcedu.org/schema/0100" xmlns="http://slc-sli/ed-org/0.1">
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:sli="http://slcedu.org/schema/0100" xmlns="http://slc-sli/ed-org/0.1">
 
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 

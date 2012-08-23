@@ -102,6 +102,7 @@ public class StateEdFiXmlGenerator {
         
         	generateAndMarshalInterchangesForSliXsdRI();
         	
+        	
         }
         else {
  
@@ -154,6 +155,7 @@ public class StateEdFiXmlGenerator {
     private static void generateAndMarshalInterchangesForSliXsdRI() throws Exception {
     	
              section();
+             masterSchedule();
          
     }
     private static void generateAndMarshalInterchanges() throws Exception {
