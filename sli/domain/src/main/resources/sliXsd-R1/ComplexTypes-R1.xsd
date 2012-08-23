@@ -2235,12 +2235,18 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
+			<xs:element name="studentUniqueStateId" type="uniqueStateIdentifier">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						a student by a state education agency.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2256,9 +2262,6 @@
 						enters and
 						begins to receive instructional services in a school.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="entryGradeLevel" type="gradeLevelType">
@@ -2326,9 +2329,6 @@
 						officially that
 						an individual left school.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="exitWithdrawType" type="exitWithdrawType"
@@ -2351,15 +2351,9 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="attendance" type="attendance" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="attendanceEvent" type="attendanceEvent" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Attendance records of the student per school.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Report cards for the student.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2418,6 +2412,14 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="sectionIds" type="reference">
+				<xs:annotation>
+					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>section</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="programIds" type="reference">
 				<xs:annotation>
 					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
@@ -2434,14 +2436,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sectionIds" type="reference">
-				<xs:annotation>
-					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -2450,16 +2444,12 @@
 			<xs:documentation>This entity represents an individual for whom
 				instruction, services
 				and/or care are provided in an early childhood,
-				elementary or secondary
-				educational
+				elementary or secondary educational
 				program under the jurisdiction of
 				a school, education agency, or other
-				institution
-				or program. A student
+				institution or program. A student
 				is a person who has been enrolled in a school or
-				other
-				educational
-				institution.
+				other educational institution.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>student</sli:CollectionType>
@@ -2492,8 +2482,7 @@
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Other names (e.g., alias, nickname, previous
-						legal
-						name) associated with a person.
+						legal name) associated with a person.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
@@ -2527,8 +2516,7 @@
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The 10-digit telephone number, including the
-						area
-						code, for the person.
+						area code, for the person.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
@@ -2542,8 +2530,7 @@
 					<xs:documentation>The numbers, letters, and symbols used to
 						identify an
 						electronic mail (e-mail) user within the network to
-						which the
-						individual or organization belongs.
+						which the individual or organization belongs.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
@@ -2582,11 +2569,9 @@
 					<xs:documentation>Previous definition of Ethnicity combining
 						Hispanic/Latino and race:
 						1 - American Indian or Alaskan Native
-						2 -
-						Asian or Pacific Islander
+						2 - Asian or Pacific Islander
 						3 - Black, not of Hispanic origin
-						4 -
-						Hispanic
+						4 - Hispanic
 						5 - White, not of Hispanic origin
 					</xs:documentation>
 				</xs:annotation>
@@ -2624,10 +2609,8 @@
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>An indication of a student's level of
-						eligibility
-						for
-						breakfast, lunch, snack, supper, and milk
-						programs.
+						eligibility for
+						breakfast, lunch, snack, supper, and milk programs.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
@@ -2679,8 +2662,7 @@
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The disability condition(s) that best describes
-						an
-						individual's impairment.
+						an individual's impairment.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2688,8 +2670,7 @@
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>A categorization of the disabilities associated
-						with a
-						student pursuant to Section 504.
+						with a student pursuant to Section 504.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2706,9 +2687,7 @@
 						event
 						that
 						displaces a group of students, and may require
-						additional
-						funding,
-						educational, or social services.
+						additional funding, educational, or social services.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2727,8 +2706,7 @@
 					<xs:documentation>Indicator(s) or metric(s) computed for the
 						student
 						(e.g., at risk) to influence more effective education or
-						direct
-						specific interventions.
+						direct specific interventions.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2761,19 +2739,6 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Grades for the classes
-						attended by the student
-						for
-						this grading period.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="cumulativeCreditsEarned" type="credits"
 				minOccurs="0">
 				<xs:annotation>
@@ -2910,13 +2875,32 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="courseTranscript" type="courseTranscript" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The course transcripts of the academic record.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+			<xs:element name="sessionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Grades for the classes
+						attended by the student
+						for
+						this grading period.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Report cards for the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="courseTranscript" type="courseTranscript" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The course transcripts of the academic record.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentAssessment">
@@ -3794,8 +3778,7 @@
 			<xs:element name="courseAttemptResult" type="courseAttemptResultType">
 				<xs:annotation>
 					<xs:documentation>The result from the student's attempt to take
-						the
-						course, for example:
+						the course, for example:
 						Pass
 						Fail
 						Incomplete
@@ -5437,17 +5420,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradingPeriodId" type="reference"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Identifies the grading period for the grade.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -5505,16 +5477,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="gradingPeriod">
+	<xs:complexType name="gradingPeriodSimple">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents the time span for which
-				grades are reported.
+				grades are reported without calendar dates.
 			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>gradingPeriod</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
@@ -5563,6 +5531,29 @@
 						<xs:minInclusive value="0" />
 					</xs:restriction>
 				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="gradingPeriod">
+		<xs:annotation>
+			<xs:documentation>
+				This entity represents the time span for which
+				grades are reported, extended off GradingPeriodSimple
+				to include calendarDates.
+			</xs:documentation>
+			<xs:appinfo>
+				<sli:CollectionType>gradingPeriod</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gradingPeriodSimple" type="gradingPeriodSimple">
+				<xs:annotation>
+					<xs:documentation>
+						The base grading period info
+					</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 			<xs:element name="calendarDateReference" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
@@ -6850,18 +6841,15 @@
 			<xs:element name="grades" type="grade" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
-                        Grades for the classes attended by the student for this grading period.
-                    </xs:documentation>
+						Grades for the classes attended by the student for this grading period.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentCompetencyId" type="reference"
+			<xs:element name="studentCompetency" type="studentCompetency"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The student competency evaluations associated for
 						this grading period.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>studentCompetency</sli:ReferenceType>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="gpaGivenGradingPeriod" type="xs:double">
@@ -6913,16 +6901,12 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<!-- TODO remove minOccurs=0 -->
-			<xs:element name="gradingPeriodId" type="reference"
+			<xs:element name="gradingPeriod" type="gradingPeriod"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for this report
-						card.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
+						card.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
