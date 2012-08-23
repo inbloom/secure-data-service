@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import static org.junit.Assert.assertEquals;
@@ -57,6 +56,11 @@ import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the resource representing a tenant
@@ -71,7 +75,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 public class TenantResourceTest {
 
     @Autowired
-    TenantResourceImpl tenantResource; // class under test
+    private TenantResourceImpl tenantResource; // class under test
 
     @Autowired
     private SecurityContextInjector injector;
@@ -373,4 +377,19 @@ public class TenantResourceTest {
         return id;
     }
 
+    @Test
+    public void testLandingZoneLocked() {
+        @SuppressWarnings("unchecked")
+        Repository<Entity> mockRepo = mock(Repository.class);
+        IngestionTenantLockChecker lockChecker = new IngestionTenantLockChecker(mockRepo);
+        when(mockRepo.findOne("tenantJobLock", new NeutralQuery(new NeutralCriteria("_id", "=", "myTenant"))))
+                .thenReturn(new MongoEntity("tenantJobLock", new HashMap<String, Object>()));
+        tenantResource.setLockChecker(lockChecker);
+        try {
+            tenantResource.createLandingZone("myTenant", "myEdorg", Arrays.asList("small"), true);
+            fail("creating a landing zone should have failed if the landing zone is locked");
+        } catch (TenantResourceCreationException e) {
+            assertEquals(Status.CONFLICT, e.getStatus());
+        }
+    }
 }
