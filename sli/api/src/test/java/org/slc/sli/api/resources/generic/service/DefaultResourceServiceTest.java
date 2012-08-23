@@ -52,6 +52,8 @@ public class DefaultResourceServiceTest {
     private URI requestURI;
 
     private static final String URI = "http://some.net/api/generic/v1/students";
+    private Resource ssaResource = null;
+    private Resource sectionResource = null;
 
     @Before
     public void setup() throws Exception {
@@ -59,6 +61,8 @@ public class DefaultResourceServiceTest {
         injector.setAdminContextWithElevatedRights();
 
         resource = new Resource("v1", "students");
+        ssaResource = new Resource("v1", "studentSectionAssociations");
+        sectionResource = new Resource("v1", "sections");
 
         requestURI = new java.net.URI(URI);
     }
@@ -207,6 +211,42 @@ public class DefaultResourceServiceTest {
         assertEquals("Should match", 1, count.longValue());
     }
 
+    @Test
+    public void testThreePartUri() {
+        //post new student entity
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
+        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+
+        List<EntityBody> entityBodyList = resourceService.getEntities(resource,id,ssaResource,requestURI).getEntityBodyList();
+        assertNotNull("Should return an entity", entityBodyList);
+        assertEquals(ssaId, entityBodyList.get(0).get("id").toString());
+    }
+
+    @Test
+    public void testGetEntitiesWithAssociation() {
+        //post new student entity
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
+        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+
+        List<EntityBody> entityBodyList = resourceService.getEntities(ssaResource,ssaId,resource,requestURI).getEntityBodyList();
+        System.out.print(entityBodyList);
+        assertNotNull("Should return an entity", entityBodyList);
+        assertEquals(id, entityBodyList.get(0).get("id").toString());
+    }
+
+    @Test
+    public void testFourPartURI() {
+        //post new student entity
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
+        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+
+        List<EntityBody> entityBodyList = resourceService.getEntities(resource,id,ssaResource,sectionResource,requestURI).getEntityBodyList();
+        assertNotNull("Should return an entity", entityBodyList);
+        assertEquals(secId, entityBodyList.get(0).get("id").toString());
+    }
 
     private String getIDList() {
         // create one entity
@@ -221,6 +261,18 @@ public class DefaultResourceServiceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Male");
         entity.put("studentUniqueStateId", 1234);
+        return entity;
+    }
+
+    private Map<String,String> createTestSSAEntity(String studentId,String secId) {
+        Map<String, String> entity = new HashMap<String,String>();
+        entity.put("studentId",studentId);
+        entity.put("sectionId",secId);
+        return  entity;
+    }
+    private Map<String, Object> createTestSectionEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sectionUniqueId", 1234);
         return entity;
     }
 
