@@ -1,13 +1,13 @@
 {"_id" : "2012km-33530ded-e618-11e1-a48d-3c07546d6513",
   "type" : "custom_entities",
   "body" : {
-    "201208089D75101A8C3D00AA001A1652" : { "field" : "stateOrganizationId", "value" : "Flying Dutchman", "type" : "school" },
-    "20120808934983498C3D00AA00495948" : { "field" : "studentUniqueStateId", "value" : "bootstrapturner", "type" : "student" },
-    "73648462888624AA5294BC6380173276" : { "field" : "stateOrganizationId", "value" : "Daybreak School District 4530", "type" : "educationOrganization" },
-    "20120822888624AA5294BC6380173276" : { "field" : "stateOrganizationId", "value" : "IL-BOOTSTRAP", "type" : "educationOrganization" },
-    "20120821190817988094852308234014" : { "field" : "staffUniqueStateId", "value" : "C2345681", "type" : "staff" },
-    "AAAAAAAAAAAAAAAA101A8C3D00AA001A" : { "field" : "staffUniqueStateId", "value" : "C2345681", "type" : "staff" },
-    "20120822098345701280398059809328" : { "field" : "staffUniqueStateId", "value" : "C1234567", "type" : "teacher" }
+    "201208089D75101A8C3D00AA001A1652" : [ { "field" : "stateOrganizationId", "value" : "Flying Dutchman", "type" : "school" } ],
+    "20120808934983498C3D00AA00495948" : [ { "field" : "studentUniqueStateId", "value" : "bootstrapturner", "type" : "student" } ],
+    "73648462888624AA5294BC6380173276" : [ { "field" : "stateOrganizationId", "value" : "Daybreak School District 4530", "type" : "educationOrganization" } ],
+    "20120822888624AA5294BC6380173276" : [ { "field" : "stateOrganizationId", "value" : "IL-BOOTSTRAP", "type" : "educationOrganization" } ],
+    "20120821190817988094852308234014" : [ { "field" : "staffUniqueStateId", "value" : "C2345681", "type" : "staff" } ],
+    "AAAAAAAAAAAAAAAA101A8C3D00AA001A" : [ { "field" : "staffUniqueStateId", "value" : "C2345681", "type" : "staff" } ],
+    "20120822098345701280398059809328" : [ { "field" : "staffUniqueStateId", "value" : "C1234567", "type" : "teacher" } ]
   },
   "metaData" : {"tenantId" : "Midgar", "clientId" : "bZEkFldWJT", "entityId" : "2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f"}
 }

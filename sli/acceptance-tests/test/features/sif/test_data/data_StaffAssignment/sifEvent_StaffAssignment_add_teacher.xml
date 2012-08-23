@@ -2,7 +2,7 @@
   <SIF_Event>
     <SIF_Header>
       <SIF_MsgId>***SUB SIF MSG ID***</SIF_MsgId>
-      <SIF_Timestamp>2012-08-20T14:39:42-04:00</SIF_Timestamp>
+      <SIF_Timestamp>2012-08-20T14:39:37-04:00</SIF_Timestamp>
       <SIF_Security>
         <SIF_SecureChannel>
           <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
@@ -15,10 +15,10 @@
       </SIF_Contexts>
     </SIF_Header>
     <SIF_ObjectData>
-      <SIF_EventObject ObjectName="StaffAssignment" Action="Change">
-        <StaffAssignment RefId="D3E34B359D75101A8C3D00AA001A1652" SchoolInfoRefId="D3E34B359D75101A8C3D00AA001A1652" SchoolYear="2013" StaffPersonalRefId="20120816934983498C3D00AA00495948">
+      <SIF_EventObject ObjectName="StaffAssignment" Action="Add">
+        <StaffAssignment RefId="201208219D75101A8C3D00AA001A1652" SchoolInfoRefId="201208089D75101A8C3D00AA001A1652" SchoolYear="2013" StaffPersonalRefId="20120822098345701280398059809328">
           <Description>Twelfth grade computer science teacher</Description>
-          <PrimaryAssignment>No</PrimaryAssignment>
+          <PrimaryAssignment>Yes</PrimaryAssignment>
           <JobStartDate>2010-08-01</JobStartDate>
           <JobEndDate>2013-07-31</JobEndDate>
           <JobFTE>1</JobFTE>
@@ -37,7 +37,7 @@
           <InstructionalLevel>
             <Code>0576</Code>
           </InstructionalLevel>
-          <EmployeePersonalRefId>1652D3E34F419D75101A8C3D00AA001A</EmployeePersonalRefId>
+          <!-- TODO <EmployeePersonalRefId>1652D3E34F419D75101A8C3D00AA001A</EmployeePersonalRefId> -->
         </StaffAssignment>
       </SIF_EventObject>
     </SIF_ObjectData>

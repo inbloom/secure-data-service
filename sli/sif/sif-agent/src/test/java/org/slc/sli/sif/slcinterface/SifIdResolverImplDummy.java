@@ -17,6 +17,7 @@
 package org.slc.sli.sif.slcinterface;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.api.client.Entity;
@@ -69,7 +70,26 @@ public class SifIdResolverImplDummy implements SifIdResolver {
 
     @Override
     public Entity getSliEntityByType(String sifId, String sliType, String zoneId) {
-        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidList(String sifId, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidListByType(String sifId, String sliType, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityList(String sifId, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityListByType(String sifId, String sliType, String zoneId) {
         return null;
     }
 }

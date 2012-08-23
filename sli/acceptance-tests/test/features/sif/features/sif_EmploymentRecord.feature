@@ -213,7 +213,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation | 1     |
      | teacherSchoolAssociation              | 0     |
 
-Scenario: Negative Testing - Update an EmploymentRecord for a staff and educationOrganization which doesn't exist
+Scenario: Negative Testing - Update an EmploymentRecord which doesn't exist - staff and educationOrganization
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName                        |
      | educationOrganization                 |
