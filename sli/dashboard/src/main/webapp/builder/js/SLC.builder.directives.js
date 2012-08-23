@@ -84,7 +84,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			transclude: true,
 			scope: {},
 			controller: function($scope, $element, dbSharedService) {
-				var panes = $scope.panes = [];
+				var panes = $scope.panes = [],
+					parent = $scope.$parent;
 
 				$scope.select = function(pane) {
 					angular.forEach(panes, function(pane) {
@@ -111,7 +112,12 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				});
 
 				$scope.addPage = function () {
-					dbSharedService.showModal("#modalBox", {mode: "page", id: "", modalTitle: "Add New Page", contentJSON: "[]", pageTitle: ""});
+					var pageId = dbSharedService.generatePageId(parent.pages);
+					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
+					parent.saveProfile(function () {
+						$scope.select(panes[panes.length-1]);
+					});
+
 				};
 			},
 			template:

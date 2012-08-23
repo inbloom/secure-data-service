@@ -84,7 +84,7 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		}
 
 		try {
-			if (configs.mode === "page" && configs.id === "") { // add new page
+			if (configs.mode === "page" && configs.id === "") { // add a new page
 				var pageId = dbSharedService.generatePageId($scope.pages);
 				$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), parentId:pageId, type:"TAB"});
 			}
@@ -132,19 +132,16 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		$scope.selectedPanels = [];
 	};
 
-	$scope.saveProfile = function () {
+	$scope.saveProfile = function (callback) {
 		$scope.profileItemArray = $scope.panels.concat($scope.pages);
 		$scope.profile.items = $scope.profileItemArray;
-		dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
+		dbSharedService.saveDataSource(angular.toJson($scope.profile), callback); // Save profile to the server
+
 	};
 
 	$scope.removePageFromProfile = function (index) {
 		$scope.pages.splice(index, 1);
 		$scope.saveProfile();
-	};
-
-	$scope.addPage = function () {
-		dbSharedService.showModal("#modalBox", {mode: "page", id: "", modalTitle: "Add New Page", contentJSON: "[]", pageTitle: ""});
 	};
 
 	$scope.showPageDetails = function () {

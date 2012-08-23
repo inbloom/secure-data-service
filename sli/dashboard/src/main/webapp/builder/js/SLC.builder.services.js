@@ -84,13 +84,16 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			$.extend(modalConfig, modalCfg);
 		}
 
-		function saveDataSource(profileData) {
+		function saveDataSource(profileData, callback) {
 			$http({
 				method: 'POST',
 				url: '../s/c/cfg',
 				data: profileData
 			}).success(function() {
 				console.log("success");
+				if(callback) {
+					callback();
+				}
 			}).error(function(data, status, headers, config) {
 				console.log("fail");
 				showError(status, null);
