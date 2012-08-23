@@ -71,7 +71,7 @@ class LandingZone
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
 
-    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant, :preloadFiles => sample_data_select)
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end

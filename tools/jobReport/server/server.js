@@ -22,9 +22,10 @@ function createConnection(host) {
   // create model object for newBatchJob
   // Mongoose#model(name, [schema], [collection], [skipInit])
   var Error = con.model('Error', schema, 'error'); 
-  var NewBatchJob = con.model('NewBatchJob', schema, 'newBatchJob'); 
-  var BatchJobStage = con.model('BatchJobStage', schema, 'batchJobStage'); 
-  var StagedEntities = con.model('StagedEntities', schema, 'stagedEntities'); 
+  var NewBatchJob = con.model('NewBatchJob', schema, 'newBatchJob');
+  var BatchJobStage = con.model('BatchJobStage', schema, 'batchJobStage');
+  var StagedEntities = con.model('StagedEntities', schema, 'stagedEntities');
+  var TenantJobLock = con.model('TenantJobLock', schema, 'tenantJobLock');
 
   // map of our model vars for generic route lookup
   var routeMap = {
@@ -32,7 +33,8 @@ function createConnection(host) {
     'job': { 'model': NewBatchJob, 'allQuery':  findAll },
     'jobids': { 'model': NewBatchJob, 'allQuery':  findAllIds },
     'stage': { 'model': BatchJobStage, 'allQuery':  findAll, 'jobJoinQuery': findJoinJobId  },
-    'stagedentities': { 'model': StagedEntities, 'allQuery':  findAll, 'jobJoinQuery': findJoinJobId  }
+    'stagedentities': { 'model': StagedEntities, 'allQuery':  findAll, 'jobJoinQuery': findJoinJobId  },
+    'tenantjoblock': { 'model': TenantJobLock, 'allQuery':  findAll },
   };
 
   var mapObj = { 'routeMap': routeMap };
@@ -139,10 +141,22 @@ function genericFind(req, res, next) {
   }
 }
 
+function delTenantJobLock(req,res,next) {
+  var mongo = req.header('X-Api-Version', 'localhost:27017');
+  console.log('DEL Request: %s/%s/%s', mongo, 'tenantjoblock', req.params.id);
+  
+  var model = getOrCreateConnection(mongo).routeMap['tenantjoblock'].model;
+  model.remove({ '_id': req.params.id }, function (err, tenantJobLock) {
+    console.log(tenantJobLock);
+    res.send(200);
+  });
+}
+
 // Set up our routes and start the server
 server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)\/(.*)/, genericFind);
 server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)/, genericFind);
 server.get(/^\/([a-zA-Z0-9_\.~-]+)/, genericFind);
+server.del('/tenantjoblock/:id', delTenantJobLock);
 
 server.listen(8080, function() {
   console.log('%s jobReport server started and listening at %s', server.name, server.url);
