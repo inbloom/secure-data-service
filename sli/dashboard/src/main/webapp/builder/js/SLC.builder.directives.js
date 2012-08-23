@@ -16,6 +16,7 @@
 
 /*
  * SLC Dashboard Builder Directives
+ * Contains SLC builder header, footer, modal window, tabs directives
  */
 /*global angular $*/
 
@@ -24,7 +25,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 		return {
 			restrict: 'E',
 			templateUrl: "js/templates/header.html",
-			controller: function($scope, $element, dbSharedService) {
+			controller: function($scope, $element) {
 				$element.find("#SLCPortalHeader").load("../s/m/header");
 			}
 		};
@@ -32,8 +33,22 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 	.directive("ngFooter", function () {
 		return {
 			restrict: 'E',
-			controller: function($scope, $element, dbSharedService) {
+			controller: function($scope, $element) {
 				$element.load("../s/m/footer");
+			}
+		};
+	})
+	.directive("ngFocus", function () {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				scope.$watch(attrs.ngFocus, function(newValue, oldValue){
+					if(newValue) {
+						window.setTimeout(function(){
+							element.focus();
+						},100);
+					}
+				}, true);
 			}
 		};
 	})
@@ -90,6 +105,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				$scope.select = function(pane) {
 					angular.forEach(panes, function(pane) {
 						pane.selected = false;
+						parent.checked = false;
 					});
 					pane.selected = true;
 				};
@@ -116,8 +132,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
 					parent.saveProfile(function () {
 						$scope.select(panes[panes.length-1]);
+						parent.checked = true;
 					});
-
 				};
 			},
 			template:
@@ -135,13 +151,13 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			replace: true
 		};
 	}).
-		directive('pane', function(dbSharedService) {
+		directive('pane', function() {
 			return {
 				require: '^tabs',
 				restrict: 'E',
 				transclude: true,
 				scope: { title: '@' },
-				link: function(scope, element, attrs, tabsCtrl, dbSharedService) {
+				link: function(scope, element, attrs, tabsCtrl) {
 					tabsCtrl.addPane(scope);
 				},
 				template:

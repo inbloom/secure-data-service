@@ -16,6 +16,7 @@
 
 /*
  * SLC Dashboard Builder Services
+ * Contains all SLC builder API calls and shared service called "dbSharedService for all the controllers"
  */
 /*global $ angular console*/
 angular.module('SLC.builder.sharedServices', ['ngResource'])

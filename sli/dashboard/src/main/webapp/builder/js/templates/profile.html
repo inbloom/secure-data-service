@@ -6,7 +6,7 @@
             <div class="show-{{!checked}}"><strong>Page title:</strong> {{page.name}} <a ng-click="editPageTitle();"><i class="icon-edit"></i></a></div>
             <div class="show-{{checked}}">
                 <form ng-submit="savePageTitle();">
-                    <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" required>
+                    <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" ng-focus="checked" required>
                     <button class="btn btn-primary" ng-click="savePageTitle();" >save</button>
                     <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
                 </form>
@@ -45,8 +45,8 @@
         </ul>
         <ul id="panelSelectable">
             <li ng-repeat="panel in allPanels" class="well well-small">
-                <div class="educationAgencyName pull-right">{{panel.educationAgencyName}}</div>
-                <div class="panelName">{{panel.id}}</div>
+                <span class="educationAgencyName pull-right">{{panel.educationAgencyName}}</span>
+                <span class="panelName">{{panel.id}}</span>
             </li>
         </ul>
     </div>
