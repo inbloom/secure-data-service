@@ -45,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.api.client.Link;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -1510,4 +1511,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         ret.add(sdf.format(endDate));
         return ret;
     }
+
+	@Override
+	public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
+		return entityManager.getEdorgProfile(token, (String) edorgId);
+	}
 }

@@ -18,6 +18,7 @@ package org.slc.sli.dashboard.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Link;
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.ContactSorter;
@@ -316,4 +318,29 @@ public class EntityManager extends ApiClientManager {
         return section;
     }
 
+    
+    public GenericEntity getEdorgProfile(String token, String id) {
+		// TODO Auto-generated method stub
+		GenericEntity edorg = getApiClient().getEducationalOrganization(token, id);
+		GenericEntity ge = new GenericEntity();
+		
+		if(edorg != null) {
+			ge.put(Constants.ATTR_NAME_OF_INST, edorg.getString(Constants.ATTR_NAME_OF_INST));
+			Link link = edorg.getLink(Constants.ATTR_GET_FEEDER_SCHOOLS);
+			List<GenericEntity> schools = getApiClient().readEntityList(token, link.getResourceURL().toString());
+			LinkedList<GenericEntity> schoolList = new LinkedList<GenericEntity>();
+			
+			for (GenericEntity school : schools) {
+				GenericEntity tempSchool = new GenericEntity();
+				tempSchool.put(Constants.ATTR_ID, school.getString(Constants.ATTR_ID));
+				tempSchool.put(Constants.ATTR_NAME_OF_INST, school.getString(Constants.ATTR_NAME_OF_INST));
+				schoolList.add(tempSchool);
+			}
+			
+		ge.put("schoolList", schoolList);
+		}
+
+		return ge;    	
+    }
+    
 }
