@@ -46,6 +46,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -408,7 +409,7 @@ public class NeutralRecordRepositoryTest {
         assertEquals(2, repository.countByQuery(collectionName, mongoQuery));
     }
 
-    @Test (expected = MongoException.class)
+    @Test
     public void testInsertWithError() {
 
         NeutralRecordRepository mockRepo = Mockito.spy(repository);
@@ -416,14 +417,17 @@ public class NeutralRecordRepositoryTest {
         int noOfRetries = 5;
 
         Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo).insert(record);
-        Mockito.doCallRealMethod().when(mockRepo).insertWithRetries(record, noOfRetries);
 
-        mockRepo.insertWithRetries(record, noOfRetries);
+        try {
+            mockRepo.insertWithRetries(record, noOfRetries);
+        } catch (MongoException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
 
         Mockito.verify(mockRepo, Mockito.times(noOfRetries)).insert(record);
     }
 
-    @Test (expected = DataAccessResourceFailureException.class)
+    @Test
     public void testInsertAllWithError() {
 
         NeutralRecordRepository mockRepo = Mockito.spy(repository);
@@ -435,10 +439,25 @@ public class NeutralRecordRepositoryTest {
         int noOfRetries = 5;
 
         Mockito.doThrow(new DataAccessResourceFailureException("Test Exception")).when(mockRepo).insertAll(batchOfRecords, collectionName);
-        Mockito.doCallRealMethod().when(mockRepo).insertAllWithRetries(batchOfRecords, collectionName, noOfRetries);
 
-        mockRepo.insertAllWithRetries(batchOfRecords, collectionName, noOfRetries);
+        try {
+            mockRepo.insertAllWithRetries(batchOfRecords, collectionName, noOfRetries);
+        } catch (DataAccessResourceFailureException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
 
         Mockito.verify(mockRepo, Mockito.times(noOfRetries)).insertAll(batchOfRecords, collectionName);
+    }
+
+    @Test
+    public void testRetry() {
+        NeutralRecordRepository mockRepo = Mockito.spy(repository);
+        NeutralRecord record = buildTestStudentNeutralRecord();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new UncategorizedMongoDbException("Operation Failed", new MongoException("Test Exception"))).doReturn(record).when(mockRepo).insert(record);
+        mockRepo.insertWithRetries(record, noOfRetries);
+
+        Mockito.verify(mockRepo, Mockito.times(2)).insert(record);
     }
 }

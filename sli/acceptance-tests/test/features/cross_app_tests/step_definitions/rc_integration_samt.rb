@@ -25,16 +25,16 @@ require 'digest'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../utils/email.rb'
 
 SEA_ADMINISTRATOR_EMAIL = 'testuser0.wgen@gmail.com'
-EMAIL_PASSWORD = 'liferaywgen'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @do_not_run_after = true
 end
 
 When /^I navigate to the user account management page$/ do
+  @do_not_run_after = true
   samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
 end
@@ -86,7 +86,7 @@ end
 
 Then /^I set my password to "(.*?)"$/ do |password|
   first_name = @user_full_name.split(" ", 2)[0]
-  content = check_email_rc(first_name) do
+  content = check_email_rc(first_name, @user_email) do
     @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @user_email
@@ -103,7 +103,7 @@ Then /^I set my password to "(.*?)"$/ do |password|
   puts "reset password link = #{reset_password_link}"
   @driver.get(reset_password_link)
 
-  @welcome_email_content = check_email_rc(first_name) do
+  @welcome_email_content = check_email_rc(first_name, @user_email) do
     @driver.find_element(:id, "new_account_password_new_pass").clear
     @driver.find_element(:id, "new_account_password_new_pass").send_keys password
     @driver.find_element(:id, "new_account_password_confirmation").clear
@@ -162,45 +162,4 @@ end
 Then /^the newly created user has (.*?) updated to (.*?)$/ do |field_name, value|
   @user_unique_id=@user_email
   step "the user has #{field_name} updated to #{value}"
-end
-
-def check_email_rc(subject_substring = nil, content_substring)
-  imap_host = 'imap.gmail.com'
-  imap_port = 993
-  imap_user = @user_email
-  imap_password = EMAIL_PASSWORD
-  imap = Net::IMAP.new(imap_host, imap_port, true)
-  imap.login(imap_user, imap_password)
-  imap.examine('INBOX')
-  not_so_distant_past = Date.today.prev_day.prev_day
-  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  imap.disconnect
-
-  yield
-
-  retry_attempts = 30
-  retry_attempts.times do
-    sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.login(imap_user, imap_password)
-    imap.examine('INBOX')
-
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
-    unless(messages_new.empty?)
-      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      messages.each do |message|
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
-          return content
-        end
-      end
-    end
-    imap.disconnect
-  end
-  fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end
