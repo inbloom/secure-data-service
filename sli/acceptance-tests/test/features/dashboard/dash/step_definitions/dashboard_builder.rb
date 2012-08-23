@@ -117,14 +117,14 @@ def hoverOverPage(pageName, mode)
   assert(page != nil, "Page #{pageName} is not found")
   
   @driver.action.move_to(page).perform
-  page.find_element(:tag_name,"a")
+  link = page.find_element(:tag_name,"a")
 
   if (mode == "edit")
-    page.click
+    link.click
     #TODO
   elsif (mode == "delete")
-    page.click
-    @driver.find_element(:id, "removePage").click
+    link.click
+    @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
   end  
 end
 
