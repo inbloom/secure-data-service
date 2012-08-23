@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -71,7 +72,7 @@ public final class MetaRelations {
     public static boolean INTERCHANGE_ASSESSMENT_META_DATA = true;
     public static boolean INTERCHANGE_STUDENT_ASSESSMENT = true;
     public static boolean INTERCHANGE_STUDENT_GRADE = true;
-    public static String XSDVersionPath ="1.0.04";
+   
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -101,10 +102,16 @@ public final class MetaRelations {
     public static  int FEEDER_RELATIONSHIPS = 2;
     public static  int COURSES_PER_STUDENT = 15;
     public static  int SECTIONS_PER_STUDENT = 5;
+   
     public static  int CALENDER_PER_SESSIONS = 2;
     public static  int GRADINGPERIOD_PER_CALENDAR = 2;
     public static  int GRADUATION_PLAN_PER_SCHOOL=1;
     public static  int GRADING_PERIOD_PER_SESSIONS=2;
+    
+   
+    public static  int STUDENTS_PER_SECTION = 2;
+    public static  int TEACHERS_PER_SECTION = 2;
+    public static  int GRADEBOOKENTRY_PER_SECTION=2;
     
     public static boolean School_Ref=false;
     public static boolean Session_Ref=false;  
@@ -142,6 +149,9 @@ public final class MetaRelations {
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
     public static final Map<String, GraduationPlanMeta> GRADUATION_PLAN_MAP = new TreeMap<String, GraduationPlanMeta>();
 
+    
+    public static final Map<String, SuperSectionMeta> SUPERSECTION_MAP = new TreeMap<String, SuperSectionMeta>();
+    
     public static final String SEA_PREFIX = "CAP";
     public static final String FIRST_TEACHER_ID = "lroslin";
     
@@ -188,7 +198,8 @@ public final class MetaRelations {
       
         try {
         	
-        XSDVersionPath = String.valueOf(XSDVersionPath);
+       
+      
         INTERCHANGE_ED_ORG = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG", "true"));
         INTERCHANGE_ED_ORG_CALENDAR = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_ED_ORG_CALENDAR", "true"));
         INTERCHANGE_MASTER_SCHEDULE = Boolean.parseBoolean(properties.getProperty("INTERCHANGE_MASTER_SCHEDULE", "true"));
@@ -235,6 +246,10 @@ public final class MetaRelations {
         GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL").trim());
         GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS").trim()); 
         
+        STUDENTS_PER_SECTION = Integer.parseInt(properties.getProperty("STUDENTS_PER_SECTION").trim()); 
+        TEACHERS_PER_SECTION = Integer.parseInt(properties.getProperty("TEACHERS_PER_SECTION").trim()); 
+        GRADEBOOKENTRY_PER_SECTION = Integer.parseInt(properties.getProperty("GRADEBOOKENTRY_PER_SECTION").trim());
+        
         StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR").trim());
         StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS").trim());
         StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT").trim());
@@ -279,6 +294,9 @@ public final class MetaRelations {
 		
 		ID_DELIMITER = properties.getProperty("ID_DELIMITER");
 		
+		//String XSDVersion = properties.getProperty("XSDVersionPath");
+		//StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
+		  StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
 		String fidelity = properties.getProperty("fidelityOfData");
 		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
 			
@@ -459,6 +477,10 @@ public final class MetaRelations {
         
         addStaffStudentToDisciplines(disciplineIncidentsForSchool, disciplineActionsForSchool, studentsForSchool,
                 staffForSea);
+        
+        addSectionsToStudents(sectionsForSchool, studentsForSchool);
+        
+        addTeachersToSections(sectionsForSchool, teachersForSchool );
     }
     
     // hacky way to generate 1 special teacher
@@ -728,11 +750,15 @@ public final class MetaRelations {
                     
                     SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseMeta, sessionMeta,
                             programMeta);
-                    
+                    SuperSectionMeta superSectionMeta = new SuperSectionMeta("sec" + idNum, schoolMeta, courseMeta, sessionMeta,
+                            programMeta);
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
                     sectionMapForSchool.put(sectionMeta.id, sectionMeta);
                     SECTION_MAP.put(sectionMeta.id, sectionMeta);
+                   
+                    SUPERSECTION_MAP.put(sectionMeta.id, superSectionMeta);
+                    
 
                 }
             }
@@ -947,32 +973,101 @@ public final class MetaRelations {
         
     }
     
-//    private static void addSectionsToStudents(Map<String, SectionMeta> sectionsForSchool,
-//            Map<String, StudentMeta> studentsForSchool) {
-//    	
-//    }
-    
+ 
     
     private static void addSectionsToStudents(Map<String, SectionMeta> sectionsForSchool,
             Map<String, StudentMeta> studentsForSchool) {
 //    	Object [] superSectionMetas = new Object[];
-        Object[] sectionMetas = sectionsForSchool.values().toArray();
-        List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
-        Object [] superSectionMetas = new Object[sectionMetas.length];
-        int sectionCounter = 0;
-        
+       Object[] sectionMetas = sectionsForSchool.values().toArray();
+       Object[] studentMetas = studentsForSchool.values().toArray();
+
+ //       List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
+    //    List<StudentMeta> studentMetas = new ArrayList<StudentMeta>(studentsForSchool.values());
+  //      List<SectionMeta> sectionMetas = new ArrayList<SectionMeta>(sectionsForSchool.values());
+  //      List<SuperSectionMeta> superSectionMetas = new ArrayList<SuperSectionMeta>();
+     //   Object [] superSectionMetas = new Object[sectionMetas.length];
+        int studentCounter = 0;
+        SuperSectionMeta supperSectionMeta;
+                
         for (SectionMeta sectionMeta : sectionsForSchool.values()) {
-            
+       
+ 
+        	//Step2 start a loop, add students to superSection 1:STUDENTS_PER_SECTION relationship
             // TODO students should not belong to simultaneous sections
-            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) { //
-                if (sectionCounter >= sectionMetas.length) {
-                    sectionCounter = 0;
+            for (int i = 0; i < STUDENTS_PER_SECTION; i++) { //
+ 
+                if (studentCounter >= studentMetas.length) {
+  
+                	studentCounter = 0;
                 }
-                superSectionMetas[i] = new SuperSectionMeta(sectionMeta.id, sectionMeta, studentMetas);
-                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-               // studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-                sectionCounter++;
+                
+//                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+//                superSectionMetas.get(i).sectionIds.add(e)
+           
+                if(studentCounter < studentMetas.length) {
+                	//why in SUPERSECTION_MAP cannot see the list of studentIds
+//                	String id = ((StudentMeta) studentMetas[studentCounter]).id;
+//                	List<String> studentIds = SUPERSECTION_MAP.get(sectionMeta.id).studentIds;
+//                	SuperSectionMeta superSectionMeta = SUPERSECTION_MAP.get(sectionMeta.id);
+                	SUPERSECTION_MAP.get(sectionMeta.id).studentIds.add(((StudentMeta) studentMetas[studentCounter]).id);
+ 
+                	//studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                	
+                }
+                studentCounter++;
             }
+                    	
+//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
+//                studentMeta.sectionIds.add(sectionMeta.id);
+//            }
+        }
+        
+        
+    }
+    
+    
+    private static void addTeachersToSections(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, TeacherMeta> teachersForSchool) {
+//    	Object [] superSectionMetas = new Object[];
+       Object[] sectionMetas = sectionsForSchool.values().toArray();
+       Object[] teacherMetas = teachersForSchool.values().toArray();
+
+ //       List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
+    //    List<StudentMeta> studentMetas = new ArrayList<StudentMeta>(studentsForSchool.values());
+  //      List<SectionMeta> sectionMetas = new ArrayList<SectionMeta>(sectionsForSchool.values());
+  //      List<SuperSectionMeta> superSectionMetas = new ArrayList<SuperSectionMeta>();
+     //   Object [] superSectionMetas = new Object[sectionMetas.length];
+        int teacherCounter = 0;
+        SuperSectionMeta supperSectionMeta;
+                
+        for (SectionMeta sectionMeta : sectionsForSchool.values()) {
+       
+ 
+        	//Step2 start a loop, add students to superSection 1:STUDENTS_PER_SECTION relationship
+            // TODO students should not belong to simultaneous sections
+            for (int i = 0; i < TEACHERS_PER_SECTION; i++) { //
+ 
+                if (teacherCounter >= teacherMetas.length) {
+  
+                	teacherCounter = 0;
+                }
+                
+//                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+//                superSectionMetas.get(i).sectionIds.add(e)
+           
+                if(teacherCounter < teacherMetas.length) {
+                	//why in SUPERSECTION_MAP cannot see the list of studentIds
+//                	String id = ((StudentMeta) studentMetas[studentCounter]).id;
+//                	List<String> studentIds = SUPERSECTION_MAP.get(sectionMeta.id).studentIds;
+//                	SuperSectionMeta superSectionMeta = SUPERSECTION_MAP.get(sectionMeta.id);
+                	SUPERSECTION_MAP.get(sectionMeta.id).teacherIds.add(((TeacherMeta) teacherMetas[teacherCounter]).id);
+  
+                	//studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                	
+                }
+                teacherCounter++;
+            }
+                    	
 //            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
 //                studentMeta.sectionIds.add(sectionMeta.id);
 //            }

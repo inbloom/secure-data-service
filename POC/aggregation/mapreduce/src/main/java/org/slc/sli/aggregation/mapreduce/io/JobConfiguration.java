@@ -25,14 +25,17 @@ import java.util.logging.Logger;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSetter;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
@@ -489,6 +492,46 @@ public class JobConfiguration {
         public Boolean getRetryOnFailure() { return retryOnFailure; }
 
         public ScheduleConfig() { }
+    }
+
+    /**
+     * calculateBands - helper method to extract band information from configuration.
+     *
+     * @param context
+     * @throws IOException
+     * @throws JsonParseException
+     * @throws JsonMappingException
+     */
+    public static MetadataConfig getAggregateMetadata(Configuration config) throws IOException {
+
+        MetadataConfig rval = new MetadataConfig();
+        ObjectMapper om = new ObjectMapper();
+
+        String tmp = config.get(JobConfiguration.BANDS_PROPERTY);
+        if (tmp != null) {
+            BandsConfig cfg = om.readValue(tmp, BandsConfig.class);
+            rval.setBands(cfg);
+        } else {
+            throw new IllegalArgumentException("Invalid configuration found. "
+                + "Aggregates must specify the metadata.bands property.");
+        }
+
+        if (rval.bands.size() <= 2) {
+            throw new IllegalArgumentException("Invalid configuration found. "
+                + "Aggregates must specify at least 3 bands, where band[0] specifies "
+                + "invalid values, band[1] specifies no value found, and the remaining bands "
+                + "map to score range values.");
+        }
+
+        tmp = config.get(JobConfiguration.VALID_RANGE_PROPERTY);
+        if (tmp != null) {
+            rval.validRange = om.readValue(tmp, RangeConfig.class);
+        } else {
+            throw new IllegalArgumentException("Invalid configuration found. Aggregates must "
+                + "specify a metadata.valid_range property.");
+        }
+
+        return rval;
     }
 
     /**
