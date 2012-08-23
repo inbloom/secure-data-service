@@ -592,7 +592,8 @@ public class SDKAPIClient implements APIClient {
             if (studentSectionAssocs != null) {
                 for (Map<String, Object> sectionAssoc : studentSectionAssocs) {
                     if ((sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR) != null)
-                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))) {
+                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))
+                            && sectionAssoc.get(Constants.ATTR_STUDENT_ID).equals(studentId)) {
                         homeRoomEntity = studentSection;
                         return homeRoomEntity;
                     }
