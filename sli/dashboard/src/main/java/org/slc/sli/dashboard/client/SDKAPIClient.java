@@ -592,7 +592,8 @@ public class SDKAPIClient implements APIClient {
             if (studentSectionAssocs != null) {
                 for (Map<String, Object> sectionAssoc : studentSectionAssocs) {
                     if ((sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR) != null)
-                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))) {
+                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))
+                            && sectionAssoc.get(Constants.ATTR_STUDENT_ID).equals(studentId)) {
                         homeRoomEntity = studentSection;
                         return homeRoomEntity;
                     }
@@ -834,7 +835,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,parentAssociations)");
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
     }
