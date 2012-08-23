@@ -5,7 +5,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
-<title>Simple IDP</title>
+<title><c:choose>
+		<c:when test="${realm=='SLIAdmin'}">
+							Shared Learning Collaborative
+						</c:when>
+		<c:when test="${is_sandbox}">
+							SLC Sandbox Environment
+						</c:when>
+		<c:otherwise>
+							SLC Mock IDP for ${fn:escapeXml(realm)}
+						</c:otherwise>
+	</c:choose></title>
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 .tenant {
