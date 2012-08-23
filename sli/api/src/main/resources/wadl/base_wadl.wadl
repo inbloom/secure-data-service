@@ -26,12 +26,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/sections" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a section resource. A section is an educational entity that
@@ -43,6 +44,9 @@
  For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
 
  For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
             <ns2:resource path="{id}/studentSectionAssociations"
                           resourceClass="org.slc.sli.api.resources.generic.ThreePartResource">
                 <ns2:method id="read" name="GET"/>
@@ -71,12 +75,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentProgramAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -107,12 +112,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/courses" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the organization of subject matter and related learning experiences provided
@@ -157,17 +163,22 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/home" resourceClass="org.slc.sli.api.resources.v1.HomeResource">
             <ns2:doc><![CDATA[Provides initial information for a user. This includes providing different links to self and associated
  resources.]]></ns2:doc>
             <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
+                          resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
         </ns2:resource>
         <ns2:resource path="v1/gradingPeriods" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the time span for which grades are reported.
@@ -191,12 +202,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/cohorts" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a cohort.
@@ -205,6 +217,9 @@
  designated students for tracking, analysis, or intervention.
 
  For detailed information, see the schema for $$Cohort$$ resources.]]></ns2:doc>
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
             <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.TwoPartResource">
                 <ns2:method id="read" name="GET"/>
                 <ns2:method id="delete" name="DELETE"/>
@@ -233,12 +248,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/sessions" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the session resource. A session is the prescribed span of time
@@ -268,12 +284,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/courseTranscripts" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the final record of a student's performance in their courses at the end of semester or
@@ -298,12 +315,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/gradebookEntries" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents a teacher's assignment, homework, or classroom assessment to be recorded in a
@@ -322,12 +340,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/staffEducationOrgAssignmentAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -355,12 +374,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/disciplineIncidents" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a discipline incident.  A discipline incident
@@ -389,12 +409,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentGradebookEntries"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -413,12 +434,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/assessments" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents a tool, instrument, process, or exhibition composed of a systematic sampling of
@@ -455,12 +477,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentCohortAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -485,12 +508,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/educationOrganizations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -518,12 +542,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/teacherSectionAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -549,18 +574,22 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/schools" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[This entity represents an educational organization that includes staff and students who
  participate in classes and educational activity groups.
 
  For more information, see the schema for $$School$$ resources.]]></ns2:doc>
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
             <ns2:resource path="{id}/teacherSchoolAssociations"
                           resourceClass="org.slc.sli.api.resources.generic.ThreePartResource">
                 <ns2:method id="read" name="GET"/>
@@ -592,12 +621,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
-                          resourceClass="org.slc.sli.api.resources.v1.aggregation.AggregateDataListingResource">
-                <ns2:method id="read" name="GET"/>
-            </ns2:resource>
+
             <ns2:method id="create" name="POST"/>
             <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
+                          resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+                <ns2:method id="read" name="GET"/>
+            </ns2:resource>
         </ns2:resource>
         <ns2:resource path="v1/programs" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a program.  A program is designed to work in
@@ -632,12 +662,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/learningStandards" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents a subelement of a learning objective consisting of a precise statement of the
@@ -656,12 +687,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/parents" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents a parent or guardian of a student.
@@ -687,12 +719,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/teachers" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents a person that is employed by an LEA or other educational unit engaged in student
@@ -727,12 +760,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentAcademicRecords"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -755,12 +789,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/learningObjectives" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents identified learning objectives for courses in specific grades.
@@ -794,12 +829,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/attendances" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of an attendance resource. An attendance resource represents
@@ -818,12 +854,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentSchoolAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -848,12 +885,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/teacherSchoolAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -878,12 +916,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/staff" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a staff resource. A staff is a person that is employed by
@@ -932,12 +971,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/grades" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents an overall score or assessment tied to a course over a period
@@ -958,12 +998,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentCompetencies" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the competency assessed or evaluated for the student against a specific Learning
@@ -985,12 +1026,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentSectionAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1022,12 +1064,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/staffCohortAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1052,12 +1095,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentAssessments" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the analysis or scoring of a student's response on an assessment. The analysis results
@@ -1082,12 +1126,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/competencyLevelDescriptor"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1106,12 +1151,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/staffProgramAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1142,12 +1188,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentCompetencyObjectives"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1168,12 +1215,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentDisciplineIncidentAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1199,12 +1247,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/competencyLevelDescriptorTypes"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1225,12 +1274,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/studentParentAssociations"
                       resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
@@ -1255,12 +1305,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/courseOfferings" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the course offering resource. A course offering represents
@@ -1286,12 +1337,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/disciplineActions" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[Represents the definition of a discipline action.
@@ -1313,12 +1365,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
         <ns2:resource path="v1/students" resourceClass="org.slc.sli.api.resources.generic.OnePartResource">
             <ns2:doc><![CDATA[This entity represents an individual for whom
@@ -1411,16 +1464,13 @@
                 <ns2:method id="delete" name="DELETE"/>
                 <ns2:method id="update" name="PUT"/>
             </ns2:resource>
-            <ns2:resource path="{id}/aggregations"
+
+            <ns2:method id="create" name="POST"/>
+            <ns2:method id="readAll" name="GET"/>
+            <ns2:resource path="{id}/calculatedValues"
                           resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
-            <ns2:resource path="{id}/calculatedValues"
-                          resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
-                <ns2:method id="read" name="GET" />
-            </ns2:resource>
-            <ns2:method id="create" name="POST"/>
-            <ns2:method id="readAll" name="GET"/>
         </ns2:resource>
     </ns2:resources>
 </ns2:application>
