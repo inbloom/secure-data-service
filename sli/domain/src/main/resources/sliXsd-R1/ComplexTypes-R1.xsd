@@ -1702,7 +1702,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
+			<xs:element maxOccurs="unbounded" name="staffIds" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of
 						students.
@@ -3200,6 +3200,11 @@
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
+        <xs:annotation>
+            <xs:documentation>NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
+                groups of students.
+            </xs:documentation>
+        </xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>
@@ -5794,7 +5799,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
+			<xs:element minOccurs="0" name="academicSubject" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						The academic subject associated with an academic
@@ -5814,7 +5819,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="programId"
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="programIds"
 				type="reference">
 				<xs:annotation>
 					<xs:documentation>

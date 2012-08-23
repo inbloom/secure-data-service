@@ -2075,13 +2075,13 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="District" />
-			<xs:enumeration value="School" />
-			<xs:enumeration value="Classroom" />
-			<xs:enumeration value="Teacher" />
-			<xs:enumeration value="Principal" />
-			<xs:enumeration value="Counselor" />
-			<xs:enumeration value="Statewide" />
+            <xs:enumeration value="District"/>
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="Classroom"/>
+            <xs:enumeration value="Teacher"/>
+            <xs:enumeration value="Principal"/>
+            <xs:enumeration value="Counselor"/>
+            <xs:enumeration value="Statewide"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2092,17 +2092,17 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Academic Intervention" />
-			<xs:enumeration value="Attendance Intervention" />
-			<xs:enumeration value="Discipline Intervention" />
-			<xs:enumeration value="Classroom Pullout" />
-			<xs:enumeration value="Extracurricular Activity" />
-			<xs:enumeration value="Field Trip" />
-			<xs:enumeration value="Principal Watch List" />
-			<xs:enumeration value="Counselor List" />
-			<xs:enumeration value="In-school Suspension" />
-			<xs:enumeration value="Study Hall" />
-			<xs:enumeration value="Other" />
+            <xs:enumeration value="Academic Intervention"/>
+            <xs:enumeration value="Attendance Intervention"/>
+            <xs:enumeration value="Discipline Intervention"/>
+            <xs:enumeration value="Classroom Pullout"/>
+            <xs:enumeration value="Extracurricular Activity"/>
+            <xs:enumeration value="Field Trip"/>
+            <xs:enumeration value="Principal Watch List"/>
+            <xs:enumeration value="Counselor List"/>
+            <xs:enumeration value="In-school Suspension"/>
+            <xs:enumeration value="Study Hall"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
