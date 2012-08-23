@@ -121,5 +121,13 @@
             "Sandbox Administrator"
             ]
       }
+      {
+      "name":"Purge Tenant",
+         "description":"Perform a tenant-level purge",
+         "url":"${bootstrap.app.admin.url}/tenant_purge",
+         "roles":[
+            "SEA Administrator"
+            ]
+      }
    ]
 }
