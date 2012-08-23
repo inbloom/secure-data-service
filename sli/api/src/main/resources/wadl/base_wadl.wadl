@@ -44,7 +44,7 @@
  For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
 
  For detailed information, see the schema for $$Section$$ resources.]]></ns2:doc>
-            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.AggregateDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
             <ns2:resource path="{id}/studentSectionAssociations"
@@ -217,7 +217,7 @@
  designated students for tracking, analysis, or intervention.
 
  For detailed information, see the schema for $$Cohort$$ resources.]]></ns2:doc>
-            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.AggregateDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
             <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.TwoPartResource">
@@ -587,7 +587,7 @@
  participate in classes and educational activity groups.
 
  For more information, see the schema for $$School$$ resources.]]></ns2:doc>
-            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource">
+            <ns2:resource path="{id}/aggregations" resourceClass="org.slc.sli.api.resources.v1.aggregation.AggregateDataListingResource">
                 <ns2:method id="read" name="GET"/>
             </ns2:resource>
             <ns2:resource path="{id}/teacherSchoolAssociations"
