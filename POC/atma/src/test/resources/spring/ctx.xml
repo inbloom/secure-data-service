@@ -25,8 +25,7 @@
 		</property>
 	</bean>
 
-	<context:component-scan base-package="org.slc">
-	</context:component-scan>
+	<context:component-scan base-package="org.slc" />
 
 
 	<context:annotation-config />
