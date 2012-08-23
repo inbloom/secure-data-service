@@ -901,7 +901,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     @Override
     public GenericEntity getTeacher(String token, Object teacherId, Config.Data config) {
-        return getApiClient().getTeacher(token, (String) teacherId);
+        return getApiClient().getTeacherWithSections(token, (String) teacherId);
     }
 
     @Override
@@ -1363,6 +1363,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
 
+	@Override
+	public GenericEntity getCoursesAndGrades(String token, Object studentId, Data config) {
+		return entityManager.getCurrentCoursesAndGrades(token, (String)studentId);
+	}
 
     /**
      * Retrieves attendance in a sorted order, removes all events where the student is present.
