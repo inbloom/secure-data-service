@@ -1861,7 +1861,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+			<xs:element name="staffIds" type="reference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.
 					</xs:documentation>
@@ -1945,47 +1945,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="serviceDescriptorType">
-		<xs:annotation>
-			<xs:documentation>
-				Provides references for service descriptors during
-				interchange. Use XML IDREF to reference a course record that is
-				included in the interchange. To lookup where already loaded specify
-				either CodeValue OR ShortDescription OR Description.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="codeValue" type="codeValue">
-				<xs:annotation>
-					<xs:documentation>
-						A code or abbreviation that is used to refer to
-						the service.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="shortDescription" type="shortDescription">
-				<xs:annotation>
-					<xs:documentation>
-						A shortened description for the service.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="description" type="description">
-				<xs:annotation>
-					<xs:documentation>
-						The description of the service.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="staff">
@@ -3516,7 +3475,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-				type="serviceDescriptorType">
+				type="serviceDescriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						Indicates the services being provided to the
@@ -3546,7 +3505,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="reasonExited" type="reasonExitedType">
+			<xs:element minOccurs="0" name="reasonExited" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						The reason the child left the program within a
@@ -6741,14 +6700,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-				type="serviceDescriptorType">
-				<xs:annotation>
-					<xs:documentation>Defines the services provided by this program to
-						students.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="services" type="serviceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+                    <xs:documentation>Defines the services provided by this program to students.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Staff associated with the program.
@@ -7295,6 +7252,23 @@
 
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="serviceDescriptorReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides references for service descriptors during interchange. Use XML IDREF to reference a record that is included in the interchange.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="descriptorReferenceType">
+                <xs:sequence>
+                    <xs:element name="serviceCategory" type="serviceCategory" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
 
     <xs:complexType name="home">

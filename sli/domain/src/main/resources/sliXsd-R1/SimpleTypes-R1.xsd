@@ -3253,12 +3253,12 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration value="Federal" />
-			<xs:enumeration value="State Education Agency" />
-			<xs:enumeration value="Education Service Center" />
-			<xs:enumeration value="Local Education Agency" />
-			<xs:enumeration value="School" />
-			<xs:enumeration value="Private Organization" />
+            <xs:enumeration value="Federal"/>
+            <xs:enumeration value="State Education Agency"/>
+            <xs:enumeration value="Education Service Center"/>
+            <xs:enumeration value="Local Education Agency"/>
+            <xs:enumeration value="School"/>
+            <xs:enumeration value="Private Organization"/>
 		</xs:restriction>
 	</xs:simpleType>
 

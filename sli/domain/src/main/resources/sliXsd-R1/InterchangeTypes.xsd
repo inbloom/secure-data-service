@@ -2254,7 +2254,8 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="Program">
+    ENDTODO -->
+    <xs:complexType name="SLI-Program">
         <xs:annotation>
             <xs:documentation>This entity represents any program designed to work in conjunction with or to supplement
                 the main academic program. Programs may provide instruction, training, services or benefits through
@@ -2263,41 +2264,103 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
+            <xs:extension base="Program">
                 <xs:sequence>
-                    <xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+                    <xs:element name="SLI-staffAssociations" type="SLI-StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>A unique number or alphanumeric code assigned to a program by a school,
-                                school system, a state, or other agency or entity.
+                            <xs:documentation>Staff associated with the program.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ProgramType" type="ProgramType">
+                    <xs:element name="SLI-studentAssociations" type="SLI-StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>The formal name of the program of instruction, training, services or
-                                benefits available through federal, state, or local agencies.
+                            <xs:documentation>Students associated with the program.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Ultimate and intermediate providers of funds for a particular educational
-                                or service program or activity or for an individual's participation in the program or
-                                activity; e.g., Federal, State, ESC, District, School, Private Org, etc.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0"
-                                maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>Defines the services provided by this program to students.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
+
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="SLI-StaffProgramAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-StaffIds" type="StaffIdentificationCode" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The staff associated with the program.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether the staff has access to the student records of the program
+                        per district interpretation of FERPA and other privacy laws, regulations and policies.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SLI-StudentProgramAssociation">
+        <xs:annotation>
+            <xs:documentation>This association represents the program(s) that a student participates in or is served
+                by.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-studentId" type="StudentReferenceType">
+                <xs:annotation>
+                    <xs:documentation>The student associated with the program.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Indicates the services being provided to the student by the program.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student first received services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student exited the program or stopped
+                        receiving services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ReasonExited" type="DescriptorReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The reason the child left the program within a school or district.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SLI-educationOrganizationId" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>The education organization where the student is participating in or receiving the
+                        program services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- TODO specialEdStudentProgramAssociationAttributes -->
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- TODO
     <xs:complexType name="ReportCard">
         <xs:annotation>
             <xs:documentation>This educational entity represents the collection of student grades for courses taken
@@ -2812,7 +2875,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="SLI-StaffUniqueStateId" type="StaffIdentificationCode">
+            <xs:element name="SLI-StaffId" type="StaffIdentificationCode">
                 <xs:annotation>
                     <xs:documentation>The teacher assigned to the section.</xs:documentation>
                 </xs:annotation>
@@ -4284,40 +4347,6 @@
                </xs:element>
            </xs:sequence>
        </xs:complexType>
-       <xs:complexType name="StaffProgramAssociation">
-           <xs:annotation>
-               <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The staff associated with the program.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The program associated to the staff.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>Indicator of whether the staff has access to the student records of the program
-                           per district interpretation of FERPA and other privacy laws, regulations and policies.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
        <xs:complexType name="StudentCohortAssociation">
            <xs:annotation>
                <xs:documentation>This association represents the cohort(s) that a student is designated for.
@@ -4471,57 +4500,6 @@
                    <xs:annotation>
                        <xs:documentation>Restrictions for student and/or teacher contact with the individual (e.g., the
                            student may not be picked up by the individual)
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
-       <xs:complexType name="StudentProgramAssociation">
-           <xs:annotation>
-               <xs:documentation>This association represents the program(s) that a student participates in or is served
-                   by.
-               </xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StudentReference" type="StudentReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The student associated with the program.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ProgramReference" type="ProgramReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The program associated with the student.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>Indicates the services being provided to the student by the program.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student first received services.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student exited the program or stopped
-                           receiving services.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ReasonExited" type="DescriptorReferenceType" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>The reason the child left the program within a school or district.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The education organization where the student is participating in or receiving the
-                           program services.
                        </xs:documentation>
                    </xs:annotation>
                </xs:element>
