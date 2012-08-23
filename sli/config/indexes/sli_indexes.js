@@ -596,7 +596,6 @@ db["courseOffering"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1}
 db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["grade"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
@@ -620,7 +619,6 @@ db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.exter
 db["student"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
