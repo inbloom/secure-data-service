@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
 	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
 	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
@@ -1669,9 +1668,6 @@
         <xs:annotation>
             <xs:documentation>The student's special education Service Provider</xs:documentation>
         </xs:annotation>
-        <xs:appinfo>
-            <sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-        </xs:appinfo>
         <xs:sequence>
             <xs:element name="staffId" type="reference">
                 <xs:annotation>
@@ -1702,7 +1698,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
+			<xs:element maxOccurs="unbounded" name="staffIds" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of
 						students.
@@ -1861,7 +1857,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+			<xs:element name="staffIds" type="reference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.
 					</xs:documentation>
@@ -1945,47 +1941,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="serviceDescriptorType">
-		<xs:annotation>
-			<xs:documentation>
-				Provides references for service descriptors during
-				interchange. Use XML IDREF to reference a course record that is
-				included in the interchange. To lookup where already loaded specify
-				either CodeValue OR ShortDescription OR Description.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="codeValue" type="codeValue">
-				<xs:annotation>
-					<xs:documentation>
-						A code or abbreviation that is used to refer to
-						the service.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="shortDescription" type="shortDescription">
-				<xs:annotation>
-					<xs:documentation>
-						A shortened description for the service.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="description" type="description">
-				<xs:annotation>
-					<xs:documentation>
-						The description of the service.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="staff">
@@ -3241,6 +3196,11 @@
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
+        <xs:annotation>
+            <xs:documentation>NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
+                groups of students.
+            </xs:documentation>
+        </xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>
@@ -3516,7 +3476,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-				type="serviceDescriptorType">
+				type="serviceDescriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						Indicates the services being provided to the
@@ -3546,7 +3506,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="reasonExited" type="reasonExitedType">
+			<xs:element minOccurs="0" name="reasonExited" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						The reason the child left the program within a
@@ -4643,10 +4603,12 @@
 				address, city, state, and ZIP code.
 			</xs:documentation>
 		</xs:annotation>
+		<!-- 
         <xs:annotation>
             <xs:documentation>NOTE: 'address' does not support ed-fi AddressLine / international choice
             </xs:documentation>
         </xs:annotation>
+         -->
 		<xs:sequence>
 			<xs:element name="streetNumberName">
 				<xs:annotation>
@@ -5835,7 +5797,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
+			<xs:element minOccurs="0" name="academicSubject" type="descriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>
 						The academic subject associated with an academic
@@ -5855,7 +5817,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="programId"
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="programIds"
 				type="reference">
 				<xs:annotation>
 					<xs:documentation>
@@ -6741,14 +6703,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-				type="serviceDescriptorType">
-				<xs:annotation>
-					<xs:documentation>Defines the services provided by this program to
-						students.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="services" type="serviceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+                    <xs:documentation>Defines the services provided by this program to students.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Staff associated with the program.
@@ -7295,6 +7255,23 @@
 
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="serviceDescriptorReferenceType">
+        <xs:annotation>
+            <xs:documentation>Provides references for service descriptors during interchange. Use XML IDREF to reference a record that is included in the interchange.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="descriptorReferenceType">
+                <xs:sequence>
+                    <xs:element name="serviceCategory" type="serviceCategory" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
 
     <xs:complexType name="home">
