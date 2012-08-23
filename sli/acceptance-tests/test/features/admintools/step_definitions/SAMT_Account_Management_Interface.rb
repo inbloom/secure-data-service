@@ -107,6 +107,21 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
 end
 
+Given /^there is no users in edorg "(.*?)"$/ do |edorg| 
+    idpRealmLogin("operator", nil)
+    step "I navigate to GET \"/users\""
+    sessionId = @sessionId
+    format = "application/json"
+    if @res.code == 200 
+      @result.each { |user|
+        if user['edorg'] == edorg
+          puts "delete #{user['uid']}"
+          restHttpDelete("/users/#{user['uid']}", format, sessionId)
+        end 
+      }   
+    end 
+end 
+
 Then /^I can navigate to the User Management Page with that production user$/ do
   step "I navigate to the sandbox user account management page"
   step "I submit the credentials \"#{@user_info[:email]}\" \"test1234\" for the \"Simple\" login page"
