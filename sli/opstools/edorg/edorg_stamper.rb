@@ -31,7 +31,9 @@ def run_fixer(tenant = nil)
   begin
     fixer.start
     connection.close
-  rescue Exception => e  
+    @log.error "Finished stamping tenant \'#{tenant}\'"
+    @log.error "This is not really an error - do not worry :)"
+  rescue Exception => e
     #KILL THE THREADS
     @tenants.remove tenant
     Thread.kill(Thread.current)
