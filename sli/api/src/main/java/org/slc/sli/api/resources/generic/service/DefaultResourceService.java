@@ -292,10 +292,11 @@ public class DefaultResourceService implements ResourceService {
     private ServiceResponse getAssociatedEntities(final Resource association, final String id,
                                                        final Resource resource, final String associationKey,final URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
-        final EntityDefinition  assocEntity= resourceHelper.getEntityDefinition(association);
+        final EntityDefinition assocEntity= resourceHelper.getEntityDefinition(association);
 
         List<String> valueList = Arrays.asList(id.split(","));
         final ApiQuery apiQuery = getApiQuery(assocEntity);
+        apiQuery.setLimit(0);
         apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
 
         final String resourceKey = getConnectionKey(association, resource);
