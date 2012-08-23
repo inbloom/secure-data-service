@@ -17,12 +17,7 @@ package org.slc.sli.api.resources.generic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

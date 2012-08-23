@@ -247,7 +247,7 @@ public class DefaultResourceService implements ResourceService {
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        if (isAssociation(base)){
+        if (isAssociation(base)) {
             final String key = "_id";
             return getAssociatedEntities(base, id, resource, key, requestURI);
         }
@@ -281,18 +281,18 @@ public class DefaultResourceService implements ResourceService {
         final EntityDefinition baseEntityDef = resourceHelper.getEntityDefinition(base);
         ClassType baseEntityType = provider.getClassType(StringUtils.capitalize(baseEntityDef.getType()));
 
-        if(baseEntityType.isAssociation()) {
+        if (baseEntityType.isAssociation()) {
             isAssociation = true;
-        } else if(baseEntityDef instanceof AssociationDefinition) {
+        } else if (baseEntityDef instanceof AssociationDefinition) {
             isAssociation = true;
         }
 
         return isAssociation;
     }
     private ServiceResponse getAssociatedEntities(final Resource association, final String id,
-                                                       final Resource resource, final String associationKey,final URI requestUri) {
+                                                  final Resource resource, final String associationKey, final URI requestUri) {
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
-        final EntityDefinition assocEntity= resourceHelper.getEntityDefinition(association);
+        final EntityDefinition assocEntity = resourceHelper.getEntityDefinition(association);
 
         List<String> valueList = Arrays.asList(id.split(","));
         final ApiQuery apiQuery = getApiQuery(assocEntity);
@@ -304,12 +304,12 @@ public class DefaultResourceService implements ResourceService {
         String key = "_id";
         for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
             List<String> filteredIds = entityBody.getId(resourceKey);
-            if((filteredIds == null ) || (filteredIds.isEmpty())) {
+            if ((filteredIds == null) || (filteredIds.isEmpty())) {
                key = resourceKey;
                filteredIdList.addAll(valueList);
                break;
             } else {
-                for(String filteredId : filteredIds) {
+                for (String filteredId : filteredIds) {
                     filteredIdList.add(filteredId);
                 }
             }
