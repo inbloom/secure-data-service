@@ -626,7 +626,6 @@ db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"metaData.ex
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
