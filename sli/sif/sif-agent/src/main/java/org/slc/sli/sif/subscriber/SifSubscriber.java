@@ -111,10 +111,16 @@ public class SifSubscriber implements Subscriber {
             case CHANGE:
                 // TODO, we can potentially get multiple matched entities
                 List<Entity> matchedEntities = sifIdResolver.getSliEntityList(sifData.getRefId(), zone.getZoneId());
-                for (SliEntity sliEntity : entities) {
-                    for (Entity e : matchedEntities) {
-                        if (sliEntity.entityType().equals(e.getEntityType())) {
-                            changeEntity(sifData, sliEntity, zone.getZoneId(), e);
+                if (entities == null || entities.isEmpty()) {
+                    LOG.warn("Null or empty translated SIF entities: " + entities);
+                } else if (matchedEntities == null || matchedEntities.isEmpty()) {
+                    LOG.warn("Null or empty SIF entities (no entity found to update): " + matchedEntities);
+                } else {
+                    for (SliEntity sliEntity : entities) {
+                        for (Entity e : matchedEntities) {
+                            if (sliEntity.entityType().equals(e.getEntityType())) {
+                                changeEntity(sifData, sliEntity, zone.getZoneId(), e);
+                            }
                         }
                     }
                 }

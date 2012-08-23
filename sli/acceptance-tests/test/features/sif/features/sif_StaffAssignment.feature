@@ -94,7 +94,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                        | searchParameter     | searchValue                                 | searchType | expectedValuesFile                                                            |
      | teacherSchoolAssociation              | body.teacherId      | 2012vm-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_StaffAssignment_change_teacher_teacherSchoolAssociation              |
      | staffEducationOrganizationAssociation | body.staffReference | 2012vm-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_StaffAssignment_change_teacher_staffEducationOrganizationAssociation |
-@wip
+
 Scenario: Negative Testing - Add a StaffAssignment which is missing SLI required fields 1: missing required non-reference field for staffEducationOrganizationAssociation
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName                        |
@@ -107,34 +107,14 @@ And the fixture data "sif_educationOrganization_fixture" has been imported into 
 And the fixture data "sif_staff_fixture" has been imported into collection "staff"
 And the fixture data "sif_teacher_fixture" has been imported into collection "staff"
 And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
-And I want to POST a(n) "sifEvent_StaffAssignment_add_staff_educationOrganization_missing_field" SIF message
+And I want to POST a(n) "sifEvent_StaffAssignment_add_staff_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                        | count |
      | staffEducationOrganizationAssociation | 1     |
      | teacherSchoolAssociation              | 0     |
-@wip
-Scenario: Negative Testing - Add a StaffAssignment which is missing SLI required fields 2: missing reference
-Given the following collections are clean and bootstrapped in datastore:
-     | collectionName                        |
-     | educationOrganization                 |
-     | staff                                 |
-     | staffEducationOrganizationAssociation |
-     | teacherSchoolAssociation              |
-     | custom_entities                       |
-And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
-And the fixture data "sif_staff_fixture" has been imported into collection "staff"
-And the fixture data "sif_teacher_fixture" has been imported into collection "staff"
-And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
-And I want to POST a(n) "sifEvent_StaffAssignment_add_staff_educationOrganization_missing_reference" SIF message
-When I POST the message to the ZIS
-And I wait for "3" seconds
-Then I should see following map of entry counts in the corresponding collections:
-     | collectionName                        | count |
-     | staffEducationOrganizationAssociation | 1     |
-     | teacherSchoolAssociation              | 0     |
-@wip
+
 Scenario: Negative Testing - Update a StaffAssignment which doesn't exist - staff
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName                        |
@@ -147,7 +127,7 @@ And the fixture data "sif_educationOrganization_fixture" has been imported into 
 And the fixture data "sif_staff_fixture" has been imported into collection "staff"
 And the fixture data "sif_teacher_fixture" has been imported into collection "staff"
 And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
-And I want to POST a(n) "sifEvent_StaffAssignment_change_staff_educationOrganization" SIF message
+And I want to POST a(n) "sifEvent_StaffAssignment_change_staff" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
