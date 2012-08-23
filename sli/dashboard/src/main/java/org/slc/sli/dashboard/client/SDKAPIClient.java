@@ -835,7 +835,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,parentAssociations)");
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
     }
