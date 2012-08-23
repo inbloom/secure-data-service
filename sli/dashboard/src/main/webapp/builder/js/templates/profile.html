@@ -3,7 +3,7 @@
 <tabs>
     <pane title="{{page.name}}" ng-repeat="page in pages">
         <div ng-controller="pageCtrl" class="panels">
-            <div class="show-{{!checked}}"><strong>Page title:</strong> {{pageName}} <a ng-click="editPageTitle();"><i class="icon-edit"></i></a></div>
+            <div class="show-{{!checked}}"><strong>Page title:</strong> {{page.name}} <a ng-click="editPageTitle();"><i class="icon-edit"></i></a></div>
             <div class="show-{{checked}}">
                 <form ng-submit="savePageTitle();">
                     <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" required>
@@ -15,11 +15,15 @@
             <div>
                 <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
             </div>
-            <li ng-repeat="panel in pagePanels">
-                <span>{{panel.id}}</span>
-            </li>
-            <a href="" ng-click="editPage()">View Source Code</a>
-            <button class="btn" id="removePage" data-toggle="modal" ng-click="removePage()" ><i class="icon-trash"></i> Remove Page</button>
+            <ul>
+                <li ng-repeat="panel in pagePanels" class="well">
+                    <span>{{panel.id}}</span>
+                </li>
+            </ul>
+            <div>
+                <a href="" ng-click="showPageConfig()">View Source Code</a>
+                <button class="btn pull-right" data-toggle="modal" ng-click="removePage()" ><i class="icon-trash"></i> Remove Page</button>
+            </div>
         </div>
     </pane>
 </tabs>
@@ -35,13 +39,13 @@
         <div id="errorMessage">Please select the panel.</div>
         <ul>
             <li>
-                <div class="educationAgencyName"><strong>Origin</strong></div>
+                <div class="educationAgencyName pull-right"><strong>Origin</strong></div>
                 <div class="panelName"><strong>Panel Name</strong></div>
             </li>
         </ul>
         <ul id="panelSelectable">
-            <li ng-repeat="panel in allPanels">
-                <div class="educationAgencyName">{{panel.educationAgencyName}}</div>
+            <li ng-repeat="panel in allPanels" class="well well-small">
+                <div class="educationAgencyName pull-right">{{panel.educationAgencyName}}</div>
                 <div class="panelName">{{panel.id}}</div>
             </li>
         </ul>

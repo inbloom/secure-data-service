@@ -19,16 +19,6 @@
  */
 /*global angular $ alert*/
 
-// Header Controller
-function headerCtrl() {
-	$("#header").load("../s/m/header");
-}
-
-// Footer Controller
-function footerCtrl() {
-	$("#footer").load("../s/m/footer");
-}
-
 // Profile List Controller
 function profileListCtrl($scope, Profiles, dbSharedService) {
 	var i;
@@ -97,7 +87,6 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 			if (configs.mode === "page" && configs.id === "") { // add new page
 				var pageId = dbSharedService.generatePageId($scope.pages);
 				$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), parentId:pageId, type:"TAB"});
-				$rootScope.$broadcast("tabAdded", pageId, configs.pageTitle);
 			}
 			else if (configs.mode === "panel" && configs.id === "") { // add a new panel into the page
 				page.items.push({id:configs.pageTitle, type:"PANEL"});
@@ -158,10 +147,10 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		dbSharedService.showModal("#modalBox", {mode: "page", id: "", modalTitle: "Add New Page", contentJSON: "[]", pageTitle: ""});
 	};
 
-	$scope.editDialog = function () {
+	$scope.showPageDetails = function () {
 		var page = dbSharedService.getPage();
 
-		dbSharedService.showModal("#modalBox", {mode: "page", id: angular.toJson(page.id), modalTitle: "Edit Page",
+		dbSharedService.showModal("#modalBox", {mode: "page", id: angular.toJson(page.id), modalTitle: "Page Details",
 		contentJSON: angular.toJson(page.items), pageTitle: page.name});
 	};
 }
@@ -169,6 +158,7 @@ profileCtrl.$inject = ['$scope', '$rootScope', '$routeParams', 'Profile', 'AllPa
 
 // Page controller
 function pageCtrl($scope, $rootScope, dbSharedService) {
+
 	// The panel view gets changed whenever there is a change in the page config
 	$scope.$watch('page.items', function(newValue, oldValue) {
 		$scope.pagePanels = newValue;
@@ -192,9 +182,9 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 		$scope.checked = false;
 	};
 
-	$scope.editPage = function () {
+	$scope.showPageConfig = function () {
 		dbSharedService.setPage($scope.page);
-		this.editDialog();
+		this.showPageDetails();
 	};
 
 	$scope.addNewPanel = function () {
@@ -222,7 +212,7 @@ function modalCtrl($scope, dbSharedService) {
 	$scope.$on("modalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
 
-		//$("#pageTitle").focus();
+		$("#pageTitle").focus();
 		$("#modalBox h3").html(configs.modalTitle);
 		$("#pageTitle").val(configs.pageTitle);
 		$("#content_json").val(configs.contentJSON);
@@ -246,28 +236,29 @@ modalCtrl.$inject = ['$scope', 'dbSharedService'];
 // All available panels list controller
 function allPanelListCtrl($scope, AllPanels, dbSharedService) {
 
-	$scope.$parent.selectedPanels = [];
+	var parent = $scope.$parent;
+
+	parent.selectedPanels = [];
 
 	$scope.$on("allPanelsModalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
-		$scope.$parent.selectedPanels = [];
+		parent.selectedPanels = [];
 
 		$("#allPanelsModal h3").html(configs.modalTitle);
 
 		$("#panelSelectable").selectable({
 			stop: function() {
-				$scope.$parent.selectedPanels = [];
+				parent.selectedPanels = [];
 				$( ".ui-selected", this ).each(function() {
 					var index = $( "#panelSelectable li" ).index( this );
-					$scope.$parent.selectedPanels.push($scope.allPanels[index]);
+					parent.selectedPanels.push($scope.allPanels[index]);
 				});
 			}
 		});
-
 	});
 
 	$scope.addAvailPanels = function () {
-		this.addPanelsToPage();
+		parent.addPanelsToPage();
 	};
 
 	$scope.addNewPanel = function () {

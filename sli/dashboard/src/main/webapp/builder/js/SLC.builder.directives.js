@@ -23,7 +23,18 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 	.directive("ngHeader", function () {
 		return {
 			restrict: 'E',
-			templateUrl: "js/templates/header.html"
+			templateUrl: "js/templates/header.html",
+			controller: function($scope, $element, dbSharedService) {
+				$element.find("#SLCPortalHeader").load("../s/m/header");
+			}
+		};
+	})
+	.directive("ngFooter", function () {
+		return {
+			restrict: 'E',
+			controller: function($scope, $element, dbSharedService) {
+				$element.load("../s/m/footer");
+			}
 		};
 	})
 	.directive('ngModal', function() {
@@ -83,7 +94,9 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				};
 
 				this.addPane = function(pane) {
-					if (panes.length === 0) $scope.select(pane);
+					if (panes.length === 0) {
+						$scope.select(pane);
+					}
 					panes.push(pane);
 				};
 
@@ -111,7 +124,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					'<button class="btn btn-primary" data-toggle="modal" ng-click="addPage()" >+</button>' +
 					'</li>' +
 					'</ul>' +
-					'<div class="tab-content" ng-transclude></div>' +
+					'<div class="tab-content clearfix" ng-transclude></div>' +
 					'</div>',
 			replace: true
 		};
