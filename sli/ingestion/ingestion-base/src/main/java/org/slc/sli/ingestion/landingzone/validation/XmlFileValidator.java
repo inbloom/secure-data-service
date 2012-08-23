@@ -22,12 +22,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Validator for EdFi xml ingestion files.
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
-	
+
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         LOG.debug("validating xml...");
@@ -61,6 +62,11 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
+            if (!fileEntry.getFile().exists()) {
+                LOG.error("DEBUG-UN: File does not exist");
+            } else {
+                LOG.error("DEBUG-UN: File exists and the length is " + fileEntry.getFile().length());
+            }
            LOG.error("File not found: " + fileEntry.getFileName(), e);
            errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
            isEmpty = true;
