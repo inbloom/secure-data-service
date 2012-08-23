@@ -1,10 +1,14 @@
 package org.mongo.performance;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,12 +16,18 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+import com.mongodb.util.JSON;
 
 public class App {
+	public static String inputFromJsonFlag; 
+	public static String collectionName;
+	public static final String INDEX_PATH="src\\main\\resources\\indexes\\index.properties";
+	public static final String JSON_PATH="src\\main\\resources\\JsonFiles\\";
+	
 	public static void main( String[] args ) {
 		System.out.println("Bootstrapping Mongo Performance");
-
-		if (args.length != 7) {
+		
+		if (args.length != 9) {
 		    System.out.println("INVALID NUMBER OF INPUTS");
 		    System.out.println("1. MODE (SAFE / NONE / NORMAL)");
 		    System.out.println("2. NUMBER OF CONCURRENT PROCESSORS");
@@ -26,15 +36,17 @@ public class App {
 		    System.out.println("5. RECORD TYPE PERSISTED (SHORT / FLAT / SHORTKEYS / NORMAL)");
 		    System.out.println("6. TYPE OF OPERATIONS (W - WRITE VIA SPRING TEMPLATE / B - BATCHED WRITE VIA SPRING TEMPLATE / D - BATCHED WRITE VIA DRIVER / R - READ / T - BATCHED READ");
 		    System.out.println("7. DROP COLLECTION (profiledCollection) PRIOR TO RUN (Y / N).");
+		    System.out.println("8. INPUT DATA IS FROM JSON FILE OR NOT (Y/N).");
+		    System.out.println("9. SPECIFY THE NAME OF THE COLLECTION.");
 		    System.exit(0);
 		}
 		
 		ConfigurableApplicationContext context = null;
         context = new ClassPathXmlApplicationContext("META-INF/spring/bootstrap.xml");
-
         context = new ClassPathXmlApplicationContext("META-INF/spring/applicationContext.xml");
         
         DataAccessWrapper da = context.getBean(DataAccessWrapper.class);
+        
         
         if ("SAFE".equals(args[0])) {
             da.mongoTemplate.setWriteConcern(WriteConcern.SAFE);
@@ -66,30 +78,782 @@ public class App {
         
         String dropCollectionFlag = args[6];
         
+        inputFromJsonFlag = args[7];
+        collectionName = args[8];
+        
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
         System.out.println("NUMBER OF RECORDS = " + numberOfRecords);
         System.out.println("CHUNK SIZE = " + chunkSize);
         System.out.println("RECORD TYPE = " + recordType);
         System.out.println("TYPES OF CONCURRENT OPERATIONS ENABLED = " + concurrentOperationsEnabled);
         System.out.println("COLLECTION DROP FLAG = " + dropCollectionFlag);
-
-        MongoProcessor mongoProcessor = context.getBean(MongoProcessor.class);
         
-        if (recordType == 1) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecord(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else if (recordType == 2) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecord(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else if (recordType == 3) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeys(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecord(), concurrentOperationsEnabled, dropCollectionFlag); 
+        if(inputFromJsonFlag.equals("Y"))
+        {
+        	MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
+        	if (recordType == 1) {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else if (recordType == 2) {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else if (recordType == 3) {
+            	mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeysfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag); 
+        	}
+        	mongoProcessor.writeStatistics();
         }
-        
-        mongoProcessor.writeStatistics();
+        else
+        {
+        	MongoProcessor<HashMap<String, Object>> mongoProcessor = context.getBean(MongoProcessor.class);
+        	if (recordType == 1) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecord(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else if (recordType == 2) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecord(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else if (recordType == 3) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeys(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecord(), concurrentOperationsEnabled, dropCollectionFlag); 
+            }
+        	mongoProcessor.writeStatistics();
+        }
         
         System.exit(0);
         
 	}
+
+
+private static DBObject generateRecordfromJson() {
+	DBObject dbObject = null;
+	File file = new File(JSON_PATH+"StudentAssessmentAssociation-full.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified StudentAssessmentAssociation-full.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}
+
+
+private static DBObject generateRecordShortKeysfromJson() {
+
+		DBObject dbObject = null;
+		File file = new File(JSON_PATH+"StudentAssessmentAssociation-shortKeys.json");
+		FileReader fr;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String curLine;
+			curLine = br.readLine();
+			dbObject = (DBObject) JSON.parse(curLine);
+
+		} catch (FileNotFoundException e) {
+			System.out.println("The specified StudentAssessmentAssociation-shortKeys.json file is not found.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dbObject;
+      
+	}
+
+
+private static DBObject generateFlatRecordfromJson() {
+	DBObject dbObject = null;
+	File file = new File(JSON_PATH+"StudentAssessmentAssociation-full.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified StudentAssessmentAssociation-full.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}
+
+
+private static DBObject generateShortRecordfromJson() {
+	DBObject dbObject = null;
+	File file = new File(JSON_PATH+"StudentAssessmentAssociation-short.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified StudentAssessmentAssociation-short.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}
+
+
+//	private static HashMap<String, Object> generateRecordfromJson() {
+//
+//		BasicDBObject record = new BasicDBObject();
+//		try {
+//			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//			
+////			AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+////		    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+////
+////			AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+////			// make deserializer use JAXB annotations (only)
+////			mapper.setAnnotationIntrospector(primary);
+//  
+//			File file = new File("user.json");
+//			
+//			FileReader fr = new FileReader(file);
+//			BufferedReader br = new BufferedReader(fr);
+//			String curLine;
+//			DBObject tempList;
+//			DBObject tempList2;
+//			DBObject tempList3;
+//			HashMap<String, Object> temp;
+//			HashMap<String, Object> temp2;
+//			HashMap<String, Object> temp3;
+//			
+//			while((curLine=br.readLine())!=null)
+//			{
+//				
+//		    DBObject dbObject = (DBObject)JSON.parse(curLine);
+//			StudentAssessmentAssociation user = mapper.readValue(curLine, StudentAssessmentAssociation.class);
+//			
+//			record.put("administrationDate", user.getAdministrationDate().toString());		
+//			record.put("administrationEndDate", user.getAdministrationEndDate().toString());
+//			record.put("administrationEnvironment", user.getAdministrationEnvironment().toString());			
+//			record.put("administrationLanguage", user.getAdministrationLanguage().toString());
+//			record.put("assessmentId", user.getAssessmentId());
+//			record.put("reasonNotTested", user.getReasonNotTested()==null? "":user.getReasonNotTested().toString());
+//			record.put("studentId", user.getStudentId().toString());
+//			record.put( "retestIndicator", user.getRetestIndicator().toString());
+//			record.put("gradeLevelWhenAssessed",user.getGradeLevelWhenAssessed().toString());
+//		    record.put("serialNumber",user.getSerialNumber());
+//		    
+//		    List<SpecialAccommodationItemType> specialAccommodations = user.getSpecialAccommodations();
+//		    tempList = generateList(specialAccommodations);
+//		    record.put("specialAccommodations", tempList);
+//		    
+//		    List<LinguisticAccommodationItemType> linguisticAccommodations = user.getLinguisticAccommodations();
+//		    tempList = generateList(linguisticAccommodations);
+//		    record.put("linguisticAccommodations", tempList);
+//		    
+//		    List<ScoreResult> scoreResults = user.getScoreResults();
+//		    tempList = new BasicDBList();	    
+//		    for(int i=0; i<scoreResults.size(); i++)
+//			{	
+//		    	temp = new HashMap<String, Object>();
+//			    scoreResultToMongoOb(scoreResults.get(i), temp);
+//			    tempList.put(""+i+"", temp);
+//			}
+//		    record.put("scoreResults", tempList);
+//		    
+//		    List<PerformanceLevelDescriptor> performanceLevelDescriptors = user.getPerformanceLevelDescriptors();
+//		    tempList = generateList(performanceLevelDescriptors);
+//		    record.put("performanceLevelDescriptors", tempList);
+//		    
+//		    List<StudentObjectiveAssessment> studentObjectiveAssessments = user.getStudentObjectiveAssessments();
+//		    tempList = new BasicDBList();;
+//		    
+//		    temp = new HashMap<String, Object>();		    
+//		    for(int i=0; i<studentObjectiveAssessments.size(); i++)
+//		    {
+//		    	StudentObjectiveAssessment tmp = studentObjectiveAssessments.get(i);
+//		    	ObjectiveAssessment tmp_objAssess= tmp.getObjectiveAssessment();
+//		    	temp2 = new HashMap<String, Object>();
+//		    	objectiveAssessmentToMongoOb(tmp_objAssess, temp2);	  	    	
+//		    	tempList.put("0", temp2);		    	
+//		    	List<ScoreResult> tmp_scoreRes = tmp.getScoreResults();
+//				tempList2 = new BasicDBList();
+//				temp2 = new HashMap<String, Object>();
+//				for (int j = 0; j < tmp_scoreRes.size(); j++) {
+//					temp3 = new HashMap<String, Object>();
+//					scoreResultToMongoOb(tmp_scoreRes.get(j), temp3);
+//					tempList2.put("" + j + "", temp3);
+//				}
+//				tempList.put("1", tempList2);
+//				
+//				List<PerformanceLevelDescriptor> tmp_perf = tmp.getPerformanceLevelDescriptors();
+//				tempList3 = generateList(tmp_perf);
+//				tempList.put("2", tempList3);
+//		    }
+//		    record.put("studentObjectiveAssessments", tempList);
+//		    
+//		    List<StudentAssessmentItem> studentAssessmentItems = user.getStudentAssessmentItems();
+//		    tempList = new BasicDBList();
+//		    	    
+//		    for(int i=0; i<studentAssessmentItems.size(); i++)
+//		    {
+//		    	temp = new HashMap<String, Object>();	
+//		    	studentAssessmentItemToMongoOb(studentAssessmentItems.get(i), temp);
+//		    	tempList.put(""+i+"", temp);
+//		    }
+//		    record.put("studentAssessmentItems", tempList);
+//			}
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return record;
+//	}
+
+//	private static HashMap<String, Object> generateRecordfromJsonMongo() {
+//
+//		BasicDBObject record = new BasicDBObject();
+//		DBObject dbObject = null;
+//		try {
+//			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//			
+////			AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+////		    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+////
+////			AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+////			// make deserializer use JAXB annotations (only)
+////			mapper.setAnnotationIntrospector(primary);
+//  
+//			File file = new File("user.json");
+//			
+//			FileReader fr = new FileReader(file);
+//			BufferedReader br = new BufferedReader(fr);
+//			String curLine;
+//			DBObject tempList;
+//			DBObject tempList2;
+//			DBObject tempList3;
+//			HashMap<String, Object> temp;
+//			HashMap<String, Object> temp2;
+//			HashMap<String, Object> temp3;
+//			
+//			while((curLine=br.readLine())!=null)
+//			{
+//				
+//		    dbObject = (DBObject)JSON.parse(curLine);
+////			StudentAssessmentAssociation user = mapper.readValue(curLine, StudentAssessmentAssociation.class);
+////			
+////			record.put("administrationDate", user.getAdministrationDate().toString());		
+////			record.put("administrationEndDate", user.getAdministrationEndDate().toString());
+////			record.put("administrationEnvironment", user.getAdministrationEnvironment().toString());			
+////			record.put("administrationLanguage", user.getAdministrationLanguage().toString());
+////			record.put("assessmentId", user.getAssessmentId());
+////			record.put("reasonNotTested", user.getReasonNotTested()==null? "":user.getReasonNotTested().toString());
+////			record.put("studentId", user.getStudentId().toString());
+////			record.put( "retestIndicator", user.getRetestIndicator().toString());
+////			record.put("gradeLevelWhenAssessed",user.getGradeLevelWhenAssessed().toString());
+////		    record.put("serialNumber",user.getSerialNumber());
+////		    
+////		    List<SpecialAccommodationItemType> specialAccommodations = user.getSpecialAccommodations();
+////		    tempList = generateList(specialAccommodations);
+////		    record.put("specialAccommodations", tempList);
+////		    
+////		    List<LinguisticAccommodationItemType> linguisticAccommodations = user.getLinguisticAccommodations();
+////		    tempList = generateList(linguisticAccommodations);
+////		    record.put("linguisticAccommodations", tempList);
+////		    
+////		    List<ScoreResult> scoreResults = user.getScoreResults();
+////		    tempList = new BasicDBList();	    
+////		    for(int i=0; i<scoreResults.size(); i++)
+////			{	
+////		    	temp = new HashMap<String, Object>();
+////			    scoreResultToMongoOb(scoreResults.get(i), temp);
+////			    tempList.put(""+i+"", temp);
+////			}
+////		    record.put("scoreResults", tempList);
+////		    
+////		    List<PerformanceLevelDescriptor> performanceLevelDescriptors = user.getPerformanceLevelDescriptors();
+////		    tempList = generateList(performanceLevelDescriptors);
+////		    record.put("performanceLevelDescriptors", tempList);
+////		    
+////		    List<StudentObjectiveAssessment> studentObjectiveAssessments = user.getStudentObjectiveAssessments();
+////		    tempList = new BasicDBList();;
+////		    
+////		    temp = new HashMap<String, Object>();		    
+////		    for(int i=0; i<studentObjectiveAssessments.size(); i++)
+////		    {
+////		    	StudentObjectiveAssessment tmp = studentObjectiveAssessments.get(i);
+////		    	ObjectiveAssessment tmp_objAssess= tmp.getObjectiveAssessment();
+////		    	temp2 = new HashMap<String, Object>();
+////		    	objectiveAssessmentToMongoOb(tmp_objAssess, temp2);	  	    	
+////		    	tempList.put("0", temp2);		    	
+////		    	List<ScoreResult> tmp_scoreRes = tmp.getScoreResults();
+////				tempList2 = new BasicDBList();
+////				temp2 = new HashMap<String, Object>();
+////				for (int j = 0; j < tmp_scoreRes.size(); j++) {
+////					temp3 = new HashMap<String, Object>();
+////					scoreResultToMongoOb(tmp_scoreRes.get(j), temp3);
+////					tempList2.put("" + j + "", temp3);
+////				}
+////				tempList.put("1", tempList2);
+////				
+////				List<PerformanceLevelDescriptor> tmp_perf = tmp.getPerformanceLevelDescriptors();
+////				tempList3 = generateList(tmp_perf);
+////				tempList.put("2", tempList3);
+////		    }
+////		    record.put("studentObjectiveAssessments", tempList);
+////		    
+////		    List<StudentAssessmentItem> studentAssessmentItems = user.getStudentAssessmentItems();
+////		    tempList = new BasicDBList();
+////		    	    
+////		    for(int i=0; i<studentAssessmentItems.size(); i++)
+////		    {
+////		    	temp = new HashMap<String, Object>();	
+////		    	studentAssessmentItemToMongoOb(studentAssessmentItems.get(i), temp);
+////		    	tempList.put(""+i+"", temp);
+////		    }
+////		    record.put("studentAssessmentItems", tempList);
+//			}
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return record;
+//	}
+	
+//	private static void objectiveAssessmentToMongoOb(ObjectiveAssessment tmp_objAssess, HashMap<String, Object> temp) {
+//		if(tmp_objAssess!=null)
+//		{
+//			List<AssessmentItem> assessmentItems = tmp_objAssess.getAssessmentItem();
+//			DBObject tempList = new BasicDBList();
+//			for(int i=0; i<assessmentItems.size(); i++)
+//			{
+//				HashMap<String, Object> assessmentItemMap = new HashMap<String, Object>();
+//				assessmentItemToMongoOb(assessmentItems.get(i), assessmentItemMap);
+//				tempList.put(""+i+"", assessmentItemMap);
+//			}
+//			temp.put("assessmentItems", tempList);
+//			List<AssessmentPerformanceLevel> assessmentPerformanceLevels = tmp_objAssess.getAssessmentPerformanceLevel();
+//			tempList = new BasicDBList();
+//			for(int i=0; i<assessmentPerformanceLevels.size(); i++)
+//			{
+//				HashMap<String, Object> assessmentPerformanceLevelMap = new HashMap<String, Object>();
+//				assessmentPerformanceLevelsToMongoOb(assessmentPerformanceLevels.get(i),assessmentPerformanceLevelMap);
+//				tempList.put(""+i+"",assessmentPerformanceLevelMap);
+//			}
+//			temp.put("assessmentPerformanceLevels", tempList);
+//			
+//			temp.put("identificationCode", tmp_objAssess.getIdentificationCode());
+//			
+//			
+//			tempList = generateList(tmp_objAssess.getLearningObjectives());
+//			temp.put("learningObjectives", tempList);
+//			
+//			temp.put("maxRawScore", tmp_objAssess.getMaxRawScore());
+//			
+//			temp.put("nomenclature", tmp_objAssess.getNomenclature());
+//			
+//			List<ObjectiveAssessment> objectiveAssessments = tmp_objAssess.getObjectiveAssessments();
+//			tempList = new BasicDBList();
+//			for(int i=0; i<objectiveAssessments.size(); i++)
+//			{
+//				ObjectiveAssessment obAssess = objectiveAssessments.get(i);
+//				HashMap<String, Object> temp2 = new HashMap<String, Object>();
+//				objectiveAssessmentToMongoOb(obAssess, temp2);
+//				tempList.put(""+i+"",temp2);
+//			}
+//			temp.put("objectiveAssessments", tempList);
+//			
+//			temp.put("percentOfAssessment", tmp_objAssess.getPercentOfAssessment());
+//		}		
+//	}
+
+//	private static void assessmentPerformanceLevelsToMongoOb(AssessmentPerformanceLevel assessmentPerformanceLevel, HashMap<String, Object> assessmentPerformanceLevelMap) {
+//		if(assessmentPerformanceLevel!=null)
+//		{
+//			assessmentPerformanceLevelMap.put("assessmentReportingMethod", assessmentPerformanceLevel.getAssessmentReportingMethod().toString());
+//			assessmentPerformanceLevelMap.put("maximumScore", assessmentPerformanceLevel.getMaximumScore());
+//			assessmentPerformanceLevelMap.put("minimumScore", assessmentPerformanceLevel.getMinimumScore());
+//			assessmentPerformanceLevelMap.put("performanceLevelDescriptor", assessmentPerformanceLevel.getPerformanceLevelDescriptor());
+//		}
+//	}
+
+	
+//	private static void studentAssessmentItemToMongoOb(StudentAssessmentItem studentAssessmentItem, HashMap<String, Object> temp) {
+//		if(studentAssessmentItem!=null)
+//		{
+//			temp.put("assessmentItemResultType", studentAssessmentItem.getAssessmentItemResult().toString());
+//			temp.put("assessmentResponse", studentAssessmentItem.getAssessmentResponse()); 
+//			temp.put("rawScoreResult", studentAssessmentItem.getRawScoreResult());
+//			temp.put("responseIndicator", studentAssessmentItem.getResponseIndicator()==null?"": studentAssessmentItem.getResponseIndicator().toString());
+//			HashMap<String, Object>temp2 = new HashMap<String, Object>();
+//			assessmentItemToMongoOb(studentAssessmentItem.getAssessmentItem(), temp2);
+//			temp.put("assessmentItem", temp2);	
+//		}
+//	}
+
+//	private static void scoreResultToMongoOb(ScoreResult tmp, HashMap<String, Object> temp) {
+//		if (tmp != null) {
+//			temp.put("assessmentReportingMethod", tmp.getAssessmentReportingMethod().toString());
+//			temp.put("result", tmp.getResult());
+//		}
+//	}
+
+//	private static void assessmentItemToMongoOb(AssessmentItem assessmentItem, HashMap<String, Object> assessmentItemMap) {	
+//		if(assessmentItem!=null)
+//		{
+//			assessmentItemMap.put("correctResponse", assessmentItem.getCorrectResponse());
+//			assessmentItemMap.put("identificationCode", assessmentItem.getIdentificationCode());
+//			assessmentItemMap.put("itemCategory", assessmentItem.getItemCategory().toString());
+//			assessmentItemMap.put("maxRawScore", assessmentItem.getMaxRawScore());
+//			assessmentItemMap.put("nomenclature", assessmentItem.getNomenclature());
+//			assessmentItemMap.put("learningStandards", generateList(assessmentItem.getLearningStandards()));
+//		}
+//	}
+
+	private static <T> DBObject generateList(List<T> list) {
+		DBObject tempList;
+		tempList = new BasicDBList();	    
+		for(int i=0; i<list.size(); i++)
+		{
+			T tmp = list.get(i);
+			tempList.put(""+i+"", tmp);
+		}
+		return tempList;
+	}
+	
+//	private static  HashMap<String, Object> generateFlatRecordfromJson() {
+//		BasicDBObject record = new BasicDBObject();
+//		try {
+//			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//			
+////			AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+////		    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+////
+////			AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+////			// make deserializer use JAXB annotations (only)
+////			mapper.setAnnotationIntrospector(primary);
+//  
+//			File file = new File("user.json");
+//			FileReader fr = new FileReader(file);
+//			BufferedReader br = new BufferedReader(fr);
+//			String curLine;
+//			DBObject tempList;
+//			DBObject tempList2;
+//			DBObject tempList3;
+//			HashMap<String, Object> temp;
+//			HashMap<String, Object> temp2;
+//			HashMap<String, Object> temp3;
+//			
+//			while((curLine=br.readLine())!=null)
+//			{
+//			StudentAssessmentAssociation user = mapper.readValue(curLine, StudentAssessmentAssociation.class);
+//			
+//			record.put("administrationDate", user.getAdministrationDate().toString());		
+//			record.put("administrationEndDate", user.getAdministrationEndDate().toString());
+//			record.put("administrationEnvironment", user.getAdministrationEnvironment().toString());			
+//			record.put("administrationLanguage", user.getAdministrationLanguage().toString());
+//			record.put("assessmentId", user.getAssessmentId());
+//			record.put("reasonNotTested", user.getReasonNotTested()==null? "":user.getReasonNotTested().toString());
+//			record.put("studentId", user.getStudentId().toString());
+//			record.put( "retestIndicator", user.getRetestIndicator().toString());
+//			record.put("gradeLevelWhenAssessed",user.getGradeLevelWhenAssessed().toString());
+//		    record.put("serialNumber",user.getSerialNumber());
+//		    
+//		    List<SpecialAccommodationItemType> specialAccommodations = user.getSpecialAccommodations();
+//		    for(int i=0; i<specialAccommodations.size(); i++)
+//		    {
+//			    record.put("specialAccommodations-"+i, specialAccommodations.get(i).toString());
+//		    }
+//		    
+//		    List<LinguisticAccommodationItemType> linguisticAccommodations = user.getLinguisticAccommodations();
+//		    for(int i=0; i<linguisticAccommodations.size();i++)
+//		    {
+//		    	record.put("linguisticAccommodations-"+i, linguisticAccommodations.get(i).toString());
+//		    }
+//		    
+//		    List<ScoreResult> scoreResults = user.getScoreResults(); 
+//		    for(int i=0; i<scoreResults.size(); i++)
+//			{	
+//		    	putScoreResultsToRecord("scoreResults-",scoreResults.get(i), record, i);
+//			}
+//		    
+//		    List<PerformanceLevelDescriptor> performanceLevelDescriptors = user.getPerformanceLevelDescriptors();
+//		    for(int i=0; i<performanceLevelDescriptors.size(); i++)
+//		    {
+//		    	record.put("performanceLevelDescriptors-"+i, performanceLevelDescriptors.get(i).toString());
+//		    }
+//		    
+//		    List<StudentObjectiveAssessment> studentObjectiveAssessments = user.getStudentObjectiveAssessments();
+//		    	    
+//		    for(int i=0; i<studentObjectiveAssessments.size(); i++)
+//		    {
+//		    	StudentObjectiveAssessment tmp = studentObjectiveAssessments.get(i);
+//		    	ObjectiveAssessment tmp_objAssess= tmp.getObjectiveAssessment();
+//		    	putObjectiveAssessmentToRecord("studentObjectiveAssessments", tmp_objAssess, record, i);	  	    	
+//    	
+//		    	List<ScoreResult> tmp_scoreRes = tmp.getScoreResults();
+//				for (int j = 0; j < tmp_scoreRes.size(); j++) {
+//					putScoreResultsToRecord("studentObjectiveAssessments", tmp_scoreRes.get(j), record, j);
+//				}
+//
+//				List<PerformanceLevelDescriptor> tmp_perf = tmp.getPerformanceLevelDescriptors();
+//				for(int j=0; j<tmp_perf.size(); j++)
+//				{
+//					record.put("studentObjectiveAssessments-"+i+"-performanceLevelDescriptor-"+j, tmp_perf.get(j));
+//				}
+//
+//		    }
+//		    
+//		    
+//		    List<StudentAssessmentItem> studentAssessmentItems = user.getStudentAssessmentItems();    	    
+//		    for(int i=0; i<studentAssessmentItems.size(); i++)
+//		    {
+//		    	putStudentAssessmentItemToRecord("studentAssessmentItems", studentAssessmentItems.get(i), record, i);
+//		    }
+//			}
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return record;
+//	}
+	
+	
+//	private static void putObjectiveAssessmentToRecord(String prefix, ObjectiveAssessment objAssess, BasicDBObject record, int index) {
+//		if(objAssess!=null)
+//		{
+//			List<AssessmentItem> assessmentItems = objAssess.getAssessmentItem();
+//			for(int i=0; i<assessmentItems.size();i++)
+//			{
+//				putAssessmentItemToRecord(prefix+"-"+index+"-assessmentItem-"+i, assessmentItems.get(i), record);		
+//			}
+//			List<AssessmentPerformanceLevel> assessmentPerformanceLevels = objAssess.getAssessmentPerformanceLevel();
+//			for(int i=0; i<assessmentPerformanceLevels.size();i++)
+//			{
+//				putPerformanceLevelToRecord(prefix+"-"+index+"-assessmentItem-"+i, assessmentPerformanceLevels.get(i), record);		
+//			}
+//			record.put(prefix+"-"+index+"-identificationCode",objAssess.getIdentificationCode());
+//			List<String> learningObjectives = objAssess.getLearningObjectives();
+//			for(int i=0; i<learningObjectives.size(); i++)
+//			{
+//				record.put(prefix+"-"+index+"-learningObjective-"+i, learningObjectives.get(i));
+//			}
+//			record.put(prefix+"-"+index+"-maxRawScore", objAssess.getMaxRawScore());
+//			record.put(prefix+"-"+index+"-nomenclature", objAssess.getNomenclature());
+//			List<ObjectiveAssessment> objectiveAssessments = objAssess.getObjectiveAssessments();
+//			for(int i=0; i<objectiveAssessments.size(); i++)
+//			{
+//				putObjectiveAssessmentToRecord(prefix+"-"+index+"-objectiveAssessment", objectiveAssessments.get(i), record, i);
+//			}
+//			record.put(prefix+"-"+index+"-percentOfAssessment", objAssess.getPercentOfAssessment()==null? "":objAssess.getPercentOfAssessment().toString());
+//		}
+//		
+//	}
+
+//	private static void putPerformanceLevelToRecord(String prefix,AssessmentPerformanceLevel assessmentPerformanceLevel,BasicDBObject record) {
+//		if(assessmentPerformanceLevel!=null)
+//		{
+//			record.put(prefix+"-"+"assessmentReportingMethod", assessmentPerformanceLevel.getAssessmentReportingMethod().toString());
+//			record.put(prefix+"-"+"maximumScore", assessmentPerformanceLevel.getMaximumScore());
+//			record.put(prefix+"-"+"minimumScore", assessmentPerformanceLevel.getMinimumScore());
+//			record.put(prefix+"-"+"performanceLevelDescriptor", assessmentPerformanceLevel.getPerformanceLevelDescriptor().toString());
+//		}
+//		
+//	}
+
+//	private static void putStudentAssessmentItemToRecord(String prefix, StudentAssessmentItem studentAssessmentItem, BasicDBObject record, int index) {
+//		if(studentAssessmentItem!=null)
+//		{
+//			putAssessmentItemToRecord(prefix+"-"+index+"-"+"assessmentItem", studentAssessmentItem.getAssessmentItem(), record);
+//			record.put(prefix+"-"+index+"-"+"assessmentItemResult", studentAssessmentItem.getAssessmentItemResult().toString());
+//			record.put(prefix+"-"+index+"-"+"assessmentResponse", studentAssessmentItem.getAssessmentResponse());
+//			record.put(prefix+"-"+index+"-"+"rawScoreResult", studentAssessmentItem.getRawScoreResult());
+//			record.put(prefix+"-"+index+"-"+"responseIndicator", studentAssessmentItem.getResponseIndicator()==null? "":studentAssessmentItem.getResponseIndicator().toString());
+//		}
+//		
+//	}
+
+//	private static void putAssessmentItemToRecord(String prefix,AssessmentItem assessmentItem, BasicDBObject record) {
+//		record.put(prefix+"-correctResponse", assessmentItem.getCorrectResponse()); 
+//		record.put(prefix+"-identificationCode", assessmentItem.getIdentificationCode());
+//		record.put(prefix+"-itemCategory", assessmentItem.getItemCategory().toString());
+//		List<String> learningStandards = assessmentItem.getLearningStandards();
+//		for(int i=0; i<learningStandards.size(); i++)
+//		{
+//			record.put(prefix+"-learningStand-"+i, learningStandards.get(i));
+//		}
+//		record.put(prefix+"-maxRawScore", assessmentItem.getMaxRawScore());
+//		record.put(prefix+"-nomenclature",assessmentItem.getNomenclature());
+//	}
+
+//	private static void putScoreResultsToRecord(String prefix, ScoreResult scoreResult, BasicDBObject record, int index) {
+//		if(scoreResult!=null)
+//		{
+//			record.put(prefix+"-"+index+"-assessmentReportingMethod", scoreResult.getAssessmentReportingMethod().toString());	
+//			record.put(prefix+"-"+index+"-result", scoreResult.getResult());
+//		}
+//	}
+
+//	private static  HashMap<String, Object> generateShortRecordfromJson() {
+//		BasicDBObject record = new BasicDBObject();
+//		try {
+//			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//  
+//			File file = new File("user.json");
+////			File file = new File("twoUser.json");
+//			FileReader fr = new FileReader(file);
+//			BufferedReader br = new BufferedReader(fr);
+//			String curLine;
+//			while((curLine=br.readLine())!=null)
+//			{
+//				DBObject dbObject = (DBObject)JSON.parse(curLine); 
+//				StudentAssessmentAssociation user = mapper.readValue(curLine, StudentAssessmentAssociation.class);
+//				record.put("administrationDate", user.getAdministrationDate().toString());		
+//				record.put("assessmentId", user.getAssessmentId());			
+//				record.put("studentId", user.getStudentId().toString());
+//			}
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return record;	
+//	}
+		
+//	private static HashMap<String, Object> generateRecordShortKeysfromJson() {
+//		BasicDBObject record = new BasicDBObject();
+//		DBObject dbObject = null;
+//		try {
+//			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//	
+////			AnnotationIntrospector primary = new JacksonAnnotationIntrospector();
+////		    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+////
+////			AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+////			// make deserializer use JAXB annotations (only)
+////			mapper.setAnnotationIntrospector(primary);
+//  
+//			File file = new File("user.json");
+//			FileReader fr = new FileReader(file);
+//			BufferedReader br = new BufferedReader(fr);
+//			String curLine;
+//			DBObject tempList;
+//			DBObject tempList2;
+//			DBObject tempList3;
+//			HashMap<String, Object> temp;
+//			HashMap<String, Object> temp2;
+//			HashMap<String, Object> temp3;
+//			
+//			while((curLine=br.readLine())!=null)
+//			{
+//			StudentAssessmentAssociation user = mapper.readValue(curLine, StudentAssessmentAssociation.class);
+//			
+//			
+//			record.put("0", user.getAdministrationDate().toString());		
+//			record.put("1", user.getAdministrationEndDate().toString());
+//			record.put("2", user.getAdministrationEnvironment().toString());			
+//			record.put("3", user.getAdministrationLanguage().toString());
+//			record.put("4", user.getAssessmentId());
+//			record.put("5", user.getReasonNotTested()==null? "":user.getReasonNotTested().toString());
+//			record.put("6", user.getStudentId().toString());
+//			record.put( "7", user.getRetestIndicator().toString());
+//			record.put("8",user.getGradeLevelWhenAssessed().toString());
+//		    record.put("9",user.getSerialNumber());
+//		    
+//		    List<SpecialAccommodationItemType> specialAccommodations = user.getSpecialAccommodations();
+//		    tempList = generateList(specialAccommodations);
+//		    record.put("10", tempList);
+//		    
+//		    List<LinguisticAccommodationItemType> linguisticAccommodations = user.getLinguisticAccommodations();
+//		    tempList = generateList(linguisticAccommodations);
+//		    record.put("11", tempList);
+//		    
+//		    List<ScoreResult> scoreResults = user.getScoreResults();
+//		    tempList = new BasicDBList();	    
+//		    for(int i=0; i<scoreResults.size(); i++)
+//			{	
+//		    	temp = new HashMap<String, Object>();
+//			    scoreResultToMongoOb(scoreResults.get(i), temp);
+//			    tempList.put(""+i+"", temp);
+//			}
+//		    record.put("12", tempList);
+//		    
+//		    List<PerformanceLevelDescriptor> performanceLevelDescriptors = user.getPerformanceLevelDescriptors();
+//		    tempList = generateList(performanceLevelDescriptors);
+//		    record.put("13", tempList);
+//		    
+//		    List<StudentObjectiveAssessment> studentObjectiveAssessments = user.getStudentObjectiveAssessments();
+//		    tempList = new BasicDBList();;
+//		    
+//		    temp = new HashMap<String, Object>();		    
+//		    for(int i=0; i<studentObjectiveAssessments.size(); i++)
+//		    {
+//		    	StudentObjectiveAssessment tmp = studentObjectiveAssessments.get(i);
+//		    	ObjectiveAssessment tmp_objAssess= tmp.getObjectiveAssessment();
+//		    	temp2 = new HashMap<String, Object>();
+//		    	objectiveAssessmentToMongoOb(tmp_objAssess, temp2);	  	    	
+//		    	tempList.put("0", temp2);		    	
+//		    	List<ScoreResult> tmp_scoreRes = tmp.getScoreResults();
+//				tempList2 = new BasicDBList();
+//				temp2 = new HashMap<String, Object>();
+//				for (int j = 0; j < tmp_scoreRes.size(); j++) {
+//					temp3 = new HashMap<String, Object>();
+//					scoreResultToMongoOb(tmp_scoreRes.get(j), temp3);
+//					tempList2.put("" + j + "", temp3);
+//				}
+//				tempList.put("1", tempList2);
+//				
+//				List<PerformanceLevelDescriptor> tmp_perf = tmp.getPerformanceLevelDescriptors();
+//				tempList3 = generateList(tmp_perf);
+//				tempList.put("2", tempList3);
+//		    }
+//		    record.put("14", tempList);
+//		    
+//		    List<StudentAssessmentItem> studentAssessmentItems = user.getStudentAssessmentItems();
+//		    tempList = new BasicDBList();
+//		    	    
+//		    for(int i=0; i<studentAssessmentItems.size(); i++)
+//		    {
+//		    	temp = new HashMap<String, Object>();	
+//		    	studentAssessmentItemToMongoOb(studentAssessmentItems.get(i), temp);
+//		    	tempList.put(""+i+"", temp);
+//		    }
+//		    record.put("15", tempList);
+//			}
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return record;
+//	}
 	
 	private static  HashMap<String, Object> generateShortRecord() {
         BasicDBObject record = new BasicDBObject();
@@ -409,6 +1173,7 @@ public class App {
 
         tempList = new BasicDBList();
         temp = new HashMap<String, Object>();
+        
         temp.put("endDate", "2010-03-04");
         temp.put("beginDate", "2010-03-04");
         temp.put("characteristic", "Foster Care");
