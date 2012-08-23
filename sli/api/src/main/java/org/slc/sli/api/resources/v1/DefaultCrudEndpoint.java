@@ -816,6 +816,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     private ApiQuery createAssociationNeutralQuery(String key, String value, String includeField) {
         ApiQuery apiQuery = new ApiQuery();
+        apiQuery.setLimit(0);
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         apiQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
         // neutralQuery.setIncludeFields(includeField);
