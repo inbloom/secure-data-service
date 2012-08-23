@@ -120,7 +120,7 @@
             "SEA Administrator",
             "Sandbox Administrator"
             ]
-      }
+      },
       {
       "name":"Purge Tenant",
          "description":"Perform a tenant-level purge",
