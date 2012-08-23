@@ -108,7 +108,7 @@ public class EventReporter implements Publisher {
 
             if (!messageFile.isEmpty()) {
                 reporter.reportEvent(messageFile, eventAction);
-            } else  {
+            } else {
                 reporter.runReportScript(script, waitTime);
             }
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
@@ -130,8 +130,8 @@ public class EventReporter implements Publisher {
 
         Properties httpsProperties = new Properties();
 
-        return new EventReporterAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties, httpsProperties,
-                "TestZone", zoneUrl, SIFVersion.SIF23);
+        return new EventReporterAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties,
+                httpsProperties, "TestZone", zoneUrl, SIFVersion.SIF23);
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
@@ -152,23 +152,28 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, HrfinDTD.EMPLOYEEASSIGNMENT, new PublishingOptions(true));
     }
 
-    public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+    public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException,
+            IllegalAccessException, InvocationTargetException {
         List<Event> eventsSent = new ArrayList<Event>();
         LOG.info("Wait time (ms): " + waitTime);
         String[] eventDescriptors = script.split(",");
         for (String descriptor : eventDescriptors) {
             GeneratorScriptMethod scriptMethod = GeneratorScriptMethod.get(descriptor);
-            LOG.info("Executing script method - " + scriptMethod.toString());
-            try {
-                Event eventSent = scriptMethod.execute(this);
-                eventsSent.add(eventSent);
-                Thread.sleep(waitTime);
-            } catch (SecurityException e) {
-                LOG.error("Failed to execute method for descriptor " + descriptor, e);
-            } catch (NoSuchMethodException e) {
-                LOG.error("Failed to execute method for descriptor " + descriptor, e);
-            } catch (InterruptedException e) {
-                LOG.error("Exception while sleeping", e);
+            if (scriptMethod == null) {
+                LOG.error("Error retrieving scriptMethod - " + descriptor);
+            } else {
+                LOG.info("Executing script method - " + scriptMethod.toString());
+                try {
+                    Event eventSent = scriptMethod.execute(this);
+                    eventsSent.add(eventSent);
+                    Thread.sleep(waitTime);
+                } catch (SecurityException e) {
+                    LOG.error("Failed to execute method for descriptor " + descriptor, e);
+                } catch (NoSuchMethodException e) {
+                    LOG.error("Failed to execute method for descriptor " + descriptor, e);
+                } catch (InterruptedException e) {
+                    LOG.error("Exception while sleeping", e);
+                }
             }
         }
         return eventsSent;
