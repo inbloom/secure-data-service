@@ -539,6 +539,7 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForStudent(final String token, final String studentId,
             Map<String, String> params) {
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), studentId);
@@ -574,7 +575,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
         GenericEntity homeRoomEntity = null;
 
-        List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId, null);
+        List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId, new HashMap<String, String>());
 
         // If only one section association exists for the student, return the
         // section as home room
@@ -587,7 +588,7 @@ public class SDKAPIClient implements APIClient {
         // section with homeroomIndicator set to true
         for (GenericEntity studentSection : studentSections) {
             List<Map<String, Object>> studentSectionAssocs = (List<Map<String, Object>>) studentSection
-                    .get("studentSectionAssociation");
+                    .get("studentSectionAssociations");
             if (studentSectionAssocs != null) {
                 for (Map<String, Object> sectionAssoc : studentSectionAssocs) {
                     if ((sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR) != null)
@@ -833,6 +834,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,parentAssociations)");
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
     }
