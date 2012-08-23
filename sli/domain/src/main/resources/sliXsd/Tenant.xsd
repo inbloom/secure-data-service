@@ -72,6 +72,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element name="preload" type="preload" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
    
