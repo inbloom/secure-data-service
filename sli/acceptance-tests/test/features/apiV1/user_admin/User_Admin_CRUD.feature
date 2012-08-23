@@ -224,7 +224,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |              |No_Name    |noname@test.com      |               |      |           |
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No User_Name  |           |nousername@test.com  |               |      |           |
     |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No Mail       |No_Mail    |                     |               |      |           |
-
+# can not create ingestion_user or realm admin when there is no LEA in the edorg
+	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |Realm Administrator |POST      |400 |200       |Realm Administrator4 |Realm_Administrator4 |Realm_Administrator@test.com|    |Midgar | IL-NIGHTFALL|
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Ingestion User      |POST      |400 |200       |Ingestion User5      |Ingestion_User5      |Ingestion_User@test.com|        |Midgar| IL-NIGHTFALL|
 
   #sandbox
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy on sandbox

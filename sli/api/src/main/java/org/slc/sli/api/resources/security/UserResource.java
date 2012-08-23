@@ -321,6 +321,11 @@ public class UserResource {
             return result;
         }
 
+        result = validateLEAExistForDistrict(user);
+        if (result != null) {
+            return result;
+        }
+
         return null;
     }
 
@@ -526,7 +531,7 @@ public class UserResource {
             //edorgs must already exist in db
             Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
             if (!allowedEdorgs.contains(user.getEdorg())) {
-                return composeBadDataResponse("Invalid edorg");
+                return composeBadDataResponse("Can not change or create LEA in this Education Organization");
             }
         } else {
             if (user.getTenant() == null) {
@@ -540,7 +545,7 @@ public class UserResource {
                 // Ed-Org must already exist in the tenant
                 Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg());
                 if (!allowedEdorgs.contains(user.getEdorg())) {
-                    return composeBadDataResponse("Invalid edorg");
+                    return composeBadDataResponse("Not allowed to modify users in this Education Organization");
                 }
             }
         }
