@@ -764,7 +764,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     private Response handle(final String resourceName, final EntityDefinitionStore entityDefs, final UriInfo uriInfo,
             final ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+        EntityDefinition entityDef = getEntityDefinition(resourceName, entityDefs);
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
@@ -788,6 +788,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         logAccessToRestrictedEntity(uriInfo, entityDef);
 
         return logic.run(entityDef);
+    }
+
+    protected EntityDefinition getEntityDefinition(final String resourceName) {
+        return getEntityDefinition(resourceName, entityDefs);
+    }
+
+    protected EntityDefinition getEntityDefinition(final String resourceName, final EntityDefinitionStore entityDefs) {
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+        return entityDef;
     }
 
     private void logAccessToRestrictedEntity(final UriInfo uriInfo, EntityDefinition entity) {

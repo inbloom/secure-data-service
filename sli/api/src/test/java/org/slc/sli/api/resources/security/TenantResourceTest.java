@@ -17,13 +17,13 @@
 package org.slc.sli.api.resources.security;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,6 +88,9 @@ public class TenantResourceTest {
     private static final String TENANT_3 = "NY";
     private static final String ED_ORG_1 = "Daybreak";
     private static final String ED_ORG_2 = "Sunset";
+
+    @Autowired
+    private Repository<Entity> repo;
 
     @Before
     public void setup() throws Exception {
@@ -212,13 +215,6 @@ public class TenantResourceTest {
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
         assertEquals("Should have 2 landing zones", 2, landingZones.size());
 
-        Map<String, Object> preload = (Map<String, Object>) landingZones.get(0).get(TenantResourceImpl.LZ_PRELOAD);
-        assertNotNull(preload.get(TenantResourceImpl.LZ_PRELOAD_FILES));
-        assertFalse(((List<String>) preload.get(TenantResourceImpl.LZ_PRELOAD_FILES)).isEmpty());
-
-        preload = (Map<String, Object>) landingZones.get(1).get(TenantResourceImpl.LZ_PRELOAD);
-        assertNotNull(preload.get(TenantResourceImpl.LZ_PRELOAD_FILES));
-        assertFalse(((List<String>) preload.get(TenantResourceImpl.LZ_PRELOAD_FILES)).isEmpty());
     }
 
     @Test
@@ -378,16 +374,31 @@ public class TenantResourceTest {
     }
 
     @Test
+    public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        String id = createLandingZone(new EntityBody(createTestEntity()));
+        Response r = tenantResource.preload(id, "small", uriInfo);
+        assertEquals(Status.CREATED.getStatusCode(), r.getStatus());
+        Map<String, Object> e = repo.findById("tenant", id).getBody();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> landingZone = ((List<Map<String, Object>>) e.get("landingZone")).get(0);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
+        assertEquals(Arrays.asList("small"), preload.get("files"));
+        assertEquals("ready", preload.get("status"));
+    }
+
+    @Test
     public void testLandingZoneLocked() {
+        String id = createLandingZone(new EntityBody(createTestEntity()));
         @SuppressWarnings("unchecked")
         Repository<Entity> mockRepo = mock(Repository.class);
         IngestionTenantLockChecker lockChecker = new IngestionTenantLockChecker(mockRepo);
-        when(mockRepo.findOne("tenantJobLock", new NeutralQuery(new NeutralCriteria("_id", "=", "myTenant"))))
+        when(mockRepo.findOne("tenantJobLock", new NeutralQuery(new NeutralCriteria("_id", "=", id))))
                 .thenReturn(new MongoEntity("tenantJobLock", new HashMap<String, Object>()));
         tenantResource.setLockChecker(lockChecker);
         try {
-            tenantResource.createLandingZone("myTenant", "myEdorg", Arrays.asList("small"), true);
-            fail("creating a landing zone should have failed if the landing zone is locked");
+            tenantResource.preload(id, "small", uriInfo);
+            fail("Should block preloading data in landing zone when ingesiton is running");
         } catch (TenantResourceCreationException e) {
             assertEquals(Status.CONFLICT, e.getStatus());
         }

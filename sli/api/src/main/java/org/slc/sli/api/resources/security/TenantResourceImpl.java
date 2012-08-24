@@ -138,12 +138,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @Override
-    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, List<String> preloadFiles,
-            boolean isSandbox) throws TenantResourceCreationException {
-        if (lockChecker.ingestionLocked(tenantId)) {
-            throw new TenantResourceCreationException(Status.CONFLICT, "Ingestion is locked for this tenant");
-        }
-        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, preloadFiles, isSandbox);
+    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox)
+            throws TenantResourceCreationException {
+        String newTenantId = createLandingZone(tenantId, edOrgId, null, null, isSandbox);
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody newTenant = tenantService.get(newTenantId);
         @SuppressWarnings("unchecked")
@@ -172,16 +169,13 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         Map<String, Object> newLz = newLzs.get(0);
         String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
 
-        Map<String, Object> preload = (Map<String, Object>) newLz.get(LZ_PRELOAD);
-        List<String> preloadFiles = (preload == null) ? (null) : (List<String>) preload.get(LZ_PRELOAD_FILES);
-
         return createLandingZone(tenantId, newEdOrg, (String) newLz.get(LZ_DESC),
-                (List<String>) newLz.get(LZ_USER_NAMES), preloadFiles, isSandbox);
+                (List<String>) newLz.get(LZ_USER_NAMES), isSandbox);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames,
-            List<String> preloadFiles, boolean isSandbox) throws TenantResourceCreationException {
+            boolean isSandbox) throws TenantResourceCreationException {
 
         // get the exisint tenant resource
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
@@ -213,7 +207,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
-            Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames, preloadFiles);
+            Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(nlz);
             newTenant.put(LZ, newLandingZoneList);
@@ -263,7 +257,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
 
-        Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames, preloadFiles);
+        Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
         allLandingZones.add(nlz);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
@@ -272,7 +266,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer, String path,
-            List<String> userNames, List<String> preloadFiles) {
+            List<String> userNames) {
         Map<String, Object> newLandingZone = new HashMap<String, Object>();
         newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
         newLandingZone.put(LZ_DESC, desc);
@@ -280,13 +274,16 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         newLandingZone.put(LZ_PATH, path);
         newLandingZone.put(LZ_USER_NAMES, userNames);
 
-        if ((preloadFiles != null) && (!preloadFiles.isEmpty())) {
-            Map<String, Object> preload = new HashMap<String, Object>();
-            preload.put(LZ_PRELOAD_FILES, preloadFiles);
-            preload.put(LZ_PRELOAD_STATUS, LZ_PRELOAD_STATUS_READY);
-            newLandingZone.put(LZ_PRELOAD, preload);
-        }
         return newLandingZone;
+    }
+
+    private Map<String, Object> preload(List<String> dataSets) {
+        Map<String, Object> preload = new HashMap<String, Object>();
+        if ((dataSets != null) && (!dataSets.isEmpty())) {
+            preload.put(LZ_PRELOAD_FILES, dataSets);
+            preload.put(LZ_PRELOAD_STATUS, LZ_PRELOAD_STATUS_READY);
+        }
+        return preload;
     }
 
     /**
@@ -376,6 +373,48 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
 
         return super.read(uuid, headers, uriInfo);
+    }
+
+    /**
+     * Preload a landing zone with a sample data set
+     *
+     * @param tenantId
+     *            tenant id
+     * @param dataSet
+     *            the name of the data set to preload
+     * @param context
+     *            the uri info
+     * @return
+     */
+    @POST
+    @Path("{" + UUID + "}" + "/preload")
+    public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
+        if (lockChecker.ingestionLocked(tenantId)) {
+            throw new TenantResourceCreationException(Status.CONFLICT, "Ingestion is locked for this tenant");
+        }
+        EntityService service = getEntityDefinition("tenant").getService();
+        EntityBody entity = service.get(tenantId);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> landingZones = (List<Map<String, Object>>) entity.get("landingZone");
+        if (landingZones == null || landingZones.isEmpty()) {
+            return Response.status(Status.BAD_REQUEST).build();
+        }
+        Map<String, Object> landingZone = landingZones.get(0);
+        landingZone.put("preload", preload(Arrays.asList(dataSet)));
+        service.update(tenantId, entity);
+        return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
+    }
+
+    /**
+     * Get the status for the preloading job
+     * This functionality is not available at this point
+     *
+     * @return
+     */
+    @GET
+    @Path("{" + UUID + "}" + "/preload/jobstatus")
+    public Response getPreloadJob() {
+        return Response.status(Status.NOT_IMPLEMENTED).build();
     }
 
     @Override
