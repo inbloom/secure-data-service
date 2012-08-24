@@ -21,7 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandConfig;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandsConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.RangeConfig;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
@@ -60,45 +60,6 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
         studentColl = db.getCollection("student");
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    protected void setup(Mapper.Context context) throws IOException, InterruptedException {
-        super.setup(context);
-
-        String tmp = context.getConfiguration().get(JobConfiguration.BANDS_PROPERTY);
-        if (tmp != null) {
-            BandsConfig cfg = om.readValue(tmp, BandsConfig.class);
-            bands = cfg.getBands();
-        } else {
-            throw new IllegalArgumentException("Invalid configuration found. "
-                + "Aggregates must specify the metadata.bands property.");
-        }
-
-        if (bands.size() <= 2) {
-            throw new IllegalArgumentException("Invalid configuration found. "
-                + "Aggregates must specify at least 3 bands, where band[0] specifies "
-                + "invalid values, band[1] specifies no value found, and the remaining bands "
-                + "map to score range values.");
-
-        }
-
-        tmp = context.getConfiguration().get(JobConfiguration.VALID_RANGE_PROPERTY);
-        if (tmp != null) {
-            validRange = om.readValue(tmp, RangeConfig.class);
-        } else {
-            throw new IllegalArgumentException("Invalid configuration found. Aggregates must "
-                + "specify a metadata.valid_range property.");
-        }
-
-        BSONObject obj = MongoConfigUtil.getFields(context.getConfiguration());
-        if (obj != null) {
-            fields = obj.keySet().toArray(new String[0]);
-        } else {
-            throw new IllegalArgumentException("Invalid configuration found. Aggregates must "
-                + "specify a the hadoop.map.fields property.");
-        }
-    }
-
     @Override
     public void map(final IdFieldEmittableKey schoolId, final BSONObject school, final Context context) throws IOException,
             InterruptedException {
@@ -120,7 +81,7 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
                 for (BandConfig band : bands) {
                     RangeConfig range = band.getRange();
 
-                    if (range != null && scaleScore >= range.getMax() && scaleScore <= range.getMax()) {
+                    if (range != null && scaleScore >= range.getMin() && scaleScore <= range.getMax()) {
                         code.set(band.getAbbreviation());
                         valid = true;
                         break;
@@ -172,5 +133,22 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
         }
 
         return students;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    protected void setup(Mapper.Context context) throws IOException, InterruptedException {
+        super.setup(context);
+
+        MetadataConfig cfg = JobConfiguration.getAggregateMetadata(context.getConfiguration());
+        bands = cfg.getBands();
+
+        BSONObject obj = MongoConfigUtil.getFields(context.getConfiguration());
+        if (obj != null) {
+            fields = obj.keySet().toArray(new String[0]);
+        } else {
+            throw new IllegalArgumentException("Invalid configuration found. Aggregates must "
+                + "specify a the hadoop.map.fields property.");
+        }
     }
 }
