@@ -55,7 +55,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTask extends
             return result;
         }
 
-        sifData.setRefId(sifData.getSIF_RefId() + ":" + sifData.getSIF_RefObject());
+        sifData.setRefId(sifData.getSIF_RefId() + ":" + sifData.getSIF_RefObject() + ":" + sifData.getLEAInfoRefId());
 
         Entity staff = sifIdResolver.getSliEntity(sifData.getSIF_RefId(), zoneId);
         Entity edOrg = sifIdResolver.getSliEntity(sifData.getLEAInfoRefId(), zoneId);

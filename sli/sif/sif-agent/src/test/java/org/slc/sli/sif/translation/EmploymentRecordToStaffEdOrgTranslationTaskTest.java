@@ -80,6 +80,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
         EmploymentRecord er = new EmploymentRecord();
         er.setSIF_RefId("staffId");
         er.setSIF_RefObject("EmployeePersonal");
+        er.setLEAInfoRefId("leaInfoRefId");
 
         // mock the lookup of the staff/edorg
         Entity entity = new GenericEntity("entityType", new HashMap<String, Object>());
@@ -87,7 +88,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
 
         translator.doTranslate(er, "zone");
 
-        Assert.assertEquals("staffId:EmployeePersonal", er.getRefId());
+        Assert.assertEquals("staffId:EmployeePersonal:leaInfoRefId", er.getRefId());
     }
 
     @Test
