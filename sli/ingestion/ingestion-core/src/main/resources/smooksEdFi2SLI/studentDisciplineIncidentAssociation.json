@@ -9,9 +9,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.studentUniqueStateId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.studentUniqueStateId"
 		                }]
@@ -20,7 +20,7 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.disciplineIncidentId",
         "ref" :
         {
@@ -28,9 +28,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.incidentIdentifier",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.disciplineIncidentIdentifier"
                         }]

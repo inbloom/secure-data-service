@@ -27,6 +27,62 @@
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
         <Section504Disabilities/>
+        <StudentProgram>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
+                    <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services/>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+            <ReasonExited>No longer receiving special education</ReasonExited>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgram>
+        <StudentProgram>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>Test Program 1</ProgramId>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services/>
+            <BeginDate>2011-03-04</BeginDate>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgram>
+        <StudentProgram>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>Test Program 2</ProgramId>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services/>
+            <BeginDate>2011-03-04</BeginDate>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgram>
+        <StudentCohort>
+            <CohortReference>
+                <CohortIdentity>
+                    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+                    <StateOrganizationId>NY</StateOrganizationId>
+                </CohortIdentity>
+            </CohortReference>
+            <BeginDate>2011-01-01</BeginDate>
+        </StudentCohort>
     </Student>
 
     <Student>
@@ -45,6 +101,41 @@
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
         <Section504Disabilities/>
+        <StudentProgram>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </ProgramIdentity>
+            </ProgramReference>
+            <Services/>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2012-03-04</EndDate>
+            <ReasonExited>No longer receiving special education</ReasonExited>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+        </StudentProgram>
+        <StudentCohort>
+            <CohortReference>
+                <CohortIdentity>
+                    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+                    <StateOrganizationId>IL</StateOrganizationId>
+                </CohortIdentity>
+            </CohortReference>
+            <BeginDate>2011-01-01</BeginDate>
+        </StudentCohort>
+        <StudentCohort>
+            <CohortReference>
+                <CohortIdentity>
+                    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+                    <StateOrganizationId>IL</StateOrganizationId>
+                </CohortIdentity>
+            </CohortReference>
+            <BeginDate>2011-01-01</BeginDate>
+        </StudentCohort>
     </Student>
 
 </InterchangeStudent>

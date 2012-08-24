@@ -856,6 +856,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
+        | staffProgramAssociation     | 3     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -866,6 +867,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
 	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
 	And zip file is scp to ingestion landing zone
@@ -878,6 +884,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
+        | staffProgramAssociation     | 4     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -888,3 +895,8 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |
