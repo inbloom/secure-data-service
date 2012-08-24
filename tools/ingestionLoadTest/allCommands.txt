@@ -1,0 +1,4 @@
+./tManager.sh -z 'C:\Users\ldalgado\repo5\sli\sli\ingestion\ingestion-service\target\ingestion\lz\inbound\' -t 100 -i LTEST -c
+
+./tManager.sh -i LTEST -d
+

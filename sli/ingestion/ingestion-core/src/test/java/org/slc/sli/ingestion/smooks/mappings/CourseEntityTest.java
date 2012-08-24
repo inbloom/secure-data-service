@@ -175,8 +175,6 @@ public class CourseEntityTest {
 
         assertEquals("course", neutralRecord.getRecordType());
 
-        assertEquals("Science7", neutralRecord.getLocalId());
-
         assertEquals("Science7", neutralRecord.getAttributes().get("courseTitle"));
 
         List courseCodeList = (List) neutralRecord.getAttributes().get("courseCode");
