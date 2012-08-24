@@ -46,7 +46,8 @@ public class ResourceTypeTest {
     private static final ArrayList<Param> PARAMS = new ArrayList<Param>(0);
     private static final ArrayList<Method> METHODS = new ArrayList<Method>(0);
     private static final ArrayList<Resource> RESOURCES = new ArrayList<Resource>(0);
-    private static final Resource RESOURCE = new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES);
+    private static final String RESOURCE_CLASS = "MyClass";
+    private static final Resource RESOURCE = new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
 
     @Before
     public void setup() throws Exception {

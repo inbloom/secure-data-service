@@ -42,9 +42,9 @@ public class ClassTypeTest {
     @Before
     public void setup() {
         lhs = new AssociationEnd(TestUtils.ZERO_TO_ONE, "LHS", true, Identifier.fromString("1234"),
-                TestUtils.EMPTY_TAGGED_VALUES, Identifier.fromString("LHSType"));
+                TestUtils.EMPTY_TAGGED_VALUES, Identifier.fromString("LHSType"), "test_end_name");
         rhs = new AssociationEnd(TestUtils.ONE_TO_MANY, "RHS", true, Identifier.fromString("4321"),
-                TestUtils.EMPTY_TAGGED_VALUES, Identifier.fromString("RHSType"));
+                TestUtils.EMPTY_TAGGED_VALUES, Identifier.fromString("RHSType"), "test_end_name");
         classType = new ClassType(lhs, rhs);
     }
 

@@ -35,7 +35,7 @@ public class AssociationEndTest {
 
     @Before
     public void setup() {
-        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier);
+        associationEnd = new AssociationEnd(TestUtils.ZERO_TO_ONE, "TestAssocEnd", false, identifier, "test_end_name");
     }
 
     @Test
