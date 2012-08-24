@@ -5,7 +5,8 @@ Background: Set my data store
 Given the data store is "data_integrated"
 
 Scenario: Add an LEA
-Given I wait for "10" seconds
+Given the data store is "data_LEAInfo"
+And I wait for "10" seconds
 And I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName           |
@@ -28,7 +29,8 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string     | expected_LEAInfo_add |
 
 Scenario: Update an LEA
-Given I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
+Given the data store is "data_LEAInfo"
+And I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
