@@ -80,6 +80,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
         EmploymentRecord er = new EmploymentRecord();
         er.setSIF_RefId("staffId");
         er.setSIF_RefObject("EmployeePersonal");
+        er.setLEAInfoRefId("leaInfoRefId");
 
         // mock the lookup of the staff/edorg
         Entity entity = new GenericEntity("entityType", new HashMap<String, Object>());
@@ -87,7 +88,7 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
 
         translator.doTranslate(er, "zone");
 
-        Assert.assertEquals("staffId:EmployeePersonal", er.getRefId());
+        Assert.assertEquals("staffId:EmployeePersonal:leaInfoRefId", er.getRefId());
     }
 
     @Test
@@ -187,27 +188,6 @@ public class EmploymentRecordToStaffEdOrgTranslationTaskTest extends AdkTest {
         Assert.assertEquals("Other", e.getStaffClassification());
     }
 
-    /**
-     * Validates that if a teacher and school are referenced by
-     * the EmploymentRecord, a StaffEdOrg assoc. isn't created
-     */
-    @Test
-    public void shouldNotCreateResultForTeacherSchool() {
-        EmploymentRecord er = new EmploymentRecord();
-        er.setLEAInfoRefId("schoolId");
-        er.setSIF_RefId("teacherId");
-
-        Entity teacher = new GenericEntity("teacher", new HashMap<String, Object>());
-        Entity school = new GenericEntity("school", new HashMap<String, Object>());
-
-        Mockito.when(sifIdResolver.getSliEntity("schoolId", "zone")).thenReturn(school);
-        Mockito.when(sifIdResolver.getSliEntity("teacherId", "zone")).thenReturn(teacher);
-
-        List<StaffEducationOrganizationAssociationEntity> result = translator.doTranslate(er, "zone");
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, result.size());
-    }
 
     @Test
     public void shouldTranslateTitle() {

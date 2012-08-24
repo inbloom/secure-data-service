@@ -88,13 +88,11 @@
     </bean>
     
     <bean id="employmentRecordToStaffEdOrdTranslationTask" class="org.slc.sli.sif.translation.EmploymentRecordToStaffEdOrgTranslationTask" />
-    <bean id="employmentRecordToTeacherSchoolTranslationTask" class="org.slc.sli.sif.translation.EmploymentRecordToTeacherSchoolTranslationTask" />
 
     <bean id="EmploymentRecordTranslationTaskList" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <ref local="employmentRecordToStaffEdOrdTranslationTask" />
-                <ref local="employmentRecordToTeacherSchoolTranslationTask" />
             </list>
         </constructor-arg>
     </bean>

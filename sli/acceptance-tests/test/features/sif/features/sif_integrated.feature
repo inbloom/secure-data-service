@@ -1,18 +1,18 @@
-@RALLY_US3047 @RALLY_US3370 @RALLY_DE1527
+@RALLY_US3047 @RALLY_US3370 @RALLY_DE1527 @RALLY_US3178 @RALLY_US3369
 Feature: SIF Integrated Test
 
 Background: Set my data store
 Given the data store is "data_integrated"
 
 Scenario: Add an LEA
-Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
+Given I wait for "10" seconds
+And I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName           |
      | educationOrganization    |
      | student                  |
      | studentSchoolAssociation |
      | custom_entities          |
-And I wait for "10" seconds
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -213,7 +213,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_change |
 
  Scenario: Add an Staff with existing employee record
-And I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
+Given I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -227,7 +227,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_add_exist |
 
 Scenario: Change a Staff record
-And I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
+Given I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -239,3 +239,37 @@ Then I should see following map of entry counts in the corresponding collections
    And I check that the record contains all of the expected values:
      | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile            |
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_change |
+
+Scenario: Add an EmploymentRecord for a staff
+Given I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 2     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue  | searchType | expectedValuesFile                                        |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | expected_EmploymentRecord_add_staff_educationOrganization |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue  | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
+
+Scenario: Update an EmploymentRecord for a staff
+Given I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 2     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | expected_EmploymentRecord_change_staff_educationOrganization |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
+
+
