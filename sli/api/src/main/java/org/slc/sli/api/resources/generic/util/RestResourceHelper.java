@@ -17,15 +17,11 @@ package org.slc.sli.api.resources.generic.util;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 /**

@@ -22,8 +22,6 @@ import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.generic.response.GetAllResponseBuilder;
 import org.slc.sli.api.resources.generic.response.GetResponseBuilder;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -32,10 +30,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Base resource class for all dynamic end points
@@ -66,10 +60,16 @@ public abstract class GenericResource {
     @Autowired
     protected DefaultResponseBuilder defaultResponseBuilder;
 
+    /**
+     * @author jstokes
+     */
     public static interface ResourceLogic {
         public Response run(Resource resource);
     }
 
+    /**
+     * @author jstokes
+     */
     public static interface GetResourceLogic {
         public ServiceResponse run(Resource resource);
     }
