@@ -27,15 +27,10 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.core.util.Base64;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -52,7 +47,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sun.jersey.core.util.Base64;
+import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Controller for Discovery Service
@@ -71,7 +72,7 @@ public class AuthController {
 
     @Autowired
     private OauthSessionManager sessionManager;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -105,7 +106,7 @@ public class AuthController {
 
         Map<String, String> map = getRealmMap(realmUniqueId);
 
-        
+
         //Only one realm, so let's bypass the realm selection and direct them straight to that realm
         if (map.size() == 1) {
             return ssoInit(map.keySet().iterator().next(), sessionId, redirectUri, clientId, state, res, model);
@@ -119,7 +120,7 @@ public class AuthController {
 
         return "realms";
     }
-    
+
     private Map<String, String> getRealmMap(final String realmUniqueId) {
         Map<String, String> result =
                 SecurityUtil.runWithAllTenants(new SecurityTask<Map<String, String>>() {
@@ -132,15 +133,15 @@ public class AuthController {
                                 Iterable<Entity> realmList = repo.findAll("realm");
                                 Map<String, String> map = new HashMap<String, String>();
                                 for (Entity realmEntity : realmList) {
-                                    map.put(realmEntity.getEntityId(), 
+                                    map.put(realmEntity.getEntityId(),
                                             (String) realmEntity.getBody().get("name"));
-                                    
+
                                     //We found the requested realm, so let's only return a map with just that entry
                                     //so that we can short-circuit the realm selection
                                     if (realmUniqueId != null && !realmUniqueId.isEmpty()) {
                                         if (realmUniqueId.equals(realmEntity.getBody().get("uniqueIdentifier"))) {
                                             map.clear();
-                                            map.put(realmEntity.getEntityId(), 
+                                            map.put(realmEntity.getEntityId(),
                                                     (String) realmEntity.getBody().get("name"));
                                             return map;
                                         }
@@ -215,7 +216,8 @@ public class AuthController {
             HttpServletResponse res, Model model) throws IOException {
 
         String realmId = getRealmId(sessionId);
-        boolean forceAuthn = (sessionId != null && realmId != null && !isSessionExpired(sessionId)) ? false : true;
+        boolean isExpired = isSessionExpired(sessionId);
+        boolean forceAuthn = (sessionId != null && realmId != null && !isExpired) ? false : true;
 
         //Ugly, but we need both sudo access and full tenant access
         Entity realmEnt = SecurityUtil.sudoRun(new SecurityTask<Entity>() {
@@ -260,7 +262,7 @@ public class AuthController {
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
-        sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
+        sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft(), isExpired);
 
         debug("redirecting to: {}", endpoint);
 

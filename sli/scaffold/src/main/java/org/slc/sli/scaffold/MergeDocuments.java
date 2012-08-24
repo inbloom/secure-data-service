@@ -18,8 +18,6 @@
 package org.slc.sli.scaffold;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.xml.xpath.XPathException;
 
@@ -46,7 +44,6 @@ public class MergeDocuments {
     private static final String ACTION_ADD = "add";
     private static final String ACTION_DELETE = "delete";
     private static final String ACTION_SET = "set";
-    private static final String REMOVE_AGGREGATES = "removeAggs";
 
     private static final String ATTR_XPATH = "xpath";
     private static final String ATTR_TYPE = "type";
@@ -55,10 +52,6 @@ public class MergeDocuments {
     private static final String ATTR_VALUE = "value";
 
     private static final String NODE_ATTRIBUTE = "attribute";
-    
-    //TODO pull this out of BasicDefinitionStore
-    //That means this needs to be part of the API 
-    private static final List<String> SUPPORTED_AGG_PATHS = Arrays.asList("v1/cohorts", "v1/schools", "v1/sections", "v1/sessions"); 
 
     public MergeDocuments() {
     }
@@ -149,8 +142,6 @@ public class MergeDocuments {
                     nodeAdd(crntEditNode, mergeNodeList);
                 } else if (ACTION_DELETE.equals(action)) {
                     nodeDelete(crntEditNode);
-                } else if (REMOVE_AGGREGATES.equals(action)){
-                    removeAggs(crntEditNode);
                 }
             }
         }
@@ -233,18 +224,6 @@ public class MergeDocuments {
                 // set it in the main document
                 editNode.getAttributes().setNamedItem(attribute);
             }
-        }
-    }
-    
-    /**
-     * Hack to remove aggregates from unsupported nodes.
-     * 
-     * @param node
-     */
-    private void removeAggs(Node node){
-        Node parentPath = node.getParentNode().getAttributes().getNamedItem("path");
-        if(!SUPPORTED_AGG_PATHS.contains(parentPath.getNodeValue())){
-            nodeDelete(node);
         }
     }
 

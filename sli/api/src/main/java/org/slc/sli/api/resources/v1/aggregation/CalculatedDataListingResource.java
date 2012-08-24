@@ -25,11 +25,10 @@ import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CalculatedDatum;
 
 /**
- * Resource for displaying aggregate and calculated data listings
+ * Resource for displaying aggregate listings
  *
  * @author nbrown
- * @param <T>
- *            type of data to return
+ * @param <T> type of data to return
  *
  */
 public class CalculatedDataListingResource<T> {
@@ -42,16 +41,12 @@ public class CalculatedDataListingResource<T> {
     }
 
     /**
-     * Get the calculated data or aggregates for a particular entity
+     * Get the aggregates for a particular entity
      *
-     * @param type
-     *            filter by the aggregate type (assessment, attendance, etc)
-     * @param window
-     *            the window to look in (average, most recent, highest ever, etc)
-     * @param methodology
-     *            the part of the aggregated entity to pull in (ScaleScore, Percentile, etc)
-     * @param name
-     *            the name of the thing being aggregated (SAT, ACT, etc)
+     * @param type filter by the aggregate type (assessment, attendance, etc)
+     * @param window the window to look in (average, most recent, highest ever, etc)
+     * @param methodology the part of the aggregated entity to pull in (ScaleScore, Percentile, etc)
+     * @param name the name of the thing being aggregated (SAT, ACT, etc)
      * @return
      */
     @GET
