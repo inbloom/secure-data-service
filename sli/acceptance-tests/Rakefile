@@ -761,7 +761,8 @@ task :sifTests => [:sifSchoolInfoTest,
                    :sifEmploymentRecordTest,
                    :sifStaffAssignmentTest,
                    :sifSmokeTests,
-                   :sifIntegratedTest
+                   :sifIntegratedTest,
+                   :sifEmployeeAssignmentTest
                    ] do
   displayFailureReport()
   if $SUCCESS
