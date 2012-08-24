@@ -25,11 +25,11 @@ Then I should see following map of entry counts in the corresponding collections
 When I run the highest ever aggregation job
    Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                         | searchValue |
-     | student                     | 110                 | calculatedValues.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore | 32.0        |
-   And for the student with "body.studentUniqueStateId" set to "0", "calculatedValues.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "32.0"
-   And for the student with "body.studentUniqueStateId" set to "1", "calculatedValues.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "27.0"
-   And for the student with "body.studentUniqueStateId" set to "2", "calculatedValues.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "30.0"
-   #When I run the proficiency aggregation job
-   #Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregations.proficiency.Grade 7 2011 State Math.E" is "296"
-   #Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregations.proficiency.Grade 7 2011 State Math.S" is "52"
-   #Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregations.proficiency.Grade 7 2011 State Math.B" is "2"
+     | student                     | 110                 | calculatedValues.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.HighestEver.ScaleScore | 32.0        |
+   And for the student with "body.studentUniqueStateId" set to "0", "calculatedValues.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.HighestEver.ScaleScore" is "32.0"
+   And for the student with "body.studentUniqueStateId" set to "1", "calculatedValues.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.HighestEver.ScaleScore" is "27.0"
+   And for the student with "body.studentUniqueStateId" set to "2", "calculatedValues.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.HighestEver.ScaleScore" is "30.0"
+When I run the proficiency aggregation job
+   Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregates.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.cut_points.E" is "296"
+   Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregates.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.cut_points.S" is "52"
+   Then for the school with "body.educationOrgIdentificationCode.ID" set to "East Daybreak Junior High", "aggregates.assessments.2012ql-7bec8775-ceb0-11e1-8af5-0a0027000000.cut_points.B" is "2"
