@@ -10,7 +10,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.studentUniqueStateId",
 		                "values" :
 		                [{
 			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
@@ -29,7 +29,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.programId",
 		                "values" :
 		                [{
 			                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"

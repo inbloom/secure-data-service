@@ -23,6 +23,7 @@
 			<xs:appinfo>
 				<sli:CollectionType>assessment</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -917,7 +918,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>parent</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
@@ -1221,7 +1223,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
@@ -1404,7 +1407,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>session</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="sessionName" type="identificationCode">
@@ -1487,7 +1491,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>courseOffering</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="localCourseCode" type="localCourseCode">
@@ -1544,7 +1549,8 @@
 			<xs:appinfo>
 				<sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -1694,7 +1700,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
@@ -1756,7 +1763,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffReference" type="reference">
@@ -1877,7 +1885,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
@@ -2053,7 +2062,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>staff</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
@@ -2312,7 +2322,8 @@
 				<sli:CollectionType>student</sli:CollectionType>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentUniqueStateId" type="uniqueStateIdentifier">
@@ -2654,7 +2665,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentAcademicRecord</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -2829,7 +2841,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="administrationDate" type="xs:date">
@@ -3108,7 +3121,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentCohortAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3166,7 +3180,10 @@
 				The association is an extension of the StudentProgramAssociation
 				particular for CTE programs.
 			</xs:documentation>
-		</xs:annotation>
+            <xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+        </xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="studentProgramAssociation">
 				<xs:sequence>
@@ -3193,7 +3210,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentDisciplineIncidentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3395,7 +3413,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentParentAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3484,7 +3503,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentProgramAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3569,7 +3589,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3638,7 +3659,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3793,7 +3815,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryId" type="reference">
@@ -3879,7 +3902,10 @@
 				The association is an extension of the StudentProgramAssociation
 				particular for special education programs.
 			</xs:documentation>
-		</xs:annotation>
+            <xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+        </xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="studentProgramAssociation">
 				<xs:sequence>
@@ -3990,7 +4016,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseAttemptResult" type="courseAttemptResultType">
@@ -4137,6 +4164,7 @@
             <xs:appinfo>
                 <sli:CollectionType>staff</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -4184,7 +4212,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>teacherSchoolAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -4250,7 +4279,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -5386,7 +5416,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>learningObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningObjectiveId" type="learningStandardId"
@@ -5496,7 +5527,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>learningStandard</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningStandardId" type="learningStandardId">
@@ -5692,7 +5724,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>grade</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="letterGradeEarned" minOccurs="0">
@@ -5790,7 +5823,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>gradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryType" type="gradebookEntryType">
@@ -5847,7 +5881,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>gradingPeriod</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
@@ -5955,7 +5990,8 @@
 			<xs:appinfo>
                 <sli:CollectionType>graduationPlan</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="graduationPlanType">
@@ -6087,7 +6123,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>cohort</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="cohortIdentifier" type="cohortIdentifier">
@@ -6203,7 +6240,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>course</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseTitle" type="courseTitle">
@@ -6493,7 +6531,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -6683,7 +6722,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>disciplineIncident</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="incidentIdentifier" type="incidentIdentifier">
@@ -6983,7 +7023,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>program</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs="0" name="programId" type="programId">
@@ -7153,7 +7194,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>reportCard</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="grades" type="reference" minOccurs="0"
@@ -7256,7 +7298,8 @@
 				competencies.</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>competencyLevelDescriptor</sli:CollectionType>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="codeValue" type="codeValue">
@@ -7359,7 +7402,10 @@
 
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
-			<xs:documentation>Provides references for competency level
+            <xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+            <xs:documentation>Provides references for competency level
 				descriptors during interchange. Use XML IDREF to reference a course
 				record that is included in the interchange. To lookup where already
 				loaded specify either CodeValue OR Description.
@@ -7392,7 +7438,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentCompetency</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<!-- learningObjective and studentCompetencyObjective were wrapped in
@@ -7460,7 +7507,8 @@
 			<xs:appinfo>
 				<sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentCompetencyObjectiveId" type="identificationCode"

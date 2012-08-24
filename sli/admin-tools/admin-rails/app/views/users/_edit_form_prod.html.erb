@@ -13,6 +13,10 @@
         <div class="alert alert-error">
           There was an error processing your request. Please fix any highlighted fields below.
           <% error = " error" %>
+          <% if flash[:edit_error]%>
+            <br>
+            <p id="error_notice"><%=flash[:edit_error] %></p>
+          <%end%>
         </div>
     <% end %>
 

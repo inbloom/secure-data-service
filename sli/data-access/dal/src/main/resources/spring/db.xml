@@ -86,6 +86,8 @@
        factory-method="aspectOf">
   </bean>
 
+  <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
+    
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />

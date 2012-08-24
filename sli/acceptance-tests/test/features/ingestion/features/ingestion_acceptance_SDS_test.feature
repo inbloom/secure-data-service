@@ -122,9 +122,9 @@ Then I should see following map of entry counts in the corresponding collections
        | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
        | staff                       | 2                   | body.name.verification   | Drivers license            | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
        | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
@@ -434,9 +434,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
        | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
        | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
     And I should see "Processed 342 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
@@ -502,9 +502,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
        | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
     And I should see "Processed 726 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
@@ -856,6 +856,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
+        | staffProgramAssociation     | 3     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -866,6 +867,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
 	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
 	And zip file is scp to ingestion landing zone
@@ -878,6 +884,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
+        | staffProgramAssociation     | 4     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -888,3 +895,8 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |

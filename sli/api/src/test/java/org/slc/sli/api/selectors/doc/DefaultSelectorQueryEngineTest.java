@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
@@ -346,8 +346,8 @@ public class DefaultSelectorQueryEngineTest {
 
     private ClassType getMockClassType(String typeName) {
         final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random());
-        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random());
+        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random(),"end1Id");
+        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random(),"end2Id");
 
         return new ClassType(typeName, end1, end2);
     }
