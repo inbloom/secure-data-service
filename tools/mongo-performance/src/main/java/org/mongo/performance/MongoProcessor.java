@@ -21,8 +21,6 @@ import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.DBObject;
-
 @Component
 public class MongoProcessor<T> {
 
@@ -100,16 +98,15 @@ public class MongoProcessor<T> {
     private List<FutureTask<Boolean>> processOperationsInFuture(int count) {
         List<FutureTask<Boolean>> futureTaskList = new ArrayList<FutureTask<Boolean>>(count);
         this.opCounts = new CopyOnWriteArrayList<Pair<String, Integer>>();
-        
+
         for (int i = 0; i < count; i++) {
             Callable<Boolean> callable = new MongoCompositeTest(i, size, chunkSize, da, dataRecord, this.opCounts, this.operationsEnabled);
             FutureTask<Boolean> futureTask = MongoExecutor.execute(callable);
             futureTaskList.add(futureTask);
         }
-        
+
         return futureTaskList;
-    }
-    
+    }   
     
     private void runFutureTasks(List<FutureTask<Boolean>> futureTaskList, boolean errors) throws InterruptedException, ExecutionException {
         for (FutureTask<Boolean> futureTask : futureTaskList) {

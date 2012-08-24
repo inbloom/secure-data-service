@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -25,6 +23,7 @@ public class App {
 	public static final String JSON_PATH="src\\main\\resources\\JsonFiles\\";
 	private static String inputFile;
 	
+	@SuppressWarnings("unchecked")
 	public static void main( String[] args ) {
 		System.out.println("Bootstrapping Mongo Performance");
 		
@@ -94,9 +93,11 @@ public class App {
         System.out.println("TYPES OF CONCURRENT OPERATIONS ENABLED = " + concurrentOperationsEnabled);
         System.out.println("COLLECTION DROP FLAG = " + dropCollectionFlag);
         
+    	long startTime = System.currentTimeMillis();
+    	
         if(inputFromJsonFlag)
         {
-        	MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
+			MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
         	if (recordType == 1) {
         		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
         	} else if (recordType == 2) {
@@ -123,6 +124,13 @@ public class App {
         	mongoProcessor.writeStatistics();
         }
         
+    	long endTime = System.currentTimeMillis();
+    	long elapsed = endTime - startTime;
+    	
+    	System.out.println();
+    	System.out.println("START TIME = "+startTime+"           END TIME = "+endTime+"           ELAPSED TIME MS = "+elapsed);
+    	System.out.println("-------------");
+    	
         System.exit(0);
         
 	}
@@ -130,7 +138,7 @@ public class App {
 
 private static DBObject generateRecordfromJson() {
 	DBObject dbObject = null;
-	File file = new File(JSON_PATH+inputFile);
+	File file = new File(JSON_PATH+inputFile+"-full.json");
 	FileReader fr;
 	try {
 		fr = new FileReader(file);
