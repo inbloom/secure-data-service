@@ -16,7 +16,7 @@
 <div class="tabular">
 	<table>
 		<thead>
-			<#list parentContact.studentParentAssociation as studentParentAssociation>
+			<#list parentContact.studentParentAssociations as studentParentAssociation>
 				<tr><th></th><td class="contactInfoData"><h6>
 					<#if studentParentAssociation.primaryContactStatus ??>
 						PRIMARY
@@ -27,7 +27,7 @@
 			</#list>
 		</thead>
 		<tbody>
-			<#list parentContact.studentParentAssociation as studentParentAssociation>
+			<#list parentContact.studentParentAssociations as studentParentAssociation>
 				<tr>
 					<th>
 						<#if studentParentAssociation.relation ??>
