@@ -92,7 +92,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
         	
-            if(App.inputFromJsonFlag.equals("Y"))
+            if(App.inputFromJsonFlag)
             {
             	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
@@ -141,7 +141,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
 
-            if(App.inputFromJsonFlag.equals("Y"))
+            if(App.inputFromJsonFlag)
             {
             	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
@@ -177,7 +177,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         long elapsed = 0;
 
         for (int i = 0; i < chunkSize; i++) {
-            if(App.inputFromJsonFlag.equals("Y"))
+            if(App.inputFromJsonFlag)
             {
             	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
@@ -219,7 +219,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             
             if (searchKeys.size() >= 100) {
                 startTime = System.currentTimeMillis();
-                if(App.inputFromJsonFlag.equals("Y"))
+                if(App.inputFromJsonFlag)
                 {
                 	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").in(searchKeys)), Object.class, profiledCollectionName);
                 }
@@ -252,7 +252,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         
         for (int i = 0; i < chunkSize; i++) {
             startTime = System.currentTimeMillis();
-            if(App.inputFromJsonFlag.equals("Y"))
+            if(App.inputFromJsonFlag)
             {
             	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
             }

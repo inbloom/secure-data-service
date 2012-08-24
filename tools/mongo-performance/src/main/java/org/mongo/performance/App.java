@@ -19,15 +19,16 @@ import com.mongodb.WriteConcern;
 import com.mongodb.util.JSON;
 
 public class App {
-	public static String inputFromJsonFlag; 
+	public static boolean inputFromJsonFlag; 
 	public static String entityType;
 	public static final String INDEX_PATH="src\\main\\resources\\indexes\\index.properties";
 	public static final String JSON_PATH="src\\main\\resources\\JsonFiles\\";
+	private static String inputFile;
 	
 	public static void main( String[] args ) {
 		System.out.println("Bootstrapping Mongo Performance");
 		
-		if (args.length != 8) {
+		if (args.length <7 || args.length >8 ) {
 		    System.out.println("INVALID NUMBER OF INPUTS");
 		    System.out.println("1. MODE (SAFE / NONE / NORMAL)");
 		    System.out.println("2. NUMBER OF CONCURRENT PROCESSORS");
@@ -36,7 +37,7 @@ public class App {
 		    System.out.println("5. RECORD TYPE PERSISTED (SHORT / FLAT / SHORTKEYS / NORMAL)");
 		    System.out.println("6. TYPE OF OPERATIONS (W - WRITE VIA SPRING TEMPLATE / B - BATCHED WRITE VIA SPRING TEMPLATE / D - BATCHED WRITE VIA DRIVER / R - READ / T - BATCHED READ");
 		    System.out.println("7. DROP COLLECTION (profiledCollection) PRIOR TO RUN (Y / N).");
-		    System.out.println("8. INPUT DATA IS FROM JSON FILE OR NOT (Y/N).");
+		    System.out.println("8. PREFIX OF INPUT JSON FILE NAME.(PLEASE PUT THE JSON FILE UNDER DIR 'resources/JsonFiles/'. ALSO CONFIG THE index.properties FILE UNDER 'resources/indexes/')");
 		    System.exit(0);
 		}
 		
@@ -44,8 +45,7 @@ public class App {
         context = new ClassPathXmlApplicationContext("META-INF/spring/bootstrap.xml");
         context = new ClassPathXmlApplicationContext("META-INF/spring/applicationContext.xml");
         
-        DataAccessWrapper da = context.getBean(DataAccessWrapper.class);
-        
+        DataAccessWrapper da = context.getBean(DataAccessWrapper.class);        
         
         if ("SAFE".equals(args[0])) {
             da.mongoTemplate.setWriteConcern(WriteConcern.SAFE);
@@ -77,17 +77,14 @@ public class App {
         
         String dropCollectionFlag = args[6];
         
-        inputFromJsonFlag = args[7];
-        if(inputFromJsonFlag.equals("Y"))
+        if(args.length ==8)
         {
-        	System.out.println("INPUT ENTITY TYPE:");
-        	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        	try {
-        		entityType=br.readLine();
-			} catch (IOException e) {
-				System.out.println("Please try again.");
-				e.printStackTrace();
-			}
+        	inputFile = args[7];
+        	inputFromJsonFlag=true;
+        }
+        else 
+        {
+        	inputFromJsonFlag=false;
         }
         
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
@@ -97,7 +94,7 @@ public class App {
         System.out.println("TYPES OF CONCURRENT OPERATIONS ENABLED = " + concurrentOperationsEnabled);
         System.out.println("COLLECTION DROP FLAG = " + dropCollectionFlag);
         
-        if(inputFromJsonFlag.equals("Y"))
+        if(inputFromJsonFlag)
         {
         	MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
         	if (recordType == 1) {
@@ -133,7 +130,7 @@ public class App {
 
 private static DBObject generateRecordfromJson() {
 	DBObject dbObject = null;
-	File file = new File(JSON_PATH+"StudentAssessmentAssociation-full.json");
+	File file = new File(JSON_PATH+inputFile);
 	FileReader fr;
 	try {
 		fr = new FileReader(file);
@@ -143,7 +140,7 @@ private static DBObject generateRecordfromJson() {
 		dbObject = (DBObject) JSON.parse(curLine);
 
 	} catch (FileNotFoundException e) {
-		System.out.println("The specified StudentAssessmentAssociation-full.json file is not found.");
+		System.out.println("The specified "+inputFile+"-full.json file is not found.");
 		e.printStackTrace();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
@@ -156,7 +153,7 @@ private static DBObject generateRecordfromJson() {
 private static DBObject generateRecordShortKeysfromJson() {
 
 		DBObject dbObject = null;
-		File file = new File(JSON_PATH+"StudentAssessmentAssociation-shortKeys.json");
+		File file = new File(JSON_PATH+inputFile+"-shortKeys.json");
 		FileReader fr;
 		try {
 			fr = new FileReader(file);
@@ -166,7 +163,7 @@ private static DBObject generateRecordShortKeysfromJson() {
 			dbObject = (DBObject) JSON.parse(curLine);
 
 		} catch (FileNotFoundException e) {
-			System.out.println("The specified StudentAssessmentAssociation-shortKeys.json file is not found.");
+			System.out.println("The specified "+inputFile+"-shortKeys.json file is not found.");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -179,7 +176,7 @@ private static DBObject generateRecordShortKeysfromJson() {
 
 private static DBObject generateFlatRecordfromJson() {
 	DBObject dbObject = null;
-	File file = new File(JSON_PATH+"StudentAssessmentAssociation-full.json");
+	File file = new File(JSON_PATH+inputFile+"-full.json");
 	FileReader fr;
 	try {
 		fr = new FileReader(file);
@@ -189,7 +186,7 @@ private static DBObject generateFlatRecordfromJson() {
 		dbObject = (DBObject) JSON.parse(curLine);
 
 	} catch (FileNotFoundException e) {
-		System.out.println("The specified StudentAssessmentAssociation-full.json file is not found.");
+		System.out.println("The specified "+inputFile+"-full.json file is not found.");
 		e.printStackTrace();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
@@ -201,7 +198,8 @@ private static DBObject generateFlatRecordfromJson() {
 
 private static DBObject generateShortRecordfromJson() {
 	DBObject dbObject = null;
-	File file = new File(JSON_PATH+"StudentAssessmentAssociation-short.json");
+//	File file = new File(JSON_PATH+"StudentAssessmentAssociation-short.json");
+	File file = new File(JSON_PATH+inputFile+"-short.json");
 	FileReader fr;
 	try {
 		fr = new FileReader(file);
@@ -211,27 +209,14 @@ private static DBObject generateShortRecordfromJson() {
 		dbObject = (DBObject) JSON.parse(curLine);
 
 	} catch (FileNotFoundException e) {
-		System.out.println("The specified StudentAssessmentAssociation-short.json file is not found.");
+		System.out.println("The specified "+inputFile+"-short.json file is not found.");
 		e.printStackTrace();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	return dbObject;
-	}
-
-
-	private static <T> DBObject generateList(List<T> list) {
-		DBObject tempList;
-		tempList = new BasicDBList();	    
-		for(int i=0; i<list.size(); i++)
-		{
-			T tmp = list.get(i);
-			tempList.put(""+i+"", tmp);
-		}
-		return tempList;
-	}
-	
+	}	
 	
 	private static  HashMap<String, Object> generateShortRecord() {
         BasicDBObject record = new BasicDBObject();

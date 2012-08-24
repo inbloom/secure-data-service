@@ -128,7 +128,7 @@ public class MongoProcessor<T> {
         // index collection
         Map<String, String> seedObject = new HashMap<String, String>();
         seedObject.put("seed", "0");
-        if(App.inputFromJsonFlag.equals("Y"))
+        if(App.inputFromJsonFlag)
         {
         	List<String> indexes= getIndexes();
         	for(int i=0; i<indexes.size(); i++)
