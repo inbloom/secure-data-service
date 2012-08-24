@@ -73,15 +73,9 @@ public class AggregateDataListingResource<T> {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
         final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
 
-        // TODO : not needed?
-        if (entityDef.supportsAggregates()) {
-            final CalculatedData<Map<String, Integer>> data = entityDef.getService().getAggregates(id);
-            final List<CalculatedDatum<Map<String, Integer>>> aggs = data.getCalculatedValues(type, window, methodology, name);
-            return Response.ok(aggs).build();
-        }
-
-        // TODO : do we really want to return null?
-        return null;
+        final CalculatedData<Map<String, Integer>> data = entityDef.getService().getAggregates(id);
+        final List<CalculatedDatum<Map<String, Integer>>> aggs = data.getCalculatedValues(type, window, methodology, name);
+        return Response.ok(aggs).build();
     }
 
 }
