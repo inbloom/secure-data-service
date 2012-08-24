@@ -30,17 +30,19 @@ public class MongoProcessor<T> {
     public T dataRecord;
     public String operationsEnabled;
     public String dropCollectionFlag;
+    private String indexFilePath;
     
     private int totalExecutors;
     private CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
     
-    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, T dataRecord, String operationsEnabled, String dropCollectionFlag) {
+    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, T dataRecord, String operationsEnabled, String dropCollectionFlag, String indexFilePath) {
         this.da = da;
         this.size = size;
         this.chunkSize = chunkSize;
         this.dataRecord = dataRecord;
         this.operationsEnabled = operationsEnabled;
         this.totalExecutors = executorCount;
+        this.indexFilePath = indexFilePath;
         
         if ("Y".equals(dropCollectionFlag)) {
             this.setup("profiledCollection");
@@ -121,30 +123,19 @@ public class MongoProcessor<T> {
         // setup
         da.mongoTemplate.dropCollection(profiledCollectionName);
         da.mongoTemplate.createCollection(profiledCollectionName);
-        
-        // index collection
-        Map<String, String> seedObject = new HashMap<String, String>();
-        seedObject.put("seed", "0");
-        if(App.inputFromJsonFlag)
-        {
-        	List<String> indexes= getIndexes();
-        	for(int i=0; i<indexes.size(); i++)
-        	{
-        		da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on("body."+indexes.get(i), Order.ASCENDING)); 
-        	}
-        }
-        else
-        {
-        	da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on("body.studentUniqueStateId", Order.ASCENDING)); 
-        //da.mongoTemplate.ensureIndex(new Index().on("body.studentUniqueStateId", Order.ASCENDING), profiledCollectionName);
-        }
+
+       	List<String> indexes = getIndexes();
+       	for(int i = 0; i < indexes.size(); i++) {
+       		da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on(indexes.get(i), Order.ASCENDING)); 
+       	}
+
     }
 
 
 	private List<String> getIndexes() {
 		List<String> indexes = new ArrayList<String>();
 		try {
-			FileReader fr = new FileReader(new File(App.INDEX_PATH));
+			FileReader fr = new FileReader(new File(this.indexFilePath));
 			BufferedReader br = new BufferedReader(fr);
 			String curLine = null;
 			while((curLine = br.readLine())!=null)
