@@ -621,13 +621,10 @@ db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externa
 db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 
 //stamper - profiles
