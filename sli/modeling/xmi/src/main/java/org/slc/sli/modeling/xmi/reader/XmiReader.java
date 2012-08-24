@@ -126,8 +126,8 @@ public class XmiReader {
         }
     }
 
-    protected static final String getName(final XMLStreamReader reader, final String defaultName) {
-        final String name = reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.NAME.getLocalName());
+    protected static final String getName(final XMLStreamReader reader, final String defaultName, final XmiAttributeName attr) {
+        final String name = reader.getAttributeValue(GLOBAL_NAMESPACE, attr.getLocalName());
         if (name != null) {
             return name;
         } else {
@@ -204,7 +204,8 @@ public class XmiReader {
             assertName(XmiElementName.ASSOCIATION_END, reader);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final Identifier id = getId(reader);
-            final String name = getName(reader, DEFAULT_EMPTY_NAME);
+            final String name = getName(reader, DEFAULT_EMPTY_NAME, XmiAttributeName.NAME);
+            final String associatedAttribName = getName(reader, DEFAULT_EMPTY_NAME,XmiAttributeName.ASSOCIATED_ATTRIBUTE_NAME);
             final boolean isNavigable = getBoolean(XmiAttributeName.IS_NAVIGABLE, true, reader);
             Identifier participant = null;
             final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST);
@@ -230,7 +231,7 @@ public class XmiReader {
                         if (participant == null) {
                             throw new AssertionError(XmiElementName.ASSOCIATION_END_DOT_PARTICIPANT);
                         }
-                        return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, participant);
+                        return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, participant, associatedAttribName);
                     }
                     case XMLStreamConstants.CHARACTERS: {
                         // Ignore.
@@ -314,7 +315,7 @@ public class XmiReader {
     protected static final Attribute readAttribute(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ATTRIBUTE, reader);
         final Identifier id = getId(reader);
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         Identifier type = null;
         Multiplicity multiplicity = null;
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -394,7 +395,7 @@ public class XmiReader {
         final List<Attribute> attributes = new LinkedList<Attribute>();
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         XmiAssociationConnection connection = null;
         while (reader.hasNext()) {
             reader.next();
@@ -499,7 +500,7 @@ public class XmiReader {
         boolean isAbstract = false;
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -576,7 +577,7 @@ public class XmiReader {
         final List<EnumLiteral> literals = new LinkedList<EnumLiteral>();
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = Identifier.fromString(reader.getAttributeValue("", "xmi.id"));
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -610,7 +611,7 @@ public class XmiReader {
         assertName(XmiElementName.ENUMERATION_LITERAL, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -672,7 +673,7 @@ public class XmiReader {
     protected static final Generalization readGeneralization(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.GENERALIZATION, reader);
         final Identifier id = getId(reader);
-        final String name = getName(reader, DEFAULT_EMPTY_NAME);
+        final String name = getName(reader, DEFAULT_EMPTY_NAME, XmiAttributeName.NAME);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         Identifier child = null;
         Identifier parent = null;
@@ -816,7 +817,7 @@ public class XmiReader {
     protected static final Model readModel(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MODEL, reader);
         final Identifier id = getId(reader);
-        final String name = getName(reader, null);
+        final String name = getName(reader, null, XmiAttributeName.NAME);
         List<TaggedValue> taggedValues = EMPTY_TAGGED_VALUE_LIST;
         List<NamespaceOwnedElement> ownedElements = EMPTY_NAMESPACE_OWNED_ELEMENTS;
         while (reader.hasNext()) {
@@ -998,7 +999,7 @@ public class XmiReader {
         assertName(XmiElementName.PACKAGE, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String name = assertNotNull(getName(reader, null));
+        final String name = assertNotNull(getName(reader, null, XmiAttributeName.NAME));
         List<NamespaceOwnedElement> ownedElements = EMPTY_NAMESPACE_OWNED_ELEMENTS;
         while (reader.hasNext()) {
             reader.next();
@@ -1066,7 +1067,7 @@ public class XmiReader {
         assertName(XmiElementName.TAG_DEFINITION, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String name = assertNotNull(getName(reader, null));
+        final String name = assertNotNull(getName(reader, null, XmiAttributeName.NAME));
         Multiplicity multiplicity = null;
         while (reader.hasNext()) {
             reader.next();

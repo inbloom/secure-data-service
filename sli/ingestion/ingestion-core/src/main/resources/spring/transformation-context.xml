@@ -129,6 +129,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentParentAssociation.xml" />
       </bean>
     </entry>
+    <entry key="teacherSectionAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSectionAssociation.xml" />
+      </bean>
+    </entry>
   </util:map>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">

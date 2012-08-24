@@ -539,6 +539,7 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForStudent(final String token, final String studentId,
             Map<String, String> params) {
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), studentId);
@@ -574,7 +575,7 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
         GenericEntity homeRoomEntity = null;
 
-        List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId, null);
+        List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId, new HashMap<String, String>());
 
         // If only one section association exists for the student, return the
         // section as home room
@@ -587,11 +588,12 @@ public class SDKAPIClient implements APIClient {
         // section with homeroomIndicator set to true
         for (GenericEntity studentSection : studentSections) {
             List<Map<String, Object>> studentSectionAssocs = (List<Map<String, Object>>) studentSection
-                    .get("studentSectionAssociation");
+                    .get("studentSectionAssociations");
             if (studentSectionAssocs != null) {
                 for (Map<String, Object> sectionAssoc : studentSectionAssocs) {
                     if ((sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR) != null)
-                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))) {
+                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))
+                            && sectionAssoc.get(Constants.ATTR_STUDENT_ID).equals(studentId)) {
                         homeRoomEntity = studentSection;
                         return homeRoomEntity;
                     }
@@ -627,6 +629,7 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params) {
         params.put("optionalFields", "transcript");
+        addGradeLevelParam(params);
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                 + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), studentId);
     }
@@ -832,6 +835,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
     }
@@ -846,6 +850,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudents(String token, Map<String, String> params) {
+        addGradeLevelParam(params);
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + "?" + this.buildQueryString(params));
     }
 
@@ -859,8 +864,19 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudents(String token, List<String> ids, Map<String, String> params) {
+        addGradeLevelParam(params);
         return this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
+    }
+
+    private void addGradeLevelParam(Map<String, String> params) {
+        String optionalParams;
+        if (params.containsKey(SDKConstants.PARAM_OPTIONAL_FIELDS)) {
+            optionalParams = params.get(SDKConstants.PARAM_OPTIONAL_FIELDS) + "," + Constants.ATTR_GRADE_LEVEL;
+        } else {
+            optionalParams = Constants.ATTR_GRADE_LEVEL;
+        }
+        params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
     }
 
     /**
@@ -874,7 +890,7 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getStudentsForSection(String token, String sectionId) {
         Map<String, String> params = new HashMap<String, String>();
         String optionalParams = Constants.ATTR_ASSESSMENTS + "," + Constants.ATTR_STUDENT_ATTENDANCES_1 + ","
-                + Constants.ATTR_TRANSCRIPT + "," + Constants.ATTR_GRADEBOOK;
+                + Constants.ATTR_TRANSCRIPT + "," + Constants.ATTR_GRADEBOOK + "," + Constants.ATTR_GRADE_LEVEL;
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
 
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
@@ -892,6 +908,7 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentsWithSearch(String token, String firstName, String lastName) {
         Map<String, String> params = new HashMap<String, String>();
+        addGradeLevelParam(params);
         if ((firstName != null) && (firstName.length() > 0)) {
             params.put(SDKConstants.PARAM_FIRST_NAME, firstName);
         }
@@ -913,6 +930,7 @@ public class SDKAPIClient implements APIClient {
         Map<String, String> params = new HashMap<String, String>();
         String optionalParams = Constants.ATTR_GRADEBOOK;
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
+        addGradeLevelParam(params);
 
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
                 + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), sectionId);
@@ -927,7 +945,11 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getStudent(String token, String id) {
-        return this.readEntity(token, SDKConstants.STUDENTS_ENTITY + id, id);
+        Map<String, String> params = new HashMap<String, String>();
+        String optionalParams = Constants.ATTR_GRADE_LEVEL;
+        params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
+
+        return this.readEntity(token, SDKConstants.STUDENTS_ENTITY + id + "?" + this.buildQueryString(params), id);
     }
 
     /**
@@ -943,6 +965,7 @@ public class SDKAPIClient implements APIClient {
         Map<String, String> params = new HashMap<String, String>();
         String optionalParams = this.buildListString(optionalFields);
         params.put(SDKConstants.PARAM_OPTIONAL_FIELDS, optionalParams);
+        addGradeLevelParam(params);
 
         return this.readEntity(token, SDKConstants.STUDENTS_ENTITY + id + "?" + this.buildQueryString(params), id);
     }
