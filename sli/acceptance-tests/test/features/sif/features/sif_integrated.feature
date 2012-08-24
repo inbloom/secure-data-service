@@ -189,6 +189,7 @@ Scenario: Add an Employee
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName    |
      | staff             |
+And the data store is "data_EmployeePersonal"
 And I want to POST a(n) "sifEvent_EmployeePersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
@@ -203,7 +204,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_add |
 
 Scenario: Update an Employee
-Given I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
+Given the data store is "data_EmployeePersonal"
+And I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
