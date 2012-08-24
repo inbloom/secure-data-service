@@ -81,7 +81,7 @@ public class ValidateSchema {
                     //SchemaFactory factory = SchemaFactory.newInstance("http://slcedu.org/schema/0100");
                     
                     File schemaLocation = new File(schemaFile);
-                    
+
                     Schema schema = factory.newSchema(schemaLocation);
                     
                     Validator validator = schema.newValidator();

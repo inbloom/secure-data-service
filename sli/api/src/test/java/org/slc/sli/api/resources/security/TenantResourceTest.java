@@ -18,6 +18,7 @@
 package org.slc.sli.api.resources.security;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -104,12 +105,19 @@ public class TenantResourceTest {
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_1);
+
         Map<String, Object> landingZone = new HashMap<String, Object>();
         landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, ED_ORG_1);
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_DAYBREAK");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("small_sample_dataset", "medium_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -125,6 +133,12 @@ public class TenantResourceTest {
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("large_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -155,6 +169,12 @@ public class TenantResourceTest {
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for NY");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("huge_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -170,6 +190,7 @@ public class TenantResourceTest {
         // assertNotNull("ID should not be null", id);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateAppends() {
 
@@ -184,9 +205,16 @@ public class TenantResourceTest {
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
         assertEquals("Should have 2 landing zones", 2, landingZones.size());
+
+        Map<String, Object> preload = (Map<String, Object>) landingZones.get(0).get(TenantResourceImpl.LZ_PRELOAD);
+        assertNotNull(preload.get(TenantResourceImpl.LZ_PRELOAD_FILES));
+        assertFalse(((List<String>) preload.get(TenantResourceImpl.LZ_PRELOAD_FILES)).isEmpty());
+
+        preload = (Map<String, Object>) landingZones.get(1).get(TenantResourceImpl.LZ_PRELOAD);
+        assertNotNull(preload.get(TenantResourceImpl.LZ_PRELOAD_FILES));
+        assertFalse(((List<String>) preload.get(TenantResourceImpl.LZ_PRELOAD_FILES)).isEmpty());
     }
 
     @Test
@@ -315,10 +343,11 @@ public class TenantResourceTest {
             for (Map<String, Object> lz : landingZones) {
                 String server = (String) lz.get(TenantResourceImpl.LZ_INGESTION_SERVER);
                 Integer count = serverCounts.get(server);
-                if (null == count)
+                if (null == count) {
                     serverCounts.put(server, new Integer(1));
-                else
+                } else {
                     serverCounts.put(server, new Integer(count + 1));
+                }
             }
         }
         assertTrue("Should have used all ingestion servers", 3 <= serverCounts.size());

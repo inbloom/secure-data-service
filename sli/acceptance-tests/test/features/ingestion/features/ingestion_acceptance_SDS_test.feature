@@ -122,9 +122,9 @@ Then I should see following map of entry counts in the corresponding collections
        | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
        | staff                       | 2                   | body.name.verification   | Drivers license            | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
        | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
@@ -434,9 +434,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
        | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
        | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
     And I should see "Processed 342 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
@@ -502,9 +502,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
        | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
-       | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
+       | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
     And I should see "Processed 726 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file

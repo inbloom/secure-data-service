@@ -1,4 +1,11 @@
-<% if @landingzone[:isDuplicate] %>
+<% if @landingzone[:isDuplicate] && @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
+<div class="page-header">
+      <h1>Select Sandbox Data Source</h1>
+    </div>
+    <p>The <%= @landingzone[:preload]%> sample data set your selected has already been loaded.</p>
+    <p>Please contact <%= APP_CONFIG['support_email'] %> for further questions.</p>
+    <div class="hidden" id="alreadyProvisioned"/>
+<%elsif @landingzone[:isDuplicate]%>
     <div class="page-header">
       <h1>Landing Zone Settings</h1>
     </div>

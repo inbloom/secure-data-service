@@ -18,8 +18,8 @@ And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into IDP URL
-And I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into Redirect Endpoint
+And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
+And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
@@ -45,7 +45,7 @@ Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "developer-test@slidev.org" "test1234" for the "Simple" login page    
+When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin

@@ -150,7 +150,7 @@ public class InterchangeWriter<T> {
      */
     @SuppressWarnings("unused")
     public void marshal(Object objectToMarshal) {
-    	System.out.println("objectToMarshal ===========>" + objectToMarshal.toString());
+
         if (objectToMarshal != null) {
 
             try {                

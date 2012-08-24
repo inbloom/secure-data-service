@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="teacherSectionAssociations" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="teacherSectionAssociation" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherSectionAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'teacherSectionAssociation'</jb:expression>
+    <jb:wiring property="body" beanIdRef="teacherSectionAssociationBody" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherSectionAssociationBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="sectionId" data="attributes sectionId" />
+    <jb:value property="teacherId" data="attributes teacherId" />
+    <jb:value property="beginDate" data="attributes beginDate" />
+    <jb:value property="endDate" data="attributes endDate" />
+    <jb:value property="highlyQualifiedTeacher" data="attributes highlyQualifiedTeacher" decoder="Boolean" />
+    <jb:value property="classroomPosition" data="attributes classroomPosition" />
+  </jb:bean>
+
+</smooks-resource-list>
