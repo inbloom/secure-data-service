@@ -19,7 +19,12 @@
  */
 /*global angular $ alert*/
 
-// Profile List Controller
+/* Profile List Controller
+ * @param $scope - scope object for controller
+ * @param Profiles - Service to get all the profiles
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+
 function profileListCtrl($scope, Profiles, dbSharedService) {
 	var i;
 	$scope.profiles = [];
@@ -40,10 +45,19 @@ function profileListCtrl($scope, Profiles, dbSharedService) {
 profileListCtrl.$inject = ['$scope', 'Profiles', 'dbSharedService'];
 
 
-// Profile Controller
+/* Profile Controller
+ * @param $scope - scope object for controller
+ * @param Profile - Service to get the profile config
+ * @param AllPanels - Service to get all available panels for the profile
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+
 function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) {
 
-	$scope.checked = false; // set flag to show view/edit mode for page title in the page.
+	/* set flag to show view/edit mode for page title in the page.
+	if checked is false, page title will be read-only and only viewable.
+	if checked is true, page title will be editable. */
+	$scope.checked = false;
 
 	Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
 		var i;
@@ -52,6 +66,7 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		$scope.pages = [];
 		$scope.panels = [];
 
+		// Check profile items. Store all tabs into the pages array and all panels into panels array
 		for (i = 0; i < $scope.profile.items.length; i++) {
 			if($scope.profile.items[i].type === "TAB") {
 				$scope.pages.push($scope.profile.items[i]);
@@ -63,13 +78,13 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 
 		$scope.id = $scope.profile.id;
 
-		// get all available panels for the profile
 		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId});
 
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
 	});
 
+	// After re-ordering the tabs, save the tab order into the profile config
 	$scope.$on("tabChanged", function () {
 		$scope.pages = [];
 		$scope.pages = $scope.newPageArray;
@@ -86,10 +101,12 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		}
 
 		try {
-			if (configs.mode === "panel" && configs.id === "") { // add a new panel into the page
+			if (configs.mode === "panel" && configs.id === "") {
+				// add a new panel into the page
 				page.items.push({id:configs.pageTitle, type:"PANEL"});
 			}
-			else { // update page
+			else {
+				// Save the updated page source code
 				page.name = configs.pageTitle;
 				page.items = $.parseJSON(configs.contentJSON);
 				dbSharedService.setPage(page);
@@ -130,10 +147,11 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		$scope.selectedPanels = [];
 	};
 
+	// Save profile config to the server
 	$scope.saveProfile = function (callback) {
 		$scope.profileItemArray = $scope.panels.concat($scope.pages);
 		$scope.profile.items = $scope.profileItemArray;
-		dbSharedService.saveDataSource(angular.toJson($scope.profile), callback); // Save profile to the server
+		dbSharedService.saveDataSource(angular.toJson($scope.profile), callback);
 
 	};
 
@@ -142,7 +160,7 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		$scope.saveProfile();
 	};
 
-	$scope.showPageDetails = function () {
+	$scope.showPageSourceCode = function () {
 		var page = dbSharedService.getPage();
 
 		dbSharedService.showModal("#modalBox", {mode: "page", id: angular.toJson(page.id), modalTitle: "Page Details",
@@ -151,7 +169,11 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 }
 profileCtrl.$inject = ['$scope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
 
-// Page controller
+/* Page controller
+ * @param $scope - scope object for controller
+ * @param $rootScope - root scope for the application
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
 function pageCtrl($scope, $rootScope, dbSharedService) {
 
 	var parent = $scope.$parent;
@@ -183,7 +205,7 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 
 	$scope.showPageConfig = function () {
 		dbSharedService.setPage($scope.page);
-		parent.showPageDetails();
+		parent.showPageSourceCode();
 	};
 
 	$scope.removePage = function () {
@@ -195,16 +217,38 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 		dbSharedService.showModal("#allPanelsModal", {mode: "panel", id: "", modalTitle: "Add A Panel"});
 		dbSharedService.setPage($scope.page);
 	};
+
 }
 
 pageCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
 
+/* Panel controller
+ * @param $scope - scope object for controller
+ */
 
-// Modal Box Controller
+function panelCtrl($scope) {
+
+	var parent = $scope.$parent;
+
+	$scope.removePanel = function () {
+		$scope.pagePanels.splice($scope.$index, 1);
+		parent.saveProfile();
+	};
+}
+
+panelCtrl.$inject = ['$scope'];
+
+
+/* Modal Box Controller
+ * @param $scope - scope object for controller
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+
 function modalCtrl($scope, dbSharedService) {
 
 	var parent = $scope.$parent;
 
+	// Listen the event when all modal dialog box gets displayed
 	$scope.$on("modalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
 
@@ -223,19 +267,25 @@ function modalCtrl($scope, dbSharedService) {
 modalCtrl.$inject = ['$scope', 'dbSharedService'];
 
 
-// All available panels list controller
+/* All available panels list controller
+ * @param $scope - scope object for controller
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
 function allPanelListCtrl($scope, dbSharedService) {
 
 	var parent = $scope.$parent;
 
 	parent.selectedPanels = [];
 
+	// Listen the event when all available panels modal box gets displayed
 	$scope.$on("allPanelsModalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
 		parent.selectedPanels = [];
 
 		$("#allPanelsModal h3").html(configs.modalTitle);
 
+		// Used jquery selectable plugin to select multiple panels.
+		// store all selected panels into the array
 		$("#panelSelectable").selectable({
 			stop: function() {
 				parent.selectedPanels = [];

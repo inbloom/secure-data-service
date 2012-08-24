@@ -12,8 +12,9 @@
                 </form>
             </div>
             <ul class="unstyled">
-                <li ng-repeat="panel in pagePanels" class="well">
-                    <span><strong>{{panel.id}}</strong></span>
+                <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
+                    <span class="span2"><strong>{{panel.id}}</strong></span>
+                    <span ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>
                 </li>
             </ul>
             <div>
