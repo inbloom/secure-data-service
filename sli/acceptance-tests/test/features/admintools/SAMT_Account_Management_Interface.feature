@@ -83,8 +83,81 @@ And the new user has "EdOrg" updated to "IL-DAYBREAK"
 And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
 And the new user has the same "Tenant" field as "IL Admin" has
 #And an email to verify user email address is sent
-#
-#
+
+Scenario: As a SLC Operator I can not create ingestion user or realm admin in a district without LEAs
+Given the prod testing user does not already exists in LDAP
+Given there is no users in edorg "IL-NIGHTFALL" 
+When I navigate to the User Management Page 
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+
+And I can update the "Full Name" field to "Superadmin AcceptanceTest"
+And I can update the "Email" field to "prodtestuser@testwgen.net"
+
+And I can select "Ingestion User" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+And I can update the "Tenant" field to "Midgar"
+And I can update the "EdOrg" field to "IL-NIGHTFALL"
+When I click button "Save"
+Then a "there is no LEA Administrator" message is displayed 
+
+Then I can select "Realm Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+When I click button "Save"
+Then a "there is no LEA Administrator" message is displayed 
+
+#Can't save this LEA, otherwise other people's test will fail
+
+#Then I can select "LEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+#When I click button "Save"
+#Then I am redirected to "Admin Account Management" page 
+#And a "Success" message is displayed 
+
+##should be able to create Realm Administrator now after a LEA is created
+#Then I click on "Add User" button
+#And I am redirected to "Add a User" page
+#Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
+#And I can update the "Email" field to "prodtestuser2@testwgen.net"
+#Then I can select "Realm Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+#And I can update the "Tenant" field to "Midgar"
+#And I can update the "EdOrg" field to "IL-NIGHTFALL"
+#When I click button "Save"
+#And a "Success" message is displayed 
+
+Scenario: As a SEA Admin I can not create ingestion user or realm admin in a district without LEAs
+Given the prod testing user does not already exists in LDAP
+Given there is no users in edorg "IL-NIGHTFALL" 
+When I navigate to the User Management Page 
+And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
+And I can update the "Email" field to "prodtestuser@testwgen.net"
+Then I can select "Ingestion User" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+And I can change the EdOrg dropdown to "IL-NIGHTFALL"
+When I click button "Save"
+And a "there is no LEA Administrator" message is displayed 
+Then I can select "Realm Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+When I click button "Save"
+And a "there is no LEA Administrator" message is displayed 
+
+#Can't save this LEA, otherwise other people's test will fail
+
+#Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+#When I click button "Save"
+#Then I am redirected to "Admin Account Management" page 
+#And a "Success" message is displayed 
+##should be able to create Ingestion user now after a LEA is created
+#Then I click on "Add User" button
+#And I am redirected to "Add a User" page
+#Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
+#And I can update the "Email" field to "prodtestuser2@testwgen.net"
+#Then I can select "Ingestion User" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+#And I can change the EdOrg dropdown to "IL-NIGHTFALL"
+#When I click button "Save"
+#And a "Success" message is displayed 
+
 Scenario: As a LEA Admin I can only create certain roles
 Given I have a valid account as a LEA Administrator
 Given the prod testing user does not already exists in LDAP

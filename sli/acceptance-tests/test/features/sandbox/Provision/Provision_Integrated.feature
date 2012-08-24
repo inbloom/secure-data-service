@@ -132,3 +132,39 @@ Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "
 When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
 Then the directory structure for the landing zone is stored in ldap
 Then the user gets an already provisioned message
+
+@sandbox @wip
+Scenario: As a developer I can use the provisioning tool to pre-populate my tenant with a sample data set
+Given there is an sandbox account in ldap
+And the account has a tenantId "<DEVELOPER_EMAIL>"
+And there is no corresponding tenant in mongo
+And there is no corresponding ed-org in mongo
+When the developer go to the provisioning application web page
+Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
+When the developer selects to preload "Small Sample Data Set"
+Then a tenant with tenantId "<DEVELOPER_EMAIL>" created in Mongo
+And an ed-org is created in Mongo with the "stateOrganizationId" is "<SMALL_SAMPLE_DATASET_EDORG>"
+And a request to provision a landing zone is made
+And the directory structure for the landing zone is stored in ldap
+And the directory structure for the landing zone is stored for tenant in mongo
+And the "small" data to preload is stored for the tenant in mongo
+And the user gets a success message indicating preloading has been triggered
+Given the previous preload has completed
+And user's landing zone is still provisioned from the prior preloading
+When the developer go to the provisioning application web page
+And the developer selects to preload "Small Sample Data Set"
+Then the data to preload is stored for the tenant in mongo
+And the user gets a success message indicating preloading has been triggered
+
+@sandbox @wip
+Scenario: As a developer I cannot pre-populate my tenant if I have an existing ingestion job running
+Given there is an sandbox account in ldap
+And the account has a tenantId "<DEVELOPER_EMAIL>"
+And there is no corresponding tenant in mongo
+And there is no corresponding ed-org in mongo
+And ingestion is locked due to an existing ingestion job
+When the developer go to the provisioning application web page
+Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
+When the developer selects to preload "Small Sample Data Set"
+Then the user gets a error message that their account is currently ingesting data
+
