@@ -15,9 +15,27 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.net.URI;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
@@ -29,20 +47,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.NeutralCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.net.URI;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Unit Tests
@@ -230,10 +234,10 @@ public class DefaultResourceServiceTest {
     public void testThreePartUri() {
         //post new student entity
         String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
-        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+        String secId = resourceService.postEntity(sectionResource, new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource, new EntityBody(createTestSSAEntity(id, secId)));
 
-        List<EntityBody> entityBodyList = resourceService.getEntities(resource,id,ssaResource,requestURI).getEntityBodyList();
+        List<EntityBody> entityBodyList = resourceService.getEntities(resource, id, ssaResource, requestURI).getEntityBodyList();
         assertNotNull("Should return an entity", entityBodyList);
         assertEquals(ssaId, entityBodyList.get(0).get("id").toString());
     }
@@ -242,10 +246,10 @@ public class DefaultResourceServiceTest {
     public void testGetEntitiesWithAssociation() {
         //post new student entity
         String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
-        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+        String secId = resourceService.postEntity(sectionResource, new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource, new EntityBody(createTestSSAEntity(id, secId)));
 
-        List<EntityBody> entityBodyList = resourceService.getEntities(ssaResource,ssaId,resource,requestURI).getEntityBodyList();
+        List<EntityBody> entityBodyList = resourceService.getEntities(ssaResource, ssaId, resource, requestURI).getEntityBodyList();
         assertNotNull("Should return an entity", entityBodyList);
         assertEquals(id, entityBodyList.get(0).get("id").toString());
     }
@@ -254,10 +258,10 @@ public class DefaultResourceServiceTest {
     public void testFourPartURI() {
         //post new student entity
         String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        String secId = resourceService.postEntity(sectionResource,new EntityBody(createTestSecondaryEntity()));
-        String ssaId = resourceService.postEntity(ssaResource,new EntityBody(createTestSSAEntity(id,secId)));
+        String secId = resourceService.postEntity(sectionResource, new EntityBody(createTestSecondaryEntity()));
+        String ssaId = resourceService.postEntity(ssaResource, new EntityBody(createTestSSAEntity(id, secId)));
 
-        List<EntityBody> entityBodyList = resourceService.getEntities(resource,id,ssaResource,sectionResource,requestURI).getEntityBodyList();
+        List<EntityBody> entityBodyList = resourceService.getEntities(resource, id, ssaResource, sectionResource, requestURI).getEntityBodyList();
         assertNotNull("Should return an entity", entityBodyList);
         assertEquals(secId, entityBodyList.get(0).get("id").toString());
     }
@@ -278,10 +282,10 @@ public class DefaultResourceServiceTest {
         return entity;
     }
 
-    private Map<String,String> createTestSSAEntity(String studentId,String secId) {
-        Map<String, String> entity = new HashMap<String,String>();
-        entity.put("studentId",studentId);
-        entity.put("sectionId",secId);
+    private Map<String, String> createTestSSAEntity(String studentId, String secId) {
+        Map<String, String> entity = new HashMap<String, String>();
+        entity.put("studentId", studentId);
+        entity.put("sectionId", secId);
         return  entity;
     }
     private Map<String, Object> createTestSectionEntity() {
