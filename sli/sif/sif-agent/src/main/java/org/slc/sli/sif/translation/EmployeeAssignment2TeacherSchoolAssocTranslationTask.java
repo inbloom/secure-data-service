@@ -17,14 +17,13 @@
 package org.slc.sli.sif.translation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import openadk.library.hrfin.EmployeeAssignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.sif.domain.converter.DateConverter;
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.converter.HRProgramTypeConverter;
 import org.slc.sli.sif.domain.converter.JobClassificationConverter;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
@@ -37,7 +36,8 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * @author slee
  *
  */
-public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends AbstractTranslationTask<EmployeeAssignment, TeacherSchoolAssociationEntity> {
+public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends
+        AbstractTranslationTask<EmployeeAssignment, TeacherSchoolAssociationEntity> {
 
     @Autowired
     SifIdResolver sifIdResolver;
@@ -48,53 +48,51 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends Abstra
     @Autowired
     HRProgramTypeConverter hrProgramTypeConverter;
 
-    @Autowired
-    DateConverter dateConverter;
-
     public EmployeeAssignment2TeacherSchoolAssocTranslationTask() {
         super(EmployeeAssignment.class);
     }
 
+    private static final String TEACHER_TYPE = "teacher";
+
     @Override
     public List<TeacherSchoolAssociationEntity> doTranslate(EmployeeAssignment sifData, String zoneId) {
-        EmployeeAssignment ea = sifData;
-        // convert properties
+        List<TeacherSchoolAssociationEntity> result = new ArrayList<TeacherSchoolAssociationEntity>();
+
+        if (sifData == null) {
+            return result;
+        }
+
+        Entity staff = sifIdResolver.getSliEntity(sifData.getEmployeePersonalRefId(), zoneId);
+
+        if (staff == null) {
+            return result;
+        }
+
+        String staffClassificationType = jobClassificationConverter.convert(sifData.getJobClassification());
+
+        //Only create a TeacherSchoolAssociation for employeeAssignments that have a staffClassificationType
+        //of Teacher and reference a teacher entity.
+
+        //TODO determine whether we should promote an SLI staff to a student if the receive an employeeAssignment
+        //specifying a teacher staffClassification but referencing a staff.
+        if (staffClassificationType == null || !staffClassificationType.equals("Teacher") ||
+                !TEACHER_TYPE.equals(staff.getEntityType())) {
+            // not handled by this translator
+            return result;
+        }
+
         TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
-        tsae.setProgramAssignment(hrProgramTypeConverter.convert(ea.getProgramType()));
 
-        // We need to check if a staff record exists by using ea.getEmployeePersonalRefId()
-        // Normally, an EmployeePersonal should arrive first and a staff record is already created
-        // Otherwise, EmployeeAssignment cannot be handled without entity life cycle support
-        String staffGuid = sifIdResolver.getSliGuid(ea.getEmployeePersonalRefId(), zoneId);
+        tsae.setTeacherId(staff.getId());
+        tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
 
-        if (staffGuid != null) {
-            // A staff entity is previously created
-            // we need a way to set mandatory TeacherId for TeacherSchoolAssociationEntity
-            // and allow the created TeacherSchoolAssociationEntity
-            // serachable using ea.getEmployeePersonalRefId()
-            // so that it can be correlated by a corresponding StaffAssignment later
-            tsae.setZoneId(zoneId);
-            tsae.setOtherSifRefId(ea.getEmployeePersonalRefId());
-            // again, since there is no school info attached in EmployeeAssignment
-            // but schoolId in TeacherSchoolAssociationEntity must be set
-            // Let's set it to the SEA corresponding to the zone
-            // It is expected that schoolId will be set correctly
-            // by StaffAssignment that will be received later
-            tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
-        }
+        tsae.setProgramAssignment(hrProgramTypeConverter.convert(sifData.getProgramType()));
 
-        // If a staff entity is not previously created
-        // and there is no ProgramAssignment
-        // and jobClassification cannot be converted to "Teacher"
-        // then there is no need to translate the EmployeeAssignment to a TeacherSchoolAssociationEntity
-        String staffClassificationType = jobClassificationConverter.convert(ea.getJobClassification());
-        if (staffGuid == null && tsae.getProgramAssignment() == null
-                && (staffClassificationType == null || !staffClassificationType.equals("Teacher"))) {
-            return new ArrayList<TeacherSchoolAssociationEntity>();
-        }
+        tsae.setZoneId(zoneId);
+        tsae.setOtherSifRefId(sifData.getEmployeePersonalRefId());
 
-        return Arrays.asList(tsae);
+        result.add(tsae);
+
+        return result;
     }
-
 }
-
