@@ -2026,7 +2026,6 @@
   <!-- Start Student Parent mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/Student">
     <jb:expression property="recordType">'student'</jb:expression>
-    <jb:value property="localId" data="InterchangeStudentParent/Student/StudentUniqueStateId" />
     <jb:wiring property="attributes" beanIdRef="spi_StudentAttributes" />
   </jb:bean>
 
