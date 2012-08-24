@@ -77,6 +77,7 @@ ul.menu_n a {
 .profile_list a {  color: #000000; text-decoration: none; }
 .profile_list a:hover { text-decoration: underline; }
 
+.page-actions { margin-bottom: 20px; }
 .addPageSection { margin-left: 10px; }
 .addPageSection .btn { padding: 6px 14px; }
 #txt_input { width: 350px; }
@@ -94,10 +95,9 @@ ul.menu_n a {
 .nav-tabs > li > a:hover { line-height: 17px; }
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover { line-height: 19px; color: #000; font-weight: bold; border: solid 2px #000000; border-bottom: 0 none; }
 
-.panels ul { list-style-type: none; margin: 30px 0; padding: 0; height: auto; }
+.panels ul { margin: 30px 0; height: auto; }
 .panels ul li { background: #f2f2f2; padding: 5px; margin: 10px 0; }
 .panels input { margin-bottom: 0; font-size: 12px; }
-#allPanelsModal ul { list-style-type: none; margin: 0; padding: 0; }
 #allPanelsModal ul li { margin: 10px; padding: 5px; background: #f2f2f2; }
 .educationAgencyName { width: 100px;}
 

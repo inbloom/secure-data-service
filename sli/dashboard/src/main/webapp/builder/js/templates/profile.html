@@ -11,18 +11,18 @@
                     <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
                 </form>
             </div>
-            <br/>
-            <div>
-                <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
-            </div>
-            <ul>
+            <ul class="unstyled">
                 <li ng-repeat="panel in pagePanels" class="well">
-                    <span>{{panel.id}}</span>
+                    <span><strong>{{panel.id}}</strong></span>
                 </li>
             </ul>
             <div>
-                <a href="" ng-click="showPageConfig()">View Source Code</a>
-                <button class="btn pull-right" data-toggle="modal" ng-click="removePage()" ><i class="icon-trash"></i> Remove Page</button>
+                <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
+            </div>
+            <br/>
+            <div class="page-actions">
+                <button class="btn" ng-click="showPageConfig()">+ Show Page Source Code</button>
+                <button class="btn btn-danger pull-right" data-toggle="modal" ng-click="removePage()" >Delete Tab</button>
             </div>
         </div>
     </pane>
@@ -37,13 +37,13 @@
     </div>
     <div class="modal-body">
         <div id="errorMessage">Please select the panel.</div>
-        <ul>
+        <ul class="unstyled">
             <li>
                 <div class="educationAgencyName pull-right"><strong>Origin</strong></div>
                 <div class="panelName"><strong>Panel Name</strong></div>
             </li>
         </ul>
-        <ul id="panelSelectable">
+        <ul id="panelSelectable" class="unstyled">
             <li ng-repeat="panel in allPanels" class="well well-small">
                 <span class="educationAgencyName pull-right">{{panel.educationAgencyName}}</span>
                 <span class="panelName">{{panel.id}}</span>
