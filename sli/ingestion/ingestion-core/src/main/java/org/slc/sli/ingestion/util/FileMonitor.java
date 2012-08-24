@@ -77,7 +77,7 @@ public class FileMonitor {
     public void addFile(File file) {
 
         if (!fileModifiedTimeCollection.containsKey(file)) {
-            long modifiedTime = file.exists() ? file.lastModified() : -1;
+            long modifiedTime = file.exists() ? file.length() : -1;
             fileModifiedTimeCollection.put(file, new Long(modifiedTime));
         }
     }
@@ -88,21 +88,30 @@ public class FileMonitor {
     public void startFileMonitor() {
 
         for (File file : fileModifiedTimeCollection.keySet()) {
-            long lastModifiedTime = fileModifiedTimeCollection.get(file).longValue();
-            long newModifiedTime  = file.exists() ? file.lastModified() : -1;
-            // Check if file has changed
-            if ((newModifiedTime != lastModifiedTime) || (newModifiedTime == -1)) {
-                try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    LOG.error("DEBUG-UN: Exception occured during monitoring the file");
-                    e.printStackTrace();
-                }
-            }
-//            LOG.error("DEBUG-UN: File Name-" + file.getName() + "File Length-" + file.length());
+            performRecursiveCheck(file);
         }
         listener.fileUpdateComplete(FileMonitor.this);
+    }
+
+    private void performRecursiveCheck(File file) {
+        long lastModifiedTime = fileModifiedTimeCollection.get(file).longValue();
+        long newModifiedTime  = file.exists() ? file.length() : -1;
+
+        // Check if file has changed
+        if ((newModifiedTime == lastModifiedTime) && (newModifiedTime != -1)) {
+            return;
+        } else {
+            fileModifiedTimeCollection.put(file, newModifiedTime);
+            try {
+                Thread.sleep(interval);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                LOG.error("DEBUG-UN: Exception occured during monitoring the file");
+                e.printStackTrace();
+            }
+            performRecursiveCheck(file);
+        }
+        return;
     }
 
     /**
