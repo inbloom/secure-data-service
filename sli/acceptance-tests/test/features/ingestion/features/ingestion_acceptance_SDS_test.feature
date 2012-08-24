@@ -433,7 +433,7 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
        | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
-       | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
+       | course                      | 1                   | body.courseTitle      | A.P. Calculus              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
