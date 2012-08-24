@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * The collection of all entities making up the unified model
  */
-public final class Model extends ModelElement implements Visitable {
+public class Model extends ModelElement implements Visitable {
     
     private final String name;
     private final List<NamespaceOwnedElement> ownedElements;

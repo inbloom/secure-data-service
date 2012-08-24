@@ -31,9 +31,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -341,4 +345,75 @@ public class EntityRepositoryTest {
         assertNull(this.repository.findOne("student", neutralQuery));
     }
 
+    @Test
+    public void testCreateRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+
+        repository.deleteAll("student");
+        repository.createWithRetries("student", buildTestStudentEntity(), studentMetaData, "student", 5);
+        assertEquals(1, repository.count("student", new NeutralQuery()));
+    }
+
+    @Test
+    public void testUpdateRetry() {
+        TenantContext.setTenantId("SLIUnitTest");
+        repository.deleteAll("student");
+
+        repository.create("student", buildTestStudentEntity());
+
+        Entity entity = repository.findOne("student", new NeutralQuery());
+        Map<String, Object> studentBody = entity.getBody();
+        studentBody.put("cityOfBirth", "ABC");
+
+        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData(), 300);
+        repository.updateWithRetries("student", studentEntity, 5);
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
+        assertEquals(1, repository.count("student", neutralQuery));
+    }
+
+    @Test
+    public void testCreateRetryWithError() {
+
+        Repository<Entity> mockRepo = Mockito.spy(repository);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo)
+                .create("student", studentBody, studentMetaData, "student");
+        Mockito.doCallRealMethod().when(mockRepo)
+                .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+
+        try {
+            mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+        } catch (MongoException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
+    }
+
+    @Test
+    public void testUpdateRetryWithError() {
+        Repository<Entity> mockRepo = Mockito.spy(repository);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
+        int noOfRetries = 3;
+
+        Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo)
+                .update("student", entity);
+        Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
+
+        try {
+            mockRepo.updateWithRetries("student", entity, noOfRetries);
+        } catch (InvalidDataAccessApiUsageException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
+
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity);
+    }
 }

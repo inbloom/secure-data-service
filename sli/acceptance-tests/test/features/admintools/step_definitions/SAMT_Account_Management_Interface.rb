@@ -84,7 +84,7 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
   @user_info = {
        :first => "SAMT",
-       :last => "Test",
+       :last => "Test_#{Socket.gethostname}",
        :email => @email,
        :emailAddress => @email,
        :password => "test1234",
@@ -106,6 +106,21 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
   @ldap.add_user_group(@email, role)
 
 end
+
+Given /^there is no users in edorg "(.*?)"$/ do |edorg| 
+    idpRealmLogin("operator", nil)
+    step "I navigate to GET \"/users\""
+    sessionId = @sessionId
+    format = "application/json"
+    if @res.code == 200 
+      @result.each { |user|
+        if user['edorg'] == edorg
+          puts "delete #{user['uid']}"
+          restHttpDelete("/users/#{user['uid']}", format, sessionId)
+        end 
+      }   
+    end 
+end 
 
 Then /^I can navigate to the User Management Page with that production user$/ do
   step "I navigate to the sandbox user account management page"

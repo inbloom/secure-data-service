@@ -333,7 +333,7 @@
     </TeacherSectionAssociation>
     <!-- Tbear -->
     <Teacher>
-        <StaffUniqueStateId>tbear</StaffUniqueStateId>
+        <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
         <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
             <ID>a</ID>
         </StaffIdentificationCode>
@@ -373,7 +373,7 @@
     <TeacherSchoolAssociation>
         <TeacherReference>
             <StaffIdentity>
-                <StaffUniqueStateId>tbear</StaffUniqueStateId>
+                <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
             </StaffIdentity>
         </TeacherReference>
         <SchoolReference>
@@ -397,7 +397,7 @@
     <!--TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>
-                <StaffUniqueStateId>tbear</StaffUniqueStateId>
+                <StaffUniqueStateId>mgonzles</StaffUniqueStateId>
             </StaffIdentity>
         </TeacherReference>
         <SectionReference>
@@ -592,54 +592,6 @@
 		<PositionTitle>IT Admin</PositionTitle>
 		<BeginDate>1999-01-01</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
-	<!--Maria Gonzales principal (Leader) South Daybreak Elementary School-->
-	<Staff>
-		<StaffUniqueStateId>mgonzales</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
-			<ID>a</ID>
-		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
-			<PersonalTitlePrefix>Ms</PersonalTitlePrefix>
-			<FirstName>Maria</FirstName>
-			<LastSurname>Gonzales</LastSurname>
-		</Name>
-		<Sex>Female</Sex>
-		<BirthDate>1956-08-14</BirthDate>
-		<Address AddressType="Work">
-			<StreetNumberName>123 Sesame Street</StreetNumberName>
-			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
-			<City>Chicago</City>
-			<StateAbbreviation>IL</StateAbbreviation>
-			<PostalCode>99999</PostalCode>
-			<CountryCode>US</CountryCode>
-			<BeginDate>1967-08-13</BeginDate>
-		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
-			<TelephoneNumber>a</TelephoneNumber>
-		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
-			<EmailAddress>junk@junk.com</EmailAddress>
-		</ElectronicMail>
-		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<OldEthnicity>Hispanic</OldEthnicity>
-		<Race>
-			<RacialCategory>White</RacialCategory>
-		</Race>
-		<HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
-		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
-		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
-		<Credentials>
-			<CredentialType>Certification</CredentialType>
-			<CredentialField>
-				<CodeValue>IT Admin</CodeValue>
-				<Description>Linux Superstar</Description>
-			</CredentialField>
-			<Level>All Level (Grade Level PK-12)</Level>
-			<TeachingCredentialType>Standard</TeachingCredentialType>
-			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
-		</Credentials>
-		<LoginId>a</LoginId>
-	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
 	<!--StaffEducationOrgAssignmentAssociation>
 		<StaffReference>

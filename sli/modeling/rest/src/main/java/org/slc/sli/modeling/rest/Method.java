@@ -25,7 +25,7 @@ import java.util.List;
  * A <code>method</code> element describes the input to and output from an HTTP protocol method that
  * may be applied to a resource.
  */
-public final class Method extends WadlElement {
+public class Method extends WadlElement {
     /**
      * GET
      */
@@ -78,6 +78,8 @@ public final class Method extends WadlElement {
         } else if (NAME_HTTP_PUT.equals(verb)) {
             return verb;
         } else if (NAME_HTTP_DELETE.equals(verb)) {
+            return verb;
+        } else if (NAME_HTTP_PATCH.equals(verb)) {
             return verb;
         } else {
             throw new IllegalArgumentException("verb : " + verb);
