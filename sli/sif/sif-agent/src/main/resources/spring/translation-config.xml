@@ -108,7 +108,7 @@
             <list>
                 <ref local="employeeAssignment2StaffEdOrgAssocTranslationTask" />
                 <ref local="employeeAssignment2TeacherSchoolAssocTranslationTask" />
-                <ref local="employeeAssignment2TeacherTranslationTask" />
+                <!-- <ref local="employeeAssignment2TeacherTranslationTask" /> -->
             </list>
         </constructor-arg>
     </bean>

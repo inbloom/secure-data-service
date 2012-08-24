@@ -20,6 +20,7 @@ import java.util.List;
 
 import openadk.library.hrfin.EmployeeAssignment;
 import openadk.library.hrfin.HRProgramType;
+import openadk.library.hrfin.JobClassification;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,8 +30,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.AdkTest;
-import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.converter.HRProgramTypeConverter;
 import org.slc.sli.sif.domain.converter.JobClassificationConverter;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
@@ -51,9 +52,6 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTaskTest extends Ad
     SifIdResolver mockSifIdResolver;
 
     @Mock
-    DateConverter mockDateConverter;
-
-    @Mock
     JobClassificationConverter mockJobClassificationConverter;
 
     @Mock
@@ -71,48 +69,100 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTaskTest extends Ad
         Assert.assertEquals(0, result.size());
     }
 
+    /**
+     * Happy path EmployeeAssignment translation
+     */
     @Test
-    public void testEmptyProgramType() throws SifTranslationException {
-        EmployeeAssignment info = new EmployeeAssignment();
-        HRProgramType hrProgramType = new HRProgramType();
-        info.setProgramType(hrProgramType);
-        String programType = "programType";
-        String zoneId = "zoneId";
-
-        Mockito.when(mockHRProgramTypeConverter.convert(hrProgramType)).thenReturn(programType);
-
-        List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
-        Assert.assertEquals(1, result.size());
-
-        TeacherSchoolAssociationEntity entity = result.get(0);
-        TeacherSchoolAssociationEntity e = entity;
-        Assert.assertNull("TeacherId is expected to be 'null'", e.getTeacherId());
-        Assert.assertNull("SchoolId is expected to be 'null'", e.getSchoolId());
-        Assert.assertEquals("ProgramAssignment is expected to be '" + programType + "'", programType, e.getProgramAssignment());
-    }
-
-    @Test
-    public void testEmployeePersonalRefId() throws SifTranslationException {
+    public void testEmployeeAssignmentTranslation() throws SifTranslationException {
         EmployeeAssignment info = new EmployeeAssignment();
         String employeePersonalRefId = "employeePersonalRefId";
         info.setEmployeePersonalRefId(employeePersonalRefId);
         String zoneId = "zoneId";
+
+        HRProgramType hrProgramType = new HRProgramType();
+        info.setProgramType(hrProgramType);
+        String programType = "programType";
+        Mockito.when(mockHRProgramTypeConverter.convert(hrProgramType)).thenReturn(programType);
+
+        JobClassification jobClassification = new JobClassification();
+        info.setJobClassification(jobClassification);
+        Mockito.when(mockJobClassificationConverter.convert(jobClassification)).thenReturn("Teacher");
+
         String zoneSea = "zoneSea";
         String teacherGuid = "teacherGuid";
+        Entity mockStaffEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockStaffEntity.getEntityType()).thenReturn("teacher");
+        Mockito.when(mockStaffEntity.getId()).thenReturn(teacherGuid);
 
-        Mockito.when(mockSifIdResolver.getSliGuid(employeePersonalRefId, zoneId)).thenReturn(teacherGuid);
+        Mockito.when(mockSifIdResolver.getSliEntity(employeePersonalRefId, zoneId)).thenReturn(mockStaffEntity);
         Mockito.when(mockSifIdResolver.getZoneSea(zoneId)).thenReturn(zoneSea);
 
         List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
 
         TeacherSchoolAssociationEntity entity = result.get(0);
-        TeacherSchoolAssociationEntity e = entity;
-        Assert.assertEquals("zoneId is expected to be '" + zoneId + "'", zoneId, e.getZoneId());
-        Assert.assertEquals("otherSifRefId is expected to be '" + employeePersonalRefId + "'", employeePersonalRefId, e.getOtherSifRefId());
-        Assert.assertEquals("SchoolId is expected to be '" + zoneSea + "'", zoneSea, e.getSchoolId());
 
+        Assert.assertEquals("zoneId is expected to be '" + zoneId + "'", zoneId, entity.getZoneId());
+        Assert.assertEquals("otherSifRefId is expected to be '" + employeePersonalRefId + "'", employeePersonalRefId,
+                entity.getOtherSifRefId());
+        Assert.assertEquals("SchoolId is expected to be '" + zoneSea + "'", zoneSea, entity.getSchoolId());
+        Assert.assertEquals("TeacherId is expected to be '" + teacherGuid + "'", teacherGuid, entity.getTeacherId());
+        Assert.assertEquals("ProgramAssignment is expected to be '" + programType + "'", programType,
+                entity.getProgramAssignment());
+    }
+
+    /**
+     * Test that when a non-teacher entity is referenced no teacherSchoolAssociation is created
+     */
+    @Test
+    public void testNonTeacherReferenceTranslation() throws SifTranslationException {
+        EmployeeAssignment info = new EmployeeAssignment();
+        String employeePersonalRefId = "employeePersonalRefId";
+        info.setEmployeePersonalRefId(employeePersonalRefId);
+        String zoneId = "zoneId";
+
+        String zoneSea = "zoneSea";
+        String teacherGuid = "teacherGuid";
+        Entity mockStaffEntity = Mockito.mock(Entity.class);
+        //referenced entity type is not teacher
+        Mockito.when(mockStaffEntity.getEntityType()).thenReturn("staff");
+        Mockito.when(mockStaffEntity.getId()).thenReturn(teacherGuid);
+
+        Mockito.when(mockSifIdResolver.getSliEntity(employeePersonalRefId, zoneId)).thenReturn(mockStaffEntity);
+        Mockito.when(mockSifIdResolver.getZoneSea(zoneId)).thenReturn(zoneSea);
+
+        List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
+        Assert.assertNotNull("Result was null", result);
+        Assert.assertEquals(0, result.size());
+    }
+
+    /**
+     * Test that when job classification is not "Teacher" no teacherSchoolAssociation is created
+     */
+    @Test
+    public void testNonTeacherJobClassificationTranslation() throws SifTranslationException {
+        EmployeeAssignment info = new EmployeeAssignment();
+        String employeePersonalRefId = "employeePersonalRefId";
+        info.setEmployeePersonalRefId(employeePersonalRefId);
+        String zoneId = "zoneId";
+
+        String zoneSea = "zoneSea";
+        String teacherGuid = "teacherGuid";
+        Entity mockStaffEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockStaffEntity.getEntityType()).thenReturn("teacher");
+        Mockito.when(mockStaffEntity.getId()).thenReturn(teacherGuid);
+
+        //job classification is not teacher
+        JobClassification jobClassification = new JobClassification();
+        info.setJobClassification(jobClassification);
+        Mockito.when(mockJobClassificationConverter.convert(jobClassification)).thenReturn("Not Teacher");
+
+        Mockito.when(mockSifIdResolver.getSliEntity(employeePersonalRefId, zoneId)).thenReturn(mockStaffEntity);
+        Mockito.when(mockSifIdResolver.getZoneSea(zoneId)).thenReturn(zoneSea);
+
+        List<TeacherSchoolAssociationEntity> result = translator.translate(info, zoneId);
+        Assert.assertNotNull("Result was null", result);
+        Assert.assertEquals(0, result.size());
     }
 
 }
-

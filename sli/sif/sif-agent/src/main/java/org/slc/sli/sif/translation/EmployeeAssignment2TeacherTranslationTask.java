@@ -34,6 +34,8 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  *
  * @author slee
  *
+ * TODO determine when and how a staff entity should be promoted to a teacher entity
+ *
  */
 public class EmployeeAssignment2TeacherTranslationTask extends AbstractTranslationTask<EmployeeAssignment, TeacherEntity> {
 
