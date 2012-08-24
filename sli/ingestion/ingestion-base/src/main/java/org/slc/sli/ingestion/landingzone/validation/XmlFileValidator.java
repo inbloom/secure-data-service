@@ -62,11 +62,6 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
-            if (!fileEntry.getFile().exists()) {
-                LOG.error("DEBUG-UN: File does not exist");
-            } else {
-                LOG.error("DEBUG-UN: File exists and the length is " + fileEntry.getFile().length());
-            }
            LOG.error("File not found: " + fileEntry.getFileName(), e);
            errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
            isEmpty = true;

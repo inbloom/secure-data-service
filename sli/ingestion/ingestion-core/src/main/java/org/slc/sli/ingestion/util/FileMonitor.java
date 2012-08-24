@@ -23,6 +23,9 @@ package org.slc.sli.ingestion.util;
 import java.io.File;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Class for monitoring changes in disk files.
  * Usage:
@@ -39,6 +42,8 @@ public class FileMonitor {
     private HashMap<File, Long> fileModifiedTimeCollection;
     private FileListener listener;
     private long interval;
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileMonitor.class);
 
     private Object currentTag;
 
@@ -91,9 +96,11 @@ public class FileMonitor {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
+                    LOG.error("DEBUG-UN: Exception occured during monitoring the file");
                     e.printStackTrace();
                 }
             }
+            LOG.error("DEBUG-UN: File Name-" + file.getName() + "File Length-" + file.length());
         }
         listener.fileUpdateComplete(FileMonitor.this);
     }

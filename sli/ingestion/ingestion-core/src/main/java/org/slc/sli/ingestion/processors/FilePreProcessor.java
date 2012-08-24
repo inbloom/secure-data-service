@@ -77,7 +77,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
         File fileForControlFile = exchange.getIn().getBody(File.class);
 
         LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Starting the process on file " + fileForControlFile.getAbsolutePath());
-        FileMonitor fileMonitor = new FileMonitor(100, this, "CtlFile");
+        FileMonitor fileMonitor = new FileMonitor(500, this, "CtlFile");
         fileMonitor.addFile(fileForControlFile);
         fileMonitor.startFileMonitor();
     }
