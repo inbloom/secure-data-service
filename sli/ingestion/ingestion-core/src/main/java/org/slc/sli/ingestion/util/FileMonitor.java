@@ -100,7 +100,7 @@ public class FileMonitor {
                     e.printStackTrace();
                 }
             }
-            LOG.error("DEBUG-UN: File Name-" + file.getName() + "File Length-" + file.length());
+//            LOG.error("DEBUG-UN: File Name-" + file.getName() + "File Length-" + file.length());
         }
         listener.fileUpdateComplete(FileMonitor.this);
     }

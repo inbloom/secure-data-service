@@ -18,8 +18,6 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.mongodb.MongoException;
@@ -76,7 +74,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
         exchange = currentExchange;
         File fileForControlFile = exchange.getIn().getBody(File.class);
 
-        LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Starting the process on file " + fileForControlFile.getAbsolutePath());
+        //LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Starting the process on file " + fileForControlFile.getAbsolutePath());
         FileMonitor fileMonitor = new FileMonitor(500, this, "CtlFile");
         fileMonitor.addFile(fileForControlFile);
         fileMonitor.startFileMonitor();
@@ -97,7 +95,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
                 Object tag = fileMonitor.getTag();
                 if (tag.equals("CtlFile")) {
 
-                        LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Ctl file transfer complete " + fileForControlFile.getAbsolutePath());
+                        //LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Ctl file transfer complete " + fileForControlFile.getAbsolutePath());
                         moveControlFileDependencies(inputFileName, fileForControlFile, newBatchJob);
 
                         exchange.getIn().setHeader("BatchJobId", batchJobId);
@@ -113,12 +111,12 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
                     LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
                     ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
                     List<IngestionFileEntry> entries = controlFile.getFileEntries();
-                    LOG.error("DEBUG-UN: " + GetCurrentTime() + ": XML file transfer complete " + lzFile.getName());
+//                    LOG.error("DEBUG-UN: " + GetCurrentTime() + ": XML file transfer complete " + lzFile.getName());
 
                     for (IngestionFileEntry entry : entries) {
                         boolean copied = FileUtils.renameFile(new File(lzFile +  File.separator + entry.getFileName()), new File(lzFile +  File.separator + ".done" + File.separator + entry.getFileName()));
                         if (!copied) {
-                            LOG.info("FilePreProcessor: File Copy failed " + topLevelLandingZone.getLZId());
+                            LOG.error("FilePreProcessor: File Copy failed " + topLevelLandingZone.getLZId());
                         }
                     }
                 }
@@ -193,12 +191,4 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
-
-    private String GetCurrentTime(){
-
-        Date dNow = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
-        return "Current Date: " + ft.format(dNow);
-    }
-
 }
