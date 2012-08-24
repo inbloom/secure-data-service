@@ -162,7 +162,6 @@ public class SchoolEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidSchoolNeutralRecord(NeutralRecord neutralRecord, boolean isXML) {
 
-        assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
 
         List educationOrgIdentificationCodeList = (List) neutralRecord.getAttributes().get(

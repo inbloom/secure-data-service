@@ -801,7 +801,11 @@ public class SDKAPIClient implements APIClient {
                 if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
                         Constants.TEACHER_OF_RECORD)) {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                    try {
                     teacher = this.getTeacher(token, teacherId);
+                    } catch(Exception e) {
+                    	LOGGER.error(e.getMessage());
+                    }
                     return teacher;
                 }
             }

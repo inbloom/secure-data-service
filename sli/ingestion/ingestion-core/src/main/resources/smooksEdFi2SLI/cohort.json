@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.educationOrgId", "metaData.externalId"],
+    "keyFields" : ["body.educationOrgId", "body.cohortIdentifier"],
     "references" :
       [
           {
@@ -33,7 +33,7 @@
                 [
                   [
                     {
-                        "path" : "metaData.externalId",
+                        "path" : "body.programId",
                         "values" :
                         [{
                             "valueSource" : "body.programReferences.ProgramIdentity.ProgramId"
