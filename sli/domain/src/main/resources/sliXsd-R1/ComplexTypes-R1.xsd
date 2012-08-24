@@ -1404,12 +1404,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="teacherAssociations" type="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Teachers associated with the section.
@@ -3502,7 +3496,7 @@
 			minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
-						Optional special education attributes of a student program association.
+						Optional special education attributes of a student program.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -3512,7 +3506,7 @@
     <xs:complexType name="specialEdStudentProgramAttributes">
         <xs:annotation>
             <xs:documentation>
-                Special education attributes of a student program association.
+                Special education attributes of a student program.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -3566,7 +3560,7 @@
 
 	<xs:complexType name="studentSession">
 		<xs:annotation>
-			<xs:documentation>This association indicates the sessions a
+			<xs:documentation>This indicates the sessions a
 				student is assigned to.
 			</xs:documentation>
 		</xs:annotation>
@@ -3585,7 +3579,7 @@
 
 	<xs:complexType name="studentSection">
 		<xs:annotation>
-			<xs:documentation>This association indicates the course sections a
+			<xs:documentation>This indicates the course sections a
 				student is assigned to.
 			</xs:documentation>
 		</xs:annotation>
@@ -5829,12 +5823,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the cohort.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6706,12 +6694,6 @@
             <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Staff associated with the program.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentAssociations" type="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the program.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

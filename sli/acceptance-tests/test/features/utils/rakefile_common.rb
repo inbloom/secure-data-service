@@ -16,6 +16,20 @@ limitations under the License.
 
 =end
 
+require 'ldapstorage'
+
+def cleanUpLdapUser(user_email)
+  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                         PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
+                         PropLoader.getProps['ldap_admin_pass'])
+
+  ldap.get_user_groups(user_email).each do |group_id|
+    ldap.remove_user_group(user_email, group_id)
+  end 
+
+  ldap.delete_user({:email => "#{user_email}"})
+end
+
 def allLeaAllowApp(appName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
