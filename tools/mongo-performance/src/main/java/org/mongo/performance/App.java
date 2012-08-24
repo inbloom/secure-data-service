@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -20,14 +20,14 @@ import com.mongodb.util.JSON;
 
 public class App {
 	public static String inputFromJsonFlag; 
-	public static String collectionName;
+	public static String entityType;
 	public static final String INDEX_PATH="src\\main\\resources\\indexes\\index.properties";
 	public static final String JSON_PATH="src\\main\\resources\\JsonFiles\\";
 	
 	public static void main( String[] args ) {
 		System.out.println("Bootstrapping Mongo Performance");
 		
-		if (args.length != 9) {
+		if (args.length != 8) {
 		    System.out.println("INVALID NUMBER OF INPUTS");
 		    System.out.println("1. MODE (SAFE / NONE / NORMAL)");
 		    System.out.println("2. NUMBER OF CONCURRENT PROCESSORS");
@@ -37,7 +37,6 @@ public class App {
 		    System.out.println("6. TYPE OF OPERATIONS (W - WRITE VIA SPRING TEMPLATE / B - BATCHED WRITE VIA SPRING TEMPLATE / D - BATCHED WRITE VIA DRIVER / R - READ / T - BATCHED READ");
 		    System.out.println("7. DROP COLLECTION (profiledCollection) PRIOR TO RUN (Y / N).");
 		    System.out.println("8. INPUT DATA IS FROM JSON FILE OR NOT (Y/N).");
-		    System.out.println("9. SPECIFY THE NAME OF THE COLLECTION.");
 		    System.exit(0);
 		}
 		
@@ -79,7 +78,17 @@ public class App {
         String dropCollectionFlag = args[6];
         
         inputFromJsonFlag = args[7];
-        collectionName = args[8];
+        if(inputFromJsonFlag.equals("Y"))
+        {
+        	System.out.println("INPUT ENTITY TYPE:");
+        	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        	try {
+        		entityType=br.readLine();
+			} catch (IOException e) {
+				System.out.println("Please try again.");
+				e.printStackTrace();
+			}
+        }
         
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
         System.out.println("NUMBER OF RECORDS = " + numberOfRecords);

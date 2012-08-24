@@ -1,17 +1,11 @@
 package org.mongo.performance;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,7 +19,7 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
-import com.mongodb.util.JSON;
+
 
 public class MongoCompositeTest<T> implements Callable<Boolean> {
 
@@ -62,6 +56,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
     }
 
     public void execute() {
+    
         String profiledCollectionName = "profiledCollection";
         
         int iterations = operationCount / this.chunkSize;
@@ -95,18 +90,17 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         List<DBObject> records = new ArrayList<DBObject>();
         
         for (int i = 0; i < chunkSize; i++) {
-            Map<String, Object> innerObject = (Map<String, Object>) this.dataRecord;
-
+        	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
+        	
             if(App.inputFromJsonFlag.equals("Y"))
             {
-            	innerObject.put(App.collectionName+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
+            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
             else
             {
             	innerObject.remove("studentUniqueStateId");
             	innerObject.put("studentUniqueStateId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
-            
+            }           
             
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -139,18 +133,17 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             e.printStackTrace();
         }
 
-    }   
-    
+    }     
     
     private void profileBatchedInserts(int operationCount, String profiledCollectionName, int chunkSize, int iterationNumber) {
         List<Object> records = new ArrayList<Object>();
         
         for (int i = 0; i < chunkSize; i++) {
-            Map<String, Object> innerObject = (Map<String, Object>) this.dataRecord;
+        	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
 
             if(App.inputFromJsonFlag.equals("Y"))
             {
-            	innerObject.put(App.collectionName+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
+            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
             else
             {
@@ -179,14 +172,14 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
     
     
     private void profileInsert(int operationCount, String profiledCollectionName, int chunkSize, int iterationNumber) {
-        Map<String, Object> innerObject = (Map<String, Object>) this.dataRecord;
+        Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
         
         long elapsed = 0;
 
         for (int i = 0; i < chunkSize; i++) {
             if(App.inputFromJsonFlag.equals("Y"))
             {
-            	innerObject.put(App.collectionName+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
+            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             }
             else
             {
@@ -210,8 +203,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
                 "          RPS = " + Math.floor((float) ((float) chunkSize / (float)(elapsed)) * 1000));
         
         this.opCounts.add(Pair.of("INSERT", new Integer((int) elapsed)));
-    }
-    
+    }   
     
     @SuppressWarnings("unused")
     private void profileBatchedSelects(int operationCount, String profiledCollectionName, int chunkSize, int iterationNumber) {
@@ -229,7 +221,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
                 startTime = System.currentTimeMillis();
                 if(App.inputFromJsonFlag.equals("Y"))
                 {
-                	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.collectionName+"UniqId").in(searchKeys)), Object.class, profiledCollectionName);
+                	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").in(searchKeys)), Object.class, profiledCollectionName);
                 }
                 else
                 {
@@ -262,7 +254,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             startTime = System.currentTimeMillis();
             if(App.inputFromJsonFlag.equals("Y"))
             {
-            	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.collectionName+"UniqId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
+            	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
             }
             else
             {
