@@ -66,7 +66,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 4       |
       | studentParentAssociation               | studentParentAssociations                | 3       |
       | studentProgramAssociation              | studentProgramAssociations               | 18      |
-      | studentSchoolAssociation               | studentSchoolAssociations                | 179     |
+      | studentSchoolAssociation               | studentSchoolAssociations                | 209     |
       | studentSectionAssociation              | studentSectionAssociations               | 263     |
       | studentTranscriptAssociation           | courseTranscripts                        | 3       |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 6       |
