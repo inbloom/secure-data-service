@@ -14,8 +14,9 @@ Given the following collections are clean and bootstrapped in datastore:
 And I wait for "10" seconds
 Given the data store is "data_LEAInfo"
 When I POST a(n) "sifEvent_LEAInfo_add" SIF message to the ZIS
-Given the data store is "data_integrated"
+Given the data store is "data_SchoolInfo"
 And I POST a(n) "sifEvent_SchoolInfo_add" SIF message to the ZIS
+Given the data store is "data_integrated"
 And I POST a(n) "sifEvent_StudentPersonal_add" SIF message to the ZIS
 And I POST a(n) "sifEvent_StudentLEARelationship_add" SIF message to the ZIS
 And I POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message to the ZIS
@@ -38,7 +39,7 @@ Then I should see following map of entry counts in the corresponding collections
    And I check that the record contains all of the expected values:
      | collectionName        | searchParameter           | searchValue                   | searchType | expectedValuesFile           |
      | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string     | ../data_LEAInfo/expected_LEAInfo_add         |
-     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string     | expected_SchoolInfo_add      |
+     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string     | ../data_SchoolInfo/expected_SchoolInfo_add      |
      | student               | body.studentUniqueStateId | WB0025                        | string     | expected_StudentPersonal_add |
    And I check that ID fields resolved correctly:
      | collectionName           | searchParameter          | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
