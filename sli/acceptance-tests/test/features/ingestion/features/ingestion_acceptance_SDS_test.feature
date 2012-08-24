@@ -432,7 +432,7 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
-       | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
+       | staff                       | 1                   | body.staffUniqueStateId  | manthony                   | string               |
        | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
@@ -500,7 +500,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
-       | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
+       | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
