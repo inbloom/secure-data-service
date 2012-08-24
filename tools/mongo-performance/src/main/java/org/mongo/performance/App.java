@@ -1,9 +1,11 @@
 package org.mongo.performance;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -12,12 +14,20 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+import com.mongodb.util.JSON;
 
 public class App {
+	public static boolean inputFromJsonFlag; 
+	public static String entityType;
+	public static final String INDEX_PATH="src\\main\\resources\\indexes\\index.properties";
+	public static final String JSON_PATH="src\\main\\resources\\JsonFiles\\";
+	private static String inputFile;
+	
+	@SuppressWarnings("unchecked")
 	public static void main( String[] args ) {
 		System.out.println("Bootstrapping Mongo Performance");
-
-		if (args.length != 7) {
+		
+		if (args.length <7 || args.length >8 ) {
 		    System.out.println("INVALID NUMBER OF INPUTS");
 		    System.out.println("1. MODE (SAFE / NONE / NORMAL)");
 		    System.out.println("2. NUMBER OF CONCURRENT PROCESSORS");
@@ -26,15 +36,15 @@ public class App {
 		    System.out.println("5. RECORD TYPE PERSISTED (SHORT / FLAT / SHORTKEYS / NORMAL)");
 		    System.out.println("6. TYPE OF OPERATIONS (W - WRITE VIA SPRING TEMPLATE / B - BATCHED WRITE VIA SPRING TEMPLATE / D - BATCHED WRITE VIA DRIVER / R - READ / T - BATCHED READ");
 		    System.out.println("7. DROP COLLECTION (profiledCollection) PRIOR TO RUN (Y / N).");
+		    System.out.println("8. PREFIX OF INPUT JSON FILE NAME.(PLEASE PUT THE JSON FILE UNDER DIR 'resources/JsonFiles/'. ALSO CONFIG THE index.properties FILE UNDER 'resources/indexes/')");
 		    System.exit(0);
 		}
 		
 		ConfigurableApplicationContext context = null;
         context = new ClassPathXmlApplicationContext("META-INF/spring/bootstrap.xml");
-
         context = new ClassPathXmlApplicationContext("META-INF/spring/applicationContext.xml");
         
-        DataAccessWrapper da = context.getBean(DataAccessWrapper.class);
+        DataAccessWrapper da = context.getBean(DataAccessWrapper.class);        
         
         if ("SAFE".equals(args[0])) {
             da.mongoTemplate.setWriteConcern(WriteConcern.SAFE);
@@ -66,30 +76,155 @@ public class App {
         
         String dropCollectionFlag = args[6];
         
+        if(args.length ==8)
+        {
+        	inputFile = args[7];
+        	inputFromJsonFlag=true;
+        }
+        else 
+        {
+        	inputFromJsonFlag=false;
+        }
+        
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
         System.out.println("NUMBER OF RECORDS = " + numberOfRecords);
         System.out.println("CHUNK SIZE = " + chunkSize);
         System.out.println("RECORD TYPE = " + recordType);
         System.out.println("TYPES OF CONCURRENT OPERATIONS ENABLED = " + concurrentOperationsEnabled);
         System.out.println("COLLECTION DROP FLAG = " + dropCollectionFlag);
-
-        MongoProcessor mongoProcessor = context.getBean(MongoProcessor.class);
         
-        if (recordType == 1) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecord(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else if (recordType == 2) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecord(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else if (recordType == 3) {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeys(), concurrentOperationsEnabled, dropCollectionFlag);
-        } else {
-            mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecord(), concurrentOperationsEnabled, dropCollectionFlag); 
+    	long startTime = System.currentTimeMillis();
+    	
+        if(inputFromJsonFlag)
+        {
+			MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
+        	if (recordType == 1) {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else if (recordType == 2) {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else if (recordType == 3) {
+            	mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeysfromJson(), concurrentOperationsEnabled, dropCollectionFlag);
+        	} else {
+        		mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordfromJson(), concurrentOperationsEnabled, dropCollectionFlag); 
+        	}
+        	mongoProcessor.writeStatistics();
+        }
+        else
+        {
+        	MongoProcessor<HashMap<String, Object>> mongoProcessor = context.getBean(MongoProcessor.class);
+        	if (recordType == 1) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateShortRecord(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else if (recordType == 2) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateFlatRecord(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else if (recordType == 3) {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecordShortKeys(), concurrentOperationsEnabled, dropCollectionFlag);
+            } else {
+                mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize, generateRecord(), concurrentOperationsEnabled, dropCollectionFlag); 
+            }
+        	mongoProcessor.writeStatistics();
         }
         
-        mongoProcessor.writeStatistics();
-        
+    	long endTime = System.currentTimeMillis();
+    	long elapsed = endTime - startTime;
+    	
+    	System.out.println();
+    	System.out.println("START TIME = "+startTime+"           END TIME = "+endTime+"           ELAPSED TIME MS = "+elapsed);
+    	System.out.println("-------------");
+    	
         System.exit(0);
         
 	}
+
+
+private static DBObject generateRecordfromJson() {
+	DBObject dbObject = null;
+	File file = new File(JSON_PATH+inputFile+"-full.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified "+inputFile+"-full.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}
+
+
+private static DBObject generateRecordShortKeysfromJson() {
+
+		DBObject dbObject = null;
+		File file = new File(JSON_PATH+inputFile+"-shortKeys.json");
+		FileReader fr;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String curLine;
+			curLine = br.readLine();
+			dbObject = (DBObject) JSON.parse(curLine);
+
+		} catch (FileNotFoundException e) {
+			System.out.println("The specified "+inputFile+"-shortKeys.json file is not found.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dbObject;
+      
+	}
+
+
+private static DBObject generateFlatRecordfromJson() {
+	DBObject dbObject = null;
+	File file = new File(JSON_PATH+inputFile+"-full.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified "+inputFile+"-full.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}
+
+
+private static DBObject generateShortRecordfromJson() {
+	DBObject dbObject = null;
+//	File file = new File(JSON_PATH+"StudentAssessmentAssociation-short.json");
+	File file = new File(JSON_PATH+inputFile+"-short.json");
+	FileReader fr;
+	try {
+		fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		String curLine;
+		curLine = br.readLine();
+		dbObject = (DBObject) JSON.parse(curLine);
+
+	} catch (FileNotFoundException e) {
+		System.out.println("The specified "+inputFile+"-short.json file is not found.");
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return dbObject;
+	}	
 	
 	private static  HashMap<String, Object> generateShortRecord() {
         BasicDBObject record = new BasicDBObject();
@@ -409,6 +544,7 @@ public class App {
 
         tempList = new BasicDBList();
         temp = new HashMap<String, Object>();
+        
         temp.put("endDate", "2010-03-04");
         temp.put("beginDate", "2010-03-04");
         temp.put("characteristic", "Foster Care");
