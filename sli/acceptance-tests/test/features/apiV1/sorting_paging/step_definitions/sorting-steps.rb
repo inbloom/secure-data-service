@@ -117,14 +117,17 @@ Then /^the a previous link should not exist$/ do
 end
 
 Then /^the a next link should not exist$/ do
-  links = @res.raw_headers["link"];
-  links.should be_a Array
-  found_link = false
-  links.each do |link|
-    if /rel=next/.match link
-      found_link = true
+    found_link = false
+    links = @res.raw_headers["link"];
+    if links != nil
+        links.should be_a Array
+        links.each do |link|
+            if /rel=next/.match link
+                found_link = true
+            end
+        end
     end
-  end
+  
   found_link.should == false
 end
 

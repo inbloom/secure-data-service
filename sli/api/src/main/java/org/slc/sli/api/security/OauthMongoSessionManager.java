@@ -98,7 +98,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId,
-            String samlId) {
+            String samlId, boolean sessionExpired) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
 
@@ -117,7 +117,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         Entity sessionEntity = sessionId == null ? null : repo.findById(SESSION_COLLECTION, sessionId);
 
-        if (sessionEntity == null || isExpired(sessionEntity)) {
+        if (sessionEntity == null || sessionExpired) {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
@@ -129,16 +129,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         appSessions.add(newAppSession(clientId, redirectUri, state, samlId, isInstalled));
 
         repo.update(SESSION_COLLECTION, sessionEntity);
-    }
-
-    private boolean isExpired(Entity sessionEntity) {
-        long expiration = (Long) sessionEntity.getBody().get("expiration");
-        long hardLogout = (Long) sessionEntity.getBody().get("hardLogout");
-        if (expiration < System.currentTimeMillis() || hardLogout < System.currentTimeMillis()) {
-            debug("session has expired.");
-            return true;
-        }
-        return false;
     }
 
     @Override
