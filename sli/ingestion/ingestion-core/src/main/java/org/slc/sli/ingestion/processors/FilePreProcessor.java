@@ -142,7 +142,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
             LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
             ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
             List<IngestionFileEntry> entries = controlFile.getFileEntries();
-            FileMonitor fileMonitor = new FileMonitor(1000, this, "Xmlfile");
+            FileMonitor fileMonitor = new FileMonitor(2500, this, "Xmlfile");
             for (IngestionFileEntry entry : entries) {
                 fileMonitor.addFile(new File(lzFile +  File.separator + entry.getFileName()));
             }
