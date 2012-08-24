@@ -68,6 +68,7 @@ import org.slc.sli.domain.QueryParseException;
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.XML_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE + ";charset=utf-8",
         Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_LONG_JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_LONG_XML_MEDIA_TYPE + ";charset=utf-8" })
+@Deprecated
 public class Resource {
 
     private static final String TOTAL_COUNT_HEADER = "TotalCount";

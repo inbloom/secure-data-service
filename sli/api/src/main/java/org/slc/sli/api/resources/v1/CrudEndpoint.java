@@ -31,6 +31,7 @@ import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
  * @author kmyers
  *
  */
+@Deprecated
 public interface CrudEndpoint {
 
     /**
