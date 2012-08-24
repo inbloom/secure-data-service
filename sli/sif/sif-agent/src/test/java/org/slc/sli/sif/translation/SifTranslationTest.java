@@ -138,25 +138,6 @@ public class SifTranslationTest extends AdkTest {
 
     }
 
-    @Test
-    public void shouldTranslateEmploymentRecordToTeacherSchoolAssoc() {
-
-        // set up id resolution
-        idResolver.putEntity("sifStaffId", new SimpleEntity("teacher"));
-        idResolver.putEntity("sifEdOrgId", new SimpleEntity("school"));
-
-        EmploymentRecord info = new EmploymentRecord();
-        info.setLEAInfoRefId("sifEdOrgId");
-        info.setSIF_RefId("sifStaffId");
-
-        List<SliEntity> entities = translationManager.translate(info, ZONE_ID);
-
-        Assert.assertEquals("Should create a single SLI entity", 1, entities.size());
-        Assert.assertNotNull("NULL sli entity", entities.get(0));
-        Assert.assertEquals("Mapped SLI entitiy should be of type teacherSchoolAssociation",
-                "teacherSchoolAssociation", entities.get(0).entityType());
-
-    }
 
     private SchoolInfo createSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
