@@ -25,6 +25,9 @@ import java.util.List;
  * Builds a get all (one part) response
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 @Scope("request")

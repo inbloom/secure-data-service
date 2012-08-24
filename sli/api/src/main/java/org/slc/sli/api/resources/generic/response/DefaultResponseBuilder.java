@@ -29,6 +29,9 @@ import javax.ws.rs.core.UriInfo;
  * Builds a default response. Used for other operations than GET.
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 @Scope("request")

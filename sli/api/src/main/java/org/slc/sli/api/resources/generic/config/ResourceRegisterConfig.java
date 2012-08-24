@@ -34,6 +34,8 @@ import java.util.Set;
  * Custom resource config for registering resources at runtime
  *
  * @author srupasinghe
+ * @author jstokes
+ *
  */
 
 @Component
@@ -49,33 +51,29 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws ClassNotFoundException {
         Map<String, Resource> resources = getResources();
 
         addResources(resources);
     }
 
-    protected void addResources(Map<String, Resource> resources) {
-        try {
-            for (Map.Entry<String, Resource> resource : resources.entrySet()) {
-                Resource resourceTemplate = resource.getValue();
+    protected void addResources(Map<String, Resource> resources) throws ClassNotFoundException {
 
-                List<Method> methods = resourceTemplate.getMethods();
-                Set<String> methodList = new HashSet<String>();
-                for (Method method : methods) {
-                    methodList.add(method.getVerb());
-                }
-                resourceSupprtedMethods.put(resource.getKey(), methodList);
+        for (Map.Entry<String, Resource> resource : resources.entrySet()) {
+            Resource resourceTemplate = resource.getValue();
 
-                if (resourceTemplate.getResourceClass() != null && !resourceTemplate.getResourceClass().isEmpty()) {
-                    Class resourceClass = Class.forName(resourceTemplate.getResourceClass());
-
-                    getExplicitRootResources().put(resource.getKey(), resourceClass);
-                }
+            List<Method> methods = resourceTemplate.getMethods();
+            Set<String> methodList = new HashSet<String>();
+            for (Method method : methods) {
+                methodList.add(method.getVerb());
             }
+            resourceSupprtedMethods.put(resource.getKey(), methodList);
 
-        } catch (ClassNotFoundException e) {
-            error("Class load error", e);
+            if (resourceTemplate.getResourceClass() != null && !resourceTemplate.getResourceClass().isEmpty()) {
+                Class resourceClass = Class.forName(resourceTemplate.getResourceClass());
+
+                getExplicitRootResources().put(resource.getKey(), resourceClass);
+            }
         }
     }
 

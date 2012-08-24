@@ -35,6 +35,9 @@ import javax.ws.rs.core.Response;
  * Base resource class for all dynamic end points
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 @Scope("request")

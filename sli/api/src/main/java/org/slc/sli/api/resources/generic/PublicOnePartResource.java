@@ -34,6 +34,9 @@ import javax.ws.rs.core.UriInfo;
  * Resource for handling public one part URIs
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 @Component

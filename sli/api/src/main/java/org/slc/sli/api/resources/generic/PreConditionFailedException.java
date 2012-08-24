@@ -19,6 +19,9 @@ package org.slc.sli.api.resources.generic;
  * Custom exception for pre condition failures
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 public class PreConditionFailedException extends RuntimeException {

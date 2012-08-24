@@ -31,6 +31,8 @@ import java.util.List;
  * Helper class for adding hateoas links to entities
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
  */
 
 @Component

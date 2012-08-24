@@ -36,6 +36,9 @@ import javax.ws.rs.core.UriInfo;
  * Resource for handling two part URIs
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 @Component
 @Scope("request")

@@ -23,12 +23,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 8/8/12
- * Time: 3:15 PM
- * To change this template use File | Settings | File Templates.
+ * Spring configuration for generic end points
+ *
+ * @author srupasinghe
  */
+
 @Configuration
 public class ResourceConfig {
     private Map<String, Set<String>> resourceMethods = new ConcurrentHashMap<String, Set<String>>();

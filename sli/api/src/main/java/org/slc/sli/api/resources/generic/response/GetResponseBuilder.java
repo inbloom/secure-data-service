@@ -41,6 +41,9 @@ import java.util.List;
  * Builds a get response
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 @Scope("request")

@@ -23,11 +23,10 @@ import org.slc.sli.api.representation.EntityBody;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 8/21/12
- * Time: 10:32 AM
- * To change this template use File | Settings | File Templates.
+ * Encapsulates a service response
+ *
+ * @author pghosh
+ *
  */
 public class ServiceResponse {
     private List<EntityBody> entityBodyList;

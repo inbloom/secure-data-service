@@ -19,6 +19,9 @@ package org.slc.sli.api.resources.generic.representation;
  * Resource container.
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 public class Resource {
 

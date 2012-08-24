@@ -30,6 +30,9 @@ import javax.ws.rs.core.UriInfo;
 
 /**
  * @author jstokes
+ * @author pghosh
+ * @author srupasinghe
+ *
  */
 @Component
 @Scope("request")

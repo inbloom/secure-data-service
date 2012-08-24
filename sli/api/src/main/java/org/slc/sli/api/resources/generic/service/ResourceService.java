@@ -25,6 +25,9 @@ import java.net.URI;
  * Resource service.
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
+ *
  */
 
 public interface ResourceService {

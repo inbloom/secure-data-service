@@ -52,6 +52,8 @@ import java.util.Map;
  * Default implementation of the resource service.
  *
  * @author srupasinghe
+ * @author jstokes
+ * @author pghosh
  */
 
 @Component
