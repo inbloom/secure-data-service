@@ -251,7 +251,7 @@ public class ResourceUtil {
 
         // start with self link
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
-        if (defn != null) {
+        if (defn != null && id != null) {
             links.add(getSelfLinkForEntity(uriInfo, id, defn));
             links.add(getCustomLink(uriInfo, id, defn));
 

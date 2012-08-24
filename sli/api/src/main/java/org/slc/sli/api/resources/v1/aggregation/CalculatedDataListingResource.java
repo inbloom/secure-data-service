@@ -18,11 +18,22 @@ package org.slc.sli.api.resources.v1.aggregation;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CalculatedDatum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resource for displaying aggregate listings
@@ -31,14 +42,15 @@ import org.slc.sli.domain.CalculatedDatum;
  * @param <T> type of data to return
  *
  */
+@Component
+@Scope("request")
 public class CalculatedDataListingResource<T> {
 
-    private final CalculatedData<T> data;
+    @Autowired
+    private EntityDefinitionStore entityDefinitionStore;
 
-    public CalculatedDataListingResource(CalculatedData<T> data) {
-        super();
-        this.data = data;
-    }
+    @Autowired
+    private ResourceHelper resourceHelper;
 
     /**
      * Get the aggregates for a particular entity
@@ -50,9 +62,17 @@ public class CalculatedDataListingResource<T> {
      * @return
      */
     @GET
-    public Response getCalculatedValues(@QueryParam("type") String type, @QueryParam("window") String window,
-            @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<CalculatedDatum<T>> aggs = data.getCalculatedValues(type, window, methodology, name);
+    public Response getCalculatedValues(@Context final UriInfo uriInfo,
+                                        @PathParam("id") final String id,
+                                        @QueryParam("type") final String type,
+                                        @QueryParam("window") final String window,
+                                        @QueryParam("method") final String methodology,
+                                        @QueryParam("name") final String name) {
+
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
+        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+        final CalculatedData<String> data = entityDef.getService().getCalculatedValues(id);
+        final List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 

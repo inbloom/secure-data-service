@@ -41,35 +41,36 @@ public class ResourceTest {
     private static final ArrayList<Param> PARAMS = new ArrayList<Param>(0);
     private static final ArrayList<Method> METHODS = new ArrayList<Method>(0);
     private static final ArrayList<Resource> RESOURCES = new ArrayList<Resource>(0);
+    private static final String RESOURCE_CLASS = "MyClass";
 
     @Before
     public void setup() throws Exception {
-        resource = new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES);
+        resource = new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullType() {
-        new Resource(ID, null, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES);
+        new Resource(ID, null, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullQeuryType() {
-        new Resource(ID, TYPE, null, PATH, DOC, PARAMS, METHODS, RESOURCES);
+        new Resource(ID, TYPE, null, PATH, DOC, PARAMS, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullParams() {
-        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, null, METHODS, RESOURCES);
+        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, null, METHODS, RESOURCES, RESOURCE_CLASS);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullMethods() {
-        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, null, RESOURCES);
+        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, null, RESOURCES, RESOURCE_CLASS);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullResources() {
-        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, null);
+        new Resource(ID, TYPE, QUERY_TYPE, PATH, DOC, PARAMS, METHODS, null, RESOURCE_CLASS);
     }
 
     @Test
