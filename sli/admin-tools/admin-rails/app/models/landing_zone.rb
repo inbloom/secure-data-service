@@ -75,7 +75,7 @@ class LandingZone
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
-        
+    
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
@@ -109,9 +109,9 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
-        if sample_data_select !=nil && sample_data_select !=""
+        if sample_data_select !=nil && sample_data_select !="" && isDuplicate==false
         ApplicationMailer.auto_provision_email(user_info[:emailAddress],user_info[:first]).deliver 
-        else
+        elsif (sample_data_select == nil || sample_data_select =="")
         ApplicationMailer.provision_email(user_info[:emailAddress],user_info[:first],@server,edorg_id).deliver
         end
       rescue => e
