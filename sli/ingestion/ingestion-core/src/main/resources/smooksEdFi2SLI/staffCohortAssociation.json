@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.staffId","body.cohortId"],
+    "keyFields" : ["body.staffId","body.cohortId", "body.beginDate"],
     "references" :
     [{
         "fieldPath" : "body.staffId",

@@ -36,7 +36,7 @@
           },
           "reduce" : {
               "class" : "org.slc.sli.aggregation.jobs.school.assessment.SchoolProficiencyReducer",
-              "collection" : "sli.school",
+              "collection" : "sli.educationOrganization",
               "map_field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore",              
               "field" : "aggregates.assessments.@ID@.cut_points"
           },

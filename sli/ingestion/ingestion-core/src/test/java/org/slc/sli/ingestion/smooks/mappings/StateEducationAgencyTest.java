@@ -184,7 +184,6 @@ public class StateEducationAgencyTest {
     @SuppressWarnings("rawtypes")
     private void checkValidSEANeutralRecord(NeutralRecord neutralRecord) {
 
-        assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
 
         List educationOrgIdentificationCodeList = (List) neutralRecord.getAttributes().get(

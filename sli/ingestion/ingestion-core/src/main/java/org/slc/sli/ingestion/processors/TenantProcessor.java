@@ -34,6 +34,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +69,7 @@ public class TenantProcessor implements Processor {
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
 
-    @Value("${sli.ingestion.sampleDataSet.directory}")
-    private String sampleDataSetDirectory;
+    private Map<String, List<String>> dataSetLookup;
 
     @Autowired
     private NoExtractProcessor noExtractProcessor;
@@ -198,40 +198,72 @@ public class TenantProcessor implements Processor {
      *
      * @param landingZone
      *            the landing zone to preload the files into
-     * @param preLoadedFiles
+     * @param dataSets
      *            the files to preload
      * @return whether or not every file was successfully preloaded
      */
-    boolean preLoad(String landingZone, List<String> preLoadedFiles) {
+    boolean preLoad(String landingZone, List<String> dataSets) {
         File landingZoneDir = new File(landingZone);
         try {
-            landingZoneDir.createNewFile();
+            if (!landingZoneDir.exists()) {
+                landingZoneDir.createNewFile();
+            }
         } catch (IOException e) {
             LOG.error("Could not create landing zone", e);
             return false;
         }
         if (landingZoneDir.exists() && landingZoneDir.isDirectory()) {
             boolean result = true;
-            File sampleDataDirectory = new File(sampleDataSetDirectory);
-            for (String preload : preLoadedFiles) {
-                File sampleFile = new File(sampleDataDirectory, preload);
-                File preloadedFile = new File(landingZoneDir, sampleFile.getName());
-                if (sampleFile.exists()) {
-                    try {
-                        preloadedFile.createNewFile();
-                        Files.copy(sampleFile, preloadedFile);
-                    } catch (IOException e) {
-                        result = false;
-                        LOG.error("Error copying file " + preload + " to landingZone" + landingZone, e);
+            for (String dataSet : dataSets) {
+                List<String> fileNames = getDataSetLookup().get(dataSet);
+                if (fileNames != null) {
+                    for (String fileName : fileNames) {
+                        File sampleFile = new File(fileName);
+                        if (sampleFile.exists()) {
+                            result &= sendToLandingZone(landingZoneDir, sampleFile);
+                        } else {
+                            LOG.error("sample data set {} doesn't exists", fileName);
+                            result = false;
+                        }
                     }
                 } else {
-                    LOG.error("sample data set {} doesn't exists", preload);
                     result = false;
                 }
             }
             return result;
         }
         return false;
+    }
+
+    /**
+     * Send the given file to the landing zone
+     *
+     * @param landingZoneDir
+     *            the file representing the ladnding zone
+     * @param sampleFile
+     *            the file to send to the landing zone
+     * @return true if the file (or all of its children if it is a directory) was successfully
+     *         copied over to the landing zone directory
+     */
+    private boolean sendToLandingZone(File landingZoneDir, File sampleFile) {
+        boolean result = true;
+        if (sampleFile.isDirectory()) {
+            for (File f : sampleFile.listFiles()) {
+                result &= sendToLandingZone(landingZoneDir, f);
+            }
+        } else {
+            File preloadedFile = new File(landingZoneDir, sampleFile.getName());
+            try {
+                preloadedFile.createNewFile();
+                Files.copy(sampleFile, preloadedFile);
+            } catch (IOException e) {
+                LOG.error(
+                        "Error copying file " + sampleFile.getAbsolutePath() + " to landingZone"
+                                + landingZoneDir.getAbsolutePath(), e);
+                result = false;
+            }
+        }
+        return result;
     }
 
     /**
@@ -253,12 +285,15 @@ public class TenantProcessor implements Processor {
         }
     }
 
-    String getSampleDataSetDirectory() {
-        return sampleDataSetDirectory;
+    Map<String, List<String>> getDataSetLookup() {
+        return dataSetLookup;
     }
 
-    void setSampleDataSetDirectory(String sampleDataSetDirectory) {
-        this.sampleDataSetDirectory = sampleDataSetDirectory;
+    @Value("${sli.ingestion.dataset.sample}")
+    @SuppressWarnings("unchecked")
+    void setDataSetLookup(String dataSetLookup) throws IOException {
+        ObjectMapper om = new ObjectMapper();
+        this.dataSetLookup = om.readValue(dataSetLookup, Map.class);
     }
 
 }

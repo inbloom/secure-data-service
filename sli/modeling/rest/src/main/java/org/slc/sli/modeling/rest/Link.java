@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Used to identify links to resources within representations.
  */
-public final class Link extends WadlElement {
+public class Link extends WadlElement {
     private final String resourceType;
     private final String rel;
     private final String rev;

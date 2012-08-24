@@ -267,14 +267,14 @@ end
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
  invisible = @driver.find_elements(:css, "tr[display='none']").count
  visible = @driver.find_elements(:css, "tr.odd").count
- assert(invisible == visible -1)
+ assert(invisible == visible - 1)
 end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
   @form = @driver.find_element(:id, "edit_app_#{@id}")
   editable = @form.find_elements(:css, "input").count
-  uneditable = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(uneditable == 2, "Found #{uneditable} elements")
+  not_editable = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(not_editable == 2, "Found #{not_editable} elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

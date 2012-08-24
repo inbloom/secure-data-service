@@ -69,12 +69,14 @@ public class StateEdFiXmlGenerator {
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
     public static String propertyPath = "config.properties";
+    public static String rootOutputPath = "./data";
+	public static String XSDVersionPath = "1.0.04";
     
+    					
     /**
      * used to determine the output directory for generated interchange and control files
      */
-    public static String rootOutputPath = "./data";
-    
+
     
 //    public static String rootOutputPath = "./data";
     /**
@@ -92,16 +94,18 @@ public class StateEdFiXmlGenerator {
     public static void main(String[] args) throws Exception {
    
         processProgramArguments(args);
-        
+
         MetaRelations.construct();
-       
-        if (MetaRelations.XSDVersionPath.equals("1.0.04") ) {
+ 
+        //if (XSDVersionPath.equals("1.0.04") ) {
+        if ("1.0.04".equalsIgnoreCase(XSDVersionPath)) {
         
         	generateAndMarshalInterchangesForSliXsdRI();
         	
+        	
         }
         else {
-        	
+ 
         	generateAndMarshalInterchanges();
         	
         }
@@ -151,6 +155,7 @@ public class StateEdFiXmlGenerator {
     private static void generateAndMarshalInterchangesForSliXsdRI() throws Exception {
     	
              section();
+             masterSchedule();
          
     }
     private static void generateAndMarshalInterchanges() throws Exception {

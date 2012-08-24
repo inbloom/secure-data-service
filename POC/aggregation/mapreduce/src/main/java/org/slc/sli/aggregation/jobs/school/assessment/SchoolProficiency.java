@@ -1,7 +1,5 @@
 package org.slc.sli.aggregation.jobs.school.assessment;
 
-import java.io.OutputStreamWriter;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapred.JobConf;
@@ -35,10 +33,8 @@ public class SchoolProficiency extends Configured implements Tool {
         conf.set(JobConfiguration.ID_PLACEHOLDER, assmtId);
 
         JobConf jobConf = ConfigurableMapReduceJob.parseMapper(conf, "school/Assessment-Aggregate-HighestEver.json");
-        Configuration.dumpConfiguration(jobConf, new OutputStreamWriter(System.err));
 
         Job job = new Job(jobConf);
-
         boolean success = job.waitForCompletion(true);
 
         return success ? 0 : 1;

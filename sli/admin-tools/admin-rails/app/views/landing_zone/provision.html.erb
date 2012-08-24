@@ -1,4 +1,11 @@
-<% if @landingzone[:isDuplicate] %>
+<% if @landingzone[:isDuplicate] && @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
+<div class="page-header">
+      <h1>Select Sandbox Data Source</h1>
+    </div>
+    <p>The <%= @landingzone[:preload]%> sample data set your selected has already been loaded.</p>
+    <p>Please contact <%= APP_CONFIG['support_email'] %> for further questions.</p>
+    <div class="hidden" id="alreadyProvisioned"/>
+<%elsif @landingzone[:isDuplicate]%>
     <div class="page-header">
       <h1>Landing Zone Settings</h1>
     </div>
@@ -17,10 +24,16 @@
       </h1>
     </div>
     <%# TODO: This doesn't look *exactly* like the wireframe %>
+    <% if @landingzone[:preload]!=nil && @landingzone[:preload]!=""%>
+    <div class="alert alert-success">
+        <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will appear in the data browser application once this process is complete. Please be aware that the time it takes for the data to load varies. For support, contact <%= APP_CONFIG['support_email'] %>
+    </div>
+    <%else%>
     <div class="alert alert-success">
         <i class="icon-ok"></i> Your landing zone was successfully provisioned on <%= @landingzone[:server] %>. You will receive an email with further instructions about uploading the data.
         <p>For support, contact <%= APP_CONFIG['support_email'] %></p> 
     </div>
+    <%end%>
     <div class="hidden" id="successMessage"/>
 <% end %>
 

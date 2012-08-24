@@ -23,6 +23,7 @@ class OnBoarding < SessionResource
   schema do
     string  "tenantId"
     string  "stateOrganizationId"
+    string  "preloadFiles"
   end
 
 end

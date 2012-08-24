@@ -23,7 +23,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-public final class Param extends WadlElement {
+/**
+ * @author dholmes
+ */
+public class Param extends WadlElement {
     private final String name;
     private final ParamStyle style;
     private final String id;
