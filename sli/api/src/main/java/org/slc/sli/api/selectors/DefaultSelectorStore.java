@@ -14,7 +14,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorParseException;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;

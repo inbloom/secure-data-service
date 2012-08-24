@@ -29,17 +29,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
 *
@@ -114,21 +114,6 @@ public class TeacherSectionAssociationEntityTest {
                 + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>"
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
-
-    @Test
-    public void testValidatorTeacherSectionAssociation() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
-
-        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
-
-        // mock repository will simulate "finding" the references
-
-        Mockito.when(mockRepository.exists("staff", "333333332")).thenReturn(true);
-        Mockito.when(mockRepository.exists("section", "123456111")).thenReturn(true);
-
-        EntityTestUtils.mapValidation(record.getAttributes(), "teacherSectionAssociation", validator);
-    }
 
     @Before
     public void setup() {

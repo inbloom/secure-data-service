@@ -92,7 +92,9 @@ public enum WadlAttributeName {
     /**
      * The <code>value</code> attribute.
      */
-    VALUE("value");
+    VALUE("value"),
+
+    RESOURCE_CLASS("resourceClass");
 
     private final String localName;
 

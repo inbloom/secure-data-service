@@ -113,10 +113,10 @@ Then I should see following map of entry counts in the corresponding collections
         | graduationPlan              | 3     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
-       | student                     | 1                   | metaData.externalId      | 800000012                  | string               |
-       | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
-       | student                     | 1                   | metaData.externalId      | 800000025                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId      | 100000000                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId      | 800000012                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId      | 900000024                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId      | 800000025                  | string               |
        | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
        | staff                       | 2                   | body.race                | White                      | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
@@ -431,9 +431,9 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 96    |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
-       | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
-       | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
+       | student                     | 1                   | body.studentUniqueStateId      | 1000000000                 | string               |
+       | staff                       | 1                   | body.staffUniqueStateId  | manthony                   | string               |
+       | course                      | 1                   | body.courseTitle      | A.P. Calculus              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
@@ -499,8 +499,8 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 104   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
-       | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
+       | student                     | 2                   | body.studentUniqueStateId     | 100000006                  | string               |
+       | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
@@ -856,6 +856,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
+        | staffProgramAssociation     | 3     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -866,6 +867,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
 	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
 	And zip file is scp to ingestion landing zone
@@ -878,6 +884,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
+        | staffProgramAssociation     | 4     |
 	And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -888,3 +895,8 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |

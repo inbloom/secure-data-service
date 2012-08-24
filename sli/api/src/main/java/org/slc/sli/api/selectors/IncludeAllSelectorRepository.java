@@ -17,7 +17,7 @@ package org.slc.sli.api.selectors;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.SelectionConverter;
