@@ -58,10 +58,10 @@
             return results[1];
         }
         function loadBuilderJs() {
-            $('<script src="js/SLC.builder.app.js" sync><\/script>').appendTo('body');
-            $('<script src="js/SLC.builder.controllers.js" sync><\/script>').appendTo('body');
-            $('<script src="js/SLC.builder.services.js" sync><\/script>').appendTo('body');
-            $('<script src="js/SLC.builder.directives.js" sync><\/script>').appendTo('body');
+            document.write('<script src="js/SLC.builder.app.js" sync><\/script>');
+            document.write('<script src="js/SLC.builder.controllers.js" sync><\/script>')
+            document.write('<script src="js/SLC.builder.services.js" sync><\/script>')
+            document.write('<script src="js/SLC.builder.directives.js" sync><\/script>')
         }
         var minifyJs = gup('minifyJs');
 
@@ -73,7 +73,7 @@
                 type: 'get',
                 async: false,
                 success: function(data){
-                    $('<script language="javascript">'+data+'<\/script>').appendTo('body');
+                    document.write('<script language="javascript">'+data+'<\/script>');
                 },
                 error: loadBuilderJs()
             });
