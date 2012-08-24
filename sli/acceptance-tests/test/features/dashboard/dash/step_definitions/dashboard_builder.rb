@@ -40,16 +40,49 @@ When /^I add a Page named "(.*?)"$/ do |pageName|
   @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='New page']")
   
   setPageName(pageName) 
+end
+
+When /^I add an available panel named "(.*?)"$/ do |panelName|
+  @currentPage.find_element(:css, "button[class*='btn-block']").click
+  popupPanel = @driver.find_element(:id, "allPanelsModal")
+  availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
+  found = false
+  availablePanels.each do |panel|
+    name = panel.find_element(:css, "span[class*='panelName']")
+    if (name.attribute("innerHTML").include? panelName)
+      found = true
+      panel.click
+      break
+    end
+  end
+  assert(found, "#{panelName} is not found in the list")
+  popupPanel.find_element(:class,"modal-footer").find_elements(:tag_name, "button")[1].click
   
+  ensurePopupUnloaded()
+end
+
+When /^I upload custom json for it$/ do
   viewSourceCode()
   uploadJson()
 end
 
-When /^I append the text "(.*?)" to the name of Page "(.*?)"$/ do |appendedText, pageName|
-  hoverOverPage(pageName, "edit")
-  getPageByName(pageName)
-  setPageName(appendedText)
-  saveDashboardBuilder()
+When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, listOfPanels|
+  hoverOverPage(pageName)
+  expectedPanels = listOfPanels.split(';')
+  
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
+  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} Actual: #{actualPanels.length.to_s}")
+  
+  expectedPanels.each do |expectedPanel|
+    found = false
+    actualPanels.each do |actualPanel|
+      if (actualPanel.text == expectedPanel)
+        found = true  
+      end  
+    end  
+    assert(found, "#{expectedPanel} was not found")
+  end
 end
 
 When /^I move Page "(.*?)" to become Page Number "(.*?)"$/ do |pageName, pageIndex|
@@ -89,7 +122,6 @@ end
 def getPageByName(pageName)
   pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
-    puts page.text
     if (page.text == pageName)
      return page
     end
@@ -104,8 +136,7 @@ def getPageByIndex(index)
 end
 
 def setPageName(pageName)
-  @currentPage.find_element(:class,"icon-edit").click
-  input = @currentPage.find_element(:class,"show-true").find_element(:tag_name, "input")  
+  input = @currentPage.find_element(:tag_name, "input")  
   for i in (0..8)
     input.send_keys(:backspace)
   end
@@ -113,24 +144,22 @@ def setPageName(pageName)
   @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
 end
 
-def hoverOverPage(pageName, mode)
+def hoverOverPage(pageName, mode = nil)
   page = getPageByName(pageName)
   assert(page != nil, "Page #{pageName} is not found")
   
   @driver.action.move_to(page).perform
-  link = page.find_element(:tag_name,"a")
+  page.find_element(:tag_name,"a").click
 
   if (mode == "edit")
-    link.click
     #TODO
   elsif (mode == "delete")
-    link.click
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
   end  
 end
 
 def viewSourceCode()
-  @currentPage.find_element(:link_text,"View Source Code").click
+  @currentPage.find_element(:class,"page-actions").find_element(:tag_name,"button").click
   ensurePopupLoaded()  
 end
 
@@ -164,6 +193,6 @@ end
 
 def ensurePopupUnloaded() 
    @driver.manage.timeouts.implicit_wait = 2
-   @explicitWait.until{(@driver.find_elements(:id, "modalBoxr").length) == 0}
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
    @driver.manage.timeouts.implicit_wait = 10
 end
