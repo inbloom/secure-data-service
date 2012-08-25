@@ -25,7 +25,6 @@ Then I am informed that "the page that you were looking for could not be found"
  @RALLY_US200
 Scenario: Invalid user login
 When I navigate to the Dashboard home page
-And was redirected to the Realm page
 When I select "New York Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
