@@ -15,7 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
+###############################
+#    Generic profile
+###############################
 # Given a panelName and the panelInfoName, it reads the table for a generic info section
 def viewInfoPanel(panelName, panelInfoName = nil)
   panel = @explicitWait.until{@driver.find_element(:class, panelName)}
@@ -39,3 +41,102 @@ def viewInfoPanel(panelName, panelInfoName = nil)
   end
   return hTable
 end
+
+###############################
+#    Ed-org profile
+###############################
+When /^I look at Ed Org Profile$/ do
+  @edorgInfo = viewInfoPanel("edorgProfile")
+end
+
+Then /^the ed org name shown is "(.*?)"$/ do |expectedName|
+   assert(@edorgInfo["Name"] == expectedName, "Actual name is :" + @edorgInfo["Name"]) 
+end
+
+When /^I see the following schools:$/ do |table|
+  #headers
+  mapping = {
+    "School" => "nameOfInstitution"
+  }   
+  # edorg profiles doesn't have panels
+  checkGridEntries(@driver, table, mapping)
+end
+
+When /^I click on school "(.*?)"$/ do |edorgName|
+  # edorg profile doesn't have tabs
+  @currentTab = @driver
+  clickOnRow(edorgName)
+end
+
+###############################
+#    Section Profile
+###############################
+When /^I view its section profile$/ do
+  @sectionInfo = viewInfoPanel("sectionProfile", "sectionInfo")
+  verifyPageTitle("SLC - Section Profile")
+end
+
+Then /^the section name shown in section profile is "([^"]*)"$/ do |expectedSectionName|
+  containsName = @sectionInfo["Name"] == expectedSectionName
+  assert(containsName, "Actual name is :" + @sectionInfo["Name"]) 
+end
+
+And /^the teacher name shown in section profile is "([^"]*)"$/ do |expectedTeacherName|
+  assert(@sectionInfo["Teacher"] == expectedTeacherName, "Actual teacher is :" + @sectionInfo["Teacher"])   
+end
+
+And /^the course name shown in section profile is "([^"]*)"$/ do |expectedCourseName|
+  assert(@sectionInfo["Course"] == expectedCourseName, "Actual course is :" + @sectionInfo["Course"])
+end
+
+And /^the subject name shown in section profile is "([^"]*)"$/ do |expectedSubjectName|
+  assert(@sectionInfo["Subject"] == expectedSubjectName, "Actual subject is :" + @sectionInfo["Subject"])
+end
+
+###############################
+#    Teacher Profile
+###############################
+
+When /^I look at Teacher Profile$/ do
+  @teacherInfo = viewInfoPanel("teacherProfile")
+  verifyPageTitle("SLC - Teacher Profile")
+  #Assume first tab is Sections
+  @currentTab = getTab("Sections")
+end
+
+Then /^the teacher name shown is "(.*?)"$/ do |expectedTeacherName|
+  assert(@teacherInfo["Name"] == expectedTeacherName, "Actual name is :" + @teacherInfo["Name"]) 
+end
+
+Then /^I see the following current sections:$/ do |table|
+  panel = getPanel("Sections", "Current Sections")
+  #headers
+  mapping = {
+    "Sections" => "uniqueSectionCode"
+  }   
+  checkGridEntries(panel, table, mapping)
+end
+
+Then /^I click to see section "(.*?)"$/ do |sectionName|
+  clickOnRow(sectionName)
+end
+
+###############################
+#    List of Teachers
+###############################
+
+When /^I see the following teachers:$/ do |table|
+  panel = getPanel("Teachers")
+  #headers
+  mapping = {
+    "Teachers" => "fullName"
+  }   
+  checkGridEntries(panel, table, mapping)
+end
+
+When /^I click on teacher "(.*?)"$/ do |teacherName|
+  clickOnRow(teacherName)
+end
+
+
+
