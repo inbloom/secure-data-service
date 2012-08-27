@@ -1,0 +1,28 @@
+Job Report Tool
+
+This tool consists of two components:
+API Server: node.js http server that serves as an interface to one or many mongodb ingestion_batch_job databases.
+GUI: HTML and javascript that queries the API and aggregates/displays reports.
+
+Setup:
+System must have node.js and npm installed.
+The API server requires two node modules that must be downloaded with npm: mongoose, restify.  Simply run "sh install_dependencies.sh" to install.
+
+Run:
+API server
+  as a developer, simply execute "node server.js"
+  on a server, execute "nohup node server.js 2>&1 > jobreport_server.log &"
+
+GUI
+  The html file does not need to be served by a web server, it can be run directly from the file system.
+  If you do want to serve from Tomcat, copy the contents of jobReport/gui to a new directory in your tomcat /webapps/ directory.
+
+Features:
+* List all the jobs on a default (localhost) or requested (via input field or 'mongo' url param) mongo host.
+* If any tenants are locked, display what job holds the lock and link to release the lock.
+* Summary information for a selected job from the above list.
+* If still running, information to indicate how much processing remains (including progress bar).
+* Pie chart depicting the breakdown of time spent in a job by stage.
+* Bar charts depicting the #records,total time, and rps for each entity in TransformationProcessor and PersistenceProcessor.
+* Ability to select multiple jobs on one mongo host (checkboxes) and view charts comparing their RPS for stages and individual entity performance in TransformationProcessor and PersistenceProcessor.
+* 'Hot link' for sharing that directly hits a mongo host ('mongo' url param) and job ('job' url param).

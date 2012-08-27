@@ -18,7 +18,9 @@ limitations under the License.
 
 =end
 
+require 'rubygems'
 require 'yaml'
+require 'json'
 
 def get_config(fname, env)
 	parsed = begin
@@ -30,21 +32,21 @@ def get_config(fname, env)
 end
 
 def get_properties(env_config)
-	prop_ids = [] 
+	prop_ids = []
 	result = []
 	if env_config
 		env_config.each do |k,v|
 			if v
-				v.each do |prop_k, prop_v| 
-			        result << "#{prop_k} = #{prop_v}"
-			        prop_ids << prop_k.strip 
+				v.each do |prop_k, prop_v|
+			        result << "#{prop_k} = #{(prop_v.is_a? Hash) ? prop_v.to_json : prop_v}"
+			        prop_ids << prop_k.strip
 				end
 			end
 		end
 	end
 
-	# do a sanity check to make sure that there are not duplicates 	
-	uniques = {} 
+	# do a sanity check to make sure that there are not duplicates
+	uniques = {}
 	prop_ids.each do |k|
 		if uniques.key?(k)
 			raise KeyError, "Duplicate entry:#{k}"

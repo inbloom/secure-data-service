@@ -67,7 +67,7 @@ public final class ParentsSorter {
         // copy these elements and make GenericEntityComparator accessible.
         for (GenericEntity genericEntity : genericEntities) {
             List<Map<String, Object>> studentParentAssociations = (List<Map<String, Object>>) genericEntity
-                    .get(Constants.ATTR_STUDENT_PARENT_ASSOCIATION);
+                    .get(Constants.ATTR_STUDENT_PARENT_ASSOCIATIONS);
             if (studentParentAssociations != null && !studentParentAssociations.isEmpty()) {
                 Map<String, Object> studentParentAssociation = studentParentAssociations.get(0);
                 genericEntity.put(Constants.ATTR_RELATION, studentParentAssociation.get(Constants.ATTR_RELATION));

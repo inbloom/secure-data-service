@@ -165,6 +165,7 @@ public final class Constants {
     public static final String ATTR_HEADER_STRING = "headerString";
     public static final String ATTR_FOOTER_STRING = "footerString";
     public static final String ATTR_OPTIONAL_FIELDS = "views";
+    public static final String ATTR_SELECTOR_FIELD = "selector";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
     public static final String ATTR_ATTENDANCE_DATE = "date";
     public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "event";
@@ -219,6 +220,7 @@ public final class Constants {
     public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";
     public static final String ATTR_ERROR_DETAILS = "errorDetails";
     public static final String ATTR_STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
+    public static final String ATTR_STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String ATTR_RELATION = "relation";
     public static final String ATTR_CONTACT_PRIORITY = "contactPriority";
     public static final String ATTR_PRIMARY_CONTACT_STATUS = "primaryContactStatus";

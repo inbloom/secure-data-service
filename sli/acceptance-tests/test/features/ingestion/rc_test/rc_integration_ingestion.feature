@@ -7,7 +7,7 @@ SFTP into landing zone to drop the Small Data Set
 Given I am using local data store
 # put the small sample dataset into the landing zone 
 Given I am using default landing zone
-Given I use the landingzone user name "eengland" and password "eengland1234" on landingzone server "devpantheon.slidev.org"
+Given I use the landingzone user name "testuser1.wgen@gmail.com" and password "test1234" on landingzone server "rclz01.slidev.org:2222"
 And I drop the file "SmallSampleDataSet.zip" into the landingzone
 # Should take about 4 minutes 
 And I check for the file "job*.log" every "30" seconds for "300" seconds

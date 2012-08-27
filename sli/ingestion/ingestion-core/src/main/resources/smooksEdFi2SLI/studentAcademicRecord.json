@@ -11,7 +11,7 @@
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.studentUniqueStateId",
                             "values" :
                             [{
                                 "valueSource" : "body.studentId"
@@ -30,7 +30,7 @@
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.sessionName",
                             "values" :
                             [{
                                 "valueSource" : "body.sessionId"

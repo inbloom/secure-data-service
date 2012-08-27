@@ -29,12 +29,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -47,6 +41,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -56,18 +55,18 @@ import org.slc.sli.domain.enums.Right;
 @Path("/provision")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class OnboardingResource {
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-    
+
     @Autowired
     private TenantResource tenantResource;
-    
+
     // Use this to check if we're in sandbox mode
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
-    
+
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
     public static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
@@ -77,18 +76,19 @@ public class OnboardingResource {
     public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
     public static final String ADDRESS_POSTAL_CODE = "postalCode";
     public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
-    
+    public static final String PRELOAD_FILES_ID = "preloadFiles";
+
     private final String landingZoneServer;
-    
+
     @Autowired
     public OnboardingResource(@Value("${sli.landingZone.server}") String landingZoneServer) {
         super();
         this.landingZoneServer = landingZoneServer;
     }
-    
+
     /**
      * Provision a landing zone for the provide educational organization.
-     * 
+     *
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
      * @QueryParam tenantId -- the tenant ID for this edorg.
      */
@@ -96,27 +96,26 @@ public class OnboardingResource {
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
-        
+
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
         if (isSandboxEnabled) {
             requiredRight = Right.ADMIN_ACCESS;
         }
-        
+
         if (!SecurityUtil.hasRight(requiredRight)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+
         Response r = createEdOrg(orgId, tenantId);
-        
         return r;
     }
-    
+
     /**
      * Create an EdOrg if it does not exists.
-     * 
+     *
      * @param orgId
      *            The State Educational Organization identifier.
      * @param tenantId
@@ -124,12 +123,12 @@ public class OnboardingResource {
      * @return Response of the request as an HTTP Response.
      */
     public Response createEdOrg(final String orgId, final String tenantId) {
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
                 false));
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
-        
+
         String uuid = null;
         Entity entity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
         if (entity != null) {
@@ -138,11 +137,11 @@ public class OnboardingResource {
             EntityBody body = new EntityBody();
             body.put(STATE_EDORG_ID, orgId);
             body.put(EDORG_INSTITUTION_NAME, orgId);
-            
+
             List<String> categories = new ArrayList<String>();
             categories.add(STATE_EDUCATION_AGENCY);
             body.put(CATEGORIES, categories);
-            
+
             List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
             Map<String, String> address = new HashMap<String, String>();
             address.put(ADDRESS_STREET, "unknown");
@@ -150,29 +149,39 @@ public class OnboardingResource {
             address.put(ADDRESS_STATE_ABRV, "NC");
             address.put(ADDRESS_POSTAL_CODE, "27713");
             addresses.add(address);
-            
+
             body.put(ADDRESSES, addresses);
-            
+
             Map<String, Object> meta = new HashMap<String, Object>();
             meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
             meta.put("externalId", orgId);
             Entity edOrgEntity = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta,
                     EntityNames.EDUCATION_ORGANIZATION);
-            
+
             if (edOrgEntity == null) {
                 return Response.status(Status.INTERNAL_SERVER_ERROR).build();
             }
-            
+
             uuid = edOrgEntity.getEntityId();
         }
-        
+
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, isSandboxEnabled);
-            
+
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", uuid);
+
+            NeutralQuery tenantQuery = new NeutralQuery();
+            tenantQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            
+            String tenantUuid = null;
+            Entity tenantEntity = repo.findOne("tenant", tenantQuery);
+            if (tenantEntity != null) {
+                tenantUuid = tenantEntity.getEntityId();
+            }
+            returnObject.put("tenantUuid", tenantUuid);
             if (entity != null) {
                 returnObject.put("isDuplicate", "true");
             } else {
@@ -185,5 +194,5 @@ public class OnboardingResource {
             return Response.status(trce.getStatus()).entity(entityBody).build();
         }
     }
-    
+
 }

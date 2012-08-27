@@ -27,13 +27,13 @@ import openadk.library.common.PhoneNumberType;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
 /**
  * PhoneNumberListConverter unit tests
  */
-public class PhoneNumberListConverterTest extends ADKTest {
+public class PhoneNumberListConverterTest extends AdkTest {
 
     private final PhoneNumberListConverter converter = new PhoneNumberListConverter();
     private int counter = 0;

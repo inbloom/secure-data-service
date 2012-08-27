@@ -36,7 +36,7 @@ Scenario: Navigate to home page from any page
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "Illinois Sunset School District 4526" in the drop-down list
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
@@ -131,7 +131,7 @@ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 And I have navigated to the "Schools" listing of the Data Browser
 When I click on "Krypton Middle School" in the list of schools
 And then click on the "GetTeachers" link
-Then I see a "You don't have permission to access this" alert box
+Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
  

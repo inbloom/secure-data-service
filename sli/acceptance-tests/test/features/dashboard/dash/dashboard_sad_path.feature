@@ -27,7 +27,7 @@ Scenario: Teacher without associations to anything (orphaned)
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
-Then I get an error message "The page you are requesting is not available."
+Then I get an error message "Forbidden"
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
 @DE1112
@@ -44,7 +44,7 @@ Scenario: User accessing Dashboard does not resolve to anyone in database
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
-Then I get an error message "The page you are requesting is not available."
+Then I get an error message "Forbidden"
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
 Scenario: Upload Config
@@ -57,18 +57,20 @@ And I paste Valid json config into the text box
 And click Save
 Then I should be shown a success message
 
+# Need to get a user that this is valid for now that we have realm enforcement
 Scenario: No sections
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "tbear" "tbear1234" for the "Simple" login page
+When I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I look in the school drop-down
 Then I only see "East Daybreak Junior High"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
+@wip
 Scenario:  Check empty student values
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 When I look in the ed org drop-down

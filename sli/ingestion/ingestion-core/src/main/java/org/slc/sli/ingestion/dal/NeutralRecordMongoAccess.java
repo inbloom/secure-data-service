@@ -18,16 +18,17 @@ package org.slc.sli.ingestion.dal;
 
 import java.util.List;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
 
 /**
  * write NeutralRecord objects to mongo
@@ -41,6 +42,9 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
+
+    @Value("${sli.ingestion.totalRetries}")
+    private int numberOfRetries;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -59,7 +63,7 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Override
     public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
-        neutralRecordRepository.insertAll(neutralRecords, collectionName);
+        neutralRecordRepository.insertAllWithRetries(neutralRecords, collectionName, numberOfRetries);
     }
 
     public NeutralRecordRepository getRecordRepository() {

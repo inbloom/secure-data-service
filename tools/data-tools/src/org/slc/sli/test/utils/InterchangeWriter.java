@@ -105,9 +105,14 @@ public class InterchangeWriter<T> {
                 }
             });
             
-            writer.writeStartElement(interchangeName);
-           // writer.writeNamespace(null, "http://ed-fi.org/0100");
-            writer.writeNamespace(null, "http://slc-sli/ed-org/0.1");
+          	writer.writeStartElement(interchangeName);
+            
+            if ("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)) {
+            	writer.writeNamespace(null, "http://slc-sli/ed-org/0.1");
+            } else {
+            	 
+            	 writer.writeNamespace(null, "http://ed-fi.org/0100");
+           }
             
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -150,7 +155,7 @@ public class InterchangeWriter<T> {
      */
     @SuppressWarnings("unused")
     public void marshal(Object objectToMarshal) {
-    	System.out.println("objectToMarshal ===========>" + objectToMarshal.toString());
+
         if (objectToMarshal != null) {
 
             try {                
