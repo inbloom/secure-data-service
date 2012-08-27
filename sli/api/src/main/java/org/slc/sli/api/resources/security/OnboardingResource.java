@@ -29,12 +29,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -47,6 +41,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -173,6 +172,16 @@ public class OnboardingResource {
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", uuid);
+
+            NeutralQuery tenantQuery = new NeutralQuery();
+            tenantQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            
+            String tenantUuid = null;
+            Entity tenantEntity = repo.findOne("tenant", tenantQuery);
+            if (tenantEntity != null) {
+                tenantUuid = tenantEntity.getEntityId();
+            }
+            returnObject.put("tenantUuid", tenantUuid);
             if (entity != null) {
                 returnObject.put("isDuplicate", "true");
             } else {

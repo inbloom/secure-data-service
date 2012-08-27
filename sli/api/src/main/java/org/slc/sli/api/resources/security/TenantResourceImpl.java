@@ -46,11 +46,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
@@ -63,6 +58,10 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -122,6 +121,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_FILES = "files";
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
+    public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -389,18 +389,29 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @POST
     @Path("{" + UUID + "}" + "/preload")
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
-        if (lockChecker.ingestionLocked(tenantId)) {
-            throw new TenantResourceCreationException(Status.CONFLICT, "Ingestion is locked for this tenant");
-        }
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
+
+        String tenantName = (String) entity.get("tenantId");
+        if (lockChecker.ingestionLocked(tenantName)) {
+            // throw new TenantResourceCreationException(Status.CONFLICT,
+            // "Ingestion is locked for this tenant");
+            return Response.status(Status.CONFLICT).build();
+        }
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) entity.get("landingZone");
         if (landingZones == null || landingZones.isEmpty()) {
             return Response.status(Status.BAD_REQUEST).build();
         }
-        Map<String, Object> landingZone = landingZones.get(0);
-        landingZone.put("preload", preload(Arrays.asList(dataSet)));
+        for (Map<String, Object> landingZone : landingZones) {
+            if (((String) (landingZone.get("educationOrganization"))).equals(LZ_PRELOAD_EDORG_ID)) {
+                landingZone.put("preload", preload(Arrays.asList(dataSet)));
+                break;
+            }
+        }
+        
+        // Map<String, Object> landingZone = landingZones.get(0);
+        // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
         return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
     }
