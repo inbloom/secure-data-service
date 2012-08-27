@@ -92,7 +92,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
         	
-            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);        
+            innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);        
             
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -133,7 +133,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
 
-            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);
+            innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -162,7 +162,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
 
         for (int i = 0; i < chunkSize; i++) {
 
-            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);
+            innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
     
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -197,7 +197,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             if (searchKeys.size() >= 100) {
                 startTime = System.currentTimeMillis();
 
-                selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType).in(searchKeys)), Object.class, profiledCollectionName);
+                selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").in(searchKeys)), Object.class, profiledCollectionName);
 
                 elapsed += System.currentTimeMillis() - startTime;
                 
@@ -225,7 +225,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
             startTime = System.currentTimeMillis();
 
-            selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType).is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
+            selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
 
             elapsed += System.currentTimeMillis() - startTime;
         }

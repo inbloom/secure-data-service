@@ -72,7 +72,7 @@ public class App {
         
         MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
         
-        mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize,generateRecordJson(args[6]), concurrentOperationsEnabled, dropCollectionFlag, args[6] + ".indexes");
+        mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize,generateRecordJson(args[6]), concurrentOperationsEnabled, dropCollectionFlag, args[6].substring(0, args[6].indexOf('-')) + ".indexes");
         
         mongoProcessor.writeStatistics();
         
