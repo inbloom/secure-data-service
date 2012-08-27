@@ -1,12 +1,9 @@
 @RALLY_US1107
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
-@wip
-Scenario: Post Small Sample Data Set
-  Given the SmallSampleDataset is accessible by the ingestion server
-  And I am using preconfigured Ingestion Landing Zone
-  And I am using local data store
-  And the following collections are empty in datastore:
+  @wip
+Scenario: Preload Small Sample Data Set
+  Given the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
      | attendance                                |
@@ -57,9 +54,9 @@ Scenario: Post Small Sample Data Set
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
-  When I update the tenant collection to trigger ingestion of the SmallSampleDataset
-  And "90" seconds have elapsed
-  Then I should see following map of entry counts in the corresponding collections:
+   And I create a tenant set to preload data set "small"
+   And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
      | attendance                               |                 75|

@@ -54,6 +54,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
+import org.slc.sli.test.utils.ValidateSchema;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
@@ -294,9 +295,12 @@ public final class MetaRelations {
 		
 		ID_DELIMITER = properties.getProperty("ID_DELIMITER");
 		
-		//String XSDVersion = properties.getProperty("XSDVersionPath");
-		//StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
-		  StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
+
+		
+		StateEdFiXmlGenerator.XSDVersionPath = properties.getProperty("XSDVersionPath").trim();
+		
+		
+		//org.slc.sli.test.utils.ValidateSchema.SCHEMA_DIR = properties.getProperty("SCHEMA_DIR").trim();
 		String fidelity = properties.getProperty("fidelityOfData");
 		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
 			

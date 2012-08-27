@@ -30,7 +30,7 @@
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.sessionName",
                             "values" :
                             [{
                                 "valueSource" : "body.sessionId"

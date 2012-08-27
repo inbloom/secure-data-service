@@ -24,7 +24,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,7 +137,7 @@ public class OnboardingResourceTest {
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);
         try {
-            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.eq(Arrays.asList("small_sample_dataset")), Mockito.anyBoolean())).thenReturn(landingZone);
+            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.anyBoolean())).thenReturn(landingZone);
         } catch (TenantResourceCreationException e) {
             Assert.fail(e.getMessage());
         }

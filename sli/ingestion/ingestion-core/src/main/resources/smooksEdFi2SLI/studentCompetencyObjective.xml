@@ -15,12 +15,7 @@
 
     <jb:bean beanId="studentCompetencyObjective" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'studentCompetencyObjective'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="studentCompetencyObjectiveMeta" />
         <jb:wiring property="body" beanIdRef="studentCompetencyObjectiveBody" />
-    </jb:bean>
-
-    <jb:bean beanId="studentCompetencyObjectiveMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes studentCompetencyObjectiveId" />
     </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
