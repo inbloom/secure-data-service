@@ -207,7 +207,7 @@ public class ConfigController extends GenericLayoutController {
     }
     
     /**
-     * Controller for client side Config pulls without overwriting waterfall logic.
+     * Controller to return configs (driver and all edOrg levels), without waterfall logic.
      * The 'params' parameter contains a map of url query parameters. The parameters are matched
      * to the attributes in the JSON config files.
      * 
@@ -227,12 +227,12 @@ public class ConfigController extends GenericLayoutController {
             Map<String, Collection<Config>> mapConfigs = configManager.getAllConfigByType(token,
                     userEdOrgManager.getUserEdOrg(token), configType);
             
-            //re-organize config objects. group by id
+            // re-organize config objects. group by Education Agency Name
             Map<String, List<ConfigWrapper>> mapConfigWrappers = new HashMap<String, List<ConfigWrapper>>();
             if (mapConfigs != null) {
                 Set<String> edOrgNames = mapConfigs.keySet();
                 for (String edOrgName : edOrgNames) {
-                    //get Collection of Config by edOrgName
+                    // get Collection of Config by edOrgName
                     Collection<Config> configs = mapConfigs.get(edOrgName);
                     for (Config config : configs) {
                         ConfigWrapper configWrapper = new ConfigWrapper(config);
@@ -247,20 +247,15 @@ public class ConfigController extends GenericLayoutController {
                 }
             }
             
-            //make alphabetical order for client
-            Set<String> idNames = mapConfigWrappers.keySet();
-            List<String> sortedIdNames = new LinkedList<String>();
-            for (String idName : idNames) {
-                sortedIdNames.add(idName);
+            // make a single array of ConfigWrapper
+            List<ConfigWrapper> listConfigWrapper = new LinkedList<ConfigWrapper>();
+            for (String idName : mapConfigWrappers.keySet()) {
+                listConfigWrapper.addAll(mapConfigWrappers.get(idName));
             }
-            Collections.sort(sortedIdNames);
-            List<ConfigWrapper> sortedConfigs = new LinkedList<ConfigWrapper>();
-            for (String sortedIdName : sortedIdNames) {
-                List<ConfigWrapper> mapConfigWrapperList=mapConfigWrappers.get(sortedIdName);
-                Collections.sort(mapConfigWrapperList);
-                sortedConfigs.addAll(mapConfigWrapperList);
-            }
-            return sortedConfigs;
+            
+            // make alphabetical order (1st. Config.id 2nd. EdOrgName)
+            Collections.sort(listConfigWrapper);
+            return listConfigWrapper;
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return null;
@@ -272,7 +267,7 @@ public class ConfigController extends GenericLayoutController {
      * @author tosako
      * 
      */
-    protected class ConfigWrapper extends Config implements Comparable<ConfigWrapper>{
+    protected class ConfigWrapper extends Config implements Comparable<ConfigWrapper> {
         private String educationAgencyName;
         
         public ConfigWrapper(Config config) {
@@ -287,10 +282,15 @@ public class ConfigController extends GenericLayoutController {
         public void setEducationAgencyName(String configName) {
             this.educationAgencyName = configName;
         }
-
+        
+        // make alphabetical order (1st. Config.id 2nd. EdOrgName)
         @Override
         public int compareTo(ConfigWrapper o) {
-            return this.educationAgencyName.compareTo(o.educationAgencyName);
+            int compare = this.id.compareTo(o.id);
+            if (compare == 0) {
+                compare = this.educationAgencyName.compareTo(o.educationAgencyName);
+            }
+            return compare;
         }
     }
 }
