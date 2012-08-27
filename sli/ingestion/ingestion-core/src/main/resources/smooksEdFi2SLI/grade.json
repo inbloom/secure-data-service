@@ -21,7 +21,7 @@
                                       [
                                           [
                                               {
-                                                  "path" : "metaData.externalId",
+                                                  "path" : "body.studentUniqueStateId",
                                                   "values" :
                                                    [{
                                                          "valueSource" : "body.studentId"
@@ -42,7 +42,7 @@
                                      "choiceOfFields" :
                                       [
                                           [{
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.uniqueSectionCode",
                                               "values" :
                                                [{
                                                    "valueSource" : "body.uniqueSectionCode"

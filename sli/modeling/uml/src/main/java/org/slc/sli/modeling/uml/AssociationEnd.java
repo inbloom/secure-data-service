@@ -25,21 +25,24 @@ public class AssociationEnd extends Feature {
      * Determines whether the association is navigable in this direction.
      */
     private final boolean isNavigable;
+
+    private final String associatedAttributeName;
     
     public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
-            final Identifier type) {
-        this(multiplicity, name, isNavigable, Identifier.random(), EMPTY_TAGGED_VALUES, type);
+            final Identifier type, final String associatedAttributeName) {
+        this(multiplicity, name, isNavigable, Identifier.random(), EMPTY_TAGGED_VALUES, type, associatedAttributeName);
     }
     
     public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
-            final Identifier id, final List<TaggedValue> taggedValues, final Identifier type) {
+            final Identifier id, final List<TaggedValue> taggedValues, final Identifier type, final String associatedAttributeName) {
         super(id, name, type, multiplicity, taggedValues);
         this.isNavigable = isNavigable;
+        this.associatedAttributeName = associatedAttributeName;
     }
     
     public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
-            final List<TaggedValue> taggedValues, final Identifier type) {
-        this(multiplicity, name, isNavigable, Identifier.random(), taggedValues, type);
+            final List<TaggedValue> taggedValues, final Identifier type, final String associatedAttributeName) {
+        this(multiplicity, name, isNavigable, Identifier.random(), taggedValues, type, associatedAttributeName);
     }
     
     @Override
@@ -60,7 +63,9 @@ public class AssociationEnd extends Feature {
     public boolean isNavigable() {
         return isNavigable;
     }
-    
+    public String getAssociatedAttributeName() {
+        return associatedAttributeName;
+    }
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

@@ -10,7 +10,7 @@
             [
                [
                   {
-                     "path":"metaData.externalId",
+                     "path":"body.uniqueSectionCode",
                      "values":
                      [{
                          "valueSource":"body.sectionId"

@@ -29,13 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 
 import javax.ws.rs.MessageProcessingException;
 
@@ -526,7 +520,7 @@ public class SDKAPIClientTest {
         // testing with a student id present in two sections
         String value = "288598192";
         when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
-        List<GenericEntity> sections = client.getSectionsForStudent(token, value, null);
+        List<GenericEntity> sections = client.getSectionsForStudent(token, value, new HashMap<String, String>());
 
         assertNotNull(sections);
         assertEquals(2, sections.size());
@@ -534,7 +528,7 @@ public class SDKAPIClientTest {
         // testing with a student id not present in any sections
         value = "288598193";
         when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
-        sections = client.getSectionsForStudent(token, value, null);
+        sections = client.getSectionsForStudent(token, value, new HashMap<String, String>());
 
         assertNotNull(sections);
         assertEquals(0, sections.size());

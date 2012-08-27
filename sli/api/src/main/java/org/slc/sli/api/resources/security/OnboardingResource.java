@@ -17,7 +17,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +28,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -48,6 +41,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -98,7 +96,6 @@ public class OnboardingResource {
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
-        String preloadFiles = reqBody.get(PRELOAD_FILES_ID);
 
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
@@ -112,8 +109,7 @@ public class OnboardingResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        List<String> preloadFilesList = (preloadFiles == null) ? (null) : Arrays.asList(preloadFiles.split(","));
-        Response r = createEdOrg(orgId, tenantId, preloadFilesList);
+        Response r = createEdOrg(orgId, tenantId);
         return r;
     }
 
@@ -126,7 +122,7 @@ public class OnboardingResource {
      *            The EdOrg tenant identifier.
      * @return Response of the request as an HTTP Response.
      */
-    public Response createEdOrg(final String orgId, final String tenantId, final List<String> preloadFiles) {
+    public Response createEdOrg(final String orgId, final String tenantId) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
@@ -170,12 +166,22 @@ public class OnboardingResource {
         }
 
         try {
-            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, preloadFiles, isSandboxEnabled);
+            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, isSandboxEnabled);
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", uuid);
+
+            NeutralQuery tenantQuery = new NeutralQuery();
+            tenantQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            
+            String tenantUuid = null;
+            Entity tenantEntity = repo.findOne("tenant", tenantQuery);
+            if (tenantEntity != null) {
+                tenantUuid = tenantEntity.getEntityId();
+            }
+            returnObject.put("tenantUuid", tenantUuid);
             if (entity != null) {
                 returnObject.put("isDuplicate", "true");
             } else {

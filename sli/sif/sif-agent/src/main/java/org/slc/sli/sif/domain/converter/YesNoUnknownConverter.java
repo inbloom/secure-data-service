@@ -33,7 +33,6 @@ public class YesNoUnknownConverter {
     static {
         BOOLEAN_MAP.put("Yes", Boolean.TRUE);
         BOOLEAN_MAP.put("No", Boolean.FALSE);
-        // GENDER_TYPE_MAP.put("U", ""); // There is no "unknown" in sli boolean
     }
 
     public Boolean convert(String value) {
