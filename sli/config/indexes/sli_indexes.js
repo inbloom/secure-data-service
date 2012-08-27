@@ -597,12 +597,10 @@ db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1}
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sectionSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sessionCourseAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 
 //stamper - profiles
 db["courseOffering"].ensureIndex({"body.sessionId":1});
@@ -638,7 +636,7 @@ db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodIdenti
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.objective":1,"body.academicSubject":1,"body.objectiveGradeLevel":1,"body.learningObjectiveId.identificationCode":1}, {"name":"tenantId_objective_academicSubject_objGradeLvl_idCode"});
 db["program"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1,"body.sessionId":1,"body.courseOfferingId":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.schoolId":1});
+db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1,"body.schoolYear":1,"body.term":1,"body.schoolId":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffReference":1, "body.educationOrganizationReference":1, "body.beginDate":1}, {"name":"tenantId_staffReference_educationOrganizationReference_beginDate"});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
