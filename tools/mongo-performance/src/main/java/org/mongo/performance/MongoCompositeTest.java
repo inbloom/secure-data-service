@@ -83,8 +83,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
                 	this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
                 }              
         }
-        
-
+    
     }   
 
     private void profileBatchedInsertsDriver(int operationCount, String profiledCollectionName, int chunkSize, int iterationNumber) {
@@ -93,15 +92,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
         	
-            if(App.inputFromJsonFlag)
-            {
-            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
-            else
-            {
-            	innerObject.remove("studentUniqueStateId");
-            	innerObject.put("studentUniqueStateId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }           
+            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);        
             
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -142,15 +133,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         for (int i = 0; i < chunkSize; i++) {
         	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
 
-            if(App.inputFromJsonFlag)
-            {
-            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
-            else
-            {
-            	innerObject.remove("studentUniqueStateId");
-            	innerObject.put("studentUniqueStateId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
+            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);
             
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
@@ -178,16 +161,9 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         long elapsed = 0;
 
         for (int i = 0; i < chunkSize; i++) {
-            if(App.inputFromJsonFlag)
-            {
-            	innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
-            else
-            {
-            	innerObject.remove("studentUniqueStateId");
-            	innerObject.put("studentUniqueStateId", "" + this.id + "-" + iterationNumber + "-" + i);
-            }
-            
+
+            innerObject.put(App.entityType, "" + this.id + "-" + iterationNumber + "-" + i);
+    
             BasicDBObject dbObj = new BasicDBObject();
             dbObj.put("body", innerObject);
             dbObj.put("metaData", "");
@@ -220,14 +196,9 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             
             if (searchKeys.size() >= 100) {
                 startTime = System.currentTimeMillis();
-                if(App.inputFromJsonFlag)
-                {
-                	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").in(searchKeys)), Object.class, profiledCollectionName);
-                }
-                else
-                {
-                	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body.studentUniqueStateId").in(searchKeys)), Object.class, profiledCollectionName);
-                }
+
+                selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType).in(searchKeys)), Object.class, profiledCollectionName);
+
                 elapsed += System.currentTimeMillis() - startTime;
                 
                 searchKeys = new ArrayList<String>();
@@ -253,14 +224,9 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         
         for (int i = 0; i < chunkSize; i++) {
             startTime = System.currentTimeMillis();
-            if(App.inputFromJsonFlag)
-            {
-            	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType+"UniqId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
-            }
-            else
-            {
-            	selectResult = da.mongoTemplate.find(new Query(Criteria.where("body.studentUniqueStateId").is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
-            }
+
+            selectResult = da.mongoTemplate.find(new Query(Criteria.where("body."+App.entityType).is("" + this.id + "-" + iterationNumber + "-" + i)), Object.class, profiledCollectionName);
+
             elapsed += System.currentTimeMillis() - startTime;
         }
 

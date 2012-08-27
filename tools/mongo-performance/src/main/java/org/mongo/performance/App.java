@@ -14,9 +14,7 @@ import com.mongodb.WriteConcern;
 import com.mongodb.util.JSON;
 
 public class App {
-    public static boolean inputFromJsonFlag;
     public static String entityType;
-    
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         System.out.println("Bootstrapping Mongo Performance");
@@ -55,9 +53,15 @@ public class App {
         int chunkSize = new Integer(args[3]).intValue();
         
         String concurrentOperationsEnabled = args[4];
-        
+    
         String dropCollectionFlag = args[5];
 
+        String [] tmp =  args[6].split("/");
+        String temp = tmp[tmp.length-1];
+        String [] tmp2 = temp.split("-");
+        entityType = tmp2[0];
+        
+        System.out.println("ENTITY TO BE TESTED = "+entityType);
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
         System.out.println("NUMBER OF RECORDS = " + numberOfRecords);
         System.out.println("CHUNK SIZE = " + chunkSize);
@@ -108,5 +112,5 @@ public class App {
         return dbObject;
         
     }
-    
+
 }
