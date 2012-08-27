@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+
+  <merge type="node" action="add" xpath="//method[@name='POST']">
+    <doc>Creates a new resource using the given resource data.</doc>
+  </merge>
+
+  <merge type="node" action="add" xpath="//method[@name='PUT']">
+    <doc>Updates the specified resource using the given resource data.</doc>
+  </merge>
+
+  <merge type="node" action="add" xpath="//method[@name='GET']">
+    <doc>Returns the requested collection of resource representations.</doc>
+  </merge>
+
+  <merge type="node" action="add" xpath="//method[@name='DELETE']">
+    <doc>Deletes the specified resource.</doc>
+  </merge>
+
+  <!-- add media types to POST/PUT -->
+  <merge type="node" action="add" xpath="//method[@name='POST' or @name='PUT']">
+    <request>
+      <representation mediaType="application/json; charset=utf-8"/>
+      <representation mediaType="application/vnd.slc+json; charset=utf-8"/>
+      <representation mediaType="application/xml; charset=utf-8"/>
+      <representation mediaType="application/vnd.slc+xml; charset=utf-8"/>
+    </request>
+    <response>
+      <representation mediaType="*/*"/>
+    </response>
+  </merge>
+
+  <!-- add media types to DELETE -->
+  <merge type="node" action="add" xpath="//method[@name='DELETE']">
+    <response>
+      <representation mediaType="*/*"/>
+    </response>
+  </merge>
+
+  <!-- add media types to GET -->
+  <merge type="node" action="add" xpath="//method[@name='GET']">
+    <request />
+    <response>
+      <representation mediaType="application/json; charset=utf-8"/>
+      <representation mediaType="application/vnd.slc+json; charset=utf-8"/>
+      <representation mediaType="application/xml; charset=utf-8"/>
+      <representation mediaType="application/vnd.slc+xml; charset=utf-8"/>
+    </response>
+  </merge>
+
+</merges>
