@@ -1,6 +1,7 @@
 @RALLY_US1107
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
+  @wip
 Scenario: Preload Small Sample Data Set
   Given the following collections are empty in datastore:
      | collectionName                            |
