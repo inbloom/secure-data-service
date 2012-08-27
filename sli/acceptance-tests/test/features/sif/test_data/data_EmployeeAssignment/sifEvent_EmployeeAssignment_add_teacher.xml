@@ -19,6 +19,7 @@
         <EmployeeAssignment RefId="FE1078BA3261545A31905937B265CE01" EmployeePersonalRefId="20120822098345701280398059809328">
           <Description>Twelfth grade computer science teacher</Description>
           <PrimaryAssignment>Yes</PrimaryAssignment>
+          <JobStartDate>2010-08-01</JobStartDate>
           <JobEndDate>2013-07-31</JobEndDate>
           <JobFTE>1</JobFTE>
           <JobClassification>
@@ -27,6 +28,12 @@
               <OtherCode>12345</OtherCode>
             </OtherCodeList>
           </JobClassification>
+          <ProgramType>
+            <Code>0100</Code>
+            <OtherCodeList>
+              <OtherCode>67890</OtherCode>
+            </OtherCodeList>
+          </ProgramType>
           <FundingSource>
             <Code>0617</Code>
             <OtherCodeList>

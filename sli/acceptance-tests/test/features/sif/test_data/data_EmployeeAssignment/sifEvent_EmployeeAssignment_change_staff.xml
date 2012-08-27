@@ -15,12 +15,12 @@
       </SIF_Contexts>
     </SIF_Header>
     <SIF_ObjectData>
-      <SIF_EventObject ObjectName="EmployeeAssignment" Action="Add">
-        <EmployeeAssignment RefId="FE1078BA3261545A31905937B265CE01" EmployeePersonalRefId="1652D3E34F419D75101A8C3D00AA001A">
+      <SIF_EventObject ObjectName="EmployeeAssignment" Action="Change">
+        <EmployeeAssignment RefId="FE1078BA3261545A31905937B265CE01" EmployeePersonalRefId="20120821190817988094852308234014">
           <Description>Twelfth grade computer science teacher</Description>
           <PrimaryAssignment>Yes</PrimaryAssignment>
           <JobStartDate>2010-08-01</JobStartDate>
-          <JobEndDate>2013-07-31</JobEndDate>
+          <JobEndDate>2013-08-31</JobEndDate>
           <JobFTE>1</JobFTE>
           <JobClassification>
             <Code>0210</Code>
