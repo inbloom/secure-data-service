@@ -19,13 +19,8 @@ public class Stamper extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		JobConf jobConf = ConfigurableMapReduceJob.parseMapper(conf, "stamper.json");
-		jobConf.setNumMapTasks(30);
-		jobConf.setNumReduceTasks(6);
-		jobConf.setMemoryForMapTask(4096);
-		jobConf.setMemoryForReduceTask(8192);
-		jobConf.setInt("mongo.input.split_size", 2);
+		jobConf.setInt("mongo.input.split_size", 1);
 		Job job = new Job(jobConf);
-		job.setNumReduceTasks(6);
 		boolean success = job.waitForCompletion(true);
 		return success ? 0 : 1;
 	}
