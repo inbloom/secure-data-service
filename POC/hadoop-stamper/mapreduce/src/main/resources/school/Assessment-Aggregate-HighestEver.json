@@ -17,25 +17,25 @@
       },
       "hadoop" : {
           "map" : {
-              "class" : "org.slc.sli.aggregation.jobs.school.assessment.SchoolProficiencyMapper",
+              "class" : "SchoolProficiencyMapper",
               "input" : {
                   "collection" : "sli.educationOrganization",
                   "key_field" : "_id",
                   "query" : { "type" : "school" },
                   "fields" : { "_id" : 1, "metaData.tenantId" : 1, "calculatedValues.assessments.@ID@.HighestEver.ScaleScore" : 1 },
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
+                  "key_type" : "IdFieldEmittableKey",
                   "value_type" : "org.apache.hadoop.io.Text",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat",
+                  "format_type" : "MongoIdInputFormat",
                   "read_from_secondaries" : true
               },
               "output" : {
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey",
+                  "key_type" : "TenantAndIdEmittableKey",
                   "value_type" : "org.apache.hadoop.io.Text",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter"
+                  "format_type" : "MongoAggFormatter"
               }
           },
           "reduce" : {
-              "class" : "org.slc.sli.aggregation.jobs.school.assessment.SchoolProficiencyReducer",
+              "class" : "SchoolProficiencyReducer",
               "collection" : "sli.educationOrganization",
               "map_field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore",              
               "field" : "aggregates.assessments.@ID@.cut_points"

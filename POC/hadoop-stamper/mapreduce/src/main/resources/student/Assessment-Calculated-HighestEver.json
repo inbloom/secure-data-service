@@ -9,25 +9,25 @@
 
       "hadoop" : {
           "map" : {
-              "class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+              "class" : "IDMapper",
               "input" : {
                   "collection" : "sli.studentAssessmentAssociation",
                   "key_field" : "body.studentId",
                   "query" : { "body.assessmentId" : "@ID@", "body.scoreResults.assessmentReportingMethod" : "Scale score" },
                   "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.scoreResults.result" : 1 },
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
+                  "key_type" : "IdFieldEmittableKey",
                   "value_type" : "com.mongodb.hadoop.io.BSONWritable",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat",
+                  "format_type" : "MongoIdInputFormat",
                   "read_from_secondaries" : true
               },
               "output" : {
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
+                  "key_type" : "IdFieldEmittableKey",
                   "value_type" : "com.mongodb.hadoop.io.BSONWritable",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter"
+                  "format_type" : "MongoAggFormatter"
               }
           },
           "reduce" : {
-              "class" : "org.slc.sli.aggregation.mapreduce.reduce.Highest",
+              "class" : "Highest",
               "collection" : "sli.student",
               "map_field" : "body.scoreResults.result",
               "field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore",
