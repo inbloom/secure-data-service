@@ -30,7 +30,7 @@ import openadk.library.impl.Transport;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
 /**
@@ -41,7 +41,7 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
-public class SifAgentTest extends ADKTest {
+public class SifAgentTest extends AdkTest {
     private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {
         Properties agentProperties = new Properties();
         agentProperties.put("adk.messaging.mode", "Push");

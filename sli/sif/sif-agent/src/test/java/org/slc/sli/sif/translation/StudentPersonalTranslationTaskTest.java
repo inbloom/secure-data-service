@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.Demographics;
 import openadk.library.common.EmailList;
 import openadk.library.common.EnglishProficiency;
@@ -47,6 +45,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.DemographicsToBirthDataConverter;
 import org.slc.sli.sif.domain.converter.EmailListConverter;
@@ -71,7 +70,7 @@ import org.slc.sli.sif.domain.slientity.StudentEntity;
  * @author slee
  *
  */
-public class StudentPersonalTranslationTaskTest {
+public class StudentPersonalTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final StudentPersonalTranslationTask translator = new StudentPersonalTranslationTask();
@@ -113,18 +112,13 @@ public class StudentPersonalTranslationTaskTest {
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<StudentEntity> result = translator.translate(new StudentPersonal());
+        List<StudentEntity> result = translator.translate(new StudentPersonal(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -145,7 +139,7 @@ public class StudentPersonalTranslationTaskTest {
         Mockito.when(mockYesNoUnknownConverter.convert("No")).thenReturn(false);
         Mockito.when(mockGenderConverter.convert("F")).thenReturn("Female");
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 
@@ -166,7 +160,7 @@ public class StudentPersonalTranslationTaskTest {
         String limitedEnglishProficiency = "limitedEnglishProficiency";
         Mockito.when(mockEnglishProficiencyConverter.convert(englishProficiency)).thenReturn(limitedEnglishProficiency);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals(limitedEnglishProficiency, entity.getLimitedEnglishProficiency());
@@ -183,7 +177,7 @@ public class StudentPersonalTranslationTaskTest {
         List<String> race = new ArrayList<String>();
         Mockito.when(mockRaceListConverter.convert(raceList)).thenReturn(race);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals(race, entity.getRace());
@@ -198,7 +192,7 @@ public class StudentPersonalTranslationTaskTest {
         BirthData birthData = new BirthData();
         Mockito.when(mockBirthDataConverter.convert(demographics)).thenReturn(birthData);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals(birthData, entity.getBirthData());
@@ -213,7 +207,7 @@ public class StudentPersonalTranslationTaskTest {
         org.slc.sli.sif.domain.slientity.Name name = new org.slc.sli.sif.domain.slientity.Name();
         Mockito.when(mockNameConverter.convert(original)).thenReturn(name);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals(name, entity.getName());
@@ -228,7 +222,7 @@ public class StudentPersonalTranslationTaskTest {
         List<org.slc.sli.sif.domain.slientity.OtherName> otherNames = new ArrayList<org.slc.sli.sif.domain.slientity.OtherName>();
         Mockito.when(mockOtherNameConverter.convert(original)).thenReturn(otherNames);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals(otherNames, entity.getOtherName());
@@ -251,7 +245,7 @@ public class StudentPersonalTranslationTaskTest {
 
         Mockito.when(mockLanguageListConverter.convert(Mockito.any(LanguageList.class))).thenReturn(Arrays.asList("English", "Chinese"));
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         List<String> list = entity.getLanguages();
@@ -274,7 +268,7 @@ public class StudentPersonalTranslationTaskTest {
         info.setMostRecent(mostRecent);
         Mockito.when(mockGradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
         Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getGradeLevel());
@@ -291,7 +285,7 @@ public class StudentPersonalTranslationTaskTest {
 
         Mockito.when(mockEmailListConverter.convert(emailList)).thenReturn(emails);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 
@@ -310,7 +304,7 @@ public class StudentPersonalTranslationTaskTest {
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
                address);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 
@@ -329,7 +323,7 @@ public class StudentPersonalTranslationTaskTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertPersonalTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<StudentEntity> result = translator.translate(info);
+        List<StudentEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         StudentEntity entity = result.get(0);
 

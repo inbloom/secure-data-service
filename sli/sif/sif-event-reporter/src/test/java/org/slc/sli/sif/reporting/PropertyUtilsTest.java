@@ -40,6 +40,8 @@ public class PropertyUtilsTest {
         Assert.assertEquals("TestZone", props.getProperty(PropertyUtils.KEY_ZONE_ID));
         Assert.assertEquals("LEAInfoAdd", props.getProperty(PropertyUtils.KEY_SCRIPT));
         Assert.assertEquals(5000, ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue());
+        Assert.assertEquals("", props.getProperty(PropertyUtils.KEY_MESSAGE_FILE));
+        Assert.assertEquals("ADD", props.getProperty(PropertyUtils.KEY_EVENT_ACTION));
     }
 
     @Test
@@ -49,14 +51,19 @@ public class PropertyUtilsTest {
         String zoneId = "MyZone";
         String script = "step1,step2,step3";
         long waitTime = 9999;
+        String messageFile = "path/to/file";
+        String eventAction = "DELETE";
 
-        String[] args = {"-a", agentId, "-u", zoneUrl, "-z", zoneId, "-s", script, "-w", String.valueOf(waitTime)};
+        String[] args = {"-a", agentId, "-u", zoneUrl, "-z", zoneId, "-s", script, "-w", String.valueOf(waitTime),
+                "-f", messageFile, "-e", eventAction};
         Properties props = PropertyUtils.getProperties(args);
         Assert.assertEquals(agentId, props.getProperty(PropertyUtils.KEY_AGENT_ID));
         Assert.assertEquals(zoneUrl, props.getProperty(PropertyUtils.KEY_ZONE_URL));
         Assert.assertEquals(zoneId, props.getProperty(PropertyUtils.KEY_ZONE_ID));
         Assert.assertEquals(script, props.getProperty(PropertyUtils.KEY_SCRIPT));
         Assert.assertEquals(waitTime, ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue());
+        Assert.assertEquals(messageFile, props.getProperty(PropertyUtils.KEY_MESSAGE_FILE));
+        Assert.assertEquals(eventAction, props.getProperty(PropertyUtils.KEY_EVENT_ACTION));
     }
 
 }

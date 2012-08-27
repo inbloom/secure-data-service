@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.subscriber;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -46,8 +47,6 @@ public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
-    private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
-
     @Autowired
     private SifTranslationManager translationManager;
 
@@ -71,7 +70,7 @@ public class SifSubscriber implements Subscriber {
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       "
-                + zone.getZoneId() + "\n" + "\tInfo:       " + info.getMessage());
+                + zone.getZoneId() + "\n" + "\tInfo:       " + info);
 
         SIFDataObject sifData = inspectAndDestroyEvent(event);
 
@@ -86,56 +85,90 @@ public class SifSubscriber implements Subscriber {
         }
 
         if (sifData != null && tokenChecked && event.getAction() != null) {
+            List<SliEntity> entities = translationManager.translate(sifData, zone.getZoneId());
+            Entity matchedEntity;
+
             switch (event.getAction()) {
-                case ADD:
-                    addEntities(sifData);
-                    break;
-                case CHANGE:
-                    changeEntities(sifData);
-                    break;
-                case UNDEFINED:
-                default:
-                    LOG.error("Unsupported SIF Action: " + event.getAction());
-                    break;
+            case ADD:
+                for (SliEntity sliEntity : entities) {
+                    // take care of cases when two or more SIF entities map into
+                    // the same SLI entity
+                    if (sliEntity.isCreatedByOthers() || sliEntity.getMatchedEntity() != null) {
+                        if (sliEntity.isCreatedByOthers()) {
+                            matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
+                        } else {
+                            matchedEntity = sliEntity.getMatchedEntity();
+                        }
+
+                        changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
+                        sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(),
+                                matchedEntity.getId(), zone.getZoneId());
+                    } else {
+                        addEntity(sifData, zone.getZoneId(), sliEntity);
+                    }
+                }
+                break;
+            case CHANGE:
+                // TODO, we can potentially get multiple matched entities
+                List<Entity> matchedEntities = sifIdResolver.getSliEntityList(sifData.getRefId(), zone.getZoneId());
+                if (entities == null || entities.isEmpty()) {
+                    LOG.warn("Null or empty translated SIF entities: " + entities);
+                } else if (matchedEntities == null || matchedEntities.isEmpty()) {
+                    LOG.warn("Null or empty SIF entities (no entity found to update): " + matchedEntities);
+                } else {
+                    for (SliEntity sliEntity : entities) {
+                        for (Entity e : matchedEntities) {
+                            if (sliEntity.entityType().equals(e.getEntityType())) {
+                                changeEntity(sifData, sliEntity, zone.getZoneId(), e);
+                            }
+                        }
+                    }
+                }
+                break;
+            case UNDEFINED:
+            default:
+                LOG.error("Unsupported SIF Action: " + event.getAction());
+                break;
             }
         }
     }
 
-    private void addEntities(SIFDataObject sifData) {
-        for (SliEntity sliEntity : translationManager.translate(sifData)) {
-            GenericEntity entity = sliEntity.createGenericEntity();
-            String guid = slcInterface.create(entity);
-            LOG.info("addEntities " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
-            if (guid != null) {
-                sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid);
+    private void addEntity(SIFDataObject sifData, String zoneId, SliEntity sliEntity) {
+        GenericEntity entity = sliEntity.createGenericEntity();
+        String guid = slcInterface.create(entity);
+        LOG.info("addEntity " + entity.getEntityType() + ": RefId=" + sifData.getRefId() + " guid=" + guid);
+        if (guid != null) {
+            sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid, zoneId);
+            if (sliEntity.hasOtherSifRefId()) {
+                sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(), guid,
+                        zoneId);
             }
         }
     }
 
-    private void changeEntities(SIFDataObject sifData) {
-        //TODO, we can potentially get multiple matched entities
-        Entity matchedEntity = sifIdResolver.getSliEntity(sifData.getRefId());
-
+    private void changeEntity(SIFDataObject sifData, SliEntity sliEntity, String zoneId, Entity matchedEntity) {
         if (matchedEntity == null) {
             LOG.info(" Unable to map SIF object to SLI: " + sifData.getRefId());
             return;
         }
-        for (SliEntity sliEntity : translationManager.translate(sifData)) {
-            updateMap(matchedEntity.getData(), sliEntity.createBody());
-            slcInterface.update(matchedEntity);
-            LOG.info("changeEntities " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
+        updateMap(matchedEntity.getData(), sliEntity.createBody());
+        slcInterface.update(matchedEntity);
+        if (sliEntity.hasOtherSifRefId()) {
+            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(),
+                    matchedEntity.getId(), zoneId);
         }
+        LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
     // /-======================== HELPER UTILs ======
     /**
-     * Applies the values from map u to the keys in map m, recursively
-     *
-     * @param map
-     *            : the map to be updated
-     * @param u
-     *            : the map containing the updates
-     */
+    * Applies the values from map u to the keys in map m, recursively
+    *
+    * @param map
+    *            : the map to be updated
+    * @param u
+    *            : the map containing the updates
+    */
     private static void updateMap(Map<String, Object> map, Map<String, Object> u) {
         for (Entry<String, Object> uEntry : u.entrySet()) {
             if (!map.containsKey(uEntry.getKey())) {

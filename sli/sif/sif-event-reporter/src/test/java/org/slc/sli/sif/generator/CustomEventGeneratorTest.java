@@ -18,7 +18,6 @@ package org.slc.sli.sif.generator;
 
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Properties;
 
 import junit.framework.Assert;
 
@@ -66,8 +65,6 @@ import org.junit.Test;
  */
 public class CustomEventGeneratorTest {
 
-    private EventGenerator customEventGenerator = new CustomEventGenerator();
-
     @Before
     public void setup() throws ADKException {
         ADK.initialize();
@@ -75,8 +72,8 @@ public class CustomEventGeneratorTest {
 
     @Test
     public void testGenerateStudentPersonalDefaultEvent() throws ADKException {
-        Properties props = getPropertiesForFile("/element_xml/StudentPersonal.xml");
-        Event studentPersonalEvent = customEventGenerator.generateEvent(props);
+        String messageFile = getPathForFile("/element_xml/StudentPersonal.xml");
+        Event studentPersonalEvent = CustomEventGenerator.generateEvent(messageFile, EventAction.ADD);
 
         EventAction eventAction = studentPersonalEvent.getAction();
         Assert.assertEquals(EventAction.ADD, eventAction);
@@ -100,8 +97,8 @@ public class CustomEventGeneratorTest {
     }
 
     private void runStudentPersonalTests(EventAction action) throws ADKException {
-        Properties props = getPropertiesForFileAndAction("/element_xml/StudentPersonal.xml", action);
-        Event studentPersonalEvent = customEventGenerator.generateEvent(props);
+        String messageFile = getPathForFile("/element_xml/StudentPersonal.xml");
+        Event studentPersonalEvent = CustomEventGenerator.generateEvent(messageFile, action);
 
         EventAction eventAction = studentPersonalEvent.getAction();
         Assert.assertEquals(action, eventAction);
@@ -161,8 +158,8 @@ public class CustomEventGeneratorTest {
 
     @Test
     public void testGenerateLeaInfoDefaultEvent() throws ADKException {
-        Properties props = getPropertiesForFile("/element_xml/LEAInfo.xml");
-        Event leaInfoEvent = customEventGenerator.generateEvent(props);
+        String messageFile = getPathForFile("/element_xml/LEAInfo.xml");
+        Event leaInfoEvent = CustomEventGenerator.generateEvent(messageFile, EventAction.ADD);
 
         EventAction eventAction = leaInfoEvent.getAction();
         Assert.assertEquals(EventAction.ADD, eventAction);
@@ -186,8 +183,8 @@ public class CustomEventGeneratorTest {
     }
 
     private void runLeaInfoTests(EventAction action) throws ADKException {
-        Properties props = getPropertiesForFileAndAction("/element_xml/LEAInfo.xml", action);
-        Event leaInfoEvent = customEventGenerator.generateEvent(props);
+        String messageFile = getPathForFile("/element_xml/LEAInfo.xml");
+        Event leaInfoEvent = CustomEventGenerator.generateEvent(messageFile, action);
 
         EventAction eventAction = leaInfoEvent.getAction();
         Assert.assertEquals(action, eventAction);
@@ -259,19 +256,9 @@ public class CustomEventGeneratorTest {
         Assert.assertEquals(GradeLevelCode._12.getValue(), gradeLevel4.getCode());
     }
 
-    private Properties getPropertiesForFile(String filename) {
+    private String getPathForFile(String filename) {
         URL url = getClass().getResource(filename);
-        Properties props = new Properties();
-        props.put(EventGenerator.MESSAGE_FILE, url.getPath());
-        return props;
-    }
-
-    private Properties getPropertiesForFileAndAction(String filename, EventAction action) {
-        Properties props = getPropertiesForFile(filename);
-        if (action != null) {
-            props.put(EventGenerator.EVENT_ACTION, action.toString());
-        }
-        return props;
+        return url.getPath();
     }
 
 }

@@ -23,12 +23,12 @@ import openadk.library.student.SchoolLevelType;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * SchoolLevelTypeConverter unit tests
  */
-public class SchoolLevelTypeConverterTest extends ADKTest {
+public class SchoolLevelTypeConverterTest extends AdkTest {
 
     private final SchoolLevelTypeConverter converter = new SchoolLevelTypeConverter();
 
