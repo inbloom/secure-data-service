@@ -108,14 +108,14 @@ public class CustomEntityResourceTest {
 
     @Test
     public void testRead() {
-        Response res = resource.read(uriInfo, "TEST-ID");
+        Response res = resource.read();
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
         Mockito.verify(service).getCustom("TEST-ID");
 
         EntityBody mockBody = Mockito.mock(EntityBody.class);
         Mockito.when(service.getCustom("TEST-ID")).thenReturn(mockBody);
-        res = resource.read(uriInfo, "TEST-ID");
+        res = resource.read();
         assertNotNull(res);
         assertEquals(Status.OK.getStatusCode(), res.getStatus());
         Mockito.verify(service, Mockito.atLeast(2)).getCustom("TEST-ID");
@@ -124,7 +124,7 @@ public class CustomEntityResourceTest {
     @Test
     public void testCreateOrUpdatePUT() {
         EntityBody test = new EntityBody();
-        Response res = resource.createOrUpdatePut(uriInfo, "TEST-ID", test);
+        Response res = resource.createOrUpdatePut(test);
         assertNotNull(res);
         assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
         Mockito.verify(service).createOrUpdateCustom("TEST-ID", test);
@@ -134,7 +134,7 @@ public class CustomEntityResourceTest {
     public void testCreateOrUpdatePOST() {
         EntityBody test = new EntityBody();
 
-        Response res = resource.createOrUpdatePost(test, uriInfo, "TEST-ID");
+        Response res = resource.createOrUpdatePost(uriInfo, test);
         assertNotNull(res);
         assertEquals(Status.CREATED.getStatusCode(), res.getStatus());
         assertNotNull(res.getMetadata().get("Location"));
@@ -147,7 +147,7 @@ public class CustomEntityResourceTest {
 
     @Test
     public void testDelete() {
-        Response res = resource.delete(uriInfo, "TEST-ID");
+        Response res = resource.delete();
         assertNotNull(res);
         assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
         Mockito.verify(service).deleteCustom("TEST-ID");
@@ -155,17 +155,17 @@ public class CustomEntityResourceTest {
 
     @Test
     public void test404() {
-        Response res = resource.read(uriInfo, "TEST-ID");
+        Response res = resource.read();
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
 
         when(store.lookupByResourceName("students")).thenReturn(null);
 
-        res = resource.createOrUpdatePut(uriInfo, "", null);
+        res = resource.createOrUpdatePut(null);
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
 
-        res = resource.delete(uriInfo, "TEST-ID");
+        res = resource.delete();
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }

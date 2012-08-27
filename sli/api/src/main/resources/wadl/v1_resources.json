@@ -2,40 +2,535 @@
     "nameSpace":"v1",
     "resources":[
         {
-            "path":"/students",
-            "doc":"This is a student",
+            "path":"/reportCards",
+            "doc":"Represents the definition of a report card resource. A report card is an educational entity that represents the collection of student grades for courses taken during a grading period. For detailed information, see the schema for $$ReportCard$$ resources."
+        },
+        {
+            "path":"/sections",
+            "doc":"Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$, $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
             "subResources":[
                 {
-                    "path":"/{id}/studentSectionAssociations",
-                    "subResources":[
-                        {
-                            "path":"/sections"
-                        }
-                    ]
+                    "path":"/{id}/studentSectionAssociations"
                 },
                 {
-                    "path":"/{id}/studentCohortAssociations",
-                    "subResources":[
-                        {
-                            "path":"/cohorts"
-                        }
-                    ]
+                    "path":"/{id}/studentSectionAssociations/students"
+                },
+                {
+                    "path":"/{id}/teacherSectionAssociations"
+                },
+                {
+                    "path":"/{id}/teacherSectionAssociations/teachers"
                 }
             ]
         },
         {
-            "path":"/schools",
-            "doc":"This is a school",
+            "path":"/studentProgramAssociations",
+            "doc":"Represents the association between a $$Student$$ and a $$Program$$. For more information, see the schema for $$StudentProgramAssociation$$ resources.",
+            "subResources":[
+                {
+                    "path":"/{id}/students"
+                },
+                {
+                    "path":"/{id}/programs"
+                }
+            ]
+        },
+        {
+            "path":"/courses"
+            ,"doc":"Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. For more information, see the schema for $$Course$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/courseOfferings"
+                }
+                ,{
+                    "path":"/{id}/courseOfferings/sessions"
+                }
+                ,{
+                    "path":"/{id}/courseTranscripts"
+                }
+                ,{
+                    "path":"/{id}/courseTranscripts/students"
+                }
+                ,{
+                    "path":"/{id}/studentParentAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentParentAssociations/students"
+                }
+        ]
+        },
+        {
+            "path":"/home",
+            "doc":"Provides initial information for a user. This includes providing different links to self and associated resources.",
+            "resourceClass":"org.slc.sli.api.resources.v1.HomeResource"
+        },
+        {
+            "path":"/gradingPeriods"
+            ,"doc":"Represents the time span for which grades are reported. For detailed information, see the schema for $$GradingPeriod$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/reportCards"
+                }
+                ,{
+                    "path":"/{id}/grades"
+                }
+        ]
+        },
+        {
+            "path":"/cohorts"
+            ,"doc":"Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staffCohortAssociations"
+                }
+                ,{
+                    "path":"/{id}/staffCohortAssociations/staff"
+                }
+                ,{
+                    "path":"/{id}/studentCohortAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentCohortAssociations/students"
+                }
+        ]
+        },
+        {
+            "path":"/sessions"
+            ,"doc":"Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/courseOfferings"
+                }
+                ,{
+                    "path":"/{id}/courseOfferings/courses"
+                }
+        ]
+        },
+        {
+            "path":"/courseTranscripts"
+            ,"doc":"Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$StudentTranscriptAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/courses"
+                }
+                ,{
+                    "path":"/{id}/students"
+                }
+        ]
+        },
+        {
+            "path":"/gradebookEntries"
+            ,"doc":"Represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook. For more information, see the schema for $$GradebookEntry$$ resources."
+            ,"subResources":[
+            ]
+        },
+        {
+            "path":"/staffEducationOrgAssignmentAssociations"
+            ,"doc":"Represents the link between an education organization and a staff member. Education organizations employ multiple staff and staff are free to work at multiple education organizations. For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staff"
+                }
+                ,{
+                    "path":"/{id}/educationOrganizations"
+                }
+        ]
+        },
+        {
+            "path":"/disciplineIncidents"
+            ,"doc":"Represents the definition of a discipline incident.  A discipline incident is defined as a single occurrence of an infraction. Discipline incidents are events classified as warranting discipline action. For detailed information, see the schema for $$DisciplineIncident$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/studentDisciplineIncidentAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentDisciplineIncidentAssociations/students"
+                }
+        ]
+        },
+        {
+            "path":"/studentGradebookEntries"
+            ,"doc":"Represents a student's grade or competency level for a $$GradebookEntry$$. For detailed information, see the schema for $$StudentGradebookEntry$$ resources."
+        },
+        {
+            "path":"/assessments"
+            ,"doc":"Represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next. For more information, see the schema for $$Assessment$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/studentAssessments"
+                }
+                ,{
+                    "path":"/{id}/studentAssessments/students"
+                }
+                ,{
+                    "path":"/{id}/learningStandards"
+                }
+                ,{
+                    "path":"/{id}/learningObjectives"
+                }
+        ]
+        },
+        {
+            "path":"/studentCohortAssociations"
+            ,"doc":"Represents the association between a $$Student$$ and a $$Cohort$$. For more information, see the schema for $$StudentCohortAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/students"
+                }
+                ,{
+                    "path":"/{id}/cohorts"
+                }
+        ]
+        },
+        {
+            "path":"/educationOrganizations",
+            "doc":"Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. For more information, see the schema for $$EducationOrganization$$ resources.",
             "resourceClass":"org.slc.sli.api.resources.generic.PublicOnePartResource",
             "subResources":[
                 {
-                    "path":"/{id}/studentSchoolAssociations",
-                    "subResources":[
-                        {
-                            "path":"/students"
-                        }
-                    ]
-
+                    "path":"/{id}/staffEducationOrgAssignmentAssociations"
+                }
+                ,{
+                    "path":"/{id}/staffEducationOrgAssignmentAssociations/staff"
+                }
+        ]
+        },
+        {
+            "path":"/teacherSectionAssociations"
+            ,"doc":"Represents the class sections (see the $$Section$$ schema) to which a teacher (see the $$Teacher$$ schema) is assigned to. For more information, see the schema for $$TeacherSectionAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/teachers"
+                }
+                ,{
+                    "path":"/{id}/sections"
+                }
+        ]
+        },
+        {
+            "path":"/schools",
+            "doc":"This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. For more information, see the schema for $$School$$ resources.",
+            "resourceClass":"org.slc.sli.api.resources.generic.PublicOnePartResource",
+            "subResources":[
+                {
+                    "path":"/{id}/teacherSchoolAssociations"
+                }
+                ,{
+                    "path":"/{id}/teacherSchoolAssociations/teachers"
+                }
+                ,{
+                    "path":"/{id}/studentSchoolAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentSchoolAssociations/students"
+                }
+                ,{
+                    "path":"/{id}/sections"
+                }
+        ]
+        },
+        {
+            "path":"/programs"
+            ,"doc":"Represents the definition of a program.  A program is designed to work in conjunction with or to supplement the main academic program. For detailed information, see the schema for $$Program$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staffProgramAssociations/staff"
+                }
+                ,{
+                    "path":"/{id}/studentProgramAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentProgramAssociations/students"
+                }
+                ,{
+                    "path":"/{id}/staffProgramAssociations"
+                }
+            ]
+        },
+        {
+            "path":"/learningStandards"
+            ,"doc":"Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. For more information, see the schema for $$LearningStandard$$ resources."
+        },
+        {
+            "path":"/parents"
+            ,"doc":"Represents a parent or guardian of a student. For detailed information, see the schema for $$Parent$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/studentParentAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentParentAssociations/students"
+                }
+            ]
+        },
+        {
+            "path":"/teachers"
+            ,"doc":"Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/teacherSchoolAssociations"
+                }
+                ,{
+                    "path":"/{id}/teacherSectionAssociations"
+                }
+                ,{
+                    "path":"/{id}/teacherSectionAssociations/sections"
+                }
+                ,{
+                    "path":"/{id}/teacherSchoolAssociations/schools"
+                }
+            ]
+        },
+        {
+            "path":"/studentAcademicRecords"
+            ,"doc":"Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources."
+        },
+        {
+            "path":"/learningObjectives"
+            ,"doc":"Represents identified learning objectives for courses in specific grades. For more information, see the schema for $$LearningObjective$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/studentCompetencies"
+                }
+                ,{
+                    "path":"/{id}/learningStandards"
+                }
+                ,{
+                    "path":"/{id}/parentLearningObjectives"
+                }
+                ,{
+                    "path":"/{id}/childLearningObjectives"
+                }
+            ]
+        },
+        {
+            "path":"/attendances"
+            ,"doc":"Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources."
+        },
+        {
+            "path":"/studentSchoolAssociations"
+            ,"doc":"Represents the school to which a student is enrolled. For more information, see the schema for $$StudentSchoolAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/students"
+                }
+                ,{
+                    "path":"/{id}/schools"
+                }
+            ]
+        },
+        {
+            "path":"/teacherSchoolAssociations"
+            ,"doc":"This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/teachers"
+                }
+                ,{
+                    "path":"/{id}/schools"
+                }
+            ]
+        },
+        {
+            "path":"/staff"
+            ,"doc":"Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staffProgramAssociations/programs"
+                }
+                ,{
+                    "path":"/{id}/staffCohortAssociations"
+                }
+                ,{
+                    "path":"/{id}/staffEducationOrgAssignmentAssociations"
+                }
+                ,{
+                    "path":"/{id}/staffProgramAssociations"
+                }
+                ,{
+                    "path":"/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations"
+                }
+                ,{
+                    "path":"/{id}/staffCohortAssociations/cohorts"
+                }
+            ]
+        },
+        {
+            "path":"/grades"
+            ,"doc":"Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources."
+        },
+        {
+            "path":"/studentCompetencies"
+            ,"doc":"Represents the competency assessed or evaluated for the student against a specific Learning Objective. For detailed information, see the schema for $$StudentCompetency$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/reportCards"
+                }
+            ]
+        },
+        {
+            "path":"/studentSectionAssociations"
+            ,"doc":"Represents the course sections a student is assigned to. For more information, see the schema for $$StudentSectionAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/students"
+                }
+                ,{
+                    "path":"/{id}/sections"
+                }
+                ,{
+                    "path":"/{id}/studentCompetencies"
+                }
+                ,{
+                    "path":"/{id}/grades"
+                }
+            ]
+        },
+        {
+            "path":"/staffCohortAssociations"
+            ,"doc":"Represents the association between a $$Staff$$ member and a $$Cohort$$. For more information, see the schema for $$StaffCohortAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staff"
+                }
+                ,{
+                    "path":"/{id}/cohorts"
+                }
+            ]
+        },
+        {
+            "path":"/studentAssessments"
+            ,"doc":"Represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test. For more information, see the schema for $$StudentAssessmentAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/students"
+                }
+                ,{
+                    "path":"/{id}/assessments"
+                }
+            ]
+        },
+        {
+            "path":"/competencyLevelDescriptor"
+            ,"doc":"Defines various levels for assessed competencies. For more information, see the schema for $$CompetencyLevelDescriptor$$ resources."
+        },
+        {
+            "path":"/staffProgramAssociations"
+            ,"doc":"Represents the association between a $$Staff$$ member and a $$Program$$. For more information, see the schema for $$StaffProgramAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/staff"
+                }
+                ,{
+                    "path":"/{id}/programs"
+                }
+            ]
+        },
+        {
+            "path":"/studentCompetencyObjectives"
+            ,"doc":"Represents additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class). For detailed information, see the schema for $$StudentCompetencyObjective$$ resources."
+        },
+        {
+            "path":"/studentDisciplineIncidentAssociations"
+            ,"doc":"Represents the association between a $$Student$$ and a $$DisciplineIncident$$. For more information, see the schema for $$StudentDisciplineIncidentAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/students"
+                }
+                ,{
+                    "path":"/{id}/disciplineIncidents"
+                }
+            ]
+        },
+        {
+            "path":"/competencyLevelDescriptorTypes"
+            ,"doc":"Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange. To lookup where already loaded specify either CodeValue OR Description. For more information, see the schema $$CompetencyLevelDescriptorType$$ resources."
+        },
+        {
+            "path":"/studentParentAssociations"
+            ,"doc":"Represents the relationships between students and their parents, guardians, or caretakers. For more information, see the schema for $$StudentParentAssociation$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/parents"
+                }
+                ,{
+                    "path":"/{id}/students"
+                }
+            ]
+        },
+        {
+            "path":"/courseOfferings"
+            ,"doc":"Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/sessions"
+                }
+                ,{
+                    "path":"/{id}/courses"
+                }
+            ]
+        },
+        {
+            "path":"/disciplineActions"
+            ,"doc":"Represents the definition of a discipline action. A discipline action is defined as an action taken by an education organization after a disruptive event that is recorded as a discipline incident. For detailed information, see the schema for the $$DisciplineAction$$ entity."
+        },
+        {
+            "path":"/students"
+            ,"doc":"This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources."
+            ,"subResources":[
+                {
+                    "path":"/{id}/studentProgramAssociations/programs"
+                }
+                ,{
+                    "path":"/{id}/studentAssessments"
+                }
+                ,{
+                    "path":"/{id}/studentCohortAssociations"
+                }
+                ,{
+                    "path":"/{id}/courseTranscripts"
+                }
+                ,{
+                    "path":"/{id}/studentParentAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentDisciplineIncidentAssociations"
+                }
+                ,{
+                    "path":"/{id}/reportCards"
+                }
+                ,{
+                    "path":"/{id}/studentParentAssociations/parents"
+                }
+                ,{
+                    "path":"/{id}/studentProgramAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentSchoolAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentSectionAssociations"
+                }
+                ,{
+                    "path":"/{id}/studentSectionAssociations/sections"
+                }
+                ,{
+                    "path":"/{id}/studentSchoolAssociations/schools"
+                }
+                ,{
+                    "path":"/{id}/studentAssessments/assessments"
+                }
+                ,{
+                    "path":"/{id}/attendances"
+                }
+                ,{
+                    "path":"/{id}/courseTranscripts/courses"
+                }
+                ,{
+                    "path":"/{id}/studentDisciplineIncidentAssociations/disciplineIncidents"
+                }
+                ,{
+                    "path":"/{id}/studentCohortAssociations/cohorts"
                 }
             ]
         }

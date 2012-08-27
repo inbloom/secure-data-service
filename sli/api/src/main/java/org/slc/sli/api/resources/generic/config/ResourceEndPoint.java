@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +43,29 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
+            //addIDResource(resource);
             buildEndPoints(nameSpace, "", resource);
+        }
+    }
+
+    protected void addIDResource(ResourceEndPointTemplate template) {
+        List<ResourceEndPointTemplate> subResources = template.getSubResources();
+        ResourceEndPointTemplate idTemplate = new ResourceEndPointTemplate();
+        idTemplate.setPath("/{id}");
+
+        if (subResources != null) {
+            subResources.add(idTemplate);
+        } else {
+            List<ResourceEndPointTemplate> subTemplates = new ArrayList<ResourceEndPointTemplate>();
+            subTemplates.add(idTemplate);
+
+            template.setSubResources(subTemplates);
         }
     }
 
     protected void buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
         String fullPath =  nameSpace + resourcePath + template.getPath();
+
         resources.put(fullPath, getResourceClass("/rest/" + fullPath, template));
 
         List<ResourceEndPointTemplate> subResources = template.getSubResources();

@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.resources.generic;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -22,11 +23,19 @@ import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
+import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
+import org.slc.sli.api.util.PATCH;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -74,4 +83,88 @@ public class OnePartResource extends GenericResource {
         });
 
     }
+
+    @GET
+    @Path("{id}")
+    public Response getWithId(@PathParam("id") final String id,
+                              @Context final UriInfo uriInfo) {
+
+        return getResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
+            @Override
+            public ServiceResponse run(Resource resource) {
+                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
+            }
+        });
+
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response put(@PathParam("id") final String id,
+                        final EntityBody entityBody,
+                        @Context final UriInfo uriInfo) {
+
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
+
+            public Response run(Resource resource) {
+                resourceService.putEntity(resource, id, entityBody);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response delete(@PathParam("id") final String id,
+                           @Context final UriInfo uriInfo) {
+
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.DELETE, new ResourceLogic() {
+            @Override
+            public Response run(Resource resource) {
+                resourceService.deleteEntity(resource, id);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
+
+    }
+
+    @PATCH
+    @Path("{id}")
+    public Response patch(@PathParam("id") final String id,
+                          final EntityBody entityBody,
+                          @Context final UriInfo uriInfo) {
+
+        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PATCH, new ResourceLogic() {
+
+            @Override
+            public Response run(Resource resource) {
+                resourceService.patchEntity(resource, id, entityBody);
+
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+        });
+
+    }
+
+    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
+    public CustomEntityResource getCustomResource(@PathParam("id") final String id,
+                                          @Context final UriInfo uriInfo) {
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
+        return new CustomEntityResource(id,
+                resourceHelper.getEntityDefinition(resource.getResourceType()));
+    }
+
+    @Path("{id}/" + PathConstants.CALCULATED_VALUES)
+    public CalculatedDataListingResource<String> getCalculatedValueResource(@PathParam("id") final String id,
+                                          @Context final UriInfo uriInfo) {
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
+
+        return new CalculatedDataListingResource<String>(id,
+                resourceHelper.getEntityDefinition(resource.getResourceType()));
+    }
+
+
+
 }

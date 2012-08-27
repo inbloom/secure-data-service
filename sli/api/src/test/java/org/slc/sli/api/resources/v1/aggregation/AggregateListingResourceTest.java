@@ -122,7 +122,7 @@ public class AggregateListingResourceTest {
                 "PercentInClass", "90%");
         @SuppressWarnings("unchecked")
         List<CalculatedDatum<String>> expected = Arrays.asList(actScore, mathScore);
-        assertEquals(expected, cVResource.getCalculatedValues(uriInfo, "1234", null, null, null, null)
+        assertEquals(expected, cVResource.getCalculatedValues(null, null, null, null)
                 .getEntity());
     }
 
