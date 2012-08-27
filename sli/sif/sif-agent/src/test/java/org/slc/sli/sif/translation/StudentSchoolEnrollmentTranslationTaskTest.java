@@ -20,8 +20,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.EntryType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitType;
@@ -38,6 +36,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.domain.converter.DateConverter;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -50,7 +50,7 @@ import org.slc.sli.sif.slcinterface.SifIdResolver;
  * StudentSchoolEnrollmentTranslationTask unit tests
  *
  */
-public class StudentSchoolEnrollmentTranslationTaskTest {
+public class StudentSchoolEnrollmentTranslationTaskTest extends AdkTest {
     @InjectMocks
     private final StudentSchoolEnrollmentTranslationTask translator = new StudentSchoolEnrollmentTranslationTask();
 
@@ -69,19 +69,17 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
     @Mock
     ExitTypeConverter exitTypeConverter;
 
+    @Mock
+    DateConverter dateConverter;
+
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setupMocks() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<StudentSchoolAssociationEntity> result = translator.translate(new StudentSchoolEnrollment());
+        List<StudentSchoolAssociationEntity> result = translator.translate(new StudentSchoolEnrollment(), null);
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -93,21 +91,17 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
         sse.setStudentPersonalRefId("studentRefID");
         sse.setSchoolInfoRefId("SchoolInfoRefID");
         sse.setSchoolYear(Integer.valueOf(2001));
-        sse.setEntryDate(new GregorianCalendar(2004, Calendar.FEBRUARY, 29));
-        sse.setExitDate(new GregorianCalendar(2012, Calendar.DECEMBER, 29));
 
-        Mockito.when(mockSifIdResolver.getSliGuid("studentRefID")).thenReturn("SLI_StudentGUID");
-        Mockito.when(mockSifIdResolver.getSliGuid("SchoolInfoRefID")).thenReturn("SLI_SchoolGUID");
+        Mockito.when(mockSifIdResolver.getSliGuid("studentRefID", null)).thenReturn("SLI_StudentGUID");
+        Mockito.when(mockSifIdResolver.getSliGuid("SchoolInfoRefID", null)).thenReturn("SLI_SchoolGUID");
         Mockito.when(schoolYearConverter.convert(Integer.valueOf(2001))).thenReturn("2001");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(sse);
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
         Assert.assertEquals("student Id is expected to be 'SLI_StudentGUID'", "SLI_StudentGUID", entity.getStudentId());
         Assert.assertEquals("school Id is expected to be 'SLI_SchoolGUID'", "SLI_SchoolGUID", entity.getSchoolId());
         Assert.assertEquals("school yewar is expected to be '2001'", "2001", entity.getSchoolYear());
-        Assert.assertEquals("entry date is expected to be '2004-02-29'", "2004-02-29", entity.getEntryDate());
-        Assert.assertEquals("exit withdraw date is expected to be '2012-12-29'", "2012-12-29", entity.getExitWithdrawDate());
     }
 
     @Test
@@ -117,10 +111,11 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
         sse.setEntryType(entryType);
         Mockito.when(entryTypeConverter.convert(entryType)).thenReturn("Transfer from a charter school");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(sse);
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'", "Transfer from a charter school", entity.getEntryType());
+        Assert.assertEquals("entry type is expected to be 'Transfer from a charter school'",
+                "Transfer from a charter school", entity.getEntryType());
     }
 
     @Test
@@ -130,10 +125,11 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
         sse.setExitType(exitType);
         Mockito.when(exitTypeConverter.convert(exitType)).thenReturn("Died or is permanently incapacitated");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(sse);
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'", "Died or is permanently incapacitated", entity.getExitWithdrawType());
+        Assert.assertEquals("exit withdraw type is expected to be 'Died or is permanently incapacitated'",
+                "Died or is permanently incapacitated", entity.getExitWithdrawType());
     }
 
     @Test
@@ -143,9 +139,30 @@ public class StudentSchoolEnrollmentTranslationTaskTest {
         sse.setGradeLevel(gradeLevel);
         Mockito.when(gradeLevelsConverter.convert(gradeLevel)).thenReturn("Tenth grade");
 
-        List<StudentSchoolAssociationEntity> result = translator.translate(sse);
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
         Assert.assertEquals(1, result.size());
         StudentSchoolAssociationEntity entity = result.get(0);
-        Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade", entity.getEntryGradeLevel());
+        Assert.assertEquals("entry grade level is expected to be 'Tenth grade'", "Tenth grade",
+                entity.getEntryGradeLevel());
+    }
+
+    @Test
+    public void testDates() throws SifTranslationException {
+        StudentSchoolEnrollment sse = new StudentSchoolEnrollment();
+
+        Calendar hire = new GregorianCalendar(2004, Calendar.FEBRUARY, 1);
+        Calendar terminate = new GregorianCalendar(2005, Calendar.DECEMBER, 29);
+
+        sse.setEntryDate(hire);
+        sse.setExitDate(terminate);
+
+        Mockito.when(dateConverter.convert(hire)).thenReturn("hireDate");
+        Mockito.when(dateConverter.convert(terminate)).thenReturn("terminateDate");
+
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse, null);
+        Assert.assertEquals(1, result.size());
+        StudentSchoolAssociationEntity entity = result.get(0);
+        Assert.assertEquals("hireDate", entity.getEntryDate());
+        Assert.assertEquals("terminateDate", entity.getExitWithdrawDate());
     }
 }

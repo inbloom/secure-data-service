@@ -29,13 +29,13 @@ import openadk.library.common.Street;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.Address;
 
 /**
  * AddressListConverter unit tests
  */
-public class AddressListConverterTest extends ADKTest {
+public class AddressListConverterTest extends AdkTest {
 
     private final AddressListConverter converter = new AddressListConverter();
     private Map<AddressType, String> map = new HashMap<AddressType, String>();

@@ -44,7 +44,7 @@ public class ParentsSorterTest {
         obj.put(Constants.ATTR_RELATION, "Father");
         studentParentsAssocistion.add(obj);
         GenericEntity entity = new GenericEntity();
-        entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATION, studentParentsAssocistion);
+        entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATIONS, studentParentsAssocistion);
         entities.add(entity);
 
         obj = new LinkedHashMap<String, Object>();
@@ -52,12 +52,12 @@ public class ParentsSorterTest {
         studentParentsAssocistion = new LinkedList<LinkedHashMap<String, Object>>();
         studentParentsAssocistion.add(obj);
         entity = new GenericEntity();
-        entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATION, studentParentsAssocistion);
+        entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATIONS, studentParentsAssocistion);
         entities.add(entity);
 
         ParentsSorter.sort(entities);
         List<LinkedHashMap<String, Object>> objTest = (List<LinkedHashMap<String, Object>>) entities.get(0).get(
-                Constants.ATTR_STUDENT_PARENT_ASSOCIATION);
+                Constants.ATTR_STUDENT_PARENT_ASSOCIATIONS);
         Assert.assertEquals("Mother", objTest.get(0).get(Constants.ATTR_RELATION));
     }
 }

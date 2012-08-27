@@ -71,11 +71,14 @@ class LandingZone
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
      result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    Rails.logger.info("the first isDuplicate is: #{isDuplicate}")
      
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
     
+    Rails.logger.info("the second isDuplicate is: #{isDuplicate}")
+        
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"

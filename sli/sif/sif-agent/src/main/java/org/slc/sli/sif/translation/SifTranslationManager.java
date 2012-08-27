@@ -45,7 +45,7 @@ public class SifTranslationManager {
 
     }
 
-    public List<SliEntity> translate(SIFDataObject sifData) {
+    public List<SliEntity> translate(SIFDataObject sifData, String zoneId) {
         List<SliEntity> entities = new ArrayList<SliEntity>();
 
         // get the list to translation tasks
@@ -58,7 +58,7 @@ public class SifTranslationManager {
         for (TranslationTask translationTask : translationTasks) {
 
             try {
-                entities.addAll(translationTask.translate(sifData));
+                entities.addAll(translationTask.translate(sifData, zoneId));
             } catch (SifTranslationException e) {
                 LOG.error("Sif translation exception: ", e);
             }

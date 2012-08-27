@@ -121,7 +121,7 @@ final class Xsd2UmlLinker {
                 taggedValues.add(tag);
             }
             // If it's navigable at the database level then we assume this is also true logically.
-            return new AssociationEnd(multiplicity, newName, true, id, taggedValues, reference);
+            return new AssociationEnd(multiplicity, newName, true, id, taggedValues, reference, oldName);
         } else {
             throw new IllegalStateException(referenceType + " " + nameToClassTypeId);
         }
@@ -214,15 +214,16 @@ final class Xsd2UmlLinker {
     }
     
     private static final AssociationEnd makeAssociationEnd(final String lhsName, final Type lhsType,
-            final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
+            final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host
+             ) {
         final Range sourceRange = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity sourceMultiplicity = new Multiplicity(sourceRange);
         // All relationships are logically navigable in both directions.
         // But a relationship may only be physically navigable based on the database.
         final boolean navigable = true;
-        return new AssociationEnd(sourceMultiplicity, lhsName, navigable, lhsType.getId());
+        return new AssociationEnd(sourceMultiplicity, lhsName, navigable, lhsType.getId(), rhsEnd.getAssociatedAttributeName());
     }
-    
+
     private static final List<ClassType> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
             final ModelIndex lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final List<ClassType> associations = new LinkedList<ClassType>();

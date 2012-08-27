@@ -17,34 +17,37 @@
 
 package org.slc.sli.api.resources.v1;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Subresource for custom entities
  *
  */
+@Component
+@Scope("request")
 public class CustomEntityResource {
 
-    String entityId;
-    EntityDefinition entityDef;
+    @Autowired
+    private EntityDefinitionStore entityDefinitionStore;
 
-    public CustomEntityResource(String entityId, EntityDefinition entityDef) {
-        this.entityId = entityId;
-        this.entityDef = entityDef;
-    }
+    @Autowired
+    private ResourceHelper resourceHelper;
 
     /**
      * Read the contents of the custom resource for the given entity.
@@ -52,8 +55,12 @@ public class CustomEntityResource {
      * @return the response to the GET request
      */
     @GET
-    @Path("/")
-    public Response read() {
+    public Response read(@Context final UriInfo uriInfo,
+                         @PathParam("id") final String entityId) {
+
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
+        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -72,8 +79,13 @@ public class CustomEntityResource {
      * @return the response to the PUT request
      */
     @PUT
-    @Path("/")
-    public Response createOrUpdatePut(EntityBody customEntity) {
+    public Response createOrUpdatePut(@Context final UriInfo uriInfo,
+                                      @PathParam("id") final String entityId,
+                                      final EntityBody customEntity) {
+
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
+        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -89,8 +101,13 @@ public class CustomEntityResource {
      * @return the response to the POST request
      */
     @POST
-    @Path("/")
-    public Response createOrUpdatePost(EntityBody customEntity, @Context UriInfo uriInfo) {
+    public Response createOrUpdatePost(final EntityBody customEntity,
+                                       @Context final UriInfo uriInfo,
+                                       @PathParam("id") final String entityId) {
+
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
+        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -104,11 +121,15 @@ public class CustomEntityResource {
     /**
      * Remove the custom resource for the given entity.
      *
-     * @return the response tot he DELETE request
+     * @return the response to the DELETE request
      */
     @DELETE
-    @Path("/")
-    public Response delete() {
+    public Response delete(@Context final UriInfo uriInfo,
+                           @PathParam("id") final String entityId) {
+
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
+        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
+
         if (entityDef == null) {
             return Response.status(Status.NOT_FOUND).build();
         }

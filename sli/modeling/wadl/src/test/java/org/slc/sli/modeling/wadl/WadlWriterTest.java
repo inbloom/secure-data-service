@@ -143,7 +143,7 @@ public class WadlWriterTest {
 
         //create a resource
         Resource resource = new Resource(RESOURCE_ID, new ArrayList<String>(0), QUERY_TYPE, RESOURCE_PATH, EMPTY_DOCS,
-                EMPTY_PARAMS, methods, EMPTY_RESOURCES);
+                EMPTY_PARAMS, methods, EMPTY_RESOURCES, "MyClass");
 
         // create sample Resources
         List<Resource> resourceList = new ArrayList<Resource>(1);

@@ -120,6 +120,7 @@ public final class XmiWriter {
         writeId(end, xsw);
         xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), end.getName());
         xsw.writeAttribute(XmiAttributeName.IS_NAVIGABLE.getLocalName(), Boolean.toString(end.isNavigable()));
+        xsw.writeAttribute(XmiAttributeName.ASSOCIATED_ATTRIBUTE_NAME.getLocalName(),end.getAssociatedAttributeName());
         writeModelElementTaggedValues(end, mapper, xsw);
         xsw.writeStartElement(PREFIX_UML, XmiElementName.ASSOCIATION_END_DOT_MULTIPLICITY.getLocalName(), NAMESPACE_UML);
         writeMultiplicity(end.getMultiplicity(), xsw);

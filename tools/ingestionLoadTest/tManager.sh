@@ -1,9 +1,9 @@
 
-
-#./tManager.sh -z "/ingestion/lz/inbound/" -t 10 -i LTEST -c -s UNKNOWN-NOTUSED
+#Make sure all FS Paths end with a /
+#./tManager.sh -z "/ingestion/lz/inbound/" -t 10 -i LTEST -c -s UNKNOWN-NOTUSED #Create 10 LZs
 #./tManager.sh -i '.' -d                                   #Delete ALL tenants
-#./tManager.sh -i LTEST -d                                 #Delete the 20 tenants that were created above
-#./tManager.sh -z "c:\\Users\\ldalgado\\Desktop\\scripts\\loadTests\\" -t 20  -i LTEST -f MediumSampleDataSet.zip
+#./tManager.sh -i LTEST -d                                 #Delete the 10 tenants that were created above
+#./tManager.sh -z "/ingestion/lz/inbound/" -t 10  -i LTEST -f MediumSampleDataSet.zip #Copy files to LZs
 
 host='localhost'
 tenants=0
