@@ -597,7 +597,6 @@ db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1}
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sectionSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sessionCourseAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});

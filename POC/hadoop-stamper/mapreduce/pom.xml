@@ -7,7 +7,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.slc.sli.aggregation</groupId>
+  <groupId>org.slc.sli.stamper</groupId>
   <artifactId>mapreduce</artifactId>
   <packaging>jar</packaging>
 
