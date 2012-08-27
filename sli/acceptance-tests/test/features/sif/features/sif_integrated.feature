@@ -152,7 +152,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Add a StudentSchoolEnrollment
-Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
+Given the data store is "data_StudentSchoolEnrollment"
+And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -171,7 +172,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
 
 Scenario: Update a StudentSchoolEnrollment
-Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
+Given the data store is "data_StudentSchoolEnrollment"
+And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:

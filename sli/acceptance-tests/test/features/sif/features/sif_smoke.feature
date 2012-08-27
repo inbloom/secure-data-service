@@ -20,7 +20,7 @@ Given the data store is "data_StudentPersonal"
 And I POST a(n) "sifEvent_StudentPersonal_add" SIF message to the ZIS
 Given the data store is "data_StudentLEARelationship"
 And I POST a(n) "sifEvent_StudentLEARelationship_add" SIF message to the ZIS
-Given the data store is "data_integrated"
+Given the data store is "data_StudentSchoolEnrollment"
 And I POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
