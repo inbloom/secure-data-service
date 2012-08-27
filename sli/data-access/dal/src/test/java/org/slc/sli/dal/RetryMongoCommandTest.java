@@ -25,6 +25,7 @@ import com.mongodb.MongoException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -140,7 +141,8 @@ public class RetryMongoCommandTest {
 
     public Entity create(final Entity record, final String collectionName) {
         count++;
-        throw new MongoException(MONGO_DUPLICATE_KEY_CODE_1, "Duplicate key");
+        MongoException me = Mockito.mock(MongoException.DuplicateKey.class);
+        throw me;
     }
 
     private Entity createWithRetries(final Entity record, final String collectionName, int retries) throws Exception {

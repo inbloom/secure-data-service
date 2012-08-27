@@ -51,73 +51,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="Account">
-        <xs:annotation>
-            <xs:documentation>This financial entity represents a funding source combined with its purpose and type of
-                transaction. It provides a formal record of the debits and credits relating to the specific account.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="AccountNumber" type="AccountNumber">
-                        <xs:annotation>
-                            <xs:documentation>The alpha-numeric string that identifies the account.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AccountCodes" type="AccountCodeDescriptorReferenceType" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The set of account codes defined for the education accounting system
-                                organized by account code type (e.g., fund, function, object, etc.) that map to the
-                                account.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="FiscalYear" type="xs:int">
-                        <xs:annotation>
-                            <xs:documentation>The financial accounting year.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType"
-                                minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>This association denotes the Education Organization with which the
-                                account, its budget, transactions, and actuals are associated.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="Actual">
-        <xs:annotation>
-            <xs:documentation>This financial entity represents the sum of the financial transactions to date relating to
-                a specific account.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="AmountToDate" type="Currency">
-                        <xs:annotation>
-                            <xs:documentation>Current balance for the account.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AsOfDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>The date of the reported actual element.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AccountReference" type="AccountReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>Account with which the Actual is associated.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="Assessment">
         <xs:annotation>
             <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic
@@ -501,81 +434,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="BellSchedule">
-        <xs:annotation>
-            <xs:documentation>This entity represents the schedule of class period meeting times.</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="BellScheduleName" type="BellScheduleName">
-                        <xs:annotation>
-                            <xs:documentation>Name or title of the bell schedule.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="GradeLevels" type="DescriptorReferenceType" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The grade levels the particular bell schedule applies to.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="WeeksInCycle" type="WeeksInCycle">
-                        <xs:annotation>
-                            <xs:documentation>The number of weeks in which the meeting time schedules repeat.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="SessionReference" type="SessionReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The session associated with the session.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="MeetingTimeReference" type="MeetingTimeReferenceType" minOccurs="0"
-                                maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The meeting times for class periods associated with the bell schedule.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="CalendarDateReference" type="CalendarDateReferenceType" minOccurs="0"
-                                maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>The calendar dates when the bell schedule was implemented.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="Budget">
-        <xs:annotation>
-            <xs:documentation>This financial entity represents the amount of monies allocated to be spent or received by
-                an education organization as related to a specific account.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="Amount" type="Currency">
-                        <xs:annotation>
-                            <xs:documentation>Amount budgeted for the account for this fiscal year.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AsOfDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>The date of the reported budget element.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AccountReference" type="AccountReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>Account with which the Budget is associated.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="CalendarDate">
         <xs:annotation>
             <xs:documentation>This entity represents a day in the school calendar.</xs:documentation>
@@ -634,7 +492,8 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="Cohort">
+    ENDTODO -->
+    <xs:complexType name="SLI-Cohort">
         <xs:annotation>
             <xs:documentation>This entity represents any type of list of designated students for tracking, analysis, or
                 intervention.
@@ -671,16 +530,28 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+                    <xs:element name="SLI-educationOrgId" type="IdentificationCode">
                         <xs:annotation>
                             <xs:documentation>The education organization associated with and owner of the cohort.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ProgramReference" type="ProgramReferenceType" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="SLI-programIds" type="SLI-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The (optional) program associated with this cohort (e.g., special
                                 education)
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-StaffAssociations" type="SLI-StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Staff associated with the cohort.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SLI-StudentAssociations" type="SLI-StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Students associated with the cohort.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -688,6 +559,85 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="SLI-ProgramReferenceType">
+        <!-- TODO determine program reference required for SLI -->
+        <xs:annotation>
+            <xs:documentation>Provides alternative references for programs. Use XML IDREF to reference a program record
+                that is included in the interchange
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType">
+                <xs:sequence>
+                    <xs:element name="ProgramIdentity" type="ProgramIdentityType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Provide user information to lookup and link to an existing program record
+                                in the receiving system
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SLI-StaffCohortAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the staff associated with a cohort of students.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-StaffIds" type="UniqueStateIdentifier" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The staff associated with the cohort of students.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether the staff has access to the student records of the cohort per
+                        district interpretation of FERPA and other privacy laws, regulations and policies.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SLI-StudentCohortAssociation">
+        <xs:annotation>
+            <xs:documentation>This association represents the cohort(s) that a student is designated for.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-StudentId" type="UniqueStateIdentifier">
+                <xs:annotation>
+                    <xs:documentation>The student associated with the cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student was first identified as part of the
+                        cohort.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student was removed as part of the cohort.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- TODO
     <xs:complexType name="ContractedStaff">
         <xs:annotation>
             <xs:documentation>This financial entity represents the sum of the financial transactions to date for
@@ -1741,56 +1691,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="LeaveEvent">
-        <xs:annotation>
-            <xs:documentation>This event entity represents the recording of the dates of staff leave (e.g., sick leave,
-                personal time, vacation, etc.).
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="EventDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>Date for this leave event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LeaveEventCategory" type="LeaveEventCategoryType">
-                        <xs:annotation>
-                            <xs:documentation>The code describing the type of leave taken, for example:
-                                Sick
-                                Personal
-                                Vacation
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LeaveEventReason" type="LeaveEventReason" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Expanded reason for the staff leave.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="HoursOnLeave" type="xs:decimal" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The hours the staff was absent, if not the entire working day.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="SubstituteAssigned" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of whether a substitute was assigned during the period of staff
-                                leave.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StaffReference" type="StaffReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The staff associated with this leave event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="LocalEducationAgency">
         <xs:annotation>
             <xs:documentation>This entity represents an administrative unit at the local level which exists primarily to
@@ -1865,60 +1765,6 @@
                     <xs:element name="OptimalNumberOfSeats" type="xs:int" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>The number of seats that is most favorable to the class.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="MeetingTime">
-        <xs:annotation>
-            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period
-                for a bell schedule.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="ClassPeriodReference" type="ClassPeriodReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The class period associated with the meeting time for a bell schedule.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="WeekNumber" type="WeekNumber">
-                        <xs:annotation>
-                            <xs:documentation>The week number (out of the number of weeks in the cycle) for this meeting
-                                time.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="MeetingDays" type="MeetingDaysType">
-                        <xs:annotation>
-                            <xs:documentation>The day(s) of the week (e.g., Monday, Wednesday) that the class meets.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StartTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EndTime" type="xs:time">
-                        <xs:annotation>
-                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of whether this meeting time is used for official daily
-                                attendance.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -2157,43 +2003,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="Payroll">
-        <xs:annotation>
-            <xs:documentation>This financial entity represents the sum of the financial transactions to date for
-                employee compensation. An "employee" who performs services under the direction of the employing
-                institution or agency, is compensated for such services by the employer, and is eligible for employee
-                benefits and wage or salary tax withholdings.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="AmountToDate" type="Currency">
-                        <xs:annotation>
-                            <xs:documentation>Current balance (amount paid to employee) for account for the fiscal
-                                year.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AsOfDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>The date of the reported payroll element.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AccountReference" type="AccountReferenceType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Account with which the Payroll expense is associated.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StaffReference" type="StaffReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>Staff member associated with the Payroll expense.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="Person">
         <xs:annotation>
             <xs:documentation>This general entity represents a person and is specialized into one or more of
@@ -2254,7 +2063,8 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="Program">
+    ENDTODO -->
+    <xs:complexType name="SLI-Program">
         <xs:annotation>
             <xs:documentation>This entity represents any program designed to work in conjunction with or to supplement
                 the main academic program. Programs may provide instruction, training, services or benefits through
@@ -2263,34 +2073,17 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
+            <xs:extension base="Program">
                 <xs:sequence>
-                    <xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+                    <xs:element name="SLI-staffAssociations" type="SLI-StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>A unique number or alphanumeric code assigned to a program by a school,
-                                school system, a state, or other agency or entity.
+                            <xs:documentation>Staff associated with the program.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="ProgramType" type="ProgramType">
+                    <xs:element name="SLI-studentAssociations" type="SLI-StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
-                            <xs:documentation>The formal name of the program of instruction, training, services or
-                                benefits available through federal, state, or local agencies.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Ultimate and intermediate providers of funds for a particular educational
-                                or service program or activity or for an individual's participation in the program or
-                                activity; e.g., Federal, State, ESC, District, School, Private Org, etc.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0"
-                                maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>Defines the services provided by this program to students.
+                            <xs:documentation>Students associated with the program.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -2298,6 +2091,84 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:complexType name="SLI-StaffProgramAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-StaffIds" type="StaffIdentificationCode" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The staff associated with the program.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether the staff has access to the student records of the program
+                        per district interpretation of FERPA and other privacy laws, regulations and policies.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SLI-StudentProgramAssociation">
+        <xs:annotation>
+            <xs:documentation>This association represents the program(s) that a student participates in or is served
+                by.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-studentId" type="StudentReferenceType">
+                <xs:annotation>
+                    <xs:documentation>The student associated with the program.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Indicates the services being provided to the student by the program.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BeginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student first received services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The month, day, and year on which the student exited the program or stopped
+                        receiving services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ReasonExited" type="DescriptorReferenceType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The reason the child left the program within a school or district.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SLI-educationOrganizationId" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>The education organization where the student is participating in or receiving the
+                        program services.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- TODO specialEdStudentProgramAssociationAttributes -->
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- TODO
     <xs:complexType name="ReportCard">
         <xs:annotation>
             <xs:documentation>This educational entity represents the collection of student grades for courses taken
@@ -2812,7 +2683,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="SLI-StaffUniqueStateId" type="StaffIdentificationCode">
+            <xs:element name="SLI-StaffId" type="StaffIdentificationCode">
                 <xs:annotation>
                     <xs:documentation>The teacher assigned to the section.</xs:documentation>
                 </xs:annotation>
@@ -3674,35 +3545,6 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
-       <xs:complexType name="AccountCodeDescriptor">
-           <xs:annotation>
-               <xs:documentation>This descriptor holds the set of account codes defined for the education accounting system
-                   organized by account code type (e.g., fund, function, object, etc.)
-               </xs:documentation>
-           </xs:annotation>
-           <xs:complexContent>
-               <xs:extension base="DescriptorType">
-                   <xs:sequence>
-                       <xs:element name="AccountCodeType" type="AccountCodeType">
-                           <xs:annotation>
-                               <xs:documentation>The type of the account code (e.g., fund, function, object)
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="BeginDate" type="xs:date" minOccurs="0">
-                           <xs:annotation>
-                               <xs:documentation>The first date the account code is valid.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                           <xs:annotation>
-                               <xs:documentation>The last date the account code is valid.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                   </xs:sequence>
-               </xs:extension>
-           </xs:complexContent>
-       </xs:complexType>
        <xs:complexType name="AssessmentPeriodDescriptor">
            <xs:annotation>
                <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be
@@ -4132,41 +3974,6 @@
                </xs:element>
            </xs:sequence>
        </xs:complexType>
-       <xs:complexType name="StaffCohortAssociation">
-           <xs:annotation>
-               <xs:documentation>This association indicates the staff associated with a cohort of students.
-               </xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The staff associated with the cohort of students.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="CohortReference" type="CohortReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>Indicator of whether the staff has access to the student records of the cohort per
-                           district interpretation of FERPA and other privacy laws, regulations and policies.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
        <xs:complexType name="SLI-StaffEducationOrgAssignmentAssociation">
            <xs:annotation>
                <xs:documentation>This association indicates the education organization to which a staff member provides
@@ -4279,78 +4086,6 @@
                <xs:element name="OfferDate" type="xs:date" minOccurs="0">
                    <xs:annotation>
                        <xs:documentation>Date at which the staff member was made an official offer for this employment.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
-       <xs:complexType name="StaffProgramAssociation">
-           <xs:annotation>
-               <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The staff associated with the program.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The program associated to the staff.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>Start date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>End date for the association of staff to this cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>Indicator of whether the staff has access to the student records of the program
-                           per district interpretation of FERPA and other privacy laws, regulations and policies.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
-       <xs:complexType name="StudentCohortAssociation">
-           <xs:annotation>
-               <xs:documentation>This association represents the cohort(s) that a student is designated for.
-               </xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StudentReference" type="StudentReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The student associated with the cohort.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="CohortReference" type="CohortReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>Reference to the cohort associated with the student.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student was first identified as part of the
-                           cohort.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student was removed as part of the cohort.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>The cohort representing the subdivision of students within one or more sections.
-                           For example, a group of students may be given additional instruction and tracked as a cohort.
                        </xs:documentation>
                    </xs:annotation>
                </xs:element>
@@ -4471,57 +4206,6 @@
                    <xs:annotation>
                        <xs:documentation>Restrictions for student and/or teacher contact with the individual (e.g., the
                            student may not be picked up by the individual)
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-           </xs:sequence>
-       </xs:complexType>
-       <xs:complexType name="StudentProgramAssociation">
-           <xs:annotation>
-               <xs:documentation>This association represents the program(s) that a student participates in or is served
-                   by.
-               </xs:documentation>
-           </xs:annotation>
-           <xs:sequence>
-               <xs:element name="StudentReference" type="StudentReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The student associated with the program.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ProgramReference" type="ProgramReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The program associated with the student.</xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
-                   <xs:annotation>
-                       <xs:documentation>Indicates the services being provided to the student by the program.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="BeginDate" type="xs:date">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student first received services.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>The month, day, and year on which the student exited the program or stopped
-                           receiving services.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="ReasonExited" type="DescriptorReferenceType" minOccurs="0">
-                   <xs:annotation>
-                       <xs:documentation>The reason the child left the program within a school or district.
-                       </xs:documentation>
-                   </xs:annotation>
-               </xs:element>
-               <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
-                   <xs:annotation>
-                       <xs:documentation>The education organization where the student is participating in or receiving the
-                           program services.
                        </xs:documentation>
                    </xs:annotation>
                </xs:element>
@@ -4987,53 +4671,6 @@
                     </xs:element>
                 </xs:sequence>
             </xs:choice>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AccountReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for finance accounts during interchange. Use XML IDREF to
-                reference a course record that is included in the interchange
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="AccountIdentity" type="AccountIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Provide user information to lookup and link to an existing account record
-                                in the receiving system.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="AccountIdentityType">
-        <xs:annotation>
-            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of
-                accounts.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="AccountNumber" type="AccountNumber">
-                <xs:annotation>
-                    <xs:documentation>The alpha-numeric string that identifies the account.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="FiscalYear" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>The financial accounting year.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType"
-                        maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Provide user information to lookup and link to an existing educational
-                        organization record in the receiving system
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="AssessmentReferenceType">
@@ -5977,77 +5614,6 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="MeetingTimeReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for meeting times. Use XML IDREF to reference a record
-                that is included in the interchange. Use the identity type to lookup a record that was loaded
-                previously.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="MeetingTimeIdentity" type="MeetingTimeIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The identity for the meeting time.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="MeetingTimeIdentityType">
-        <xs:annotation>
-            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity the meeting
-                time.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
-                <xs:annotation>
-                    <xs:documentation>Provide user information to lookup and link to an existing educational
-                        organization record in the receiving system.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="ClassPeriodName" type="ClassPeriodNameType">
-                <xs:annotation>
-                    <xs:documentation>An indication of the portion of a typical daily session in which students receive
-                        instruction in a specified subject (e.g., morning, sixth period, block period, or AB schedules).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="WeekNumber" type="WeekNumber">
-                <xs:annotation>
-                    <xs:documentation>The week number (out of the number of weeks in the cycle) for this meeting time.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:choice>
-                <xs:element name="AlternateDayName" type="AlternateDayName">
-                    <xs:annotation>
-                        <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="MeetingDays" type="MeetingDaysType">
-                    <xs:annotation>
-                        <xs:documentation>The day(s) of the week (e.g., Monday, Wednesday) that the class meets.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:choice>
-            <xs:element name="StartTime" type="xs:time">
-                <xs:annotation>
-                    <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="EndTime" type="xs:time">
-                <xs:annotation>
-                    <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="ObjectiveAssessmentReferenceType">
         <xs:annotation>
             <xs:documentation>Provides alternative references for objective assessments during interchange. Use XML
@@ -6163,26 +5729,6 @@
                 </xs:element>
             </xs:sequence>
         </xs:choice>
-    </xs:complexType>
-    <xs:complexType name="ProgramReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for programs. Use XML IDREF to reference a program record
-                that is included in the interchange
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="ProgramIdentity" type="ProgramIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Provide user information to lookup and link to an existing program record
-                                in the receiving system
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="ProgramIdentityType">
         <xs:annotation>
@@ -6927,26 +6473,6 @@
     <xs:annotation>
         <xs:documentation>===== Extended Descriptor Reference Types =====</xs:documentation>
     </xs:annotation>
-    <xs:complexType name="AccountCodeDescriptorReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides references for account code descriptors during interchange. Use XML IDREF to
-                reference a record that is included in the interchange. To lookup when already loaded, specify either
-                CodeValue OR Description OR ShortDescription plus the account code type (fund, function, etc.).
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="DescriptorReferenceType">
-                <xs:sequence>
-                    <xs:element name="AccountCodeType" type="AccountCodeType">
-                        <xs:annotation>
-                            <xs:documentation>The type of the account code (e.g., fund, function, object)
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="PerformanceLevelDescriptorReferenceType">
         <xs:annotation>
             <xs:documentation>Provides references for performance level descriptors during interchange. Use XML IDREF to
@@ -6985,246 +6511,9 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:annotation>
-        <xs:documentation>===== Common Types =====</xs:documentation>
-    </xs:annotation>
-    <xs:complexType name="AcademicHonor">
-        <xs:annotation>
-            <xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="AcademicHonorsType" type="AcademicHonorsType">
-                <xs:annotation>
-                    <xs:documentation>A designation of the type of academic distinctions earned by or awarded to the
-                        student.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="HonorsDescription" type="HonorsDescription" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>A description of the type of academic distinctions earned by or awarded to the
-                        individual.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="HonorAwardDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The date the honor was awarded or earned.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AccountabilityRating">
-        <xs:annotation>
-            <xs:documentation>An accountability rating for a school or district.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="RatingTitle" type="RatingTitleType">
-                <xs:annotation>
-                    <xs:documentation>The title of the rating (e.g., School Rating, Safety Score, etc.)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Rating" type="Rating">
-                <xs:annotation>
-                    <xs:documentation>An accountability rating level, designation, or assessment.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="RatingDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The date the rating was awarded.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="SchoolYear" type="SchoolYearType">
-                <xs:annotation>
-                    <xs:documentation>The school year for which the accountability rating is assessed.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="RatingOrganization" type="RatingOrganization" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The organization that assessed the rating.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="RatingProgram" type="RatingProgramType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The program associated with the accountability rating (e.g., NCLB, AEIS)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AdditionalCredits">
-        <xs:annotation>
-            <xs:documentation>Additional credits or units of value awarded for the completion of a course (e.g., AP, IB,
-                Dual credits)
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Credit" type="Credit">
-                <xs:annotation>
-                    <xs:documentation>The value of credits or units of value awarded for the completion of a course
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="AdditionalCreditType" type="AdditionalCreditType" use="required">
-            <xs:annotation>
-                <xs:documentation>The type of credits or units of value awarded for the completion of a course
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="Address">
-        <xs:annotation>
-            <xs:documentation>The set of elements that describes an address, including the street address, city, state,
-                and ZIP code.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:choice>
-                <xs:sequence>
-                    <xs:annotation>
-                        <xs:documentation>US Address</xs:documentation>
-                    </xs:annotation>
-                    <xs:element name="StreetNumberName" type="StreetNumberName">
-                        <xs:annotation>
-                            <xs:documentation>The street number and street name or post office box number of an
-                                address.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The apartment, room, or suite number of an address.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="BuildingSiteNumber" type="BuildingSiteNumber" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The number of the building on the site, if more than one building shares
-                                the same address.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="City" type="City">
-                        <xs:annotation>
-                            <xs:documentation>The name of the city in which an address is located.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StateAbbreviation" type="StateAbbreviationType">
-                        <xs:annotation>
-                            <xs:documentation>The abbreviation for the state (within the United States) or outlying area
-                                in which an address is located.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="PostalCode" type="PostalCode">
-                        <xs:annotation>
-                            <xs:documentation>The five or nine digit zip code or overseas postal code portion of an
-                                address.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="NameOfCounty" type="NameOfCounty" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The name of the county, parish, borough, or comparable unit (within a
-                                state) in which an address is located.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="CountyFIPSCode" type="CountyFIPSCode" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The Federal Information Processing Standards (FIPS) numeric code for the
-                                county issued by the National Institute of Standards and Technology (NIST). Counties are
-                                considered to be the "first-order subdivisions" of each State and statistically
-                                equivalent entity, regardless of their local designations (county, parish, borough,
-                                etc.). Counties in different States will have the same code. A unique county number is
-                                created when combined with the 2-digit FIPS State Code
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-                <xs:sequence>
-                    <xs:annotation>
-                        <xs:documentation>International Address</xs:documentation>
-                    </xs:annotation>
-                    <xs:element name="AddressLine" type="AddressLine" maxOccurs="unbounded">
-                        <xs:annotation>
-                            <xs:documentation>Any number of address lines associated with an international address.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="Country" type="CountryType">
-                        <xs:annotation>
-                            <xs:documentation>The name of the country per the International Organization for
-                                Standardization (ISO) 3166.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:choice>
-            <xs:element name="Latitude" type="Coordinate" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The geographic latitude of the physical address.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Longitude" type="Coordinate" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The geographic longitude of the physical address.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="BeginDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The first date the address is valid. For physical addresses, the date the person
-                        moved to that address.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="EndDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The last date the address is valid. For physical addresses, this would be the date
-                        the person moved from that address.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="AddressType" type="AddressType" use="optional">
-            <xs:annotation>
-                <xs:documentation>The type of address listed for an individual or organization.
-                    For example: Physical Address, Mailing Address, Home Address, etc.)
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="AssessmentIdentificationCode">
-        <xs:annotation>
-            <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system,
-                a state, or other agency or entity.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="ID" type="IdentificationCode">
-                <xs:annotation>
-                    <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school
-                        system, a state, or other agency or entity.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="IdentificationSystem" type="AssessmentIdentificationSystemType" use="required">
-            <xs:annotation>
-                <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by
-                    schools, social services, or other agencies to refer to an assessment.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
-            <xs:annotation>
-                <xs:documentation>The organization code or name assigning the assessment identification code.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
+    ENDTODO -->
+
+    <!-- TODO converge AssessmentPerformanceLevel.PerformanceLevel with SLI assessmentPerformanceLevel.performanceLevelDescriptor
     <xs:complexType name="AssessmentPerformanceLevel">
         <xs:annotation>
             <xs:documentation>Definition of the performance levels and the associated cut scores. Three styles are
@@ -7262,275 +6551,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="BirthData">
-        <xs:annotation>
-            <xs:documentation>The set of elements that capture relevant data regarding a person's birth, including birth
-                date and place of birth.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="BirthDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>The month, day, and year on which an individual was born.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CityOfBirth" type="City" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The city the student was born in.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="StateOfBirthAbbreviation" type="StateAbbreviationType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The abbreviation for the name of the state (within the United States) or
-                        extra-state jurisdiction in which an individual was born.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CountryOfBirthCode" type="CountryCodeType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The unique two digit International Organization for Standardization (ISO) code for
-                        the country in which an individual is born.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="DateEnteredUS" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>For students born outside of the US, the date the student entered the US.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="MultipleBirthStatus" type="xs:boolean" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Indicator of whether the student was born with other siblings (i.e., twins,
-                        triplets, etc.)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="ClassRanking">
-        <xs:annotation>
-            <xs:documentation>The academic rank information of a student in relation to his or her graduating class
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="ClassRank" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>The academic rank of a student in relation to his or her graduating class (e.g.,
-                        1st, 2nd, 3rd).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="TotalNumberInClass" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>The total number of students in the student's graduating class.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="PercentageRanking" type="xs:int" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The academic percentage rank of a student in relation to his or her graduating
-                        class (e.g., 95%, 80%, 50%).
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="ClassRankingDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Date class ranking was determined.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="CohortYear">
-        <xs:annotation>
-            <xs:documentation>The type and year of a cohort (e.g., 9th grade) the student belongs to.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SchoolYear" type="SchoolYearType">
-                <xs:annotation>
-                    <xs:documentation>The value of the school year for the cohort.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="CohortYearType" use="required">
-            <xs:annotation>
-                <xs:documentation>The type of cohort year (9th grade, graduation)</xs:documentation>
-            </xs:annotation>
-            <xs:simpleType>
-                <xs:restriction base="CohortYearType"/>
-            </xs:simpleType>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="CourseCode">
-        <xs:annotation>
-            <xs:documentation>A standard code that identifies the organization of subject matter and related learning
-                experiences provided for the instruction of students.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="ID" type="IdentificationCode">
-                <xs:annotation>
-                    <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school
-                        system, a state, or other agency or entity. For multi-part course codes, concatenate the parts
-                        separated by a "/". For example, consider the following SCED code:
-                        subject = 20 Math
-                        course = 272 Geometry
-                        level = G General
-                        credits = 1.00
-                        course sequence 1 of 1
-                        would be entered as 20/272/G/1.00/1 of 1
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="IdentificationSystem" type="CourseCodeSystemType" use="required">
-            <xs:annotation>
-                <xs:documentation>A system that is used to identify the organization of subject matter and related
-                    learning experiences provided for the instruction of students.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="AssigningOrganizationCode" type="IdentificationCode" use="optional">
-            <xs:annotation>
-                <xs:documentation>The organization code or name assigning the staff Identification Code.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="Credential">
-        <xs:annotation>
-            <xs:documentation>The legal document or authorization giving authorization to perform teaching assignment
-                services.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="CredentialType" type="CredentialType">
-                <xs:annotation>
-                    <xs:documentation>An indication of the category of credential an individual holds.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CredentialField" type="DescriptorReferenceType">
-                <xs:annotation>
-                    <xs:documentation>The field of certification for the certificate (e.g., Mathematics, Music)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Level" type="LevelType">
-                <xs:annotation>
-                    <xs:documentation>The grade level(s) certified for teaching.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="TeachingCredentialType" type="TeachingCredentialType">
-                <xs:annotation>
-                    <xs:documentation>An indication of the category of a legal document giving authorization to perform
-                        teaching assignment services.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CredentialIssuanceDate" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>The month, day, and year on which an active credential was issued to an
-                        individual.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="CredentialExpirationDate" type="xs:date" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The month, day, and year on which an active credential held by an individual will
-                        expire.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="TeachingCredentialBasis" type="TeachingCredentialBasisType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>An indication of the pre-determined criteria for granting the teaching credential
-                        that an individual holds.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Credits">
-        <xs:annotation>
-            <xs:documentation>Credits or units of value awarded for the completion of a course</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="Credit" type="Credit">
-                <xs:annotation>
-                    <xs:documentation>The value of credits or units of value awarded for the completion of a course
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="CreditType" type="CreditType" use="optional">
-            <xs:annotation>
-                <xs:documentation>The type of credits or units of value awarded for the completion of a course
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="CreditConversion" type="xs:decimal" use="optional">
-            <xs:annotation>
-                <xs:documentation>Conversion factor that when multiplied by the number of credits is equivalent to
-                    Carnegie units.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-    <xs:complexType name="CreditsByCourse">
-        <xs:annotation>
-            <xs:documentation>The total credits required to graduation by taking a specific course, or by taking one or
-                more from a set of courses.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>The code that identifies the organization of subject matter and related learning
-                        experiences provided for the instruction of students.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Credits" type="Credits">
-                <xs:annotation>
-                    <xs:documentation>The value of credits or units of value awarded for the completion of a course.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="GradeLevel" type="DescriptorReferenceType" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>The grade level when the student is planned to take the course.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="CreditsBySubject">
-        <xs:annotation>
-            <xs:documentation>The total credits required in subject to graduate. Only those courses identified as a high
-                school course requirement are eligible to meet subject credit requirements.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SubjectArea" type="DescriptorReferenceType">
-                <xs:annotation>
-                    <xs:documentation>The intended major subject area of the graduation requirement.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="Credits" type="Credits">
-                <xs:annotation>
-                    <xs:documentation>The value of credits or units of value awarded for the completion of a course.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
-
-
-
-
-
-
-
+    ENDTODO -->
 
     <xs:complexType name="SLI-ServiceProvider">
         <xs:annotation>
@@ -7545,5 +6566,4 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-    ENDTODO -->
 </xs:schema>

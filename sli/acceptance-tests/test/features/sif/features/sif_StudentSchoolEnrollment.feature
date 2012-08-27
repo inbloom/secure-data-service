@@ -10,7 +10,9 @@ Given the following collections are clean and bootstrapped in datastore:
      | educationOrganization    |
      | studentSchoolAssociation |
      | student                  |
+     | custom_entities          |
 And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
+And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
 And I wait for "10" seconds
@@ -48,7 +50,9 @@ Given the following collections are clean and bootstrapped in datastore:
      | educationOrganization    |
      | studentSchoolAssociation |
      | student                  |
+     | custom_entities          |
 And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
+And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS

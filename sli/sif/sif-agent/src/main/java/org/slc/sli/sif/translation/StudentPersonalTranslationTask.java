@@ -26,7 +26,6 @@ import openadk.library.common.LanguageType;
 import openadk.library.student.MostRecent;
 import openadk.library.student.StudentPersonal;
 
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
@@ -87,16 +86,12 @@ public class StudentPersonalTranslationTask extends AbstractTranslationTask<Stud
     @Autowired
     AddressListConverter addressListConverter;
 
-    @Mock
-    PhoneNumberListConverter mockPhoneNumberListConverter;
-
-
     public StudentPersonalTranslationTask() {
         super(StudentPersonal.class);
     }
 
     @Override
-    public List<StudentEntity> doTranslate(StudentPersonal sifData) {
+    public List<StudentEntity> doTranslate(StudentPersonal sifData, String zoneId) {
         StudentPersonal sp = sifData;
         MostRecent mostRecent = sp.getMostRecent();
         Demographics demographics = sp.getDemographics();

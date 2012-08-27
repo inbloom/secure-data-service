@@ -111,7 +111,7 @@ public class OnboardingResourceTest {
 
         // clear all related collections
         repo.deleteAll("educationOrganization");
-        
+
     }
 
     @After
@@ -126,6 +126,7 @@ public class OnboardingResourceTest {
         Map<String, String> requestBody = new HashMap<String, String>();
         requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg");
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+        requestBody.put(OnboardingResource.PRELOAD_FILES_ID, "small_sample_dataset");
 
         LandingZoneInfo landingZone = new LandingZoneInfo("LANDING ZONE", "INGESTION SERVER");
 

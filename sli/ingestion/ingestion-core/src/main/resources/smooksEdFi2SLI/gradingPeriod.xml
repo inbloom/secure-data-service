@@ -16,12 +16,7 @@
     <!-- Start GradingPeriod mapping -->
     <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'gradingPeriod'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="gradingPeriodMeta" />
         <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
-    </jb:bean>
-
-    <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes gradingPeriodId" />
     </jb:bean>
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"

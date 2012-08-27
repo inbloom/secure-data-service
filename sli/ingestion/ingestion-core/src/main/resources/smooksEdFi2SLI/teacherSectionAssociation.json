@@ -10,7 +10,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.uniqueSectionCode",
 		                "values" :
 		                [{
 			                "valueSource" : "body.sectionId"
@@ -30,7 +30,7 @@
                                               "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
-                                                    "valueSource" : "localParentIds.schoolId"
+                                                    "valueSource" : "body.schoolId"
                                                }]
                                           }
                                       ]
@@ -50,10 +50,10 @@
                                   [
                                       [
                                           {
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.sessionName",
                                               "values" :
                                                [{
-                                                    "valueSource" : "localParentIds.sessionId"
+                                                    "valueSource" : "body.sessionId"
                                                }]
                                           }
                                       ]
@@ -73,10 +73,10 @@
                                   [
                                       [
                                           {
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.courseTitle",
                                               "values" :
                                                [{
-                                                    "valueSource" : "localParentIds.courseId"
+                                                    "valueSource" : "body.courseId"
                                                }]
                                           }
                                       ]
@@ -97,7 +97,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.staffUniqueStateId",
 		                "values" :
 		                [{
 			                "valueSource" : "body.teacherId"

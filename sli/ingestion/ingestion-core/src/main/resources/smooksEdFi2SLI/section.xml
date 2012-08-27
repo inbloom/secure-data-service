@@ -15,12 +15,7 @@
 
   <jb:bean beanId="section" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'section'</jb:expression>
-    <jb:wiring property="metaData" beanIdRef="sectionMeta" />
     <jb:wiring property="body" beanIdRef="sectionBody" />
-  </jb:bean>
-
-  <jb:bean beanId="sectionMeta" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="externalId" data="attributes uniqueSectionCode" />
   </jb:bean>
 
   <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">

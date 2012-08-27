@@ -13,7 +13,7 @@
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.programId",
                             "values" :
                             [{
                                 "valueSource" : "body.programReference.programId"

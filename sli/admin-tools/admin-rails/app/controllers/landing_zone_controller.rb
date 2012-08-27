@@ -22,6 +22,7 @@ class LandingZoneController < ApplicationController
   rescue_from ProvisioningError, :with => :handle_error
   rescue_from KeyValidationError, :with => :handle_validation_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
+  rescue_from ActiveResource::BadRequest, :with => :handle_error
   
   def provision
     if (params[:cancel] == "Cancel")
@@ -57,7 +58,7 @@ class LandingZoneController < ApplicationController
        @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
        @landingzone[:preload] =sample_data_select
        else
-       @landingzone = LandingZone.provision ed_org_id, tenant, uid, @public_key
+       @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
        end
     end
   end

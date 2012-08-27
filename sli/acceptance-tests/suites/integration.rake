@@ -33,7 +33,7 @@ end
 
 desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
-  runTests("test/features/admintools/rc_accountRequest.feature")
+  runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
 end
 
 desc "Run RC Cleanup"

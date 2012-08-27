@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.translation;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -28,6 +27,7 @@ import openadk.library.student.StudentSchoolEnrollment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.converter.EntryTypeConverter;
 import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -57,29 +57,30 @@ public class StudentSchoolEnrollmentTranslationTask extends
     @Autowired
     ExitTypeConverter exitTypeConverter;
 
+    @Autowired
+    DateConverter dateConverter;
+
     public StudentSchoolEnrollmentTranslationTask() {
         super(StudentSchoolEnrollment.class);
     }
 
     @Override
-    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData) {
+    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData, String zoneId) {
         StudentSchoolEnrollment sse = sifData;
         StudentSchoolAssociationEntity result = new StudentSchoolAssociationEntity();
 
         String sifStudentRefId = sse.getStudentPersonalRefId();
-        String sliStudentGuid = sifIdResolver.getSliGuid(sifStudentRefId);
+        String sliStudentGuid = sifIdResolver.getSliGuid(sifStudentRefId, zoneId);
         result.setStudentId(sliStudentGuid);
         String sifSchoolRefId = sse.getSchoolInfoRefId();
-        String sliSchoolGuid = sifIdResolver.getSliGuid(sifSchoolRefId);
+        String sliSchoolGuid = sifIdResolver.getSliGuid(sifSchoolRefId, zoneId);
         result.setSchoolId(sliSchoolGuid);
 
         Integer schoolYear = sse.getSchoolYear();
         result.setSchoolYear(schoolYearConverter.convert(schoolYear));
         Calendar entryDate = sse.getEntryDate();
-        if (entryDate != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            result.setEntryDate(dateFormat.format(entryDate.getTime()));
-        }
+        result.setEntryDate(dateConverter.convert(entryDate));
+
         GradeLevel gradeLevel = sse.getGradeLevel();
         result.setEntryGradeLevel(gradeLevelsConverter.convert(gradeLevel));
 
@@ -87,10 +88,7 @@ public class StudentSchoolEnrollmentTranslationTask extends
         result.setEntryType(entryTypeConverter.convert(entryType));
 
         Calendar exitDate = sse.getExitDate();
-        if (exitDate != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            result.setExitWithdrawDate(dateFormat.format(exitDate.getTime()));
-        }
+        result.setExitWithdrawDate(dateConverter.convert(exitDate));
 
         ExitType exitType = sse.getExitType();
         result.setExitWithdrawType(exitTypeConverter.convert(exitType));

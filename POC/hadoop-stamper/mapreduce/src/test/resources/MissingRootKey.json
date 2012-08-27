@@ -1,0 +1,15 @@
+{ 
+  "description": "Sample JSON configuration with an unknown root key.",
+  "map_chan" : 
+  [{
+    "description" : "No no query",
+    "map_class" : "IDMapper",
+    "input_key_type" : "TenantAndIdEmittableKey",
+    "input_value_type" : "org.bson.BSONObject",
+    "input_key_field" : "body.assessmentId",
+    "read_from_secondaries" : true,
+    "fields" : "{ \"metaData.tenantId\" : 1, \"body.studentId\" : 1 }",
+    "output_key_type" : "TenantAndIdEmittableKey",
+    "output_value_type" : "org.bson.BSONObject"  
+  }] 
+}

@@ -9,7 +9,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.uniqueSectionCode",
 		                "values" :
 		                [{
 			                "valueSource" : "body.sectionId"
@@ -27,7 +27,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.studentUniqueStateId",
 		                "values" :
 		                [{
 			                "valueSource" : "body.studentId"
@@ -60,17 +60,17 @@
                     },
                     {
                         "path" : "body.sectionId" ,
-                        "values" : 
+                        "values" :
                         [{
                             "ref" :
-                            { 
+                            {
                                 "entityType" : "section" ,
                                 "choiceOfFields" :
                                 [
                                     [
                                         {
                                             "path" : "body.uniqueSectionCode" ,
-                                            "values" : 
+                                            "values" :
                                             [{
                                                 "valueSource" : "body.gradebookReference.uniqueSectionCode"
                                             }]

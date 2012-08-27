@@ -22,7 +22,7 @@ import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
-import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;

@@ -1,5 +1,6 @@
 {
   "body" : {
+    "parentEducationAgencyReference" : "${exists}",
     "schoolCategories" : [
       "High School"
     ],
@@ -14,12 +15,12 @@
     ],
     "address" : [
       {
-	"streetNumberName" : "1 IBM way",
-	"postalCode" : "84102",
-	"stateAbbreviation" : "IL",
-	"countryCode" : "US",
-	"addressType" : "Mailing",
-	"city" : "Salt Lake City"
+    "streetNumberName" : "1 IBM way",
+    "postalCode" : "84102",
+    "stateAbbreviation" : "IL",
+    "countryCode" : "US",
+    "addressType" : "Mailing",
+    "city" : "Salt Lake City"
       }
     ],
     "webSite" : "http://IL-DAYBREAK.edu",
@@ -28,12 +29,12 @@
     "operationalStatus" : "Closed",
     "telephone" : [
       {
-	"institutionTelephoneNumberType" : "Main",
-	"telephoneNumber" : "(312) 555-1234"
+    "institutionTelephoneNumberType" : "Main",
+    "telephoneNumber" : "(312) 555-1234"
       },
       {
-	"institutionTelephoneNumberType" : "Fax",
-	"telephoneNumber" : "(312) 555-2364"
+    "institutionTelephoneNumberType" : "Fax",
+    "telephoneNumber" : "(312) 555-2364"
       }
     ],
     "nameOfInstitution" : "UPDATED Daybreak West High"

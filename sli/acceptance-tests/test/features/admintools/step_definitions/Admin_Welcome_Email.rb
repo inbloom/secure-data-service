@@ -79,18 +79,22 @@ Then /^I get a welcome email of (.*?)$/ do |email_type|
   strings_included = []
   case email_type
     when "SLC Operator"
-      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:"]
+      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:",
+                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."]
     when "LEA or SEA only"
-      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:"]
+      strings_included = ["You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:",
+                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."]
     when "(LEA or SEA) and Realm Admin"
       strings_included = ["You can access several administrative features from the Admin page in upper right of SLC portal at:",
                           "* Admin Account Management - Use this feature to create new administrative accounts.",
-                          "* Realm Administration - Use this feature to create and manage realms for your education organization."
+                          "* Realm Administration - Use this feature to create and manage realms for your education organization.",
+                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."
       ]
     when "(LEA or SEA) and Ingestion"
       strings_included = ["You can access several administrative features from the Admin page in upper right of SLC portal at:",
                           "* Admin Account Management - Use this feature to create new administrative accounts.",
-                          "* Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization."
+                          "* Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.",
+                          "Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management."
       ]
     when "Realm Admin only"
       strings_included = ["You can access the Realm Administration feature from the Admin page in the right corner of SLC portal at:"]

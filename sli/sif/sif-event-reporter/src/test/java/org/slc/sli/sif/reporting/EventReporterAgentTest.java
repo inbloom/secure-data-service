@@ -30,14 +30,14 @@ import openadk.library.impl.Transport;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.EventReporterAdkTest;
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
 /**
  * JUnit tests for EventReporterAgent
  *
  */
-public class EventReporterAgentTest extends ADKTest {
+public class EventReporterAgentTest extends EventReporterAdkTest {
     private EventReporterAgent createEventReporterAgent(ZoneConfigurator zoneConfig) {
         Properties agentProperties = new Properties();
         agentProperties.put("adk.messaging.mode", "Push");

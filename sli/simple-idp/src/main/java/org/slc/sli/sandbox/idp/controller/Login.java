@@ -17,16 +17,16 @@
 
 package org.slc.sli.sandbox.idp.controller;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.LoggingUtils;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.sandbox.idp.service.AuthRequestService;
-import org.slc.sli.sandbox.idp.service.AuthenticationException;
-import org.slc.sli.sandbox.idp.service.RoleService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.UserService;
-import org.slc.sli.sandbox.idp.service.UserService.User;
+import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,15 +41,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.security.SecureRandom;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.UserService.User;
 
 
 /**
@@ -115,8 +116,8 @@ public class Login {
         }
 
         boolean isForgotPasswordVisible = false;
-        if ((realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName)) || realm == null ) {
-        	isForgotPasswordVisible = true;
+        if ((realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName)) || realm == null) {
+            isForgotPasswordVisible = true;
         }
 
         ModelAndView mav = new ModelAndView("login");
@@ -141,8 +142,8 @@ public class Login {
             @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String incomingRealm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
-            @RequestParam(value = "selected_roles", required = false) List<String> roles, 
-            @RequestParam(value = "isForgotPasswordVisible", required = false ) boolean isForgotPasswordVisible, 
+            @RequestParam(value = "selected_roles", required = false) List<String> roles,
+            @RequestParam(value = "isForgotPasswordVisible", required = false) boolean isForgotPasswordVisible,
             @RequestParam(value = "customRoles", required = false) String customRoles,
             HttpSession httpSession,
             HttpServletRequest request) {
@@ -157,30 +158,30 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
 
         User user;
-        try {            
+        try {
             user = userService.authenticate(realm, userId, password);
 
-            if(shouldForcePasswordChange(user, incomingRealm)){
+            if (shouldForcePasswordChange(user, incomingRealm)) {
 
-            	//create timestamp as part of resetKey for user
-            	Date date = new Date();
-            	Timestamp ts = new Timestamp(date.getTime());
+                //create timestamp as part of resetKey for user
+                Date date = new Date();
+                Timestamp ts = new Timestamp(date.getTime());
 
-            	SecureRandom sRandom = new SecureRandom();
-            	byte bytes[] = new byte[20];
-            	sRandom.nextBytes(bytes);
+                SecureRandom sRandom = new SecureRandom();
+                byte[] bytes = new byte[20];
+                sRandom.nextBytes(bytes);
 
-            	StringBuilder sb = new StringBuilder();
-            	for( byte bt : bytes ){ sb.append((char)bt); }
+                StringBuilder sb = new StringBuilder();
+                for (byte bt : bytes) { sb.append((char) bt); }
 
-            	String token = sb.toString() + user.getAttributes().get("mail");
+                String token = sb.toString() + user.getAttributes().get("mail");
 
-            	PasswordEncoder pe = new Md5PasswordEncoder();
-            	String hashedToken = pe.encodePassword(token, null);
+                PasswordEncoder pe = new Md5PasswordEncoder();
+                String hashedToken = pe.encodePassword(token, null);
 
-            	String resetKey = hashedToken +"@"+ts.getTime()/1000;
+                String resetKey = hashedToken + "@" + (ts.getTime() / 1000);
 
-            	userService.updateUser(realm, user, resetKey, password);
+                userService.updateUser(realm, user, resetKey, password);
                 ModelAndView mav = new ModelAndView("forcePasswordChange");
                 String resetUri = adminUrl + "/resetPassword";
                 mav.addObject("resetUri", resetUri);
@@ -228,7 +229,7 @@ public class Login {
         if (doImpersonation) {
             if (customRoles != null) {
                 List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
-                if(roles != null) {
+                if (roles != null) {
                     roles.addAll(customRolesList);
                 } else {
                     roles = customRolesList;
@@ -242,7 +243,7 @@ public class Login {
             mav.addObject("impersonate_user", impersonateUser);
             mav.addObject("roles", roleService.getAvailableRoles());
             mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
-            
+
             if (roles == null || roles.size() == 0) {
                 mav.addObject("msg", ROLE_SELECT_MESSAGE);
                 return mav;
@@ -259,24 +260,23 @@ public class Login {
             user.getAttributes().put("tenant", tenant);
         }
 
-        try{
-        	SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
-        			user.getAttributes(), requestInfo);
+        try {
+            SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                    user.getAttributes(), requestInfo);
 
-	        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
+            writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
 
-	        httpSession.setAttribute(USER_SESSION_KEY, user);
+            httpSession.setAttribute(USER_SESSION_KEY, user);
 
-	        ModelAndView mav = new ModelAndView("post");
-	        mav.addObject("samlAssertion", samlAssertion);
-	        return mav;
+            ModelAndView mav = new ModelAndView("post");
+            mav.addObject("samlAssertion", samlAssertion);
+            return mav;
+        } catch (NullPointerException e) {
+            LOG.error(e.getMessage(), e.getStackTrace());
+            ModelAndView mav = new ModelAndView("error");
+            mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
+            return mav;
         }
-    	catch(NullPointerException e){
-    		LOG.error(e.getMessage(), e.getStackTrace());
-    		ModelAndView mav = new ModelAndView("error");
-    		mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
-    		return mav;
-    	}
     }
 
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
@@ -287,7 +287,7 @@ public class Login {
         event.setTargetEdOrg(edOrg);
         event.setRoles(roles);
         event.setTenantId(tenant);
-        
+
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
@@ -311,11 +311,14 @@ public class Login {
         audit(event);
     }
 
-    private boolean shouldForcePasswordChange(User user, String incomingRealm){
-    	if(incomingRealm==null||!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
+    private boolean shouldForcePasswordChange(User user, String incomingRealm) {
+        if (incomingRealm == null || !incomingRealm.equals(sliAdminRealmName) || user == null) {
+            return false;
+        }
 
-    	if(user.getAttributes().get("emailToken").trim().length()==0)
-    		return true;
-    	return false;
+        if (user.getAttributes().get("emailToken").trim().length() == 0) {
+            return true;
+        }
+        return false;
     }
 }

@@ -15,12 +15,7 @@
 
     <jb:bean beanId="program" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'program'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="programMeta" />
         <jb:wiring property="body" beanIdRef="programBody" />
-    </jb:bean>
-
-    <jb:bean beanId="programMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes programId" />
     </jb:bean>
 
     <jb:bean beanId="programBody" class="java.util.HashMap" createOnElement="attributes">
@@ -37,19 +32,19 @@
     <jb:bean beanId="ServiceDescriptorType" class="java.util.ArrayList" createOnElement="services element">
   	    <jb:wiring beanIdRef="Program_Services_CodeValue" />
   	    <jb:wiring beanIdRef="Program_Services_ShortDescription" />
-  	    <jb:wiring beanIdRef="Program_Services_Description" />  	
+  	    <jb:wiring beanIdRef="Program_Services_Description" />
     </jb:bean>
 
   <jb:bean beanId="Program_Services_CodeValue" class="java.util.HashMap" createOnElement="services element element codeValue">
     <jb:value property="codeValue" data="services element element codeValue" />
   </jb:bean>
-	
-  <jb:bean beanId="Program_Services_ShortDescription" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="Program_Services_ShortDescription"
+  	class="java.util.HashMap"
   	createOnElement="services element element shortDescription">
     <jb:value property="shortDescription" data="services element element shortDescription" />
   </jb:bean>
-   
+
   <jb:bean beanId="Program_Services_Description" class="java.util.HashMap" createOnElement="services element element description">
     <jb:value property="description" data="services element element description" />
   </jb:bean>

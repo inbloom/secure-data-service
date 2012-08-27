@@ -23,9 +23,12 @@ public class StreamingLoader {
 
 	@Resource
 	private TypeProvider tp;
-	
+
 	@Resource
 	private VersionAwareAdapter va;
+
+	@Resource
+	private ReferenceValidator ref;
 
 	public void process(Reader reader) throws XMLStreamException {
 		XMLEventReader r = XMLInputFactory.newInstance().createXMLEventReader(reader);
@@ -45,8 +48,8 @@ public class StreamingLoader {
 				sw.stop();
 			}
 		}
-		
-		System.out.println("~~"+sw.getTotalTimeMillis());
+
+		System.out.println("~~" + sw.getTotalTimeMillis());
 	}
 
 	private Map<String, Object> parseMap(XMLEventReader r, String nodeName) throws XMLStreamException {
@@ -61,7 +64,12 @@ public class StreamingLoader {
 				if (tp.isComplexType(elementName)) {
 					result.put(elementName, parseMap(r, elementName));
 				} else {
-					result.put(elementName, tp.convertType(elementName, r.getElementText()));
+					String value = r.getElementText();
+					result.put(elementName, tp.convertType(elementName, value));
+
+					if (tp.isReference(elementName)) {
+						ref.addForValidation(elementName, value);
+					}
 				}
 			}
 

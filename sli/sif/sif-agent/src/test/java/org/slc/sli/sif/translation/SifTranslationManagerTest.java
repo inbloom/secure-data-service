@@ -101,14 +101,14 @@ public class SifTranslationManagerTest {
         sliZList.add(sliZ);
 
         // mock translator results
-        Mockito.when(mockTranslationAtoX.translate(Mockito.eq(sifA))).thenReturn(sliXList);
-        Mockito.when(mockTranslationAtoY.translate(Mockito.eq(sifA))).thenReturn(sliYList);
-        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenReturn(sliZList);
+        Mockito.when(mockTranslationAtoX.translate(Mockito.eq(sifA), Mockito.anyString())).thenReturn(sliXList);
+        Mockito.when(mockTranslationAtoY.translate(Mockito.eq(sifA), Mockito.anyString())).thenReturn(sliYList);
+        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB), Mockito.anyString())).thenReturn(sliZList);
     }
 
     @Test
     public void shouldCreateOneToOneTranslatedEntities() {
-        List<SliEntity> sliEntities = sifTranslationManager.translate(sifB);
+        List<SliEntity> sliEntities = sifTranslationManager.translate(sifB, "zoneId");
 
         Assert.assertEquals("Should translate to one sli entity", 1, sliEntities.size());
         Assert.assertEquals("First translated entity not of correct", sliZ, sliEntities.get(0));
@@ -116,7 +116,7 @@ public class SifTranslationManagerTest {
 
     @Test
     public void shouldCreateOneToManyTranslatedEntities() {
-        List<SliEntity> sliEntities = sifTranslationManager.translate(sifA);
+        List<SliEntity> sliEntities = sifTranslationManager.translate(sifA, "zoneId");
 
         Assert.assertEquals("Should translate to two sli entities", 2, sliEntities.size());
         Assert.assertEquals("First translated entity not of correct", sliX, sliEntities.get(0));
@@ -125,8 +125,8 @@ public class SifTranslationManagerTest {
 
     @Test
     public void shouldHandleSifTranslationExceptions() throws SifTranslationException {
-        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenThrow(
+        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB), Mockito.anyString())).thenThrow(
                 new SifTranslationException("test throw"));
-        sifTranslationManager.translate(sifA);
+        sifTranslationManager.translate(sifA, "zoneId");
     }
 }

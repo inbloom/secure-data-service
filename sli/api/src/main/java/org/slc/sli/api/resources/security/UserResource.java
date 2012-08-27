@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.security;
 
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,8 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -38,11 +35,9 @@ import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.LoggingUtils;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 
@@ -59,9 +54,6 @@ import org.slc.sli.domain.enums.Right;
 @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class UserResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger("audit");
-
     @Autowired
     private LdapService ldapService;
 
@@ -77,24 +69,14 @@ public class UserResource {
     @Autowired
     private SecurityUtilProxy secUtil;
 
-    private static final String API_APPLICATION_ID = "API";
-    private SecurityEvent createSecurityEvent(String logMessage) {
-        SecurityEvent event = new SecurityEvent();
-        event.setAppId(API_APPLICATION_ID);
-        event.setClassName(this.getClass().getName());
-        event.setTimeStamp(DateTimeUtil.getNowInUTC());
-        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
-        event.setLogLevel(LogLevelType.TYPE_INFO);
-        event.setLogMessage(logMessage);
-        event.setUser(secUtil.getUid());
-        try {
-            event.setExecutedOn(LoggingUtils.getCanonicalHostName());
-        } catch (RuntimeException e) {
-            event.setLogLevel(LogLevelType.TYPE_TRACE);
-            event.setLogMessage("Runtime exception: " + e.getLocalizedMessage());
-        }
-        event.setTenantId(secUtil.getTenantId());
-        return event;
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
+        SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage);
+        securityEvent.setTenantId(tenantId);
+        securityEvent.setTargetEdOrg(edorg);
+        return securityEvent;
     }
 
     @POST
@@ -114,7 +96,7 @@ public class UserResource {
             return Response.status(Status.CONFLICT).build();
         }
 
-        LOG.info(createSecurityEvent("Created user " + newUser.getUid()).toString());
+        audit(createSecurityEvent("Created user " + newUser.getUid(), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -164,7 +146,7 @@ public class UserResource {
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
 
-        LOG.info(createSecurityEvent("Updated user " + updateUser.getUid()).toString());
+        audit(createSecurityEvent("Updated user " + updateUser.getUid(), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -178,9 +160,10 @@ public class UserResource {
             return result;
         }
 
+        User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
 
-        LOG.info(createSecurityEvent("Deleted user " + uid).toString());
+        audit(createSecurityEvent("Deleted user " + uid, userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -242,12 +225,54 @@ public class UserResource {
             return result;
         }
 
+        result = validateLEAExistForDistrict(user);
+        if (result != null) {
+            return result;
+        }
+
         if (user.getEmail() == null) {
             return badRequest("No email address");
         } else if (user.getFullName() == null) {
             return badRequest("No name");
         } else if (user.getUid() == null) {
             return badRequest("No uid");
+        }
+
+        return null;
+    }
+
+    private Response validateLEAExistForDistrict(User user) {
+        //only care about realm admin and ingestion user in prod mode
+        if (isProdMode() && user.getGroups() != null) {
+            Collection<String> adminRoles = Arrays.asList(ADMIN_ROLES);
+            Set<String> userGroups = new HashSet<String>(user.getGroups());
+            userGroups.retainAll(adminRoles);
+
+            if (userGroups.size() != 0) {
+                //user is an admin, not realm / ingestion user
+                return null;
+            }
+
+            String userEdorg = user.getEdorg();
+            Set<String> districtEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg(),
+                    Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
+
+            if (districtEdorgs.contains(userEdorg)) {
+                //only care about ingestion user and realm admin in district level
+                boolean foundLEA = false;
+                Collection<User> users = ldapService.findUsersByGroups(realm,
+                        RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), user.getTenant(), Arrays.asList(userEdorg));
+                for (User userInLdap : users) {
+                    if (isUserLeaAdmin(userInLdap)) {
+                        foundLEA = true;
+                        break;
+                    }
+                }
+
+                if (!foundLEA) {
+                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in this Education Organization");
+                }
+            }
         }
 
         return null;
@@ -292,6 +317,11 @@ public class UserResource {
         }
 
         result = validateCannotRemoveLastSuperAdmin(user, userInLdap);
+        if (result != null) {
+            return result;
+        }
+
+        result = validateLEAExistForDistrict(user);
         if (result != null) {
             return result;
         }
@@ -501,7 +531,7 @@ public class UserResource {
             //edorgs must already exist in db
             Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
             if (!allowedEdorgs.contains(user.getEdorg())) {
-                return composeBadDataResponse("Invalid edorg");
+                return composeBadDataResponse("Can not change or create LEA in this Education Organization");
             }
         } else {
             if (user.getTenant() == null) {
@@ -511,23 +541,23 @@ public class UserResource {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
             // if prod mode
-            if (secUtil.hasRight(Right.CRUD_LEA_ADMIN) || secUtil.hasRight(Right.CRUD_SEA_ADMIN)
-                    || secUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
+            if (isProdMode()) {
                 // Ed-Org must already exist in the tenant
-                String restrictByEdorg = null;
-                if (isLeaAdmin()) {
-                    restrictByEdorg = secUtil.getEdOrg();
-                    if (!restrictByEdorg.equals(user.getEdorg())) {
-                        return composeBadDataResponse("Cannot make changes to user in this edorg");
-                    }
-                }
-                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
+                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg());
                 if (!allowedEdorgs.contains(user.getEdorg())) {
-                    return composeBadDataResponse("Invalid edorg");
+                    return composeBadDataResponse("Not allowed to modify users in this Education Organization");
                 }
             }
         }
         return null;
+    }
+
+    /*
+     *  Determine if this is in ProdMode
+     */
+    private boolean isProdMode() {
+        return (secUtil.hasRight(Right.CRUD_LEA_ADMIN) || secUtil.hasRight(Right.CRUD_SEA_ADMIN)
+                    || secUtil.hasRight(Right.CRUD_SLC_OPERATOR));
     }
 
     /*
