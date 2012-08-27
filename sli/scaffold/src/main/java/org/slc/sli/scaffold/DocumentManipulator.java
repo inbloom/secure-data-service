@@ -59,7 +59,6 @@ import org.xml.sax.SAXException;
  * @author srupasinghe
  */
 public class DocumentManipulator {
-    private static final String WADL_NS = "http://wadl.dev.java.net/2009/02";
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
     
@@ -248,18 +247,15 @@ public class DocumentManipulator {
             
             @Override
             public String getNamespaceURI(String prefix) {
-                if ("wadl".equals(prefix)) {
-                    return WADL_NS;
-                }
                 return null;
             }
         });
-        XPathExpression exp = xPath.compile("//wadl:method[not(wadl:doc)]");
+        XPathExpression exp = xPath.compile("//method[not(doc)]");
         NodeList nl = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < nl.getLength(); i++) {
             Node item = nl.item(i);
             String id = item.getAttributes().getNamedItem("id").getNodeValue();
-            Node docElem = doc.createElementNS(WADL_NS, "doc");
+            Node docElem = doc.createElement("doc");
             String defaultDoc = null;
             if ("readAll".equals(id)) {
                 defaultDoc = "Returns the requested collection of resource representations.";
@@ -280,7 +276,7 @@ public class DocumentManipulator {
         }
 
         // "//ns2:param[@name='id']"
-        XPathExpression idDelExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template']/wadl:doc");
+        XPathExpression idDelExp = xPath.compile("//param[contains(@name, 'id') or contains(@name, 'Id')][@style='template']/doc");
         NodeList idDelNl = (NodeList) idDelExp.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < idDelNl.getLength(); i++) {
             Node item = idDelNl.item(i);
@@ -288,11 +284,11 @@ public class DocumentManipulator {
         }
 
         // "//ns2:param[@name='id']"
-        XPathExpression idExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template'][not(wadl:doc)]");
+        XPathExpression idExp = xPath.compile("//param[contains(@name, 'id') or contains(@name, 'Id')][@style='template'][not(doc)]");
         NodeList idNl = (NodeList) idExp.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < idNl.getLength(); i++) {
             Node item = idNl.item(i);
-            Node docElem = doc.createElementNS(WADL_NS, "doc");
+            Node docElem = doc.createElement("doc");
             String defaultDoc = "A comma-separated list of resource IDs.";
             if (defaultDoc != null) {
                 Text text = doc.createTextNode(defaultDoc);
