@@ -1,0 +1,46 @@
+{
+  "calculated_value" : {
+      "metadata" : {
+          "type" : "Stamper",
+          "value_type" : "java.lang.Double",
+          "description" : "Stamps stuff",
+          "abbreviation" : "Pat Boone"
+      },
+
+      "hadoop" : {
+          "map" : {
+              "class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
+              "input" : {
+                  "collection" : "sli.studentSchoolAssociation",
+                  "key_field" : "body.schoolId",
+                  "query" : {  },
+                  "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.schoolId" : 1 },
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoIdInputFormat",
+                  "read_from_secondaries" : true
+              },
+              "output" : {
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoAggFormatter"
+              }
+          },
+          "reduce" : {
+              "class" : "org.slc.sli.aggregation.mapreduce.reduce.StampEdorg",
+              "collection" : "sli.student",
+              "map_field" : "body.schoolId",
+              "field" : "metaData.edOrgs",
+              "id_map" : { "body.studentId" : "_id" }
+          },
+          "options" : { }
+      }
+  },
+  "schedule" : {
+      "event" : "create student | create SAA",
+      "waiting_period" : 600,
+      "command" : "hadoop",
+      "arguments" : "jar HighestEver.jar StateMath_conf.json -fs hdfs://localhost:9001 -jt http://localhost:9000",
+      "retry_on_failure" : "false"
+  }
+}

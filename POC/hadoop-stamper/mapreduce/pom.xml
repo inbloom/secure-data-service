@@ -13,7 +13,7 @@
 
   <parent>
     <groupId>org.slc.sli</groupId>
-    <artifactId>aggregation</artifactId>
+    <artifactId>stamper</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
