@@ -126,14 +126,14 @@ public class SecurityContextInjector {
     }
 
     public void setSeaAdminContext() {
-        String user = "LeaAdmin";
-        String fullName = "LEA Admin";
+        String user = "SeaAdmin";
+        String fullName = "SEA Admin";
         List<String> roles = Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR);
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setExternalId("lea_admin");
+        principal.setExternalId("sea_admin");
         setSecurityContext(principal);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE };
