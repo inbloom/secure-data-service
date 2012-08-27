@@ -44,7 +44,7 @@ end
 # TODO, look for something now in eula, if found proceed
 Then /^I should be on Portal home page$/ do
   home = @driver.find_elements(:class, "sli_home_title")
-  assert(home.length == 1, "User is not on the portal home page")
+  assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:xpath, "//input[@value='Agree']")
     puts "EULA is present"
@@ -102,9 +102,12 @@ end
 
 Then /^under My Applications, I click on "(.*?)"$/ do |link|
   links = @driver.find_elements(:tag_name, "a")
-  links.each do |availableLinks|
-    if (availableLinks.text.include? link)
-      availableLinks.click
+  links.each do |availableLink|
+    if (availableLink.text.include? link)
+      yLocation = availableLink.location.y.to_s
+      xLocation = availableLink.location.x.to_s
+      @driver.execute_script("window.scrollTo(#{xLocation}, #{yLocation});")
+      availableLink.click
       break
     end
   end
