@@ -270,7 +270,7 @@ public class UserResource {
                 }
 
                 if (!foundLEA) {
-                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in Education Organization "+user.getEdorg());
+                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in "+user.getEdorg());
                 }
             }
         }
