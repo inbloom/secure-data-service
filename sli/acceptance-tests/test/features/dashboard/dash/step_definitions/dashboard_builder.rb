@@ -137,9 +137,7 @@ end
 
 def setPageName(pageName)
   input = @currentPage.find_element(:tag_name, "input")  
-  for i in (0..8)
-    input.send_keys(:backspace)
-  end
+  input.clear
   input.send_keys pageName
   @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
 end
@@ -169,8 +167,7 @@ def uploadJson()
     uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
   end
   inputBox = @driver.find_element(:id, "content_json")
-  inputBox.send_keys(:backspace)
-  inputBox.send_keys(:backspace)
+  inputBox.clear
   inputBox.send_keys(uploadText)
     
   saveDashboardBuilder()
