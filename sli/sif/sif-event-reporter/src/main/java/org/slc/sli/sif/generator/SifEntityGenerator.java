@@ -26,27 +26,52 @@ import openadk.library.common.AddressType;
 import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
 import openadk.library.common.Demographics;
+import openadk.library.common.ElectronicId;
+import openadk.library.common.ElectronicIdList;
+import openadk.library.common.ElectronicIdType;
 import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.Gender;
+import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
+import openadk.library.common.InstructionalLevel;
+import openadk.library.common.InstructionalLevelCode;
+import openadk.library.common.JobFunction;
+import openadk.library.common.JobFunctionCode;
 import openadk.library.common.MembershipType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherCode;
+import openadk.library.common.OtherCodeList;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
+import openadk.library.common.ProgramFundingSource;
+import openadk.library.common.ProgramTypeCode;
 import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.ResidencyStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.TeachingArea;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeeAssignment;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
+import openadk.library.hrfin.FullTimeStatus;
+import openadk.library.hrfin.HRProgramType;
+import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.JobClassification;
+import openadk.library.hrfin.JobClassificationCode;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -56,9 +81,12 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffAssignment;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
+import openadk.library.student.TeachingAssignment;
 import openadk.library.student.TimeFrame;
 
 /**
@@ -72,6 +100,11 @@ public class SifEntityGenerator {
     public static final String TEST_STUDENTPERSONAL_REFID = "20120808934983498C3D00AA00495948";
     public static final String TEST_STUDENTSCHOOLENROLLMENT_REFID = "A8C3D3E34B359D75101D00AA001A1652";
     public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
+    public static final String TEST_STAFFPERSONAL_REFID = "20120816934983498C3D00AA00495948";
+    public static final String TEST_EMPLOYEEPERSONAL_REFID = "1652D3E34F419D75101A8C3D00AA001A";
+    public static final String TEST_STAFFASSIGNMENT_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_EMPLOYMENTRECORD_REFID = "CDF90651225DAC3859DEA3458BC39522";
+    public static final String TEST_EMPLOYEEASSIGNMENT_REFID = "FE1078BA3261545A31905937B265CE01";
 
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
@@ -290,10 +323,204 @@ public class SifEntityGenerator {
         addressList.add(address);
         studentPersonal.setAddressList(addressList);
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.addPhoneNumber(PhoneNumberType.SIF1x_HOME_PHONE, "(312) 555-1234");
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
         studentPersonal.setPhoneNumberList(phoneNumberList);
         studentPersonal.setMigrant(YesNoUnknown.NO);
 
         return studentPersonal;
+    }
+
+    public static StaffPersonal generateTestStaffPersonal() {
+        StaffPersonal staffPersonal = new StaffPersonal();
+        staffPersonal.setRefId(TEST_STAFFPERSONAL_REFID);
+        staffPersonal.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+
+        staffPersonal.setLocalId("946379881");
+        staffPersonal.setStateProvinceId("C2345681");
+        staffPersonal.setTitle("Principal");
+
+        ElectronicId electronicId = new ElectronicId(ElectronicIdType.BARCODE, "206655");
+        ElectronicIdList electronicIdList = new ElectronicIdList(electronicId);
+        staffPersonal.setElectronicIdList(electronicIdList);
+
+        OtherId otherId = new OtherId(OtherIdType.SOCIALSECURITY, "333333333");
+        OtherIdList otherIdList = new OtherIdList(otherId);
+        staffPersonal.setOtherIdList(otherIdList);
+
+        Name name = new Name();
+        name.setType(NameType.NAME_OF_RECORD);
+        name.setPrefix("Mr.");
+        name.setLastName("Woodall");
+        name.setFirstName("Charles");
+        name.setMiddleName("William");
+        name.setPreferredName("Chuck");
+        staffPersonal.setName(name);
+
+        Demographics demographics = new Demographics();
+        demographics.setGender(Gender.M);
+        staffPersonal.setDemographics(demographics);
+
+        Address address = new Address();
+        address.setType(AddressType.MAILING);
+        address.setCity("Chicago");
+        address.setStateProvince(StatePrCode.IL);
+        address.setCountry(CountryCode.US);
+        address.setPostalCode("60660");
+
+        Street street = new Street();
+        street.setLine1("6799 33rd Ave.");
+        street.setStreetNumber("6799");
+        street.setStreetName("33rd");
+        street.setStreetType("Ave.");
+        address.setStreet(street);
+
+        AddressList addressList = new AddressList(address);
+        staffPersonal.setAddressList(addressList);
+
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
+        staffPersonal.setPhoneNumberList(phoneNumberList);
+
+        EmailList emailList = new EmailList();
+        emailList.addEmail(EmailType.PRIMARY, "chuckw@imginc.com");
+        staffPersonal.setEmailList(emailList);
+
+        return staffPersonal;
+    }
+
+    public static EmployeePersonal generateTestEmployeePersonal() {
+        EmployeePersonal employeePersonal = new EmployeePersonal();
+        employeePersonal.setRefId(TEST_EMPLOYEEPERSONAL_REFID);
+        employeePersonal.setStateProvinceId("C2345681");
+
+        OtherId otherId1 = new OtherId(OtherIdType.SOCIALSECURITY, "333333333");
+        OtherId otherId2 = new OtherId(OtherIdType.OTHER, "3333");
+        HrOtherIdList hrOtherIdList = new HrOtherIdList();
+        hrOtherIdList.add(otherId1);
+        hrOtherIdList.add(otherId2);
+        employeePersonal.setOtherIdList(hrOtherIdList);
+
+        Name name = new Name();
+        name.setType(NameType.NAME_OF_RECORD);
+        name.setLastName("Woodall");
+        name.setFirstName("Charles");
+        employeePersonal.setName(name);
+
+        Demographics demographics = new Demographics();
+        demographics.setGender(Gender.M);
+        employeePersonal.setDemographics(demographics);
+
+        Address address = new Address();
+        address.setType(AddressType.MAILING);
+        address.setCity("Chicago");
+        address.setStateProvince(StatePrCode.IL);
+        address.setCountry(CountryCode.US);
+        address.setPostalCode("60660");
+
+        Street street = new Street();
+        street.setLine1("6799 33rd Ave.");
+        address.setStreet(street);
+
+        AddressList addressList = new AddressList(address);
+        employeePersonal.setAddressList(addressList);
+
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-9876");
+        employeePersonal.setPhoneNumberList(phoneNumberList);
+
+        EmailList emailList = new EmailList();
+        emailList.addEmail(EmailType.PRIMARY, "chuckw@imginc.com");
+        employeePersonal.setEmailList(emailList);
+
+        return employeePersonal;
+    }
+
+    public static StaffAssignment generateTestStaffAssignment() {
+        StaffAssignment staffAssignment = new StaffAssignment();
+        staffAssignment.setRefId(TEST_STAFFASSIGNMENT_REFID);
+
+        staffAssignment.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
+        staffAssignment.setStaffPersonalRefId(TEST_STAFFPERSONAL_REFID);
+        staffAssignment.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+
+        staffAssignment.setSchoolYear(new Integer(2013));
+        staffAssignment.setDescription("Twelfth grade computer science teacher");
+        staffAssignment.setPrimaryAssignment(YesNo.YES);
+
+        staffAssignment.setJobStartDate(new GregorianCalendar(2010, 7, 1));
+        staffAssignment.setJobEndDate(new GregorianCalendar(2013, 6, 31));
+
+        staffAssignment.setJobFTE(new BigDecimal(1.00));
+        staffAssignment.setJobFunction(new JobFunction(JobFunctionCode.INSTRUCTION));
+        staffAssignment.setTeachingAssignment(new TeachingAssignment(TeachingArea.COMPUTER_SCIENCE));
+        staffAssignment.setGradeLevels(new GradeLevels(new GradeLevel(GradeLevelCode._12)));
+        staffAssignment.setItinerantTeacher(YesNo.NO);
+
+        InstructionalLevel instructionalLevel = new InstructionalLevel();
+        instructionalLevel.setCode(InstructionalLevelCode.COLLEGE_LEVEL);
+        staffAssignment.setInstructionalLevel(instructionalLevel);
+
+        return staffAssignment;
+    }
+
+    public static EmploymentRecord generateTestEmploymentRecord() {
+        EmploymentRecord employmentRecord = new EmploymentRecord();
+        employmentRecord.setRefId(TEST_EMPLOYMENTRECORD_REFID);
+
+        employmentRecord.setSIF_RefId(TEST_STAFFPERSONAL_REFID);
+        employmentRecord.setSIF_RefObject("StaffPersonal");
+
+        employmentRecord.setLEAInfoRefId(TEST_LEAINFO_REFID);
+
+        employmentRecord.setActive(true);
+        employmentRecord.setFullTimeStatus(FullTimeStatus.FULLTIME);
+
+        employmentRecord.setHireDate(new GregorianCalendar(2010, 7, 1));
+        employmentRecord.setTerminationDate(new GregorianCalendar(2012, 6, 31));
+
+        employmentRecord.setTotalYearsExperience(20);
+        employmentRecord.setPositionTitle("Senior Staff");
+        employmentRecord.setPositionNumber("10");
+
+        employmentRecord.setSeniorityDate(new GregorianCalendar(2011, 1, 1));
+        employmentRecord.setTenureDate(new GregorianCalendar(2011, 7, 1));
+
+        return employmentRecord;
+    }
+
+    public static EmployeeAssignment generateTestEmployeeAssignment() {
+        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+        employeeAssignment.setRefId(TEST_EMPLOYEEASSIGNMENT_REFID);
+
+        employeeAssignment.setEmployeePersonalRefId(TEST_EMPLOYEEPERSONAL_REFID);
+        employeeAssignment.setDescription("Twelfth grade computer science teacher");
+        employeeAssignment.setPrimaryAssignment(YesNo.YES);
+
+        employeeAssignment.setJobStartDate(new GregorianCalendar(2010, 7, 1));
+        employeeAssignment.setJobEndDate(new GregorianCalendar(2013, 6, 31));
+
+        employeeAssignment.setJobFTE(new BigDecimal(1.00));
+
+        JobClassification jobClassification = new JobClassification(JobClassificationCode.TEACHER);
+        OtherCode jobClassificationOtherCode = new OtherCode();
+        jobClassificationOtherCode.setValue("12345");
+        jobClassification.setOtherCodeList(new OtherCodeList(jobClassificationOtherCode));
+        employeeAssignment.setJobClassification(jobClassification);
+
+        HRProgramType programType = new HRProgramType();
+        programType.setCode(ProgramTypeCode.REGULAR_EDUCATION);
+        OtherCode programTypeOtherCode = new OtherCode();
+        programTypeOtherCode.setValue("67890");
+        programType.setOtherCodeList(new OtherCodeList(programTypeOtherCode));
+        employeeAssignment.setProgramType(programType);
+
+        ProgramFundingSource programFundingSource = new ProgramFundingSource();
+        programFundingSource.setCode("0617");
+        OtherCode programFundingSourceOtherCode = new OtherCode();
+        programFundingSourceOtherCode.setValue("54321");
+        programFundingSource.setOtherCodeList(new OtherCodeList(programFundingSourceOtherCode));
+        employeeAssignment.setFundingSource(programFundingSource);
+
+        return employeeAssignment;
     }
 }

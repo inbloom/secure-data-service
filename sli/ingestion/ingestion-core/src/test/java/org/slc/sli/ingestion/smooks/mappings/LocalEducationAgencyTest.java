@@ -127,7 +127,7 @@ public class LocalEducationAgencyTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 EDFI_XML);
-        
+
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "SEA123")).thenReturn(true);
 
@@ -152,7 +152,6 @@ public class LocalEducationAgencyTest {
 
         assertEquals("localEducationAgency", neutralRecord.getRecordType());
 
-        assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
 
         List educationOrgIdentificationCodeList = (List) neutralRecord.getAttributes().get(

@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId"],
+    "keyFields" : [],
     
     "subEntities" : { "body.assessmentItem?" : "assessmentItem"}
     

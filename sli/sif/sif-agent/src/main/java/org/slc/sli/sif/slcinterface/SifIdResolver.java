@@ -16,10 +16,12 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.util.List;
+
 import org.slc.sli.api.client.Entity;
 
 /**
- * Mapping between SIF id and SLI ids. File implementation
+ * Mapping between SIF id and SLI ids.
  */
 public interface SifIdResolver {
 
@@ -27,18 +29,52 @@ public interface SifIdResolver {
      * Given a sif reference id, returns the sli guid of the corresponding entity
      *
      * @param sifId
+     * @param zoneId
+     *            TODO
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
-    public String getSliGuid(String sifId);
+    public String getSliGuid(String sifId, String zoneId);
+    public List<String> getSliGuidList(String sifId, String zoneId);
 
+    /**
+     * Given a sif reference id, returns the sli guid of the entity of the corresponding sli type
+     *
+     * This allows to find a sli guid by using the combination of sif reference id and a sli type
+     *
+     * @param sifId
+     * @param sliType
+     * @param zoneId
+     *            TODO
+     * @return The SLI guid if the entity exists in SLI, null otherwise
+     */
+    public String getSliGuidByType(String sifId, String sliType, String zoneId);
+    public List<String> getSliGuidListByType(String sifId, String sliType, String zoneId);
 
     /**
      * Given a sif reference id, returns corresponding sli entity
      *
      * @param sifId
+     * @param zoneId
+     *            TODO
      * @return The SLI entity if the entity exists in SLI, null otherwise
      */
-    public Entity getSliEntity(String sifId);
+    public Entity getSliEntity(String sifId, String zoneId);
+    public List<Entity> getSliEntityList(String sifId, String zoneId);
+
+    /**
+     * Given a sif reference id, returns the sli entity of the corresponding sli type
+     *
+     * This allows to find a sli entity by using the combination of sif reference id and a sli type
+     *
+     *
+     * @param sifId
+     * @param sliType
+     * @param zoneId
+     *            TODO
+     * @return The SLI entity if the entity exists in SLI, null otherwise
+     */
+    public Entity getSliEntityByType(String sifId, String sliType, String zoneId);
+    public List<Entity> getSliEntityListByType(String sifId, String sliType, String zoneId);
 
     /**
      * Given a sif Zone, returns the sli guid of the corresponding SEA
@@ -49,12 +85,28 @@ public interface SifIdResolver {
     public String getZoneSea(String sifZoneId);
 
     /**
-     * Given a sif reference id and the guid and type of the corresponding entity, 
+     * Given a sif reference id and the guid and type of the corresponding entity,
      * saves the association
-     * 
+     *
      * @param sifId
      * @param sliType
      * @param sliId
+     * @param zoneId
+     *            TODO
      */
-    public void putSliGuid(String sifId, String sliType, String sliId);
+    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId);
+
+    /**
+     * Given a sif reference id and the guid and type of the corresponding entity,
+     * saves the association.
+     *
+     * This allows later to find a sli guid by using the combination of sif reference id and a sli type
+     *
+     * @param sifId
+     * @param sliType
+     * @param sliId
+     * @param zoneId
+     *            TODO
+     */
+    public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId);
 }

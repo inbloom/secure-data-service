@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.selectors.model;
 
+import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;

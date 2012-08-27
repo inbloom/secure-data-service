@@ -678,6 +678,7 @@ public final class WadlReader {
         final List<String> type = getStringListType(WadlAttributeName.TYPE, reader);
         final String queryType = getQueryType(reader, WadlSyntax.QUERY_TYPE_APPLICATION_X_WWW_FORM_URLENCODED);
         final String path = getStringAttribute(WadlAttributeName.PATH, null, reader);
+        final String resourceClass = getStringAttribute(WadlAttributeName.RESOURCE_CLASS, null, reader);
         final List<Documentation> documentation = new LinkedList<Documentation>();
         final List<Param> params = new LinkedList<Param>();
         final List<Method> methods = new LinkedList<Method>();
@@ -701,7 +702,7 @@ public final class WadlReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(WadlElementName.RESOURCE, reader);
-                    return new Resource(id, type, queryType, path, documentation, params, methods, resources);
+                    return new Resource(id, type, queryType, path, documentation, params, methods, resources, resourceClass);
                 }
                 case XMLStreamConstants.CHARACTERS:
                 case XMLStreamConstants.COMMENT: {

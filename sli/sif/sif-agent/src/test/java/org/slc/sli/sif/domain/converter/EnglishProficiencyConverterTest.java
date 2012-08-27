@@ -23,12 +23,12 @@ import openadk.library.common.EnglishProficiency;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * EnglishProficiencyConverter unit tests
  */
-public class EnglishProficiencyConverterTest extends ADKTest {
+public class EnglishProficiencyConverterTest extends AdkTest {
 
     private final EnglishProficiencyConverter converter = new EnglishProficiencyConverter();
 

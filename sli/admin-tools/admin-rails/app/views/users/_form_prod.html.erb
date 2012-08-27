@@ -2,9 +2,9 @@
 <%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
 
 <script type="text/javascript" charset="utf-8">
-  var is_lea = <%= @is_lea%> 
-  var is_operator = <%= @is_operator%> 
-  var is_sea = <%= @is_sea%> 
+  var is_lea = '<%= @is_lea%>' 
+  var is_operator = '<%= @is_operator%>' 
+  var is_sea = '<%= @is_sea%>' 
   var my_edorg = '<%= @login_user_edorg_name -%>'
   var self_editing = false
 </script>
@@ -13,6 +13,10 @@
         <div class="alert alert-error">
           There was an error processing your request. Please fix any highlighted fields below.
           <% error = " error" %>
+          <% if flash[:create_error]%>
+            <br>
+            <p id="error_notice"><%=flash[:create_error] %></p>
+          <%end%>
         </div>
     <% end %>
 

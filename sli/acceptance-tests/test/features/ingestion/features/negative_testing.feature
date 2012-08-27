@@ -165,7 +165,7 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
-  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
        | body.studentUniqueStateId                                                | 100000000                             | string               |
@@ -185,14 +185,14 @@ Scenario: Post a zip file and then post it against and make sure the updated dat
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
-  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
-  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify that "metaData.created" is unequal to "metaData.updated"
 
 #Background: zip file contains a .txt and .rtf files, which should fail ingestion

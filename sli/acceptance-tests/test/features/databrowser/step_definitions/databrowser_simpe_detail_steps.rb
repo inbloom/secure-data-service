@@ -194,7 +194,7 @@ end
 
 When /^then click on the "(.*?)" link$/ do |arg1|
   # 
-  @driver.find_element(:xpath, "/html/body/div/div[2]/div/div/table/tbody/tr[22]/td/div/div[4]/ul/li[13]/a").click
+  @driver.find_element(:xpath, "/html/body/div/div[2]/div/div/table/tbody/tr[22]/td/div/div[4]/ul/li[4]/a").click
 end
 
 Then /^I see a "(.*?)" alert box$/ do |arg1|

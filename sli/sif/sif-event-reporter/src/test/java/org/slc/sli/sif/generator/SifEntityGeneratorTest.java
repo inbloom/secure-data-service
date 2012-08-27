@@ -28,28 +28,53 @@ import openadk.library.common.AddressType;
 import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
 import openadk.library.common.Demographics;
+import openadk.library.common.ElectronicId;
+import openadk.library.common.ElectronicIdList;
+import openadk.library.common.ElectronicIdType;
 import openadk.library.common.Email;
 import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.EntryTypeCode;
 import openadk.library.common.ExitTypeCode;
+import openadk.library.common.Gender;
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
+import openadk.library.common.InstructionalLevel;
+import openadk.library.common.InstructionalLevelCode;
+import openadk.library.common.JobFunction;
+import openadk.library.common.JobFunctionCode;
 import openadk.library.common.MembershipType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
 import openadk.library.common.NonResidentAttendRationale;
 import openadk.library.common.OrganizationRelationshipType;
+import openadk.library.common.OtherCode;
+import openadk.library.common.OtherCodeList;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdList;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
+import openadk.library.common.ProgramFundingSource;
+import openadk.library.common.ProgramTypeCode;
 import openadk.library.common.PublicSchoolResidenceStatus;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.TeachingArea;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
 import openadk.library.datamodel.SEAInfo;
+import openadk.library.hrfin.EmployeeAssignment;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
+import openadk.library.hrfin.FullTimeStatus;
+import openadk.library.hrfin.HRProgramType;
+import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.JobClassification;
+import openadk.library.hrfin.JobClassificationCode;
 import openadk.library.student.EducationAgencyTypeCode;
 import openadk.library.student.FTPTStatus;
 import openadk.library.student.LEAInfo;
@@ -59,9 +84,12 @@ import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
+import openadk.library.student.StaffAssignment;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
+import openadk.library.student.TeachingAssignment;
 import openadk.library.student.TimeFrame;
 
 import org.junit.Before;
@@ -348,7 +376,255 @@ public class SifEntityGeneratorTest {
         Assert.assertEquals(1, phoneNumberList.size());
 
         PhoneNumber phoneNumber = phoneNumberList.get(0);
-        Assert.assertEquals(PhoneNumberType.SIF1x_HOME_PHONE.getValue(), phoneNumber.getType());
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
         Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
+    }
+
+    @Test
+    public void testGenerateTestStaffPersonal() {
+        StaffPersonal staffPersonal = SifEntityGenerator.generateTestStaffPersonal();
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, staffPersonal.getRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, staffPersonal.getEmployeePersonalRefId());
+
+        Assert.assertEquals("946379881", staffPersonal.getLocalId());
+        Assert.assertEquals("C2345681", staffPersonal.getStateProvinceId());
+        Assert.assertEquals("Principal", staffPersonal.getTitle());
+
+        ElectronicIdList electronicIdList = staffPersonal.getElectronicIdList();
+        Assert.assertEquals(1, electronicIdList.size());
+
+        ElectronicId electronicId = electronicIdList.get(0);
+        Assert.assertEquals(ElectronicIdType.BARCODE.getValue(), electronicId.getType());
+        Assert.assertEquals("206655", electronicId.getValue());
+
+        OtherIdList otherIdList = staffPersonal.getOtherIdList();
+        Assert.assertEquals(1, otherIdList.size());
+
+        OtherId otherId = otherIdList.get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId.getType());
+        Assert.assertEquals("333333333", otherId.getValue());
+
+        Name name = staffPersonal.getName();
+        Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());
+        Assert.assertEquals("Mr.", name.getPrefix());
+        Assert.assertEquals("Woodall", name.getLastName());
+        Assert.assertEquals("Charles", name.getFirstName());
+        Assert.assertEquals("William", name.getMiddleName());
+        Assert.assertEquals("Chuck", name.getPreferredName());
+
+        Demographics demographics = staffPersonal.getDemographics();
+        Assert.assertEquals(Gender.M.getValue(), demographics.getGender());
+
+        AddressList addressList = staffPersonal.getAddressList();
+        Assert.assertEquals(1, addressList.size());
+
+        Address address = addressList.get(0);
+        Assert.assertEquals(AddressType.MAILING.getValue(), address.getType());
+        Assert.assertEquals("Chicago", address.getCity());
+        Assert.assertEquals(StatePrCode.IL.getValue(), address.getStateProvince());
+        Assert.assertEquals(CountryCode.US.getValue(), address.getCountry());
+        Assert.assertEquals("60660", address.getPostalCode());
+
+        Street street = address.getStreet();
+        Assert.assertEquals("6799 33rd Ave.", street.getLine1());
+        Assert.assertEquals("6799", street.getStreetNumber());
+        Assert.assertEquals("33rd", street.getStreetName());
+        Assert.assertEquals("Ave.", street.getStreetType());
+
+        PhoneNumberList phoneNumberList = staffPersonal.getPhoneNumberList();
+        Assert.assertEquals(1, phoneNumberList.size());
+
+        PhoneNumber phoneNumber = phoneNumberList.get(0);
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
+        Assert.assertEquals("(312) 555-1234", phoneNumber.getNumber());
+
+        EmailList emailList = staffPersonal.getEmailList();
+        Assert.assertEquals(1, emailList.size());
+
+        Email email = emailList.get(0);
+        Assert.assertEquals(EmailType.PRIMARY.getValue(), email.getType());
+        Assert.assertEquals("chuckw@imginc.com", email.getValue());
+    }
+
+    @Test
+    public void testGenerateTestEmployeePersonal() {
+        EmployeePersonal employeePersonal = SifEntityGenerator.generateTestEmployeePersonal();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, employeePersonal.getRefId());
+
+        HrOtherIdList hrOtherIdList = employeePersonal.getOtherIdList();
+        Assert.assertEquals(2, hrOtherIdList.size());
+
+        OtherId otherId1 = hrOtherIdList.get(0);
+        Assert.assertEquals(OtherIdType.SOCIALSECURITY.getValue(), otherId1.getType());
+        Assert.assertEquals("333333333", otherId1.getValue());
+
+        OtherId otherId2 = hrOtherIdList.get(1);
+        Assert.assertEquals(OtherIdType.OTHER.getValue(), otherId2.getType());
+        Assert.assertEquals("3333", otherId2.getValue());
+
+        Name name = employeePersonal.getName();
+        Assert.assertEquals(NameType.NAME_OF_RECORD.getValue(), name.getType());
+        Assert.assertEquals("Woodall", name.getLastName());
+        Assert.assertEquals("Charles", name.getFirstName());
+
+        Demographics demographics = employeePersonal.getDemographics();
+        Assert.assertEquals(Gender.M.getValue(), demographics.getGender());
+
+        AddressList addressList = employeePersonal.getAddressList();
+        Assert.assertEquals(1, addressList.size());
+
+        Address address = addressList.get(0);
+        Assert.assertEquals(AddressType.MAILING.getValue(), address.getType());
+        Assert.assertEquals("Chicago", address.getCity());
+        Assert.assertEquals(StatePrCode.IL.getValue(), address.getStateProvince());
+        Assert.assertEquals(CountryCode.US.getValue(), address.getCountry());
+        Assert.assertEquals("60660", address.getPostalCode());
+
+        Street street = address.getStreet();
+        Assert.assertEquals("6799 33rd Ave.", street.getLine1());
+
+        PhoneNumberList phoneNumberList = employeePersonal.getPhoneNumberList();
+        Assert.assertEquals(1, phoneNumberList.size());
+
+        PhoneNumber phoneNumber = phoneNumberList.get(0);
+        Assert.assertEquals(PhoneNumberType.PRIMARY.getValue(), phoneNumber.getType());
+        Assert.assertEquals("(312) 555-9876", phoneNumber.getNumber());
+
+        EmailList emailList = employeePersonal.getEmailList();
+        Assert.assertEquals(1, emailList.size());
+
+        Email email = emailList.get(0);
+        Assert.assertEquals(EmailType.PRIMARY.getValue(), email.getType());
+        Assert.assertEquals("chuckw@imginc.com", email.getValue());
+    }
+
+    @Test
+    public void testGenerateTestStaffAssignment() {
+        StaffAssignment staffAssignment = SifEntityGenerator.generateTestStaffAssignment();
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFASSIGNMENT_REFID, staffAssignment.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_SCHOOLINFO_REFID, staffAssignment.getSchoolInfoRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, staffAssignment.getStaffPersonalRefId());
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, staffAssignment.getEmployeePersonalRefId());
+
+        Assert.assertEquals(2013, staffAssignment.getSchoolYear().intValue());
+        Assert.assertEquals("Twelfth grade computer science teacher", staffAssignment.getDescription());
+        Assert.assertEquals(YesNo.YES.getValue(), staffAssignment.getPrimaryAssignment());
+
+        Calendar jobStartDate = staffAssignment.getJobStartDate();
+        Assert.assertEquals(2010, jobStartDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, jobStartDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, jobStartDate.get(Calendar.DATE));
+
+        Calendar jobEndDate = staffAssignment.getJobEndDate();
+        Assert.assertEquals(2013, jobEndDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, jobEndDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, jobEndDate.get(Calendar.DATE));
+
+        Assert.assertEquals(new BigDecimal(1.00), staffAssignment.getJobFTE());
+
+        JobFunction jobFunction = staffAssignment.getJobFunction();
+        Assert.assertEquals(JobFunctionCode.INSTRUCTION.getValue(), jobFunction.getCode());
+
+        TeachingAssignment teachingAssignment = staffAssignment.getTeachingAssignment();
+        Assert.assertEquals(TeachingArea.COMPUTER_SCIENCE.getValue(), teachingAssignment.getCode());
+
+        GradeLevels gradeLevels = staffAssignment.getGradeLevels();
+        Assert.assertEquals(1,  gradeLevels.size());
+
+        GradeLevel gradeLevel1 = gradeLevels.get(0);
+        Assert.assertEquals(GradeLevelCode._12.getValue(), gradeLevel1.getCode());
+
+        Assert.assertEquals(YesNo.NO.getValue(), staffAssignment.getItinerantTeacher());
+
+        InstructionalLevel instructionalLevel = staffAssignment.getInstructionalLevel();
+        Assert.assertEquals(InstructionalLevelCode.COLLEGE_LEVEL.getValue(), instructionalLevel.getCode());
+    }
+
+    @Test
+    public void testGenerateTestEmploymentRecord() {
+        EmploymentRecord employmentRecord = SifEntityGenerator.generateTestEmploymentRecord();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYMENTRECORD_REFID, employmentRecord.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_STAFFPERSONAL_REFID, employmentRecord.getSIF_RefId());
+        Assert.assertEquals("StaffPersonal", employmentRecord.getSIF_RefObject());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_LEAINFO_REFID, employmentRecord.getLEAInfoRefId());
+
+        Assert.assertTrue(employmentRecord.getActive());
+        Assert.assertEquals(FullTimeStatus.FULLTIME.getValue(), employmentRecord.getFullTimeStatus());
+
+        Calendar hireDate = employmentRecord.getHireDate();
+        Assert.assertEquals(2010, hireDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, hireDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, hireDate.get(Calendar.DATE));
+
+        Calendar terminationDate = employmentRecord.getTerminationDate();
+        Assert.assertEquals(2012, terminationDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, terminationDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, terminationDate.get(Calendar.DATE));
+
+        Assert.assertEquals(20, employmentRecord.getTotalYearsExperience().intValue());
+        Assert.assertEquals("Senior Staff", employmentRecord.getPositionTitle());
+        Assert.assertEquals("10", employmentRecord.getPositionNumber());
+
+        Calendar seniorityDate = employmentRecord.getSeniorityDate();
+        Assert.assertEquals(2011, seniorityDate.get(Calendar.YEAR));
+        Assert.assertEquals(1, seniorityDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, seniorityDate.get(Calendar.DATE));
+
+        Calendar tenureDate = employmentRecord.getTenureDate();
+        Assert.assertEquals(2011, tenureDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, tenureDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, tenureDate.get(Calendar.DATE));
+    }
+
+    @Test
+    public void testGenerateTestEmployeeAssignment() {
+        EmployeeAssignment employeeAssignment = SifEntityGenerator.generateTestEmployeeAssignment();
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEASSIGNMENT_REFID, employeeAssignment.getRefId());
+
+        Assert.assertEquals(SifEntityGenerator.TEST_EMPLOYEEPERSONAL_REFID, employeeAssignment.getEmployeePersonalRefId());
+        Assert.assertEquals("Twelfth grade computer science teacher", employeeAssignment.getDescription());
+        Assert.assertEquals(YesNo.YES.getValue(), employeeAssignment.getPrimaryAssignment());
+
+        Calendar jobStartDate = employeeAssignment.getJobStartDate();
+        Assert.assertEquals(2010, jobStartDate.get(Calendar.YEAR));
+        Assert.assertEquals(7, jobStartDate.get(Calendar.MONTH));
+        Assert.assertEquals(1, jobStartDate.get(Calendar.DATE));
+
+        Calendar jobEndDate = employeeAssignment.getJobEndDate();
+        Assert.assertEquals(2013, jobEndDate.get(Calendar.YEAR));
+        Assert.assertEquals(6, jobEndDate.get(Calendar.MONTH));
+        Assert.assertEquals(31, jobEndDate.get(Calendar.DATE));
+
+        Assert.assertEquals(new BigDecimal(1.00), employeeAssignment.getJobFTE());
+
+        JobClassification jobClassification = employeeAssignment.getJobClassification();
+        Assert.assertEquals(JobClassificationCode.TEACHER.getValue(), jobClassification.getCode());
+
+        OtherCodeList jobClassificationOtherCodeList = jobClassification.getOtherCodeList();
+        Assert.assertEquals(1, jobClassificationOtherCodeList.size());
+
+        OtherCode jobClassificationOtherCode = jobClassificationOtherCodeList.get(0);
+        Assert.assertEquals("12345", jobClassificationOtherCode.getValue());
+
+        HRProgramType programType = employeeAssignment.getProgramType();
+        Assert.assertEquals(ProgramTypeCode.REGULAR_EDUCATION.getValue(), programType.getCode());
+
+        OtherCodeList programTypeOtherCodeList = programType.getOtherCodeList();
+        Assert.assertEquals(1, programTypeOtherCodeList.size());
+
+        OtherCode programTypeOtherCode = programTypeOtherCodeList.get(0);
+        Assert.assertEquals("67890", programTypeOtherCode.getValue());
+
+        ProgramFundingSource programFundingSource = employeeAssignment.getFundingSource();
+        Assert.assertEquals("0617", programFundingSource.getCode());
+
+        OtherCodeList programFundingSourceOtherCodeList = programFundingSource.getOtherCodeList();
+        Assert.assertEquals(1, programFundingSourceOtherCodeList.size());
+
+        OtherCode programFundingSourceOtherCode = programFundingSourceOtherCodeList.get(0);
+        Assert.assertEquals("54321", programFundingSourceOtherCode.getValue());
     }
 }
