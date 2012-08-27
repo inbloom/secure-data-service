@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -48,10 +47,6 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantPurgeResource {
 
-    // Use this to check if we're in sandbox mode
-    @Value("${sli.sandbox.enabled}")
-    protected boolean isSandboxEnabled;
-
     /**
      * Purge a tenant from the database.
      *
@@ -68,8 +63,7 @@ public class TenantPurgeResource {
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
         // Ensure the user is the correct admin.
-        Right requiredRight = (isSandboxEnabled) ? Right.CRUD_SANDBOX_ADMIN : Right.CRUD_SEA_ADMIN;
-        if (!SecurityUtil.hasRight(requiredRight)) {
+        if (!SecurityUtil.hasRight(Right.TENANT_PURGE)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to purge tenant " + tenantId);
             return Response.status(Status.FORBIDDEN).entity(body).build();

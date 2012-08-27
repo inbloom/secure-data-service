@@ -78,8 +78,6 @@ public class TenantPurgeResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        injector.setSeaAdminContext();
-        resource.isSandboxEnabled = false;
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
         headers = mock(HttpHeaders.class);
@@ -96,7 +94,6 @@ public class TenantPurgeResourceTest {
     public void testPurge() {
         injector.setSeaAdminContext();
         Map<String, String> requestBody = new HashMap<String, String>();
-        requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg");
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
 
         // Verify the purge operation completed successfully.

@@ -136,7 +136,7 @@ public class SecurityContextInjector {
         principal.setExternalId("sea_admin");
         setSecurityContext(principal);
 
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE };
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.TENANT_PURGE };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
