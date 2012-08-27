@@ -19,6 +19,9 @@ require 'selenium-webdriver'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../utils/sli_utils.rb'
 
+# Require all dashboard step definitions
+Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require file}
+
 When /^I navigate to the Portal home page$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 10)  
