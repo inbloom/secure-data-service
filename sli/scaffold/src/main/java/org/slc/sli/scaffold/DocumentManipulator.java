@@ -67,7 +67,7 @@ public class DocumentManipulator {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
         
-        docFactory.setNamespaceAware(true);
+        docFactory.setNamespaceAware(false);
     }
     
     /**
