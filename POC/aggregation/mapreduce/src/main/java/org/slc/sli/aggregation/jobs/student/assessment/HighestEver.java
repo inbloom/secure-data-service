@@ -1,10 +1,10 @@
 package org.slc.sli.aggregation.jobs.student.assessment;
 
-import java.io.OutputStreamWriter;
-
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.filecache.DistributedCache;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
@@ -32,9 +32,15 @@ public class HighestEver extends Configured implements Tool {
         conf.set(JobConfiguration.ID_PLACEHOLDER, assmtId);
 
         JobConf jobConf = ConfigurableMapReduceJob.parseMapper(conf, "student/Assessment-Calculated-HighestEver.json");
-        Configuration.dumpConfiguration(jobConf, new OutputStreamWriter(System.err));
+        FileSystem fs = FileSystem.get(jobConf);
+
+        //DistributedCache.addFileToClassPath(new Path("/libs/" + jobConf.getJar()), fs);
+        DistributedCache.addArchiveToClassPath(new Path("/libs/mongo-java-driver-2.8.0.jar"), jobConf);
+        DistributedCache.addArchiveToClassPath(new Path("/libs/mongo-hadoop-core_cdh4b1-1.0.0.jar"), jobConf);
+
         Job job = new Job(jobConf);
 
+        // Load dependencies from distributed cache
         boolean success = job.waitForCompletion(true);
 
         return success ? 0 : 1;

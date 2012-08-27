@@ -756,8 +756,13 @@ task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
                    :sifStudentLEARelationshipTest,
+                   :sifStaffPersonalTest,
+                   :sifEmployeePersonalTest,
+                   :sifEmploymentRecordTest,
+                   :sifStaffAssignmentTest,
                    :sifSmokeTests,
-                   :sifIntegratedTest
+                   :sifIntegratedTest,
+                   :sifEmployeeAssignmentTest
                    ] do
   displayFailureReport()
   if $SUCCESS

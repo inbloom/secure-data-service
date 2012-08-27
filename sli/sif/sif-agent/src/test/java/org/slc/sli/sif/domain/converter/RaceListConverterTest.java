@@ -30,12 +30,12 @@ import openadk.library.common.Race;
 import org.junit.Test;
 import org.junit.Before;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * RaceListConverter unit tests
  */
-public class RaceListConverterTest extends ADKTest {
+public class RaceListConverterTest extends AdkTest {
 
     private final RaceListConverter converter = new RaceListConverter();
     private Map<RaceType, String> map = new HashMap<RaceType, String>();

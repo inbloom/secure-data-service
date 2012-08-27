@@ -54,7 +54,7 @@ public class SchoolEntity extends SliEntity {
      * telephone [0..*] PhoneNumberList
      * accountabilityRatings [0..*]
      * programReference [0..*]
-     *
+     * LEAInfoRefId [0..1]
      */
     private String stateOrganizationId;
     private String nameOfInstitution;
@@ -66,6 +66,7 @@ public class SchoolEntity extends SliEntity {
     private List<String> gradesOffered;
     private List<String> schoolCategories;
     private List<InstitutionTelephone> telephone;
+    private String parentEducationAgencyReference;
 
     /**
      * The following fields have no counterparts found in SIF doamin,
@@ -76,7 +77,6 @@ public class SchoolEntity extends SliEntity {
      * <li>magnetSpecialProgramEmphasisSchool</li>
      * <li>shortNameOfInstitution</li>
      * <li>agencyHierarchyName</li>
-     * <li>parentEducationAgencyReference</li>
      * <li>educationOrgIdentificationCode</li>
      * <li>accountabilityRatings</li>
      * <li>programReference</li>
@@ -87,7 +87,6 @@ public class SchoolEntity extends SliEntity {
     private String magnetSpecialProgramEmphasisSchool;
     private String shortNameOfInstitution;
     private String agencyHierarchyName;
-    private String parentEducationAgencyReference;
     private List<String> educationOrgIdentificationCode;
     private List<String> accountabilityRatings;
     private List<String> programReference;
@@ -177,6 +176,15 @@ public class SchoolEntity extends SliEntity {
 
     public List<Address> getAddress() {
         return this.address;
+    }
+
+    public String getParentEducationAgencyReference() {
+        return parentEducationAgencyReference;
+    }
+
+    public void setParentEducationAgencyReference(
+            String parentEducationAgencyReference) {
+        this.parentEducationAgencyReference = parentEducationAgencyReference;
     }
 
     @Override

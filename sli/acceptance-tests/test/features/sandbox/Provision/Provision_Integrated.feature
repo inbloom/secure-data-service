@@ -1,10 +1,9 @@
-@RALLY_US2281 @RALLY_US2844
+@RALLY_US2281 @RALLY_US2844 @RALLY_US3251
 Feature: Developer/Vendor can create a High Level Ed-Org and link it to the Landing Zone
 
 Background:
 Given I have an open web browser
 And LDAP server has been setup and running
-
 
 @production
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone
@@ -138,10 +137,10 @@ Scenario: As a developer I can use the provisioning tool to pre-populate my tena
 Given there is an sandbox account in ldap
 And the account has a tenantId "<DEVELOPER_EMAIL>"
 And there is no corresponding tenant in mongo
-And there is no corresponding ed-org in mongo
+And there is no corresponding ed-org "<SMALL_SAMPLE_DATASET_EDORG>" in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the developer selects to preload "Small Sample Data Set"
+When the developer selects to preload "Small Dataset"
 Then a tenant with tenantId "<DEVELOPER_EMAIL>" created in Mongo
 And an ed-org is created in Mongo with the "stateOrganizationId" is "<SMALL_SAMPLE_DATASET_EDORG>"
 And a request to provision a landing zone is made
@@ -152,8 +151,8 @@ And the user gets a success message indicating preloading has been triggered
 Given the previous preload has completed
 And user's landing zone is still provisioned from the prior preloading
 When the developer go to the provisioning application web page
-And the developer selects to preload "Small Sample Data Set"
-Then the data to preload is stored for the tenant in mongo
+And the developer selects to preload "Small Dataset"
+Then the "small" data to preload is stored for the tenant in mongo
 And the user gets a success message indicating preloading has been triggered
 
 @sandbox @wip
@@ -161,10 +160,10 @@ Scenario: As a developer I cannot pre-populate my tenant if I have an existing i
 Given there is an sandbox account in ldap
 And the account has a tenantId "<DEVELOPER_EMAIL>"
 And there is no corresponding tenant in mongo
-And there is no corresponding ed-org in mongo
+And there is no corresponding ed-org "<SMALL_SAMPLE_DATASET_EDORG>" in mongo
 And ingestion is locked due to an existing ingestion job
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the developer selects to preload "Small Sample Data Set"
+When the developer selects to preload "Small Dataset"
 Then the user gets a error message that their account is currently ingesting data
 

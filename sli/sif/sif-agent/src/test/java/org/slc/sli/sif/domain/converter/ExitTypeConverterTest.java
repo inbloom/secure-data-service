@@ -22,12 +22,12 @@ import openadk.library.common.ExitTypeCode;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * ExitTypeConverter unit tests
  */
-public class ExitTypeConverterTest extends ADKTest {
+public class ExitTypeConverterTest extends AdkTest {
 
     private final ExitTypeConverter converter = new ExitTypeConverter();
 

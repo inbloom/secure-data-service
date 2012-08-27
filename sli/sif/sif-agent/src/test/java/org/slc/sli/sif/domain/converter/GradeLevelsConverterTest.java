@@ -27,12 +27,12 @@ import openadk.library.common.GradeLevels;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * GradeLevelsConverter unit tests
  */
-public class GradeLevelsConverterTest extends ADKTest {
+public class GradeLevelsConverterTest extends AdkTest {
 
     private final GradeLevelsConverter converter = new GradeLevelsConverter();
     private Map<GradeLevelCode, String> map = new HashMap<GradeLevelCode, String>();
