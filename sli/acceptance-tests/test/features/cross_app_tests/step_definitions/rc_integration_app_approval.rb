@@ -25,6 +25,9 @@ Dir["./test/features/admintools/step_definitions/*"].each {|file| require file}
 #databrowser
 Dir["./test/features/databrowser/step_definitions/*"].each {|file| require file}
 
+#dashboard
+Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require file}
+
 $client_id = nil
 $client_secret = nil
 
