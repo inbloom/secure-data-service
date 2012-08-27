@@ -117,7 +117,7 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | body.studentUniqueStateId      | 800000012                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 900000024                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 800000025                  | string               |
-       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | body.staffUniqueStateId        | cgray                      | string               |
        | staff                       | 2                   | body.race                | White                      | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
        | staff                       | 2                   | body.name.verification   | Drivers license            | string               |

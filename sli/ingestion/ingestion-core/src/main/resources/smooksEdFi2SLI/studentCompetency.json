@@ -32,7 +32,7 @@
                 [
                     [
                         { 
-                            "path" : "metaData.externalId",
+                            "path" : "body.studentCompetencyObjectiveId",
                             "values" : 
                             [{
                                 "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
