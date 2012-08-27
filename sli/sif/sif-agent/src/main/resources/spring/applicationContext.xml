@@ -12,7 +12,7 @@
 
     <bean id="slcInterface" class="org.slc.sli.sif.slcinterface.SlcInterface"/>
     
-    <bean id="sifIdResolverImplFile" class="org.slc.sli.sif.slcinterface.SifIdResolverImplFile"/>
+    <bean class="org.slc.sli.sif.slcinterface.SifIdResolverCustomData"/>
 
     <!-- Environment config -->
     <bean id="commonProperties"

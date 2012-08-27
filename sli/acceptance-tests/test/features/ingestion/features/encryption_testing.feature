@@ -17,7 +17,7 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |
 	        | student                     | 1    |
-	    And I find a record in "student" with "metaData.externalId" equal to "530425896"
+	    And I find a record in "student" with "body.studentUniqueStateId" equal to "530425896"
 		# UNENCRYPTED FIELDS
 		And the field "body.studentUniqueStateId" has value "530425896"
 		And the field "body.hispanicLatinoEthnicity" has value "false"
@@ -67,7 +67,7 @@ Scenario: Ingested Student data should be encrypted: Populated Database
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |
 	        | student                     | 1    |
-	    And I find a record in "student" with "metaData.externalId" equal to "530425896"
+	    And I find a record in "student" with "body.studentUniqueStateId" equal to "530425896"
 		# UNENCRYPTED FIELDS
 		And the field "body.studentUniqueStateId" has value "530425896"
 		And the field "body.hispanicLatinoEthnicity" has value "false"

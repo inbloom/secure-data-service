@@ -24,12 +24,12 @@ import openadk.library.student.OperationalStatus;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * OperationalStatusConverter unit tests
  */
-public class OperationalStatusConverterTest extends ADKTest {
+public class OperationalStatusConverterTest extends AdkTest {
 
     private final OperationalStatusConverter converter = new OperationalStatusConverter();
     private final Map<OperationalStatus, String> map = new HashMap<OperationalStatus, String>();

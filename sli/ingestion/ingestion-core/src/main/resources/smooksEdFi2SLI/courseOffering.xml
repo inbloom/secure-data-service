@@ -15,7 +15,6 @@
 
     <jb:bean beanId="courseOffering" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'courseOffering'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="courseOfferingMeta" />
         <jb:wiring property="body" beanIdRef="courseOfferingBody" />
     </jb:bean>
 

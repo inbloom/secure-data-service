@@ -57,7 +57,6 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -82,6 +81,7 @@ import org.slc.sli.domain.NeutralQuery;
         MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
         MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
+@Deprecated
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
@@ -201,8 +201,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 List<EntityBody> entityBodyList = null;
                 try {
-                    entityBodyList = logicalEntity.getEntities(apiQuery, new Constraint(key, valueList),
-                            entityDef.getResourceName());
+                    entityBodyList = logicalEntity.getEntities(apiQuery, entityDef.getResourceName());
                 } catch (UnsupportedSelectorException e) {
                     entityBodyList = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -302,8 +301,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     List<EntityBody> entityBodyList = null;
                     try {
-                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids),
-                                resolutionResourceName);
+                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery,  resolutionResourceName);
                     } catch (UnsupportedSelectorException e) {
                         entityBodyList = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
                     }
@@ -390,7 +388,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> finalResults = null;
                 try {
-                    finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
+                    finalResults = logicalEntity.getEntities(apiQuery, resourceName);
                 } catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -621,12 +619,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
+                            return logicalEntity.getEntities(apiQuery, resourceName);
                         }
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
+                        entityBodies = logicalEntity.getEntities(apiQuery, resourceName);
                     } catch (UnsupportedSelectorException e) {
                         entityBodies = entityDef.getService().list(apiQuery);
                     }
@@ -656,27 +654,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return false;
     }
 
-    /**
-     * Returns the sub-resource responsible for responding to requests for custom entity data
-     *
-     * @param id
-     *            the id of the entity the custom resource is applied to
-     */
-    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        return new CustomEntityResource(id, entityDef);
-    }
-
     @Path("{id}/" + PathConstants.CALCULATED_VALUES)
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
     @Override
     public CalculatedDataListingResource<String> getCalculatedValueListings(@PathParam("id") String id) {
         EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
         CalculatedData<String> data = service.getCalculatedValues(id);
-        return new CalculatedDataListingResource<String>(data);
+//        return new CalculatedDataListingResource<String>(data);
+        return null;
     }
 
     @Path("{id}/" + PathConstants.AGGREGATIONS)
@@ -687,7 +672,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         if (entityDef.supportsAggregates()) {
             EntityService service = entityDef.getService();
             CalculatedData<Map<String, Integer>> data = service.getAggregates(id);
-            return new CalculatedDataListingResource<Map<String, Integer>>(data);
+//            return new CalculatedDataListingResource<Map<String, Integer>>(data);
         }
         return null;
     }
@@ -764,7 +749,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     private Response handle(final String resourceName, final EntityDefinitionStore entityDefs, final UriInfo uriInfo,
             final ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+        EntityDefinition entityDef = getEntityDefinition(resourceName, entityDefs);
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
@@ -788,6 +773,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         logAccessToRestrictedEntity(uriInfo, entityDef);
 
         return logic.run(entityDef);
+    }
+
+    protected EntityDefinition getEntityDefinition(final String resourceName) {
+        return getEntityDefinition(resourceName, entityDefs);
+    }
+
+    protected EntityDefinition getEntityDefinition(final String resourceName, final EntityDefinitionStore entityDefs) {
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+        return entityDef;
     }
 
     private void logAccessToRestrictedEntity(final UriInfo uriInfo, EntityDefinition entity) {

@@ -186,7 +186,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation", "educationOrganizationAssociations")
-                .exposeAs("educationOrganization-associations")
+                .exposeAs("educationOrganizationAssociations")
                 .storeAs("educationOrganizationAssociation")
                 .from(educationOrganization, "getEducationOrganizationParent", "getEducationOrganizationParents",
                         "educationOrganizationParentId")

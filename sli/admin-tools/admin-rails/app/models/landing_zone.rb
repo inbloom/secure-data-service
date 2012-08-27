@@ -65,19 +65,34 @@ class LandingZone
     end
 
     isDuplicate = false
-    if(APP_CONFIG['is_sandbox'])
+    if(APP_CONFIG['is_sandbox']&&(sample_data_select==nil||sample_data_select==""))
       isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
-    else
+    elsif APP_CONFIG['is_sandbox'] == false
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
-
-    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant, :preloadFiles => sample_data_select)
+     result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+     
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
+    Rails.logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
+    
+    if(APP_CONFIG['is_sandbox']&&sample_data_select!=nil && sample_data_select!="")
+      begin
+      Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]},with #{sample_data_select} sample data")
+      preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid],sample_data_select)
+      Rails.logger.info("preload status code is: #{preload_result.code}")
+      if preload_result.code == 409
+        isDuplicate=true
+      end
+      rescue ActiveResource::ResourceConflict
+        isDuplicate=true
+      end
+    end
 
     user_info[:homedir] = result.attributes[:landingZone]
     user_info[:edorg] = edorg_id
@@ -94,9 +109,9 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
-        if sample_data_select !=nil && sample_data_select !=""
+        if sample_data_select !=nil && sample_data_select !="" && isDuplicate==false
         ApplicationMailer.auto_provision_email(user_info[:emailAddress],user_info[:first]).deliver 
-        else
+        elsif (sample_data_select == nil || sample_data_select =="")
         ApplicationMailer.provision_email(user_info[:emailAddress],user_info[:first],@server,edorg_id).deliver
         end
       rescue => e

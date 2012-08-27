@@ -23,12 +23,12 @@ import openadk.library.student.SchoolFocusType;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * SchoolFocusConverter unit tests
  */
-public class SchoolFocusConverterTest extends ADKTest {
+public class SchoolFocusConverterTest extends AdkTest {
 
     private final SchoolFocusConverter converter = new SchoolFocusConverter();
 
