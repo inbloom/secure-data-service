@@ -23,7 +23,9 @@ public class Stamper extends Configured implements Tool {
 		jobConf.setNumReduceTasks(6);
 		jobConf.setMemoryForMapTask(4096);
 		jobConf.setMemoryForReduceTask(8192);
+		jobConf.setInt("mongo.input.split_size", 2);
 		Job job = new Job(jobConf);
+		job.setNumReduceTasks(6);
 		boolean success = job.waitForCompletion(true);
 		return success ? 0 : 1;
 	}
