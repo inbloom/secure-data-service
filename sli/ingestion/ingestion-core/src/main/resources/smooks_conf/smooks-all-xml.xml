@@ -26,13 +26,7 @@
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <jb:expression property="recordType">'school'</jb:expression>
-    <jb:value property="localId" data="InterchangeEducationOrganization/School/StateOrganizationId" />
-    <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" />
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
-  </jb:bean>
-
-  <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
-    <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
@@ -132,7 +126,6 @@
   <!-- StateEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
     <jb:expression property="recordType">'stateEducationAgency'</jb:expression>
-    <jb:value property="localId" data="InterchangeEducationOrganization/StateEducationAgency/StateOrganizationId" />
     <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
   </jb:bean>
 
@@ -220,23 +213,7 @@
   <!-- LocalEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
     <jb:expression property="recordType">'localEducationAgency'</jb:expression>
-    <jb:value property="localId" data="InterchangeEducationOrganization/LocalEducationAgency/StateOrganizationId" />
-    <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentIds" />
     <jb:wiring property="attributes" beanIdRef="localEducationOrganizationAttributes" />
-  </jb:bean>
-
-  <jb:bean beanId="localEducationOrganizationParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
-    <jb:value property="educationOrganization#parentEducationAgencyReference"
-      data="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:wiring property="program#programReference" beanIdRef="localEducationOrganization_programReferenceArray" />
-  </jb:bean>
-
-  <jb:bean beanId="localEducationOrganization_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
-    <jb:wiring beanIdRef="localEducationAgency_programReference" />
-  </jb:bean>
-
-  <jb:bean beanId="localEducationAgency_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/ProgramReference/ProgramIdentity">
-    <jb:value property="program#metaData.externalId" data="LocalEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganizationAttributes" class="java.util.HashMap"
@@ -491,7 +468,6 @@
   <!-- Start Staff mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/Staff">
     <jb:expression property="recordType">'staff'</jb:expression>
-    <jb:value property="localId" data="InterchangeStaffAssociation/Staff/StaffUniqueStateId" />
     <jb:wiring property="attributes" beanIdRef="staffAttributes" />
   </jb:bean>
 
@@ -658,7 +634,7 @@
   <jb:bean beanId="staffEdOrgAssoc_staffReference_staffIdentity" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference/StaffIdentity">
     <jb:value property="staffUniqueStateId" data="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
-  
+
   <!-- End Staff Ed Org Association -->
 
 
@@ -814,18 +790,12 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
     <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="teacherSectionAssociationParentIds" />
-  </jb:bean>
-
-  <jb:bean beanId="teacherSectionAssociationParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
-    <jb:value property="schoolId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId"/>
-    <jb:value property="courseId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode" />
-    <jb:value property="sessionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SessionName" />
-    <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+    <jb:value property="schoolId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId"/>
+    <jb:value property="courseId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode" />
+    <jb:value property="sessionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SessionName" />
     <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="teacherId" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
     <jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate" />
@@ -906,7 +876,6 @@
     <jb:expression property="recordType">'course'</jb:expression>
 
     <!-- Use courseCode so that every instance of a same-titled course will be stored -->
-    <jb:value property="localId" data="InterchangeEducationOrganization/Course/CourseTitle" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
   </jb:bean>
 
@@ -1087,7 +1056,6 @@
   <!-- StudentAssessmentItem -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
     <jb:expression property="recordType">'studentAssessmentItem'</jb:expression>
-    <!-- <jb:value property="localId" data="AssessmentItem/@id" /> -->
     <jb:wiring property="attributes" beanIdRef="studentAssItemAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="studentAssItemParentIds" />
   </jb:bean>
@@ -2058,7 +2026,6 @@
   <!-- Start Student Parent mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/Student">
     <jb:expression property="recordType">'student'</jb:expression>
-    <jb:value property="localId" data="InterchangeStudentParent/Student/StudentUniqueStateId" />
     <jb:wiring property="attributes" beanIdRef="spi_StudentAttributes" />
   </jb:bean>
 
@@ -2604,7 +2571,6 @@
   <!-- Program mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Program">
     <jb:expression property="recordType">'program'</jb:expression>
-    <jb:value property="localId" data="InterchangeEducationOrganization/Program/ProgramId" />
     <jb:wiring property="attributes" beanIdRef="programAttributes" />
   </jb:bean>
 
@@ -2725,7 +2691,6 @@
 
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentCohort/Cohort">
     <jb:expression property="recordType">'cohort'</jb:expression>
-    <jb:value property="localId" data="InterchangeStudentCohort/Cohort/CohortIdentifier" />
     <jb:wiring property="attributes" beanIdRef="cohortAttributes" />
   </jb:bean>
 
@@ -3650,7 +3615,7 @@
    <jb:bean beanId="StudentCompetencyObjective_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
     <jb:wiring property="educationalOrgIdentity" beanIdRef="StudentCompetencyObjective_EdOrgIdentity" />
   </jb:bean>
-  
+
   <jb:bean beanId="StudentCompetencyObjective_EdOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
     <jb:value property="stateOrganizationId" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:wiring property="educationOrgIdentificationCode" beanIdRef="StudentCompetencyObjective_EdOrgidentificationCodeList" />

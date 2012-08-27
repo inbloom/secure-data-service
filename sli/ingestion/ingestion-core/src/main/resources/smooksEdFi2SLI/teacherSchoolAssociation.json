@@ -27,7 +27,7 @@
 	        [
 	            [
 		            {
-		           	    "path" : "metaData.externalId",
+		           	    "path" : "body.staffUniqueStateId",
 		                "values" :
 		                [{
 			                "valueSource" : "body.teacherId"

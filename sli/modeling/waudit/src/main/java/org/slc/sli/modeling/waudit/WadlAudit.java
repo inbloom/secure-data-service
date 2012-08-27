@@ -125,7 +125,7 @@ public final class WadlAudit {
             final List<Resource> childResourceList = doResourceList(resource.getResources(), resources, app, ancestors,
                     config, topLevel, fixup);
             return new Resource(resource.getId(), resource.getType(), resource.getQueryType(), resource.getPath(),
-                    resource.getDocumentation(), resource.getParams(), methods, childResourceList);
+                    resource.getDocumentation(), resource.getParams(), methods, childResourceList, resource.getResourceClass());
         } finally {
             ancestors.pop();
         }

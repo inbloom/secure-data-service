@@ -31,6 +31,7 @@ import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
  * @author kmyers
  *
  */
+@Deprecated
 public interface CrudEndpoint {
 
     /**
@@ -148,15 +149,6 @@ public interface CrudEndpoint {
      * @return resulting status from request
      */
     public Response delete(String resourceName, String id, HttpHeaders headers, UriInfo uriInfo);
-
-    /**
-     * Returns a sub resource responsible for handling custom entity requests.
-     *
-     * @param id
-     *            ID of object being deleted
-     * @return a sub resource responsible for handling custom entity requests
-     */
-    public CustomEntityResource getCustomEntityResource(String id);
 
     /**
      * Patches a given entity in a specific location or collection, which means that

@@ -57,8 +57,8 @@ public class SelectorElementTest {
         selector = mock(SemanticSelector.class);
 
         final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random());
-        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random());
+        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random(), "end1Id");
+        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random(), "end2Id");
 
         element = new ClassType("complexTypeName", end1, end2);
         attribute = new Attribute(Identifier.random(), "attributeName", Identifier.random(),

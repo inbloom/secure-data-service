@@ -58,7 +58,7 @@ class LandingZoneController < ApplicationController
        @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
        @landingzone[:preload] =sample_data_select
        else
-       @landingzone = LandingZone.provision ed_org_id, tenant, uid, @public_key
+       @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
        end
     end
   end

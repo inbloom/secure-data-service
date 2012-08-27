@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.staffId","body.programId"],
+    "keyFields" : ["body.staffId","body.programId", "body.beginDate"],
 	"references" :
 	[{
         "fieldPath" : "body.staffId",
