@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
-import org.slc.sli.ingestion.processors.FilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 
@@ -47,7 +46,6 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     private ZipFileProcessor zipFileProcessor;
     private ControlFilePreProcessor controlFilePreProcessor;
     private NoExtractProcessor noExtractProcessor;
-    private FilePreProcessor filePreProcessor;
 
     private List<String> landingZonePaths;
 
@@ -65,11 +63,10 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
      * @param zipFileProcessor, the ingestion zip processor
      * @param controlFilePreProcessor, the ingestion controlFilePreProcessor
      */
-    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri, FilePreProcessor filePreProcessor,
-            ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor) {
+    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri, ZipFileProcessor zipFileProcessor,
+            ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor) {
 
         this.landingZonePaths = landingZonePaths;
-        this.filePreProcessor = filePreProcessor;
         this.zipFileProcessor = zipFileProcessor;
         this.controlFilePreProcessor = controlFilePreProcessor;
         this.noExtractProcessor = noExtractProcessor;

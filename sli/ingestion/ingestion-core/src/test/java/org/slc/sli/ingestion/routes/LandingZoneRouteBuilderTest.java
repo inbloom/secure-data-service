@@ -36,7 +36,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
-import org.slc.sli.ingestion.processors.FilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 /**
@@ -56,9 +55,6 @@ public class LandingZoneRouteBuilderTest {
     private ZipFileProcessor zipFileProcessor;
 
     @Autowired
-    private FilePreProcessor filePreProcessor;
-
-    @Autowired
     private NoExtractProcessor noExtractProcessor;
     @Test
     public void shouldCreateCtrlAndZipRoutes() throws Exception {
@@ -69,7 +65,7 @@ public class LandingZoneRouteBuilderTest {
         testPaths.add(testPath);
 
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(testPaths,
-                "seda:workItemQueue", filePreProcessor, zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor);
+                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor);
 
         camelContext.start();
 
