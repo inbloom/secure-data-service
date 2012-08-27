@@ -1,0 +1,43 @@
+{
+    "nameSpace":"v1",
+    "resources":[
+        {
+            "path":"/students",
+            "doc":"This is a student",
+            "subResources":[
+                {
+                    "path":"/{id}/studentSectionAssociations",
+                    "subResources":[
+                        {
+                            "path":"/sections"
+                        }
+                    ]
+                },
+                {
+                    "path":"/{id}/studentCohortAssociations",
+                    "subResources":[
+                        {
+                            "path":"/cohorts"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/schools",
+            "doc":"This is a school",
+            "resourceClass":"org.slc.sli.api.resources.generic.PublicOnePartResource",
+            "subResources":[
+                {
+                    "path":"/{id}/studentSchoolAssociations",
+                    "subResources":[
+                        {
+                            "path":"/students"
+                        }
+                    ]
+
+                }
+            ]
+        }
+    ]
+}
