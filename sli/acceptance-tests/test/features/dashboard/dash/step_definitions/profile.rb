@@ -47,6 +47,7 @@ end
 ###############################
 When /^I look at Ed Org Profile$/ do
   @edorgInfo = viewInfoPanel("edorgProfile")
+  @currentTab = getTab("Schools")
 end
 
 Then /^the ed org name shown is "(.*?)"$/ do |expectedName|
@@ -58,13 +59,11 @@ When /^I see the following schools:$/ do |table|
   mapping = {
     "School" => "nameOfInstitution"
   }   
-  # edorg profiles doesn't have panels
-  checkGridEntries(@driver, table, mapping)
+  #assumes currentTab has 1 grid
+  checkGridEntries(@currentTab, table, mapping)
 end
 
 When /^I click on school "(.*?)"$/ do |edorgName|
-  # edorg profile doesn't have tabs
-  @currentTab = @driver
   clickOnRow(edorgName)
 end
 
