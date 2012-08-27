@@ -533,6 +533,9 @@ ci:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.dataset.sample:
+            small: [/jenkins/workspace/NxIngestion/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
+            medium : [/jenkins/workspace/NxIngestion/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
