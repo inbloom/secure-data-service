@@ -147,6 +147,10 @@ public interface PopulationManager {
     
     @EntityMapping("edorgInfo")
     public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config);
+    
+    @EntityMapping("sedorgInfo")
+    public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config);
+    
 
 }
 
