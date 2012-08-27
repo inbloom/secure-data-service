@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+<merges>
 
   <merge type="node" action="add" xpath="//method[@name='POST']">
     <doc>Creates a new resource using the given resource data.</doc>
