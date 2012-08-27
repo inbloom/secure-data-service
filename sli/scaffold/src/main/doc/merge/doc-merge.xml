@@ -7,6 +7,7 @@
   <!-- Remove unwanted resources -->
   <merge type="node" action="delete" xpath="//resource[@path='v1/metrics']" />
   <merge type="node" action="delete" xpath="//resource[@path='v1/tenant_metrics']" />
+  <merge type="node" action="delete" xpath="//resources/resource[not(starts-with(@path, 'v1'))]" />
 
   <!-- Add views documentation -->
   <merge type="node" action="add" xpath="//resource[@path='v1/students']/resource[@path='{id}']/method[@name='GET']">
