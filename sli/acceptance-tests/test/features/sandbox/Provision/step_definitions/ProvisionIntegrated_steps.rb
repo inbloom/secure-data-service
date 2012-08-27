@@ -26,6 +26,8 @@ require 'digest'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
+PRELOAD_EDORG = "STANDARD-SEA"
+
 Before do 
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
@@ -44,6 +46,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @email                                       if human_readable_id == "TENANTID"
   id = @edorgId                                     if human_readable_id == "PROD_EDORG"
   id = "district_edorg"                             if human_readable_id == "DISTRICT_EDORG"
+  id = "STANDARD-SEA"                               if human_readable_id == "SMALL_SAMPLE_DATASET_EDORG"
   id
 end
 
@@ -112,6 +115,11 @@ Given /^there is no corresponding tenant in mongo$/ do
 end
 
 Given /^there is no corresponding ed\-org in mongo$/ do
+  clear_edOrg
+end
+
+Given /^there is no corresponding ed\-org "(.*?)" in mongo$/ do |edorg|
+  @edorgId=edorg
   clear_edOrg
 end
 
@@ -263,6 +271,60 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
   assert(check_lz_path(user[:homedir], @tenantId, @edorgName),"the landing zone path is not stored in ldap")
 end
+
+When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
+   if sample_data_set.downcase.include? "small"
+     sample_data_set="small"
+   else
+     sample_data_set="medium"
+   end
+   @explicitWait.until{@driver.find_element(:id,"ed_org_STANDARD-SEA").click}
+   select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
+   select.select_by(:value, sample_data_set)
+   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
+   @edorgName = PRELOAD_EDORG
+end
+
+Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
+  tenant_collection =@db["tenant"]
+  preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => PRELOAD_EDORG,"body.landingZone.preload.files" => [sample_data_set])
+  assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for the tenant in mongo")
+  #preload_tenant.each  do |tenant|
+  #  puts tenant
+  #end
+end
+
+Then /^the user gets a success message indicating preloading has been triggered$/ do
+  step "the user gets a success message"
+end
+
+Given /^the previous preload has completed$/ do
+  tenant_job_lock_coll=@db["tenantJobLock"]
+  tenant_job_lock_coll.remove("_id" => @tenantId)
+end
+
+Given /^user's landing zone is still provisioned from the prior preloading$/ do
+  tenant_coll = @db["tenant"]
+  preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => PRELOAD_EDORG)
+  assert(preload_tenant.count()>0, "the user's landing zone is not provisioned from the prior preloading")
+end
+
+Given /^ingestion is locked due to an existing ingestion job$/ do
+  step "the previous preload has completed"
+  tenant_job_lock_coll=@db["tenantJobLock"]
+  lock_entity ={
+  "_id" => @tenantId,
+  "batchJobId" => "test"
+  }
+  tenant_job_lock_coll.save(lock_entity)
+end
+
+Then /^the user gets a error message that their account is currently ingesting data$/ do
+  step "the user gets an already provisioned message"
+  step "the previous preload has completed"
+end
+
+
 
 def check_lz_path(path, tenant, edOrg)
   path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)

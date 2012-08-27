@@ -18,7 +18,6 @@ package org.slc.sli.sif.generator;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Properties;
 
 import openadk.library.ADKException;
 import openadk.library.ADKParsingException;
@@ -33,19 +32,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Custom event generator.
+ * Custom event generator, requires file containing SIF object and EventAction specifying ADD, CHANGE, or DELETE.
  *
  * @author vmcglaughlin
  */
-public class CustomEventGenerator implements EventGenerator {
+public class CustomEventGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomEventGenerator.class);
 
-    @Override
-    public Event generateEvent(Properties eventProps) {
-        String messageFile = eventProps.getProperty(EventGenerator.MESSAGE_FILE);
-        String eventActionStr = eventProps.getProperty(EventGenerator.EVENT_ACTION, EventAction.ADD.toString());
-        EventAction eventAction = EventAction.valueOf(eventActionStr);
+    public static Event generateEvent(String messageFile, EventAction eventAction) {
         FileReader in = null;
         Event event = null;
         try {

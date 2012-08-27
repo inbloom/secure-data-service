@@ -104,11 +104,11 @@ public interface ConfigManager {
      * @param token
      * @param edOrgKey
      * @param params
-     * @param overwriteCustomConfig
+     * @param overwriteWithCustomConfig overwrite DriverConfig with custom configs
      * @return
      */
     Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs,
-            boolean overwriteCustomConfig);
+            boolean overwriteWithCustomConfig);
     
     /**
      * Get all custom for EdOrg hierarchy and Driver config

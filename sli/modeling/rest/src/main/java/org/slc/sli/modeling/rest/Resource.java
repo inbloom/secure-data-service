@@ -29,13 +29,14 @@ public class Resource extends WadlElement {
     private final List<String> type;
     private final String queryType;
     private final String path;
+    private final String resourceClass;
     private final List<Param> params;
     private final List<Method> methods;
     private final List<Resource> resources;
 
     public Resource(final String id, final List<String> type, final String queryType, final String path,
             final List<Documentation> doc, final List<Param> params, final List<Method> methods,
-            final List<Resource> resources) {
+            final List<Resource> resources, final String resourceClass) {
         super(doc);
         if (null == type) {
             throw new NullPointerException("type");
@@ -59,6 +60,7 @@ public class Resource extends WadlElement {
         this.params = Collections.unmodifiableList(new ArrayList<Param>(params));
         this.methods = Collections.unmodifiableList(new ArrayList<Method>(methods));
         this.resources = Collections.unmodifiableList(new ArrayList<Resource>(resources));
+        this.resourceClass = resourceClass;
     }
 
     /**
@@ -125,5 +127,9 @@ public class Resource extends WadlElement {
         sb.append("resources").append(" : ").append(resources);
         sb.append("}");
         return sb.toString();
+    }
+
+    public String getResourceClass() {
+        return resourceClass;
     }
 }

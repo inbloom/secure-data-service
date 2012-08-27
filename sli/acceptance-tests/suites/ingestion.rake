@@ -175,6 +175,11 @@ task :ingestionErrorWarnCountTest do
   runTests("test/features/ingestion/features/ingestion_error_warning_count.feature")
 end
 
+desc "Run Preloading Test"
+task :ingestionPreloading do
+  runTests("test/features/ingestion/features/ingestion_preload_data.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

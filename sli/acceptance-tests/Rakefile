@@ -610,7 +610,7 @@ task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTes
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, ] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionPreloading] do
 
   displayFailureReport()
   if $SUCCESS
@@ -756,8 +756,13 @@ task :sifTests => [:sifSchoolInfoTest,
                    :sifLEAInfoTest,
                    :sifStudentSchoolEnrollmentTest,
                    :sifStudentLEARelationshipTest,
+                   :sifStaffPersonalTest,
+                   :sifEmployeePersonalTest,
+                   :sifEmploymentRecordTest,
+                   :sifStaffAssignmentTest,
                    :sifSmokeTests,
-                   :sifIntegratedTest
+                   :sifIntegratedTest,
+                   :sifEmployeeAssignmentTest
                    ] do
   displayFailureReport()
   if $SUCCESS

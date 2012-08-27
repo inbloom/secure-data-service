@@ -64,10 +64,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     private String driverConfigLocation;
     private String userConfigLocation;
     
-    private static String LAYOUT_NAME = "layoutName";
-    private static String LAYOUT = "layout";
-    private static String DEFAULT = "default";
-    private static String TYPE = "type";
+    private static final String LAYOUT_NAME = "layoutName";
+    private static final String LAYOUT = "layout";
+    private static final String DEFAULT = "default";
+    private static final String TYPE = "type";
     
     public ConfigManagerImpl() {
     }
@@ -366,9 +366,15 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), newConfigMap);
     }
     
-    // determine target config needs to be filtered
-    private boolean filterConfig(Config config, String layoutName) {
-        boolean filterConfig = true;
+    /**
+     * To find Config is PANEL types and belong to the layout.
+     * 
+     * @param config
+     * @param layoutName
+     * @return
+     */
+    private boolean doesBelongToLayout(Config config, String layoutName) {
+        boolean belongConfig = true;
         // first filter by type.
         // Target TYPEs are PANEL, GRID, TREE, and REPEAT_HEADER_GRID
         
@@ -376,27 +382,23 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         if (type != null
                 && (type.equals(Config.Type.PANEL) || type.equals(Config.Type.GRID) || type.equals(Config.Type.TREE) || type
                         .equals(Config.Type.REPEAT_HEADER_GRID))) {
-            filterConfig = false;
             // if a client requests specific layout,
             // then filter layout.
             if (layoutName != null) {
                 
-                filterConfig = true;
+                belongConfig = false;
                 Map<String, Object> configParams = config.getParams();
                 if (configParams != null) {
                     List<String> layouts = (List<String>) configParams.get(LAYOUT);
                     if (layouts != null) {
-                        for (String layout : layouts) {
-                            if (layoutName.equals(layout)) {
-                                filterConfig = false;
-                                break;
-                            }
+                        if (layouts.contains(layoutName)) {
+                            belongConfig = true;
                         }
                     }
                 }
             }
         }
-        return filterConfig;
+        return belongConfig;
     }
     
     @Override
@@ -423,10 +425,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         Iterator<Config> configIterator = driverConfigs.iterator();
         while (configIterator.hasNext()) {
             Config driverConfig = configIterator.next();
-            if (filterConfig(driverConfig, layoutName)) {
-                configIterator.remove();
-            } else {
+            if (doesBelongToLayout(driverConfig, layoutName)) {
                 configIdLookup.add(driverConfig.getId());
+            } else {
+                configIterator.remove();
             }
         }
         
@@ -446,15 +448,13 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 if (configByMap != null) {
                     Collection<Config> customConfigs = configByMap.values();
                     if (customConfigs != null) {
-                        Iterator<Config> customConfigIterator = customConfigs.iterator();
-                        while (customConfigIterator.hasNext()) {
-                            Config customConfig = customConfigIterator.next();
+                        for (Config customConfig : customConfigs) {
                             
                             // if parentId from customConfig does not exist in DriverConfig,
                             // then ignore.
                             String parentId = customConfig.getParentId();
                             if (parentId != null && configIdLookup.contains(parentId)) {
-                                if (!filterConfig(customConfig, layoutName)) {
+                                if (doesBelongToLayout(customConfig, layoutName)) {
                                     customConfigByType.add(customConfig);
                                 }
                             }

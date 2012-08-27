@@ -64,7 +64,7 @@
             [
                 [
                     {
-                        "path" : "metaData.externalId",
+                        "path" : "body.studentUniqueStateId",
                         "values" :
                         [{
                             "valueSource" : "body.studentId"

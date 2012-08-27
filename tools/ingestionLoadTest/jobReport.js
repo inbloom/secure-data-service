@@ -2,6 +2,7 @@
 var stages   = {};
 var rpsStats = [];
 var csv      = [];
+var jCount   = 0;
 db.newBatchJob.find().forEach(batchJob);
 
 //poor man's Map
@@ -52,30 +53,31 @@ function batchJob(job){
 		var totalRecords = 0;
 		var totalErrors = 0;
 		var mainFile     =  job["resourceEntries"][0]["externallyUploadedResourceId"];
-		//for(var i = 0; i < job["resourceEntries"].length; i++) {
-	//		var entry                        = job["resourceEntries"][i];
-	//		var errorCount                   = entry["errorCount"];
-	//		var externallyUploadedResourceId = entry["externallyUploadedResourceId"];
-	//		var recordCount                  = entry["recordCount"];
-	//		totalRecords+= recordCount;
-	//		totalErrors+=errorCount;
-	//		print(sprintf ("   >" + externallyUploadedResourceId  , sprintf(recordCount  , " Records", 10), 70));
-	//	}
-	//	print ("                                                         Total:" + totalRecords + " Recs.");
-	//	var totalTime = 0;
-	//	for(var i = 0; i < job["stages"].length; i++) {
-	//		var stage            = job["stages"][i];
-	//		var name             = stage["stageName"];
-	//		var start            = stage["startTimestamp"];
-	//		var stop             = stage["stopTimestamp"];
-	//		var time             = (stop.getTime() - start.getTime())/1000.0;
-	//		var perRecord        = time/totalRecords;
-	//		totalTime           += time;
-	//		print(sprintf ("    >" + name, sprintf(time ,  " secs.", 10), 70));
-	//	}
-        //      print ("                                                         Total:" + totalTime + " secs.");
-        //	var rps = totalRecords/totalTime;
-		var jobStats = [mainFile,"ooo" , jobStartTimestamp, jobStopTimestamp, totalErrors + " errors"].join(",");
+		for(var i = 0; i < job["resourceEntries"].length; i++) {
+		var entry                        = job["resourceEntries"][i];
+			var errorCount                   = entry["errorCount"];
+			var externallyUploadedResourceId = entry["externallyUploadedResourceId"];
+			var recordCount                  = entry["recordCount"];
+			totalRecords+= recordCount;
+			totalErrors+=errorCount;
+			print(sprintf ("   >" + externallyUploadedResourceId  , sprintf(recordCount  , " Records", 10), 70));
+		}
+		print ("                                                         Total:" + totalRecords + " Recs.");
+		var totalTime = 0;
+		for(var i = 0; i < job["stages"].length; i++) {
+			var stage            = job["stages"][i];
+			var name             = stage["stageName"];
+			var start            = stage["startTimestamp"];
+			var stop             = stage["stopTimestamp"];
+			var time             = (stop.getTime() - start.getTime())/1000.0;
+			var perRecord        = time/totalRecords;
+			totalTime           += time;
+			print(sprintf ("    >" + name, sprintf(time ,  " secs.", 10), 70));
+		}
+              print ("                                                         Total:" + totalTime + " secs.");
+        	var rps = totalRecords/totalTime;
+		var jobStats = [jobStartTimestamp, mainFile, tenant, Math.ceil(rps) + " RPS", 
+		    jobStopTimestamp, totalErrors + " errors", jCount++].join(",  ");
 		csv.push(jobStats);
 	} catch ( exception ) {
 	    for(var prop in exception){print (prop + ":" + exception[prop]);}

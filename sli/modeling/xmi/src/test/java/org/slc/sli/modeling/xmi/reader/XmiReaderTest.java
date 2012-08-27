@@ -90,18 +90,6 @@ public class XmiReaderTest {
     }
 
     @Test
-    public void testGetName() {
-        String specificName = "hi. I am a specific name";
-        String defaultName = "hi. I'm the default";
-
-        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(specificName);
-        assertTrue(XmiReader.getName(mockReader, defaultName).equals(specificName));
-
-        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
-        assertTrue(XmiReader.getName(mockReader, defaultName).equals(defaultName));
-    }
-
-    @Test
     public void testGetIdRefHappyPath() {
         String id = "ID1234567890";
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(id);
