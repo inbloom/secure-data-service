@@ -247,7 +247,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_change |
 
 Scenario: Add an EmploymentRecord for a staff
-Given I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
+Given the data store is "data_EmploymentRecord"
+And I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -263,7 +264,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
 
 Scenario: Update an EmploymentRecord for a staff
-Given I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
+Given the data store is "data_EmploymentRecord"
+And I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
