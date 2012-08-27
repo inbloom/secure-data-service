@@ -125,8 +125,8 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
-       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
-       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
+       | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
+       | program                     | 1                   | body.programId      | ACC-TEST-PROG-2            | string               |
        | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
        | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
        | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
@@ -501,7 +501,7 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | body.studentUniqueStateId     | 100000006                  | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
-       | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
+       | section                     | 1                   | body.uniqueSectionCode   | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |

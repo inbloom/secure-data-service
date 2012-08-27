@@ -42,7 +42,7 @@
                                      "choiceOfFields" :
                                       [
                                           [{
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.uniqueSectionCode",
                                               "values" :
                                                [{
                                                    "valueSource" : "body.uniqueSectionCode"

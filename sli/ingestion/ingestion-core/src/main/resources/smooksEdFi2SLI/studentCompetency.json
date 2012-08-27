@@ -11,9 +11,9 @@
                 "choiceOfFields" :
                 [
                     [
-                        { 
+                        {
                             "path" : "body.learningObjectiveId.identificationCode",
-                            "values" : 
+                            "values" :
                             [{
                                 "valueSource" : "body.learningObjectiveReference"
                             }]
@@ -31,9 +31,9 @@
                 "choiceOfFields" :
                 [
                     [
-                        { 
+                        {
                             "path" : "body.studentCompetencyObjectiveId",
-                            "values" : 
+                            "values" :
                             [{
                                 "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
@@ -82,7 +82,7 @@
                                      "choiceOfFields" :
                                       [
                                           [{
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.uniqueSectionCode",
                                               "values" :
                                                [{
                                                    "valueSource" : "body.uniqueSectionCode"
