@@ -270,7 +270,7 @@ public class UserResource {
                 }
 
                 if (!foundLEA) {
-                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in this Education Organization");
+                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in "+user.getEdorg());
                 }
             }
         }
@@ -523,15 +523,19 @@ public class UserResource {
             if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
-            // LEA's Ed-Org must already exist in the tenant
-            String restrictByEdorg = null;
-            if (isLeaAdmin()) {
-                restrictByEdorg = secUtil.getEdOrg();
-            }
-            //edorgs must already exist in db
-            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
-            if (!allowedEdorgs.contains(user.getEdorg())) {
-                return composeBadDataResponse("Can not change or create LEA in this Education Organization");
+
+            //SLC can create LEA anywhere
+            if (!getGroupsAllowed().contains(RoleToGroupMapper.GROUP_SLC_OPERATOR)) {
+                // LEA's Ed-Org must already exist in the tenant
+                String restrictByEdorg = null;
+                if (isLeaAdmin()) {
+                    restrictByEdorg = secUtil.getEdOrg();
+                }
+                //edorgs must already exist in db
+                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg, Arrays.asList(SuperAdminService.LOCAL_EDUCATION_AGENCY), true);
+                if (!allowedEdorgs.contains(user.getEdorg())) {
+                    return composeBadDataResponse("Can not change or create LEA in this Education Organization");
+                }
             }
         } else {
             if (user.getTenant() == null) {
