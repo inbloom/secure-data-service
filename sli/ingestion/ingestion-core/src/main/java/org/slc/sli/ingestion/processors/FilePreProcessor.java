@@ -27,6 +27,7 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
@@ -62,6 +63,9 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
     private static final String BATCH_JOB_STAGE_NAME = "FilePreProcessor";
     private Exchange exchange;
 
+    @Value("${sli.ingestion.filetransfer.duration}")
+    private long pollingInterval;
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
@@ -75,7 +79,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
         File fileForControlFile = exchange.getIn().getBody(File.class);
 
         //LOG.error("DEBUG-UN: " + GetCurrentTime() + ": Starting the process on file " + fileForControlFile.getAbsolutePath());
-        FileMonitor fileMonitor = new FileMonitor(500, this, "CtlFile");
+        FileMonitor fileMonitor = new FileMonitor(pollingInterval, this, "CtlFile");
         fileMonitor.addFile(fileForControlFile);
         fileMonitor.startFileMonitor();
     }
@@ -142,7 +146,7 @@ public class FilePreProcessor  implements Processor, MessageSourceAware, FileLis
             LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
             ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
             List<IngestionFileEntry> entries = controlFile.getFileEntries();
-            FileMonitor fileMonitor = new FileMonitor(1500, this, "Xmlfile");
+            FileMonitor fileMonitor = new FileMonitor(pollingInterval, this, "Xmlfile");
             for (IngestionFileEntry entry : entries) {
                 fileMonitor.addFile(new File(lzFile +  File.separator + entry.getFileName()));
             }
