@@ -1,26 +1,28 @@
-@RALLY_US3047 @RALLY_US3370
+@RALLY_US3047 @RALLY_US3370 @RALLY_DE1527 @RALLY_US3178 @RALLY_US3369
 Feature: SIF Integrated Test
 
 Background: Set my data store
 Given the data store is "data_integrated"
 
 Scenario: Add an LEA
-Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
+Given I wait for "10" seconds
+And I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName           |
      | educationOrganization    |
      | student                  |
      | studentSchoolAssociation |
-And I wait for "10" seconds
+     | custom_entities          |
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 2     |
    And I check to find if record is in collection:
-     | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
-     | educationOrganization | 1                   | body.stateOrganizationId | Daybreak School District 4530 | string     |
-     | educationOrganization | 1                   | body.stateOrganizationId | IL                            | string     |
+     | collectionName        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
+     | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak School District 4530               | string     |
+     | educationOrganization | 1                   | body.stateOrganizationId            | IL                                          | string     |
+     | educationOrganization | 1                   | body.parentEducationAgencyReference | 2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f | string     |
    And I check that the record contains all of the expected values:
      | collectionName        | searchParameter          | searchValue                   | searchType | expectedValuesFile   |
      | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string     | expected_LEAInfo_add |
@@ -51,10 +53,13 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName        | count |
      | educationOrganization | 3     |
    And I check to find if record is in collection:
-     | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
-     | educationOrganization | 1                   | body.stateOrganizationId | Daybreak West High            | string     |
-     | educationOrganization | 1                   | body.stateOrganizationId | Daybreak School District 4530 | string     |
-     | educationOrganization | 1                   | body.stateOrganizationId | IL                            | string     |
+     | collectionName        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
+     | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak West High                          | string     |
+     | educationOrganization | 1                   | body.stateOrganizationId            | IL                                          | string     |
+     | educationOrganization | 1                   | body.stateOrganizationId            | Daybreak School District 4530               | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName        | searchParameter          | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | educationOrganization | body.stateOrganizationId | Daybreak West High | string     | body.parentEducationAgencyReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
    And I check that the record contains all of the expected values:
      | collectionName        | searchParameter          | searchValue                   | searchType | expectedValuesFile      |
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_add |
@@ -77,10 +82,7 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_change_1 |
 
 Scenario: Add a Student
-Given the following collections are clean and bootstrapped in datastore:
-     | collectionName    |
-     | student           |
-And I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
+Given I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -118,7 +120,11 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
-     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-16                                   | string     |
+     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-01                                   | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Update a StudentLEARelationship
 Given I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
@@ -132,6 +138,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Add a StudentSchoolEnrollment
 Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
@@ -147,6 +157,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
 
 Scenario: Update a StudentSchoolEnrollment
 Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
@@ -162,3 +176,100 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2012-2013                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Eleventh grade                               | string     |
+   And I check that ID fields resolved correctly:
+     | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
+     | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
+     | studentSchoolAssociation | body.schoolYear | 2012-2013   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
+
+Scenario: Add an Employee
+Given the following collections are clean and bootstrapped in datastore:
+     | collectionName    |
+     | staff             |
+And I want to POST a(n) "sifEvent_EmployeePersonal_add" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile            |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_add |
+
+Scenario: Update an Employee
+Given I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile               |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_change |
+
+ Scenario: Add an Staff with existing employee record
+Given I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile               |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_add_exist |
+
+Scenario: Change a Staff record
+Given I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName | count |
+     | staff          | 2     |
+   And I check to find if record is in collection:
+     | collectionName | expectedRecordCount | searchParameter         | searchValue  | searchType |
+     | staff          | 1                   | body.staffUniqueStateId | C2345681     | string     |
+   And I check that the record contains all of the expected values:
+     | collectionName | searchParameter         | searchValue  | searchType | expectedValuesFile            |
+     | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_change |
+
+Scenario: Add an EmploymentRecord for a staff
+Given I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 2     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue  | searchType | expectedValuesFile                                        |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | expected_EmploymentRecord_add_staff_educationOrganization |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue  | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
+
+Scenario: Update an EmploymentRecord for a staff
+Given I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 2     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | expected_EmploymentRecord_change_staff_educationOrganization |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
+
+

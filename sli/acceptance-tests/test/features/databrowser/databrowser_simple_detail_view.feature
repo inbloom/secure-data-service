@@ -131,7 +131,7 @@ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 And I have navigated to the "Schools" listing of the Data Browser
 When I click on "Krypton Middle School" in the list of schools
 And then click on the "GetTeachers" link
-Then I see a "You don't have permission to access this" alert box
+Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
  

@@ -434,99 +434,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="leaveEvent">
-		<xs:annotation>
-			<xs:documentation>This event entity represents the recording of the
-				dates of staff leave
-				(e.g., sick leave, personal time, vacation,
-				etc.).
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-				<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="eventDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Date for this leave event.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="leaveEventCategory" type="leaveEventCategoryType">
-				<xs:annotation>
-					<xs:documentation>The code describing the type of leave taken,
-						for
-						example: Sick Personal Vacation
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="leaveEventReason" type="leaveEventReason"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Expanded reason for the staff leave.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="hoursOnLeave" type="xs:double"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The hours the staff was absent, if not the
-						entire
-						working day.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="substituteAssigned" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicator of whether a substitute was assigned
-						during
-						the period of staff leave.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="staffReference" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>The staff associated with this leave event.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<!-- <xs:complexType name="location"> <xs:annotation> <xs:documentation>This
-		entity represents the physical space where students gather for a particular
-		class/section. The location may be an indoor or outdoor area designated for
-		the purpose of meeting the educational needs of students. </xs:documentation>
-		</xs:annotation> <xs:sequence> <xs:element name="classroomIdentificationCode"
-		type="classroomIdentificationCode"> <xs:annotation> <xs:documentation>A unique
-		number or alphanumeric code assigned to a room by a school, school system,
-		state, or other agency or entity. </xs:documentation> </xs:annotation> </xs:element>
-		<xs:element name="maximumNumberOfSeats" type="xs:int" minOccurs="0"> <xs:annotation>
-		<xs:documentation>The most number of seats the class can maintain. </xs:documentation>
-		</xs:annotation> </xs:element> <xs:element name="optimalNumberOfSeats" type="xs:int"
-		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that
-		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element>
-		</xs:sequence> </xs:complexType> --> <!-- <xs:complexType name="meetingTime"> <xs:annotation> <xs:documentation>This
-		entity represents the set of elements defining the meeting time for a class
-		period for a bell schedule. </xs:documentation> </xs:annotation> <xs:sequence>
-		<xs:element name="classPeriodName" type="xs:string"> <xs:annotation> <xs:documentation>The
-		class period associated with the meeting time for a bell schedule. </xs:documentation>
-		</xs:annotation> </xs:element> <xs:element name="weekNumber"> <xs:annotation>
-		<xs:documentation>The week number (out of the number of weeks in the cycle)
-		for this meeting time. </xs:documentation> </xs:annotation> <xs:simpleType>
-		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive
-		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
-		name="meetingDates"> <xs:annotation> <xs:documentation>Dates the meetings
-		occur</xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="xs:date"></xs:list>
-		</xs:simpleType> </xs:element> <xs:element name="startTime" type="xs:time">
-		<xs:annotation> <xs:documentation>An indication of the time of day the class
-		begins. </xs:documentation> </xs:annotation> </xs:element> <xs:element name="endTime"
-		type="xs:time"> <xs:annotation> <xs:documentation>An indication of the time
-		of day the class ends. </xs:documentation> </xs:annotation> </xs:element>
-		<xs:element name="officialAttendancePeriod" type="xs:boolean" minOccurs="0">
-		<xs:annotation> <xs:documentation>Indicator of whether this meeting time
-		is used for official daily attendance. </xs:documentation> </xs:annotation>
-		</xs:element> </xs:sequence> </xs:complexType> -->
 	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
@@ -1404,12 +1311,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="teacherAssociations" type="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Teachers associated with the section.
@@ -2250,7 +2151,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
+			<xs:element name="schoolYear" type="schoolYearType">
 				<xs:annotation>
 					<xs:documentation>The value of the school year for the school.
 					</xs:documentation>
@@ -2404,7 +2305,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sessionIds" type="reference">
+			<xs:element name="sessions" type="studentSession">
 				<xs:annotation>
 					<xs:documentation>Sessions the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
@@ -2412,27 +2313,11 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sectionIds" type="reference">
+			<xs:element name="sections" type="studentSection">
 				<xs:annotation>
 					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="programIds" type="reference">
-				<xs:annotation>
-					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>program</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="cohortIds" type="reference">
-				<xs:annotation>
-					<xs:documentation>Cohorts the student is enrolled in.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>cohort</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2720,6 +2605,16 @@
 				<xs:annotation>
 					<xs:documentation>Represents discipline incidents for this student.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="programs" type="studentProgram">
+				<xs:annotation>
+					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cohorts" type="studentCohort">
+				<xs:annotation>
+					<xs:documentation>Cohorts the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3170,29 +3065,26 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentCohortAssociation">
+	<xs:complexType name="studentCohort">
 		<xs:annotation>
 			<xs:documentation>
 				This association represents the cohort(s) that a
 				student is designated for.
+				NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
+				groups of students.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
-        <xs:annotation>
-            <xs:documentation>NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
-                groups of students.
-            </xs:documentation>
-        </xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="cohortId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The student associated with the cohort.
+					<xs:documentation>Reference to the cohort associated with the
+						student.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
+						<sli:ReferenceType>cohort</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3438,23 +3330,20 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentProgramAssociation">
+	<xs:complexType name="studentProgram">
 		<xs:annotation>
 			<xs:documentation>
 				This association represents the program(s) that a
 				student participates in or is served by.
 			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="programId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The student associated with the program.
+					<xs:documentation>The program associated with the student.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
+						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -3510,21 +3399,21 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="specialEducationAttributes" type="specialEdStudentProgramAssociationAttributes"
-                    minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        Optional special education attributes of a student program association.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="specialEducationAttributes" type="specialEdStudentProgramAttributes"
+			minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Optional special education attributes of a student program.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-    <xs:complexType name="specialEdStudentProgramAssociationAttributes">
+    <xs:complexType name="specialEdStudentProgramAttributes">
         <xs:annotation>
             <xs:documentation>
-                Special education attributes of a student program association.
+                Special education attributes of a student program.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -3576,23 +3465,38 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="studentSectionAssociation">
+	<xs:complexType name="studentSession">
 		<xs:annotation>
-			<xs:documentation>This association indicates the course sections a
+			<xs:documentation>This indicates the sessions a
 				student is assigned to.
 			</xs:documentation>
-			<xs:appinfo>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="sessionId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The student enrolled in the section.
+					<xs:documentation>The session the student is in.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
+						<sli:ReferenceType>session</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="studentSection">
+		<xs:annotation>
+			<xs:documentation>This indicates the course sections a
+				student is assigned to.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sectionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>The section the student is enrolled in.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>section</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3646,12 +3550,12 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="enrollmentId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The student who received the grade
+					<xs:documentation>The student enrollment for the grade
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
+						<sli:ReferenceType>enrollment</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5826,12 +5730,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the cohort.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6706,12 +6604,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the program.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -7099,12 +6991,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="studentId" type="reference" minOccurs="0">
+            <xs:element name="enrollmentId" type="reference" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Reference to the evaluated student.
+                    <xs:documentation>Reference to the evaluated student enrollment.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:ReferenceType>student</sli:ReferenceType>
+                        <sli:ReferenceType>enrollment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
                     </xs:appinfo>
                 </xs:annotation>

@@ -97,7 +97,7 @@ Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do 
 end
 
 def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
-  success = system("#{MONGO_BIN}mongoimport -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
   assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 
@@ -189,6 +189,7 @@ end
 Then /^I check that the record contains all of the expected values:$/ do |table|
   table.hashes.map do |row|
     identifier = row["expectedValuesFile"]
+    puts "Checking match for identifier " + identifier
     entities = getEntitiesForParameters(row)
 
     assert(!entities.nil?, "Received nil entities for search parameters")
@@ -201,14 +202,78 @@ Then /^I check that the record contains all of the expected values:$/ do |table|
     file.close
 
     expectedMap = JSON.parse(expectedJson)
-    expectedMap.each do |key, expected|
-      actual = entity[key]
-      assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
+
+    # check type
+    assert(expectedMap["type"] == entity["type"], "Type doesn't match - Expected: " + expectedMap["type"] + " Actual: " + entity["type"])
+
+    # check body
+    expectedMap["body"].each do |key, expected|
+      actual = entity["body"][key]
+
+      if (expected == ("${exists}"))
+        result = !actual.nil? and !actual.empty?
+        assert(result == true, "Value is nil or empty for key: #{key}")
+      else
+        assert(expected == actual, "Values don't match expected for key: #{key}\nExpected:\t" + expected.to_s + "\nActual:\t" + actual.to_s)
+      end
     end
 
     # must match at this point
     puts "Row matches values in " + identifier + ".json"
   end
+end
+
+Then /^I check that ID fields resolved correctly:$/ do |table|
+  @result = "true"
+
+  table.hashes.map do |row|
+    sourceEntities = getEntitiesForParameters(row)
+    @source_entity_count = 0
+    @source_entity_count = sourceEntities.size unless sourceEntities.nil?
+
+    sourceEntity = sourceEntities.first
+
+    if @source_entity_count != 1
+      puts "There are " + @source_entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ", expected 1"
+      @result = "false"
+    end
+
+    targetRow = {
+      'collectionName' => row['targetCollectionName'],
+      'searchParameter' => row['targetSearchParameter'],
+      'searchValue' => row['targetSearchValue'],
+      'searchType' => row['targetSearchType']
+    }
+    targetEntities = getEntitiesForParameters(targetRow)
+    @target_entity_count = 0
+    @target_entity_count = targetEntities.size unless targetEntities.nil?
+
+    targetEntity = targetEntities.first
+
+    if @target_entity_count != 1
+      puts "There are " + @target_entity_count.to_s + " in " + row["targetCollectionName"] + " collection for record with " + row["targetSearchParameter"] + " = " + row["targetSearchValue"] + ", expected 1"
+      @result = "false"
+    end
+
+    idResolutionField = row['idResolutionField']
+    if (idResolutionField.start_with?('body.'))
+      sourceEntity = sourceEntity['body']
+      idResolutionField = idResolutionField[5..idResolutionField.length]
+    #  puts "ID resolution field changed to #{idResolutionField}"
+    end
+    sourceIdReference = sourceEntity[idResolutionField]
+    #puts "Source entity has value #{sourceIdReference} for field #{row['idResolutionField']}"
+
+    targetId = targetEntity['_id']
+    #puts "Target entity has value #{targetId} for field _id"
+
+    if (sourceIdReference != targetId)
+      puts "Source id reference #{sourceIdReference} doesn't match target id #{targetId}"
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some IDs did not resolve correctly")
 end
 
 ############################################################

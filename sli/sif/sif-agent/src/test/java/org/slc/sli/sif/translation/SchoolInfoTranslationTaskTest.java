@@ -19,8 +19,6 @@ package org.slc.sli.sif.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import openadk.library.ADK;
-import openadk.library.ADKException;
 import openadk.library.common.AddressList;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.PhoneNumberList;
@@ -38,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
@@ -49,16 +48,20 @@ import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  *
  * SchoolInfoTranslationTask unit tests
  *
  */
-public class SchoolInfoTranslationTaskTest {
+public class SchoolInfoTranslationTaskTest extends AdkTest {
 
     @InjectMocks
     private final SchoolInfoTranslationTask translator = new SchoolInfoTranslationTask();
+
+    @Mock
+    SifIdResolver mockSifIdResolver;
 
     @Mock
     AddressListConverter mockAddressConverter;
@@ -82,24 +85,25 @@ public class SchoolInfoTranslationTaskTest {
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
     @Before
-    public void beforeTests() {
-        try {
-            ADK.initialize();
-        } catch (ADKException e) {
-            e.printStackTrace();
-        }
+    public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<SchoolEntity> result = translator.translate(new SchoolInfo());
+        List<SchoolEntity> result = translator.translate(new SchoolInfo(), null);
         Assert.assertNotNull("Result was null", result);
     }
 
     @Test
     public void testBasicFields() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
+
+        String leaRefId = "SIF_LEAREFID";
+        String leaGuid = "SLI_LEAGUID";
+        String zoneId = "zoneId";
+        info.setLEAInfoRefId(leaRefId);
+        Mockito.when(mockSifIdResolver.getSliGuid(leaRefId, zoneId)).thenReturn(leaGuid);
 
         String stateOrgId = "stateOrgId";
         info.setStateProvinceId(stateOrgId);
@@ -112,7 +116,7 @@ public class SchoolInfoTranslationTaskTest {
 
         info.setTitle1Status(Title1Status.SCHOOLWIDE);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, zoneId);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -122,6 +126,7 @@ public class SchoolInfoTranslationTaskTest {
         Assert.assertEquals("School", entity.getOrganizationCategories().get(0));
         Assert.assertEquals(schoolUrl, entity.getWebSite());
 
+        Assert.assertEquals(leaGuid, entity.getParentEducationAgencyReference());
     }
 
     @Test
@@ -135,7 +140,7 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -152,7 +157,7 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockSchoolFocusConverter.convert(focusList)).thenReturn("schoolType");
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -170,7 +175,7 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockGradeLevelsConverter.convert(sifGradeLevels)).thenReturn(convertedGrades);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -187,7 +192,7 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockSchoolTypeConverter.convertAsList(SchoolLevelType.ELEMENTARY)).thenReturn(schoolTypes);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -205,7 +210,7 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockPhoneNumberListConverter.convertInstitutionTelephone(phoneNumberList)).thenReturn(telephones);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -221,7 +226,7 @@ public class SchoolInfoTranslationTaskTest {
         Mockito.when(mockTitleIPartASchoolDesignationConverter.convert(Title1Status.SCHOOLWIDE)).thenReturn(
                 TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
 
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
@@ -235,7 +240,7 @@ public class SchoolInfoTranslationTaskTest {
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
         Mockito.when(mockOperationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus())))
                 .thenReturn("Closed");
-        List<SchoolEntity> result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info, null);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 

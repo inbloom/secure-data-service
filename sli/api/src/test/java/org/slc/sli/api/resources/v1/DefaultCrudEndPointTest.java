@@ -1,18 +1,18 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2012 Shared Learning Collaborative, LLC
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package org.slc.sli.api.resources.v1;
 
@@ -49,6 +49,9 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -64,7 +67,6 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -76,11 +78,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * Unit tests for the default crud endpoint
- *
- * @author srupasinghe
- *
- */
+* Unit tests for the default crud endpoint
+*
+* @author srupasinghe
+*
+*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -88,7 +90,8 @@ import org.slc.sli.domain.NeutralQuery;
 public class DefaultCrudEndPointTest {
 
     @Autowired
-    private StudentResource crudEndPoint; // class under test
+    @Qualifier("testEndPoint")
+    private DefaultCrudEndpoint crudEndPoint; // class under test
 
     @Autowired
     private SecurityContextInjector injector;
@@ -415,57 +418,6 @@ public class DefaultCrudEndPointTest {
         assertEquals("Should match", 0, criteriaList.size());
     }
 
-    @Test
-    public void testIncludeAggregates() {
-        EntityDefinitionStore mockStore = mock(EntityDefinitionStore.class);
-        EntityDefinition mockSchoolDef = mock(EntityDefinition.class);
-        EntityDefinition mockStudentDef = mock(EntityDefinition.class);
-        EntityService mockService = mock(EntityService.class);
-        when(mockStore.lookupByResourceName("school")).thenReturn(mockSchoolDef);
-        when(mockStore.lookupByResourceName("student")).thenReturn(mockStudentDef);
-        when(mockSchoolDef.supportsAggregates()).thenReturn(true);
-        when(mockSchoolDef.getService()).thenReturn(mockService);
-        when(mockStudentDef.getService()).thenReturn(mockService);
-        Map<String, Map<String, Map<String, Map<String, Integer>>>> aggregates = new HashMap<String, Map<String, Map<String, Map<String, Integer>>>>();
-        Map<String, Map<String, Map<String, Integer>>> assessments = new HashMap<String, Map<String, Map<String, Integer>>>();
-        Map<String, Map<String, Integer>> mathTest = new HashMap<String, Map<String, Integer>>();
-        Map<String, Integer> highestEver = new HashMap<String, Integer>();
-        highestEver.put("E", 15);
-        highestEver.put("2", 20);
-        mathTest.put("HighestEver", highestEver);
-        assessments.put("ACT", mathTest);
-        aggregates.put("assessments", assessments);
-        CalculatedData<Map<String, Integer>> aggregate = new CalculatedData<Map<String, Integer>>(aggregates,
-                "aggreate");
-        when(mockService.getAggregates("42")).thenReturn(aggregate);
-        when(mockService.list(any(NeutralQuery.class))).thenReturn(Arrays.asList(new EntityBody()));
-        DefaultCrudEndpoint schoolResource = new DefaultCrudEndpoint(mockStore, "school");
-        schoolResource.setIncludeAggregates("true");
-        EntityBody body = new EntityBody();
-        body.put("id", "42");
-        schoolResource.addAggregates(body, mockSchoolDef);
-        assertEquals(aggregate.getCalculatedValues(), pullAggregate(body));
-        schoolResource.setIncludeAggregates("false");
-        body = new EntityBody();
-        body.put("id", "42");
-        schoolResource.addAggregates(body, mockSchoolDef);
-        assertEquals(null, pullAggregate(body));
-        assertEquals(aggregate.getCalculatedValues(), schoolResource.getAggregationListings("42").getCalculatedValues(null, null, null, null).getEntity());
-        DefaultCrudEndpoint studentResource = new DefaultCrudEndpoint(mockStore, "student");
-        studentResource.setIncludeAggregates("true");
-        body = new EntityBody();
-        body.put("id", "42");
-        studentResource.addAggregates(body, mockStudentDef);
-        assertEquals(null, pullAggregate(body));
-        assertEquals(null, studentResource.getAggregationListings("42"));
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<CalculatedDatum<Map<String, Integer>>> pullAggregate(EntityBody result) {
-        Object aggregateResult = result.get("aggregates");
-        return (List<CalculatedDatum<Map<String, Integer>>>) aggregateResult;
-    }
-
     private String getIDList(String resource) {
         // create one more resource
         Response createResponse1 = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders,
@@ -519,5 +471,28 @@ public class DefaultCrudEndPointTest {
         matcher.find();
         assertEquals(1, matcher.groupCount());
         return matcher.group(1);
+    }
+
+    @Configuration
+    static class Config {
+        @Autowired
+        private EntityDefinitionStore entityDefs;
+
+        @Bean(name = "testEndPoint")
+        public DefaultCrudEndpoint getDefaultCrudEndPoint() {
+            return new TestEndPoint(entityDefs, "students");
+        }
+    }
+
+    static class TestEndPoint extends DefaultCrudEndpoint {
+
+        /**
+         * Constructor.
+         *
+         * @param entityDefs access to entity definitions
+         */
+        public TestEndPoint(final EntityDefinitionStore entityDefs, String resourceName) {
+            super(entityDefs, resourceName);
+        }
     }
 }

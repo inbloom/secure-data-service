@@ -185,7 +185,6 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | id                        |
     | links                     |
     | sequenceOfCourse          |
-    | studentSectionAssociation |
 
   Scenario: Applying selector to exclude fields
     Given selector "(.,sex:false,cohortYears:false)"

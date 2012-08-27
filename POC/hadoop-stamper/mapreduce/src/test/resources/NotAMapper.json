@@ -1,0 +1,17 @@
+{ 
+  "description": "Sample JSON configuration for a chained mapper used in invalid mapper unit tests.",
+  "map_chain" : 
+  [{
+    "description" : "Mapper class does not extend Mapper",
+    "map_class" : "java.lang.String",
+    "input_key_type" : "TenantAndIdEmittableKey",
+    "input_value_type" : "org.bson.BSONObject",
+    "input_collection" : "sli.studentAssessmentAssociation",
+    "input_key_field" : "body.assessmentId",
+    "read_from_secondaries" : true,
+    "query" : "{ \"body.assessmentId\" : \"$INPUT_KEY.getId()\" }",
+    "fields" : "{ \"metaData.tenantId\" : 1, \"body.studentId\" : 1 }",
+    "output_key_type" : "TenantAndIdEmittableKey",
+    "output_value_type" : "org.bson.BSONObject"  
+  }] 
+}

@@ -36,12 +36,16 @@ import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 /**
  * Translates a SIF schoolInfo into a SLI school entity
  */
 @Component
 public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInfo, SchoolEntity> {
+
+    @Autowired
+    SifIdResolver sifIdResolver;
 
     @Autowired
     AddressListConverter addressListConverter;
@@ -69,7 +73,7 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
     }
 
     @Override
-    public List<SchoolEntity> doTranslate(SchoolInfo sifData) {
+    public List<SchoolEntity> doTranslate(SchoolInfo sifData, String zoneId) {
         SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 
@@ -93,6 +97,11 @@ public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInf
                 .wrap(schoolInfo.getTitle1Status()));
         if (schoolType != null) {
             result.setSchoolType(schoolType.getText());
+        }
+
+        String leaGuid = sifIdResolver.getSliGuid(schoolInfo.getLEAInfoRefId(), zoneId);
+        if (leaGuid != null) {
+            result.setParentEducationAgencyReference(leaGuid);
         }
 
         List<SchoolEntity> list = new ArrayList<SchoolEntity>(1);

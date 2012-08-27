@@ -175,40 +175,25 @@
             <AssessmentReference ref="TA-ACT-3"/>
         </StudentAssessment>
         <LoginId>BCimmino</LoginId>
-        <SessionReference>
-            <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <SessionName>Fall 2006 Daybreak Central High</SessionName>
-            </SessionIdentity>
-        </SessionReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>TEST-PROG-3</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>TEST-PROG-4</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <CohortReference>
-            <CohortIdentity>
-                <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-                <StateOrganizationId>WA</StateOrganizationId>
-            </CohortIdentity>
-        </CohortReference>
-        <CohortReference>
-            <CohortIdentity>
-                <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-                <StateOrganizationId>WA</StateOrganizationId>
-            </CohortIdentity>
-        </CohortReference>
+        <StudentSession>
+            <SessionReference>
+                <SessionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <SessionName>Fall 2006 Daybreak Central High</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+        </StudentSession>
+        <StudentSection>
+            <SectionReference>
+                <SectionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2010-10-04</BeginDate>
+            <EndDate>2010-11-07</EndDate>
+            <HomeroomIndicator>true</HomeroomIndicator>
+        </StudentSection>
     </Enrollment>
 
     <Enrollment>
@@ -381,42 +366,44 @@
             <AssessmentReference ref="TA-ACT-0"/>
         </StudentAssessment>
         <LoginId>JZenz</LoginId>
-        <SessionReference>
-            <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <SessionName>Fall 2006 Daybreak Central High</SessionName>
-            </SessionIdentity>
-        </SessionReference>
-        <SessionReference>
-            <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <SessionName>Spring 2007 Daybreak Central High</SessionName>
-            </SessionIdentity>
-        </SessionReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                <UniqueSectionCode>9th Grade Math - Sec 5</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>ACC-TEST-PROG-1</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <CohortReference>
-            <CohortIdentity>
-                <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-                <StateOrganizationId>NY</StateOrganizationId>
-            </CohortIdentity>
-        </CohortReference>
-        <CohortIds>
+        <StudentSession>
+            <SessionReference>
+                <SessionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <SessionName>Fall 2006 Daybreak Central High</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+        </StudentSession>
+        <StudentSession>
+            <SessionReference>
+                <SessionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <SessionName>Spring 2007 Daybreak Central High</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+        </StudentSession>
+        <StudentSection>
+            <SectionReference>
+                <SectionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2010-10-04</BeginDate>
+            <EndDate>2010-11-07</EndDate>
+            <HomeroomIndicator>true</HomeroomIndicator>
+        </StudentSection>
+        <StudentSection>
+            <SectionReference>
+                <SectionIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2010-10-04</BeginDate>
+            <EndDate>2010-11-07</EndDate>
+            <HomeroomIndicator>true</HomeroomIndicator>
+        </StudentSection>
     </Enrollment>
 </InterchangeStudentEnrollment>
 
