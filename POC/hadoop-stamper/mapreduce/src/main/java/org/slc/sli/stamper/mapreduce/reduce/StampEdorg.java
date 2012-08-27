@@ -22,7 +22,7 @@ public class StampEdorg extends Reducer<IdFieldEmittableKey, BSONWritable, Tenan
 			String tenantId = BSONUtilities.getValue(student, "metaData.tenantId");
 			
 	        String field = context.getConfiguration().get(MongoAggFormatter.UPDATE_FIELD);
-	        BSONObject obj = BSONUtilities.setValue(field, id.getId());
+	        BSONObject obj = BSONUtilities.setValue(field, id.getId().toString());
 	        BSONWritable output = new BSONWritable(obj);
 	        TenantAndIdEmittableKey fid = new TenantAndIdEmittableKey();
 	        fid.setTenantId(new Text(tenantId));
