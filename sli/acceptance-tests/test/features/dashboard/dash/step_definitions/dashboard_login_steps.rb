@@ -37,29 +37,6 @@ Then /^I should be redirected to the Dashboard landing page$/ do
   assertWithWait("Failed to navigate to "+@expected_url)  { @driver.current_url == @expected_url }
 end
 
-Given /^was redirected to the Realm page$/ do
-  # TODO
-  # This should block until the Realm page is loaded
-  sleep 1
-end
-
-Given /^was redirected to the SLI\-IDP login page$/ do
-  # TODO
-  # This should block until the login page is loaded
-  sleep 1
-end
-
-Given /^I chose "([^"]*)"$/ do |arg1|
-  # TODO
-  # Fill in when there is integration with Realm page
-end
-
-Given /^I clicked the Go button$/ do
-  # TODO
-  # Fill in when there is integration with Realm page
-end
-
-
 Given /^I clicked the Submit button$/ do
   assertMissingField("submit", "name")
   clickButton("submit", "name")

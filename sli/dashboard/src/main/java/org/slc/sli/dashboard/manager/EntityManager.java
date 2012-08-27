@@ -325,6 +325,12 @@ public class EntityManager extends ApiClientManager {
     }
 
     
+    /**
+     * Get all schools for the district, and pass them to the ed-org profile.
+     * @param token
+     * @param id
+     * @return
+     */
     public GenericEntity getEdorgProfile(String token, String id) {
 		// TODO Auto-generated method stub
 		GenericEntity edorg = getApiClient().getEducationalOrganization(token, id);
@@ -343,11 +349,42 @@ public class EntityManager extends ApiClientManager {
 				schoolList.add(tempSchool);
 			}
 			
-		ge.put("schoolList", schoolList);
+		ge.put(Constants.ATTR_SCHOOL_LIST, schoolList);
 		}
-
+		
 		return ge;    	
     }
+
+	
+    /**
+     * Get all ed-orgs for state and pass them to the state Ed-org profile.
+     * @param token
+     * @param edorgId
+     * @return
+     */
+    public GenericEntity getStateEdorgProfile(String token, String edorgId) {
+		GenericEntity edorg = getApiClient().getEducationalOrganization(token, edorgId);
+		GenericEntity ge = new GenericEntity();
+
+		if(edorg != null) {
+			ge.put(Constants.ATTR_NAME_OF_INST, edorg.getString(Constants.ATTR_NAME_OF_INST));
+			Link link = edorg.getLink(Constants.ATTR_GET_FEEDER_EDORGS);
+			List<GenericEntity> districts = getApiClient().readEntityList(token, link.getResourceURL().toString());
+			LinkedList<GenericEntity> districtList = new LinkedList<GenericEntity>();
+			
+			for (GenericEntity district : districts) {
+				GenericEntity tempSchool = new GenericEntity();
+				tempSchool.put(Constants.ATTR_ID, district.getString(Constants.ATTR_ID));
+				tempSchool.put(Constants.ATTR_NAME_OF_INST, district.getString(Constants.ATTR_NAME_OF_INST));
+				districtList.add(tempSchool);
+			}
+			
+		ge.put(Constants.ATTR_DISTRICT_LIST, districtList);
+		}		
+		
+		return ge;
+	}    
+    
     
     /**
      * Returns the grades and associated courses, by traversing student section asssociations.
@@ -432,4 +469,5 @@ public class EntityManager extends ApiClientManager {
     	
     	return ge;
     }
+
 }

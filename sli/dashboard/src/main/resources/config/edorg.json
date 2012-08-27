@@ -8,7 +8,6 @@
 	items: [
 		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
 		{id: "edorgInfo", type: "PANEL"},
-		{id: "schoolList", type: "GRID"}
+		{id: "tab1", name: "Schools",  type : "TAB", items: [{id : "schoolList", type: "GRID"}]}
 	]
-	
 }
