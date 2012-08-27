@@ -22,13 +22,13 @@ import javax.xml.namespace.QName;
  * Constants used in the SLI MongoDB W3C XML Schema.
  */
 public final class SliMongoConstants {
-    
+
     private SliMongoConstants() {
-        
+
     }
-    
+
     public static final String NAMESPACE_SLI = "http://slc-sli/ed-org/0.1";
-    
+
     public static final QName SLI_COLLECTION_NAME = new QName(NAMESPACE_SLI, "CollectionType");
     public static final QName SLI_NATURAL_KEY = new QName(NAMESPACE_SLI, "naturalKey");
     public static final QName SLI_APPLY_NATURAL_KEYS = new QName(NAMESPACE_SLI, "applyNaturalKeys");
@@ -39,4 +39,5 @@ public final class SliMongoConstants {
     public static final QName SLI_WRITE_ENFORCEMENT = new QName(NAMESPACE_SLI, "WriteEnforcement");
     public static final QName SLI_RELAXEDBLACKLIST = new QName(NAMESPACE_SLI, "RelaxedBlacklist");
     public static final QName SLI_RESTRICTED_FOR_LOGGING = new QName(NAMESPACE_SLI, "RestrictedForLogging");
+    public static final QName SLI_SCHEMA_VERSION = new QName(NAMESPACE_SLI, "schemaVersion");
 }
