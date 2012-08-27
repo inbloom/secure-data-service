@@ -219,7 +219,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_change |
 
  Scenario: Add an Staff with existing employee record
-Given I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
+Given the data store is "data_StaffPersonal"
+And I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -233,7 +234,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_add_exist |
 
 Scenario: Change a Staff record
-Given I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
+Given the data store is "data_StaffPersonal"
+And I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
