@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-#portal
+#portal, which also imports dashboard step def
 require_relative '../../liferay/step_definitions/all_steps.rb'
 
 #admin tools

@@ -36,24 +36,53 @@ end
 When /^I add a Page named "(.*?)"$/ do |pageName|
   addSection = @driver.find_element(:class, "addPageSection")
   addSection.find_element(:tag_name, "button").click
-  ensurePopupLoaded()
-  setPageName(pageName) 
   
-  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
-  if (@currentProfile == "section")
-    uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
-  end
-  @driver.find_element(:id, "content_json").send_keys(:backspace)
-  @driver.find_element(:id, "content_json").send_keys(:backspace)
-  @driver.find_element(:id, "content_json").send_keys(uploadText)
-  saveDashboardBuilder()
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='New page']")
+  
+  setPageName(pageName) 
 end
 
-When /^I append the text "(.*?)" to the name of Page "(.*?)"$/ do |appendedText, pageName|
-  hoverOverPage(pageName, "edit")
-  getPageByName(pageName)
-  setPageName(appendedText)
-  saveDashboardBuilder()
+When /^I add an available panel named "(.*?)"$/ do |panelName|
+  @currentPage.find_element(:css, "button[class*='btn-block']").click
+  popupPanel = @driver.find_element(:id, "allPanelsModal")
+  availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
+  found = false
+  availablePanels.each do |panel|
+    name = panel.find_element(:css, "span[class*='panelName']")
+    if (name.attribute("innerHTML").include? panelName)
+      found = true
+      panel.click
+      break
+    end
+  end
+  assert(found, "#{panelName} is not found in the list")
+  popupPanel.find_element(:class,"modal-footer").find_elements(:tag_name, "button")[1].click
+  
+  ensurePopupUnloaded()
+end
+
+When /^I upload custom json for it$/ do
+  viewSourceCode()
+  uploadJson()
+end
+
+When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, listOfPanels|
+  hoverOverPage(pageName)
+  expectedPanels = listOfPanels.split(';')
+  
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
+  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} Actual: #{actualPanels.length.to_s}")
+  
+  expectedPanels.each do |expectedPanel|
+    found = false
+    actualPanels.each do |actualPanel|
+      if (actualPanel.text == expectedPanel)
+        found = true  
+      end  
+    end  
+    assert(found, "#{expectedPanel} was not found")
+  end
 end
 
 When /^I move Page "(.*?)" to become Page Number "(.*?)"$/ do |pageName, pageIndex|
@@ -79,13 +108,20 @@ When /^I move Page "(.*?)" to become Page Number "(.*?)"$/ do |pageName, pageInd
 end
 
 When /^I see the following page order "(.*?)" in the builder$/ do |pages|
-  checkPageOrder(pages, 1)
+  expected = pages.split(';')  
+  actual = @driver.find_element(:css, "[class*='tabbable']").find_element(:tag_name, "ul").find_elements(:tag_name, "li") 
+  assert(expected.length == actual.length - 1 , "size of pages are not equal Actual: " + (actual.length - 1).to_s + " Expected: " + expected.length.to_s )
+  for index in 0..actual.length - 2 #ignore the las page  
+    page = actual[index]
+    pageText = page.find_element(:tag_name,"a").text
+    assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
+  end
+
 end
 
 def getPageByName(pageName)
-  pages = @driver.find_element(:id, "tabs").find_elements(:tag_name, "li")
+  pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
-    puts page.text
     if (page.text == pageName)
      return page
     end
@@ -100,30 +136,45 @@ def getPageByIndex(index)
 end
 
 def setPageName(pageName)
-  popup = @driver.find_element(:class, "modal-body")
-  popup.find_element(:tag_name, "input").send_keys pageName
+  input = @currentPage.find_element(:tag_name, "input")  
+  input.clear
+  input.send_keys pageName
+  @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
 end
 
-def hoverOverPage(pageName, mode)
+def hoverOverPage(pageName, mode = nil)
   page = getPageByName(pageName)
   assert(page != nil, "Page #{pageName} is not found")
   
   @driver.action.move_to(page).perform
-  #ensure that it is hovering on it
-  page.find_element(:class, "updatePage")
-  
-  edit = page.find_elements(:tag_name, "span")
-  assert(edit.length == 3)
+  page.find_element(:tag_name,"a").click
+
   if (mode == "edit")
-    edit[1].click  
-    ensurePopupLoaded()
+    #TODO
   elsif (mode == "delete")
-    edit[2].click
+    @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
   end  
 end
 
+def viewSourceCode()
+  @currentPage.find_element(:class,"page-actions").find_element(:tag_name,"button").click
+  ensurePopupLoaded()  
+end
+
+def uploadJson()
+  uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
+  if (@currentProfile == "section")
+    uploadText = "[{\"id\":\"listOfStudents\",\"parentId\":\"listOfStudents\",\"name\":null,\"type\":\"PANEL\"}]"
+  end
+  inputBox = @driver.find_element(:id, "content_json")
+  inputBox.clear
+  inputBox.send_keys(uploadText)
+    
+  saveDashboardBuilder()
+end
+
 def saveDashboardBuilder()
-  save = @driver.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
+  save = @driver.find_element(:id, "modalBox").find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
@@ -134,7 +185,7 @@ def saveDashboardBuilder()
 end
 
 def ensurePopupLoaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
+  @explicitWait.until {(style = @driver.find_element(:id, "modalBox").attribute('style').strip)  == "display: block;" }
 end
 
 def ensurePopupUnloaded() 
