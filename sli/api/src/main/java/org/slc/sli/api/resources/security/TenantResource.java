@@ -17,8 +17,6 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.List;
-
 import javax.ws.rs.core.Response;
 
 /**
@@ -29,7 +27,7 @@ import javax.ws.rs.core.Response;
  */
 public interface TenantResource {
 
-    LandingZoneInfo createLandingZone(String tenantId, String edOrgId, List<String> preloadFiles, boolean isSandbox) throws TenantResourceCreationException;
+    LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox) throws TenantResourceCreationException;
 
     /**
      * Small data object to return multiple typesafe fields from createLandingZone
@@ -67,7 +65,7 @@ public interface TenantResource {
      * @author srichards
      *
      */
-    public class TenantResourceCreationException extends Exception {
+    public class TenantResourceCreationException extends RuntimeException {
 
         /**
          *
@@ -93,5 +91,6 @@ public interface TenantResource {
         public Response.Status getStatus() {
             return status;
         }
+
     }
 }
