@@ -100,7 +100,7 @@ public class ResourceEndPoint {
             return FOUR_PART_RESOURCE;
         } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.THREE_PART)) {
             return THREE_PART_RESOURCE;
-        }else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.ONE_PART) ||
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.ONE_PART) ||
             resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.TWO_PART)) {
             return BASE_RESOURCE;
         }
