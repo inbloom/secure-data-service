@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.generic.custom;
 
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -12,8 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -28,7 +25,7 @@ import java.util.Map;
 
 @Component
 @Scope("request")
-public class PublicAggregateListableResource extends DefaultResource {
+public class PublicAggregateListableResource extends DefaultResource implements AggregateListable {
 
     @Override
     @GET
@@ -44,8 +41,7 @@ public class PublicAggregateListableResource extends DefaultResource {
 
     }
 
-    @Path("{id}/" + PathConstants.AGGREGATIONS)
-    public CalculatedDataListingResource<Map<String, Integer>> getAggregateResource(@PathParam("id") String id, @Context UriInfo uriInfo) {
+    public CalculatedDataListingResource<Map<String, Integer>> getAggregateResource( String id, UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
 
         CalculatedData<Map<String, Integer>> data = resourceService.getAggregateData(resource, id);
