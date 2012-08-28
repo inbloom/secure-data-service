@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.resources.generic.config;
 
 import org.apache.commons.io.IOUtils;
@@ -26,7 +41,7 @@ public class ResourceEndPoint {
     private static final String THREE_PART_RESOURCE = "org.slc.sli.api.resources.generic.ThreePartResource";
     private static final String FOUR_PART_RESOURCE = "org.slc.sli.api.resources.generic.FourPartResource";
 
-    private Map<String, String> resources = new HashMap<String, String>();
+    private Map<String, String> resourceEndPoints = new HashMap<String, String>();
 
     @Autowired
     private ResourceHelper resourceHelper;
@@ -42,11 +57,12 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
-            buildEndPoints(nameSpace, "", resource);
+            resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
     }
 
-    protected void buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
+    protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
+        Map<String, String> resources = new HashMap<String, String>();
         String fullPath =  nameSpace + resourcePath + template.getPath();
 
         resources.put(fullPath, getResourceClass("/rest/" + fullPath, template));
@@ -55,9 +71,11 @@ public class ResourceEndPoint {
 
         if (subResources != null) {
             for (ResourceEndPointTemplate subTemplate : subResources) {
-                buildEndPoints(nameSpace, resourcePath + template.getPath(), subTemplate);
+                resources.putAll(buildEndPoints(nameSpace, resourcePath + template.getPath(), subTemplate));
             }
         }
+
+        return resources;
     }
 
     protected String getResourceClass(final String resourcePath, ResourceEndPointTemplate template) {
@@ -91,6 +109,6 @@ public class ResourceEndPoint {
     }
 
     public Map<String, String> getResources() {
-        return resources;
+        return resourceEndPoints;
     }
 }
