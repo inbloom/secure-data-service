@@ -3,8 +3,8 @@
       <h1>Select Sandbox Data Source</h1>
     </div>
     <div class="alert alert-error">
-    <p>The system is currently processing your previous ingestion job and can not load the sample data you selected. You can check back to reload sample data once this process is complete.</p>
-    <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p>
+    <p>The system is currently processing your previous ingesion job and can not load the sample data you selected.</p>
+    <p>Please contact <%= APP_CONFIG['support_email'] %> for further questions.</p>
     </div>
     <div class="hidden" id="alreadyProvisioned"/>
 <%elsif @landingzone[:isDuplicate]%>
@@ -30,12 +30,12 @@
     <%# TODO: This doesn't look *exactly* like the wireframe %>
     <% if @landingzone[:preload]!=nil && @landingzone[:preload]!=""%>
     <div class="alert alert-success">
-        <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will appear in the data browser application once this process is complete. Please be aware that the time it takes for the data to load varies. For support questions, contact <%= APP_CONFIG['support_email'] %>
+        <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will appear in the data browser application once this process is complete. Please be aware that the time it takes for the data to load varies. For support, contact <%= APP_CONFIG['support_email'] %>
     </div>
     <%else%>
     <div class="alert alert-success">
         <i class="icon-ok"></i> Your landing zone was successfully provisioned on <%= @landingzone[:server] %>. You will receive an email with further instructions about uploading the data.
-        <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p> 
+        <p>For support, contact <%= APP_CONFIG['support_email'] %></p> 
     </div>
     <%end%>
     <div class="hidden" id="successMessage"/>
