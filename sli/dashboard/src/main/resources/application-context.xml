@@ -68,17 +68,12 @@
         <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
-    <bean id="entityManager" class="org.slc.sli.dashboard.manager.EntityManager">
-      <property name="apiClient" ref="apiClientRef"/>
-    </bean>
-
     <bean id="userEdOrgManager"    class="org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
     <bean id="populationManager" class="org.slc.sli.dashboard.manager.impl.PopulationManagerImpl">
         <property name="apiClient" ref="apiClientRef"/>
-        <property name="entityManager" ref="entityManager"/>
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
@@ -127,7 +122,7 @@
     </bean>
 
     <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">
-        <property name="entityManager" ref="entityManager"/>
+        <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
     <bean id="dataFactory" class="org.slc.sli.dashboard.manager.component.impl.CustomizationAssemblyFactoryImpl">

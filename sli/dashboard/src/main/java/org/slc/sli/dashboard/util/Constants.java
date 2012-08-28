@@ -322,6 +322,10 @@ public final class Constants {
 	public static final String ATTR_SCHOOL_LIST = "schoolList";
 	public static final String ATTR_DISTRICT_LIST = "districtList";
 	
+	public static final String ATTR_PARENT_ED_ORG_LINK = "getParentEducationOrganization";
+	
+	
+	
     /**
      * Contains the possible values for FRE participation
      */

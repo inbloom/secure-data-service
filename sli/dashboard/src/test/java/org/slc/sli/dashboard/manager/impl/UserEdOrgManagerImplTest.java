@@ -67,7 +67,7 @@ public class UserEdOrgManagerImplTest {
             }
             
             @Override
-            public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
+            public List<GenericEntity> getSchools(String token) {
                 List<GenericEntity> schools = new ArrayList<GenericEntity>();
                 schools.add(new GenericEntity()); // dummy GenericEntity
                 return schools;

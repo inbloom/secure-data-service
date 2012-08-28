@@ -30,7 +30,6 @@ import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.MockAPIClient;
 import org.slc.sli.dashboard.manager.impl.ConfigManagerImpl;
 import org.slc.sli.dashboard.security.SLIPrincipal;
@@ -87,8 +86,6 @@ public class ConfigManagerTest {
         configManager.setDriverConfigLocation("config");
         configManager.setApiClient(apiClient);
         
-        EntityManager entityManager = new EntityManager();
-        entityManager.setApiClient(apiClient);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setDistrict("test_district");
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, null));

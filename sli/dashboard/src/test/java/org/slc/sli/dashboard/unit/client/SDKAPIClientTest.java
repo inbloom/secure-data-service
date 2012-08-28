@@ -406,7 +406,7 @@ public class SDKAPIClientTest {
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SCHOOL_FILE);
         when(mockSdk.read(anyString())).thenReturn(fromFileWithIDList(filename, schoolIds, key));
 
-        List<GenericEntity> schoolList = client.getSchools(token, schoolIds);
+        List<GenericEntity> schoolList = client.getSchools(token);
 
         assertNotNull(schoolList);
         assertEquals(2, schoolList.size());
@@ -452,7 +452,7 @@ public class SDKAPIClientTest {
         // never used by any call at this time
 
         when(mockSdk.read(anyString())).thenReturn(fromFile(filename));
-        List<GenericEntity> sessions = client.getSessions(token, null);
+        List<GenericEntity> sessions = client.getSessions(token);
 
         assertNotNull(sessions);
         assertEquals(5, sessions.size());

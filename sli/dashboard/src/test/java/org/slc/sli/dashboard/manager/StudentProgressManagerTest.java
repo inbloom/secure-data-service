@@ -32,6 +32,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.dashboard.client.APIClient;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl;
@@ -44,7 +45,7 @@ import org.slc.sli.dashboard.util.Constants;
  */
 public class StudentProgressManagerTest {
     private StudentProgressManagerImpl manager;
-    private EntityManager mockEntity;
+    private APIClient mockApiClient;
 
     private static final String STUDENTID = "123456";
     private static final String YEAR_1998_1999 = "1998-1999";
@@ -57,15 +58,15 @@ public class StudentProgressManagerTest {
     @Before
     public void setUp() throws Exception {
         manager = new StudentProgressManagerImpl();
-        mockEntity = mock(EntityManager.class);
-        manager.setEntityManager(mockEntity);
+        mockApiClient = mock(APIClient.class);
+        manager.setApiClient(mockApiClient);
 
     }
 
     @After
     public void tearDown() throws Exception {
         manager = null;
-        mockEntity = null;
+        mockApiClient = null;
     }
 
     @Test
@@ -79,9 +80,9 @@ public class StudentProgressManagerTest {
         GenericEntity subjArea = new GenericEntity();
         subjArea.put(Constants.ATTR_SUBJECTAREA, subjectArea);
 
-        when(mockEntity.getCourses(token, section, params)).thenReturn(buildHistoricalData());
+        when(mockApiClient.getCoursesForStudent(token, section, params)).thenReturn(buildHistoricalData());
 
-        when(mockEntity.getEntity(token, Constants.ATTR_COURSES, course,
+        when(mockApiClient.getEntity(token, Constants.ATTR_COURSES, course,
                 new HashMap<String, String>())).thenReturn(subjArea);
 
         Map<String, List<GenericEntity>> historicalData =
@@ -202,7 +203,7 @@ public class StudentProgressManagerTest {
         studentInfo.put("id", STUDENTID);
         studentInfos.add(studentInfo);
 
-        when(mockEntity.getStudentsWithGradebookEntries(token, selectedSection)).thenReturn(studentInfos);
+        when(mockApiClient.getStudentsForSectionWithGradebookEntries(token, selectedSection)).thenReturn(studentInfos);
 
         //call the method
         Map<String, Map<String, GenericEntity>> results = manager.getCurrentProgressForStudents(token, new ArrayList<String>(), selectedSection);
@@ -260,7 +261,7 @@ public class StudentProgressManagerTest {
         List<String> optionalFields = new ArrayList<String>();
         optionalFields.add(Constants.ATTR_TRANSCRIPT);
 
-        when(mockEntity.getStudentWithOptionalFields(token, studentId, optionalFields)).
+        when(mockApiClient.getStudentWithOptionalFields(token, studentId, optionalFields)).
                 thenReturn(new MockAPIClient().getStudentWithOptionalFields(token, studentId, optionalFields));
 
         GenericEntity actual = manager.getTranscript(token, studentId, config);
