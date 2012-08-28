@@ -294,6 +294,20 @@
 	                    <include>**/controller/SLC.util.js</include>
 	                </includes>
 	            </aggregation>                         
+	            <aggregation>
+	                <removeIncluded>false</removeIncluded>
+	                
+	                <insertNewLine>true</insertNewLine>
+	                <output>${basedir}/target/dashboard/builder/js/builder.js</output>
+	                <includes>
+                            <include>**/license.js</include>
+	                    <include>**/SLC.builder.app.js</include>
+	                    <include>**/SLC.builder.controllers.js</include>
+	                    <include>**/SLC.builder.directives.js</include>
+	                    <include>**/SLC.builder.filters.js</include>
+	                    <include>**/SLC.builder.services.js</include>
+	                </includes>
+	            </aggregation>                         
 	          </aggregations>
 	        </configuration>
 	      </plugin>

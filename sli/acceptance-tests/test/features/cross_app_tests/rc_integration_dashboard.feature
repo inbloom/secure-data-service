@@ -21,6 +21,7 @@ Then I should be shown a success message
 When I navigate to the Dashboard Builder page
 And I click on "Section" Profile Builder
 And I add a Page named "District"
+And I add an available panel named "listOfStudents"
 When I navigate to the Dashboard home page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"

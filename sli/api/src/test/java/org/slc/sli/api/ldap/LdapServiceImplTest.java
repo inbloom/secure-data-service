@@ -14,13 +14,15 @@ import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.ldap.User.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.ldap.User.Status;
 
 /**
  * Unit tests
@@ -92,7 +94,10 @@ public class LdapServiceImplTest {
         assertNotNull(users);
     }
 
+    //TODO this test has to be rewritten to use a mock ldap server
+    // making live calls to an external ldap server is not appropriate for a junit
     @Test
+    @Ignore
     public void testCRUDUser() throws UnknownHostException, NameAlreadyBoundException {
 
         // test create
