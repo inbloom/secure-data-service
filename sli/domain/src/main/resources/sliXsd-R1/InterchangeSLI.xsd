@@ -22,7 +22,6 @@
 				<xs:choice maxOccurs="unbounded">
                     <!-- TODO build types
 					<xs:element name="SLI-Assessment" type="SLI-Assessment" />
-					<xs:element name="SLI-Cohort" type="SLI-Cohort" />
 					<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 					<xs:element name="SLI-Course" type="SLI-Course" />
 					<xs:element name="SLI-EducationOrganization" type="SLI-EducationOrganization" />
@@ -31,9 +30,10 @@
 					<xs:element name="learningObjective" type="learningObjective" />
 					<xs:element name="SLI-LearningStandard" type="SLI-LearningStandard" />
 					<xs:element name="SLI-Parent" type="SLI-Parent" />
-					<xs:element name="SLI-Program" type="SLI-Program" />
 					<xs:element name="SLI-School" type="SLI-School" />
 					ENDTODO -->
+                    <xs:element name="SLI-Cohort" type="SLI-Cohort" />
+                    <xs:element name="SLI-Program" type="SLI-Program" />
 					<xs:element name="SLI-Section" type="SLI-Section" />
                     <!-- TODO build types
 					<xs:element name="SLI-Session" type="SLI-Session" />

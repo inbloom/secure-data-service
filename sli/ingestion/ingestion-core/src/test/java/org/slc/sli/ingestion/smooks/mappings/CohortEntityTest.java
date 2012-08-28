@@ -27,10 +27,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for Cohort entity.
@@ -71,7 +70,6 @@ public class CohortEntityTest {
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "cohort", neutralRecord.getRecordType());
 
-        assertEquals("Expected different local id", "ACC-TEST-COH-1", neutralRecord.getLocalId());
         assertEquals("Expected no local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();

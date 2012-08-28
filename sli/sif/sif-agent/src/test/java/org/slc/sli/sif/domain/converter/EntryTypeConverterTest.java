@@ -22,12 +22,12 @@ import openadk.library.common.EntryTypeCode;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * Test class for EntryTypeConverter
  */
-public class EntryTypeConverterTest extends ADKTest {
+public class EntryTypeConverterTest extends AdkTest {
 
     private final EntryTypeConverter converter = new EntryTypeConverter();
 

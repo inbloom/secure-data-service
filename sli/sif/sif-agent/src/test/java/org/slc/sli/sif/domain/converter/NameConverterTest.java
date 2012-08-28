@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.Name;
 
 /**
@@ -32,7 +32,7 @@ import org.slc.sli.sif.domain.slientity.Name;
  * @author jtully
  *
  */
-public class NameConverterTest extends ADKTest {
+public class NameConverterTest extends AdkTest {
 
     private NameConverter converter = new NameConverter();
 
@@ -48,10 +48,8 @@ public class NameConverterTest extends ADKTest {
     private List<String> prefixes;
     private List<String> suffixes;
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
 
         prefixes = new ArrayList<String>();
         prefixes.add("Colonel");

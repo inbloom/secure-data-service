@@ -108,6 +108,7 @@
 
   <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
     <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
+    <property name="sliMongo" ref="mongoTemplate" />
   </bean>
 
   <mongo:db-factory id="mongoDbTenantFactory" dbname="${sli.mongodb.database}" host="${sli.mongodb.host}"

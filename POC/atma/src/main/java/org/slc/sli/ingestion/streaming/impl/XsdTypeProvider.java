@@ -75,11 +75,19 @@ public class XsdTypeProvider implements TypeProvider {
 	}
 
 	/**
-	 * Figures out xsd type of the element Normally taken from the 'type'
-	 * attribute, in other cases, needs to dig deeper
+	 * Determines if given field is a reference type
+	 */
+	@Override
+	public boolean isReference(String elementName) {
+		return this.typeMap.get(elementName).equals("reference"); 
+		
+	}
+
+	
+	/**
+	 * Figures out xsd type of the element Normally taken from the 'type' attribute, in other cases, needs to dig deeper
 	 * 
-	 * @param e
-	 *            node in the tree
+	 * @param e node in the tree
 	 * @return variable type if available
 	 */
 	private String getType(Element e) {

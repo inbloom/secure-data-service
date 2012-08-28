@@ -63,15 +63,15 @@ public final class ResourceNames {
     public static final String GRADES = "grades";
 
     public static final String COURSE_OFFERINGS = "courseOfferings";
-    public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "student-assessment-associations";
-    public static final String STUDENT_SECTION_ASSOCIATIONS = "student-section-associations";
-    public static final String STUDENT_SCHOOL_ASSOCIATIONS = "student-school-associations";
-    public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
-    public static final String TEACHER_SECTION_ASSOCIATIONS = "teacher-section-associations";
-    public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staff-educationOrganization-associations";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
-    public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
-    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "student-disciplineIncident-associations";
+    public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
+    public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
+    public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
+    public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
+    public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
+    public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrgAssignmentAssociations";
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "courseTranscripts";
+    public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
     public static final String STUDENT_COHORT_ASSOCIATIONS = "studentCohortAssociations";

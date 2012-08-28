@@ -75,7 +75,7 @@ public class BSONUtilities {
         if (value == null) {
             value = "-";
         }
-        node.put(fieldPath[fieldPath.length - 1], value.toString());
+        node.put(fieldPath[fieldPath.length - 1], value);
 
         return root;
     }

@@ -21,8 +21,8 @@ public class XmiAssociationConnectionTest {
     private static final Range RANGE = new Range(Occurs.ONE, Occurs.ONE);
     private static final Multiplicity MULTIPLICITY = new Multiplicity(RANGE);
     private static final Identifier TYPE = Identifier.fromString("Type");
-    private static final AssociationEnd LEFT_HAND_SIDE = new AssociationEnd(MULTIPLICITY, "name1", false, TYPE);
-    private static final AssociationEnd RIGHT_HAND_SIDE = new AssociationEnd(MULTIPLICITY, "name2", true, TYPE);
+    private static final AssociationEnd LEFT_HAND_SIDE = new AssociationEnd(MULTIPLICITY, "name1", false, TYPE, "test_end_name");
+    private static final AssociationEnd RIGHT_HAND_SIDE = new AssociationEnd(MULTIPLICITY, "name2", true, TYPE, "test_end_name");
 
     @Test
     public void testConstructorAndGetterSetters() {

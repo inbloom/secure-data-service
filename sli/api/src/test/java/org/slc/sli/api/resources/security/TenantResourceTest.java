@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +23,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,18 +35,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -56,6 +47,19 @@ import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing a tenant
@@ -70,7 +74,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 public class TenantResourceTest {
 
     @Autowired
-    TenantResourceImpl tenantResource; // class under test
+    private TenantResourceImpl tenantResource; // class under test
 
     @Autowired
     private SecurityContextInjector injector;
@@ -81,8 +85,11 @@ public class TenantResourceTest {
     private static final String TENANT_1 = "IL";
     private static final String TENANT_2 = "NC";
     private static final String TENANT_3 = "NY";
-    private static final String ED_ORG_1 = "Daybreak";
+    private static final String ED_ORG_1 = "STANDARD-SEA";
     private static final String ED_ORG_2 = "Sunset";
+
+    @Autowired
+    private Repository<Entity> repo;
 
     @Before
     public void setup() throws Exception {
@@ -104,12 +111,19 @@ public class TenantResourceTest {
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_1);
+
         Map<String, Object> landingZone = new HashMap<String, Object>();
         landingZone.put(TenantResourceImpl.LZ_INGESTION_SERVER, "example.com");
         landingZone.put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, ED_ORG_1);
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_DAYBREAK");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("small_sample_dataset", "medium_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -125,6 +139,12 @@ public class TenantResourceTest {
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("large_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -155,6 +175,12 @@ public class TenantResourceTest {
         landingZone.put(TenantResourceImpl.LZ_DESC, "Landing zone for NY");
         landingZone.put(TenantResourceImpl.LZ_PATH,
                 "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
+
+        Map<String, Object> preload = new HashMap<String, Object>();
+        preload.put(TenantResourceImpl.LZ_PRELOAD_STATUS, TenantResourceImpl.LZ_PRELOAD_STATUS_READY);
+        preload.put(TenantResourceImpl.LZ_PRELOAD_FILES, Arrays.asList("huge_sample_dataset"));
+        landingZone.put(TenantResourceImpl.LZ_PRELOAD, preload);
+
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         landingZones.add(landingZone);
         entity.put(TenantResourceImpl.LZ, landingZones);
@@ -170,6 +196,7 @@ public class TenantResourceTest {
         // assertNotNull("ID should not be null", id);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateAppends() {
 
@@ -184,9 +211,9 @@ public class TenantResourceTest {
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
         assertEquals("Should have 2 landing zones", 2, landingZones.size());
+
     }
 
     @Test
@@ -315,10 +342,11 @@ public class TenantResourceTest {
             for (Map<String, Object> lz : landingZones) {
                 String server = (String) lz.get(TenantResourceImpl.LZ_INGESTION_SERVER);
                 Integer count = serverCounts.get(server);
-                if (null == count)
+                if (null == count) {
                     serverCounts.put(server, new Integer(1));
-                else
+                } else {
                     serverCounts.put(server, new Integer(count + 1));
+                }
             }
         }
         assertTrue("Should have used all ingestion servers", 3 <= serverCounts.size());
@@ -344,4 +372,38 @@ public class TenantResourceTest {
         return id;
     }
 
+    @Test
+    public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        String id = createLandingZone(new EntityBody(createTestEntity()));
+        Response r = tenantResource.preload(id, "small", uriInfo);
+        assertEquals(Status.CREATED.getStatusCode(), r.getStatus());
+        Map<String, Object> e = repo.findById("tenant", id).getBody();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> landingZone = ((List<Map<String, Object>>) e.get("landingZone")).get(0);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
+        assertEquals(Arrays.asList("small"), preload.get("files"));
+        assertEquals("ready", preload.get("status"));
+    }
+
+    @Test
+    public void testLandingZoneLocked() {
+        String id = createLandingZone(new EntityBody(createTestEntity()));
+        Map<String, Object> entity = repo.findById("tenant", id).getBody();
+        @SuppressWarnings("unchecked")
+        Repository<Entity> mockRepo = mock(Repository.class);
+        IngestionTenantLockChecker lockChecker = new IngestionTenantLockChecker(mockRepo);
+        when(
+                mockRepo.findOne("tenantJobLock",
+                        new NeutralQuery(new NeutralCriteria("_id", "=", (String) entity.get("tenantId")))))
+                .thenReturn(new MongoEntity("tenantJobLock", new HashMap<String, Object>()));
+        tenantResource.setLockChecker(lockChecker);
+        // try {
+        Response response = tenantResource.preload(id, "small", uriInfo);
+        // fail("Should block preloading data in landing zone when ingesiton is running");
+        // } catch (TenantResourceCreationException e) {
+        // assertEquals(Status.CONFLICT, e.getStatus());
+        // }
+        assertEquals(Status.CONFLICT.getStatusCode(), response.getStatus());
+    }
 }

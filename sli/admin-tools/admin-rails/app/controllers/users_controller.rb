@@ -60,9 +60,6 @@ class UsersController < ApplicationController
         user.id = user.uid
         user.destroy
         @users.delete(user)
-
-        # @user_id = user.uid.gsub(/\@/,"\\\\\\\\@").gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
-        #  logger.info("user id after escape is #{@user_id}")
       end
     end
     get_login_id
@@ -110,7 +107,18 @@ class UsersController < ApplicationController
       rescue ActiveResource::ResourceConflict
         resend = true
         @user.errors[:email] << @@EXISTING_EMAIL_MSG
-      rescue ActiveResource::BadRequest
+      rescue ActiveResource::BadRequest => e
+        begin
+          if e.response.class.body_permitted?()
+            entity_body = JSON.parse(e.response.body) 
+            if entity_body.has_key?("response") 
+              api_error_message = entity_body["response"]
+              logger.info("entity body: [#{entity_body["response"]}]")
+            end
+          end
+        rescue JSON::JSONError
+            logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
+        end
         resend =true
         @user.errors[:tenant] << "tenant and edorg mismatch"
         @user.errors[:edorg] << "Please check EdOrg selection"
@@ -137,6 +145,7 @@ class UsersController < ApplicationController
         @is_lea = is_lea_admin?
         @is_sea = is_sea_admin?
         @user.errors[:edorg] << "tenant and edorg mismatch"
+        flash[:create_error] = api_error_message if api_error_message != nil
         format.html {render "new"}
       else
         flash[:notice]=  'Success! You have added a new user'
@@ -174,16 +183,10 @@ class UsersController < ApplicationController
 
     logger.info{"find updated user #{@user.to_json}"}
 
-    #  respond_to do |format|
-
-    #   format.html {render "users/edit"}
-    #format.json { render json: @users }
-    #  end
   end
 
   # PUT /users/1/
   def update
-
     logger.info{"running the update user now"}
     @is_lea = is_lea_admin?
     @is_sea = is_sea_admin?
@@ -208,7 +211,18 @@ class UsersController < ApplicationController
     else
       begin
         @user.save
-      rescue ActiveResource::BadRequest
+      rescue ActiveResource::BadRequest => e
+        begin
+          if e.response.class.body_permitted?()
+            entity_body = JSON.parse(e.response.body)
+            if entity_body.has_key?("response") 
+              api_error_message = entity_body["response"]
+              logger.info("entity body: [#{entity_body["response"]}]")
+            end
+          end
+        rescue JSON::JSONError
+            logger.info("API returned error: #{e.response.body}") if e.response.class.body_permitted?;
+        end
         resend =true
         @user.errors[:tenant] << "tenant and edorg mismatch"
         @user.errors[:edorg] << "Please check EdOrg selection"
@@ -224,6 +238,7 @@ class UsersController < ApplicationController
         @is_operator = is_operator?
         @is_lea = is_lea_admin?
         @is_sea = is_sea_admin?
+        flash[:edit_error] = api_error_message if (api_error_message != nil)
         format.html { render "edit"}
       else
         flash[:notice]='Success! You have updated the user'

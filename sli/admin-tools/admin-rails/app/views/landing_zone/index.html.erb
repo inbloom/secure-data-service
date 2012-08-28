@@ -8,8 +8,7 @@
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
   </div>
 	<% if APP_CONFIG['is_sandbox']%>
-		<p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data store.  To add sample data, use this page to configure a landing zone, which is a SFTP location for uploading data files.  Each time you want to upload data for a new education organization, you must return to this page to configure a new landing zone.</p>
-        <p>SLC makes Ed-Fi compliant sample data available to you, or you can provide your own Ed-Fi-compliant data.</p>
+		<p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data store. You can choose to preload the Ed-Fi compliant sample data which SLC provides to you. Alternatively, to add custom, Ed-Fi compliant sample data, use this page to configure a landing zone, which is an SFTP location for uploading data files. Each time you want to upload data for a new education organization, you must return to this page to configure a new landing zone.</p>
         <p>To configure the landing zone, select one of the following:</p>
         <p>&nbsp;</p>
 	<%else%>
@@ -31,7 +30,7 @@
 			<% end %>
 			<div class="provisionBlock">
 	                  <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton" /> 
-			  <label for="custom"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
+			  <label for="custom" rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
 			  <div class="edOrgIdSelect">
 			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
@@ -40,7 +39,7 @@
 		<% else %>
 			<input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton" >
 			<div class="provisionBlock">
-			  <label><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
+			  <label rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
 			  <div class="edOrgIdSelect">
 			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
