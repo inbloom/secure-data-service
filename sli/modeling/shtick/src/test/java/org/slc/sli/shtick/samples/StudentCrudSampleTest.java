@@ -33,7 +33,7 @@ public class StudentCrudSampleTest {
     private final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
-//    @Test
+    @Test
     public void testCrud() {
         final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
         final Level3Client client = new StandardLevel3Client(inner);
@@ -69,6 +69,8 @@ public class StudentCrudSampleTest {
 
     private String doPostStudents(Level3Client client) throws IOException, StatusCodeException {
         Student student = new Student();
+
+        student.setStudentUniqueStateId("1234");
 
         Name name = new Name();
         name.setFirstName("Testing");
@@ -107,6 +109,8 @@ public class StudentCrudSampleTest {
         Assert.assertEquals(students.size(), 1);
         Student student = students.get(0);
 
+        Assert.assertEquals(student.getStudentUniqueStateId(), "1234");
+
         SexType sex = student.getSex();
         Assert.assertEquals(sex, SexType.MALE);
 
@@ -120,7 +124,7 @@ public class StudentCrudSampleTest {
         Address address = addresses.get(0);
         Assert.assertEquals(address.getStreetNumberName(), "1234 Testing St");
         Assert.assertEquals(address.getCity(), "City");
-        Assert.assertEquals(address.getPostalCode(), 12345);
+        Assert.assertEquals(address.getPostalCode(), "12345");
         Assert.assertEquals(address.getStateAbbreviation(), StateAbbreviationType.NY);
 
         BirthData birthData = student.getBirthData();
