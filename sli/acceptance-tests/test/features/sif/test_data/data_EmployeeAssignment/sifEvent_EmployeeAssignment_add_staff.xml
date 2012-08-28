@@ -16,7 +16,7 @@
     </SIF_Header>
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="EmployeeAssignment" Action="Add">
-        <EmployeeAssignment RefId="FE1078BA3261545A31905937B265CE01" EmployeePersonalRefId="20120821190817988094852308234014">
+        <EmployeeAssignment RefId="FE1078BA3261545A31905937B265CE01" EmployeePersonalRefId="3333333333333333333D00AA001A1652">
           <Description>Twelfth grade computer science teacher</Description>
           <PrimaryAssignment>Yes</PrimaryAssignment>
           <JobStartDate>2010-08-01</JobStartDate>

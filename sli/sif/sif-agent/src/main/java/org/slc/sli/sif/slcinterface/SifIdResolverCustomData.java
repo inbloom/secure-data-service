@@ -102,9 +102,10 @@ public class SifIdResolverCustomData implements SifIdResolver {
     public String getSliGuid(String sifId, String zoneId) {
         List<String> guidList = getSliGuidList(sifId, zoneId);
         if (guidList != null && !guidList.isEmpty()) {
+            LOG.debug("Found sli id for sifId(" + sifId + "): " + guidList.get(0));
             return guidList.get(0);
         }
-
+        LOG.debug("No sli id found for sifId(" + sifId + ")");
         return null;
     }
 
