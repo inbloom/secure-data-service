@@ -79,6 +79,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Autowired
     private EntityValidator validator;
 
+    private static final String EDUCATION_ORGANIZATION = "educationOrganization";
+    private static final String METADATA_ED_ORG_KEY = "edOrgs";
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
@@ -135,7 +138,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             return entity;
         } else {
-            return entityRepository.createWithRetries(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName, totalRetries);
+            return entityRepository.createWithRetries(entity.getType(), entity.getStagedEntityId(), entity.getBody(), entity.getMetaData(), collectionName, totalRetries);
         }
     }
 
@@ -162,10 +165,23 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
+            if (collectionName.equals(EDUCATION_ORGANIZATION)) {
+                if (entity.getMetaData().containsKey(METADATA_ED_ORG_KEY)) {
+                    @SuppressWarnings("unchecked")
+                    List<String> edOrgs = (List<String>) entity.getMetaData().get(METADATA_ED_ORG_KEY);
+                    edOrgs.add(entity.getStagedEntityId());
+                    entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
+                } else {
+                    List<String> edOrgs = new ArrayList<String>();
+                    edOrgs.add(entity.getStagedEntityId());
+                    entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
+                }
+            }
+
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, errorReport);
             } else {
-              preMatchEntity(memory, entityConfig, errorReport, entity);
+                preMatchEntity(memory, entityConfig, errorReport, entity);
             }
         }
 

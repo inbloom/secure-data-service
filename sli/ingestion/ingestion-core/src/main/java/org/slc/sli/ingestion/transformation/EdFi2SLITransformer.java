@@ -172,6 +172,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
+
+            @SuppressWarnings("unchecked")
+            List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
+
+            @SuppressWarnings("unchecked")
+            List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get("edOrgs");
+            for (String edOrg : edOrgs) {
+                if (!matchedEdOrgs.contains(edOrg)) {
+                    matchedEdOrgs.add(edOrg);
+                }
+            }
+            matched.getMetaData().put("edOrgs", matchedEdOrgs);
             entity.getMetaData().putAll(matched.getMetaData());
         }
     }
