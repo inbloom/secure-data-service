@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
-	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+			attributeFormDefault="qualified" xmlns="http://slcedu.org/schema/0100">
 	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
 

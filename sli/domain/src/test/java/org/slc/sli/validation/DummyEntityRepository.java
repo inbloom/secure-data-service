@@ -61,6 +61,7 @@ public class DummyEntityRepository implements Repository<Entity> {
         entities.get(collection).put(id, entity);
     }
 
+
     @Override
     public boolean collectionExists(String collection) {
         // TODO Auto-generated method stub
@@ -239,6 +240,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public List<Entity> insert(List<Entity> records, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

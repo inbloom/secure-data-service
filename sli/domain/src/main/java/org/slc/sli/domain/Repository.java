@@ -305,4 +305,15 @@ public interface Repository<T> {
     public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries);
 
     public boolean updateWithRetries(String collection, T object, int noOfRetries);
+
+    /**
+     * Updates only the provided keys with their values in the target ID'd entity
+     * in the specified collection name.
+     *
+     * @param collectionName where the entity to be patched can be found
+     * @param id the id of the entity to patch
+     * @param newValues the new values to be persisted to the entity
+     * @return true if successful, false otherwise
+     */
+    boolean patch(String type, String collectionName, String id, Map<String, Object> newValues);
 }
