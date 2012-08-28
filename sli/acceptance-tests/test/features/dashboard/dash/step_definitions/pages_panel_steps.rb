@@ -117,11 +117,11 @@ def getPanel(tabName, panelName = nil)
   assert(false, "Panel name: " + panelName + " is not found in tab: " + tabName)
 end
 
-def checkPageOrder(expectedPages, extraTabsToIgnore = 0)
+def checkPageOrder(expectedPages)
   expected = expectedPages.split(';')  
   actual = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul").find_elements(:tag_name, "li") 
-  assert(expected.length == actual.length - extraTabsToIgnore.to_i , "size of pages are not equal Actual: " + (actual.length - extraTabsToIgnore.to_i).to_s + " Expected: " + expected.length.to_s )
-  for index in 0..actual.length - 1 - extraTabsToIgnore.to_i  
+  assert(expected.length == actual.length, "size of pages are not equal Actual: " + actual.length.to_s + " Expected: " + expected.length.to_s )
+  for index in 0..actual.length - 1  
     page = actual[index]
     pageText = page.find_element(:tag_name,"a").text
     assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")

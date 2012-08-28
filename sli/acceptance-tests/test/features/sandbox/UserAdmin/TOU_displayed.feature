@@ -18,9 +18,9 @@ And the terms-of-use is <save_action>
 
 Examples:
 |account_type         |status     |visible_status|action_status   |save_action|
-|application developer|TOU not set|am shown      |have to         |saved      |
-|ingestion user       |TOU not set|am shown      |have to         |saved      |
-|sandbox admin        |TOU not set|am shown      |have to         |saved      | 
-|application developer|TOU set    |am not shown  |do not have to  |not saved  |
-|ingestion user       |TOU set    |am not shown  |do not have to  |not saved  |
-|sandbox admin        |TOU set    |am not shown  |do not have to  |not saved  |
+|application_developer|TOU not set|am shown      |have to         |saved      |
+|ingestion_user       |TOU not set|am shown      |have to         |saved      |
+|Sandbox Administrator|TOU not set|am shown      |have to         |saved      | 
+|application_developer|TOU set    |am not shown  |do not have to  |not saved  |
+|ingestion_user       |TOU set    |am not shown  |do not have to  |not saved  |
+|Sandbox Administrator|TOU set    |am not shown  |do not have to  |not saved  |

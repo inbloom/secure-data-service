@@ -80,7 +80,7 @@ public class ConfigControllerTest extends ControllerTestBase {
     @Test
     public void testBadSave() throws Exception {
         Map<String, Config> mapOfConfigs = new HashMap<String, Config>();
-        Config bad = new Config("+++", null, null, Type.FIELD, null, null, null, null);
+        Config bad = new Config("+++", null, null, Type.FIELD, null, null, null, null, null);
         mapOfConfigs.put("something", bad);
         ConfigMap map = new ConfigMap();
         map.setConfig(mapOfConfigs);
