@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 import org.slc.sli.sif.domain.slientity.BirthData;
 
 /**
@@ -34,7 +34,7 @@ import org.slc.sli.sif.domain.slientity.BirthData;
  * @author jtully
  *
  */
-public class DemographicsToBirthDataConverterTest extends ADKTest {
+public class DemographicsToBirthDataConverterTest extends AdkTest {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private DemographicsToBirthDataConverter converter = new DemographicsToBirthDataConverter();
@@ -97,10 +97,8 @@ public class DemographicsToBirthDataConverterTest extends ADKTest {
         SLI_STATE_CODES.add("WY");
     }
 
-    @Override
     @Before
     public void setup() {
-        super.setup();
 
         birthDate.set(1992, 11, 25);
         countryArrivalDate.set(2011, 06, 04);

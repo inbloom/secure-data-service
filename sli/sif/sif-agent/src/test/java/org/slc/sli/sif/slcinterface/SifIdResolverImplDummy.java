@@ -16,6 +16,10 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slc.sli.api.client.Entity;
 
 /**
@@ -23,14 +27,26 @@ import org.slc.sli.api.client.Entity;
  */
 public class SifIdResolverImplDummy implements SifIdResolver {
 
-    @Override
-    public String getSliGuid(String sifId) {
-        return null;
+    private Map<String, String> sifToSliIdMap = new HashMap<String, String>();
+    private Map<String, Entity> sifToSliEntityMap = new HashMap<String, Entity>();
+
+    public void reset() {
+        sifToSliIdMap = new HashMap<String, String>();
+        sifToSliEntityMap = new HashMap<String, Entity>();
+    }
+
+    public void putEntity(String sifId, Entity e) {
+        sifToSliEntityMap.put(sifId, e);
     }
 
     @Override
-    public Entity getSliEntity(String sifId) {
-        return null;
+    public String getSliGuid(String sifId, String zoneId) {
+        return sifToSliIdMap.get(sifId);
+    }
+
+    @Override
+    public Entity getSliEntity(String sifId, String zoneId) {
+        return sifToSliEntityMap.get(sifId);
     }
 
     @Override
@@ -39,6 +55,41 @@ public class SifIdResolverImplDummy implements SifIdResolver {
     }
 
     @Override
-    public void putSliGuid(String sifId, String sliType, String sliId) {
+    public void putSliGuid(String sifId, String sliType, String sliId, String zoneId) {
+        sifToSliIdMap.put(sifId, sliId);
+    }
+
+    @Override
+    public String getSliGuidByType(String sifId, String sliType, String zoneId) {
+        return sifToSliIdMap.get(sifId);
+    }
+
+    @Override
+    public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId) {
+    }
+
+    @Override
+    public Entity getSliEntityByType(String sifId, String sliType, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidList(String sifId, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<String> getSliGuidListByType(String sifId, String sliType, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityList(String sifId, String zoneId) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> getSliEntityListByType(String sifId, String sliType, String zoneId) {
+        return null;
     }
 }

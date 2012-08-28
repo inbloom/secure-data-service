@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
-	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+			attributeFormDefault="qualified" xmlns="http://slcedu.org/schema/0100">
 	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
 
@@ -434,99 +434,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="leaveEvent">
-		<xs:annotation>
-			<xs:documentation>This event entity represents the recording of the
-				dates of staff leave
-				(e.g., sick leave, personal time, vacation,
-				etc.).
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-				<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="eventDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Date for this leave event.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="leaveEventCategory" type="leaveEventCategoryType">
-				<xs:annotation>
-					<xs:documentation>The code describing the type of leave taken,
-						for
-						example: Sick Personal Vacation
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="leaveEventReason" type="leaveEventReason"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Expanded reason for the staff leave.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="hoursOnLeave" type="xs:double"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The hours the staff was absent, if not the
-						entire
-						working day.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="substituteAssigned" type="xs:boolean"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicator of whether a substitute was assigned
-						during
-						the period of staff leave.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="staffReference" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>The staff associated with this leave event.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<!-- <xs:complexType name="location"> <xs:annotation> <xs:documentation>This
-		entity represents the physical space where students gather for a particular
-		class/section. The location may be an indoor or outdoor area designated for
-		the purpose of meeting the educational needs of students. </xs:documentation>
-		</xs:annotation> <xs:sequence> <xs:element name="classroomIdentificationCode"
-		type="classroomIdentificationCode"> <xs:annotation> <xs:documentation>A unique
-		number or alphanumeric code assigned to a room by a school, school system,
-		state, or other agency or entity. </xs:documentation> </xs:annotation> </xs:element>
-		<xs:element name="maximumNumberOfSeats" type="xs:int" minOccurs="0"> <xs:annotation>
-		<xs:documentation>The most number of seats the class can maintain. </xs:documentation>
-		</xs:annotation> </xs:element> <xs:element name="optimalNumberOfSeats" type="xs:int"
-		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that
-		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element>
-		</xs:sequence> </xs:complexType> --> <!-- <xs:complexType name="meetingTime"> <xs:annotation> <xs:documentation>This
-		entity represents the set of elements defining the meeting time for a class
-		period for a bell schedule. </xs:documentation> </xs:annotation> <xs:sequence>
-		<xs:element name="classPeriodName" type="xs:string"> <xs:annotation> <xs:documentation>The
-		class period associated with the meeting time for a bell schedule. </xs:documentation>
-		</xs:annotation> </xs:element> <xs:element name="weekNumber"> <xs:annotation>
-		<xs:documentation>The week number (out of the number of weeks in the cycle)
-		for this meeting time. </xs:documentation> </xs:annotation> <xs:simpleType>
-		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive
-		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
-		name="meetingDates"> <xs:annotation> <xs:documentation>Dates the meetings
-		occur</xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="xs:date"></xs:list>
-		</xs:simpleType> </xs:element> <xs:element name="startTime" type="xs:time">
-		<xs:annotation> <xs:documentation>An indication of the time of day the class
-		begins. </xs:documentation> </xs:annotation> </xs:element> <xs:element name="endTime"
-		type="xs:time"> <xs:annotation> <xs:documentation>An indication of the time
-		of day the class ends. </xs:documentation> </xs:annotation> </xs:element>
-		<xs:element name="officialAttendancePeriod" type="xs:boolean" minOccurs="0">
-		<xs:annotation> <xs:documentation>Indicator of whether this meeting time
-		is used for official daily attendance. </xs:documentation> </xs:annotation>
-		</xs:element> </xs:sequence> </xs:complexType> -->
 	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
@@ -1401,12 +1308,6 @@
                 <xs:annotation>
                     <xs:documentation>
                         Grade book entries for the section.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentAssociations" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the section.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -2404,7 +2305,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sessions" type="studentSession">
+			<xs:element name="sessions" type="studentSession" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Sessions the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
@@ -2412,7 +2313,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sections" type="studentSection">
+			<xs:element name="sections" type="studentSection" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
@@ -2696,7 +2597,8 @@
 			</xs:element>
 			<xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Assessments associated with the student.
+					<xs:documentation>Assessments associated with the student that aren't related to any
+									  specific sections, i.e. SAT.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2706,12 +2608,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programs" type="studentProgram">
+			<xs:element name="programs" type="studentProgram" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="cohorts" type="studentCohort">
+			<xs:element name="cohorts" type="studentCohort" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Cohorts the student is enrolled in.</xs:documentation>
 				</xs:annotation>
@@ -3502,7 +3404,7 @@
 			minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
-						Optional special education attributes of a student program association.
+						Optional special education attributes of a student program.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -3512,7 +3414,7 @@
     <xs:complexType name="specialEdStudentProgramAttributes">
         <xs:annotation>
             <xs:documentation>
-                Special education attributes of a student program association.
+                Special education attributes of a student program.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -3566,7 +3468,7 @@
 
 	<xs:complexType name="studentSession">
 		<xs:annotation>
-			<xs:documentation>This association indicates the sessions a
+			<xs:documentation>This indicates the sessions a
 				student is assigned to.
 			</xs:documentation>
 		</xs:annotation>
@@ -3585,7 +3487,7 @@
 
 	<xs:complexType name="studentSection">
 		<xs:annotation>
-			<xs:documentation>This association indicates the course sections a
+			<xs:documentation>This indicates the course sections a
 				student is assigned to.
 			</xs:documentation>
 		</xs:annotation>
@@ -5829,12 +5731,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="studentAssociations" type="studentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the cohort.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6706,12 +6602,6 @@
             <xs:element name="staffAssociations" type="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Staff associated with the program.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="studentAssociations" type="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Students associated with the program.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

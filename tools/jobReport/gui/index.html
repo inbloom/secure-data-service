@@ -185,13 +185,14 @@
             if(typeof proc[v] == 'undefined'){
               row.push(0);
             } else {
-              row.push(proc[v]);
+              row.push(Math.log(proc[v]));
             }
           });
           dataTable.addRow(row);
         });
 
-        //dataTable.sort([{column: 2, desc:true}, {column:1, desc:true}]); // sort by elapsed time, descending
+        //Sort by time
+        dataTable.sort([{column:1, desc:false}]);
         drawComboChart('Job OP Distribution', '# Records', 'Time', 'job_dist_linechart_div', dataTable);
       }
 

@@ -20,12 +20,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * SchoolYearConverter unit tests
  */
-public class SchoolYearConverterTest extends ADKTest {
+public class SchoolYearConverterTest extends AdkTest {
 
     private final SchoolYearConverter converter = new SchoolYearConverter();
 

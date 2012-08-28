@@ -629,4 +629,11 @@ public class MockRepo implements Repository<Entity> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        this.findById(type, id).getBody().putAll(newValues);
+
+        return true;
+    }
 }

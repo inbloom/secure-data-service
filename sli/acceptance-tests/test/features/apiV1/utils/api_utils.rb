@@ -198,7 +198,7 @@ end
 Then /^I should receive a collection of "([^"]*)" entities$/ do |number_of_entities|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}");
+  assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}: #{@result}");
 end
 
 Then /^in each entity, I should receive a link named "([^"]*)" for a value from array "([^"]*)" with URI prefix "([^"]*)" and URI suffix "([^"]*)"$/ do |rel, list, prefix, suffix|

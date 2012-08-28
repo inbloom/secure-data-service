@@ -16,12 +16,7 @@
     <!-- Start CalendarDate mapping -->
     <jb:bean beanId="calendarDate" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'calendarDate'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="calendarDateMeta" />
         <jb:wiring property="body" beanIdRef="calendarDateBody" />
-    </jb:bean>
-
-    <jb:bean beanId="calendarDateMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes calendarDateId" />
     </jb:bean>
 
     <jb:bean beanId="calendarDateBody" class="java.util.HashMap"

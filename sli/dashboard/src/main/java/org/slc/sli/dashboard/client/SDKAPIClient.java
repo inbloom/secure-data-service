@@ -142,7 +142,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getEntities(String token, String type, String ids, Map<String, String> params) {
-        return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
+    	return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
     }
 
     /**
@@ -559,7 +559,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getSection(String token, String id) {
-        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id, id);
+        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id);
         ensureSectionName(section);
         return section;
     }
@@ -772,18 +772,23 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getTeacher(String token, String id) {
         // get Teacher information
-        GenericEntity teacher = this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
-        // get Teacher teaching sections
-        List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
+        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id); 
+    }
+
+    
+    public GenericEntity getTeacherWithSections(String token, String id) {
+    	GenericEntity teacher = getTeacher(token, id);
+    	List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
                 + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
         if (sections != null && !sections.isEmpty()) {
             GenericEntityComparator sectionComparator = new GenericEntityComparator("uniqueSectionCode", String.class);
             Collections.sort(sections, sectionComparator);
             teacher.put("sections", sections);
         }
-        return teacher;
+        return teacher;    	
     }
-
+    
+    
     /**
      * Get the teacher for a specified section
      *
@@ -801,7 +806,11 @@ public class SDKAPIClient implements APIClient {
                 if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
                         Constants.TEACHER_OF_RECORD)) {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                    try {
                     teacher = this.getTeacher(token, teacherId);
+                    } catch(Exception e) {
+                    	LOGGER.error(e.getMessage());
+                    }
                     return teacher;
                 }
             }
@@ -1105,9 +1114,8 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected GenericEntity readEntity(String token, String url) {
+    public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
-
         try {
             List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
@@ -1129,7 +1137,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     protected GenericEntity readEntity(String token, String url, String id) {
-        if ((id == null) || (id.length() <= 0)) {
+    	if ((id == null) || (id.length() <= 0)) {
             return null;
         } else {
             return readEntity(token, url);
@@ -1144,8 +1152,8 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected List<GenericEntity> readEntityList(String token, String url) {
-        List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
+    public List<GenericEntity> readEntityList(String token, String url) {
+    	List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
             List<Entity> entityList = getClient(token).read(url);
             for (Entity entity : entityList) {

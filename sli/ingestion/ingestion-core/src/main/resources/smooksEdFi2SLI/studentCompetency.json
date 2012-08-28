@@ -11,9 +11,9 @@
                 "choiceOfFields" :
                 [
                     [
-                        { 
+                        {
                             "path" : "body.learningObjectiveId.identificationCode",
-                            "values" : 
+                            "values" :
                             [{
                                 "valueSource" : "body.learningObjectiveReference"
                             }]
@@ -31,9 +31,9 @@
                 "choiceOfFields" :
                 [
                     [
-                        { 
-                            "path" : "metaData.externalId",
-                            "values" : 
+                        {
+                            "path" : "body.studentCompetencyObjectiveId",
+                            "values" :
                             [{
                                 "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
@@ -61,7 +61,7 @@
                                       [
                                           [
                                               {
-                                                  "path" : "metaData.externalId",
+                                                  "path" : "body.studentUniqueStateId",
                                                   "values" :
                                                    [{
                                                          "valueSource" : "body.studentId"
@@ -82,7 +82,7 @@
                                      "choiceOfFields" :
                                       [
                                           [{
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.uniqueSectionCode",
                                               "values" :
                                                [{
                                                    "valueSource" : "body.uniqueSectionCode"

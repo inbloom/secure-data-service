@@ -17,11 +17,8 @@
 package org.slc.sli.sif.reporting;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -37,12 +34,25 @@ import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
+import openadk.library.common.Email;
+import openadk.library.common.EmailList;
+import openadk.library.common.EmailType;
 import openadk.library.common.ExitTypeCode;
 import openadk.library.common.GradeLevelCode;
+import openadk.library.common.OtherId;
+import openadk.library.common.OtherIdType;
 import openadk.library.common.StudentLEARelationship;
+import openadk.library.common.YesNo;
 import openadk.library.common.YesNoUnknown;
+import openadk.library.hrfin.EmployeeAssignment;
+import openadk.library.hrfin.EmployeePersonal;
+import openadk.library.hrfin.EmploymentRecord;
+import openadk.library.hrfin.HrOtherIdList;
+import openadk.library.hrfin.HrfinDTD;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.StaffAssignment;
+import openadk.library.student.StaffPersonal;
 import openadk.library.student.StudentDTD;
 import openadk.library.student.StudentPersonal;
 import openadk.library.student.StudentSchoolEnrollment;
@@ -51,8 +61,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.sif.generator.CustomEventGenerator;
-import org.slc.sli.sif.generator.EventGenerator;
-import org.slc.sli.sif.generator.GeneratorScriptEvent;
+import org.slc.sli.sif.generator.GeneratorScriptMethod;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 import org.slc.sli.sif.zone.PublishZoneConfigurator;
 
@@ -88,15 +97,25 @@ public class EventReporter implements Publisher {
             String script = props.getProperty(PropertyUtils.KEY_SCRIPT);
             long waitTime = ((Long) props.get(PropertyUtils.KEY_WAIT_TIME)).longValue();
 
+            String messageFile = props.getProperty(PropertyUtils.KEY_MESSAGE_FILE);
+            String eventAction = props.getProperty(PropertyUtils.KEY_EVENT_ACTION);
+
             EventReporterAgent agent = createReporterAgent(agentId, zoneUrl);
             agent.startAgent();
             Zone zone = agent.getZoneFactory().getZone(localZoneId);
 
             EventReporter reporter = new EventReporter(zone);
-            reporter.runReportScript(script, waitTime);
+
+            if (!messageFile.isEmpty()) {
+                reporter.reportEvent(messageFile, eventAction);
+            } else {
+                reporter.runReportScript(script, waitTime);
+            }
         } catch (Exception e) { // Have to catch top-level Exception due to agent.startAgent()
             logger.error("Exception trying to report event", e);
         }
+
+        System.exit(0);
     }
 
     private static EventReporterAgent createReporterAgent(String agentId, String zoneUrl) {
@@ -111,36 +130,13 @@ public class EventReporter implements Publisher {
 
         Properties httpsProperties = new Properties();
 
-        return new EventReporterAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties, httpsProperties,
-                "TestZone", zoneUrl, SIFVersion.SIF23);
+        return new EventReporterAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties,
+                httpsProperties, "TestZone", zoneUrl, SIFVersion.SIF23);
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
     private Zone zone;
-    private Map<String, ScriptMethod> scriptMethodMap = new HashMap<String, ScriptMethod>();
-
-    /**
-     * Helper class to map script identifiers to Java methods
-     *
-     * @author vmcglaughlin
-     *
-     */
-    static class ScriptMethod {
-        private Object executingClass;
-        private Object[] args;
-        private Method method;
-
-        public ScriptMethod(Object executingClass, Method method, Object... args) {
-            this.executingClass = executingClass;
-            this.method = method;
-            this.args = args;
-        }
-
-        public Event execute() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return (Event) method.invoke(executingClass, args);
-        }
-    }
 
     public EventReporter(Zone zone) throws ADKException, SecurityException, NoSuchMethodException {
         this.zone = zone;
@@ -149,59 +145,35 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
         this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
-
-        populateMethodMap();
+        this.zone.setPublisher(this, StudentDTD.STAFFPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYEEPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STAFFASSIGNMENT, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYMENTRECORD, new PublishingOptions(true));
+        this.zone.setPublisher(this, HrfinDTD.EMPLOYEEASSIGNMENT, new PublishingOptions(true));
     }
 
-    private void populateMethodMap() throws SecurityException, NoSuchMethodException {
-        ScriptMethod leaInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_ADD, leaInfoAddMethod);
-        ScriptMethod leaInfoChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_CHANGE, leaInfoChangeMethod);
-        ScriptMethod leaInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportLeaInfoEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_LEA_INFO_DELETE, leaInfoDeleteMethod);
-
-        ScriptMethod schoolInfoAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_ADD, schoolInfoAddMethod);
-        ScriptMethod schoolInfoChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_CHANGE, schoolInfoChangeMethod);
-        ScriptMethod schoolInfoDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportSchoolInfoEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_SCHOOL_INFO_DELETE, schoolInfoDeleteMethod);
-
-        ScriptMethod studentPersonalAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_ADD, studentPersonalAddMethod);
-        ScriptMethod studentPersonalChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_CHANGE, studentPersonalChangeMethod);
-        ScriptMethod studentPersonalDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentPersonalEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_PERSONAL_DELETE, studentPersonalDeleteMethod);
-
-        ScriptMethod studentLeaRelationshipAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_ADD, studentLeaRelationshipAddMethod);
-        ScriptMethod studentLeaRelationshipChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_CHANGE, studentLeaRelationshipChangeMethod);
-        ScriptMethod studentLeaRelationshipDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentLeaRelationshipEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_LEA_RELATIONSHIP_DELETE, studentLeaRelationshipDeleteMethod);
-
-        ScriptMethod studentSchoolEnrollmentAddMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.ADD);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_ADD, studentSchoolEnrollmentAddMethod);
-        ScriptMethod studentSchoolEnrollmentChangeMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.CHANGE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_CHANGE, studentSchoolEnrollmentChangeMethod);
-        ScriptMethod studentSchoolEnrollmentDeleteMethod = new ScriptMethod(this, EventReporter.class.getMethod("reportStudentSchoolEnrollmentEvent", EventAction.class), EventAction.DELETE);
-        scriptMethodMap.put(GeneratorScriptEvent.KEY_STUDENT_SCHOOL_ENROLLMENT_DELETE, studentSchoolEnrollmentDeleteMethod);
-    }
-
-    public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+    public List<Event> runReportScript(String script, long waitTime) throws IllegalArgumentException,
+            IllegalAccessException, InvocationTargetException {
         List<Event> eventsSent = new ArrayList<Event>();
         LOG.info("Wait time (ms): " + waitTime);
         String[] eventDescriptors = script.split(",");
         for (String descriptor : eventDescriptors) {
-            ScriptMethod scriptMethod = scriptMethodMap.get(descriptor);
-            Event eventSent = scriptMethod.execute();
-            eventsSent.add(eventSent);
-            try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                LOG.error("Exception while sleeping", e);
+            GeneratorScriptMethod scriptMethod = GeneratorScriptMethod.get(descriptor);
+            if (scriptMethod == null) {
+                LOG.error("Error retrieving scriptMethod - " + descriptor);
+            } else {
+                LOG.info("Executing script method - " + scriptMethod.toString());
+                try {
+                    Event eventSent = scriptMethod.execute(this);
+                    eventsSent.add(eventSent);
+                    Thread.sleep(waitTime);
+                } catch (SecurityException e) {
+                    LOG.error("Failed to execute method for descriptor " + descriptor, e);
+                } catch (NoSuchMethodException e) {
+                    LOG.error("Failed to execute method for descriptor " + descriptor, e);
+                } catch (InterruptedException e) {
+                    LOG.error("Exception while sleeping", e);
+                }
             }
         }
         return eventsSent;
@@ -267,11 +239,68 @@ public class EventReporter implements Publisher {
         return event;
     }
 
-    public Event reportEvent(String messageFile) throws ADKException {
-        Properties props = new Properties();
-        props.setProperty(CustomEventGenerator.MESSAGE_FILE, messageFile);
-        EventGenerator generator = new CustomEventGenerator();
-        Event event = generator.generateEvent(props);
+    public Event reportStaffPersonalEvent(EventAction action) throws ADKException {
+        LOG.info("StaffPersonal " + action.toString());
+        StaffPersonal staffPersonal = SifEntityGenerator.generateTestStaffPersonal();
+        if (action == EventAction.CHANGE) {
+            staffPersonal.setChanged();
+            staffPersonal.setEmailList(new EmailList(new Email(EmailType.PRIMARY, "chuckyw@imginc.com")));
+        }
+        Event event = new Event(staffPersonal, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmployeePersonalEvent(EventAction action) throws ADKException {
+        LOG.info("EmployeePersonal " + action.toString());
+        EmployeePersonal employeePersonal = SifEntityGenerator.generateTestEmployeePersonal();
+        if (action == EventAction.CHANGE) {
+            employeePersonal.setChanged();
+            employeePersonal.setOtherIdList(new HrOtherIdList(new OtherId(OtherIdType.CERTIFICATE, "certificate")));
+        }
+        Event event = new Event(employeePersonal, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportStaffAssignmentEvent(EventAction action) throws ADKException {
+        LOG.info("StaffAssignment " + action.toString());
+        StaffAssignment staffAssignment = SifEntityGenerator.generateTestStaffAssignment();
+        if (action == EventAction.CHANGE) {
+            staffAssignment.setChanged();
+            staffAssignment.setPrimaryAssignment(YesNo.NO);
+        }
+        Event event = new Event(staffAssignment, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmploymentRecordEvent(EventAction action) throws ADKException {
+        LOG.info("EmploymentRecord " + action.toString());
+        EmploymentRecord employmentRecord = SifEntityGenerator.generateTestEmploymentRecord();
+        if (action == EventAction.CHANGE) {
+            employmentRecord.setChanged();
+            employmentRecord.setPositionNumber("15");
+        }
+        Event event = new Event(employmentRecord, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEmployeeAssignmentEvent(EventAction action) throws ADKException {
+        LOG.info("EmployeeAssignment " + action.toString());
+        EmployeeAssignment employeeAssignment = SifEntityGenerator.generateTestEmployeeAssignment();
+        if (action == EventAction.CHANGE) {
+            employeeAssignment.setChanged();
+            employeeAssignment.setPrimaryAssignment(YesNo.NO);
+        }
+        Event event = new Event(employeeAssignment, action);
+        zone.reportEvent(event);
+        return event;
+    }
+
+    public Event reportEvent(String messageFile, String eventAction) throws ADKException {
+        Event event = CustomEventGenerator.generateEvent(messageFile, EventAction.valueOf(eventAction));
         if (event == null) {
             LOG.error("Null event can not be reported");
             return null;
@@ -293,13 +322,11 @@ public class EventReporter implements Publisher {
 
     @SuppressWarnings("unused")
     private void inspectAndDestroyEvent(Event e) {
-        LOG.info("###########################################################################");
         try {
             SIFDataObject dataObj = e.getData().readDataObject();
             LOG.info(dataObj.toString());
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
-        LOG.info("###########################################################################");
     }
 }

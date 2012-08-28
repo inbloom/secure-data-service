@@ -366,6 +366,8 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    ENDTODO -->
     <xs:complexType name="AttendanceEvent">
         <xs:annotation>
             <xs:documentation>This event entity represents the recording of whether a student is in attendance for a
@@ -410,22 +412,22 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="StudentReference" type="StudentReferenceType">
+                    <xs:element name="SLI-StudentId" type="UniqueStateIdentifier">
                         <xs:annotation>
-                            <xs:documentation>The student associated with the attendance event.</xs:documentation>
+                            <xs:documentation>The student associated with the attendance event. </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0">
+                    <xs:element name="SLI-SectionId" type="SLI-StudentSectionAssociation">
                         <xs:annotation>
                             <xs:documentation>The section associated with the attendance event.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SchoolReference" type="EducationOrganizationReferenceType" minOccurs="0">
+                    <xs:element name="SLI-SchoolId" type="IdentificationCode">
                         <xs:annotation>
                             <xs:documentation>The school associated with the attendance event.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0">
+                    <xs:element name="SLI-SessionId" type="IdentificationCode" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>The session associated with the attendance event.</xs:documentation>
                         </xs:annotation>
@@ -434,6 +436,8 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+<!-- TODO
     <xs:complexType name="CalendarDate">
         <xs:annotation>
             <xs:documentation>This entity represents a day in the school calendar.</xs:documentation>
@@ -502,7 +506,7 @@
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
-                    <xs:element name="CohortIdentifier" type="CohortIdentifier">
+                    <xs:element name="CohortIdentifier" type="IdentificationCode">
                         <xs:annotation>
                             <xs:documentation>The name or ID for the cohort.</xs:documentation>
                         </xs:annotation>
@@ -619,6 +623,11 @@
             <xs:element name="SLI-StudentId" type="UniqueStateIdentifier">
                 <xs:annotation>
                     <xs:documentation>The student associated with the cohort.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CohortIdentifier" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>The identifier for the cohort.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="BeginDate" type="xs:date">
@@ -1691,56 +1700,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="LeaveEvent">
-        <xs:annotation>
-            <xs:documentation>This event entity represents the recording of the dates of staff leave (e.g., sick leave,
-                personal time, vacation, etc.).
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="EventDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>Date for this leave event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LeaveEventCategory" type="LeaveEventCategoryType">
-                        <xs:annotation>
-                            <xs:documentation>The code describing the type of leave taken, for example:
-                                Sick
-                                Personal
-                                Vacation
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="LeaveEventReason" type="LeaveEventReason" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Expanded reason for the staff leave.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="HoursOnLeave" type="xs:decimal" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The hours the staff was absent, if not the entire working day.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="SubstituteAssigned" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Indicator of whether a substitute was assigned during the period of staff
-                                leave.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StaffReference" type="StaffReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The staff associated with this leave event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
     <xs:complexType name="LocalEducationAgency">
         <xs:annotation>
             <xs:documentation>This entity represents an administrative unit at the local level which exists primarily to
@@ -2180,6 +2139,11 @@
             <xs:element name="SLI-studentId" type="StudentReferenceType">
                 <xs:annotation>
                     <xs:documentation>The student associated with the program.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ProgramIdentifier" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>The program the student is associated with.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="Services" type="ServiceDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
@@ -2683,6 +2647,27 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="SLI-StudentSessionAssociation">
+        <xs:annotation>
+            <xs:documentation>This association indicates the session a student is assigned to.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SLI-StudentUniqueStateId" type="UniqueStateIdentifier">
+                <xs:annotation>
+                    <xs:documentation>The student enrolled in the session.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SessionName" type="IdentificationCode">
+                <xs:annotation>
+                    <xs:documentation>The identifier for the calendar for the academic session (e.g., 2010/11,
+                        2011 Summer).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="SLI-StudentSectionAssociation">
         <xs:annotation>
             <xs:documentation>This association indicates the course sections a student is assigned to.
@@ -2692,6 +2677,13 @@
             <xs:element name="SLI-StudentUniqueStateId" type="UniqueStateIdentifier">
                 <xs:annotation>
                     <xs:documentation>The student enrolled in the section.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SLI-UniqueSectionCode" type="UniqueSectionCode">
+                <xs:annotation>
+                    <xs:documentation>A unique identifier for the section that is defined by the classroom, the
+                                subjects taught, and the instructors that are assigned.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="BeginDate" type="xs:date" minOccurs="0">
@@ -2770,8 +2762,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- TODO build remaining interchange types
-       <xs:complexType name="Session">
+       <xs:complexType name="SLI-Session">
            <xs:annotation>
                <xs:documentation>This entity represents the prescribed span of time when an education institution is open,
                    instruction is provided, and students are under the direction and guidance of teachers and/or education
@@ -2814,34 +2805,21 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
-                           <xs:annotation>
-                               <xs:documentation>The Education Organization that defines the curriculum and courses offered
-                                   - often the LEA.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" maxOccurs="unbounded">
+                       <xs:element name="SLI-GradingPeriodId" type="SLI-GradingPeriodIdentity" maxOccurs="unbounded">
                            <xs:annotation>
                                <xs:documentation>Grading periods associated with the calendar,</xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="CalendarDateReference" type="CalendarDateReferenceType" minOccurs="0"
-                                   maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>Days associated with the calendar.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="AcademicWeekReference" type="AcademicWeekReferenceType" minOccurs="0"
-                                   maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>The academic weeks associated with the school year.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
+                        <xs:element name="SLI-SchoolId" type="IdentificationCode">
+                            <xs:annotation>
+                                <xs:documentation>The school where the section is taught.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                    </xs:sequence>
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+
        <xs:complexType name="SLI-Staff">
            <xs:annotation>
                <xs:documentation>This entity represents an individual who performs specified activities for any public or
@@ -2857,21 +2835,218 @@
                    5) an independent contractor or businessperson working at a school site.
                </xs:documentation>
            </xs:annotation>
-           <xs:complexContent>
-               <xs:extension base="Staff">
-                   <xs:sequence>
-                       <xs:element name="SLI-EdOrgAssociations" type="SLI-StaffEducationOrgAssignmentAssociation"
-                                   minOccurs="0" maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>Education organization associations of the staff member.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
+            <xs:complexContent>
+                <xs:extension base="Staff">
+                    <xs:sequence>
+                        <xs:element name="SLI-EdOrgAssociations" type="SLI-StaffEducationOrgAssignmentAssociation"
+                                    minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Education organization associations of the staff member.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
+                            <xs:annotation>
+                                <xs:documentation>A unique number or alphanumeric code assigned
+                                    to a staff by a state education agency.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                    <sli:naturalKey>true</sli:naturalKey>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="staffIdentificationCode" type="staffIdentificationCode"
+                            minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>A unique number or alphanumeric code assigned
+                                    to a staff member by a school, school system, a state, or other
+                                    agency or entity.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="name" type="name">
+                            <xs:annotation>
+                                <xs:documentation>Full legal name of the person.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="otherName" type="otherName" minOccurs="0"
+                            maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Other names (e.g., alias, nickname, previous
+                                    legal name) associated with a person.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sex" type="sexType">
+                            <xs:annotation>
+                                <xs:documentation>A person's gender.</xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="birthDate" type="xs:date" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The month, day, and year on which an individual
+                                    was born.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="address" type="address" minOccurs="0"
+                            maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The set of elements that describes an address,
+                                    including the street address, city, state, and ZIP code.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="telephone" type="telephone" minOccurs="0"
+                            maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The 10-digit telephone number, including the
+                                    area code, for the person.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="electronicMail" type="electronicMail"
+                            minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The numbers, letters, and symbols used to
+                                    identify an electronic mail (e-mail) user within the network to
+                                    which the individual or organization belongs.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="hispanicLatinoEthnicity" type="xs:boolean"
+                            nillable="true">
+                            <xs:annotation>
+                                <xs:documentation>An indication that the individual traces his or
+                                    her origin or descent to Mexico, Puerto Rico, Cuba, Central and
+                                    South America, and other Spanish cultures, regardless of race.
+                                    The term, "Spanish origin," can be used in addition to "Hispanic
+                                    or Latino."
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="oldEthnicity" type="oldEthnicityType"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>Previous definition of Ethnicity combining
+                                    Hispanic/Latino and race: 
+                                    1 - American Indian or Alaskan Native
+                                    2 - Asian or Pacific Islander 
+                                    3 - Black, not of Hispanic origin 
+                                    4 - Hispanic 
+                                    5 - White, not of Hispanic origin
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="race" type="raceItemType" minOccurs="0"
+                            maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The general racial category which most clearly
+                                    reflects the individual's recognition of his or her community or
+                                    with which the individual most identifies. The way this data
+                                    element is listed, it must allow for multiple entries so that
+                                    each individual can specify all appropriate races.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="highestLevelOfEducationCompleted" type="levelOfEducationType">
+                            <xs:annotation>
+                                <xs:documentation>The extent of formal instruction an individual
+                                    has received (e.g., the highest grade in school completed or its
+                                    equivalent or the highest degree received).
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="yearsOfPriorProfessionalExperience"
+                            type="xs:int" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The total number of years that an individual
+                                    has previously held a similar professional position in one or
+                                    more education institutions.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="yearsOfPriorTeachingExperience" type="xs:int"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The total number of years that an individual
+                                    has previously held a teaching position in one or more education
+                                    institutions.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="credentials" type="credential"
+                            minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The legal document or authorization giving
+                                    authorization to perform teaching assignment services.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="loginId" type="identificationCode"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The login ID for the user; used for security
+                                    access control interface.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
                    </xs:sequence>
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
-
+<!--
        <xs:complexType name="StateEducationAgency">
            <xs:annotation>
                <xs:documentation>This entity represents the agency of the state charged with primary responsibility for
@@ -2883,7 +3058,187 @@
                <xs:extension base="EducationOrganization"/>
            </xs:complexContent>
        </xs:complexType>
-       <xs:complexType name="Student">
+    ENDTODO -->
+
+       <xs:complexType name="SLI-Enrollment">
+           <xs:annotation>
+               <xs:documentation>This entity represents an individual enrollment for instruction, services and/or care
+                   provided in an early childhood, elementary or secondary educational program under the jurisdiction of a
+                   school, education agency, or other institution or program.
+               </xs:documentation>
+           </xs:annotation>
+           <xs:complexContent>
+               <xs:extension base="Person">
+                   <xs:sequence>
+                       <xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier">
+                           <xs:annotation>
+                               <xs:documentation>A unique number or alphanumeric code assigned to a student by a state
+                                   education agency.
+                               </xs:documentation>
+                           </xs:annotation>
+                       </xs:element>
+                        <xs:element name="SLI-SchoolId" type="IdentificationCode">
+                            <xs:annotation>
+                                <xs:documentation>The school where the section is taught.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="schoolYear" type="schoolYearType">
+                            <xs:annotation>
+                                <xs:documentation>The value of the school year for the school.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="entryDate" type="xs:date">
+                            <xs:annotation>
+                                <xs:documentation>The month, day, and year on which an individual
+                                    enters and
+                                    begins to receive instructional services in a school.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="entryGradeLevel" type="gradeLevelType">
+                            <xs:annotation>
+                                <xs:documentation>The grade level or primary instructional level
+                                    at
+                                    which a
+                                    student enters and receives services in a school or an
+                                    educational
+                                    institution during a given academic session.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="entryType" type="entryType" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The process by which a student enters a school
+                                    during a given
+                                    academic session.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="repeatGradeIndicator" type="xs:boolean"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>An indicator of whether the student is enrolling
+                                    to repeat a
+                                    grade level, either by failure or an agreement to hold
+                                    the student
+                                    back.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="classOf" type="schoolYearType"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>Projected High School graduation year
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="schoolChoiceTransfer" type="xs:boolean"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>An indication of whether students transferred in
+                                    or out of the
+                                    school did so during the school year under the
+                                    provisions for public
+                                    school
+                                    choice in accordance with Title I,
+                                    Part
+                                    A, Section 1116.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="exitWithdrawDate" type="xs:date"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The month, day, and year of the first day after
+                                    the date of an
+                                    individual's last attendance at a school (if
+                                    known),
+                                    the day on which an
+                                    individual graduated, or the date on
+                                    which it
+                                    becomes known
+                                    officially that
+                                    an individual left school.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="exitWithdrawType" type="exitWithdrawType"
+                            minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The circumstances under which the student exited
+                                    from
+                                    membership in an educational institution.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="educationalPlans" type="educationalPlanItemType"
+                            minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The type of Education Plan(s) the student is
+                                    following, if
+                                    appropriate. For example:
+                                    Special education IEP
+                                    Vocational
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="attendanceEvent" type="attendanceEvent" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Attendance records of the student per school.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="academicRecords" type="SLI-StudentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Academic Records for the student.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>The set of elements that describes an address, including the street
+                                    address, city, state, and ZIP code.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="StudentIdentificationCode" type="StudentIdentificationCode" minOccurs="0"
+                                    maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>A coding scheme that is used for identification and record-keeping
+                                    purposes by schools, social services, or other agencies to refer to a student.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Assessments associated with the student.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="LoginId" type="IdentificationCode" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>The login ID for the user; used for security access control interface.
+                                </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="SLI-SessionAssociations" type="SLI-StudentSessionAssociation">
+                            <xs:annotation>
+                                <xs:documentation>Sessions the student is enrolled in.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="SLI-SectionAssociations" type="SLI-StudentSectionAssociation">
+                            <xs:annotation>
+                                <xs:documentation>Sections the student is enrolled in.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+
+
+        <xs:complexType name="SLI-Student">
            <xs:annotation>
                <xs:documentation>This entity represents an individual for whom instruction, services and/or care are
                    provided in an early childhood, elementary or secondary educational program under the jurisdiction of a
@@ -2898,14 +3253,6 @@
                            <xs:annotation>
                                <xs:documentation>A unique number or alphanumeric code assigned to a student by a state
                                    education agency.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="StudentIdentificationCode" type="StudentIdentificationCode" minOccurs="0"
-                                   maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>A coding scheme that is used for identification and record-keeping
-                                   purposes by schools, social services, or other agencies to refer to a student.
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
@@ -2930,13 +3277,6 @@
                            <xs:annotation>
                                <xs:documentation>The set of elements that capture relevant data regarding a person's birth,
                                    including birth date and place of birth.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="Address" type="Address" minOccurs="0" maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>The set of elements that describes an address, including the street
-                                   address, city, state, and ZIP code.
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
@@ -3046,17 +3386,18 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
+                        <xs:element name="specialEducationAttributes" type="specialEdStudentProgramAttributes"
+                                    minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Optional special education attributes of a student program.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                        <xs:element name="DisplacementStatus" type="DisplacementStatusType" minOccurs="0">
                            <xs:annotation>
                                <xs:documentation>Indicates a state health or weather related event that displaces a group
                                    of students, and may require additional funding, educational, or social services.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="ProgramParticipations" type="ProgramParticipation" minOccurs="0"
-                                   maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>Key programs the student is participating in or receives services.
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
@@ -3067,13 +3408,6 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="CohortYears" type="CohortYear" minOccurs="0" maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>The type and year of a cohort (e.g., 9th grade) the student belongs to as
-                                   determined by the year that student entered a specific grade.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
                        <xs:element name="StudentIndicators" type="StudentIndicator" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
                                <xs:documentation>Indicator(s) or metric(s) computed for the student (e.g., at risk) to
@@ -3081,9 +3415,24 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="LoginId" type="IdentificationCode" minOccurs="0">
+                        <xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Assessments associated with the student.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                       <xs:element name="SLI-ProgramAssociations" type="SLI-StudentProgramAssociation" minOccurs="0"
+                                   maxOccurs="unbounded">
                            <xs:annotation>
-                               <xs:documentation>The login ID for the user; used for security access control interface.
+                               <xs:documentation>Key programs the student is participating in or receives services.
+                               </xs:documentation>
+                           </xs:annotation>
+                       </xs:element>
+                       <xs:element name="SLI-CohortAssociations" type="SLI-StudentCohortAssociation" minOccurs="0" 
+                                   maxOccurs="unbounded">
+                           <xs:annotation>
+                               <xs:documentation>The type and year of a cohort (e.g., 9th grade) the student belongs to as
+                                   determined by the year that student entered a specific grade.
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
@@ -3091,7 +3440,8 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
-       <xs:complexType name="StudentAcademicRecord">
+
+       <xs:complexType name="SLI-StudentAcademicRecord">
            <xs:annotation>
                <xs:documentation>This educational entity represents the cumulative record of academic achievement for a
                    student.
@@ -3197,24 +3547,25 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="StudentReference" type="StudentReferenceType">
-                           <xs:annotation>
-                               <xs:documentation>Identifies the student that is associated with the Student Academic
-                                   Record.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="SessionReference" type="SessionReferenceType">
-                           <xs:annotation>
-                               <xs:documentation>The session associated with the session.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="ReportCardReference" type="ReportCardReferenceType" minOccurs="0"
+                        <xs:element name="SLI-StudentId" type="UniqueStateIdentifier">
+                            <xs:annotation>
+                                <xs:documentation>Identifies the student that is associated with this academic record. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="SLI-SessionId" type="IdentificationCode">
+                            <xs:annotation>
+                                <xs:documentation>The session associated with this academic record.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="SLI-ReportCardId" type="IdentificationCode" minOccurs="0"
                                    maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>Report cards for the student.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
+                            <xs:annotation>
+                                <xs:documentation>The report card associated with the academic record.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                        <xs:element name="Diploma" type="Diploma" minOccurs="0">
                            <xs:annotation>
                                <xs:documentation>Diploma(s) earned by the student.</xs:documentation>
@@ -3224,6 +3575,7 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+
        <xs:complexType name="StudentAssessment">
            <xs:annotation>
                <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment.
@@ -3342,21 +3694,25 @@
                                <xs:documentation>The performance level(s) achieved for the assessment.</xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="StudentReference" type="StudentReferenceType">
-                           <xs:annotation>
-                               <xs:documentation>Reference to the student associated with the assessment.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                       <xs:element name="AssessmentReference" type="AssessmentReferenceType">
-                           <xs:annotation>
-                               <xs:documentation>Reference to the assessment taken by the student.</xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
+                        <xs:element name="SLI-StudentId" type="UniqueStateIdentifier">
+                            <xs:annotation>
+                                <xs:documentation>Association to the student-section association with which the grade is
+                                    awarded.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="SLI-AssessmentId" type="AssessmentIdentificationCode">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the assessment for this StudentAssessment. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                    </xs:sequence>
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+
+       <!-- TODO
        <xs:complexType name="StudentAssessmentItem">
            <xs:annotation>
                <xs:documentation>This entity represents the student's response to an assessment item and the item-level
@@ -3424,6 +3780,7 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+   -->
        <xs:complexType name="StudentCompetency">
            <xs:annotation>
                <xs:documentation>This entity represents the competency assessed or evaluated for the student against a
@@ -3505,7 +3862,7 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+                       <xs:element name="SLI-EducationOrganizationId" type="IdentificationCode">
                            <xs:annotation>
                                <xs:documentation>The Education Organization that defines the curriculum and courses offered
                                    - often the LEA or school.
@@ -3516,6 +3873,7 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+       <!--
        <xs:complexType name="StudentObjectiveAssessment">
            <xs:annotation>
                <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment
@@ -3557,27 +3915,50 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
-       <xs:complexType name="SLI-Teacher">
-           <xs:annotation>
-               <xs:documentation>This entity represents a person that is employed by an LEA or other educational unit
-                   engaged in student instruction. These persons are instructional-type staff members. In the data model, a
-                   teacher entity is a staff member with additional properties.
-               </xs:documentation>
+   -->
+        <xs:complexType name="SLI-Teacher">
+            <xs:annotation>
+                <xs:documentation>This entity represents a person that is employed by an LEA or other educational unit
+                    engaged in student instruction. These persons are instructional-type staff members. In the data model, a
+                    teacher entity is a staff member with additional properties.
+                </xs:documentation>
            </xs:annotation>
-           <xs:complexContent>
-               <xs:extension base="Teacher">
-                   <xs:sequence>
-                       <xs:element name="SLI-EdOrgAssociations" type="SLI-StaffEducationOrgAssignmentAssociation"
-                                   minOccurs="0" maxOccurs="unbounded">
-                           <xs:annotation>
-                               <xs:documentation>Education organization associations of the staff member.
-                               </xs:documentation>
-                           </xs:annotation>
-                       </xs:element>
-                   </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="SLI-Staff">
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="teacherUniqueStateId"
+                            type="uniqueStateIdentifier">
+                            <xs:annotation>
+                                <xs:documentation>An ID number maintained by the state that
+                                    uniquely
+                                    identifies this teacher.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                    <sli:naturalKey>true</sli:naturalKey>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="highlyQualifiedTeacher"
+                            type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>An indication of whether a teacher is
+                                    classified as highly qualified for his/her assignment according
+                                    to state definition. This attribute indicates the teacher is
+                                    highly qualified for ALL sections being taught.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                                    <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
                </xs:extension>
-           </xs:complexContent>
-       </xs:complexType>
+            </xs:complexContent>
+        </xs:complexType>
+       <!--
        <xs:annotation>
            <xs:documentation>===== Descriptors =====</xs:documentation>
        </xs:annotation>
@@ -4024,6 +4405,7 @@
                </xs:element>
            </xs:sequence>
        </xs:complexType>
+   -->
        <xs:complexType name="SLI-StaffEducationOrgAssignmentAssociation">
            <xs:annotation>
                <xs:documentation>This association indicates the education organization to which a staff member provides
@@ -4082,6 +4464,7 @@
                </xs:element>
            </xs:sequence>
        </xs:complexType>
+
        <xs:complexType name="StaffEducationOrgEmploymentAssociation">
            <xs:annotation>
                <xs:documentation>This association indicates the education organization an employee, contractor, volunteer
@@ -4090,14 +4473,15 @@
                </xs:documentation>
            </xs:annotation>
            <xs:sequence>
-               <xs:element name="StaffReference" type="StaffReferenceType">
+               <xs:element name="SLI-StaffUniqueStateId" type="UniqueStateIdentifier" minOccurs="0">
                    <xs:annotation>
-                       <xs:documentation>The staff employed by the education organization.</xs:documentation>
+                       <xs:documentation>The staff assigned to the education organization.</xs:documentation>
                    </xs:annotation>
                </xs:element>
-               <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+               <xs:element name="SLI-EducationOrganizationId" type="IdentificationCode">
                    <xs:annotation>
-                       <xs:documentation>The Education Organization with which the staff is employed.</xs:documentation>
+                       <xs:documentation>The educational organization to which the staff member provides services
+                       </xs:documentation>
                    </xs:annotation>
                </xs:element>
                <xs:element name="EmploymentStatus" type="DescriptorReferenceType">
@@ -4141,6 +4525,7 @@
                </xs:element>
            </xs:sequence>
        </xs:complexType>
+       <!--
        <xs:complexType name="StudentCTEProgramAssociation">
            <xs:annotation>
                <xs:documentation>This association represents the career and technical education (CTE) program that a
@@ -5424,29 +5809,12 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="GradingPeriodReferenceType">
+    -->
+
+
+    <xs:complexType name="SLI-GradingPeriodIdentity">
         <xs:annotation>
-            <xs:documentation>Provides alternative references for grading periods. Use XML IDREF to reference a program
-                record that is included in the interchange
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="GradingPeriodIdentity" type="GradingPeriodIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Provide user information to lookup and link to an existing grading period
-                                record in the receiving system
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="GradingPeriodIdentityType">
-        <xs:annotation>
-            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.
+            <xs:documentation>Encapsulates the possible attributes for a grading period.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -5476,7 +5844,7 @@
                     </xs:element>
                 </xs:sequence>
             </xs:choice>
-            <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType"
+            <xs:element name="SLI-EducationOrganizationId" type="IdentificationCode"
                         maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Provide user information to lookup and link to an existing educational
@@ -5486,6 +5854,9 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+
+    <!--
     <xs:complexType name="GraduationPlanReferenceType">
         <xs:annotation>
             <xs:documentation>Provides alternative references for graduation plans. Use XML IDREF to reference a record
@@ -5812,25 +6183,9 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="ReportCardReferenceType">
-        <xs:annotation>
-            <xs:documentation>Provides alternative references for report cards. Use XML IDREF to reference a record that
-                is included in the interchange. Use the identity type to lookup a record that was loaded previously.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="ReportCardIdentity" type="ReportCardIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The identity for the report card.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="ReportCardIdentityType">
+    -->
+
+    <xs:complexType name="SLI-ReportCard">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of report
                 cards.
@@ -5844,14 +6199,14 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+            <xs:element name="SLI-EducationOrganizationId" type="IdentificationCode">
                 <xs:annotation>
                     <xs:documentation>Provide user information to lookup and link to an existing educational
                         organization record in the receiving system
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType">
+            <xs:element name="SLI-GradingPeriodId" type="SLI-GradingPeriodIdentity">
                 <xs:annotation>
                     <xs:documentation>Provide user information to lookup and link to an existing grading period record
                         in the receiving system
@@ -5860,6 +6215,9 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+
+    <!--TODO
     <xs:complexType name="SectionReferenceType">
         <xs:annotation>
             <xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record
@@ -6480,6 +6838,7 @@
             </xs:sequence>
         </xs:choice>
     </xs:complexType>
+-->
     <xs:complexType name="StudentSectionAssociationReferenceType">
         <xs:annotation>
             <xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to
@@ -6520,6 +6879,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <!--
     <xs:annotation>
         <xs:documentation>===== Extended Descriptor Reference Types =====</xs:documentation>
     </xs:annotation>

@@ -20,12 +20,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * YesNoUnknownConverter unit tests
  */
-public class YesNoUnknownConverterTest extends ADKTest {
+public class YesNoUnknownConverterTest extends AdkTest {
 
     private final YesNoUnknownConverter converter = new YesNoUnknownConverter();
 
