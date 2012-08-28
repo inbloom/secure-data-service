@@ -64,7 +64,7 @@ public class InterchangeMasterScheduleGenerator {
      */
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeMasterSchedule> iWriter) {
 
-        //generateCourseOffering(iWriter, MetaRelations.COURSEOFFERING_MAP.values());
+        generateCourseOffering(iWriter, MetaRelations.COURSEOFFERING_MAP.values());
         generateSections(iWriter, MetaRelations.SECTION_MAP.values());
 
     }

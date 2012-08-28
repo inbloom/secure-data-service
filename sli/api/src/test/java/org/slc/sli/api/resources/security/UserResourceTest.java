@@ -287,7 +287,7 @@ public class UserResourceTest {
                          Mockito.anyString(), Mockito.anyCollectionOf(String.class))).thenReturn(Arrays.asList(ldapUser));
         Response res = resource.update(ldapUser);
         Assert.assertNotNull(res);
-        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(204, res.getStatus());
 
         Mockito.when(
                 ldap.findUsersByGroups(Mockito.eq(REALM), Mockito.anyCollectionOf(String.class),

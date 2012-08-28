@@ -17,6 +17,7 @@
 
 package org.slc.sli.validation.schema;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -274,6 +275,26 @@ public abstract class NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
+    public boolean validatePresent(Object entity, List<ValidationError> errors,
+            Repository<Entity> repo) throws EntityValidationException {
+        throw new EntityValidationException("", "", new ArrayList<ValidationError>());
+    }
+
+    /**
+     * Validates the given entity
+     * Returns true if the validation was successful or a ValidationException if the validation was
+     * unsuccessful.
+     *
+     * @param fieldName
+     *            name of entity field being validated
+     * @param entity
+     *            being validated using this SLI Schema
+     * @param errors
+     *            list of current errors
+     * @param repo
+     *            reference to the entity repository
+     * @return true if valid
+     */
     protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors,
             Repository<Entity> repo);
 
@@ -298,10 +319,10 @@ public abstract class NeutralSchema {
         }
         return isValid;
     }
-    
+
     protected boolean addError(String fieldName, Object fieldValue, String expectedType,
             ErrorType errorType, List<ValidationError> errors) {
-    
+
         return this.addError(false, fieldName, fieldValue, expectedType, errorType, errors);
     }
 

@@ -126,6 +126,8 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator2 |LEA_Administrator2 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Realm Administrator |POST      |201 |200      |1 or more|Realm Administrator2 |Realm_Administrator2 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |operator          |operator1234        |SLC Operator           |SLI      |Ingestion User      |POST      |201 |200      |1 or more|Ingestion User2 |Ingestion_User2 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
+	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator19 	|LEA_Administrator19 	|LEA_Administrator@test.com| |Midgar|IL |
+    |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator17  |LEA_Administrator17  	|LEA_Administrator@test.com|    	|Hyrule| IL-DAYBREAK |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SLC Operator        |POST      |403 |200      |0         |SLC Operator3 |SLC_Operator3     |SLC_Operator@test.com|               |      |           |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |201 |200      |1 or more|SEA Administrator3 |SEA_Administrator3 |SEA_Administrator@test.com|    |Midgar| IL|
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator3 |LEA_Administrator3 |LEA_Administrator@test.com|    |Midgar| IL-SUNSET|
@@ -204,15 +206,12 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # lea with no ed-org
 	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator14 	|LEA_Administrator14 	|LEA_Administrator@test.com| |Midgar| |
 # lea in state level ed-org
-	|operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator19 	|LEA_Administrator19 	|LEA_Administrator@test.com| |Midgar|IL |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator20 	|LEA_Administrator20 	|LEA_Administrator@test.com| |Midgar|IL |
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
 # lea creates a lea in a different part of the ed-org hierarchy
 	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator15  |LEA_Administrator15  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-DAYBREAK|
-# operator creates a lea with ed-org in different tenant.
-    |operator          |operator1234        |SLC Operator           |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator17  |LEA_Administrator17  	|LEA_Administrator@test.com|    	|Hyrule| IL-DAYBREAK |
 # realm admin, ingestion_user must have tenant & ed-org for user with production roles
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |Realm Administrator |POST      |400 |200       |Realm Administrator3 |Realm_Administrator3 |Realm_Administrator@test.com|    |Midgar| |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |Realm Administrator |POST      |400 |200       |Realm Administrator3 |Realm_Administrator3 |Realm_Administrator@test.com|    | | IL-SUNSET|

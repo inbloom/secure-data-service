@@ -15,12 +15,7 @@
 
     <jb:bean beanId="cohort" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'cohort'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="cohortMeta" />
         <jb:wiring property="body" beanIdRef="cohortBody" />
-    </jb:bean>
-
-    <jb:bean beanId="cohortMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes cohortIdentifier" />
     </jb:bean>
 
     <jb:bean beanId="cohortBody" class="java.util.HashMap" createOnElement="attributes">

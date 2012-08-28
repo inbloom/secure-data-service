@@ -12,10 +12,13 @@
         document.createElement('ng-header');
         document.createElement('ng-modal');
         document.createElement('footer');
+        document.createElement('tabs');
+        document.createElement('pane');
 
         // Optionally these for CSS
         document.createElement('ng:header');
         document.createElement('ng:modal');
+
     </script>
     <![endif]-->
 </head>
@@ -23,7 +26,7 @@
     <div role="main" class="wrapper" ng-controller="profileListCtrl">
         <ng-header></ng-Header>
 
-        <div class="profileList">
+        <div class="profileList clearfix">
             <h4>Profiles</h4>
 
             <ul class="profile_list">
@@ -34,15 +37,48 @@
         </div>
         <div class="profilePageWrapper" ng-view></div>
     </div>
-    <div ng-controller="footerCtrl" id="footer"></div>
+    <ng-footer></ng-footer>
 
     <script src="../static/js/libs/jquery-1.7.2.min.js" sync></script>
     <script src="../static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js" sync></script>
     <script src="../static/js/libs/angular-1.0.1.min.js" sync></script>
     <script src="../static/js/libs/angular-resource.min.js" sync></script>
-    <script src="js/SLC.builder.app.js" sync></script>
-    <script src="js/SLC.builder.controllers.js" sync></script>
-    <script src="js/SLC.builder.services.js" sync></script>
-    <script src="js/SLC.builder.directives.js" sync></script>
+
+
+    <script language="javascript">
+        function gup( name )
+        {
+          name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+          var regexS = "[\\?&]"+name+"=([^&#]*)";
+          var regex = new RegExp( regexS );
+          var results = regex.exec( window.location.href );
+          if( results == null )
+            return "";
+          else
+            return results[1];
+        }
+        function loadBuilderJs() {
+            document.write('<script src="js/SLC.builder.app.js" sync><\/script>');
+            document.write('<script src="js/SLC.builder.controllers.js" sync><\/script>')
+            document.write('<script src="js/SLC.builder.services.js" sync><\/script>')
+            document.write('<script src="js/SLC.builder.directives.js" sync><\/script>')
+        }
+        var minifyJs = gup('minifyJs');
+
+        if (minifyJs === "false" ) {
+           loadBuilderJs();
+        } else {
+            $.ajax({
+                url: 'js/builder.js',
+                type: 'get',
+                async: false,
+                success: function(data){
+                    document.write('<script language="javascript">'+data+'<\/script>');
+                },
+                error: loadBuilderJs()
+            });
+        }
+    </script>
+
 </body>
 </html>

@@ -117,22 +117,22 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | body.studentUniqueStateId      | 800000012                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 900000024                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 800000025                  | string               |
-       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | body.staffUniqueStateId        | cgray                      | string               |
        | staff                       | 2                   | body.race                | White                      | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | rbraverman                 | string               |
        | staff                       | 2                   | body.name.verification   | Drivers license            | string               |
-       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
+       | course                      | 1                   | body.courseTitle     | 1st Grade Homeroom         | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
-       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
-       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
+       | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
+       | program                     | 1                   | body.programId      | ACC-TEST-PROG-2            | string               |
        | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
        | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
        | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
-       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
-       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
-       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
+       | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-1             | string               |
+       | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-2             | string               |
+       | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-3             | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Tardiness                  | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
@@ -501,7 +501,7 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | body.studentUniqueStateId     | 100000006                  | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
-       | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
+       | section                     | 1                   | body.uniqueSectionCode   | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
