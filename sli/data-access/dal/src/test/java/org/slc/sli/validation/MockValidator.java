@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.EntityValidationException;
 
 /**
  * Mock validator for the dal
@@ -39,5 +40,11 @@ public class MockValidator implements EntityValidator {
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
+    }
+
+    @Override
+    public boolean validatePresent(Entity entity) throws EntityValidationException {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
