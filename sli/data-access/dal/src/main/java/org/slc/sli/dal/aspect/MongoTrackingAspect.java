@@ -79,7 +79,7 @@ public class MongoTrackingAspect {
     // Map<jobId, Map<(db,function,collection), (opCount,totalElapsedMs)>>
     private ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> stats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
         if( isEnabled()) {
@@ -96,7 +96,7 @@ public class MongoTrackingAspect {
         return pjp.proceed();
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
         if ( isEnabled() ){

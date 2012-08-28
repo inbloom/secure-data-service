@@ -2,6 +2,7 @@ package org.slc.sli.dal;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Component;
  * To change this template use File | Settings | File Templates.
  */
 @Component
+@Scope(value = "thread")
 public class MongoStat {
+
+
     private int dbHitCount;
 
     public MongoStat(int dbHitCount) {
@@ -23,6 +27,9 @@ public class MongoStat {
         this.dbHitCount = 0;
     }
 
+    public void setDbHitCount(int dbHitCount) {
+        this.dbHitCount = dbHitCount;
+    }
     public int getDbHitCount() {
         return dbHitCount;
     }

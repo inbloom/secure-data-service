@@ -65,7 +65,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validate(request);
         populateSecurityContext(request);
         mongoStat.clear();
-
         return request;
     }
 
