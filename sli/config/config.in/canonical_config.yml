@@ -534,8 +534,8 @@ ci:
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
         sli.ingestion.dataset.sample:
-            small: [$WORKSPACE/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [$WORKSPACE/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
+            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
+            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -1153,6 +1153,10 @@ team:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
+
+        sli.ingestion.dataset.sample:
+            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
+            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

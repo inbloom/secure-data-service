@@ -72,8 +72,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.CalculatedDatum;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -473,6 +471,11 @@ public class DefaultCrudEndPointTest {
         return matcher.group(1);
     }
 
+    /**
+     *
+     * TODO: add javadoc
+     *
+     */
     @Configuration
     static class Config {
         @Autowired
@@ -484,6 +487,11 @@ public class DefaultCrudEndPointTest {
         }
     }
 
+    /**
+     *
+     * TODO: add javadoc
+     *
+     */
     static class TestEndPoint extends DefaultCrudEndpoint {
 
         /**

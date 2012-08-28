@@ -23,7 +23,7 @@ end
 
 desc "Run Dashboard RC Test"
 task :rcDashboardTests do
-  runTests("test/features/dashboard/dash/dashboard_rc_integration.feature")
+  runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
 end
 
 desc "Run RC SAMT Tests"
