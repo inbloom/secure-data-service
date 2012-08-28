@@ -18,19 +18,12 @@ Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
 And click Save
 Then I should be shown a success message
-When I navigate to the Dashboard Builder page
-And I click on "Section" Profile Builder
-And I add a Page named "District"
-And I add an available panel named "listOfStudents"
 When I navigate to the Dashboard home page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I view its section profile
-And there are "2" Tabs
-And Tab has a title named "District"
-And I click on "District" Tab
 Then I see a list of 28 students
 When I enter "rudolph" into the "firstName" search box
 And I click the search button
@@ -39,9 +32,6 @@ And the search results include:
  |Student          |Grade    |School                     |
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
- When I navigate to the Dashboard Builder page
-And I click on "Section" Profile Builder
-And I delete Page "District"
 And I click on log out
 
 Scenario: Educator Logs into dashboard from portal
