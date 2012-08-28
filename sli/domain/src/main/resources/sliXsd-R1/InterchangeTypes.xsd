@@ -3780,6 +3780,7 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+   -->
        <xs:complexType name="StudentCompetency">
            <xs:annotation>
                <xs:documentation>This entity represents the competency assessed or evaluated for the student against a
@@ -3861,7 +3862,7 @@
                                </xs:documentation>
                            </xs:annotation>
                        </xs:element>
-                       <xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+                       <xs:element name="SLI-EducationOrganizationId" type="IdentificationCode">
                            <xs:annotation>
                                <xs:documentation>The Education Organization that defines the curriculum and courses offered
                                    - often the LEA or school.
@@ -3872,6 +3873,7 @@
                </xs:extension>
            </xs:complexContent>
        </xs:complexType>
+       <!--
        <xs:complexType name="StudentObjectiveAssessment">
            <xs:annotation>
                <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment
@@ -6836,6 +6838,7 @@
             </xs:sequence>
         </xs:choice>
     </xs:complexType>
+-->
     <xs:complexType name="StudentSectionAssociationReferenceType">
         <xs:annotation>
             <xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to
@@ -6876,6 +6879,7 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <!--
     <xs:annotation>
         <xs:documentation>===== Extended Descriptor Reference Types =====</xs:documentation>
     </xs:annotation>

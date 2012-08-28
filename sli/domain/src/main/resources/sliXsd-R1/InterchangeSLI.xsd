@@ -39,10 +39,8 @@
 					<xs:element name="SLI-Staff" type="SLI-Staff" />
 					<xs:element name="SLI-Student" type="SLI-Student" />
 					<xs:element name="SLI-Enrollment" type="SLI-Enrollment" />
-                    <!-- TODO build types
 					<xs:element name="SLI-StudentCompetency" type="SLI-StudentCompetency" />
 					<xs:element name="SLI-StudentCompetencyObjective" type="SLI-StudentCompetencyObjective" />
-					ENDTODO -->
 					<xs:element name="SLI-Teacher" type="SLI-Teacher" />
 				</xs:choice>
 			</xs:sequence>
