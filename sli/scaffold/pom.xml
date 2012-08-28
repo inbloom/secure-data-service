@@ -36,6 +36,14 @@
     <!-- build profile for api document generation -->
     <profile>
       <id>apidoc</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.slc.sli</groupId>
+          <artifactId>api</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <classifier>classes</classifier>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin>
