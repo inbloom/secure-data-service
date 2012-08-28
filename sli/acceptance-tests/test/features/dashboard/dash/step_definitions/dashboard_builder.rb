@@ -154,6 +154,7 @@ def hoverOverPage(pageName, mode = nil)
     #TODO
   elsif (mode == "delete")
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
+    @driver.switch_to.alert.accept
   end  
 end
 
