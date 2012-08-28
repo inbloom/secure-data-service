@@ -244,28 +244,20 @@ public class BasicService implements EntityService {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
-        Entity entity = repo.findOne(collectionName, query);
 
-        if (entity == null) {
+        if (repo.findOne(collectionName, query) == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
         EntityBody sanitized = sanitizeEntityBody(content);
-        if (entity.getBody().equals(sanitized)) {
-            info("No change detected to {}", id);
-            return false;
-        }
 
-        // combine/merge new entity body with existing
-        entity.getBody().putAll(sanitized);
-
-        info("new body is {}", entity.getBody());
+        info("patch value(s): ", sanitized);
 
         // don't check references until things are combined
-        checkReferences(new EntityBody(entity.getBody()));
+        checkReferences(sanitized);
 
-        repo.update(collectionName, entity);
+        repo.patch(defn.getType(), collectionName, id, sanitized);
 
         return true;
     }
