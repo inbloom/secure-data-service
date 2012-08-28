@@ -15,8 +15,6 @@
  */
 package org.slc.sli.api.resources.generic.config;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
