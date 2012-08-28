@@ -35,11 +35,6 @@ import java.util.Set;
 @Component
 public class ResourceRegisterConfig extends DefaultResourceConfig {
 
-    //private static final String WADL = "/wadl/base_wadl.wadl";
-
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
-
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
@@ -63,13 +58,4 @@ public class ResourceRegisterConfig extends DefaultResourceConfig {
         }
     }
 
-//    protected Map<String, Resource> getResources() {
-//        ResourceWadlHandler handler = new ResourceWadlHandler();
-//        Application app = WadlReader.readApplication(getClass().getResourceAsStream(WADL));
-//        WadlWalker walker = new WadlWalker(handler);
-//
-//        walker.walk(app);
-//
-//        return handler.getResourceEnds();
-//    }
 }

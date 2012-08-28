@@ -43,8 +43,6 @@ import org.springframework.stereotype.Component;
  * @param <T> type of data to return
  *
  */
-@Component
-@Scope("request")
 public class CalculatedDataListingResource<T> {
 
     private final CalculatedData<T> data;

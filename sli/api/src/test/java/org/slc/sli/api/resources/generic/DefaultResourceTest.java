@@ -24,8 +24,11 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.service.DefaultResourceService;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,6 +42,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,30 +74,26 @@ public class DefaultResourceTest {
     @Autowired
     private EntityDefinitionStore entityDefs;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
+    @Autowired
+    private DefaultResourceService resourceService;
 
     private Resource resource = null;
     private java.net.URI requestURI;
     private UriInfo uriInfo;
 
-    private static final String URI = "http://some.net/api/rest/v1/students";
+    private static final String BASE_URI = "http://some.net/api/rest/v1/students";
     private static final String URI_KEY = "v1/students";
 
     @Before
     public void setup() throws Exception {
-        Set<String> methods = new HashSet<String>();
-        methods.add("GET");
-        methods.add("POST");
-
-        resourceSupprtedMethods.put(URI_KEY, methods);
-
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
 
         resource = new Resource("v1", "students");
+    }
 
-        requestURI = new java.net.URI(URI);
+    private void setupMocks(String uri) throws URISyntaxException {
+        requestURI = new java.net.URI(uri);
 
         MultivaluedMap map = new MultivaluedMapImpl();
         uriInfo = mock(UriInfo.class);
@@ -108,18 +108,103 @@ public class DefaultResourceTest {
     }
 
     @Test
-    public void testGetAll() {
+    public void testGetAll() throws URISyntaxException {
+        setupMocks(BASE_URI);
         Response response = defaultResource.getAll(uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void testPost() {
+    public void testPost() throws URISyntaxException {
+        setupMocks(BASE_URI);
         Response response = defaultResource.post(createTestEntity(), uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.CREATED.getStatusCode(), response.getStatus());
         assertNotNull("Should not be null", parseIdFromLocation(response));
+    }
+
+    @Test
+    public void testGetWithId() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        Response response = defaultResource.getWithId(id, uriInfo);
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
+
+        assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals("Should match", id, body.get("id"));
+        assertEquals("Should match", 1234, body.get("studentUniqueStateId"));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testGetInvalidId() throws URISyntaxException {
+        setupMocks(BASE_URI + "/1234");
+
+        defaultResource.getWithId("1234", uriInfo);
+    }
+
+    @Test
+    public void testPut() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        Response response = defaultResource.put(id, createTestUpdateEntity(), uriInfo);
+
+        assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+        Response getResponse = defaultResource.getWithId(id, uriInfo);
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
+
+        assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), getResponse.getStatus());
+        assertEquals("Should match", id, body.get("id"));
+        assertEquals("Should match", 1234, body.get("studentUniqueStateId"));
+        assertEquals("Should match", "Female", body.get("sex"));
+    }
+
+    @Test
+    public void testPatch() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        Response response = defaultResource.patch(id, createTestPatchEntity(), uriInfo);
+
+        assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+        Response getResponse = defaultResource.getWithId(id, uriInfo);
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
+
+        assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), getResponse.getStatus());
+        assertEquals("Should match", id, body.get("id"));
+        assertEquals("Should match", 1234, body.get("studentUniqueStateId"));
+        assertEquals("Should match", "Female", body.get("sex"));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDelete() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        Response response = defaultResource.delete(id, uriInfo);
+        assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+
+        defaultResource.getWithId(id, uriInfo);
+    }
+
+    private EntityBody createTestUpdateEntity() {
+        EntityBody entity = new EntityBody();
+        entity.put("sex", "Female");
+        entity.put("studentUniqueStateId", 1234);
+        return entity;
+    }
+
+    private EntityBody createTestPatchEntity() {
+        EntityBody entity = new EntityBody();
+        entity.put("sex", "Female");
+        return entity;
     }
 
     private EntityBody createTestEntity() {
