@@ -28,6 +28,7 @@ import org.slc.sli.domain.Entity;
 public class SimpleEntity implements Entity {
     private String type;
     private String entityId;
+    private String stagedEntityId;
     private Map<String, Object> body;
     private Map<String, Object> metaData;
     private long recordNumber;
@@ -74,6 +75,15 @@ public class SimpleEntity implements Entity {
 
     public void setRecordNumber(long recordNumber) {
         this.recordNumber = recordNumber;
+    }
+
+    @Override
+    public String getStagedEntityId() {
+        return stagedEntityId;
+    }
+
+    public void setStagedEntityId(String stagedEntityId) {
+        this.stagedEntityId = stagedEntityId;
     }
 
     @Override
