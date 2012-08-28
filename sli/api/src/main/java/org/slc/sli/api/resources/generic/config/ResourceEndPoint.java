@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,7 @@ import java.util.Map;
 @Component
 public class ResourceEndPoint {
 
-    private static final String BASE_RESOURCE = "org.slc.sli.api.resources.generic.OnePartResource";
+    private static final String BASE_RESOURCE = "org.slc.sli.api.resources.generic.DefaultResource";
     private static final String THREE_PART_RESOURCE = "org.slc.sli.api.resources.generic.ThreePartResource";
     private static final String FOUR_PART_RESOURCE = "org.slc.sli.api.resources.generic.FourPartResource";
 
@@ -43,23 +42,7 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
-            //addIDResource(resource);
             buildEndPoints(nameSpace, "", resource);
-        }
-    }
-
-    protected void addIDResource(ResourceEndPointTemplate template) {
-        List<ResourceEndPointTemplate> subResources = template.getSubResources();
-        ResourceEndPointTemplate idTemplate = new ResourceEndPointTemplate();
-        idTemplate.setPath("/{id}");
-
-        if (subResources != null) {
-            subResources.add(idTemplate);
-        } else {
-            List<ResourceEndPointTemplate> subTemplates = new ArrayList<ResourceEndPointTemplate>();
-            subTemplates.add(idTemplate);
-
-            template.setSubResources(subTemplates);
         }
     }
 

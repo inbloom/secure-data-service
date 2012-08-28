@@ -43,14 +43,14 @@ import org.springframework.stereotype.Component;
  * @param <T> type of data to return
  *
  */
+@Component
+@Scope("request")
 public class CalculatedDataListingResource<T> {
 
-    private final EntityDefinition entityDefinition;
-    private final String entityId;
+    private final CalculatedData<T> data;
 
-    public CalculatedDataListingResource(final String entityId, final EntityDefinition entityDefinition) {
-        this.entityId = entityId;
-        this.entityDefinition = entityDefinition;
+    public CalculatedDataListingResource(CalculatedData<T> data) {
+        this.data = data;
     }
 
     /**
@@ -69,8 +69,7 @@ public class CalculatedDataListingResource<T> {
                                         @QueryParam("method") final String methodology,
                                         @QueryParam("name") final String name) {
 
-        final CalculatedData<String> data = entityDefinition.getService().getCalculatedValues(entityId);
-        final List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
+        final List<CalculatedDatum<T>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 

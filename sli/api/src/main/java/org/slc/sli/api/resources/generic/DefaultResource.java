@@ -26,6 +26,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.CustomEntityResource;
 import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 import org.slc.sli.api.util.PATCH;
+import org.slc.sli.domain.CalculatedData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,7 @@ import javax.ws.rs.core.UriInfo;
 
 @Component
 @Scope("request")
-public class OnePartResource extends GenericResource {
+public class DefaultResource extends GenericResource {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
@@ -160,10 +161,12 @@ public class OnePartResource extends GenericResource {
     public CalculatedDataListingResource<String> getCalculatedValueResource(@PathParam("id") final String id,
                                           @Context final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
+        CalculatedData<String> data = resourceService.getCalculatedData(resource, id);
 
-        return new CalculatedDataListingResource<String>(id,
-                resourceHelper.getEntityDefinition(resource.getResourceType()));
+        return new CalculatedDataListingResource<String>(data);
     }
+
+
 
 
 

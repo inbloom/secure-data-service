@@ -8,6 +8,7 @@
         {
             "path":"/sections",
             "doc":"Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$, $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
+            "resourceClass":"org.slc.sli.api.resources.generic.custom.AggregateListableResource",
             "subResources":[
                 {
                     "path":"/{id}/studentSectionAssociations"
@@ -74,12 +75,13 @@
                 ,{
                     "path":"/{id}/grades"
                 }
-        ]
+            ]
         },
         {
-            "path":"/cohorts"
-            ,"doc":"Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources."
-            ,"subResources":[
+            "path":"/cohorts",
+            "doc":"Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources.",
+            "resourceClass":"org.slc.sli.api.resources.generic.custom.AggregateListableResource",
+            "subResources":[
                 {
                     "path":"/{id}/staffCohortAssociations"
                 }
@@ -185,7 +187,7 @@
         {
             "path":"/educationOrganizations",
             "doc":"Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. For more information, see the schema for $$EducationOrganization$$ resources.",
-            "resourceClass":"org.slc.sli.api.resources.generic.PublicOnePartResource",
+            "resourceClass":"org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
             "subResources":[
                 {
                     "path":"/{id}/staffEducationOrgAssignmentAssociations"
@@ -210,7 +212,7 @@
         {
             "path":"/schools",
             "doc":"This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. For more information, see the schema for $$School$$ resources.",
-            "resourceClass":"org.slc.sli.api.resources.generic.PublicOnePartResource",
+            "resourceClass":"org.slc.sli.api.resources.generic.custom.PublicAggregateListableResource",
             "subResources":[
                 {
                     "path":"/{id}/teacherSchoolAssociations"

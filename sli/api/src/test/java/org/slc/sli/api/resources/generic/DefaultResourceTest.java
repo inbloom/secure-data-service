@@ -59,10 +59,10 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class OnePartResourceTest {
+public class DefaultResourceTest {
 
     @Autowired
-    private OnePartResource onePartResource;
+    private DefaultResource defaultResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -109,14 +109,14 @@ public class OnePartResourceTest {
 
     @Test
     public void testGetAll() {
-        Response response = onePartResource.getAll(uriInfo);
+        Response response = defaultResource.getAll(uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void testPost() {
-        Response response = onePartResource.post(createTestEntity(), uriInfo);
+        Response response = defaultResource.post(createTestEntity(), uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.CREATED.getStatusCode(), response.getStatus());
         assertNotNull("Should not be null", parseIdFromLocation(response));
