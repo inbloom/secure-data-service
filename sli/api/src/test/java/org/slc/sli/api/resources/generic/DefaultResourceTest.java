@@ -28,6 +28,8 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
+import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +194,24 @@ public class DefaultResourceTest {
         assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
         defaultResource.getWithId(id, uriInfo);
+    }
+
+    @Test
+    public void testGetCustomResource() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        CustomEntityResource resource = defaultResource.getCustomResource(id, uriInfo);
+        assertNotNull("Should not be null", resource);
+    }
+
+    @Test
+    public void testGetCalculatedValueResource() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id + "/calculatedValues");
+
+        CalculatedDataListingResource<String> resource = defaultResource.getCalculatedValueResource(id, uriInfo);
+        assertNotNull("Should not be null", resource);
     }
 
     private EntityBody createTestUpdateEntity() {
