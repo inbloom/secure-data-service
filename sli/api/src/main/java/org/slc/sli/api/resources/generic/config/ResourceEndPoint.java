@@ -16,6 +16,7 @@
 package org.slc.sli.api.resources.generic.config;
 
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,17 +50,21 @@ public class ResourceEndPoint {
 
     @PostConstruct
     public void load() throws IOException {
-        String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream("/wadl/v1_resources.json"));
+        loadNameSpace(getClass().getResourceAsStream("/wadl/v1_resources.json"));
+    }
 
+    protected ApiNameSpace loadNameSpace(InputStream fileStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ApiNameSpace apiNameSpace = mapper.readValue(fileAsString, ApiNameSpace.class);
+        ApiNameSpace apiNameSpace = mapper.readValue(fileStream, ApiNameSpace.class);
         String nameSpace = apiNameSpace.getNameSpace();
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
             resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
+
+        return apiNameSpace;
     }
 
     protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
@@ -87,10 +93,6 @@ public class ResourceEndPoint {
         //use the brute force method for now, we should move to looking up this information from the class itself
         String resourceClass = bruteForceMatch(resourcePath);
 
-        if (resourceClass == null) {
-            throw new RuntimeException("Cannot resolve resource handler class");
-        }
-
         return resourceClass;
     }
 
@@ -105,7 +107,8 @@ public class ResourceEndPoint {
             return BASE_RESOURCE;
         }
 
-        return null;
+        throw new RuntimeException("Cannot resolve resource handler class");
+
     }
 
     public Map<String, String> getResources() {

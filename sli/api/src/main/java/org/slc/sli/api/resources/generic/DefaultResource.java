@@ -50,7 +50,7 @@ import javax.ws.rs.core.UriInfo;
 
 @Component
 @Scope("request")
-public class DefaultResource extends GenericResource {
+public class DefaultResource extends GenericResource implements CustomEntityReturnable, CalculatedDataListable {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
@@ -147,25 +147,17 @@ public class DefaultResource extends GenericResource {
 
     }
 
-    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    public CustomEntityResource getCustomResource(@PathParam("id") final String id,
-                                          @Context final UriInfo uriInfo) {
+    public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
         return new CustomEntityResource(id,
                 resourceHelper.getEntityDefinition(resource.getResourceType()));
     }
 
-    @Path("{id}/" + PathConstants.CALCULATED_VALUES)
-    public CalculatedDataListingResource<String> getCalculatedValueResource(@PathParam("id") final String id,
-                                          @Context final UriInfo uriInfo) {
+    public CalculatedDataListingResource<String> getCalculatedValueResource(final String id, final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
         CalculatedData<String> data = resourceService.getCalculatedData(resource, id);
 
         return new CalculatedDataListingResource<String>(data);
     }
-
-
-
-
 
 }

@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.resources.generic.custom;
 
+import org.slc.sli.api.resources.generic.AggregateListable;
 import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -56,7 +57,7 @@ public class PublicAggregateListableResource extends DefaultResource implements 
 
     }
 
-    public CalculatedDataListingResource<Map<String, Integer>> getAggregateResource( String id, UriInfo uriInfo) {
+    public CalculatedDataListingResource<Map<String, Integer>> getAggregateResource(final String id, final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
 
         CalculatedData<Map<String, Integer>> data = resourceService.getAggregateData(resource, id);

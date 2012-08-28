@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.generic.custom;
+package org.slc.sli.api.resources.generic;
 
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
