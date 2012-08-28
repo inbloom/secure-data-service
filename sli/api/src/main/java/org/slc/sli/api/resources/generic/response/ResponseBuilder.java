@@ -44,18 +44,10 @@ public abstract class ResponseBuilder {
     @Autowired
     private ResourceAccessLog resourceAccessLog;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupportedMethods;
-
     protected Resource constructAndCheckResource(final UriInfo uriInfo, final ResourceTemplate template,
                                                  final ResourceMethod method) {
-        //final String resourcePath = resourceHelper.getResourcePath(uriInfo, template);
-        Resource resource = resourceHelper.getResourceName(uriInfo, template);
 
-//        Set<String> values = resourceSupportedMethods.get(resourcePath);
-//        if (!values.contains(method.getMethod())) {
-//            throw new MethodNotAllowedException(values);
-//        }
+        Resource resource = resourceHelper.getResourceName(uriInfo, template);
 
         //log security events
         resourceAccessLog.logAccessToRestrictedEntity(uriInfo, resource, GetResponseBuilder.class.toString());

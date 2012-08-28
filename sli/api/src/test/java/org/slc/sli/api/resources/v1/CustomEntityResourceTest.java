@@ -63,47 +63,19 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 * @author Ryan Farris <rfarris@wgen.net>
 *
 */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
 public class CustomEntityResourceTest {
 
-    @Autowired
-    @InjectMocks
     CustomEntityResource resource;
-
-    @Mock
-    EntityDefinitionStore store;
-
     EntityService service;
-    java.net.URI requestURI;
-    UriInfo uriInfo;
 
-    private static final String URI = "http://some.net/api/rest/v1/students/1234/custom";
 
     @Before
     public void init() throws URISyntaxException {
-        MockitoAnnotations.initMocks(this);
-
+        String entityId = "TEST-ID";
         EntityDefinition entityDef = Mockito.mock(EntityDefinition.class);
         service = Mockito.mock(EntityService.class);
         Mockito.when(entityDef.getService()).thenReturn(service);
-
-        when(store.lookupByResourceName("students")).thenReturn(entityDef);
-
-        requestURI = new java.net.URI(URI);
-
-        MultivaluedMap map = new MultivaluedMapImpl();
-        uriInfo = mock(UriInfo.class);
-        when(uriInfo.getQueryParameters()).thenReturn(map);
-        when(uriInfo.getRequestUri()).thenReturn(requestURI);
-        when(uriInfo.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("/");
-            }
-        });
+        resource = new CustomEntityResource(entityId, entityDef);
     }
 
     @Test
@@ -133,6 +105,27 @@ public class CustomEntityResourceTest {
     @Test
     public void testCreateOrUpdatePOST() {
         EntityBody test = new EntityBody();
+        UriInfo uriInfo = Mockito.mock(UriInfo.class);
+        final UriBuilder uriBuilder = Mockito.mock(UriBuilder.class);
+        Mockito.when(uriInfo.getBaseUriBuilder()).thenReturn(uriBuilder);
+        final StringBuilder path = new StringBuilder();
+        Mockito.when(uriBuilder.path(Mockito.anyString())).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                path.append("/").append(invocation.getArguments()[0]);
+                return uriBuilder;
+            }
+        });
+
+        Mockito.when(uriBuilder.build()).thenAnswer(new Answer<URI>() {
+
+            @Override
+            public URI answer(InvocationOnMock invocation) throws Throwable {
+                URI uri = new URI(path.toString());
+                return uri;
+            }
+        });
 
         Response res = resource.createOrUpdatePost(uriInfo, test);
         assertNotNull(res);
@@ -155,11 +148,10 @@ public class CustomEntityResourceTest {
 
     @Test
     public void test404() {
+        resource = new CustomEntityResource("TEST-ID", null);
         Response res = resource.read();
         assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
-
-        when(store.lookupByResourceName("students")).thenReturn(null);
 
         res = resource.createOrUpdatePut(null);
         assertNotNull(res);

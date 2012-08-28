@@ -47,29 +47,13 @@ import javax.ws.rs.core.UriInfo;
 * @author nbrown
 *
 */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+
 public class AggregateListingResourceTest {
 
-    @Autowired
-    @InjectMocks
     private CalculatedDataListingResource<String> cVResource;
-
-    @Mock
-    EntityDefinitionStore store;
-
-    EntityService service;
-    java.net.URI requestURI;
-    UriInfo uriInfo;
-
-    private static final String URI = "http://some.net/api/rest/v1/students/1234/calculatedValues";
 
     @Before
     public void setup() throws URISyntaxException {
-        MockitoAnnotations.initMocks(this);
-
         Map<String, Map<String, Map<String, Map<String, String>>>> aggregateMap = new HashMap<String, Map<String, Map<String, Map<String, String>>>>();
         Map<String, Map<String, Map<String, String>>> assessments = new HashMap<String, Map<String, Map<String, String>>>();
         Map<String, Map<String, String>> act = new HashMap<String, Map<String, String>>();
@@ -86,27 +70,7 @@ public class AggregateListingResourceTest {
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
         CalculatedData<String> cvData = new CalculatedData<String>(aggregateMap);
-
-        service = Mockito.mock(EntityService.class);
-        when(service.getCalculatedValues("1234")).thenReturn(cvData);
-
-        EntityDefinition entityDef = Mockito.mock(EntityDefinition.class);
-        Mockito.when(entityDef.getService()).thenReturn(service);
-
-        when(store.lookupByResourceName("students")).thenReturn(entityDef);
-
-        requestURI = new java.net.URI(URI);
-
-        MultivaluedMap map = new MultivaluedMapImpl();
-        uriInfo = mock(UriInfo.class);
-        when(uriInfo.getQueryParameters()).thenReturn(map);
-        when(uriInfo.getRequestUri()).thenReturn(requestURI);
-        when(uriInfo.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("/");
-            }
-        });
+        cVResource = new CalculatedDataListingResource<String>(cvData);
     }
 
     /**
