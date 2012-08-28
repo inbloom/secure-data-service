@@ -27,8 +27,8 @@
              <groupId>org.slc.sli.common</groupId>
              <artifactId>sli-common</artifactId>
          </dependency>
-         
-         
+
+
         <dependency>
              <groupId>org.slc.sli.domain</groupId>
              <artifactId>domain</artifactId>
@@ -45,7 +45,7 @@
             <artifactId>xmi</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-         
+
         <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>common-encrypt</artifactId>
@@ -127,7 +127,7 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
 	        <groupId>javax.servlet</groupId>
 	        <artifactId>jsp-api</artifactId>
@@ -140,7 +140,13 @@
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.0-m01</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+            <version>1.1</version>
+        </dependency>
+
         <!-- Jersey (JAX-RS) Server Linking dependency -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -157,6 +163,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>5.6.0</version>
         </dependency>
 
         <dependency>
@@ -188,7 +200,7 @@
             <artifactId>persistence-api</artifactId>
             <version>1.0.2</version>
         </dependency>
-       
+
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
@@ -213,40 +225,40 @@
             <artifactId>oro</artifactId>
             <version>2.0.8</version>
         </dependency>
-        
+
         <!-- LDAP dependency -->
-        
+
         <dependency>
         <groupId>org.springframework.ldap</groupId>
         <artifactId>spring-ldap-core</artifactId>
         <version>1.3.1.RELEASE</version>
         </dependency>
-        
+
         <dependency>
         <groupId>org.springframework.ldap</groupId>
         <artifactId>spring-ldap-core-tiger</artifactId>
         <version>1.3.1.RELEASE</version>
         </dependency>
-        
+
         <dependency>
         <groupId>org.springframework.ldap</groupId>
         <artifactId>spring-ldap-odm</artifactId>
         <version>1.3.1.RELEASE</version>
         </dependency>
-        
+
         <dependency>
         <groupId>org.springframework.ldap</groupId>
         <artifactId>spring-ldap-ldif-core</artifactId>
         <version>1.3.1.RELEASE</version>
         </dependency>
-        
+
         <dependency>
         <groupId>org.springframework.ldap</groupId>
         <artifactId>spring-ldap-ldif-batch</artifactId>
         <version>1.3.1.RELEASE</version>
         </dependency>
-        
-       
+
+
     </dependencies>
 
     <build>

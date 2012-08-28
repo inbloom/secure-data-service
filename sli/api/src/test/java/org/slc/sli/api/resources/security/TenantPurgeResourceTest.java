@@ -47,9 +47,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -72,8 +75,12 @@ public class TenantPurgeResourceTest {
     @InjectMocks
     private TenantPurgeResource resource;
 
+    @Autowired
+    private MockRepo repo;
+
     UriInfo uriInfo = null;
     HttpHeaders headers = null;
+    static final String MY_TENANT_ID = "MyTenant";
 
     @Before
     public void setUp() throws Exception {
@@ -83,6 +90,11 @@ public class TenantPurgeResourceTest {
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+
+        // Add a mock tenant
+        EntityBody body = new EntityBody();
+        body.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
+        repo.create(EntityNames.EDUCATION_ORGANIZATION, body, new HashMap<String, Object>(), EntityNames.TENANT);
     }
 
     @After
@@ -94,7 +106,7 @@ public class TenantPurgeResourceTest {
     public void testPurge() {
         injector.setSeaAdminContext();
         Map<String, String> requestBody = new HashMap<String, String>();
-        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
 
         // Verify the purge operation completed successfully.
         Response res = resource.purge(requestBody, null);
@@ -105,7 +117,7 @@ public class TenantPurgeResourceTest {
     public void testNotAuthorized() {
         injector.setLeaAdminContext();
         Map<String, String> requestBody = new HashMap<String, String>();
-        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
 
         // Verify the user was not authorized to purge.
         Response res = resource.purge(requestBody, null);
