@@ -26,20 +26,19 @@ import org.junit.Test;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.MockAPIClient;
 import org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.JsonConverter;
 
 /**
  * test for UserEdOrgManager
- * 
+ *
  * @author agrebneva
- * 
+ *
  */
 public class UserEdOrgManagerTest {
     UserEdOrgManagerImpl userEdOrgManager;
-    
+
     @Before
     public void setup() {
         userEdOrgManager = new UserEdOrgManagerImpl() {
@@ -65,7 +64,7 @@ public class UserEdOrgManagerTest {
                 }
                 return entity;
             }
-            
+
             @Override
             public String getId(String token) {
                 if (token.equals(Constants.STATE_EDUCATION_AGENCY)) {
@@ -77,7 +76,7 @@ public class UserEdOrgManagerTest {
             }
         });
     }
-    
+
     @Test
     public void testGetStaffInfo() {
         GenericEntity entity = userEdOrgManager.getStaffInfo(Constants.LOCAL_EDUCATION_AGENCY);
@@ -87,7 +86,7 @@ public class UserEdOrgManagerTest {
         Assert.assertEquals(1, organizationCategories.size());
         Assert.assertEquals(Constants.LOCAL_EDUCATION_AGENCY, organizationCategories.get(0));
     }
-    
+
     public void testUserEdOrg() {
         EdOrgKey edOrgKey = userEdOrgManager.getUserEdOrg("1");
         Assert.assertNotNull(edOrgKey);

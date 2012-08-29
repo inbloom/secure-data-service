@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.dal.MongoStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -55,12 +56,15 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private OauthSessionManager manager;
 
+    @Autowired
+    private MongoStat mongoStat;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
         populateSecurityContext(request);
-
+        mongoStat.clear();
         return request;
     }
 

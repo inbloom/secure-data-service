@@ -16,10 +16,6 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-#Lozenges check
-And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;Felipe Cianciolo"
-# Lozenges check on LOS
-Then there is no lozenges for student "Tomasa Cleaveland"
 And I click on student "Alton Maultsby"
 And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
@@ -28,12 +24,6 @@ And their grade is "8"
 #And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
-#Display hide tabs based on grades
-And there are "4" Tabs
-And Tab has a title named "Middle School Overview"
-And Tab has a title named "Attendance and Discipline"
-And Tab has a title named "Assessments"
-And Tab has a title named "Grades and Credits"
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
@@ -51,7 +41,6 @@ And their id shown in proflie is "1000000000"
 And their grade is "11"
 #And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
-And there are "4" Tabs
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level

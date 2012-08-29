@@ -1,0 +1,15 @@
+{
+	id: "sedorg",
+	name: "SLC - State Ed Org Profile",
+	type: "LAYOUT",
+	data :{
+		entity: "sedorgInfo",
+		cacheKey: "sedorgInfo"
+	},
+	items: [
+		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+		{id: "sedorgInfo", type: "PANEL"},
+		{id: "tab1", name: "Districts",  type : "TAB", items: [{id : "districtList", type: "GRID"}]}
+	]
+	
+}

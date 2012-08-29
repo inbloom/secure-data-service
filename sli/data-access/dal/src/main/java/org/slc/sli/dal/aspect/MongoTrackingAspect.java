@@ -27,12 +27,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
 
 /**
@@ -54,17 +55,22 @@ public class MongoTrackingAspect {
 
     private static boolean enabled = false;
 
+    @Value("${sli.api.performance.tracking}")
+    private String dbCallTracking;
+
     @Value("${sli.mongo.tracking}")
     public void setEnabledConfig(String enabledConfig) {
         setEnabled(enabledConfig);
     }
+
+    @Autowired
+    private MongoStat dbCallTracker;
 
     @SuppressWarnings("boxing")
     private static void setEnabled(String enabledConfig) {
         enabled = Boolean.valueOf(enabledConfig);
     }
 
-    @Pointcut("if()")
     public static boolean isEnabled() {
         return enabled;
     }
@@ -72,36 +78,47 @@ public class MongoTrackingAspect {
     // Map<jobId, Map<(db,function,collection), (opCount,totalElapsedMs)>>
     private ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> stats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && isEnabled()")
+    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
+        if (isEnabled()) {
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
 
         String collection = determineCollectionName(pjp);
 
-        return proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection);
+        proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection);
+        }
+        if (Boolean.valueOf(dbCallTracking)) {
+           dbCallTracker.increamentHitCount();
+        }
+
+        return pjp.proceed();
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && isEnabled()")
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
+        if (isEnabled()) {
         DBCollection col = (DBCollection) pjp.getTarget();
 
-        return proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
+        proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
+        }
+        if (Boolean.valueOf(dbCallTracking)) {
+            dbCallTracker.increamentHitCount();
+        }
+        return pjp.proceed();
     }
 
-    private Object proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection)
+    private void  proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection)
             throws Throwable {
 
         long start = System.currentTimeMillis();
-        Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
 
         trackCallStatistics(db, function, collection, elapsed);
 
         logSlowQuery(elapsed, db, function, collection, pjp);
 
-        return result;
     }
 
     private void trackCallStatistics(String db, String function, String collection, long elapsed) {

@@ -72,6 +72,15 @@ Then /^I delete the user "(.*?)" if exists$/ do |fullname|
   end
 end
 
+Then /^I delete the user "(.*?)"$/ do |fullname|
+  @driver.find_element(:xpath, "//a[@id='#{fullname}_delete']").click
+  begin
+      @driver.switch_to.alert.accept
+  rescue
+  end
+  sleep(3)
+end
+
 Then /^I can directly update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
   field = getField(field_name)
   field.clear
