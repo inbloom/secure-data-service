@@ -1097,7 +1097,6 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
-    @Override
     @ExecutionTimeLogger.LogExecutionTime
     @Override
     public List<GenericEntity> readEntityList(String token, String url) {
