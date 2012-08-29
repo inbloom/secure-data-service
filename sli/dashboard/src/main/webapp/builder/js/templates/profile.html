@@ -11,8 +11,8 @@
                     <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
                 </form>
             </div>
-            <ul class="unstyled" panel-sortable="pagePanels">
-                <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" panel-sortable-index="{{$index}}"  ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
+            <ul class="unstyled" ng-sortable="pagePanels">
+                <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" ng-sortable-index="{{$index}}"  ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
                     <span class="span2" ng-hide="!deletePanel" ng-show="deletePanel"><i class="icon-move"></i></span>
                     <span class="span2" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.id}}</strong></span>
                     <span class="span1 pull-right" ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>

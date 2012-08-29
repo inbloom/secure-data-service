@@ -78,7 +78,9 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 
 		$scope.id = $scope.profile.id;
 
-		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId});
+		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId}, function() {}, function(error) {
+			dbSharedService.showError(error.status, null);
+		});
 
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
