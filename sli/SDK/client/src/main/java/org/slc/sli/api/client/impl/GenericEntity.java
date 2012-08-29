@@ -17,6 +17,8 @@
 
 package org.slc.sli.api.client.impl;
 
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ import org.slc.sli.api.client.impl.transform.GenericEntityDeserializer;
 import org.slc.sli.api.client.impl.transform.GenericEntitySerializer;
 
 /**
- * Generic implementation of the Entity interface. This is implements the Entity interface
+ * Generic implementation of the Entity interface. This implements the Entity interface
  * in the most generic way possible.
  *
  * @author asaarela
@@ -126,6 +128,19 @@ public class GenericEntity implements Entity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Map<String, URL> getLinkMap() {
+        List<Link> links = getLinks();
+        if (links != null) {
+            Map<String, URL> linkMap = new HashMap<String, URL>();
+            for (Link link : links) {
+                linkMap.put(link.getLinkName(), link.getResourceURL());
+            }
+            return linkMap;
+        }
+        return null;
     }
 
 }

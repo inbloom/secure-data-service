@@ -56,7 +56,7 @@ class Analyser
       continue_exec = false
       create_connection
       begin
-      @db['apiResponse'].find({'$or'=>[{'processed'=>{'$exists'=>false}},{'processed'=>false}]},@basic_options) do |cur|
+      @db['apiResponseData'].find({},@basic_options) do |cur|
           cur.each do |rec|
             count = count +1
             build_number = rec['body']['buildNumber']
@@ -67,12 +67,14 @@ class Analyser
             update_stat_hash(hash_key,response_time)
             rec['processed'] = true 
             @db['apiResponse'].save rec
+            @db['apiresponseData'].remove({"_id"=>rec['_id']})
           end
       end
       rescue => e
         puts "Exception received after "+count.to_s+" number of records " + e.message
+        puts e
         @conn.close
-        continue_exec = true
+        continue_exec = false 
       end
     end
     calculate_stat

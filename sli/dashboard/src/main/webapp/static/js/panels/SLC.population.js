@@ -115,7 +115,9 @@ SLC.namespace('SLC.population', (function () {
 		        else if (courseIndex != -1) {}
 		    	else if (schoolIndex != -1)
 			       SLC.util.goToLayout("school", instHierarchy[edOrgIndex].schools[schoolIndex].id);
-			    else if (edOrgIndex != -1) {}	
+			    else if (edOrgIndex != -1) {
+			    	SLC.util.goToLayout("edorg", instHierarchy[edOrgIndex].id);
+			    }	
 			
 	       });
 		});

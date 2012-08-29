@@ -1,0 +1,16 @@
+{
+	id: "districtList",
+	type: "GRID",
+	name: "",
+	
+	data: {
+		entity: "sedorgInfo",
+		cacheKey: "sedorgInfo"
+	},
+	
+	root: "districtList",
+	items: [
+		{id: "col1", name: "District", type: "FIELD", datatype: "string", field: "nameOfInstitution", width: 200, formatter:restLink, style:'ui-ellipsis', params: {link:'edorg', target:"_self"}} 
+	]
+	
+}

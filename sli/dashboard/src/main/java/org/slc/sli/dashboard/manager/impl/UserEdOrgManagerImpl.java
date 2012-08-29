@@ -222,7 +222,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 // if edOrgEntity is null, it may be API could not return entity
                 // because of error code 403.
                 if (edOrgEntity != null) {
-                    obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
+                    obj.put(Constants.ATTR_NAME, edOrgEntity.get(Constants.ATTR_NAME_OF_INST));
+                    obj.put(Constants.ATTR_ID, edOrgEntity.get(Constants.ATTR_ID));
                     // convert school ids to the school object array and sort based on the name of
                     // the institution
                     Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(new GenericEntityComparator(

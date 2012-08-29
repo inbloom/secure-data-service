@@ -2,17 +2,16 @@
 
 <xsl:stylesheet
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
- xmlns:wadl="http://wadl.dev.java.net/2009/02"
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
  xmlns:html="http://www.w3.org/1999/xhtml"
  xmlns="http://www.w3.org/1999/xhtml"
 >
 
 <!-- Global variables -->
-<xsl:variable name="g_resourcesBase" select="wadl:application/wadl:resources/@base"/>
+<xsl:variable name="g_resourcesBase" select="application/resources/@base"/>
 
 <!-- Template for top-level doc element -->
-<xsl:template match="wadl:application">
+<xsl:template match="application">
 
   <html>
     <head>
@@ -33,7 +32,7 @@
             <div id="resource-list">
                 <h2>Resources</h2>
                 <ul>
-                    <xsl:for-each select="wadl:resources/wadl:resource">
+                    <xsl:for-each select="resources/resource">
                         <xsl:call-template name="processResourceSummary">
                             <!-- <xsl:with-param name="resourceBase" select="$g_resourcesBase"/> -->
                             <xsl:with-param name="resourcePath" select="@path"/> 
@@ -46,10 +45,10 @@
             <div id="resource-details">
     
                 <!-- Grammars -->
-                <xsl:if test="wadl:grammars/wadl:include">
+                <xsl:if test="grammars/include">
                     <h2>Grammars</h2>
                     <p>
-                        <xsl:for-each select="wadl:grammars/wadl:include">
+                        <xsl:for-each select="grammars/include">
                             <xsl:variable name="href" select="@href"/>
                                 <a href="{$href}">
                                     <xsl:value-of select="$href"/>
@@ -63,12 +62,12 @@
 
                 <!-- Detail -->
                 <h2>Resource Details</h2>
-                <xsl:for-each select="wadl:resources">
+                <xsl:for-each select="resources">
                     <xsl:call-template name="getDoc">
                         <xsl:with-param name="base" select="$g_resourcesBase"/>
                     </xsl:call-template>
                 </xsl:for-each>
-                <xsl:for-each select="wadl:resources/wadl:resource">
+                <xsl:for-each select="resources/resource">
                     <xsl:call-template name="processResourceDetail">
                         <xsl:with-param name="resourceBase" select="$g_resourcesBase"/>
                         <xsl:with-param name="resourcePath" select="@path"/>
@@ -93,7 +92,7 @@
     <xsl:param name="resourcePath"/>
     <xsl:param name="lastResource"/>
 
-    <xsl:if test="wadl:method">
+    <xsl:if test="method">
         <!-- Individual resource listing -->
         <li>
             <xsl:variable name="id">
@@ -106,10 +105,10 @@
                 </xsl:call-template>
             </a>
         </li>
-    </xsl:if> <!-- wadl:method -->
+    </xsl:if> <!-- method -->
 
     <!-- Call recursively for child resources -->
-    <xsl:for-each select="wadl:resource">
+    <xsl:for-each select="resource">
         <xsl:variable name="base">
             <xsl:call-template name="getFullResourcePath">
                 <xsl:with-param name="base" select="$resourceBase"/>
@@ -129,7 +128,7 @@
     <xsl:param name="resourceBase"/>
     <xsl:param name="resourcePath"/>
 
-    <xsl:if test="wadl:method">
+    <xsl:if test="method">
     <div class="resourceDetailBlock">
         <h3>
             <xsl:variable name="id">
@@ -151,7 +150,7 @@
         <h5>Methods</h5>
 
         <!-- Listing of methods for each resource -->
-        <xsl:for-each select="wadl:method">
+        <xsl:for-each select="method">
         <div class="method">
             <div class="methodName">
                 <xsl:variable name="name" select="@name"/>
@@ -172,8 +171,8 @@
             <h6>request</h6>
             <div class="request-listing"> 
                 <xsl:choose>
-                    <xsl:when test="wadl:request">
-                        <xsl:for-each select="wadl:request">
+                    <xsl:when test="request">
+                        <xsl:for-each select="request">
                             <xsl:call-template name="getParamBlock">
                                 <xsl:with-param name="style" select="'template'"/>
                             </xsl:call-template>
@@ -187,9 +186,9 @@
                                 <xsl:with-param name="style" select="'query'"/>
                             </xsl:call-template>
                             <xsl:call-template name="getRepresentations"/>
-                        </xsl:for-each> <!-- wadl:request -->
+                        </xsl:for-each> <!-- request -->
                     </xsl:when>
-                    <xsl:when test="not(wadl:request) and (ancestor::wadl:*/wadl:param)">
+                    <xsl:when test="not(request) and (ancestor::*/param)">
                         <xsl:call-template name="getParamBlock">
                             <xsl:with-param name="style" select="'template'"/>
                         </xsl:call-template>
@@ -214,8 +213,8 @@
             <h6>responses</h6>
             <div class="response-listing"> 
                 <xsl:choose>
-                    <xsl:when test="wadl:response">
-                        <xsl:for-each select="wadl:response">
+                    <xsl:when test="response">
+                        <xsl:for-each select="response">
                             <div class="infoBlockTitle">
                                 status: 
                             </div>
@@ -227,28 +226,28 @@
                                     200 - OK
                                 </xsl:otherwise>
                             </xsl:choose>
-                            <xsl:for-each select="wadl:doc">
+                            <xsl:for-each select="doc">
                                 <xsl:if test="@title">
                                     - <xsl:value-of select="@title"/>
                                 </xsl:if>
                                 <xsl:if test="text()">
                                     - <xsl:value-of select="text()"/>
                                 </xsl:if>
-                            </xsl:for-each> <!-- wadl:doc -->
-                            <xsl:if test="wadl:param or wadl:representation">
-                                <xsl:if test="wadl:param">
+                            </xsl:for-each> <!-- doc -->
+                            <xsl:if test="param or representation">
+                                <xsl:if test="param">
                                     <div class="infoBlockTitle">
                                         headers
                                     </div>
                                     <table>
-                                        <xsl:for-each select="wadl:param[@style='header']">
+                                        <xsl:for-each select="param[@style='header']">
                                             <xsl:call-template name="getParams"/>
                                         </xsl:for-each>
                                     </table>
                                 </xsl:if>
                                 <xsl:call-template name="getRepresentations"/>
                             </xsl:if>
-                        </xsl:for-each> <!-- wadl:response -->
+                        </xsl:for-each> <!-- response -->
                     </xsl:when>
                     <xsl:otherwise>
                         unspecified
@@ -257,13 +256,13 @@
             </div> <!-- END of "response-listing" -->
 
         </div> <!-- END of "method" -->
-    </xsl:for-each> <!-- wadl:method -->
+    </xsl:for-each> <!-- method -->
     </div> <!-- END of "resourceDetailBlock" -->
 
-</xsl:if> <!-- wadl:method -->
+</xsl:if> <!-- method -->
 
     <!-- Call recursively for child resources -->
-    <xsl:for-each select="wadl:resource">
+    <xsl:for-each select="resource">
         <xsl:variable name="base">
             <xsl:call-template name="getFullResourcePath">
                 <xsl:with-param name="base" select="$resourceBase"/>
@@ -274,7 +273,7 @@
             <xsl:with-param name="resourceBase" select="$base"/>
             <xsl:with-param name="resourcePath" select="@path"/>
         </xsl:call-template>
-    </xsl:for-each> <!-- wadl:resource -->
+    </xsl:for-each> <!-- resource -->
 </xsl:template>
 
 <xsl:template name="getFullResourcePath">
@@ -300,7 +299,7 @@
 
 <xsl:template name="getDoc">
     <xsl:param name="base"/>
-    <xsl:for-each select="wadl:doc">
+    <xsl:for-each select="doc">
         <xsl:if test="position() > 1"><br/></xsl:if>
         <xsl:if test="@title and local-name(..) != 'application'">
             <xsl:value-of select="@title"/>:
@@ -340,13 +339,13 @@
 
 <xsl:template name="getParamBlock">
     <xsl:param name="style"/>
-    <xsl:if test="ancestor-or-self::wadl:*/wadl:param[@style=$style]">
+    <xsl:if test="ancestor-or-self::*/param[@style=$style]">
         <div class="paramBlock">
             <div class="infoBlockTitle">
                 <xsl:value-of select="$style"/> parameters:
             </div>
             <table>
-                <xsl:for-each select="ancestor-or-self::wadl:*/wadl:param[@style=$style]">
+                <xsl:for-each select="ancestor-or-self::*/param[@style=$style]">
                     <xsl:call-template name="getParams"/>
                 </xsl:for-each>
             </table>
@@ -368,9 +367,9 @@
                 <xsl:if test="@repeating = 'true'"><br/>(repeating)</xsl:if>
                 <xsl:if test="@default"><br/>default: <tt><xsl:value-of select="@default"/></tt></xsl:if>
                 <xsl:if test="@fixed"><br/>fixed: <tt><xsl:value-of select="@fixed"/></tt></xsl:if>
-                <xsl:if test="wadl:option">
+                <xsl:if test="option">
                     <br/>options:
-                    <xsl:for-each select="wadl:option">
+                    <xsl:for-each select="option">
                         <xsl:choose>
                             <xsl:when test="@mediaType">
                                 <br/><tt><xsl:value-of select="@value"/> (<xsl:value-of select="@mediaType"/>)</tt>
@@ -383,8 +382,8 @@
                     </xsl:for-each>
                 </xsl:if>
             </td>
-        <xsl:if test="wadl:doc">
-            <td><xsl:value-of select="wadl:doc"/></td>
+        <xsl:if test="doc">
+            <td><xsl:value-of select="doc"/></td>
         </xsl:if>
     </tr>
 </xsl:template>
@@ -405,13 +404,13 @@
 </xsl:template>
 
 <xsl:template name="getRepresentations">
-    <xsl:if test="wadl:representation">
+    <xsl:if test="representation">
         <div class="infoBlockTitle">representations:</div>
         <table>
-            <xsl:for-each select="wadl:representation">
+            <xsl:for-each select="representation">
                 <tr>
                     <td><xsl:value-of select="@mediaType"/></td>
-                    <xsl:if test="wadl:doc">
+                    <xsl:if test="doc">
                         <td>
                             <xsl:call-template name="getDoc">
                                 <xsl:with-param name="base" select="''"/>
@@ -454,12 +453,12 @@
 
 <xsl:template name="getRepresentationParamBlock">
     <xsl:param name="style"/>
-    <xsl:if test="wadl:param[@style=$style]">
+    <xsl:if test="param[@style=$style]">
         <tr>
             <td style="padding: 0em, 0em, 0em, 2em">
                 <div class="infoBlockTitle"><xsl:value-of select="$style"/> params</div>
                 <table>
-                    <xsl:for-each select="wadl:param[@style=$style]">
+                    <xsl:for-each select="param[@style=$style]">
                         <xsl:call-template name="getParams"/>
                     </xsl:for-each>
                 </table>
@@ -475,8 +474,8 @@
 
 <xsl:template name="getTitle">
     <xsl:choose>
-        <xsl:when test="wadl:doc/@title">
-            <xsl:value-of select="wadl:doc/@title"/>
+        <xsl:when test="doc/@title">
+            <xsl:value-of select="doc/@title"/>
         </xsl:when>
         <xsl:otherwise>
             Web Application

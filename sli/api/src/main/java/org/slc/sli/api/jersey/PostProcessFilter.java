@@ -34,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -69,6 +70,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Value("${api.server.url}")
     private String apiServerUrl;
+
+    @Autowired
+    private MongoStat mongoStat;
 
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
@@ -149,6 +153,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("startTime", timeFormatter.print(new DateTime(startTime)));
             body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("responseTime", String.valueOf(elapsed));
+            body.put("dbHitCount", mongoStat.getDbHitCount());
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 

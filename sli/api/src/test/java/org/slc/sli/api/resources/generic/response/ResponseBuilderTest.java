@@ -15,14 +15,19 @@
  */
 package org.slc.sli.api.resources.generic.response;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.ws.rs.core.UriInfo;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,17 +36,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit Tests
@@ -57,10 +55,6 @@ public class ResponseBuilderTest {
     @Qualifier("getResponseBuilder")
     protected ResponseBuilder responseBuilder;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
-
-    private static final String URI_KEY = "v1/students";
     private static final String URI = "http://some.net/api/rest/v1/students";
 
     private java.net.URI requestURI;
@@ -68,20 +62,10 @@ public class ResponseBuilderTest {
 
     @Before
     public void setup() throws URISyntaxException {
-        Set<String> methods = new HashSet<String>();
-        methods.add("GET");
-
-        resourceSupprtedMethods.put(URI_KEY, methods);
-
         requestURI = new URI(URI);
 
         uriInfo = mock(UriInfo.class);
         when(uriInfo.getRequestUri()).thenReturn(requestURI);
-    }
-
-    @Test(expected = MethodNotAllowedException.class)
-    public void testNotSupportedMethod() {
-        responseBuilder.constructAndCheckResource(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST);
     }
 
     @Test

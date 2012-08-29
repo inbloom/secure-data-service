@@ -18,11 +18,19 @@ limitations under the License.
 
 
 require 'test_helper'
+require 'net/http'
+require 'mocha'
+
 
 class SessionsControllerTest < ActionController::TestCase
-  # test "destroy session" do
-  #   get :destroy
-  #   assert_response :success
-  # end
+  test "destroy session" do
+    @http_mock = mock('Net:HTTP')
+    Net::HTTP.expects(:new).returns(@http_mock)
+    @http_mock.expects(:use_ssl=).with(true)
+    @http_mock.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
+    @http_mock.expects(:request)
+    get :destroy
+    assert_response :success
+  end
 
 end

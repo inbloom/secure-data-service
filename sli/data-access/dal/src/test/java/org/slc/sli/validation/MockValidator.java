@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.EntityValidationException;
 
 /**
  * Mock validator for the dal

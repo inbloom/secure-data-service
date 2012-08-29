@@ -36,12 +36,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
@@ -54,8 +53,6 @@ import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.NeutralSchema;
-import org.slc.sli.validation.schema.AppInfo;
 
 /**
  * ID Normalizer unit tests.
@@ -71,7 +68,7 @@ public class IdNormalizationTest {
     private SchemaRepository schemaRepository;
 
     @Autowired
-    IdNormalizer idNorm; 
+    IdNormalizer idNorm;
 
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
