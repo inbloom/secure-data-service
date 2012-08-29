@@ -1514,4 +1514,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         ret.add(sdf.format(endDate));
         return ret;
     }
+
+	@Override
+	public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
+		return entityManager.getEdorgProfile(token, (String) edorgId);
+	}
+
+	@Override
+	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
+		return entityManager.getStateEdorgProfile(token, (String) edorgId);
+	}	
 }

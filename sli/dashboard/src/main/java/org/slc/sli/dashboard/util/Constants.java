@@ -308,12 +308,20 @@ public final class Constants {
     public static final String ATTENDANCE_EARLY_DEPARTURE = "earlyDepartureCount";
     public static final String ATTR_ATTENDANCE_LIST = "attendanceList";
 
-    public static final String GRADE_TYPE = "gradeType";
+
+	public static final String ATTR_GET_FEEDER_SCHOOLS = "getFeederSchools";
+	public static final String GRADE_TYPE = "gradeType";
+
 
     public static final String COURSES_AND_GRADES = "coursesAndGrades";
 
     public static final String GET_STUDENT_SECTION_ASSOCIATIONS = "getStudentSectionAssociations";
     public static final String GET_GRADES = "getGrades";
+
+	public static final String ATTR_GET_FEEDER_EDORGS = "getFeederEducationOrganizations";
+	
+	public static final String ATTR_SCHOOL_LIST = "schoolList";
+	public static final String ATTR_DISTRICT_LIST = "districtList";
 
     /**
      * Contains the possible values for FRE participation

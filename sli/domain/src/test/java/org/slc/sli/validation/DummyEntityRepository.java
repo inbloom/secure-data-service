@@ -39,7 +39,7 @@ import org.slc.sli.domain.Repository;
  * @author nbrown
  *
  */
-@Component("validationRepo")
+@Component("dummyValidationRepo")
 public class DummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
