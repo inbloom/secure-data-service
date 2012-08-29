@@ -48,6 +48,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /** Called entity id to avoid Spring Data using this as the ID field. */
     private String entityId;
+    private String stagedEntityId;
     private String padding;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
@@ -134,6 +135,11 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, Object> getBody() {
         return body;
+    }
+
+    @Override
+    public String getStagedEntityId() {
+        return stagedEntityId;
     }
 
     /**
@@ -249,5 +255,4 @@ public class MongoEntity implements Entity, Serializable {
     public CalculatedData<Map<String, Integer>> getAggregates() {
         return aggregates;
     }
-
 }

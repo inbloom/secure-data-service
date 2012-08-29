@@ -176,14 +176,16 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             @SuppressWarnings("unchecked")
             List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
 
-            @SuppressWarnings("unchecked")
-            List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get("edOrgs");
-            for (String edOrg : edOrgs) {
-                if (!matchedEdOrgs.contains(edOrg)) {
-                    matchedEdOrgs.add(edOrg);
+            if (edOrgs != null && edOrgs.size() > 0) {
+                @SuppressWarnings("unchecked")
+                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get("edOrgs");
+                for (String edOrg : edOrgs) {
+                    if (!matchedEdOrgs.contains(edOrg)) {
+                        matchedEdOrgs.add(edOrg);
+                    }
                 }
+                matched.getMetaData().put("edOrgs", matchedEdOrgs);
             }
-            matched.getMetaData().put("edOrgs", matchedEdOrgs);
             entity.getMetaData().putAll(matched.getMetaData());
         }
     }

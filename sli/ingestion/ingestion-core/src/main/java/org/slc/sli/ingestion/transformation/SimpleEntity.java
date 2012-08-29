@@ -90,11 +90,12 @@ public class SimpleEntity implements Entity {
     public String toString() {
         StringBuilder entity = new StringBuilder();
         entity.append("[ Simple Entity: ");
-        entity.append("{type: ").append(getType()).append(" }, ");
-        entity.append("{entity id: ").append(getEntityId()).append(" }, ");
-        entity.append("{body: ").append(getBody()).append(" }, ");
-        entity.append("{metadata: ").append(getMetaData()).append(" }, ");
-        entity.append("{record number: ").append(getRecordNumber()).append(" }");
+        entity.append("{type: ").append(getType()).append("}, ");
+        entity.append("{entity id: ").append(getEntityId()).append("}, ");
+        entity.append("{staged id: ").append(getStagedEntityId()).append("},");
+        entity.append("{body: ").append(getBody()).append("}, ");
+        entity.append("{metadata: ").append(getMetaData()).append("}, ");
+        entity.append("{record number: ").append(getRecordNumber()).append("}");
         entity.append(" ]");
         return entity.toString();
     }
