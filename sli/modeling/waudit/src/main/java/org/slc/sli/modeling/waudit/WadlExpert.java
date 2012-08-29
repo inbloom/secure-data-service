@@ -113,6 +113,10 @@ public final class WadlExpert {
                     if ("custom".equals(step)) {
                         // Short-circuit because we don't have a UML type for custom.
                         return new QName(config.getNamespaceURI(), "Custom", config.getPrefix());
+                    } else if ("aggregations".equals(step)) {
+                        return new QName(config.getNamespaceURI(), "Aggregations", config.getPrefix());
+                    } else if ("calculatedValues".equals(step)) {
+                        return new QName(config.getNamespaceURI(), "CalculatedValues", config.getPrefix());
                     } else if ("createCheck".equals(step)) {
                         return new QName(config.getNamespaceURI(), "Unknown", config.getPrefix());
                     } else if ("createWaitingListUser".equals(step)) {
