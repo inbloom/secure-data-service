@@ -31,6 +31,7 @@ import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,6 +244,20 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public String getEntityType(Resource resource) {
         return resourceHelper.getEntityDefinition(resource).getType();
+    }
+
+    @Override
+    public CalculatedData<String> getCalculatedData(Resource resource, String id) {
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
+
+        return definition.getService().getCalculatedValues(id);
+    }
+
+    @Override
+    public CalculatedData<Map<String, Integer>> getAggregateData(Resource resource, String id) {
+        EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
+
+        return definition.getService().getAggregates(id);
     }
 
     @Override

@@ -42,7 +42,7 @@ import static org.junit.Assert.assertTrue;
 public class GenericResourceTest {
 
     @Autowired
-    @Qualifier("onePartResource")
+    @Qualifier("defaultResource")
     private GenericResource resource;
 
     @Test

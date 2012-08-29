@@ -24,14 +24,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +45,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -584,6 +586,29 @@ public abstract class MongoRepository<T> implements Repository<T> {
         template.ensureIndex(index, collection);
 
         LOG.info("Success!  Index for {} has been created, details {} ", collection, index);
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+
+        if (id.equals("")) {
+            return false;
+        }
+
+        // prepare to find desired record to be patched
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
+        query.addCriteria(createTenantCriteria(collectionName));
+
+        //prepare update operation for record to be patched
+        Update update = new Update();
+        for (Entry<String, Object> patch : newValues.entrySet()) {
+            update.set("body." + patch.getKey(), patch.getValue());
+        }
+
+        WriteResult result = template.updateFirst(query, update, collectionName);
+
+        return (result.getN() == 1);
     }
 
     /**

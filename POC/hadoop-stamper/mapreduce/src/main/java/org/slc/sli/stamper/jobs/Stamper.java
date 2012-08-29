@@ -19,12 +19,10 @@ public class Stamper extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		JobConf jobConf = ConfigurableMapReduceJob.parseMapper(conf, "stamper.json");
-		jobConf.setInt("mongo.input.split_size", 1);
 		jobConf.setInt("mapred.tasktracker.reduce.tasks.maximum", 3);		
 		jobConf.setInt("mapred.reduce.tasks", 3);
 		jobConf.setInt("mapred.tasktracker.map.tasks.maximum", 10);
 		jobConf.setInt("mapred.map.tasks", 10);
-		jobConf.setInt("mapred.min.split.size", 1);
 		
 		Job job = new Job(jobConf);
 		boolean success = job.waitForCompletion(true);

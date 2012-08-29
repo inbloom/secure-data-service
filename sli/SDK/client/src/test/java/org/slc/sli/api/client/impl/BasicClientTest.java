@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
@@ -41,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.RESTClient;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
@@ -58,14 +60,20 @@ public class BasicClientTest {
     private ObjectMapper mapper = new ObjectMapper();
     private Map<String, Object> studentData = new HashMap<String, Object>();
     private Map<String, Object> studentDataWithType = new HashMap<String, Object>();
+    private Map<String, Object> resourceWithLinks = new HashMap<String, Object>();
 
     @Before
-    public void init() {
+    public void init() throws MalformedURLException {
         when(restClient.getBaseURL()).thenReturn("http://baseURL");
         studentData.put("id", "42");
         studentData.put("name", "River Tam");
+
         studentDataWithType.putAll(studentData);
         studentDataWithType.put("entityType", ResourceNames.STUDENTS);
+
+        List<Link> links = new ArrayList<Link>();
+        links.add(new BasicLink("Google", new URL("http://www.google.com")));
+        resourceWithLinks.put(Entity.LINKS_KEY, links);
     }
 
     @Test
@@ -84,6 +92,16 @@ public class BasicClientTest {
 
         verify(restClient, times(4)).postRequest(new URL("http://baseURL/students"),
                 mapper.writeValueAsString(studentData));
+
+        Entity e3 = new GenericEntity("", resourceWithLinks);
+        assertEquals(1, e3.getLinks().size());
+        Set<String> keySet = e3.getLinkMap().keySet();
+        assertEquals(1, keySet.size());
+        for (String key : keySet) {
+            assertEquals("Google", key);
+            assertEquals("http", e3.getLinkMap().get(key).getProtocol());
+            assertEquals("www.google.com", e3.getLinkMap().get(key).getHost());
+        }
     }
 
     @Test

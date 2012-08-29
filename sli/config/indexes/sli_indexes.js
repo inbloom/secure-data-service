@@ -634,6 +634,7 @@ db["grade"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.stu
 db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.gradebookEntryType":1,"body.sectionId":1});
 db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodIdentity.schoolYear":1,"body.gradingPeriodIdentity.gradingPeriod":1,"body.gradingPeriodIdentity.schoolId":1}, {"name":"tenantId_schoolYear_gradingPeriod_schoolId"});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.objective":1,"body.academicSubject":1,"body.objectiveGradeLevel":1,"body.learningObjectiveId.identificationCode":1}, {"name":"tenantId_objective_academicSubject_objGradeLvl_idCode"});
+db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode": 1, "metaData.tenantId": 1});
 db["program"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1,"body.sessionId":1,"body.courseOfferingId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1});

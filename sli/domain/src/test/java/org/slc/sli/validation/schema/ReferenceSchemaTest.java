@@ -311,5 +311,11 @@ public class ReferenceSchemaTest {
             return null;
         }
 
+        @Override
+        public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
     }
 }

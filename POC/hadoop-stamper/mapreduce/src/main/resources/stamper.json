@@ -9,20 +9,20 @@
 
       "hadoop" : {
           "map" : {
-              "class" : "org.slc.sli.stamper.mapreduce.map.IDMapper",
+              "class" : "org.slc.sli.stamper.mapreduce.map.StampEdorg",
               "input" : {
-                  "collection" : "sli.studentSchoolAssociation",
-                  "key_field" : "body.schoolId",
-                  "query" : {"_id":{"$exists":1}},
-                  "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.schoolId" : 1 },
-                  "key_type" : "org.slc.sli.stamper.mapreduce.map.key.IdFieldEmittableKey",
-                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
-                  "format_type" : "org.slc.sli.stamper.mapreduce.io.MongoIdInputFormat",
+                 "collection" : "sli.educationOrganization",
+                  "key_field" : "_id",
+                  "query" : { "type" : "school" },
+                  "fields" : { "metaData.tenantId" : 1, "_id" : 1 },
+                  "key_type" : "org.slc.sli.stamper.mapreduce.map.key.TenantAndIdEmittableKey",
+                  "value_type" : "org.slc.sli.stamper.mapreduce.map.key.TenantAndIdEmittableKey",
+                  "format_type" : "org.slc.sli.stamper.mapreduce.io.MongoTenantAndIdInputFormat",
                   "read_from_secondaries" : true
               },
               "output" : {
-                  "key_type" : "org.slc.sli.stamper.mapreduce.map.key.IdFieldEmittableKey",
-                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "key_type" : "org.slc.sli.stamper.mapreduce.map.key.TenantAndIdEmittableKey",
+                  "value_type" : "org.slc.sli.stamper.mapreduce.map.key.TenantAndIdEmittableKey",
                   "format_type" : "org.slc.sli.stamper.mapreduce.io.MongoAggFormatter"
               }
           },

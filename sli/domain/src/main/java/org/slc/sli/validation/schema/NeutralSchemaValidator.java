@@ -109,4 +109,23 @@ public class NeutralSchemaValidator implements EntityValidator {
 
     }
 
+    @Override
+    public boolean validatePresent(Entity entity) throws EntityValidationException {
+
+        NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
+        if (schema == null) {
+            LOG.warn("No schema associatiated for type {}", entity.getType());
+            return true;
+        }
+
+        List<ValidationError> errors = new LinkedList<ValidationError>();
+        boolean valid = schema.validatePresent(entity.getBody(), errors, validationRepo);
+        if (!valid) {
+            LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
+        }
+
+        return true;
+    }
+
 }

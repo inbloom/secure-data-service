@@ -180,6 +180,17 @@ task :ingestionPreloading do
   runTests("test/features/ingestion/features/ingestion_preload_data.feature")
 end
 
+desc "Run Ingestion Order Agnostic Lists in Key Fields Testing"
+task :ingestionOrderAgnosticListTest do
+  testHash = Hash[
+    "staff" => "staff_fixture.json",
+    "program" => "program_fixture.json",
+    "staffProgramAssociation" => "ingestion/orderAgnosticList_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+  runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.manager;
 
 import java.util.Collection;
@@ -23,7 +22,6 @@ import java.util.Map;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
-
 
 /**
  *
@@ -39,9 +37,12 @@ public interface ConfigManager {
     /**
      * Read the educational organization hierarchy and return proper config file
      *
-     * @param token - user token
-     * @param userEdOrg - user educational organization proxy
-     * @param componentId - name of the profile
+     * @param token
+     *            - user token
+     * @param userEdOrg
+     *            - user educational organization proxy
+     * @param componentId
+     *            - name of the profile
      * @return proper Config to be used for the dashbord
      */
     Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId);
@@ -49,8 +50,10 @@ public interface ConfigManager {
     /**
      * Get all available widget configs relevant for the user
      *
-     * @param token - user token
-     * @param userEdOrg - user educational organization proxy
+     * @param token
+     *            - user token
+     * @param userEdOrg
+     *            - user educational organization proxy
      * @return collection of widget conigs
      */
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey userEdOrg);
@@ -58,14 +61,17 @@ public interface ConfigManager {
     /**
      * Get custom config for ed org
      *
-     * @param token - user token
-     * @param userEdOrg - user educational organization proxy
+     * @param token
+     *            - user token
+     * @param userEdOrg
+     *            - user educational organization proxy
      * @return
      */
     public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
 
     /**
      * Save an entire set of configs for an ed-Org
+     *
      * @param token
      * @param edOrgKey
      * @param configMap
@@ -74,6 +80,7 @@ public interface ConfigManager {
 
     /**
      * Update/save one component config for an ed-Org
+     *
      * @param token
      * @param edOrgKey
      * @param config
@@ -82,6 +89,7 @@ public interface ConfigManager {
 
     /**
      * Get configs matching a set of attribute values
+     *
      * @param token
      * @param edOrgKey
      * @param params
@@ -89,4 +97,24 @@ public interface ConfigManager {
      */
     Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs);
 
+    /**
+     * Get configs matching a set of attribute values
+     *
+     * @param token
+     * @param edOrgKey
+     * @param params
+     * @param overwriteWithCustomConfig overwrite DriverConfig with custom configs
+     * @return
+     */
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs,
+            boolean overwriteWithCustomConfig);
+
+    /**
+     * Get all custom for EdOrg hierarchy and Driver config
+     *
+     * @param edOrg
+     * @param attrs
+     * @return
+     */
+    public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey, Map<String, String> params);
 }

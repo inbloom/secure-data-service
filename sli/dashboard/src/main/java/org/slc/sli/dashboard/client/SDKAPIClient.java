@@ -141,7 +141,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getEntities(String token, String type, String ids, Map<String, String> params) {
-    	return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
+        return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
     }
 
     /**
@@ -708,7 +708,7 @@ public class SDKAPIClient implements APIClient {
 
     /**
      * Get a teacher identified by id
-     * 
+     *
      * @param token
      * @param id
      * @return
@@ -716,23 +716,24 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getTeacher(String token, String id) {
         // get Teacher information
-        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id); 
+        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
     }
 
-    
+
+    @Override
     public GenericEntity getTeacherWithSections(String token, String id) {
-    	GenericEntity teacher = getTeacher(token, id);
-    	List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
+        GenericEntity teacher = getTeacher(token, id);
+        List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
                 + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
         if (sections != null && !sections.isEmpty()) {
             GenericEntityComparator sectionComparator = new GenericEntityComparator("uniqueSectionCode", String.class);
             Collections.sort(sections, sectionComparator);
             teacher.put("sections", sections);
         }
-        return teacher;    	
+        return teacher;
     }
-    
-    
+
+
     /**
      * Get the teacher for a specified section
      *
@@ -752,8 +753,8 @@ public class SDKAPIClient implements APIClient {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
                     try {
                     teacher = this.getTeacher(token, teacherId);
-                    } catch(Exception e) {
-                    	LOGGER.error(e.getMessage());
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
                     }
                     return teacher;
                 }
@@ -771,13 +772,13 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
-    	List<GenericEntity> teachers = this.readEntityList(token,
-    			PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
-    			+ "/" + PathConstants.TEACHERS, schoolId);
+        List<GenericEntity> teachers = this.readEntityList(token,
+                PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
+                + "/" + PathConstants.TEACHERS, schoolId);
 
         return teachers;
     }
-    
+
     /**
      * Get a list of parents for the given student id
      *
@@ -1057,6 +1058,7 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
+    @Override
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
@@ -1081,7 +1083,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     protected GenericEntity readEntity(String token, String url, String id) {
-    	if ((id == null) || (id.length() <= 0)) {
+        if ((id == null) || (id.length() <= 0)) {
             return null;
         } else {
             return readEntity(token, url);
@@ -1095,6 +1097,7 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
+    @Override
     @ExecutionTimeLogger.LogExecutionTime
     @Override
     public List<GenericEntity> readEntityList(String token, String url) {

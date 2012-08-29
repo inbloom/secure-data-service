@@ -85,7 +85,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             convertedContent = stringWriter.toString();
 
         } catch (SmooksException se) {
-            LogUtil.error(LOG,"Exception filtering idref xml through smooks", se);
+            LogUtil.error(LOG, "Exception filtering idref xml through smooks", se);
         }
         return convertedContent;
     }

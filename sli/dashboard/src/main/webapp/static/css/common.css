@@ -99,6 +99,7 @@ input {
     margin-left: 0;
     padding: 5px;
     font-size: 13px;
+    min-width: 920px;
 }
 .panel-container {
     position:relative;

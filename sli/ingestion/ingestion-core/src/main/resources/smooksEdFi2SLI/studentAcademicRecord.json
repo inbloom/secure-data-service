@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId", "body.studentId", "body.sessionId"],
+    "keyFields" : ["body.studentId", "body.sessionId"],
     "references" :
     [
         {
