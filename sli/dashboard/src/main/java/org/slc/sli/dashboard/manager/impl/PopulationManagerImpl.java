@@ -43,19 +43,22 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.client.Link;
+import org.slc.sli.dashboard.client.APIClient;
+import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.GenericEntity;
+import org.slc.sli.dashboard.entity.util.ContactSorter;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
+import org.slc.sli.dashboard.entity.util.ParentsSorter;
 import org.slc.sli.dashboard.manager.ApiClientManager;
-import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.PopulationManager;
 import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
+import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.TimedLogic;
 
 /**
@@ -76,9 +79,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     private static final int NO_LIMIT = -1;
 
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
-
-    @Autowired
-    private EntityManager entityManager;
 
     public PopulationManagerImpl() {
 
@@ -130,7 +130,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         long startTime = System.nanoTime();
         // Initialize student summaries
 
-        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId);
+        List<GenericEntity> studentSummaries = getApiClient().getStudentsForSection(token, sectionId);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
 
         return studentSummaries;
@@ -869,23 +869,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
-        List<GenericEntity> list = entityManager.getAttendance(token, studentId, startDate, endDate);
+        List<GenericEntity> list = getAttendance(token, studentId, startDate, endDate);
         if (list == null) {
             return Collections.emptyList();
         }
         return list;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.dashboard.manager.PopulationManagerI#setEntityManager(org.slc.sli.dashboard.manager
-     * .EntityManager)
-     */
-    @Override
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 
     /*
@@ -896,7 +884,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getStudent(String token, String studentId) {
-        return entityManager.getStudent(token, studentId);
+        return getApiClient().getStudent(token, studentId);
     }
 
     @Override
@@ -929,7 +917,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
-        return entityManager.getStudentForCSIPanel(token, (String) studentId);
+        return getStudentForCSIPanel(token, (String) studentId);
     }
 
     /*
@@ -1133,12 +1121,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         // the school year associated with the input session id.
 
         // Get the session first.
-        GenericEntity currentSession = entityManager.getSession(token, sessionId);
+        GenericEntity currentSession = getApiClient().getSession(token, sessionId);
         List<String> dates = new ArrayList<String>();
         if (currentSession != null) {
             String beginDate = currentSession.getString("beginDate");
             String endDate = currentSession.getString("endDate");
-            List<GenericEntity> potentialSessions = entityManager.getSessionsByYear(token,
+            List<GenericEntity> potentialSessions = getApiClient().getSessionsForYear(token,
                     currentSession.getString("schoolYear"));
             for (GenericEntity session : potentialSessions) {
                 if (session.getString("beginDate").compareTo(beginDate) < 0) {
@@ -1194,13 +1182,15 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 pageSize = 50;
             }
         }
-
+        
         String searchString = firstName + " " + lastName;
         searchString = searchString.trim();
 
-        List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        APIClient apiClient = getApiClient();
+        
+        List<GenericEntity> students = apiClient.getStudentsWithSearch(token, firstName, lastName);
 
-        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token,
+        List<GenericEntity> titleCaseStudents = apiClient.getStudentsWithSearch(token,
                 WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
 
         HashSet<GenericEntity> studentSet = new HashSet<GenericEntity>();
@@ -1213,7 +1203,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         Iterator<GenericEntity> studentSetIterator = studentSet.iterator();
         while (studentSetIterator.hasNext()) {
             GenericEntity student = studentSetIterator.next();
-            student = entityManager.getStudent(token, student.getId());
+            student = apiClient.getStudent(token, student.getId());
             addFullName(student);
 
             String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
@@ -1222,7 +1212,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     school = retrievedSchools.get(schoolId);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 } else {
-                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
+                    school = apiClient.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
                     retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
@@ -1287,7 +1277,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getAssessments(String token, Object id, Config.Data config) {
         GenericEntity entity = new GenericEntity();
-        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id,
+        GenericEntity student = getApiClient().getStudentWithOptionalFields(token, (String) id,
                 Arrays.asList(Constants.ATTR_ASSESSMENTS));
         if (student == null) {
             log.error("Requested data for non-existing ID" + id);
@@ -1360,13 +1350,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
-        return entityManager.getSectionForProfile(token, (String) sectionId);
+        return getSectionForProfile(token, (String) sectionId);
     }
 
 	@Override
 	public GenericEntity getCoursesAndGrades(String token, Object studentId, Data config) {
-		return entityManager.getCurrentCoursesAndGrades(token, (String)studentId);
+		return getCurrentCoursesAndGrades(token, (String)studentId);
 	}
+
 
     /**
      * Retrieves attendance in a sorted order, removes all events where the student is present.
@@ -1378,24 +1369,24 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         GenericEntity ge = new GenericEntity();
 
-        List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
+        List<GenericEntity> attendanceList = getStudentAttendance(token, (String) studentId, null, null);
         if (attendanceList == null || attendanceList.size() < 1) {
             return ge;
         }
 
         GenericEntity firstWrapper = attendanceList.get(0);
-        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+        List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
             return ge;
         }
 
         //Comparator, sort by "schoolYear" descending order
-        Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
+        Comparator<Map<String, Object>> schoolYearAttendanceComparator = new Comparator<Map<String, Object>>() {
             @Override
-            public int compare(Map<String,Object> arg0, Map<String,Object> arg1) {
+            public int compare(Map<String, Object> arg0, Map<String, Object> arg1) {
                 Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
                 Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
-                if(schoolYearObj0 == null || schoolYearObj1 == null) {
+                if (schoolYearObj0 == null || schoolYearObj1 == null) {
                     return 0;
                 }
                 String schoolYear0 = schoolYearObj0.toString();
@@ -1403,10 +1394,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 return schoolYear1.compareTo(schoolYear0);
             }
         };
-        Collections.sort(schoolYearAttendance,schoolYearAttendanceComparator);
+        Collections.sort(schoolYearAttendance, schoolYearAttendanceComparator);
 
         Map<String, Object> secondWrapper = schoolYearAttendance.get(0);
-        List<Map> attList = (List<Map>)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+        List<Map> attList = (List<Map>) secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
         if (attList == null) {
             return ge;
         }
@@ -1451,7 +1442,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<GenericEntity> sessions = getApiClient().getSessions(token, null);
+        List<GenericEntity> sessions = getApiClient().getSessions(token);
 
         // sort sessions latest to earliest
         Comparator<Map> c = new Comparator<Map>() {
@@ -1482,8 +1473,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             Date currentDate = new Date();
             Date sessionStart = sdf.parse(session.getString(Constants.ATTR_BEGIN_DATE));
             Date sessionEnd = sdf.parse(session.getString(Constants.ATTR_END_DATE));
-            if (sessionStart != null && sessionStart.before(currentDate) &&
-                sessionEnd != null && sessionEnd.after(currentDate)) {
+            if (sessionStart != null && sessionStart.before(currentDate)
+                    && sessionEnd != null && sessionEnd.after(currentDate)) {
                 schoolYear = session.getString(Constants.ATTR_SCHOOL_YEAR);
                 break;
             } else if (sessionEnd.before(currentDate)) {
@@ -1518,11 +1509,265 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
 	@Override
 	public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
-		return entityManager.getEdorgProfile(token, (String) edorgId);
+		return getEdorgProfile(token, (String) edorgId);
 	}
 
 	@Override
 	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
-		return entityManager.getStateEdorgProfile(token, (String) edorgId);
-	}	
+		return getStateEdorgProfile(token, (String) edorgId);
+	}
+	
+    /**
+     * Retrieves a list of attendance objects for a single student.
+     *
+     * @param token
+     *            - the current authentication token
+     * @param studentId
+     *            - the student that you want to get your attendance objects for
+     * @return a list of attendance objects
+     */
+    private List<GenericEntity> getAttendance(final String token, final String studentId, final String start,
+            final String end) {
+        Map<String, String> params = null;
+        if (start != null && start.length() > 0) {
+        	params = new HashMap<String, String>();
+        	params.put(SDKConstants.PARAM_EVENT_DATE + ">", "" + start);
+            params.put(SDKConstants.PARAM_EVENT_DATE + "<", "" + end);
+        }
+        return getApiClient().getAttendanceForStudent(token, studentId, params);
+    }	
+
+    
+    /**
+     * Get the student entity along with additional info needed for CSI panel
+     *
+     * @param token
+     *            - the principle authentication token
+     * @param studentId
+     *            - the student id
+     * @return student
+     *         - the student entity
+     */
+    public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
+        GenericEntity student = getStudent(token, studentId);
+        if (student == null) {
+            throw new DashboardException("Unable to retrieve data for the requested ID");
+        }
+        student = ContactSorter.sort(student);
+        student = GenericEntityEnhancer.enhanceStudent(student);
+
+        GenericEntity section = getApiClient().getSectionHomeForStudent(token, studentId);
+
+        if (section != null) {
+            student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+            GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
+
+            if (teacher != null) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> teacherName = (Map<String, Object>) teacher.get(Constants.ATTR_NAME);
+                if (teacherName != null) {
+                    student.put(Constants.ATTR_TEACHER_NAME, teacherName);
+                }
+            }
+        }
+
+        List<GenericEntity> studentEnrollment = getApiClient().getEnrollmentForStudent(token, student.getId());
+        student.put(Constants.ATTR_STUDENT_ENROLLMENT, studentEnrollment);
+
+        List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId, new HashMap<String, String>());
+
+        // sort parent Contact if there are more than 2.
+        if (parents != null && parents.size() > 1) {
+            ParentsSorter.sort(parents);
+        }
+
+        for (GenericEntity parentsContact : parents) {
+            ContactSorter.sort(parentsContact);
+        }
+
+        student.put(Constants.ATTR_PARENTS, parents);
+        return student;
+    }
+    
+
+
+    /**
+     * Retrieve section, and populate with additional data for teacher and course, required for
+     * section profile panel
+     *
+     * @param token
+     * @param sectionId
+     * @return
+     */
+    private GenericEntity getSectionForProfile(String token, String sectionId) {
+        GenericEntity section = getApiClient().getSection(token, sectionId);
+
+        // Retrieve teacher of record for the section, and add the teacher's name to the section
+        // entity.
+        GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
+        if (teacher != null) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> teacherName = (Map<String, Object>) teacher.get(Constants.ATTR_NAME);
+            if (teacherName != null) {
+                section.put(Constants.ATTR_TEACHER_NAME, teacherName);
+            }
+        }
+
+        Link courseOfferingLink = section.getLink("getCourseOffering");
+        
+        //Navigate links to retrieve course and subject.
+    	if(courseOfferingLink != null) {
+    		GenericEntity courseOffering = getApiClient().readEntity(token, courseOfferingLink.getResourceURL().toString());
+    		if(courseOffering != null) {
+    			String courseId = courseOffering.getString(Constants.ATTR_COURSE_ID);
+    			if(courseId != null) {
+        			GenericEntity course = getApiClient().getCourse(token, courseId);
+        			if(course != null) {
+	                    section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
+	                    section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
+        			}
+    			}
+    		}
+    	}
+        
+        return section;
+    }    
+    
+
+    /**
+     * Returns the grades and associated courses, by traversing student section asssociations.
+     * @param token
+     * @param studentId
+     * @return
+     */
+    public GenericEntity getCurrentCoursesAndGrades(String token , String studentId) {
+
+    	List<GenericEntity> toReturn = new LinkedList<GenericEntity>();    	
+
+    	try {
+
+			//Get the student by ID.
+	    	GenericEntity student = getStudent(token, studentId);
+	
+	    	//Iterate the links of the student. 
+	    	
+	    	Link studentSectionAssociationLink = student.getLink(Constants.GET_STUDENT_SECTION_ASSOCIATIONS);
+			// If link is getStudentSectionAssociations.
+			if (studentSectionAssociationLink != null) {
+				
+				//Retrieve all associations.
+				List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, studentSectionAssociationLink.getResourceURL().toString()+"?limit=0");
+				
+				//Iterate over associations
+				for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
+					
+					GenericEntity toAdd = new GenericEntity();
+					
+					//Retrieve, course, teacher, and subject for the studentSectionAssociation.
+					GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
+					toAdd.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+					Map teacher = (Map)section.get(Constants.ATTR_TEACHER_NAME);
+					
+					StringBuilder teacherName = new StringBuilder();
+	    			if (teacher != null){
+						if (teacher.containsKey(Constants.ATTR_PERSONAL_TITLE_PREFIX)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_PERSONAL_TITLE_PREFIX)).append(". ");
+	    				}
+	    				if (teacher.containsKey(Constants.ATTR_FIRST_NAME)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_FIRST_NAME)).append(" ");
+	    				}
+	    				if (teacher.containsKey(Constants.ATTR_LAST_SURNAME)) {
+	    					teacherName = teacherName.append(teacher.get(Constants.ATTR_LAST_SURNAME));
+	    				}
+	    			}
+					toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName.toString());
+					toAdd.put(Constants.ATTR_COURSE_TITLE, section.get(Constants.ATTR_COURSE_TITLE));
+					toAdd.put(Constants.ATTR_SUBJECTAREA, section.get(Constants.ATTR_SUBJECTAREA));
+					
+					//Iterate the link and retrieve grades for the studentSectionAssociation.
+					Link gradeLink = studentSectionAssociation.getLink(Constants.GET_GRADES);
+					if (gradeLink != null) {
+						List<GenericEntity> grades = getApiClient().readEntityList(token, gradeLink.getResourceURL().toString());
+						for (GenericEntity grade : grades) {
+							toAdd.put(grade.getString(Constants.GRADE_TYPE), grade.getString(Constants.ATTR_LETTER_GRADE_EARNED));
+						}
+					}
+	
+					//Add aggregated data for studentSectionAssociation to return list.
+					toReturn.add(toAdd);
+				}
+			
+			}
+    	}catch(Exception e) {
+    		log.error(e.getMessage());
+    		e.printStackTrace();
+    	}
+    	
+    	GenericEntity ge = new GenericEntity();
+    	ge.put(Constants.COURSES_AND_GRADES, toReturn);
+    	
+    	return ge;
+    }    
+
+    /**
+     * Get all schools for the district, and pass them to the ed-org profile.
+     * @param token
+     * @param id
+     * @return
+     */
+    private GenericEntity getEdorgProfile(String token, String id) {
+		// TODO Auto-generated method stub
+		GenericEntity edorg = getApiClient().getEducationalOrganization(token, id);
+		GenericEntity ge = new GenericEntity();
+		
+		if(edorg != null) {
+			ge.put(Constants.ATTR_NAME_OF_INST, edorg.getString(Constants.ATTR_NAME_OF_INST));
+			Link link = edorg.getLink(Constants.ATTR_GET_FEEDER_SCHOOLS);
+			List<GenericEntity> schools = getApiClient().readEntityList(token, link.getResourceURL().toString());
+			LinkedList<GenericEntity> schoolList = new LinkedList<GenericEntity>();
+			
+			for (GenericEntity school : schools) {
+				GenericEntity tempSchool = new GenericEntity();
+				tempSchool.put(Constants.ATTR_ID, school.getString(Constants.ATTR_ID));
+				tempSchool.put(Constants.ATTR_NAME_OF_INST, school.getString(Constants.ATTR_NAME_OF_INST));
+				schoolList.add(tempSchool);
+			}
+			
+		ge.put(Constants.ATTR_SCHOOL_LIST, schoolList);
+		}
+		
+		return ge;    	
+    }
+
+	
+    /**
+     * Get all ed-orgs for state and pass them to the state Ed-org profile.
+     * @param token
+     * @param edorgId
+     * @return
+     */
+    private GenericEntity getStateEdorgProfile(String token, String edorgId) {
+		GenericEntity edorg = getApiClient().getEducationalOrganization(token, edorgId);
+		GenericEntity ge = new GenericEntity();
+
+		if(edorg != null) {
+			ge.put(Constants.ATTR_NAME_OF_INST, edorg.getString(Constants.ATTR_NAME_OF_INST));
+			Link link = edorg.getLink(Constants.ATTR_GET_FEEDER_EDORGS);
+			List<GenericEntity> districts = getApiClient().readEntityList(token, link.getResourceURL().toString());
+			LinkedList<GenericEntity> districtList = new LinkedList<GenericEntity>();
+			
+			for (GenericEntity district : districts) {
+				GenericEntity tempSchool = new GenericEntity();
+				tempSchool.put(Constants.ATTR_ID, district.getString(Constants.ATTR_ID));
+				tempSchool.put(Constants.ATTR_NAME_OF_INST, district.getString(Constants.ATTR_NAME_OF_INST));
+				districtList.add(tempSchool);
+			}
+			
+		ge.put(Constants.ATTR_DISTRICT_LIST, districtList);
+		}		
+		
+		return ge;
+	}        
+    
+	
 }

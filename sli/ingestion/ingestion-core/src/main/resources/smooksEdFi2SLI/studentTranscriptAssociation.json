@@ -9,23 +9,61 @@
         "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
     },
 	"references" :
-	[{ 
-        "fieldPath" : "body.studentAcademicRecordId","ref" :
+    [
         {
-	        "entityType" : "studentAcademicRecord",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.studentAcademicRecordId"
-		                }]
-		            }
-	            ]
-	        ]
+            "fieldPath" : "body.studentAcademicRecordId",
+            "ref" :
+            {
+                "entityType" : "studentAcademicRecord",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.studentId",
+                            "values" :
+                            [{
+                                 "ref":
+                                 {
+                                     "entityType" : "student",
+                                     "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                                  "path" : "body.studentUniqueStateId",
+                                                  "values" :
+                                                   [{
+                                                         "valueSource" : "body.studentAcademicRecordReference.studentUniqueStateId"
+                                                   }]
+                                              }
+                                          ]
+                                      ]
+                                 }
+                            }]
+                        },
+                        {
+                            "path" : "body.sessionId",
+                            "values" :
+                             [{
+                                 "ref":
+                                 {
+                                     "entityType" : "session",
+                                     "choiceOfFields" :
+                                      [
+                                          [{
+                                              "path" : "body.sessionName",
+                                              "values" :
+                                               [{
+                                                   "valueSource" : "body.studentAcademicRecordReference.sessionName"
+                                               }]
+                                          }]
+                                      ]
+                                 }
+                             }]
+                        }
+                    ]
+                ]
+            }
         }
-    }]
+    ]
 }
 

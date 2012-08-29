@@ -37,42 +37,41 @@ import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.JsonConverter;
-import org.slc.sli.dashboard.util.SecurityUtil;
 
 /**
  * @author tosako
- * 
+ *
  */
 public class UserEdOrgManagerImplTest {
     UserEdOrgManagerImpl testInstitutionalHierarchyManagerImpl = null;
     APIClient apiClient = null;
-    
+
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        
+
         apiClient = new SDKAPIClient() {
-            
+
             private String customConfigJson = "{}";
-            
+
             @Override
             public ConfigMap getEdOrgCustomData(String token, String id) {
                 return new GsonBuilder().create().fromJson(customConfigJson, ConfigMap.class);
             }
-            
+
             public void putEdOrgCustomData(String token, String id, String customJson) {
                 customConfigJson = customJson;
             }
-            
+
             @Override
-            public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
+            public List<GenericEntity> getSchools(String token) {
                 List<GenericEntity> schools = new ArrayList<GenericEntity>();
                 schools.add(new GenericEntity()); // dummy GenericEntity
                 return schools;
             }
-            
+
             @Override
             public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
                 GenericEntity entity = null;
@@ -82,7 +81,7 @@ public class UserEdOrgManagerImplTest {
                 }
                 return entity;
             }
-            
+
             @Override
             public String getId(String token) {
                 String id = "";
@@ -95,7 +94,7 @@ public class UserEdOrgManagerImplTest {
                 }
                 return id;
             }
-            
+
             @Override
             public GenericEntity getStaffWithEducationOrganization(String token, String id, String organizationCategory) {
                 GenericEntity entity = null;
@@ -112,7 +111,7 @@ public class UserEdOrgManagerImplTest {
                 }
                 return entity;
             }
-            
+
             @Override
             public List<GenericEntity> getMySchools(String token) {
                 List<GenericEntity> list = new ArrayList<GenericEntity>();
@@ -123,11 +122,11 @@ public class UserEdOrgManagerImplTest {
                 }
                 return list;
             }
-            
+
         };
-        
+
     }
-    
+
     /**
      * Test method for
      * {@link org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl#getUserEdOrg(java.lang.String)}
@@ -139,7 +138,7 @@ public class UserEdOrgManagerImplTest {
         // EdOrgKey key = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg("fakeToken");
         // Assert.assertEquals("my test district name", key.getDistrictId());
     }
-    
+
     @Test
     public void testGetUserEdOrg() {
         this.testInstitutionalHierarchyManagerImpl = new UserEdOrgManagerImpl() {
@@ -147,7 +146,7 @@ public class UserEdOrgManagerImplTest {
             public String getToken() {
                 return "";
             }
-            
+
             @Override
             protected boolean isEducator() {
                 return false;
@@ -156,16 +155,16 @@ public class UserEdOrgManagerImplTest {
         this.testInstitutionalHierarchyManagerImpl.setApiClient(apiClient);
         EdOrgKey edOrgKey1 = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg(Constants.STATE_EDUCATION_AGENCY);
         Assert.assertEquals("2012ny-09327920-e000-11e1-9f3b-3c07546832b4", edOrgKey1.getSliId());
-        
+
         EdOrgKey edOrgKey2 = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg(Constants.LOCAL_EDUCATION_AGENCY);
         Assert.assertEquals("2012zj-0b0711a4-e000-11e1-9f3b-3c07546832b4", edOrgKey2.getSliId());
-        
+
         this.testInstitutionalHierarchyManagerImpl = new UserEdOrgManagerImpl() {
             @Override
             public String getToken() {
                 return "";
             }
-            
+
             @Override
             protected boolean isEducator() {
                 return true;
@@ -174,7 +173,7 @@ public class UserEdOrgManagerImplTest {
         this.testInstitutionalHierarchyManagerImpl.setApiClient(apiClient);
         EdOrgKey edOrgKey3 = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg("Teacher");
         Assert.assertEquals("2012zj-0b0711a4-e000-11e1-9f3b-3c07546832b4", edOrgKey3.getSliId());
-        
+
     }
-    
+
 }

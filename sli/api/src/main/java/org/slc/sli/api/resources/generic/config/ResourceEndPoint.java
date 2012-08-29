@@ -15,18 +15,20 @@
  */
 package org.slc.sli.api.resources.generic.config;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 
 /**
  * Reads in different nameSpaced resource end points and loads them
@@ -100,8 +102,8 @@ public class ResourceEndPoint {
             return FOUR_PART_RESOURCE;
         } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.THREE_PART)) {
             return THREE_PART_RESOURCE;
-        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.ONE_PART) ||
-            resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.TWO_PART)) {
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.ONE_PART)
+                || resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.TWO_PART)) {
             return BASE_RESOURCE;
         }
 

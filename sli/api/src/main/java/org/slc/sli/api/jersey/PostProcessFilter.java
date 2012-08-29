@@ -27,7 +27,6 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
-import org.slc.sli.dal.MongoStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -153,7 +153,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("startTime", timeFormatter.print(new DateTime(startTime)));
             body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("responseTime", String.valueOf(elapsed));
-            body.put("dbHitCount",mongoStat.getDbHitCount());
+            body.put("dbHitCount", mongoStat.getDbHitCount());
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 

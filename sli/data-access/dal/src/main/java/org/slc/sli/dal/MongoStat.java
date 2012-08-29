@@ -1,8 +1,6 @@
 package org.slc.sli.dal;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,7 +35,7 @@ public class MongoStat {
     public void clear() {
         dbHitCount = 0;
     }
-    public void increamentHitCount(){
-        dbHitCount ++;
+    public void increamentHitCount() {
+        dbHitCount++;
     }
 }

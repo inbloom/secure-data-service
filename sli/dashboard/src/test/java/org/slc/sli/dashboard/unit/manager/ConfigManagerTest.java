@@ -30,7 +30,6 @@ import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.MockAPIClient;
 import org.slc.sli.dashboard.manager.impl.ConfigManagerImpl;
 import org.slc.sli.dashboard.security.SLIPrincipal;
@@ -38,13 +37,13 @@ import org.slc.sli.dashboard.util.JsonConverter;
 
 /**
  * Unit tests for the StudentManager class.
- * 
+ *
  */
 public class ConfigManagerTest {
-    
+
     ConfigManagerImpl configManager;
     APIClient apiClient = null;
-    
+
     @Before
     public void setup() {
         apiClient = new SDKAPIClient() {
@@ -57,7 +56,7 @@ public class ConfigManagerTest {
                 }
                 return entity;
             }
-            
+
             @Override
             public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
                 GenericEntity entity = null;
@@ -67,7 +66,7 @@ public class ConfigManagerTest {
                 }
                 return entity;
             }
-            
+
             @Override
             public ConfigMap getEdOrgCustomData(String token, String id) {
                 ConfigMap configMap = null;
@@ -86,19 +85,16 @@ public class ConfigManagerTest {
         };
         configManager.setDriverConfigLocation("config");
         configManager.setApiClient(apiClient);
-        
-        EntityManager entityManager = new EntityManager();
-        entityManager.setApiClient(apiClient);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setDistrict("test_district");
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, null));
     }
-    
+
     @After
     public void tearDown() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
-    
+
     /**
      * Test get config to return expected
      */
@@ -134,7 +130,7 @@ public class ConfigManagerTest {
         Assert.assertEquals("ViewItem [width=90, type=string, color=null, style=null, formatter=null, params=null]",
                 items[0].toString());
     }
-    
+
     @Test
     public void testNonexistentConfig() {
         try {
@@ -144,7 +140,7 @@ public class ConfigManagerTest {
             Assert.assertEquals("Unable to read local custom config for fakeConfigId", t.getMessage());
         }
     }
-    
+
     @Test
     public void testConfigLocation() {
         String location = "config";

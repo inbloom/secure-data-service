@@ -130,9 +130,9 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
+    public List<GenericEntity> getSchools(final String token) {
         return this
-                .getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
+                .getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), null);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getSessions(String token, Map<String, String> params) {
+    public List<GenericEntity> getSessions(String token) {
         return new ArrayList<GenericEntity>();
     }
 
@@ -324,7 +324,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
-        List<GenericEntity> hierarchy = getSchools(token, null);
+        List<GenericEntity> hierarchy = getSchools(token);
 
         for (GenericEntity school : hierarchy) {
             List<LinkedHashMap> courses = school.getList(Constants.ATTR_COURSES);
@@ -418,7 +418,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params) {
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, Map<String, String> params) {
         return null;
     }
 

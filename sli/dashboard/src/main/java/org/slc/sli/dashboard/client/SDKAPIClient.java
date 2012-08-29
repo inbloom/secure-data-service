@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -142,7 +141,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getEntities(String token, String type, String ids, Map<String, String> params) {
-    	return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
+        return this.readEntityList(token, "/" + type + "/" + ids + "?" + this.buildQueryString(params), ids);
     }
 
     /**
@@ -168,11 +167,8 @@ public class SDKAPIClient implements APIClient {
         GenericEntity homeEntity = this.getHome(token);
 
         if (homeEntity != null) {
-            for (Link linkMap : homeEntity.getLinks()) {
-                if (linkMap.getLinkName().equals(Constants.ATTR_SELF)) {
-                    return parseId(linkMap.getResourceURL().getPath());
-                }
-            }
+        	Link selfLink = homeEntity.getLink(Constants.ATTR_SELF);
+        	return parseId(selfLink.getResourceURL().getPath());
         }
 
         return null;
@@ -299,15 +295,10 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getParentEducationalOrganization(String token, GenericEntity educationalOrganization) {
-        GenericEntity parentEducationOrganization = null;
-        List<GenericEntity> educationalOrganizations = new ArrayList<GenericEntity>();
-        educationalOrganizations.add(educationalOrganization);
-        List<String> ids = this.extractAttributesFromEntities(educationalOrganizations, Constants.ATTR_PARENT_EDORG);
-        if (ids.size() > 0) {
-            String parentId = ids.get(0);
-            parentEducationOrganization = this.getEducationalOrganization(token, parentId);
-        }
-        return parentEducationOrganization;
+    	if(educationalOrganization != null)
+    		return getEducationalOrganization(token, educationalOrganization.getString(Constants.ATTR_PARENT_EDORG));
+    	
+    	return null;
     }
 
     /**
@@ -318,13 +309,8 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
-    public List<GenericEntity> getSchools(String token, List<String> ids) {
-
-        // get schools
-        List<GenericEntity> schools = this.readEntityList(token,
-                SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
-
-        return schools;
+    public List<GenericEntity> getSchools(String token) {
+        return readEntityList(token, SDKConstants.SCHOOLS_ENTITY);
     }
 
     /**
@@ -346,6 +332,7 @@ public class SDKAPIClient implements APIClient {
         // get schools
         schools = this.readEntityList(token, SDKConstants.TEACHERS_ENTITY + getId(token)
                 + SDKConstants.TEACHER_SCHOOL_ASSOC + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+        
         if (schools == null || schools.size() == 0) {
             // Ok there are 5 potential edOrg levels so we need to get the edOrg for this staff then
             // dig down to the individual schools.
@@ -379,20 +366,6 @@ public class SDKAPIClient implements APIClient {
     }
 
     /**
-     * Get a list of schools using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    @Override
-    public List<GenericEntity> getSchools(String token, List<String> ids, Map<String, String> params) {
-        return this.readEntityList(token,
-                SDKConstants.SCHOOLS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
-    }
-
-    /**
      * Get a school identified by id
      *
      * @param token
@@ -412,28 +385,8 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
-    public List<GenericEntity> getSessions(String token, Map<String, String> params) {
-        String url = "";
-        if (params != null && !params.isEmpty()) {
-            url = SDKConstants.SESSIONS_ENTITY + "?" + this.buildQueryString(params);
-        } else {
-            url = SDKConstants.SESSIONS_ENTITY;
-        }
-        return this.readEntityList(token, url);
-    }
-
-    /**
-     * Get a list of sessions using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    @Override
-    public List<GenericEntity> getSessions(String token, List<String> ids, Map<String, String> params) {
-        return this.readEntityList(token,
-                SDKConstants.SESSIONS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
+    public List<GenericEntity> getSessions(String token) {
+            return this.readEntityList(token, SDKConstants.SESSIONS_ENTITY);
     }
 
     /**
@@ -469,23 +422,9 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
-    @Override
+
     public List<GenericEntity> getSections(String token, Map<String, String> params) {
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params));
-    }
-
-    /**
-     * Get a list of sections using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    @Override
-    public List<GenericEntity> getSections(String token, List<String> ids, Map<String, String> params) {
-        return this.readEntityList(token,
-                SDKConstants.SECTIONS_ENTITY + buildListString(ids) + "?" + this.buildQueryString(params), ids);
     }
 
     /**
@@ -573,37 +512,35 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
-        GenericEntity homeRoomEntity = null;
 
-        List<GenericEntity> studentSections = this.getSectionsForStudent(token, studentId, new HashMap<String, String>());
-
-        // If only one section association exists for the student, return the
-        // section as home room
-        if (studentSections.size() == 1) {
-            homeRoomEntity = studentSections.get(0);
-            return homeRoomEntity;
-        }
-
-        // If multiple section associations exist for the student, return the
-        // section with homeroomIndicator set to true
-        for (GenericEntity studentSection : studentSections) {
-            List<Map<String, Object>> studentSectionAssocs = (List<Map<String, Object>>) studentSection
-                    .get("studentSectionAssociations");
-            if (studentSectionAssocs != null) {
-                for (Map<String, Object> sectionAssoc : studentSectionAssocs) {
-                    if ((sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR) != null)
-                            && ((Boolean) sectionAssoc.get(Constants.ATTR_HOMEROOM_INDICATOR))
-                            && sectionAssoc.get(Constants.ATTR_STUDENT_ID).equals(studentId)) {
-                        homeRoomEntity = studentSection;
-                        return homeRoomEntity;
-                    }
-                }
-            }
-        }
-
-        return homeRoomEntity;
+    	String sectionId = null;
+    	List<GenericEntity> stuSecAssociations = readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC);
+    	
+    	if(stuSecAssociations == null) {
+    		return null;
+    	}
+    	
+    	if (stuSecAssociations.size() == 1) {
+    		GenericEntity stuSecAssociation = stuSecAssociations.get(0);
+    		sectionId = stuSecAssociation.getString(Constants.ATTR_SECTION_ID);
+    	} else {
+    		for (GenericEntity stuSecAssociation : stuSecAssociations) {
+    			if(stuSecAssociation.containsKey(Constants.ATTR_HOMEROOM_INDICATOR)) {
+    				if ((Boolean)stuSecAssociation.get(Constants.ATTR_HOMEROOM_INDICATOR)) {
+    					sectionId = stuSecAssociation.getString(Constants.ATTR_SECTION_ID);
+    				}
+    			}
+    		}
+    	}
+    	
+    	if (sectionId == null) {
+    		return null;
+    	} else {
+    		return getSection(token, sectionId);
+    	}
     }
-
+    
+    
     /**
      * Get a list of courses using a list of ids
      *
@@ -627,14 +564,13 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
-    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params) {
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, Map<String, String> params) {
         params.put("optionalFields", "transcript");
         addGradeLevelParam(params);
-        return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
-                + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), studentId);
+        return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + sectionId + SDKConstants.STUDENT_SECTION_ASSOC
+                + SDKConstants.STUDENTS + "?" + this.buildQueryString(params), sectionId);
     }
 
-    // @Override
     @Override
     public List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId) {
 
@@ -764,7 +700,7 @@ public class SDKAPIClient implements APIClient {
 
     /**
      * Get a teacher identified by id
-     * 
+     *
      * @param token
      * @param id
      * @return
@@ -772,23 +708,24 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getTeacher(String token, String id) {
         // get Teacher information
-        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id); 
+        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
     }
 
-    
+
+    @Override
     public GenericEntity getTeacherWithSections(String token, String id) {
-    	GenericEntity teacher = getTeacher(token, id);
-    	List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
+        GenericEntity teacher = getTeacher(token, id);
+        List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
                 + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
         if (sections != null && !sections.isEmpty()) {
             GenericEntityComparator sectionComparator = new GenericEntityComparator("uniqueSectionCode", String.class);
             Collections.sort(sections, sectionComparator);
             teacher.put("sections", sections);
         }
-        return teacher;    	
+        return teacher;
     }
-    
-    
+
+
     /**
      * Get the teacher for a specified section
      *
@@ -808,8 +745,8 @@ public class SDKAPIClient implements APIClient {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
                     try {
                     teacher = this.getTeacher(token, teacherId);
-                    } catch(Exception e) {
-                    	LOGGER.error(e.getMessage());
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
                     }
                     return teacher;
                 }
@@ -827,13 +764,13 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
-    	List<GenericEntity> teachers = this.readEntityList(token,
-    			PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
-    			+ "/" + PathConstants.TEACHERS, schoolId);
+        List<GenericEntity> teachers = this.readEntityList(token,
+                PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
+                + "/" + PathConstants.TEACHERS, schoolId);
 
         return teachers;
     }
-    
+
     /**
      * Get a list of parents for the given student id
      *
@@ -1113,6 +1050,7 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
+    @Override
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
@@ -1137,7 +1075,7 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     protected GenericEntity readEntity(String token, String url, String id) {
-    	if ((id == null) || (id.length() <= 0)) {
+        if ((id == null) || (id.length() <= 0)) {
             return null;
         } else {
             return readEntity(token, url);
@@ -1159,7 +1097,7 @@ public class SDKAPIClient implements APIClient {
             List<Entity> entityList = getClient(token).read(url);
             for (Entity entity : entityList) {
                 GenericEntity genericEntity = new GenericEntity(entity);
-                genericEntity.put("links", mappifyLinks(entity.getLinks()));
+                genericEntity.put("links", entity.getLinks());
                 genericEntities.add(genericEntity);
             }
         } catch (SLIClientException e) {
@@ -1170,21 +1108,6 @@ public class SDKAPIClient implements APIClient {
         return genericEntities;
     }
 
-    private List<Map<String, String>> mappifyLinks(List<Link> realLinks) {
-        // somewhere some code is dying because the links in the SDK are being returned as Link
-        // objects and not maps. I don't feel like digging through acres of code to find it, so I'm
-        // putting in this hack
-        List<Map<String, String>> mapLinks = new ArrayList<Map<String, String>>();
-        if (realLinks != null) {
-            for (Link link : realLinks) {
-                Map<String, String> mapLink = new HashMap<String, String>();
-                mapLink.put("rel", link.getLinkName());
-                mapLink.put("href", link.getResourceURL().toString());
-                mapLinks.add(mapLink);
-            }
-        }
-        return mapLinks;
-    }
 
     /**
      * Read a list of resource entities using the SDK. This method checks id for
@@ -1315,28 +1238,6 @@ public class SDKAPIClient implements APIClient {
     }
 
     /**
-     * Extract the link with the given relationship from an entity
-     *
-     * @param entity
-     * @param rel
-     * @return
-     */
-    private List<String> extractLinksFromEntity(GenericEntity entity, String rel) {
-        List<String> linkList = new ArrayList<String>();
-
-        if (entity != null && entity.containsKey(Constants.ATTR_LINKS)) {
-            for (Map link : (List<Map>) (entity.get(Constants.ATTR_LINKS))) {
-                if (link.get(Constants.ATTR_REL).toString().contains(rel)) {
-                    String href = (String) link.get(Constants.ATTR_HREF);
-                    linkList.add(href);
-                }
-            }
-        }
-
-        return linkList;
-    }
-
-    /**
      * Enrich section entities with session details to be leveraged during filtering
      *
      * @param token
@@ -1344,7 +1245,7 @@ public class SDKAPIClient implements APIClient {
      */
     private void enrichSectionsWithSessionDetails(String token, List<GenericEntity> sections) {
 
-        List<GenericEntity> sessions = this.getSessions(token, null);
+        List<GenericEntity> sessions = this.getSessions(token);
         if ((sessions != null) && (sections != null)) {
 
             // Setup sessions lookup map
@@ -1431,57 +1332,6 @@ public class SDKAPIClient implements APIClient {
         return filteredSections;
     }
 
-    /**
-     * Match schools and sections. Also retrieve course info.
-     *
-     * @param sections
-     * @param token
-     * @return
-     */
-    private List<GenericEntity> matchSchoolsAndSections(List<GenericEntity> schools, List<GenericEntity> sections,
-            String token) {
-
-        // collect associated course first.
-        HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
-        HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
-        getCourseSectionsMappings(sections, token, courseMap, sectionIDToCourseIDMap);
-
-        // now collect associated schools.
-        HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
-        HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
-        getSchoolSectionsMappings(sections, token, schools, schoolMap, sectionIDToSchoolIDMap);
-
-        // Now associate course and school.
-        // There is no direct course-school association in ed-fi. For any section associated to
-        // a school, its course will also be associated.
-        HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
-
-        if (sections != null) {
-            for (int i = 0; i < sections.size(); i++) {
-                GenericEntity section = sections.get(i);
-                if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
-                        && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
-                    String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
-                    String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                    if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
-                        schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
-                    }
-                    schoolIDToCourseIDMap.get(schoolId).add(courseId);
-                }
-            }
-        }
-
-        // now create the generic entity
-        for (String schoolId : schoolIDToCourseIDMap.keySet()) {
-            GenericEntity s = schoolMap.get(schoolId);
-            for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
-                GenericEntity c = courseMap.get(courseId);
-                s.appendToList(Constants.ATTR_COURSES, c);
-            }
-        }
-
-        return new ArrayList<GenericEntity>(schoolMap.values());
-    }
 
     /**
      * Get the associations between courses and sections
@@ -1553,113 +1403,6 @@ public class SDKAPIClient implements APIClient {
         return courses;
     }
 
-    /**
-     * Get the associations between courses and sections
-     */
-    private void getCourseSectionsMappings(List<GenericEntity> sections, String token,
-            Map<String, GenericEntity> courseMap, Map<String, String> sectionIDToCourseIDMap) {
-
-        // this variable is used to prevent sending duplicate courseId to API
-        Set<String> courseIdTracker = new HashSet<String>();
-
-        // this temporary sectionLookup will be used for cross reference between
-        // courseId and
-        // section.
-        Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
-        List<String> courseIds = new ArrayList<String>();
-        // iterate each section
-        if (sections != null) {
-            for (GenericEntity section : sections) {
-                // Get course using courseId reference in section
-                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-                // search course which doesn't exist already
-                if (!courseMap.containsKey(courseId)) {
-                    if (!courseIdTracker.contains(courseId)) {
-                        courseIds.add(courseId);
-                        courseIdTracker.add(courseId);
-                    }
-                    if (!sectionLookup.containsKey(courseId)) {
-                        sectionLookup.put(courseId, new HashSet<GenericEntity>());
-                    }
-                    sectionLookup.get(courseId).add(section);
-                }
-            }
-        }
-
-        // get Entities by given courseIds
-        if (courseIds.size() > 0) {
-
-            // get course Entities
-            List<GenericEntity> courses = getCourses(token, courseIds, null);
-            Collections.sort(courses, new Comparator<GenericEntity>() {
-
-                @Override
-                public int compare(GenericEntity o1, GenericEntity o2) {
-                    return o1.getString("coursesName").compareTo(o2.getString("coursesName"));
-                }
-
-            });
-
-            // update courseMap with courseId. "id" for this entity
-            for (GenericEntity course : courses) {
-                // Add course to courseMap
-                courseMap.put(course.getId(), course);
-                Set<GenericEntity> matchedSections = sectionLookup.get(course.getId());
-                if (matchedSections != null) {
-                    Iterator<GenericEntity> sectionEntities = matchedSections.iterator();
-                    while (sectionEntities.hasNext()) {
-                        GenericEntity sectionEntity = sectionEntities.next();
-                        course.appendToList(Constants.ATTR_SECTIONS, sectionEntity);
-                        // update sectionIdToCourseIdMap
-                        sectionIDToCourseIDMap.put(sectionEntity.getId(), course.getId());
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the associations between schools and sections
-     */
-    private void getSchoolSectionsMappings(List<GenericEntity> sections, String token, List<GenericEntity> schools,
-            Map<String, GenericEntity> schoolMap, Map<String, String> sectionIDToSchoolIDMap) {
-
-        // temporary cross reference between schoolId and sections
-        Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
-        // iterate each section
-        if (sections != null) {
-            for (GenericEntity section : sections) {
-                String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
-                // search school which doesn't exist already
-                if (!schoolMap.containsKey(schoolId)) {
-
-                    if (!sectionLookup.containsKey(schoolId)) {
-                        sectionLookup.put(schoolId, new HashSet<GenericEntity>());
-                    }
-                    sectionLookup.get(schoolId).add(section);
-                }
-            }
-        }
-
-        if (schools != null) {
-
-            // update schoolMap with schoolId. "id" for this entity
-            for (GenericEntity school : schools) {
-                String schoolId = school.getId();
-                Set<GenericEntity> matchedSections = sectionLookup.get(schoolId);
-                if (matchedSections != null) {
-                    for (GenericEntity sectionEntity : matchedSections) {
-                        // Add school to schoolmap
-                        schoolMap.put(school.getId(), school);
-                        // update sectionIdToSchoolIdMap
-                        sectionIDToSchoolIDMap.put(sectionEntity.getId(), schoolId);
-                    }
-                }
-            }
-        }
-    }
 
     private void ensureSectionName(GenericEntity section) {
         if ((section != null) && (section.get(Constants.ATTR_SECTION_NAME) == null)) {

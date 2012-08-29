@@ -12,7 +12,7 @@
       </StudentReference>
       <SessionReference>
         <SessionIdentity>
-          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
@@ -34,10 +34,10 @@
       </CourseReference>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-900000024-2"/>
+      <StudentAcademicRecordReference ref="SAR-800000025-7"/>
       <GradeType>Final</GradeType>
     </CourseTranscript>
     
@@ -52,7 +52,7 @@
       </StudentReference>
       <SessionReference>
         <SessionIdentity>
-          <SessionName>Spring 2011 Daybreak Central High</SessionName>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
@@ -74,7 +74,7 @@
       </CourseReference>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919002-2"/>
@@ -92,7 +92,7 @@
       </StudentReference>
       <SessionReference>
         <SessionIdentity>
-          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+          <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
@@ -114,7 +114,7 @@
       </CourseReference>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919003-1"/>

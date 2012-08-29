@@ -40,7 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
-import org.slc.sli.dashboard.manager.EntityManager;
+import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.StudentProgressManager;
 import org.slc.sli.dashboard.util.Constants;
 
@@ -49,7 +49,7 @@ import org.slc.sli.dashboard.util.Constants;
  * @author srupasinghe
  *
  */
-public class StudentProgressManagerImpl implements StudentProgressManager {
+public class StudentProgressManagerImpl extends ApiClientManager implements StudentProgressManager {
 
     private static Logger log = LoggerFactory.getLogger(StudentProgressManagerImpl.class);
     public static final String TRANSCRIPT_HISTORY = "transcriptHistory";
@@ -58,8 +58,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     public static final String COURSE = "course";
     private static final DecimalFormat GRADE_FORMATTER = new DecimalFormat("0.0");
 
-    @Autowired
-    private EntityManager entityManager;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -72,7 +70,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         List<String> optionalFields = new LinkedList<String>();
         optionalFields.add(Constants.ATTR_TRANSCRIPT);
 
-        GenericEntity studentWithTranscript = entityManager.getStudentWithOptionalFields(token, studentId, optionalFields);
+        GenericEntity studentWithTranscript = getApiClient().getStudentWithOptionalFields(token, studentId, optionalFields);
         if (studentWithTranscript == null) {
             return new GenericEntity();
         }
@@ -148,7 +146,12 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         params.put(Constants.ATTR_SESSION_ID, sessionId);
         params.put(Constants.ATTR_STUDENT_ID, studentId);
 
-        GenericEntity academicRecord = entityManager.getAcademicRecord(token, studentId, params);
+        GenericEntity academicRecord = null;
+        List<GenericEntity> records = getApiClient().getAcademicRecordsForStudent(token, studentId, params);
+        
+        if(records != null && records.size() > 0) {
+        	academicRecord = records.get(0);
+        }
 
         String gpa = "";
         if (academicRecord != null) {
@@ -177,7 +180,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
     private String getSchoolName(Map<String, Object> section, String token) {
         String schoolId = getValue(section, Constants.ATTR_SCHOOL_ID);
-        GenericEntity school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap<String, String>());
+        GenericEntity school = getApiClient().getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap<String, String>());
 
         String schoolName = "";
         if (school != null) {
@@ -203,7 +206,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         String subjectArea = getSubjectArea(token, selectedCourse);
         Map<String, String> params = new HashMap<String, String>();
 
-        List<GenericEntity> students = entityManager.getCourses(token, selectedSection, params);
+        List<GenericEntity> students = getApiClient().getStudentsForSection(token, selectedSection, params);
 
         if (students == null || students.isEmpty()) {
             return results;
@@ -281,7 +284,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         String subjectArea = null;
         Map<String, String> params = new HashMap<String, String>();
 
-        GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_COURSES, selectedCourse, params);
+        GenericEntity entity = getApiClient().getEntity(token, Constants.ATTR_COURSES, selectedCourse, params);
 
         if (entity != null) {
             subjectArea = entity.getString(Constants.ATTR_SUBJECTAREA);
@@ -376,7 +379,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
                                                                                  String selectedSection) {
         Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
 
-        List<GenericEntity> students = entityManager.getStudentsWithGradebookEntries(token, selectedSection);
+        List<GenericEntity> students = getApiClient().getStudentsForSectionWithGradebookEntries(token, selectedSection);
 
         for (GenericEntity student : students) {
             String studentId = student.getString(Constants.ATTR_ID);
@@ -444,10 +447,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         }
 
         return list;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 
     /**

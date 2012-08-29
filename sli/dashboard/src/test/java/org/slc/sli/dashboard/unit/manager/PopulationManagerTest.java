@@ -40,9 +40,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.slc.sli.dashboard.client.APIClient;
+import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.PopulationManager;
 import org.slc.sli.dashboard.manager.impl.PopulationManagerImpl;
 import org.slc.sli.dashboard.util.Constants;
@@ -54,19 +54,16 @@ import org.slc.sli.dashboard.util.StudentSummaryBuilder;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EntityManager.class)
+@PrepareForTest(APIClient.class)
 public class PopulationManagerTest {
 
     private static final String SECTION_ID = "fc4de89d-534e-4ae7-ae3c-b4a536e1a4ac";
     private PopulationManagerImpl manager;
-    private EntityManager mockEntity;
     private APIClient mockAPI;
 
     @Before
     public void setUp() throws Exception {
         manager = new PopulationManagerImpl();
-        mockEntity = mock(EntityManager.class);
-        manager.setEntityManager(mockEntity);
         mockAPI = mock(APIClient.class);
         manager.setApiClient(mockAPI);
     }
@@ -74,7 +71,6 @@ public class PopulationManagerTest {
     @After
     public void tearDown() throws Exception {
         manager = null;
-        mockEntity = null;
         mockAPI = null;
     }
 
@@ -93,8 +89,8 @@ public class PopulationManagerTest {
         List<String> programs = new ArrayList<String>();
         programs.add("ELL");
 
-        EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
-
+        APIClient mockClient = PowerMockito.spy(new SDKAPIClient());
+        
         // Setup studentPrograms
         GenericEntity studentProgram = new GenericEntity();
         studentProgram.put("studentId", studentId);
@@ -108,21 +104,21 @@ public class PopulationManagerTest {
         List<GenericEntity> students = new ArrayList<GenericEntity>();
         students.add(studentSummary);
 
-        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, sectionId);
+        PowerMockito.doReturn(students).when(mockClient, "getStudentsForSection", token, sectionId);
 
         // setup attendance
-        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getAttendance", token,
-                studentId, null, null);
+        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockClient, "getAttendanceForStudent", token,
+                studentId, null);
 
         // setup session
         // GenericEntity baseSession = generateSession("2010-2011", "2010-12-31", "2011-01-31");
-        PowerMockito.doReturn(new GenericEntity()).when(mockedEntityManager, "getSession", token, null);
-        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getSessionsByYear", token,
+        PowerMockito.doReturn(new GenericEntity()).when(mockClient, "getSession", token, null);
+        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockClient, "getSessionsForYear", token,
                 null);
 
         // run it
-        PopulationManager popMan = new PopulationManagerImpl();
-        popMan.setEntityManager(mockedEntityManager);
+        PopulationManagerImpl popMan = new PopulationManagerImpl();
+        popMan.setApiClient(mockClient);
 
         List<GenericEntity> studentSummaries = popMan.getStudentSummaries(token, studentIds, null, sectionId);
         assertTrue(studentSummaries.size() == 1);
@@ -142,8 +138,8 @@ public class PopulationManagerTest {
     public void testGetSessionDates() throws Exception {
         String sessionId = "1";
         GenericEntity baseSession = generateSession("2010-2011", "2010-12-31", "2011-01-31");
-        when(mockEntity.getSession(null, sessionId)).thenReturn(baseSession);
-        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession));
+        when(mockAPI.getSession(null, sessionId)).thenReturn(baseSession);
+        when(mockAPI.getSessionsForYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession));
 
         // See that we have the same beginning and end date
         List<String> dates = manager.getSessionDates(null, sessionId);
@@ -153,7 +149,7 @@ public class PopulationManagerTest {
 
         // See that we compare dates correctly
         GenericEntity lateSession = generateSession("2010-2011", "2011-02-1", "2011-03-14");
-        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession, lateSession));
+        when(mockAPI.getSessionsForYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession, lateSession));
         dates = manager.getSessionDates(null, sessionId);
         assertTrue(dates.size() == 2);
         assertTrue(dates.get(0).compareTo("2010-12-31") == 0);
@@ -161,7 +157,7 @@ public class PopulationManagerTest {
 
         // Try starting with the middle of a 3 semester setup.
         GenericEntity earlySession = generateSession("2010-2011", "2010-01-01", "2010-12-30");
-        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(
+        when(mockAPI.getSessionsForYear(null, "2010-2011")).thenReturn(
                 Arrays.asList(baseSession, lateSession, earlySession));
         dates = manager.getSessionDates(null, sessionId);
         assertTrue(dates.size() == 2);
@@ -193,7 +189,7 @@ public class PopulationManagerTest {
 
         when(mockAPI.getEnrollmentForStudent(null, "0")).thenReturn(
                 gson.fromJson(enrollmentsJson, new ArrayList<Map>().getClass()));
-        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(
+        when(mockAPI.getAttendanceForStudent(null, "0", null)).thenReturn(
                 gson.fromJson(attendanceJson, new ArrayList<Map>().getClass()));
         // set up mock attendance data
         /*

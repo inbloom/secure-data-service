@@ -15,17 +15,15 @@
  */
 package org.slc.sli.api.resources.generic.response;
 
-import org.slc.sli.api.resources.generic.MethodNotAllowedException;
+import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.ResourceAccessLog;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.ws.rs.core.UriInfo;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Base response builder

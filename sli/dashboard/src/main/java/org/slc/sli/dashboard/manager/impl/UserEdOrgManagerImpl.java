@@ -139,7 +139,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getSchools(String token) {
         
-        return getApiClient().getSchools(token, null);
+        return getApiClient().getSchools(token);
     }
     
     /**

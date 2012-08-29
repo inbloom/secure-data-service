@@ -199,7 +199,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     public void setValidator(EntityValidator validator) {
-    	this.validator=validator;
+        this.validator = validator;
     }
 
 }

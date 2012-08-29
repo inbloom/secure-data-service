@@ -72,7 +72,6 @@ public interface PopulationManager {
     public abstract GenericEntity getListOfStudents(String token,
             Object sectionId, Config.Data config);
 
-    public abstract void setEntityManager(EntityManager entityManager);
 
     /**
      * Get student entity

@@ -29,7 +29,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import javax.ws.rs.MessageProcessingException;
 
@@ -406,7 +413,7 @@ public class SDKAPIClientTest {
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SCHOOL_FILE);
         when(mockSdk.read(anyString())).thenReturn(fromFileWithIDList(filename, schoolIds, key));
 
-        List<GenericEntity> schoolList = client.getSchools(token, schoolIds);
+        List<GenericEntity> schoolList = client.getSchools(token);
 
         assertNotNull(schoolList);
         assertEquals(2, schoolList.size());
@@ -452,7 +459,7 @@ public class SDKAPIClientTest {
         // never used by any call at this time
 
         when(mockSdk.read(anyString())).thenReturn(fromFile(filename));
-        List<GenericEntity> sessions = client.getSessions(token, null);
+        List<GenericEntity> sessions = client.getSessions(token);
 
         assertNotNull(sessions);
         assertEquals(5, sessions.size());

@@ -162,7 +162,7 @@ public interface APIClient {
      * @param ids
      * @return
      */
-    public List<GenericEntity> getSchools(String token, List<String> ids);
+    public List<GenericEntity> getSchools(String token);
 
     /**
      * Get a list of all associated schools
@@ -171,16 +171,6 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getMySchools(String token);
-
-    /**
-     * Get a list of schools using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    public List<GenericEntity> getSchools(String token, List<String> ids, Map<String, String> params);
 
     /**
      * Get a school identified by id
@@ -198,17 +188,7 @@ public interface APIClient {
      * @param params
      * @return
      */
-    public List<GenericEntity> getSessions(String token, Map<String, String> params);
-
-    /**
-     * Get a list of sessions using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    public List<GenericEntity> getSessions(String token, List<String> ids, Map<String, String> params);
+    public List<GenericEntity> getSessions(String token);
 
     /**
      * Get a list of sessions for the specified school year
@@ -228,24 +208,6 @@ public interface APIClient {
      */
     public GenericEntity getSession(String token, String id);
 
-    /**
-     * Get a list of all sections
-     *
-     * @param token
-     * @param params
-     * @return
-     */
-    public List<GenericEntity> getSections(String token, Map<String, String> params);
-
-    /**
-     * Get a list of sections using a list of ids
-     *
-     * @param token
-     * @param ids
-     * @param params
-     * @return
-     */
-    public List<GenericEntity> getSections(String token, List<String> ids, Map<String, String> params);
 
     /**
      * Get all sections for a non-Educator
@@ -335,7 +297,7 @@ public interface APIClient {
      * Returns a list of sections for the given student and params
      *
      */
-    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params);
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, Map<String, String> params);
 
     /**
      * Get a list of transcripts for the given student id
