@@ -101,7 +101,7 @@ public class TestSDKServlet extends HttpServlet {
             }
 
         } catch (SLIClientException e) {
-        	LOG.error("Exception:" + e.getMessage());
+            LOG.error("Exception:" + e.getMessage());
         } catch (Exception e) {
             LOG.error("Exception:" + e.getMessage());
             testResult = "failed";
@@ -143,7 +143,7 @@ public class TestSDKServlet extends HttpServlet {
             }
         } catch (SLIClientException e) {
             // either the update or read call failed
-        	LOG.error("SLIClientException:" + e.getMessage());
+            LOG.error("SLIClientException:" + e.getMessage());
             testResult = "failed";
         } catch (Exception e) {
             LOG.error("RESPONSE:" + e.getMessage());
@@ -171,8 +171,7 @@ public class TestSDKServlet extends HttpServlet {
             try {
                 client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
                 testResult = "failed";
-            }
-            catch (SLIClientException e) {
+            } catch (SLIClientException e) {
                 // unable to read therefore the delete succeded.
                 testResult = "succeed";
             }
