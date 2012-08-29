@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
 
 import java.util.HashMap;
@@ -147,7 +146,6 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         return 0;
     }
 
-
     @Override
     public CommandResult execute(DBObject command) {
         return null;
@@ -227,5 +225,16 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     public List<Entity> insert(List<Entity> records, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        return null;
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        return false;
     }
 }

@@ -227,4 +227,16 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        throw new UnsupportedOperationException("MongoPerfRepository.patch not implemented");
+    }
 }

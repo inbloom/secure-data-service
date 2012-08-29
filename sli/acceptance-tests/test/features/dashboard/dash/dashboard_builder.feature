@@ -16,9 +16,9 @@ When I select "Illinois Daybreak School District 4529" and click go
  Then I should be redirected to the Dashboard landing page
  When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
-And in "Subjects and Courses" Page, it has the following panels: "sectionList"
 And I add a Page named "State Tab"
 And I upload custom json for it
+And in "Subjects and Courses" Page, it has the following panels: "sectionList"
  And I logout
  ## STATE IT admin logs out
 When I navigate to the Dashboard home page

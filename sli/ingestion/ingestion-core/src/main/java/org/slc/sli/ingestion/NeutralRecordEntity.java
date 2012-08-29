@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
@@ -33,7 +32,6 @@ public class NeutralRecordEntity implements Entity {
     private NeutralRecord neutralRecord;
 
     private long recordNumberInFile;
-    private Map<String, Object> metaData;  // Added 2/2/2012 by Thomas Shewchuk
     private String entityId;  // Added 2/2/2012 by Thomas Shewchuk
 
     public NeutralRecordEntity() {
@@ -50,7 +48,6 @@ public class NeutralRecordEntity implements Entity {
     public NeutralRecordEntity(NeutralRecord neutralRecord, long recordNumber) {
         this.neutralRecord = neutralRecord;
         this.recordNumberInFile = recordNumber;  // Added 2/2/2012 by Thomas Shewchuk
-        this.metaData = new HashMap<String, Object>();  // Added 2/7/2012 by Thomas Shewchuk
         this.entityId = null;  // Added 2/7/2012 by Thomas Shewchuk
     }
 
@@ -74,17 +71,7 @@ public class NeutralRecordEntity implements Entity {
      */
     @Override
     public Map<String, Object> getMetaData() {
-        return metaData;
-    }
-
-    /**
-     * @author tshewchuk 2/2/2010 (PI3 US811)
-     */
-    public void setMetaDataField(String fieldName, Object fieldValue) {
-        if (metaData.containsKey(fieldName)) {
-            metaData.remove(fieldName);
-        }
-        metaData.put(fieldName, fieldValue);
+        return neutralRecord.getMetaData();
     }
 
     /**
@@ -132,6 +119,11 @@ public class NeutralRecordEntity implements Entity {
 
     public void setNeutralRecord(NeutralRecord neutralRecord) {
         this.neutralRecord = neutralRecord;
+    }
+
+    @Override
+    public String getStagedEntityId() {
+        return neutralRecord.getRecordId();
     }
 
     @Override

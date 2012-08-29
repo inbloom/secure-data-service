@@ -37,6 +37,18 @@ public interface EntityValidator {
     public boolean validate(Entity entity) throws EntityValidationException;
 
     /**
+     * Validates the fields that are present in the given entity
+     * Returns true if the validation was successful or a ValidationException if the validation was
+     * unsuccessful.
+     *
+     * This method is different from "validate" in that it does not check for missing required
+     * fields.
+     *
+     * @param entity
+     */
+    public boolean validatePresent(Entity entity) throws EntityValidationException;
+
+    /**
      * Enable / disable reference checking as a part of entity validation
      *
      * @param referenceCheck

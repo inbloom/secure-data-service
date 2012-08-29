@@ -26,7 +26,6 @@ import com.mongodb.DBCollection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -247,5 +246,12 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public boolean updateWithRetries(String collection, NeutralRecord object, int noOfRetries) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public NeutralRecord createWithRetries(String type, String id, Map<String, Object> body,
+            Map<String, Object> metaData, String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

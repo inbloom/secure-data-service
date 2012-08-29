@@ -64,14 +64,13 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			templateUrl: "js/templates/allPanelList.html"
 		};
 	})
-	.directive("ngSortable", function($rootScope){
-
+	.directive("tabSortable", function($rootScope){
 		return {
 			link: function(scope, linkElement, attrs){
 				linkElement.sortable({
 					axis: "x",
 					update: function() {
-						var model = scope.$parent.$eval(attrs.ngSortable);
+						var model = scope.$parent.$eval(attrs.tabSortable);
 						$rootScope.newPageArray = [];
 
 						// loop through items in new order
@@ -79,7 +78,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							var item = $(this);
 
 							// get old item index
-							var oldIndex = parseInt(item.attr("ng-sortable-index"), 10);
+							var oldIndex = parseInt(item.attr("tab-sortable-index"), 10);
 							if(model[oldIndex] !== null && model[oldIndex] !== undefined) {
 								$rootScope.newPageArray.push(model[oldIndex]);
 							}
@@ -88,6 +87,34 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						// notify angular of the change
 						scope.$parent.$apply();
 						scope.$parent.$broadcast("tabChanged");
+					}
+				});
+			}
+		};
+	})
+	.directive("panelSortable", function($rootScope){
+		return {
+			link: function(scope, linkElement, attrs){
+				linkElement.sortable({
+					axis: "y",
+					update: function() {
+						var model = scope.$eval(attrs.panelSortable);
+						$rootScope.newPageArray = [];
+
+						// loop through items in new order
+						linkElement.children().each(function(index) {
+							var item = $(this);
+
+							// get old item index
+							var oldIndex = parseInt(item.attr("panel-sortable-index"), 10);
+							if(model[oldIndex] !== null && model[oldIndex] !== undefined) {
+								$rootScope.newPageArray.push(model[oldIndex]);
+							}
+						});
+
+						// notify angular of the change
+						scope.$parent.$apply();
+						scope.$parent.$broadcast("panelChanged");
 					}
 				});
 			}
@@ -102,6 +129,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				var panes = $scope.panes = [],
 					parent = $scope.$parent;
 
+				// The selected tab will display in active mode
 				$scope.select = function(pane) {
 					angular.forEach(panes, function(pane) {
 						pane.selected = false;
@@ -117,6 +145,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					panes.push(pane);
 				};
 
+				// When the page gets removed from the profile, the associated tab will get removed from the pane
 				$scope.$on("pageRemoved", function (e, index) {
 					panes.splice(index, 1);
 					if (panes[index]) {
@@ -127,6 +156,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					} 
 				});
 
+				// Add a new page/tab into the profile
 				$scope.addPage = function () {
 					var pageId = dbSharedService.generatePageId(parent.pages);
 					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
@@ -138,8 +168,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			},
 			template:
 				'<div class="tabbable">' +
-					'<ul class="nav nav-tabs" ng-sortable="pages">' +
-					'<li ng-repeat="pane in panes" ng-sortable-index="{{$index}}" ng-class="{active:pane.selected}">'+
+					'<ul class="nav nav-tabs clearfix" tab-sortable="pages">' +
+					'<li ng-repeat="pane in panes" tab-sortable-index="{{$index}}" ng-class="{active:pane.selected}">'+
 					'<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
 					'</li>' +
 					'<li class="addPageSection">' +
@@ -150,8 +180,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					'</div>',
 			replace: true
 		};
-	}).
-		directive('pane', function() {
+	})
+	.directive('pane', function() {
 			return {
 				require: '^tabs',
 				restrict: 'E',

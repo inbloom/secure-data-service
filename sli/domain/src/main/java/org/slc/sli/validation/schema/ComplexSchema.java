@@ -78,34 +78,40 @@ public class ComplexSchema extends NeutralSchema {
      */
     @Override
     protected boolean validate(String validateFieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        return this.validate(validateFieldName, entity, errors, repo, true);
+    }
+
+    private boolean validate(String validateFieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo, boolean checkForMissingFields) {
         boolean isValid = true;
 
         if (entity instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, ?> entityMap = (Map<String, ?>) entity;
 
-            // Make sure the entity contains all required fields
-            for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
-                NeutralSchema schema = entry.getValue();
-                AppInfo appInfo = schema.getAppInfo();
-                if (appInfo != null && appInfo.isRequired()) {
-                    Object element = entityMap.get(entry.getKey());
-                    if (element == null) {
-                        isValid = false;
-                    } else if (element instanceof Collection) {
-                        if (((Collection<?>) element).isEmpty()) {
+            if (checkForMissingFields) {
+             // Make sure the entity contains all required fields
+                for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
+                    NeutralSchema schema = entry.getValue();
+                    AppInfo appInfo = schema.getAppInfo();
+                    if (appInfo != null && appInfo.isRequired()) {
+                        Object element = entityMap.get(entry.getKey());
+                        if (element == null) {
                             isValid = false;
+                        } else if (element instanceof Collection) {
+                            if (((Collection<?>) element).isEmpty()) {
+                                isValid = false;
+                            }
+                        } else if (element instanceof Map) {
+                            if (((Map<?, ?>) element).isEmpty()) {
+                                isValid = false;
+                            }
                         }
-                    } else if (element instanceof Map) {
-                        if (((Map<?, ?>) element).isEmpty()) {
-                            isValid = false;
-                        }
-                    }
 
-                    if (!isValid) {
-                        addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
-                                ErrorType.REQUIRED_FIELD_MISSING,
-                                errors);
+                        if (!isValid) {
+                            addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
+                                    ErrorType.REQUIRED_FIELD_MISSING,
+                                    errors);
+                        }
                     }
                 }
             }
@@ -121,7 +127,7 @@ public class ComplexSchema extends NeutralSchema {
 
                 AppInfo appInfo = fieldSchema.getAppInfo();
                 if (rawFieldValue == null) {
-                    if (appInfo != null && appInfo.isRequired()) {
+                    if (appInfo != null && appInfo.isRequired() && checkForMissingFields) {
                         return addError(false, fieldName, null, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
@@ -146,6 +152,22 @@ public class ComplexSchema extends NeutralSchema {
         }
 
         return isValid;
+    }
+
+    /**
+     * Validates only the present fields.
+     *
+     * @param entity
+     *            being validated using this SLI Schema
+     * @param errors
+     *            list of current errors
+     * @param repo
+     *            reference to the entity repository
+     * @return true if valid
+     */
+    @Override
+    public boolean validatePresent(Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        return this.validate("", entity, errors, repo, false);
     }
 
     @Override
