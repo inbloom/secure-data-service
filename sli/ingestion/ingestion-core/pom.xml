@@ -340,8 +340,11 @@
           </execution>
         </executions>
         <configuration>
-          <executable>${basedir}/../../acceptance-tests/test/features/ingestion/test_data/packageSampleDataSets.sh</executable>
+          <executable>ruby</executable>
           <workingDirectory>${basedir}/../../acceptance-tests/test/features/ingestion/test_data/</workingDirectory>
+          <arguments>
+            <argument>${basedir}/../../acceptance-tests/test/features/ingestion/test_data/packageSampleDataSets.rb</argument>
+          </arguments>
         </configuration>
       </plugin>
     </plugins>
