@@ -228,4 +228,11 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

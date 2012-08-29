@@ -241,4 +241,11 @@ public class DummyEntityRepository implements Repository<Entity> {
         return null;
     }
 
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

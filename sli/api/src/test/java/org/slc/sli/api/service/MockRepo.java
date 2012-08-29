@@ -443,6 +443,12 @@ public class MockRepo implements Repository<Entity> {
             public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
+
+            @Override
+            public String getStagedEntityId() {
+                // TODO Auto-generated method stub
+                return null;
+            }
         };
 
         update(collectionName, newEntity);
@@ -524,6 +530,12 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public String getStagedEntityId() {
+                // TODO Auto-generated method stub
                 return null;
             }
         };
@@ -626,6 +638,13 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
         // TODO Auto-generated method stub
         return null;
     }
