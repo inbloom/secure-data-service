@@ -51,18 +51,31 @@ public class SelectorDoc {
             return;
         }
 
-        System.out.println("=== ClassTypes ===");
-        Map<String, ClassType> classTypes = mi.getClassTypes();
+        String simpleSect = "<simpleSect xml:id = \"selector-%s\">";
+        String features = "    <features>";
+        String featureType = "        <feature type = \"%s\"";
+        String featureName = "                 name = \"%s\"/>";
+        String featuresEnd = "    </features>";
+        String simpleSectEnd = "</simpleSect>";
 
+        System.out.println("=== ClassTypes ===");
+
+        Map<String, ClassType> classTypes = mi.getClassTypes();
         for(String classTypeKey : classTypes.keySet()) {
 
-            System.out.println(classTypeKey);
             ClassType classType = classTypes.get (classTypeKey);
-
-            System.out.println (classType.toString());
-            String name = classType.getName();
+            String classTypeName = classType.getName();
             List<Attribute> attributes = classType.getAttributes();
             boolean isAssociation = classType.isAssociation();
+
+            System.out.println (String.format (simpleSect, classTypeName));
+            System.out.println (features);
+            String type = "";
+            String name = "";
+            System.out.println (String.format (featureType, type));
+            System.out.println (String.format (featureName, name));
+            System.out.println (featuresEnd);
+            System.out.println (simpleSectEnd);
         }
 
     }
