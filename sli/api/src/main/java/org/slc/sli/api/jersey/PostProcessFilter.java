@@ -154,7 +154,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount",mongoStat.getDbHitCount());
-            perfRepo.create("apiResponse", body, "apiResponseData");
+            perfRepo.create("apiResponse", body, "apiResponse");
         }
 
     }
