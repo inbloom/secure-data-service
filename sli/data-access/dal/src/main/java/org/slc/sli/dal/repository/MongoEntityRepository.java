@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
@@ -89,7 +87,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(final String type, final Map<String, Object> body, final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+    public Entity createWithRetries(final String type, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -101,12 +100,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(final String type, final String id, final Map<String, Object> body, final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+    public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
             public Object execute() {
-                return create(type, body, metaData, collectionName);
+                return create(type, id, body, metaData, collectionName);
             }
         };
         return (Entity) rc.executeOperation(noOfRetries);
@@ -140,7 +140,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return super.create(entity, collectionName);
     }
 
-    public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+    public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
             metaData = new HashMap<String, Object>();
@@ -171,6 +172,20 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.addTimestamps(entity);
         return super.create(entity, collectionName);
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        List<Entity> persist = new ArrayList<Entity>();
+
+        for (Entity record : records) {
+            LOG.info("Adding record into bulk insert: {}", record);
+            Entity entity = new MongoEntity(record.getType(), record.getStagedEntityId(), record.getBody(),
+                    record.getMetaData(), PADDING);
+            persist.add(entity);
+        }
+
+        return super.insert(persist, collectionName);
     }
 
     @Override
@@ -237,7 +252,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     public void setValidator(EntityValidator validator) {
-    	this.validator=validator;
+        this.validator = validator;
     }
 
 }

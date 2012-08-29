@@ -26,6 +26,8 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +60,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
  *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
+    private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
@@ -170,10 +173,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 if (entity.getMetaData().containsKey(METADATA_ED_ORG_KEY)) {
                     @SuppressWarnings("unchecked")
                     List<String> edOrgs = (List<String>) entity.getMetaData().get(METADATA_ED_ORG_KEY);
+                    LOG.info("Entity has edOrgs in metaData --> adding id: {} to edOrgs: {}", new Object[]{entity.getStagedEntityId(), edOrgs});
                     edOrgs.add(entity.getStagedEntityId());
                     entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
                 } else {
                     List<String> edOrgs = new ArrayList<String>();
+                    LOG.info("Entity has no edOrgs in metaData --> setting to id: {}", new Object[]{entity.getStagedEntityId()});
                     edOrgs.add(entity.getStagedEntityId());
                     entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
                 }
@@ -199,11 +204,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         try {
+            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.size(), collectionName});
             entityRepository.insert(queued, collectionName);
         } catch (Exception e) {
             // Assuming there would NOT be DuplicateKeyException at this point.
             // Because "queued" only contains new records(with no Id), and we don't have unique
             // indexes
+            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
 
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {

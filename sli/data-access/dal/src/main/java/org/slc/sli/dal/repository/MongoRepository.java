@@ -203,7 +203,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public List<T> insert(List<T> records, String collectionName) {
         template.insert(records, collectionName);
-        LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        LOG.debug("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
         return records;
     }
 

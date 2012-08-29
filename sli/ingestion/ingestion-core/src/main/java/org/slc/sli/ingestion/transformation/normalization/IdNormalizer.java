@@ -472,8 +472,31 @@ public class IdNormalizer {
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
             if (foundRecords != null && foundRecords.iterator().hasNext()) {
-                for (Entity record : foundRecords) {
-                    ids.add(record.getEntityId());
+                if (collection.equals("educationOrganization")) {
+                    List<String> metaEdOrgs = new ArrayList<String>();
+                    for (Entity record : foundRecords) {
+                        if (record.getMetaData().containsKey("edOrgs")) {
+                            @SuppressWarnings("unchecked")
+                            List<String> edOrgs = (List<String>) record.getMetaData().get("edOrgs");
+                            metaEdOrgs.addAll(edOrgs);
+                        }
+                        ids.add(record.getEntityId());
+                    }
+
+                    if (entity.getMetaData().containsKey("edOrgs")) {
+                        @SuppressWarnings("unchecked")
+                        List<String> original = (List<String>) entity.getMetaData().get("edOrgs");
+                        LOG.info("Adding edOrgs: {} to already existing edOrgs on metaData of entity: {}", new Object[]{metaEdOrgs, original});
+                        original.addAll(metaEdOrgs);
+                        entity.getMetaData().put("edOrgs", original);
+                    } else {
+                        LOG.info("Adding edOrgs: {} to metaData of entity: {}", new Object[]{metaEdOrgs, entity});
+                        entity.getMetaData().put("edOrgs", metaEdOrgs);
+                    }
+                } else {
+                    for (Entity record : foundRecords) {
+                        ids.add(record.getEntityId());
+                    }
                 }
             }
 
@@ -483,6 +506,10 @@ public class IdNormalizer {
         // sort because the $or query can produce different results every time
         Collections.sort(ids);
         return ids;
+    }
+
+    protected boolean inheritEdOrgPermissions(String type) {
+        return (type.equals("stateEducationAgency")) || (type.equals("localEducationAgency")) || (type.equals("school"));
     }
 
     /**

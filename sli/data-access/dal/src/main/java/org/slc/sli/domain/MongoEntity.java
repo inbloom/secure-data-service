@@ -108,16 +108,8 @@ public class MongoEntity implements Entity, Serializable {
             this.padding = String.copyValueOf(charArray);
         }
 
-        if (body == null) {
-            this.body = new BasicBSONObject();
-        } else {
-            this.body = body;
-        }
-        if (metaData == null) {
-            this.metaData = new BasicBSONObject();
-        } else {
-            this.metaData = metaData;
-        }
+        this.body = body == null ? new BasicBSONObject() : body;
+        this.metaData = metaData == null ? new BasicBSONObject() : metaData;
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
     }

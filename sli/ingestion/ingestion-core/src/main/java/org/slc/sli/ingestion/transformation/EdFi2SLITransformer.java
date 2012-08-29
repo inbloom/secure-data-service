@@ -74,6 +74,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
         resolveReferences(item, errorReport);
+        LOG.info("transforming neutral record: {}", item);
 
         if (errorReport.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");
@@ -82,15 +83,15 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         List<SimpleEntity> transformed = transform(item, errorReport);
 
+        LOG.info("transformed simple entity: {}", transformed);
+
         if (errorReport.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.transform()");
             return Collections.emptyList();
         }
 
         if (transformed != null && !transformed.isEmpty()) {
-
             for (SimpleEntity entity : transformed) {
-
                 if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
