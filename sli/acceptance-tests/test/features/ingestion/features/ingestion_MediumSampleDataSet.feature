@@ -57,7 +57,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
-When "175" seconds have elapsed
+  And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                              | count |
      | assessment                                  | 1 |

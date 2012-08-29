@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="http://slc-sli/ed-org/0.1"
-	xmlns="http://slc-sli/ed-org/0.1" xmlns:sli="http://slc-sli/ed-org/0.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+			attributeFormDefault="qualified" xmlns="http://slcedu.org/schema/0100">
 	
 	<xs:include schemaLocation="SimpleTypes-R1.xsd" />
 
@@ -2305,7 +2305,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sessions" type="studentSession">
+			<xs:element name="sessions" type="studentSession" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Sessions the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
@@ -2313,7 +2313,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sections" type="studentSection">
+			<xs:element name="sections" type="studentSection" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Sections the student is enrolled in.</xs:documentation>
 					<xs:appinfo>
@@ -2597,7 +2597,8 @@
 			</xs:element>
 			<xs:element name="assessments" type="studentAssessment" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Assessments associated with the student.
+					<xs:documentation>Assessments associated with the student that aren't related to any
+									  specific sections, i.e. SAT.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2607,12 +2608,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programs" type="studentProgram">
+			<xs:element name="programs" type="studentProgram" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Programs the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="cohorts" type="studentCohort">
+			<xs:element name="cohorts" type="studentCohort" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Cohorts the student is enrolled in.</xs:documentation>
 				</xs:annotation>

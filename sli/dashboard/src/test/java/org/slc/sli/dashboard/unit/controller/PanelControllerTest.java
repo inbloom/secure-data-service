@@ -70,7 +70,7 @@ public class PanelControllerTest {
             Data simpleData = new Data("entity", componentId, true, params);
 
             Config simpleViewConfig = new Config(componentId, "parent", "name", type, condition, simpleData, items,
-                    "root");
+                    "root",null);
             ModelAndViewConfig simpleModelAndViewConfig = new ModelAndViewConfig();
 
             simpleModelAndViewConfig.addData(componentId, simpleEntity);

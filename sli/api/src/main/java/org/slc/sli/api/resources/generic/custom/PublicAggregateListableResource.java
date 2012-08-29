@@ -13,37 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.resources.generic;
+package org.slc.sli.api.resources.generic.custom;
 
-import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.AggregateListable;
+import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
+import org.slc.sli.domain.CalculatedData;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
+import java.util.Map;
 
 /**
- * Resource for handling one part URIs
+ * Resource for handling public aggregate listings
  *
  * @author srupasinghe
  * @author jstokes
- * @author pghosh
  */
 
 @Component
 @Scope("request")
-public class OnePartResource extends GenericResource {
+public class PublicAggregateListableResource extends DefaultResource implements AggregateListable {
 
+    @Override
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
 
@@ -51,27 +51,17 @@ public class OnePartResource extends GenericResource {
             @Override
             public ServiceResponse run(Resource resource) {
 
-                return resourceService.getEntities(resource, uriInfo.getRequestUri(), false);
+                return resourceService.getEntities(resource, uriInfo.getRequestUri(), true);
             }
         });
 
     }
 
-    @POST
-    public Response post(final EntityBody entityBody,
-                         @Context final UriInfo uriInfo) {
+    public CalculatedDataListingResource<Map<String, Integer>> getAggregateResource(final String id, final UriInfo uriInfo) {
+        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
 
-        return defaultResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST, new ResourceLogic() {
-            @Override
-            public Response run(Resource resource) {
-                final String id = resourceService.postEntity(resource, entityBody);
+        CalculatedData<Map<String, Integer>> data = resourceService.getAggregateData(resource, id);
 
-                final String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                        resource.getResourceType(), id).toString();
-
-                return Response.status(Response.Status.CREATED).header("Location", uri).build();
-            }
-        });
-
+        return new CalculatedDataListingResource<Map<String, Integer>>(data);
     }
 }

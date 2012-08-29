@@ -10,7 +10,7 @@
 	<context:annotation-config />
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/" />
-   
+
     <!-- URL based view resolver for OAuth 2.0 workflow -->
     <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">

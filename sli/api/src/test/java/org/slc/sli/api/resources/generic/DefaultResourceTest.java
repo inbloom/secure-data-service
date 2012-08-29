@@ -28,6 +28,8 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
+import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +43,19 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit Tests
@@ -58,9 +65,10 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class TwoPartResourceTest {
+public class DefaultResourceTest {
+
     @Autowired
-    private TwoPartResource twoPartResource;
+    private DefaultResource defaultResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -71,9 +79,6 @@ public class TwoPartResourceTest {
     @Autowired
     private DefaultResourceService resourceService;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
-
     private Resource resource = null;
     private java.net.URI requestURI;
     private UriInfo uriInfo;
@@ -83,12 +88,6 @@ public class TwoPartResourceTest {
 
     @Before
     public void setup() throws Exception {
-        Set<String> methods = new HashSet<String>();
-        methods.add("GET");
-        methods.add("POST");
-
-        resourceSupprtedMethods.put(URI_KEY, methods);
-
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
 
@@ -111,11 +110,28 @@ public class TwoPartResourceTest {
     }
 
     @Test
+    public void testGetAll() throws URISyntaxException {
+        setupMocks(BASE_URI);
+        Response response = defaultResource.getAll(uriInfo);
+
+        assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testPost() throws URISyntaxException {
+        setupMocks(BASE_URI);
+        Response response = defaultResource.post(createTestEntity(), uriInfo);
+
+        assertEquals("Status code should be OK", Response.Status.CREATED.getStatusCode(), response.getStatus());
+        assertNotNull("Should not be null", parseIdFromLocation(response));
+    }
+
+    @Test
     public void testGetWithId() throws URISyntaxException {
         String id = resourceService.postEntity(resource, createTestEntity());
         setupMocks(BASE_URI + "/" + id);
 
-        Response response = twoPartResource.getWithId(id, uriInfo);
+        Response response = defaultResource.getWithId(id, uriInfo);
         EntityResponse entityResponse = (EntityResponse) response.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
 
@@ -128,7 +144,7 @@ public class TwoPartResourceTest {
     public void testGetInvalidId() throws URISyntaxException {
         setupMocks(BASE_URI + "/1234");
 
-        twoPartResource.getWithId("1234", uriInfo);
+        defaultResource.getWithId("1234", uriInfo);
     }
 
     @Test
@@ -136,11 +152,11 @@ public class TwoPartResourceTest {
         String id = resourceService.postEntity(resource, createTestEntity());
         setupMocks(BASE_URI + "/" + id);
 
-        Response response = twoPartResource.put(id, createTestUpdateEntity(), uriInfo);
+        Response response = defaultResource.put(id, createTestUpdateEntity(), uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        Response getResponse = twoPartResource.getWithId(id, uriInfo);
+        Response getResponse = defaultResource.getWithId(id, uriInfo);
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
 
@@ -155,11 +171,11 @@ public class TwoPartResourceTest {
         String id = resourceService.postEntity(resource, createTestEntity());
         setupMocks(BASE_URI + "/" + id);
 
-        Response response = twoPartResource.patch(id, createTestPatchEntity(), uriInfo);
+        Response response = defaultResource.patch(id, createTestPatchEntity(), uriInfo);
 
         assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        Response getResponse = twoPartResource.getWithId(id, uriInfo);
+        Response getResponse = defaultResource.getWithId(id, uriInfo);
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
 
@@ -174,17 +190,28 @@ public class TwoPartResourceTest {
         String id = resourceService.postEntity(resource, createTestEntity());
         setupMocks(BASE_URI + "/" + id);
 
-        Response response = twoPartResource.delete(id, uriInfo);
+        Response response = defaultResource.delete(id, uriInfo);
         assertEquals("Status code should be OK", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        twoPartResource.getWithId(id, uriInfo);
+        defaultResource.getWithId(id, uriInfo);
     }
 
-    private EntityBody createTestEntity() {
-        EntityBody entity = new EntityBody();
-        entity.put("sex", "Male");
-        entity.put("studentUniqueStateId", 1234);
-        return entity;
+    @Test
+    public void testGetCustomResource() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id);
+
+        CustomEntityResource resource = defaultResource.getCustomResource(id, uriInfo);
+        assertNotNull("Should not be null", resource);
+    }
+
+    @Test
+    public void testGetCalculatedValueResource() throws URISyntaxException {
+        String id = resourceService.postEntity(resource, createTestEntity());
+        setupMocks(BASE_URI + "/" + id + "/calculatedValues");
+
+        CalculatedDataListingResource<String> resource = defaultResource.getCalculatedValueResource(id, uriInfo);
+        assertNotNull("Should not be null", resource);
     }
 
     private EntityBody createTestUpdateEntity() {
@@ -198,5 +225,23 @@ public class TwoPartResourceTest {
         EntityBody entity = new EntityBody();
         entity.put("sex", "Female");
         return entity;
+    }
+
+    private EntityBody createTestEntity() {
+        EntityBody entity = new EntityBody();
+        entity.put("sex", "Male");
+        entity.put("studentUniqueStateId", 1234);
+        return entity;
+    }
+
+    private static String parseIdFromLocation(Response response) {
+        List<Object> locationHeaders = response.getMetadata().get("Location");
+        assertNotNull(locationHeaders);
+        assertEquals(1, locationHeaders.size());
+        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
+        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
+        matcher.find();
+        assertEquals(1, matcher.groupCount());
+        return matcher.group(1);
     }
 }

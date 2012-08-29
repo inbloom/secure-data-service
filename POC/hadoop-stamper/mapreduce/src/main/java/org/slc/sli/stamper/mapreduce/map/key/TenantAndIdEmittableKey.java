@@ -18,10 +18,13 @@ package org.slc.sli.stamper.mapreduce.map.key;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
+
+import com.mongodb.hadoop.io.BSONWritable;
 
 /**
  * EmittableKey for holding both a tenant identifier and an object id

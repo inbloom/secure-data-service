@@ -1,4 +1,4 @@
-<div class="modal hide" id="pageModal" ng-controller="editorCtrl" >
+<div class="modal hide" id="modalBox" ng-controller="modalCtrl" >
     <div class="modal-header">
         <button type="button" class="close simplemodal-close" data-dismiss="modal">×</button>
         <h3>{{modalTitle}} Page</h3>
@@ -9,14 +9,14 @@
                 <div class="control-group">
                     <label for="pageTitle" class="control-label">Title</label>
                     <div class="controls">
-                        <input type="text" id="pageTitle" class="input-medium" ng-model="pageTitle" tabindex="1">
+                        <input type="text" id="pageTitle" class="input-medium" ng-model="pageTitle" tabindex="1" required>
                         <div class="formError">Invalid title</div>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="content_json" class="control-label">Content JSON</label>
                     <div class="controls">
-                        <textarea rows="3" id="content_json" class="input-xlarge" ng-model="contentJSON" tabindex="2"></textarea>
+                        <textarea rows="8" id="content_json" class="input-xlarge" ng-model="contentJSON" tabindex="2" required></textarea>
                         <div class="formError">Invalid JSON</div>
                     </div>
                 </div>
