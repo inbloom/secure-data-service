@@ -262,6 +262,13 @@ public class TenantProcessor implements Processor {
         } catch (IOException e) {
             LOG.error("Error copying file to landingZone" + landingZoneDir.getAbsolutePath(), e);
             result = false;
+        } finally {
+            try {
+                sampleFile.close();
+            } catch (IOException e) {
+                LOG.error("Error copying file to landingZone" + landingZoneDir.getAbsolutePath(), e);
+                result = false;
+            }
         }
         return result;
     }
