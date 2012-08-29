@@ -19,6 +19,7 @@ package org.slc.sli.test.generators;
 
 import javax.xml.bind.JAXBElement;
 
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
@@ -38,10 +39,21 @@ public class StudentCompetancyObjectiveGenerator {
 		String id = scoId==null?"SCO Id" + scId:scoId;
 		sco.setId(id);
 		sco.setStudentCompetencyObjectiveId(id);
-		sco.setDescription("Student Competancy Description " + scId);
+		sco.setDescription("Student Competency Description " + scId);
 		sco.setObjective("Student Competency Objective " +  scId);
 		sco.setObjectiveGradeLevel(GradeLevelType.OTHER);
-		if(edOrgRef != null)sco.setEducationOrganizationReference(edOrgRef);
+
+
+		if(edOrgRef != null) {
+		
+		  EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+		 
+		  eoit.setStateOrganizationId(edOrgRef.getEducationalOrgIdentity().getEducationOrgIdentificationCode().get(0).getID());
+		  edOrgRef.setEducationalOrgIdentity(eoit);
+		  sco.setEducationOrganizationReference(edOrgRef);
+		}
+
+      
 		return sco;
 	}
 	
