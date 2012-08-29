@@ -15,26 +15,32 @@
  */
 package org.slc.sli.api.resources.generic.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 /**
- * Spring configuration for generic end points
+ * Template for holding a name spaced list of resource end points
  *
  * @author srupasinghe
+ *
  */
+public class ApiNameSpace {
 
-@Configuration
-public class ResourceConfig {
-    private Map<String, Set<String>> resourceMethods = new ConcurrentHashMap<String, Set<String>>();
+    private String nameSpace;
+    private List<ResourceEndPointTemplate> resources;
 
-    @Bean(name = "resourceSupportedMethods")
-    public Map<String, Set<String>> getResourceMethods() {
-        return resourceMethods;
+    public String getNameSpace() {
+        return nameSpace;
     }
 
+    public void setNameSpace(String nameSpace) {
+        this.nameSpace = nameSpace;
+    }
+
+    public List<ResourceEndPointTemplate> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<ResourceEndPointTemplate> resources) {
+        this.resources = resources;
+    }
 }

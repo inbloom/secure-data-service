@@ -44,8 +44,7 @@ public class Programs {
             client.read(collection, ResourceNames.PROGRAMS, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
-        }
-        catch (SLIClientException e) {
+        } catch (SLIClientException e) {
             // the read was unsucessful
             LOG.error("Exception occurred", e);
         }

@@ -27,9 +27,7 @@ And I am informed that "the page that you were looking for could not be found"
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
-And was redirected to the Realm page
 When I select "New York Realm" and click go
-And was redirected to the SLI-IDP login page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Invalid User Name or password"
