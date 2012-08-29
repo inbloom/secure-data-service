@@ -496,7 +496,7 @@
 		<singular>studentSpecialEdProgramAssociation</singular>
 	</document>
 	<document name="Course Transcript">
-		<class name="CourseTranscript"></class>
+		<class name="StudentTranscriptAssociation"></class>
 		<!-- FIXME: UML class name is excessive; EdFi is CourseTranscript? -->
 		<graph>courseTranscripts</graph>
 		<singular>courseTranscript</singular>
