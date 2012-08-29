@@ -199,8 +199,8 @@ default:
         sli.ingestion.totalRetries: 5
 
         sli.ingestion.dataset.sample:
-            small: [../../acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [../../acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
+            small: [SmallSampleDataSet.zip]
+            medium : [MediumSampleDataSet.zip]
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -533,9 +533,6 @@ ci:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-        sli.ingestion.dataset.sample:
-            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -1153,10 +1150,6 @@ team:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.dataset.sample:
-            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

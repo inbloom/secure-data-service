@@ -17,23 +17,27 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.io.Files;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,12 +222,16 @@ public class TenantProcessor implements Processor {
                 List<String> fileNames = getDataSetLookup().get(dataSet);
                 if (fileNames != null) {
                     for (String fileName : fileNames) {
-                        File sampleFile = new File(fileName);
-                        if (sampleFile.exists()) {
+                        URL fileLocation = this.getClass().getClassLoader().getResource(fileName);
+                        try {
+                            InputStream sampleFile = fileLocation == null ? new FileInputStream(fileName)
+                                    : fileLocation.openStream();
                             result &= sendToLandingZone(landingZoneDir, sampleFile);
-                        } else {
+                        } catch (FileNotFoundException e) {
                             LOG.error("sample data set {} doesn't exists", fileName);
                             result = false;
+                        } catch (IOException e) {
+                            LOG.error("error loading sample data set", e);
                         }
                     }
                 } else {
@@ -245,23 +253,15 @@ public class TenantProcessor implements Processor {
      * @return true if the file (or all of its children if it is a directory) was successfully
      *         copied over to the landing zone directory
      */
-    private boolean sendToLandingZone(File landingZoneDir, File sampleFile) {
+    private boolean sendToLandingZone(File landingZoneDir, InputStream sampleFile) {
         boolean result = true;
-        if (sampleFile.isDirectory()) {
-            for (File f : sampleFile.listFiles()) {
-                result &= sendToLandingZone(landingZoneDir, f);
-            }
-        } else {
-            File preloadedFile = new File(landingZoneDir, sampleFile.getName());
-            try {
-                preloadedFile.createNewFile();
-                Files.copy(sampleFile, preloadedFile);
-            } catch (IOException e) {
-                LOG.error(
-                        "Error copying file " + sampleFile.getAbsolutePath() + " to landingZone"
-                                + landingZoneDir.getAbsolutePath(), e);
-                result = false;
-            }
+        File preloadedFile = new File(landingZoneDir, "preload-" + (new Date()).getTime() + ".zip");
+        try {
+            preloadedFile.createNewFile();
+            FileUtils.copyInputStreamToFile(sampleFile, preloadedFile);
+        } catch (IOException e) {
+            LOG.error("Error copying file to landingZone" + landingZoneDir.getAbsolutePath(), e);
+            result = false;
         }
         return result;
     }

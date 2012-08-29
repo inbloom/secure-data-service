@@ -33,6 +33,7 @@ import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -175,8 +176,7 @@ public class TenantProcessorTest {
         File landingZone = Files.createTempDir();
         try {
             assertTrue(tenantProcessor.preLoad(landingZone.getAbsolutePath(), Arrays.asList("small")));
-            assertTrue(new File(landingZone, "InterchangeAssessmentMetadata-ACT.xml").exists());
-            assertTrue(new File(landingZone, "MainControlFile.ctl").exists());
+            assertTrue(landingZone.list(new WildcardFileFilter("preload-*.zip")).length == 1);
         } finally {
             landingZone.delete();
         }
