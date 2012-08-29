@@ -91,15 +91,10 @@ public class SifSubscriber implements Subscriber {
             switch (event.getAction()) {
             case ADD:
                 for (SliEntity sliEntity : entities) {
-                    // take care of cases when two or more SIF entities map into
-                    // the same SLI entity
-                    if (sliEntity.isCreatedByOthers() || sliEntity.getMatchedEntity() != null) {
-                        if (sliEntity.isCreatedByOthers()) {
-                            matchedEntity = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zone.getZoneId());
-                        } else {
-                            matchedEntity = sliEntity.getMatchedEntity();
-                        }
+                    // Handle cases when two or more SIF entities map into one.
+                    matchedEntity = findCombiningEntity(sliEntity, zone.getZoneId());
 
+                    if (matchedEntity != null) {
                         changeEntity(sifData, sliEntity, zone.getZoneId(), matchedEntity);
                         sifIdResolver.putSliGuid(sifData.getRefId(), matchedEntity.getEntityType(),
                                 matchedEntity.getId(), zone.getZoneId());
@@ -158,6 +153,35 @@ public class SifSubscriber implements Subscriber {
                     matchedEntity.getId(), zoneId);
         }
         LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
+    }
+
+    /**
+     * Attempt to match an sli entity with another partial entity that was created by a related sif object.
+     */
+    private Entity findCombiningEntity(SliEntity sliEntity, String zoneId) {
+        Entity matched = null;
+        // Two combining cases to handle:
+        // 1) match by a reference
+        if(sliEntity.isCreatedByOthers()) {
+          //TODO this should probably include type but should be fine for PI5
+            matched = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zoneId);
+            if (matched != null) {
+                LOG.info("Combining through common SIF creator with a " + matched.getEntityType() +
+                        " entity with id " + matched.getId());
+            }
+        }
+        // 2) match by a common other entity
+        if(sliEntity.hasOtherSifRefId()) {
+
+            matched = sifIdResolver.getSliEntityFromOtherSifId(sliEntity.getOtherSifRefId(),
+                    sliEntity.entityType(), zoneId);
+            if (matched != null) {
+                LOG.info("Combining through common SIF reference with a " + matched.getEntityType() +
+                        " entity with id " + matched.getId());
+            }
+        }
+
+        return matched;
     }
 
     // /-======================== HELPER UTILs ======
