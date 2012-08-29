@@ -77,8 +77,7 @@ When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, lis
   expectedPanels.each do |expectedPanel|
     found = false
     actualPanels.each do |actualPanel|
-      puts "Panel: " + actualPanel.text
-      if (actualPanel.text == expectedPanel)
+      if (actualPanel.attribute("innerHTML").include? expectedPanel)
         found = true  
       end  
     end  
