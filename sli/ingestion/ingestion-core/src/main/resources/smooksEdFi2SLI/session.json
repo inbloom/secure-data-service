@@ -4,6 +4,7 @@
     [
         {
            "fieldPath" : "body.gradingPeriodReference",
+           "givesContext" : ["edOrgs"],
             "ref" :
             {
                 "entityType" : "gradingPeriod",
