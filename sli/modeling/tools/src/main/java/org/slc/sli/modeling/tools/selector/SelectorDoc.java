@@ -16,9 +16,13 @@
 
 package org.slc.sli.modeling.tools.selector;
 
+import java.util.Map;
+import java.util.List;
 import java.io.FileNotFoundException;
 
 import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
@@ -48,8 +52,17 @@ public class SelectorDoc {
         }
 
         System.out.println("=== ClassTypes ===");
-        for(String classtype : mi.getClassTypes().keySet()) {
-            System.out.println(classtype);
+        Map<String, ClassType> classTypes = mi.getClassTypes();
+
+        for(String classTypeKey : classTypes.keySet()) {
+
+            System.out.println(classTypeKey);
+            ClassType classType = classTypes.get (classTypeKey);
+
+            System.out.println (classType.toString());
+            String name = classType.getName();
+            List<Attribute> attributes = classType.getAttributes();
+            boolean isAssociation = classType.isAssociation();
         }
 
     }
