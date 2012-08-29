@@ -7,17 +7,25 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
 	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
 	And I have a role "<ADMIN_ROLE>"
-	Then I <SHOULD> see SAMT on my list of allowed apps
+	Then I <SHOULD> see "<APP_NAME>" on my list of allowed apps
 	Examples:
-		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|
-		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|
-		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
-		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
-		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
-		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
-		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
-		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
+		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|APP_NAME |
+		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|Administrative Account Management|
+		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|Administrative Account Management|
+		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|Administrative Account Management|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should not|Administrative Account Management|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should not|Administrative Account Management|
+		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Administrative Account Management|
+		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Administrative Account Management|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Administrative Account Management|
+		|operator   	|operator1234   		|SLC Operator           |SLI        | should not|Developer Account Management|
+		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should not|Developer Account Management|
+		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should not|Developer Account Management|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should not|Developer Account Management|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|Developer Account Management|
+		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Developer Account Management|
+		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Developer Account Management|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Developer Account Management|
 		
 	
   @production

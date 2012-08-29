@@ -20,6 +20,14 @@ h4 {
 .btn {
     font-size: 12px;
 }
+
+.ui-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap !important;
+    overflow: hidden;
+    padding-left: 2px;
+}
+
 .modal { position: relative; }
 .wrapper {
     height: auto !important;
@@ -66,10 +74,11 @@ ul.menu_n a {
     left: 0;
     width: auto;
 }
+
 .ui-dialog-titlebar { font-size: 16px; border-bottom: solid 1px #c2ccd1; margin-bottom: 20px; }
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 120px; float: left; padding: 20px;}
-.profilePageWrapper { padding: 20px; margin-left: 140px; }
+.profilePageWrapper { padding: 20px; margin-left: 140px; min-width: 920px; }
 .profilePageWrapper ul { clear: none !important; height: 35px; }
 .profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }
@@ -90,6 +99,7 @@ ul.menu_n a {
 #footer { bottom: auto !important; clear: both; height: 20px; position: absolute !important; width: 100%; }
 #sli_footer .sli_footer_wrap { border-top: 2px solid #000000 !important; padding-bottom: 5px; }
 
+.tab-content { width: 100%; }
 .nav-tabs { border-bottom: 2px solid #000000; }
 .nav-tabs > li > a { border-radius: 0; line-height: 19px; color: #000; background-color: #f2f2f2; line-height: 17px; }
 .nav-tabs > li > a:hover { line-height: 17px; }
@@ -99,10 +109,10 @@ ul.menu_n a {
 .panels ul li { background: #f2f2f2; padding: 5px; margin: 10px 0; }
 .panels input { margin-bottom: 0; font-size: 12px; }
 #allPanelsModal ul li { margin: 10px; padding: 5px; background: #f2f2f2; }
-.educationAgencyName { width: 100px;}
 
 #panelSelectable .ui-selecting { background: #ccc; }
 #panelSelectable .ui-selected { background: #49AFCD; color: white; }
+
 
 #errorMessage { display: none; }
 #addNewPanelBtn { float: left; }

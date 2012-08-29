@@ -18,8 +18,10 @@ package org.slc.sli.api.resources.generic.service;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.domain.CalculatedData;
 
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Resource service.
@@ -49,4 +51,8 @@ public interface ResourceService {
     public void deleteEntity(Resource resource, String id);
 
     public String getEntityType(Resource resource);
+
+    public CalculatedData<String> getCalculatedData(Resource resource, String id);
+
+    public CalculatedData<Map<String, Integer>> getAggregateData(Resource resource, String id);
 }
