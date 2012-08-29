@@ -67,13 +67,13 @@ public class SifSubscriberTest {
     @Mock
     private SifIdResolver sifIdResolver;
 
-    private static String SIF_ID = "sif_id";
-    private static String OTHER_SIF_ID = "other_sif_id";
-    private static String CREATOR_SIF_ID = "creator_sif_id";
-    private static String SLI_ID = "sli_id";
-    private static String SIF_TYPE = "sif_type";
-    private static String SLI_TYPE = "sli_type";
-    private static String ZONE_ID = "zone_id";
+    private static final String SIF_ID = "sif_id";
+    private static final String OTHER_SIF_ID = "other_sif_id";
+    private static final String CREATOR_SIF_ID = "creator_sif_id";
+    private static final String SLI_ID = "sli_id";
+    private static final String SIF_TYPE = "sif_type";
+    private static final String SLI_TYPE = "sli_type";
+    private static final String ZONE_ID = "zone_id";
 
     @Before
     public void setup() {

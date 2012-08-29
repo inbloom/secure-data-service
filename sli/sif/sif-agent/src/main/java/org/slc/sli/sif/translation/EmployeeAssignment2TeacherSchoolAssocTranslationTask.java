@@ -75,8 +75,8 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends
 
         //TODO determine whether we should promote an SLI staff to a student if the receive an employeeAssignment
         //specifying a teacher staffClassification but referencing a staff.
-        if (staffClassificationType == null || !staffClassificationType.equals("Teacher") ||
-                !TEACHER_TYPE.equals(staff.getEntityType())) {
+        if (staffClassificationType == null || !staffClassificationType.equals("Teacher")
+                || !TEACHER_TYPE.equals(staff.getEntityType())) {
             // not handled by this translator
             return result;
         }
