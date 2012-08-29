@@ -1,9 +1,12 @@
-<StudentAcademicRecordReference>
+<StudentAcademicRecordIdentity>
     <StudentReference>
         <StudentIdentity>
-            <StudentUniqueStateId>
-                ${StudentAcademicRecord.StudentReference.StudentIdentity.StudentUniqueStateId}
-            </StudentUniqueStateId>
+            <StudentUniqueStateId>${StudentAcademicRecord.StudentReference.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
         </StudentIdentity>
     </StudentReference>
-</StudentAcademicRecordReference>
+    <SessionReference>
+        <SessionIdentity>
+            <SessionName>${StudentAcademicRecord.SessionReference.SessionIdentity.SessionName}</SessionName>
+        </SessionIdentity>
+    </SessionReference>
+</StudentAcademicRecordIdentity>

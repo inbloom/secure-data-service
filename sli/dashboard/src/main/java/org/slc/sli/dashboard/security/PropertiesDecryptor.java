@@ -20,7 +20,7 @@ package org.slc.sli.dashboard.security;
 import org.slc.sli.encryption.tool.Encryptor;
 
 /**
- * 
+ *
  * @author svankina
  *
  */
@@ -29,31 +29,31 @@ public class PropertiesDecryptor {
     private String decryptedClientId, decryptedClientSecret;
     private Encryptor encryptor;
     private String alias, aliasPassword;
-    
+
     public PropertiesDecryptor(String keyStore, String clientId, String clientSecret, String alias,
             String keyStorePassword, String aliasPassword) throws Exception {
-        
-    	this.alias = alias;
-    	this.aliasPassword = aliasPassword;
+
+        this.alias = alias;
+        this.aliasPassword = aliasPassword;
         encryptor = new Encryptor(keyStore, keyStorePassword);
         decryptedClientId = encryptor.decrypt(alias, aliasPassword, clientId);
         decryptedClientSecret = encryptor.decrypt(alias, aliasPassword, clientSecret);
     }
 
     public String getDecryptedClientId() {
-    	return decryptedClientId;
+        return decryptedClientId;
     }
-    
+
     public String getDecryptedClientSecret() {
         return decryptedClientSecret;
     }
-    
-    public String encrypt(String toEncrypt) throws Exception{
-    	return encryptor.encrypt(alias, aliasPassword, toEncrypt);
+
+    public String encrypt(String toEncrypt) throws Exception {
+        return encryptor.encrypt(alias, aliasPassword, toEncrypt);
     }
-    
+
     public String decrypt(String toDecrypt) throws Exception {
-    	return encryptor.decrypt(alias, aliasPassword, toDecrypt);
+        return encryptor.decrypt(alias, aliasPassword, toDecrypt);
     }
-    
+
 }
