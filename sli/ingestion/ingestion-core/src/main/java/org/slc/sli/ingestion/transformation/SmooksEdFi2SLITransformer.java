@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
@@ -50,16 +49,8 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     @Override
     public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
-
         JavaResult result = new JavaResult();
-
-        DateTime start = DateTime.now();
-
         Smooks smooks = smooksConfigs.get(item.getRecordType());
-
-        DateTime end = DateTime.now();
-
-        System.out.println(" iii - took " + (end.getMillis()-start.getMillis()) + " ms to instantiate smooks for record type: " + item.getRecordType());
 
         // if no smooks configured for this, then just convert the neutral record to a SimpleEntity
         // directly.
