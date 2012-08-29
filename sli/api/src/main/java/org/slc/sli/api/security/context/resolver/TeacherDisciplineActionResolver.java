@@ -27,7 +27,6 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * Resolves which DisciplineAction a given teacher is allowed to see
@@ -39,13 +38,12 @@ import org.slc.sli.domain.Repository;
 public class TeacherDisciplineActionResolver implements EntityContextResolver {
 
     @Autowired
-    private Repository<Entity> repository;
-    @Autowired
     private AssociativeContextHelper helper;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_ACTION.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_ACTION.equals(toEntityType);
     }
 
     @Override

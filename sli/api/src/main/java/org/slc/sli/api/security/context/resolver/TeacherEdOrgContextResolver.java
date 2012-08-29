@@ -83,6 +83,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.EDUCATION_ORGANIZATION.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.EDUCATION_ORGANIZATION.equals(toEntityType);
     }
 }

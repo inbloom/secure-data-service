@@ -21,6 +21,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.List;
 public class TeacherLearningObjectiveResolver implements EntityContextResolver {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repository;
     
 
