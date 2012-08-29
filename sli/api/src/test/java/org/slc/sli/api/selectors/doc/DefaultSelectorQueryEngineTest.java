@@ -346,8 +346,8 @@ public class DefaultSelectorQueryEngineTest {
 
     private ClassType getMockClassType(String typeName) {
         final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
-        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random(),"end1Id");
-        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random(),"end2Id");
+        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random(), "end1Id");
+        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random(), "end2Id");
 
         return new ClassType(typeName, end1, end2);
     }

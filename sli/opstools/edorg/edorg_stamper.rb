@@ -21,10 +21,16 @@ require File.dirname(__FILE__) + '/slc_fixer'
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
-trap('HUP') {} unless is_windows
+trap('HUP') {
+  @pids.each do |pid|
+    @log.warn "Killing process #{pid}"
+    Process.kill("HUP", pid)
+  end
+} unless is_windows
+
 
 def run_fixer(tenant = nil)
-  connection = Mongo::Connection.new(@hp[0], @hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+  connection = Mongo::Connection.new(@hp[0], @hp[1].to_i, :pool_size => 10, :pool_timeout => 25)
   db = connection[@database]
   @log.info "Creating a new stamper for #{tenant}"
   fixer = SLCFixer.new(db, @terminates, tenant)
@@ -32,17 +38,16 @@ def run_fixer(tenant = nil)
     fixer.start
     connection.close
     @log.error "Finished stamping tenant \'#{tenant}\'."
-    @log.error "This is not really an error - do not be alarmed."
   rescue Exception => e
     #KILL THE THREADS
-    @tenants.remove tenant
-    Thread.kill(Thread.current)
+    @tenants.delete tenant
+    Process.kill("HUP", Process.pid)
     @log.error "#{e}"
     connection.close
   end
 end
 def launch_fixer
-  connection = Mongo::Connection.new(@hp[0], @hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+  connection = Mongo::Connection.new(@hp[0], @hp[1].to_i, :pool_size => 10, :pool_timeout => 25)
   @db = connection[@database]
   #Get the tenants out.
   @log.info "Searching tenant collecitons"
@@ -51,15 +56,15 @@ def launch_fixer
       if !@tenants.include? tenant['body']['tenantId']
         @log.info "Starting stamper for #{tenant['body']['tenantId']}"
         @tenants.add tenant['body']['tenantId'] 
-        @threads << Thread.new {run_fixer(tenant['body']['tenantId'])}
+        @pids << fork {run_fixer(tenant['body']['tenantId'])}
       end
     end
   end
 
   # If there is no tenant connection, we stamp stupidly
   @log.info "No tenant collection, repainting the bridge" if @tenants.empty?
-  @threads << Thread.new {run_fixer(nil)} if @tenants.empty?
-  @threads.each {|th| th.join } unless @terminates
+  @pids << fork {run_fixer(nil)} if @tenants.empty?
+  Process.waitall unless @terminates
   connection.close
 end
 if ARGV.count < 1
@@ -71,13 +76,13 @@ if ARGV.count < 1
   puts "*** Note: These parameters must exist in the order they are presented ***"
   exit
 else
-  @threads = []
+  @pids = []
   @tenants = Set.new
   @terminates = (ARGV[2].nil? ? false : true)
   @database = (ARGV[1].nil? ? 'sli' : ARGV[1])
   @hp = ARGV[0].split(":")
   @log = Logger.new(STDOUT)
-  @log.level = Logger::INFO
+  @log.level = Logger::WARN
   backoff = 2
   begin
     launch_fixer

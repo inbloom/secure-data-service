@@ -264,7 +264,16 @@
     <build>
         <finalName>api</finalName>
         <plugins>
-            <plugin>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.1.1</version>
+            <configuration>
+              <attachClasses>true</attachClasses>
+              <classesClassifier>classes</classesClassifier>
+            </configuration>
+          </plugin>
+
+          <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>${maven.jetty.version}</version>
@@ -302,147 +311,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <!-- build profile for api document generation -->
-        <profile>
-            <id>apidoc</id>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.slc.sli</groupId>
-                    <artifactId>scaffold</artifactId>
-                    <version>1.0-SNAPSHOT</version>
-                </dependency>
-            </dependencies>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.1</version>
-                        <executions>
-                            <execution>
-                                <id>copy-doc-resources</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>compile</phase>
-                                <configuration>
-                                    <executable>cp</executable>
-                                    <commandlineArgs>-r ${project.basedir}/src/main/doc ${project.build.outputDirectory}/..</commandlineArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
-                              <id>copy-wadl</id>
-                              <goals>
-                                <goal>exec</goal>
-                              </goals>
-                              <phase>compile</phase>
-                              <configuration>
-                                <executable>cp</executable>
-                                <commandlineArgs>${project.basedir}/src/main/resources/wadl/base_wadl.wadl ${project.build.outputDirectory}/../doc</commandlineArgs>
-                              </configuration>
-                            </execution>
-                            <execution>
-                                <id>apidoc-merge</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
-                                    <arguments>
-                                        <argument>${project.build.outputDirectory}/../doc/base_wadl.wadl</argument>
-                                        <argument>${project.build.outputDirectory}/../doc/merge/doc-merge.xml</argument>
-                                        <argument>eapplication.wadl</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>apidoc-xslt</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>org.slc.sli.scaffold.XslTransformDocument</mainClass>
-                                    <arguments>
-                                        <argument>${project.build.outputDirectory}/../doc/eapplication.wadl</argument>
-                                        <argument>${project.build.outputDirectory}/../doc/xsl/wadl.xsl</argument>
-                                        <argument>${project.build.outputDirectory}/../doc/application.html</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>resource documenter</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>org.slc.sli.scaffold.semantics.ResourceDocumenter</mainClass>
-                                    <arguments>
-                                        <argument>${project.build.outputDirectory}/../doc/application.html</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>copy</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <executable>cp</executable>
-                                    <commandlineArgs>-r -f ${project.build.outputDirectory}/../doc .</commandlineArgs>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>tar</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <executable>tar</executable>
-                                    <commandlineArgs>-czf doc.tar.gz doc/</commandlineArgs>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>ouput</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <executable>cp</executable>
-                                    <commandlineArgs>doc.tar.gz ${project.build.outputDirectory}/../</commandlineArgs>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>cleanup</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <executable>rm</executable>
-                                    <commandlineArgs>-rf doc doc.tar.gz</commandlineArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
