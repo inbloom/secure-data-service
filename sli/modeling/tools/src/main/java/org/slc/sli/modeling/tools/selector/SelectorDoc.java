@@ -16,6 +16,13 @@
 
 package org.slc.sli.modeling.tools.selector;
 
+import java.io.FileNotFoundException;
+
+import org.slc.sli.modeling.uml.Model;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xmi.reader.XmiReader;
+
 /**
  * Command line utility to read an XMI File, and print out features (attributes,
  * associations) of each element type.
@@ -26,6 +33,24 @@ package org.slc.sli.modeling.tools.selector;
 public class SelectorDoc {
 
     public static void main(String[] args) {
+        final Model model;
+        final ModelIndex mi;
+        try {
+            model = XmiReader.readModel(args[0]);
+        } catch (FileNotFoundException e) {
+            return;
+        }
+
+        if (model != null) {
+            mi = new DefaultModelIndex(model);
+        } else {
+            return;
+        }
+
+        System.out.println("=== ClassTypes ===");
+        for(String classtype : mi.getClassTypes().keySet()) {
+            System.out.println(classtype);
+        }
 
     }
 
