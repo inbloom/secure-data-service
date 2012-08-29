@@ -60,7 +60,14 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return false;
+        boolean canHandle = false;
+        if (EntityNames.COHORT.equals(toEntityType) || EntityNames.PROGRAM.equals(toEntityType) || EntityNames.ATTENDANCE.equals(toEntityType) || EntityNames.PARENT.equals(toEntityType)) {
+            canHandle = true;
+        }
+        if (!EntityNames.TEACHER.equals(fromEntityType)) {
+            canHandle = false;
+        }
+        return canHandle;
         //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT.equals(toEntityType);
     }
 
