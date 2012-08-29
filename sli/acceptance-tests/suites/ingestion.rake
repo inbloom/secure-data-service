@@ -14,7 +14,7 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
-  addSecurityData()
+#  addSecurityData()
 end
 
 desc "Run Ingestion Tenant Test"
@@ -89,7 +89,7 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-  addSecurityData()
+#  addSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
