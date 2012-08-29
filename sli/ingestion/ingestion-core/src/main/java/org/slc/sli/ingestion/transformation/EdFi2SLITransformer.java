@@ -34,6 +34,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.service.OldSchoolMongoUpdater;
 import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -74,6 +75,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
         resolveReferences(item, errorReport);
+
         LOG.info("transforming neutral record: {}", item);
 
         if (errorReport.hasErrors()) {
@@ -98,6 +100,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
                 entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
 
+                if (item.getMetaData().get("edOrgs") != null) {
+                    entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
+                }
+
                 try {
                     matchEntity(entity, errorReport);
                 } catch (DataAccessResourceFailureException darfe) {
@@ -121,20 +127,29 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
-            String collectionName = "";
-            NeutralSchema schema = schemaRepository.getSchema(ref.getEntityType());
-            if (schema != null) {
-                AppInfo appInfo = schema.getAppInfo();
-                if (appInfo != null) {
-                    collectionName = appInfo.getCollectionType();
-                }
-            }
+            String entityType = ref.getEntityType();
+            String collectionName = getPersistedCollectionName(entityType);
 
             idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
+
+        // propagate context according to configuration
+        OldSchoolMongoUpdater.giveContext(item, entityConfig);
+    }
+
+    private String getPersistedCollectionName(String entityType) {
+        String collectionName = "";
+        NeutralSchema schema = schemaRepository.getSchema(entityType);
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
+        }
+        return collectionName;
     }
 
     /**

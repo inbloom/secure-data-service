@@ -75,10 +75,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                 entity.getMetaData().put("externalId", externalId);
             }
 
-            if (item.getMetaData().get("edOrgs") != null) {
-                entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
-            }
-
             return Arrays.asList(entity);
         }
 
