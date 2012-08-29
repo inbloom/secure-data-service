@@ -72,7 +72,8 @@ public class TenantMongoDATest {
         // createTestTenantRecord();
     }
 
-    @Test
+    //Removing this unit test as now Ingestion server now polls all the landing zones.
+    //@Test
     public void shouldGetLzPathsFromIngestionServerName() {
         List<Entity> testTenantRecords = new ArrayList<Entity>();
         testTenantRecords.add(createTenantEntity());
