@@ -5,16 +5,17 @@
         <div ng-controller="pageCtrl" class="panels">
             <div class="show-{{!checked}}"><strong>Page title:</strong> {{page.name}} <a ng-click="editPageTitle();"><i class="icon-edit"></i></a></div>
             <div class="show-{{checked}}">
-                <form ng-submit="savePageTitle();">
+                <form>
                     <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" ng-focus="checked" required>
                     <button class="btn btn-primary" ng-click="savePageTitle();" >save</button>
                     <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
                 </form>
             </div>
-            <ul class="unstyled">
-                <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
-                    <span class="span2"><strong>{{panel.id}}</strong></span>
-                    <span ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>
+            <ul class="unstyled" panel-sortable="pagePanels">
+                <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" panel-sortable-index="{{$index}}"  ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
+                    <span class="span2" ng-hide="!deletePanel" ng-show="deletePanel"><i class="icon-move"></i></span>
+                    <span class="span2" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.id}}</strong></span>
+                    <span class="span1 pull-right" ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>
                 </li>
             </ul>
             <div>
@@ -23,7 +24,7 @@
             <br/>
             <div class="page-actions">
                 <button class="btn" ng-click="showPageConfig()">+ Show Page Source Code</button>
-                <button class="btn btn-danger pull-right" data-toggle="modal" ng-click="removePage()" >Delete Tab</button>
+                <button class="btn btn-danger pull-right" data-toggle="modal" ng-click="removePage()" >Remove Tab</button>
             </div>
         </div>
     </pane>
@@ -39,15 +40,15 @@
     <div class="modal-body">
         <div id="errorMessage">Please select the panel.</div>
         <ul class="unstyled">
-            <li>
-                <div class="educationAgencyName pull-right"><strong>Origin</strong></div>
-                <div class="panelName"><strong>Panel Name</strong></div>
+            <li class="well well-small">
+                <span><strong>Panel Name</strong></span>
+                <span class="span2 pull-right"><strong>Origin</strong></span>
             </li>
         </ul>
         <ul id="panelSelectable" class="unstyled">
             <li ng-repeat="panel in allPanels" class="well well-small">
-                <span class="educationAgencyName pull-right">{{panel.educationAgencyName}}</span>
-                <span class="panelName">{{panel.id}}</span>
+                <span title="{{panel.id}}">{{panel.id}}</span>
+                <span class="span2 pull-right ui-ellipsis" title="{{panel.educationAgencyName}}">{{panel.educationAgencyName}}</span>
             </li>
         </ul>
     </div>
