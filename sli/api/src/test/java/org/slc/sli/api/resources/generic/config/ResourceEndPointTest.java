@@ -1,14 +1,19 @@
 package org.slc.sli.api.resources.generic.config;
 
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -16,13 +21,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests
@@ -96,13 +97,13 @@ public class ResourceEndPointTest {
 
     @Test
     public void testLoadNameSpace() throws IOException {
-        String json = "{\n" +
-                "    \"nameSpace\":\"v6\",\n" +
-                "    \"resources\":[\n" +
-                "        {\n" +
-                "            \"path\":\"/reportCards\",\n" +
-                "            \"doc\":\"some doc.\"\n" +
-                "        }]}";
+        String json = "{\n"
+                + "    \"nameSpace\":\"v6\",\n"
+                + "    \"resources\":[\n"
+                + "        {\n"
+                + "            \"path\":\"/reportCards\",\n"
+                + "            \"doc\":\"some doc.\"\n"
+                + "        }]}";
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes());
 
