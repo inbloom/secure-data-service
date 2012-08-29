@@ -22,7 +22,7 @@ Feature: Acceptance Storied Data Ingestion Test
 Background: I have a landing zone route configured
 Given I am using local data store
 
-@smoke @integration @IL-Daybreak
+@smoke @integration @IL-Daybreak @ingstamp
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
