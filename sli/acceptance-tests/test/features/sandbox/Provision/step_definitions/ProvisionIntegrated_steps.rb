@@ -304,7 +304,7 @@ Then /^I go to my landing zone$/ do
   tenant=tenant_collection.find("body.tenantId"=> @tenantId).next
   puts "tenant is #{tenant}"
   @landing_zone_path = tenant["body"]["landingZone"][0]["path"] + "/"
-  @source_file_name = "MainControlFile.ctl"
+  @source_file_name = "preload"
 end
 
 Then /^I clean the landing zone$/ do
