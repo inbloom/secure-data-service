@@ -43,7 +43,8 @@ public class TeacherCohortResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COHORT.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COHORT.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")

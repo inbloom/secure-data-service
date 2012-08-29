@@ -28,7 +28,9 @@ import java.util.TreeSet;
 import java.util.Arrays;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +55,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
     private String sectionGracePeriod;
 
     @Autowired
-    private SecurityCachingStrategy securityCachingStrategy;
+    private SessionSecurityCache securityCachingStrategy;
 
     private static final String FROM_ENTITY = "teacher";
     private static final String TO_ENTITY = "student";
@@ -61,18 +63,21 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         boolean canHandle = false;
-        if (EntityNames.COHORT.equals(toEntityType) || EntityNames.PROGRAM.equals(toEntityType) || EntityNames.ATTENDANCE.equals(toEntityType) || EntityNames.PARENT.equals(toEntityType)) {
+        if (EntityNames.STUDENT.equals(toEntityType) || EntityNames.COHORT.equals(toEntityType) || EntityNames.PROGRAM.equals(toEntityType) || EntityNames.ATTENDANCE.equals(toEntityType) || EntityNames.PARENT.equals(toEntityType)) {
             canHandle = true;
         }
         if (!EntityNames.TEACHER.equals(fromEntityType)) {
             canHandle = false;
         }
         return canHandle;
-        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
+        // If we have a cache, bail.
+        if(securityCachingStrategy.contains(SessionSecurityCache.STUDENT_CACHE)) {
+            return new ArrayList<String>(securityCachingStrategy.retrieve(SessionSecurityCache.SECTION_CACHE));
+        }
 
         Set<String> ids = new TreeSet<String>();
 
@@ -81,7 +86,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
             ids.addAll(findAccessibleThroughCohort(principal));
             ids.addAll(findAccessibleThroughProgram(principal));
 
-            securityCachingStrategy.warm(FROM_ENTITY + TO_ENTITY, new HashSet<String>(ids));
+            securityCachingStrategy.warm(SessionSecurityCache.STUDENT_CACHE, new HashSet<String>(ids));
         } else {
             ids = securityCachingStrategy.retrieve(FROM_ENTITY + TO_ENTITY);
         }

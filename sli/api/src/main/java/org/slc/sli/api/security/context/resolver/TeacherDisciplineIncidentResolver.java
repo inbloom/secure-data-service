@@ -42,7 +42,8 @@ public class TeacherDisciplineIncidentResolver implements EntityContextResolver 
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_INCIDENT.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_INCIDENT.equals(toEntityType);
     }
 
     @Override
