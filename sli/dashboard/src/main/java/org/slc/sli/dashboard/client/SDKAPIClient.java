@@ -559,7 +559,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getSection(String token, String id) {
-        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id, id);
+        GenericEntity section = this.readEntity(token, SDKConstants.SECTIONS_ENTITY + id);
         ensureSectionName(section);
         return section;
     }
@@ -764,7 +764,7 @@ public class SDKAPIClient implements APIClient {
 
     /**
      * Get a teacher identified by id
-     * 
+     *
      * @param token
      * @param id
      * @return
@@ -772,8 +772,13 @@ public class SDKAPIClient implements APIClient {
     @Override
     public GenericEntity getTeacher(String token, String id) {
         // get Teacher information
-        GenericEntity teacher = this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
-        // get Teacher teaching sections
+        return this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
+    }
+
+
+    @Override
+    public GenericEntity getTeacherWithSections(String token, String id) {
+        GenericEntity teacher = getTeacher(token, id);
         List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
                 + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
         if (sections != null && !sections.isEmpty()) {
@@ -783,6 +788,7 @@ public class SDKAPIClient implements APIClient {
         }
         return teacher;
     }
+
 
     /**
      * Get the teacher for a specified section
@@ -803,8 +809,8 @@ public class SDKAPIClient implements APIClient {
                     String teacherId = teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
                     try {
                     teacher = this.getTeacher(token, teacherId);
-                    } catch(Exception e) {
-                    	LOGGER.error(e.getMessage());
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
                     }
                     return teacher;
                 }
@@ -822,13 +828,13 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
-    	List<GenericEntity> teachers = this.readEntityList(token,
-    			PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
-    			+ "/" + PathConstants.TEACHERS, schoolId);
+        List<GenericEntity> teachers = this.readEntityList(token,
+                PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
+                + "/" + PathConstants.TEACHERS, schoolId);
 
         return teachers;
     }
-    
+
     /**
      * Get a list of parents for the given student id
      *
@@ -1108,10 +1114,10 @@ public class SDKAPIClient implements APIClient {
      * @param url
      * @return
      */
+    @Override
     @ExecutionTimeLogger.LogExecutionTime
-    protected GenericEntity readEntity(String token, String url) {
+    public GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
-
         try {
             List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
@@ -1148,7 +1154,8 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected List<GenericEntity> readEntityList(String token, String url) {
+    @Override
+    public List<GenericEntity> readEntityList(String token, String url) {
         List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
             List<Entity> entityList = getClient(token).read(url);

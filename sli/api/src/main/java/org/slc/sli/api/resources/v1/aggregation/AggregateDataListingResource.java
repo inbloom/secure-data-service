@@ -19,22 +19,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.CalculatedDatum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CalculatedDatum;
 
 /**
  * Resource for displaying aggregate listings
@@ -47,11 +40,13 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class AggregateDataListingResource<T> {
 
-    @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
+    private final EntityDefinition entityDefinition;
+    private final String entityId;
 
-    @Autowired
-    private ResourceHelper resourceHelper;
+    public AggregateDataListingResource(final String entityId, final EntityDefinition entityDefinition) {
+        this.entityId = entityId;
+        this.entityDefinition = entityDefinition;
+    }
 
     /**
      * Get the aggregates for a particular entity
@@ -63,17 +58,12 @@ public class AggregateDataListingResource<T> {
      * @return
      */
     @GET
-    public Response getAggregatedValues(@Context final UriInfo uriInfo,
-                                        @PathParam("id") final String id,
-                                        @QueryParam("type") final String type,
+    public Response getAggregatedValues(@QueryParam("type") final String type,
                                         @QueryParam("window") final String window,
                                         @QueryParam("method") final String methodology,
                                         @QueryParam("name") final String name) {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.AGGREGATES);
-        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-
-        final CalculatedData<Map<String, Integer>> data = entityDef.getService().getAggregates(id);
+        final CalculatedData<Map<String, Integer>> data = entityDefinition.getService().getAggregates(entityId);
         final List<CalculatedDatum<Map<String, Integer>>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }

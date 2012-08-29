@@ -22,10 +22,13 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -60,6 +63,11 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     
     private String driverConfigLocation;
     private String userConfigLocation;
+    
+    private static final String LAYOUT_NAME = "layoutName";
+    private static final String LAYOUT = "layout";
+    private static final String DEFAULT = "default";
+    private static final String TYPE = "type";
     
     public ConfigManagerImpl() {
     }
@@ -239,6 +247,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     
     @Override
     public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs) {
+        return getConfigsByAttribute(token, edOrgKey, attrs, true);
+    }
+    
+    @Override
+    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs,
+            boolean overwriteCustomConfig) {
         
         // id to config map
         Map<String, Config> configs = new HashMap<String, Config>();
@@ -289,8 +303,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         
         // get custom configs
-        for (String id : configs.keySet()) {
-            configs.put(id, getComponentConfig(token, edOrgKey, id));
+        if (overwriteCustomConfig) {
+            for (String id : configs.keySet()) {
+                configs.put(id, getComponentConfig(token, edOrgKey, id));
+            }
         }
         return configs.values();
     }
@@ -350,4 +366,128 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), newConfigMap);
     }
     
+    /**
+     * To find Config is PANEL types and belong to the layout.
+     * 
+     * @param config
+     * @param layoutName
+     * @return
+     */
+    private boolean doesBelongToLayout(Config config, String layoutName) {
+        boolean belongConfig = true;
+        // first filter by type.
+        // Target TYPEs are PANEL, GRID, TREE, and REPEAT_HEADER_GRID
+        
+        Config.Type type = config.getType();
+        if (type != null
+                && (type.equals(Config.Type.PANEL) || type.equals(Config.Type.GRID) || type.equals(Config.Type.TREE) || type
+                        .equals(Config.Type.REPEAT_HEADER_GRID))) {
+            // if a client requests specific layout,
+            // then filter layout.
+            if (layoutName != null) {
+                
+                belongConfig = false;
+                Map<String, Object> configParams = config.getParams();
+                if (configParams != null) {
+                    List<String> layouts = (List<String>) configParams.get(LAYOUT);
+                    if (layouts != null) {
+                        if (layouts.contains(layoutName)) {
+                            belongConfig = true;
+                        }
+                    }
+                }
+            }
+        } else {
+            belongConfig = false;
+        }
+        return belongConfig;
+    }
+    
+    @Override
+    public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey,
+            Map<String, String> params) {
+        Map<String, Collection<Config>> allConfigs = new HashMap<String, Collection<Config>>();
+        
+        // configIdLookup is used to check parentId from Custom Config exists in Driver Config
+        Set<String> configIdLookup = new HashSet<String>();
+        
+        Map<String, String> attribute = new HashMap<String, String>();
+        String layoutName = params.get(LAYOUT_NAME);
+        
+        if (params.containsKey(TYPE)) {
+            attribute.put(TYPE, params.get(TYPE));
+        }
+        
+        // get Driver Config by specified attribute
+        Collection<Config> driverConfigs = getConfigsByAttribute(token, edOrgKey, attribute, false);
+        
+        // filter config by layout name
+        // and
+        // build lookup index
+        Iterator<Config> configIterator = driverConfigs.iterator();
+        while (configIterator.hasNext()) {
+            Config driverConfig = configIterator.next();
+            if (doesBelongToLayout(driverConfig, layoutName)) {
+                configIdLookup.add(driverConfig.getId());
+            } else {
+                configIterator.remove();
+            }
+        }
+        
+        // add DriverConfig to a returning object
+        allConfigs.put(DEFAULT, driverConfigs);
+        
+        // read edOrg custom config recursively
+        APIClient apiClient = getApiClient();
+        while (edOrgKey != null) {
+            // customConfigByType will be added to a returning object
+            Collection<Config> customConfigByType = new LinkedList<Config>();
+            
+            // get current edOrg custom config
+            ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
+            if (customConfigMap != null) {
+                Map<String, Config> configByMap = customConfigMap.getConfig();
+                if (configByMap != null) {
+                    Collection<Config> customConfigs = configByMap.values();
+                    if (customConfigs != null) {
+                        for (Config customConfig : customConfigs) {
+                            
+                            // if parentId from customConfig does not exist in DriverConfig,
+                            // then ignore.
+                            String parentId = customConfig.getParentId();
+                            if (parentId != null && configIdLookup.contains(parentId)) {
+                                if (doesBelongToLayout(customConfig, layoutName)) {
+                                    customConfigByType.add(customConfig);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // find current EdOrg entity
+            GenericEntity edOrg = apiClient.getEducationalOrganization(token, edOrgKey.getSliId());
+            List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
+            if (organizationCategories != null && !organizationCategories.isEmpty()) {
+                for (String educationAgency : organizationCategories) {
+                    if (educationAgency != null) {
+                        allConfigs.put(educationAgency, customConfigByType);
+                        break;
+                    }
+                }
+            }
+            
+            // find parent EdOrg
+            edOrgKey = null;
+            edOrg = apiClient.getParentEducationalOrganization(token, edOrg);
+            if (edOrg != null) {
+                String id = edOrg.getId();
+                if (id != null && !id.isEmpty()) {
+                    edOrgKey = new EdOrgKey(id);
+                }
+            }
+        }
+        
+        return allConfigs;
+    }
 }

@@ -900,7 +900,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     @Override
     public GenericEntity getTeacher(String token, Object teacherId, Config.Data config) {
-        return getApiClient().getTeacher(token, (String) teacherId);
+        return getApiClient().getTeacherWithSections(token, (String) teacherId);
     }
 
     @Override
@@ -1362,6 +1362,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
 
+    @Override
+    public GenericEntity getCoursesAndGrades(String token, Object studentId, Data config) {
+        return entityManager.getCurrentCoursesAndGrades(token, (String) studentId);
+    }
 
     /**
      * Retrieves attendance in a sorted order, removes all events where the student is present.
@@ -1373,24 +1377,24 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         GenericEntity ge = new GenericEntity();
 
-        List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
+        List<GenericEntity> attendanceList = getStudentAttendance(token, (String) studentId, null, null);
         if (attendanceList == null || attendanceList.size() < 1) {
             return ge;
         }
 
         GenericEntity firstWrapper = attendanceList.get(0);
-        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+        List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
             return ge;
         }
 
         //Comparator, sort by "schoolYear" descending order
-        Comparator<Map<String,Object>> schoolYearAttendanceComparator = new Comparator<Map<String,Object>>() {
+        Comparator<Map<String, Object>> schoolYearAttendanceComparator = new Comparator<Map<String, Object>>() {
             @Override
-            public int compare(Map<String,Object> arg0, Map<String,Object> arg1) {
+            public int compare(Map<String, Object> arg0, Map<String, Object> arg1) {
                 Object schoolYearObj0 = arg0.get(Constants.ATTR_SCHOOL_YEAR);
                 Object schoolYearObj1 = arg1.get(Constants.ATTR_SCHOOL_YEAR);
-                if(schoolYearObj0 == null || schoolYearObj1 == null) {
+                if (schoolYearObj0 == null || schoolYearObj1 == null) {
                     return 0;
                 }
                 String schoolYear0 = schoolYearObj0.toString();
@@ -1398,10 +1402,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 return schoolYear1.compareTo(schoolYear0);
             }
         };
-        Collections.sort(schoolYearAttendance,schoolYearAttendanceComparator);
+        Collections.sort(schoolYearAttendance, schoolYearAttendanceComparator);
 
         Map<String, Object> secondWrapper = schoolYearAttendance.get(0);
-        List<Map> attList = (List<Map>)secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+        List<Map> attList = (List<Map>) secondWrapper.get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
         if (attList == null) {
             return ge;
         }
@@ -1477,8 +1481,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             Date currentDate = new Date();
             Date sessionStart = sdf.parse(session.getString(Constants.ATTR_BEGIN_DATE));
             Date sessionEnd = sdf.parse(session.getString(Constants.ATTR_END_DATE));
-            if (sessionStart != null && sessionStart.before(currentDate) &&
-                sessionEnd != null && sessionEnd.after(currentDate)) {
+            if (sessionStart != null && sessionStart.before(currentDate)
+                    && sessionEnd != null && sessionEnd.after(currentDate)) {
                 schoolYear = session.getString(Constants.ATTR_SCHOOL_YEAR);
                 break;
             } else if (sessionEnd.before(currentDate)) {
@@ -1510,4 +1514,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         ret.add(sdf.format(endDate));
         return ret;
     }
+
+	@Override
+	public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
+		return entityManager.getEdorgProfile(token, (String) edorgId);
+	}
+
+	@Override
+	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
+		return entityManager.getStateEdorgProfile(token, (String) edorgId);
+	}	
 }

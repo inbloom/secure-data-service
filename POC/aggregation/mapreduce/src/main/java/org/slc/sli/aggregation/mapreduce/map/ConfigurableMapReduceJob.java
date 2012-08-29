@@ -250,7 +250,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
          * control over how splits are calculated.
          */
         MongoConfigUtil.setCreateInputSplits(mapperConf, true);
-        MongoConfigUtil.setShardChunkSplittingEnabled(mapperConf, false);
+        MongoConfigUtil.setShardChunkSplittingEnabled(mapperConf, true);
         MongoConfigUtil.setReadSplitsFromShards(mapperConf, false);
 
         MongoConfigUtil.setOutputURI(mapperConf, "mongodb://localhost:27017/" + updateCollection);

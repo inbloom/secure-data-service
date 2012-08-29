@@ -51,14 +51,14 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<E> translate(SIFDataObject sifData) throws SifTranslationException {
+    public List<E> translate(SIFDataObject sifData, String zoneId) throws SifTranslationException {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
 
         if (!sifPrototype.equals(wrappedSifClass)) {
             throw new SifTranslationException("Unsupported SIF data type");
         }
-        return doTranslate((T) sifData);
+        return doTranslate((T) sifData, zoneId);
     }
 
-    public abstract List<E> doTranslate(T sifData);
+    public abstract List<E> doTranslate(T sifData, String zoneId);
 }

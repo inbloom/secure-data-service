@@ -12,6 +12,11 @@ task :ingestionMongoTrackingAspect do
   runTests("test/features/ingestion/features/ingestion_MongoTrackingAspect.feature")
 end
 
+desc "Run Multiple Maestros Test"
+task :ingestionMultipleMaestro do
+  runTests("test/features/ingestion/features/ingestion_MultipleMaestro.feature")
+end
+
 ############################################################
 # Manual tests end
 ############################################################

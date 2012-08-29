@@ -1,0 +1,8 @@
+{
+	id: "sedorgInfo",
+	type: "PANEL",
+	data: {
+		entity: "sedorgInfo",
+		cacheKey: "sedorgInfo"
+	}
+}

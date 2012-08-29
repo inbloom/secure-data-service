@@ -46,8 +46,7 @@ public class DisciplineIncidents {
             client.read(collection, ResourceNames.DISCIPLINE_INCIDENTS, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
-        }
-        catch (SLIClientException e) {
+        } catch (SLIClientException e) {
             // the read was unsucessful
             LOG.error("Exception occurred", e);
         }

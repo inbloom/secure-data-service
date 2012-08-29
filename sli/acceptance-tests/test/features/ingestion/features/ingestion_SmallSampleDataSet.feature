@@ -3,10 +3,10 @@ Feature: Sample Data Set Ingestion Timimg
 
 Background: I have a landing zone route configured
 Given I am using local data store
-And I am using preconfigured Ingestion Landing Zone
 
 Scenario: Post Small Sample Data Set
-Given I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+  And I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
@@ -59,7 +59,7 @@ Given I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
-When "90" seconds have elapsed
+  And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
@@ -109,5 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentTranscriptAssociation             |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
+    And I should see "Processed 4148 records." in the resulting batch job file
+    And I should not see an error log file created
 
 

@@ -19,6 +19,7 @@ package org.slc.sli.test.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,32 +36,47 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
+	public static String SCHEMA_DIR;
 
-    //private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
+	public static List<String> SCHEMAS = new ArrayList<String>();
 
-	private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";
-	
-	private static final String SCHEMAS[] = { "Interchange-Section.xsd"};
-	
-//    private static final String SCHEMAS[] = {
-//            "Interchange-AssessmentMetadata.xsd",
-//            "Interchange-EducationOrgCalendar.xsd",
-//            "Interchange-EducationOrganization.xsd",
-//            "Interchange-HSGeneratedStudentTranscript.xsd",
-//            "Interchange-MasterSchedule.xsd",
-//            "Interchange-StaffAssociation.xsd",
-//            "Interchange-Student.xsd",
-//            "Interchange-StudentAssessment.xsd",
-//            "Interchange-StudentAttendance.xsd",
-//            "Interchange-StudentCohort.xsd",
-//            "Interchange-StudentDiscipline.xsd",
-//            "Interchange-StudentEnrollment.xsd",
-//            "Interchange-StudentGrade.xsd",
-//            "Interchange-StudentParent.xsd",
-//            "Interchange-StudentProgram.xsd" };
+    public static void getSchemaVersion(){
+    	if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
+    		
+    		SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";	
+    		
+    	} else {
+    		
+    		SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
+    	}
+     	  if ("../../sli/domain/src/main/resources/edfiXsd/".equalsIgnoreCase(SCHEMA_DIR)) {
+    		  	SCHEMAS.add("Interchange-AssessmentMetadata.xsd");
+  				SCHEMAS.add("Interchange-EducationOrgCalendar.xsd");
+  				SCHEMAS.add("Interchange-EducationOrganization.xsd");
+  				SCHEMAS.add("Interchange-HSGeneratedStudentTranscript.xsd");
+  				SCHEMAS.add("Interchange-MasterSchedule.xsd");
+  				SCHEMAS.add("Interchange-StaffAssociation.xsd");
+  				SCHEMAS.add("Interchange-Student.xsd");
+  				SCHEMAS.add("Interchange-StudentAssessment.xsd");
+  				SCHEMAS.add("Interchange-StudentAttendance.xsd");
+  				SCHEMAS.add("Interchange-StudentCohort.xsd");
+  				SCHEMAS.add("Interchange-StudentDiscipline.xsd");
+  				SCHEMAS.add("Interchange-StudentEnrollment.xsd");
+  				SCHEMAS.add("Interchange-StudentGrade.xsd");	
+  				SCHEMAS.add("Interchange-StudentGrade.xsd");
+  				SCHEMAS.add("Interchange-StudentParent.xsd");
+  				SCHEMAS.add("Interchange-StudentProgram.xsd");
+	  
+	} else {
+			
+			 SCHEMAS.add("Interchange-Section.xsd");
+			
+		}
+	}	
 
     public static String check(String xmlDir) throws Exception {
-
+  
+    	getSchemaVersion();
         Map<String, String> schemaMap = new HashMap<String, String>();
         for (String schema : SCHEMAS) {
             String schemaBase = schema.replace("Interchange", "").replace("-", "").replace("_", "").replace(".xsd", "");
@@ -74,19 +90,20 @@ public class ValidateSchema {
                 String fname = file.getName();
                 String baseName = fname.replace("Interchange", "").replace("-", "").replace("_", "")
                         .replace(".xml", "");
+                
                 if (schemaMap.get(baseName) != null) {
                     String schemaFile = schemaMap.get(baseName);
-                   
-                   SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                    //SchemaFactory factory = SchemaFactory.newInstance("http://slcedu.org/schema/0100");
-                    
+ 
+                    SchemaFactory factory;
+
+                    factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+  
                     File schemaLocation = new File(schemaFile);
 
                     Schema schema = factory.newSchema(schemaLocation);
-                    
+
                     Validator validator = schema.newValidator();
                     Source source = new StreamSource(file);
-                    
                 
                     final Map<String, List<Integer>> errorReport = new HashMap<String, List<Integer>>();
                     
@@ -151,6 +168,9 @@ public class ValidateSchema {
         return null;
     }
 
+
+					
+    
     public static void main(String[] args) throws SAXException, IOException, Exception {
         ValidateSchema.check("./data/");
     }

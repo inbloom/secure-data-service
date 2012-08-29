@@ -28,12 +28,12 @@ import openadk.library.common.LanguageList;
 
 import org.junit.Test;
 
-import org.slc.sli.sif.ADKTest;
+import org.slc.sli.sif.AdkTest;
 
 /**
  * AddressListConverter unit tests
  */
-public class LanguageListConverterTest extends ADKTest {
+public class LanguageListConverterTest extends AdkTest {
     private final LanguageListConverter converter = new LanguageListConverter();
     private Map<LanguageCode, String> map = new HashMap<LanguageCode, String>();
 

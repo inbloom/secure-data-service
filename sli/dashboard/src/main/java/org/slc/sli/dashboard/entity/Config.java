@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.entity;
 
 import java.io.Serializable;
@@ -33,49 +32,52 @@ import org.slc.sli.dashboard.web.util.NoBadChars;
 /**
  * Config unit for all dashboard components including panels and layouts
  * Immutable
- *
+ * 
  * @author agrebneva
- *
+ * 
  */
 public class Config implements Cloneable, Serializable {
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * Type of components
      * set true: it will look up outside config file.
      * set false: it does not have outside config.
+     * 
      * @author agrebneva
-     *
+     * 
      */
     public enum Type {
-        LAYOUT(true), PANEL(true), GRID(true), TREE(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(true);
-
+        LAYOUT(true), PANEL(true), GRID(true), TREE(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(
+                true);
+        
         private boolean hasOwnConfig;
-
+        
         private Type(boolean hasOwnConfig) {
             this.hasOwnConfig = hasOwnConfig;
         }
-
+        
         public boolean hasOwnConfig() {
             return hasOwnConfig;
         }
-
+        
         public boolean isLayoutItem() {
             return this == LAYOUT;
         }
     }
-
+    
     /**
      * Subcomponent of the config
-     *
+     * 
      * @author agrebneva
-     *
+     * 
      */
     public static class Item extends Config {
         private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9 \\-/\\+()\"':]{0,150}")
         protected String description;
-        // Field is a json hierarchy with nodes delimited by period and can use optional single quote
+        // Field is a json hierarchy with nodes delimited by period and can use optional single
+        // quote
         @Pattern(regexp = "[a-zA-Z0-9 \\.\\-_\\\\]{0,100}")
         protected String field;
         @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
@@ -94,59 +96,51 @@ public class Config implements Cloneable, Serializable {
         protected String sorter;
         @Pattern(regexp = "[a-zA-Z0-9 \\.\\-]")
         protected String align;
-
-        @NoBadChars
-        @Size(max = 30)
-        protected Map<String, Object> params;
-
+        
         public String getDescription() {
             return description;
         }
-
+        
         public String getField() {
             return field;
         }
-
+        
         public String getValue() {
             return value;
         }
-
+        
         public String getWidth() {
             return width;
         }
-
+        
         public String getColor() {
             return color;
         }
-
+        
         public String getStyle() {
             return style;
         }
-
+        
         public String getFormatter() {
             return formatter;
         }
-
+        
         public String getSorter() {
             return sorter;
         }
-
-        public Map<String, Object> getParams() {
-            return params;
-        }
-
+        
         public String getDatatype() {
             return datatype;
         }
-
+        
         public String getAlign() {
             return align;
         }
-
+        
         public void setAlign(String align) {
             this.align = align;
         }
-
+        
         @Override
         public Config cloneWithItems(Config.Item[] items) {
             Item item;
@@ -158,7 +152,7 @@ public class Config implements Cloneable, Serializable {
             item.items = items;
             return item;
         }
-
+        
         public Item cloneWithName(String name) {
             Item item;
             try {
@@ -169,7 +163,7 @@ public class Config implements Cloneable, Serializable {
             item.name = name;
             return item;
         }
-
+        
         public Item cloneWithParams(String name, String field) {
             Item item;
             try {
@@ -181,19 +175,19 @@ public class Config implements Cloneable, Serializable {
             item.field = field;
             return item;
         }
-
+        
         @Override
         public String toString() {
             return "ViewItem [width=" + width + ", type=" + datatype + ", color=" + color + ", style=" + style
                     + ", formatter=" + formatter + ", params=" + params + "]";
         }
     }
-
+    
     /**
      * Data component of the config
-     *
+     * 
      * @author agrebneva
-     *
+     * 
      */
     public static class Data implements Serializable {
         private static final long serialVersionUID = 1L;
@@ -205,33 +199,33 @@ public class Config implements Cloneable, Serializable {
         @NoBadChars
         protected Map<String, Object> params;
         protected boolean lazy;
-
+        
         public Data() {
         }
-
+        
         public Data(String entity, String cacheKey, boolean lazy, Map<String, Object> params) {
             this.entity = entity;
             this.cacheKey = cacheKey;
             this.params = params;
             this.lazy = lazy;
         }
-
+        
         public String getEntityRef() {
             return entity;
         }
-
+        
         public String getCacheKey() {
             return cacheKey;
         }
-
+        
         public Map<String, Object> getParams() {
             return params;
         }
-
+        
         public boolean isLazy() {
             return lazy;
         }
-
+        
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -241,12 +235,12 @@ public class Config implements Cloneable, Serializable {
             result = prime * result + (lazy ? 1231 : 1237);
             if (params != null) {
                 for (Object value : params.values()) {
-                      result = prime * result + ((value == null) ? 0 : value.hashCode());
-                  }
+                    result = prime * result + ((value == null) ? 0 : value.hashCode());
+                }
             }
             return result;
         }
-
+        
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -286,43 +280,44 @@ public class Config implements Cloneable, Serializable {
             return true;
         }
     }
-
+    
     /**
      * Data-related condition on the item
-     *
+     * 
      * @author agrebneva
-     *
+     * 
      */
     public static class Condition implements Serializable {
         private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9 \\.\\-]{0,30}")
         protected String field;
         protected Object[] value;
-
+        
         public String getField() {
             return field;
         }
-
+        
         public Object[] getValue() {
             return value;
         }
-
+        
         @Override
         public String toString() {
             return "Condition [field=" + field + ", value=" + Arrays.toString(value) + "]";
         }
     }
-
+    
     @Pattern(regexp = "[a-zA-Z0-9]{1,30}")
     protected String id;
     /**
-     * if id of the parent is different from the id - in case when many similar panels share the driver
+     * if id of the parent is different from the id - in case when many similar panels share the
+     * driver
      */
     @Pattern(regexp = "[a-zA-Z0-9]{0,30}")
     protected String parentId;
     @Pattern(regexp = "[a-zA-Z0-9 \\-/\\+()\"':\\.%]{0,150}")
     protected String name;
-
+    
     protected Type type = Type.FIELD;
     @Valid
     protected Condition condition;
@@ -332,8 +327,13 @@ public class Config implements Cloneable, Serializable {
     protected Item[] items;
     @Pattern(regexp = "[a-zA-Z0-9 \\.\\-]{0,30}")
     protected String root;
-
-    public Config(String id, String parentId, String name, Type type, Condition condition, Data data, Item[] items, String root) {
+    
+    @NoBadChars
+    @Size(max = 30)
+    protected Map<String, Object> params;
+    
+    public Config(String id, String parentId, String name, Type type, Condition condition, Data data, Item[] items,
+            String root, Map<String, Object> params) {
         super();
         this.id = id;
         this.parentId = parentId;
@@ -343,53 +343,58 @@ public class Config implements Cloneable, Serializable {
         this.data = data;
         this.items = items;
         this.root = root;
+        this.params = params;
     }
-
+    
     public Config() {
     }
-
+    
     public String getId() {
         return id;
     }
-
+    
     public String getParentId() {
         return parentId == null ? id : parentId;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getRoot() {
         return root;
     }
-
+    
     public Type getType() {
         return type;
     }
-
+    
     public Condition getCondition() {
         return condition;
     }
-
+    
     public Data getData() {
         return data;
     }
-
+    
     public Item[] getItems() {
         return items;
     }
-
-    public Config cloneWithItems(Item[] items) {
-        return new Config(id, parentId, name, type, condition, data, items, root);
+    
+    public Map<String, Object> getParams() {
+        return params;
     }
-
+    
+    public Config cloneWithItems(Item[] items) {
+        return new Config(id, parentId, name, type, condition, data, items, root, params);
+    }
+    
     /**
      * use this method if Config object is required to have a duplicate copy. Config object should
      * be immutable in order to avoid confusions.
      * It creates a cloned (deep copy) Config object except Config.Data.entity and Config.Data.param
      * (these values are overwritten by Config object an input param)
-     *
+     * 
      * @param customConfig
      *            Config.Data.entity and Config.Data.param are used to overwrite to a cloned Config
      *            object
@@ -397,10 +402,10 @@ public class Config implements Cloneable, Serializable {
      */
     public Config overWrite(Config customConfig) {
         // parent id for overwrite should be the same as id of the driver
-        Config config = new Config(this.id, this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
-                customConfig.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
+        Config config = new Config(this.id, this.id, customConfig.name, this.type, this.condition, new Data(
+                this.data.entity, customConfig.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
-                (customConfig.items == null) ? this.items : customConfig.items, this.root);
+                (customConfig.items == null) ? this.items : customConfig.items, this.root, this.params);
         return config;
     }
 }

@@ -39,7 +39,7 @@ import org.slc.sli.domain.Repository;
  * @author nbrown
  *
  */
-@Component("validationRepo")
+@Component("dummyValidationRepo")
 public class DummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
@@ -60,6 +60,7 @@ public class DummyEntityRepository implements Repository<Entity> {
         }
         entities.get(collection).put(id, entity);
     }
+
 
     @Override
     public boolean collectionExists(String collection) {
@@ -239,6 +240,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     public List<Entity> insert(List<Entity> records, String collectionName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

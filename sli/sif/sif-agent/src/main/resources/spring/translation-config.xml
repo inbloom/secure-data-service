@@ -1,91 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<context:annotation-config />
-	<context:component-scan base-package="org.slc.sli.sif.translation" />
-	<context:component-scan base-package="org.slc.sli.sif.domain" />
+    <context:annotation-config />
+    <context:component-scan base-package="org.slc.sli.sif.translation" />
+    <context:component-scan base-package="org.slc.sli.sif.domain" />
 
-	<bean id="schoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
+    <bean id="schoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
 
-	<!-- define TranslationTask for translationTaskMap -->
-	<bean id="SchoolInfoTranslationTaskList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref local="schoolInfoTranslationTask" />
-			</list>
-		</constructor-arg>
-	</bean>
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="SchoolInfoTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="schoolInfoTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
-	<bean id="leaInfoTranslationTask" class="org.slc.sli.sif.translation.LEAInfoTranslationTask" />
+    <bean id="leaInfoTranslationTask" class="org.slc.sli.sif.translation.LeaInfoTranslationTask" />
 
-	<!-- define TranslationTask for translationTaskMap -->
-	<bean id="LEAInfoTranslationTaskList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref local="leaInfoTranslationTask" />
-			</list>
-		</constructor-arg>
-	</bean>
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="LEAInfoTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="leaInfoTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
-	<bean id="studentSchoolEnrollmentTranslationTask" class="org.slc.sli.sif.translation.StudentSchoolEnrollmentTranslationTask" />
+    <bean id="studentSchoolEnrollmentTranslationTask" class="org.slc.sli.sif.translation.StudentSchoolEnrollmentTranslationTask" />
 
-	<!-- define TranslationTask for translationTaskMap -->
-	<bean id="StudentSchoolEnrollmentTranslationTaskList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref local="studentSchoolEnrollmentTranslationTask" />
-			</list>
-		</constructor-arg>
-	</bean>
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="StudentSchoolEnrollmentTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="studentSchoolEnrollmentTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
-	<bean id="studentLEARelationshipTranslationTask" class="org.slc.sli.sif.translation.StudentLEARelationshipTranslationTask" />
+    <bean id="studentLEARelationshipTranslationTask" class="org.slc.sli.sif.translation.StudentLeaRelationshipTranslationTask" />
 
-	<!-- define TranslationTask for translationTaskMap -->
-	<bean id="StudentLEARelationshipTranslationTaskList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref local="studentLEARelationshipTranslationTask" />
-			</list>
-		</constructor-arg>
-	</bean>
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="StudentLEARelationshipTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="studentLEARelationshipTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
-	<bean id="studentPersonalTranslationTask" class="org.slc.sli.sif.translation.StudentPersonalTranslationTask" />
+    <bean id="studentPersonalTranslationTask" class="org.slc.sli.sif.translation.StudentPersonalTranslationTask" />
 
-	<!-- define TranslationTask for translationTaskMap -->
-	<bean id="StudentPersonalTranslationTaskList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref local="studentPersonalTranslationTask" />
-			</list>
-		</constructor-arg>
-	</bean>
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="StudentPersonalTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="studentPersonalTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
 
-	<util:map id="translationMap" key-type="java.lang.String"
-		value-type="org.slc.sli.sif.translation.TranslationTask">
-		<entry key="SchoolInfo">
-			<ref bean="SchoolInfoTranslationTaskList" />
-		</entry>
-		<entry key="LEAInfo">
-			<ref bean="LEAInfoTranslationTaskList" />
-		</entry>
-		<entry key="StudentSchoolEnrollment">
-			<ref bean="StudentSchoolEnrollmentTranslationTaskList" />
-		</entry>
-		<entry key="StudentLEARelationship">
-			<ref bean="StudentLEARelationshipTranslationTaskList" />
-		</entry>
-		<entry key="StudentPersonal">
-			<ref bean="StudentPersonalTranslationTaskList" />
-		</entry>
-	</util:map>
+    <bean id="staffPersonalTranslationTask" class="org.slc.sli.sif.translation.StaffPersonalTranslationTask" />
 
-	<bean id="translationManager" class="org.slc.sli.sif.translation.SifTranslationManager">
-		<property name="translationMap" ref="translationMap" />
-	</bean>
-	
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="StaffPersonalTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="staffPersonalTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="employeePersonalTranslationTask" class="org.slc.sli.sif.translation.EmployeePersonalTranslationTask" />
+
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="EmployeePersonalTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employeePersonalTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="employmentRecordToStaffEdOrdTranslationTask" class="org.slc.sli.sif.translation.EmploymentRecordToStaffEdOrgTranslationTask" />
+
+    <bean id="EmploymentRecordTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employmentRecordToStaffEdOrdTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="employeeAssignment2StaffEdOrgAssocTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2StaffEdOrgAssocTranslationTask" />
+    <bean id="employeeAssignment2TeacherSchoolAssocTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2TeacherSchoolAssocTranslationTask" />
+    <bean id="employeeAssignment2TeacherTranslationTask" class="org.slc.sli.sif.translation.EmployeeAssignment2TeacherTranslationTask" />
+
+    <bean id="EmployeeAssignmentTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="employeeAssignment2StaffEdOrgAssocTranslationTask" />
+                <ref local="employeeAssignment2TeacherSchoolAssocTranslationTask" />
+                <!-- <ref local="employeeAssignment2TeacherTranslationTask" /> -->
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="staffAssignment2StaffEdOrgAssocTranslationTask" class="org.slc.sli.sif.translation.StaffAssignment2StaffEdOrgAssocTranslationTask" />
+    <bean id="staffAssignment2TeacherSchoolAssocTranslationTask" class="org.slc.sli.sif.translation.StaffAssignment2TeacherSchoolAssocTranslationTask" />
+
+    <bean id="StaffAssignmentTranslationTaskList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref local="staffAssignment2StaffEdOrgAssocTranslationTask" />
+                <ref local="staffAssignment2TeacherSchoolAssocTranslationTask" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <util:map id="translationMap" key-type="java.lang.String"
+        value-type="org.slc.sli.sif.translation.TranslationTask">
+        <entry key="SchoolInfo">
+            <ref bean="SchoolInfoTranslationTaskList" />
+        </entry>
+        <entry key="LEAInfo">
+            <ref bean="LEAInfoTranslationTaskList" />
+        </entry>
+        <entry key="StudentSchoolEnrollment">
+            <ref bean="StudentSchoolEnrollmentTranslationTaskList" />
+        </entry>
+        <entry key="StudentLEARelationship">
+            <ref bean="StudentLEARelationshipTranslationTaskList" />
+        </entry>
+        <entry key="StudentPersonal">
+            <ref bean="StudentPersonalTranslationTaskList" />
+        </entry>
+        <entry key="StaffPersonal">
+            <ref bean="StaffPersonalTranslationTaskList" />
+        </entry>
+        <entry key="EmployeePersonal">
+            <ref bean="EmployeePersonalTranslationTaskList" />
+        </entry>
+        <entry key="EmploymentRecord">
+            <ref bean="EmploymentRecordTranslationTaskList" />
+        </entry>
+        <entry key="EmployeeAssignment">
+            <ref bean="EmployeeAssignmentTranslationTaskList" />
+        </entry>
+        <entry key="StaffAssignment">
+            <ref bean="StaffAssignmentTranslationTaskList" />
+        </entry>
+    </util:map>
+
+    <bean id="translationManager" class="org.slc.sli.sif.translation.SifTranslationManager">
+        <property name="translationMap" ref="translationMap" />
+    </bean>
+
 </beans>
