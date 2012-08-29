@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
@@ -74,6 +73,10 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             String externalId = (String) item.getLocalId();
             if (externalId != null) {
                 entity.getMetaData().put("externalId", externalId);
+            }
+
+            if (item.getMetaData().get("edOrgs") != null) {
+                entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
             }
 
             return Arrays.asList(entity);
