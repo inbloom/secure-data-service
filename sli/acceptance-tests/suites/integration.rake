@@ -1,6 +1,8 @@
 ############################################################
 # Cross App Tests start
 ############################################################
+require_relative '../test/features/utils/rakefile_common.rb'
+
 desc "Run cross application testing"
 task :crossAppTests => [:appInit] do
   runTests("test/features/cross_app_tests")
@@ -41,6 +43,19 @@ task :rcCleanUpTests do
   runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
 end
 
+desc "Delete SEA, LEA and dev from LDAP"
+task :rcDeleteLDAPUsers do
+  emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
+  emailsToDelete.each do |email|
+    begin
+      cleanUpLdapUser(email)
+      puts "Successfully Deleted #{email} from LDAP"
+    rescue
+      puts "Error:  Deleting #{email} from LDAP failed"
+    end
+  end
+end
+
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
@@ -50,6 +65,7 @@ task :rcTests do
   Rake::Task["rcIngestionTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
+  Rake::Task["rcCleanUpTests"].execute
 
   displayFailureReport()
   if $SUCCESS

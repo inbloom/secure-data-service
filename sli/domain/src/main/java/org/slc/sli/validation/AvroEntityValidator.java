@@ -342,4 +342,10 @@ public class AvroEntityValidator implements EntityValidator {
     public void setReferenceCheck(String referenceCheck) {
     }
 
+    @Override
+    public boolean validatePresent(Entity entity) throws EntityValidationException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

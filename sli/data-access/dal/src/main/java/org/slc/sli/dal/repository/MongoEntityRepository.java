@@ -113,6 +113,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        Entity entity = new MongoEntity(type, null, newValues, null, PADDING);
+        validator.validatePresent(entity);
+        return super.patch(type, collectionName, id, newValues);
+    }
+
+    @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
