@@ -16,8 +16,9 @@
  *
  */
 
-package org.slc.sli.api.resources.generic;
+package org.slc.sli.api.resources.generic.custom;
 
+import org.slc.sli.api.resources.generic.DefaultResource;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -31,7 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Resource for handling public one part URIs
+ * Resource for handling public URIs
  *
  * @author srupasinghe
  * @author jstokes
@@ -41,7 +42,7 @@ import javax.ws.rs.core.UriInfo;
 
 @Component
 @Scope("request")
-public class PublicOnePartResource extends OnePartResource {
+public class PublicDefaultResource extends DefaultResource {
 
     @Override
     @GET

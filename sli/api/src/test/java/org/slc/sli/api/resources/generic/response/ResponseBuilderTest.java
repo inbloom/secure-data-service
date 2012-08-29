@@ -57,10 +57,6 @@ public class ResponseBuilderTest {
     @Qualifier("getResponseBuilder")
     protected ResponseBuilder responseBuilder;
 
-    @javax.annotation.Resource(name = "resourceSupportedMethods")
-    private Map<String, Set<String>> resourceSupprtedMethods;
-
-    private static final String URI_KEY = "v1/students";
     private static final String URI = "http://some.net/api/rest/v1/students";
 
     private java.net.URI requestURI;
@@ -68,20 +64,10 @@ public class ResponseBuilderTest {
 
     @Before
     public void setup() throws URISyntaxException {
-        Set<String> methods = new HashSet<String>();
-        methods.add("GET");
-
-        resourceSupprtedMethods.put(URI_KEY, methods);
-
         requestURI = new URI(URI);
 
         uriInfo = mock(UriInfo.class);
         when(uriInfo.getRequestUri()).thenReturn(requestURI);
-    }
-
-    @Test(expected = MethodNotAllowedException.class)
-    public void testNotSupportedMethod() {
-        responseBuilder.constructAndCheckResource(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.POST);
     }
 
     @Test

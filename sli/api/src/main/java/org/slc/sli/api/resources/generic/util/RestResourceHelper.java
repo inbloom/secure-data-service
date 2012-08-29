@@ -90,6 +90,13 @@ public class RestResourceHelper implements ResourceHelper {
         return definition;
     }
 
+    @Override
+    public boolean resolveResourcePath(final String URI, final ResourceTemplate template) {
+        final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
+
+        return uriTemplate.matches(URI);
+    }
+
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
         String path = uriInfo.getRequestUri().getPath();

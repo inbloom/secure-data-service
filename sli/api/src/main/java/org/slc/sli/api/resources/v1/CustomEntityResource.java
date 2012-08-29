@@ -21,38 +21,31 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
  * Subresource for custom entities
  *
  */
-@Component
-@Scope("request")
 public class CustomEntityResource {
 
-    @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
+    private final EntityDefinition entityDefinition;
+    private final String entityId;
 
-    @Autowired
-    private ResourceHelper resourceHelper;
+    public CustomEntityResource(final String entityId, final EntityDefinition entityDefinition) {
+        this.entityId = entityId;
+        this.entityDefinition = entityDefinition;
+    }
 
     /**
      * Read the contents of the custom resource for the given entity.
@@ -60,16 +53,13 @@ public class CustomEntityResource {
      * @return the response to the GET request
      */
     @GET
-    public Response read(@Context final UriInfo uriInfo,
-                         @PathParam("id") final String entityId) {
+    @Path("/")
+    public Response read() {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-
-        if (entityDef == null) {
+        if (entityDefinition == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        EntityBody entityBody = entityDef.getService().getCustom(entityId);
+        EntityBody entityBody = entityDefinition.getService().getCustom(entityId);
         if (entityBody == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -84,17 +74,13 @@ public class CustomEntityResource {
      * @return the response to the PUT request
      */
     @PUT
-    public Response createOrUpdatePut(@Context final UriInfo uriInfo,
-                                      @PathParam("id") final String entityId,
-                                      final EntityBody customEntity) {
+    @Path("/")
+    public Response createOrUpdatePut(final EntityBody customEntity) {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-
-        if (entityDef == null) {
+        if (entityDefinition == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        entityDef.getService().createOrUpdateCustom(entityId, customEntity);
+        entityDefinition.getService().createOrUpdateCustom(entityId, customEntity);
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -106,19 +92,16 @@ public class CustomEntityResource {
      * @return the response to the POST request
      */
     @POST
-    public Response createOrUpdatePost(final EntityBody customEntity,
-                                       @Context final UriInfo uriInfo,
-                                       @PathParam("id") final String entityId) {
+    @Path("/")
+    public Response createOrUpdatePost(@Context final UriInfo uriInfo,
+                                       final EntityBody customEntity) {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-
-        if (entityDef == null) {
+        if (entityDefinition == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        entityDef.getService().createOrUpdateCustom(entityId, customEntity);
+        entityDefinition.getService().createOrUpdateCustom(entityId, customEntity);
         String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                PathConstants.TEMP_MAP.get(entityDef.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES)
+                PathConstants.TEMP_MAP.get(entityDefinition.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES)
                 .toString();
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
@@ -129,16 +112,13 @@ public class CustomEntityResource {
      * @return the response to the DELETE request
      */
     @DELETE
-    public Response delete(@Context final UriInfo uriInfo,
-                           @PathParam("id") final String entityId) {
+    @Path("/")
+    public Response delete() {
 
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
-        final EntityDefinition entityDef = entityDefinitionStore.lookupByResourceName(resource.getResourceType());
-
-        if (entityDef == null) {
+        if (entityDefinition == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        entityDef.getService().deleteCustom(entityId);
+        entityDefinition.getService().deleteCustom(entityId);
         return Response.status(Status.NO_CONTENT).build();
     }
 }
