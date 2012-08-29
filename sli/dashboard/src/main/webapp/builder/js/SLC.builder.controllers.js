@@ -304,8 +304,10 @@ function allPanelListCtrl($scope, dbSharedService) {
 			stop: function() {
 				parent.selectedPanels = [];
 				$( ".ui-selected", this ).each(function() {
-					var index = $( "#panelSelectable li" ).index( this );
-					parent.selectedPanels.push($scope.allPanels[index]);
+					if(this.tagName !== "SPAN") {
+						var index = $( "#panelSelectable li" ).index( this );
+						parent.selectedPanels.push($scope.allPanels[index]);
+					}
 				});
 			}
 		});

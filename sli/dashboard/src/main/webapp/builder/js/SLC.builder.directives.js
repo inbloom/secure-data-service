@@ -42,13 +42,13 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 		return {
 			restrict: 'A',
 			link: function (scope, element, attrs) {
-				scope.$watch(attrs.ngFocus, function(newValue, oldValue){
-					if(newValue) {
+				attrs.$observe('ngFocus', function(value) {
+					if(value) {
 						window.setTimeout(function(){
 							element.focus();
-						},100);
+						},200);
 					}
-				}, true);
+				});
 			}
 		};
 	})
