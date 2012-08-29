@@ -82,7 +82,7 @@ public abstract class RetryMongoCommand {
 
     private <T extends Exception> void handleException(int currentRetry, int totalRetries, T ex) throws T {
 
-        LOG.debug("Exception caught at attempt # " + currentRetry + " of " + totalRetries, ex);
+//        LOG.debug("Exception caught at attempt # " + currentRetry + " of " + totalRetries, ex);
 
         if (currentRetry >= totalRetries) {
             LOG.error("Retry attempts exhausted at {}", totalRetries);

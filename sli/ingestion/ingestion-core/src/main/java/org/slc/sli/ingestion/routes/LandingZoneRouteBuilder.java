@@ -25,6 +25,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
@@ -51,7 +52,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     public static final String CTRL_POLLER_PREFIX = "ctlFilePoller-";
     public static final String ZIP_POLLER_PREFIX = "zipFilePoller-";
 
-    private final static String invalidCharacters = "?";
+    private static final String INVALID_CHARACTERS = "?";
 
     private String workItemQueueUri;
 
@@ -79,7 +80,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
 
             //Don't create the file poller if failed to create
             //the landing zone or the name is invalid
-            if ( !isValidDirName(inboundDir) || !createValidDir(inboundDir) ) {
+            if (!isValidDirName(inboundDir) || !createValidDir(inboundDir)) {
                 continue;
             }
 
@@ -153,8 +154,8 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     * @return : true if directory name doesn't contain any invalid character.
     */
    private boolean isValidDirName(String inboundDir) {
-       boolean res = StringUtils.containsNone(inboundDir, invalidCharacters);
-       if(!res) {
+       boolean res = StringUtils.containsNone(inboundDir, INVALID_CHARACTERS);
+       if (!res) {
            log.error("Failed to create file poller, because of invalid characters in {}", inboundDir);
        }
 

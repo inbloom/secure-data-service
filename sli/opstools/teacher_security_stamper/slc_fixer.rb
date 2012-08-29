@@ -23,6 +23,7 @@ require 'benchmark'
 require 'set'
 require 'date'
 require 'logger'
+include Process
 
 class SLCFixer
   attr_accessor :db, :log
@@ -34,20 +35,20 @@ class SLCFixer
     @grace_period = grace_period
     @basic_query = tenant.nil? ? {} : {"metaData.tenantId" => tenant} 
     @db = db
-    @basic_options = {:timeout => false, :batch_size => 100}
+    @basic_options = {:timeout => false, :batch_size => 1000}
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
   end
 
   def measure(lable, &block)
-    Thread.current[:count] = 0
-    Thread.current[:start_time] = Time.now
+    @count = 0
+    @start_time = Time.now
     time = Benchmark.measure {block.call()}
     @log.warn "%-15s#{time}" % lable
-    total_time = Time.now - Thread.current[:start_time]
+    total_time = Time.now - @start_time
     @log.warn "#{lable}"
     @log.warn "\tTotal time: #{total_time} s"
-    @log.warn "\tRPS: #{Thread.current[:count]/total_time}"
+    @log.warn "\tRPS: #{@count/total_time}"
   end
 
   def start
@@ -57,9 +58,8 @@ class SLCFixer
       @studentId_to_teachers = {}
       @current_date = Date.today.to_s
       @grace_date = (Date.today - @grace_period).to_s
-      @count = 0
 
-      @threads = []
+      @pids = []
 
       # Needed to move this inside the start method from init, since in forever mode it woudl only init with the teachers currently in system
       @db['staff'].find({"metaData.tenantId" => @tenant, type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
@@ -69,21 +69,19 @@ class SLCFixer
       }
 
       measure('students') {stamp_students}
-      @threads << Thread.new {measure('sections') {stamp_sections}}
-      @threads << Thread.new {measure('programs') {stamp_programs}}
-      @threads << Thread.new {measure('cohorts') {stamp_cohorts}}
-      @threads << Thread.new {measure('parents') {stamp_parents}}
-      @threads << Thread.new {measure('assessments') {stamp_assessments}}
-      @threads << Thread.new {measure('disciplines') {stamp_disciplines}}
-      @threads << Thread.new {measure('other') {stamp_other}}
-      @threads << Thread.new {measure('student-assoc') {stamp_student_associations}}
-      @threads << Thread.new {measure('teacher') {stamp_teacher}}
-      @threads << Thread.new {measure('gradebook') {stamp_gradebook}}
-      @threads << Thread.new {measure('schools') {stamp_schools}}
+      @pids << fork {measure('sections') {stamp_sections}}
+      @pids << fork {measure('programs') {stamp_programs}}
+      @pids << fork {measure('cohorts') {stamp_cohorts}}
+      @pids << fork {measure('parents') {stamp_parents}}
+      @pids << fork {measure('assessments') {stamp_assessments}}
+      @pids << fork {measure('disciplines') {stamp_disciplines}}
+      @pids << fork {measure('other') {stamp_other}}
+      @pids << fork {measure('student-assoc') {stamp_student_associations}}
+      @pids << fork {measure('teacher') {stamp_teacher}}
+      @pids << fork {measure('gradebook') {stamp_gradebook}}
+      @pids << fork {measure('schools') {stamp_schools}}
+      Process.waitall
 
-      @threads.each { |th|
-        th.join
-      }
 
       finalTime = Time.now - time
       @log.info "\t Final time is #{finalTime} secs"
@@ -529,7 +527,7 @@ class SLCFixer
       #TODO Add tenantId, remove multi
       @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}}, {:multi => true})
     }
-    Thread.current[:count] += 1
+    @count += 1
     @log.info "Finished: Stamping studentTranscriptAssociations"
   end
 
@@ -703,7 +701,6 @@ class SLCFixer
       id.each { |i|
         collection.update({"_id" => i, "metaData.tenantId" => tenant}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
         @count += 1
-        Thread.current[:count] += 1
         @log.info {"Stamping #{collection.name}"} if @count % 200 == 0
       }
     rescue Exception => e
