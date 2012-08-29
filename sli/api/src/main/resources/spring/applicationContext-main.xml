@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
@@ -10,7 +10,7 @@
 	<context:annotation-config />
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/" />
-   
+
     <!-- URL based view resolver for OAuth 2.0 workflow -->
     <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -30,23 +30,42 @@
          </list>
       </property>
    </bean>
-   
+
    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
 		<constructor-arg ref="contextSource" />
 	</bean>
-	
-	
-	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource"> 
+
+
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
 		<property name="base" value="${sli.simple-idp.ldap.base}" />
 		<property name="userDn" value="${sli.api.ldap.user:null}" />
         <property name="password" value="${sli.api.ldap.pass:null}" />
         <property name="pooled" value="true" />
 	</bean>
-	 
+
 	<bean
-		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" /> 
-  
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+
+
+    <!-- Excluded collections for tenant-level purge -->
+    <util:list id="excluded" value-type="java.lang.String">
+        <value>system.indexes</value>
+        <value>system.js</value>
+        <value>system.namespaces</value>
+        <value>system.profile</value>
+        <value>system.users</value>
+        <value>tenant</value>
+        <value>securityEvent</value>
+        <value>realm</value>
+        <value>application</value>
+        <value>roles</value>
+        <value>customRole</value>
+    </util:list>
+
+    <bean id="tenantPurgeResource" class="org.slc.sli.api.resources.security.TenantPurgeResource">
+        <property name="excludeCollections" ref="excluded"/>
+    </bean>
 
 
 </beans>

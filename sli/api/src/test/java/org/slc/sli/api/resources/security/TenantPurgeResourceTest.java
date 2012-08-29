@@ -80,7 +80,6 @@ public class TenantPurgeResourceTest {
 
     UriInfo uriInfo = null;
     HttpHeaders headers = null;
-    static final String MY_TENANT_ID = "MyTenant";
 
     @Before
     public void setUp() throws Exception {
@@ -90,11 +89,6 @@ public class TenantPurgeResourceTest {
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
-
-        // Add a mock tenant
-        EntityBody body = new EntityBody();
-        body.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
-        repo.create(EntityNames.EDUCATION_ORGANIZATION, body, new HashMap<String, Object>(), EntityNames.TENANT);
     }
 
     @After
@@ -104,9 +98,15 @@ public class TenantPurgeResourceTest {
 
     @Test
     public void testPurge() {
+        final String MY_TENANT_ID = "MyTenant";
         injector.setSeaAdminContext();
         Map<String, String> requestBody = new HashMap<String, String>();
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
+
+        // Add a mock tenant
+        EntityBody body = new EntityBody();
+        body.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
+        repo.create(EntityNames.TENANT, body, new HashMap<String, Object>(), EntityNames.TENANT);
 
         // Verify the purge operation completed successfully.
         Response res = resource.purge(requestBody, null);
@@ -114,7 +114,20 @@ public class TenantPurgeResourceTest {
     }
 
     @Test
+    public void testBadTenant() {
+        final String MY_TENANT_ID = "MyBadTenant";
+        injector.setSeaAdminContext();
+        Map<String, String> requestBody = new HashMap<String, String>();
+        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);
+
+        // Verify the tenant was not found.
+        Response res = resource.purge(requestBody, null);
+        assertEquals(Status.NOT_FOUND, Status.fromStatusCode(res.getStatus()));
+    }
+
+    @Test
     public void testNotAuthorized() {
+        final String MY_TENANT_ID = "MyTenant";
         injector.setLeaAdminContext();
         Map<String, String> requestBody = new HashMap<String, String>();
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, MY_TENANT_ID);

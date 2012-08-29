@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +70,19 @@ public class TenantPurgeResource {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    private List<String> excludeCollections;
+
+    TenantPurgeResource() {
+    }
+
+    public List<String> getExcludeCollections() {
+        return excludeCollections;
+    }
+
+    public void setExcludeCollections(List<String> excludeCollections) {
+        this.excludeCollections = excludeCollections;
+    }
+
     /**
      * Purge a tenant from the database.
      *
@@ -106,14 +118,15 @@ public class TenantPurgeResource {
      * @return Response
      *         Result of the purge request
      */
+    @SuppressWarnings("unused")
     public Response purgeTenant(final String tenantId) {
         // Ensure the declared tenant exists.
         if (!tenantExists(tenantId)) {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        // // Create a thread to purge the declared tenant.
-        // TenantPurgeRunnable runnable = new TenantPurgeRunnable(tenantId, repo);
+        // Create a thread to purge the declared tenant.
+        TenantPurgeRunnable runnable = new TenantPurgeRunnable(tenantId, repo, excludeCollections);
 
         // Send a JMS message to SARJE to implement purge in a separate thread.
         boolean sent = sendPurgeRequest(tenantId);
@@ -135,8 +148,7 @@ public class TenantPurgeResource {
     private boolean tenantExists(final String tenantId) {
         // Ensure the declared tenant exists.
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("body." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
-                false));
+        query.addCriteria(new NeutralCriteria(ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId));
         Entity entity = repo.findOne(EntityNames.TENANT, query);
         if (entity == null) {
             return false;
@@ -160,7 +172,7 @@ public class TenantPurgeResource {
             Connection conn = connFactory.createConnection();
             conn.start();
             Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Destination destination = session.createQueue("ingestion.pit");
+            Destination destination = session.createQueue("oplog");
             MessageProducer producer = session.createProducer(destination);
             producer.setDeliveryMode(DeliveryMode.PERSISTENT);
             ObjectMessage objMessage = session.createObjectMessage("purge " + tenantId);
@@ -189,13 +201,12 @@ class TenantPurgeRunnable implements Runnable {
     Thread t;
     private String tenantId;
     private Repository<Entity> repo;
-
     private List<String> excludeCollections;
 
-    TenantPurgeRunnable(String tenantId, Repository<Entity> repo) {
+    TenantPurgeRunnable(String tenantId, Repository<Entity> repo, final List<String> excludeCollections) {
         this.tenantId = tenantId;
         this.repo = repo;
-        excludeCollections = new LinkedList<String>();
+        this.excludeCollections = excludeCollections;
         t = new Thread(this, "purgeTenant");
         t.start();
     }
@@ -207,14 +218,19 @@ class TenantPurgeRunnable implements Runnable {
         searchTenantId.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=",
                 tenantId, false));
         Iterable<DBCollection> collections = repo.getCollections(false);
-        String collectionName;
-        for (DBCollection collection : collections) {
-            collectionName = collection.getName();
-            if (isExcludedCollection(collectionName)) {
-                continue;
-            }
-            for (Entity entity : repo.findAll(collectionName, searchTenantId)) {
-                repo.delete(collectionName, entity.getEntityId());
+        if (collections != null) {
+            for (DBCollection collection : collections) {
+                String collectionName = collection.getName();
+                if (isExcludedCollection(collectionName)) {
+                    continue;
+                }
+                for (Entity entity : repo.findAll(collectionName, searchTenantId)) {
+                    try {
+                        repo.delete(collectionName, entity.getEntityId());
+                    } catch (Exception e) {
+                        // Do nothing.
+                    }
+                }
             }
         }
     }
