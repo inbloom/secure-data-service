@@ -246,6 +246,8 @@ public final class WadlAudit {
         }
         final Map<String, QName> elementNames = new HashMap<String, QName>();
         elementNames.put("Custom", new QName(namespaceUri, "custom"));
+        elementNames.put("Aggregations", new QName(namespaceUri, "aggregations"));
+        elementNames.put("CalculatedValues", new QName(namespaceUri, "calculatedValues"));
         elementNames.put("Home", null);
         elementNames.put("Unknown", null);
         for (final PsmDocument<Type> document : psm.getDocuments()) {
