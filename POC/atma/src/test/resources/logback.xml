@@ -1,0 +1,27 @@
+<configuration>
+  <property file="${sli.conf}" />
+  <!-- <property resource="api-dev.properties" /> -->
+   
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+       <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                     <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+           </encoder>
+  </appender>
+ 
+  <logger name="org.springframework" level="WARN" />
+  <logger name="org.springframework.beans.factory" level="INFO" />
+  <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />
+  <logger name="org.slc.sli.validation.AvroEntitySchemaRegistry" level="INFO" />
+ 
+  <logger name="org.slc.sli.dal.repository" level="INFO" />
+  <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="INFO" />
+  <logger name="audit" level="INFO" />
+ 
+ 
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+ 
+  
+</configuration>
+ 

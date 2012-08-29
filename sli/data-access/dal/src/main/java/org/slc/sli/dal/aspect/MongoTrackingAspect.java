@@ -27,14 +27,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.slc.sli.dal.MongoStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
 
 /**
@@ -82,14 +81,14 @@ public class MongoTrackingAspect {
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
-        if( isEnabled()) {
+        if (isEnabled()) {
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
 
         String collection = determineCollectionName(pjp);
 
         proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection);
         }
-        if(Boolean.valueOf(dbCallTracking)) {
+        if (Boolean.valueOf(dbCallTracking)) {
            dbCallTracker.increamentHitCount();
         }
 
@@ -99,12 +98,12 @@ public class MongoTrackingAspect {
     @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
-        if ( isEnabled() ){
+        if (isEnabled()) {
         DBCollection col = (DBCollection) pjp.getTarget();
 
         proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
         }
-        if(Boolean.valueOf(dbCallTracking)) {
+        if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.increamentHitCount();
         }
         return pjp.proceed();

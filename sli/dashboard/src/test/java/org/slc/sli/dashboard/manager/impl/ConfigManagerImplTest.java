@@ -24,6 +24,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import org.slc.sli.dashboard.client.APIClient;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.Config;
@@ -32,13 +33,19 @@ import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.util.JsonConverter;
 
+/**
+ *
+ * TODO: add class level javadoc
+ *
+ */
 public class ConfigManagerImplTest {
     private APIClient apiClient = null;
     private ConfigManagerImpl configManager = null;
-    
+
     @Before
     public void setUp() throws Exception {
         this.apiClient = new SDKAPIClient() {
+            @Override
             public GenericEntity getEducationalOrganization(String token, String id) {
                 GenericEntity entity = null;
                 if (id.equals("2012de-df94acd2-e7cd-11e1-a937-68a86d3c2f82")) {
@@ -54,7 +61,8 @@ public class ConfigManagerImplTest {
                 }
                 return entity;
             }
-            
+
+            @Override
             public GenericEntity getParentEducationalOrganization(String token, GenericEntity educationalOrganization) {
                 GenericEntity entity = null;
                 if (educationalOrganization.getId().equals("2012de-df94acd2-e7cd-11e1-a937-68a86d3c2f82")) {
@@ -65,7 +73,8 @@ public class ConfigManagerImplTest {
                 }
                 return entity;
             }
-            
+
+            @Override
             public ConfigMap getEdOrgCustomData(String token, String id) {
                 ConfigMap configMap = null;
                 if (id.equals("2012de-df94acd2-e7cd-11e1-a937-68a86d3c2f82")) {
@@ -83,32 +92,32 @@ public class ConfigManagerImplTest {
             }
         };
     }
-    
+
     @Test
     public void testGetAllConfigByType() {
         configManager = new ConfigManagerImpl();
         configManager.setApiClient(apiClient);
         configManager.setDriverConfigLocation("config");
         configManager.setUserConfigLocation("custom");
-        
-        Map<String,String> params=new HashMap<String,String>();
+
+        Map<String, String> params = new HashMap<String, String>();
         params.put("type", "PANEL");
         String edOrgId = "2012de-df94acd2-e7cd-11e1-a937-68a86d3c2f82";
         Map<String, Collection<Config>> mapConfigs = configManager.getAllConfigByType("token", new EdOrgKey(edOrgId),
                 params);
-        
+
         Assert.assertEquals(3, mapConfigs.size());
         Collection<Config> defaultConfig = mapConfigs.get("default");
         Assert.assertNotNull(defaultConfig);
         Assert.assertEquals(10, defaultConfig.size());
-        
-        Collection<Config> SEA = mapConfigs.get("State Education Agency");
-        Assert.assertNotNull(SEA);
-        Assert.assertEquals(1, SEA.size());
-        
-        Collection<Config> LEA = mapConfigs.get("Local Education Agency");
-        Assert.assertNotNull(LEA);
-        Assert.assertEquals(1, LEA.size());
+
+        Collection<Config> sea = mapConfigs.get("State Education Agency");
+        Assert.assertNotNull(sea);
+        Assert.assertEquals(1, sea.size());
+
+        Collection<Config> lea = mapConfigs.get("Local Education Agency");
+        Assert.assertNotNull(lea);
+        Assert.assertEquals(1, lea.size());
     }
-    
+
 }

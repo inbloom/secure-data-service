@@ -137,7 +137,21 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
     public List<Link> getLinks() {
         return links;
     }
-
+    
+    public Link getLink(String linkName) {
+    	if (links == null){
+    		return null;
+    	}
+    	
+    	for(Link link : links) {
+    		if(link.getLinkName().equals(linkName)) {
+    			return link;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
     @Override
     public Map<String, URL> getLinkMap() {
         List<Link> links = getLinks();
