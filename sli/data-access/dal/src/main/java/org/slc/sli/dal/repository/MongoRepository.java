@@ -415,13 +415,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
                     convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
                 }
-            } else if (operation.equals("pushAll") || operation.equals("addToSet")) {
+            } else if (operation.equals("pushAll")) {
                 for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
                     convertedUpdate.pushAll(fieldValues.getKey(), (Object[]) fieldValues.getValue());
                 }
+            } else if (operation.equals("addToSet")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.addToSet(fieldValues.getKey(), fieldValues.getValue());
+                }
             }
         }
-
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
