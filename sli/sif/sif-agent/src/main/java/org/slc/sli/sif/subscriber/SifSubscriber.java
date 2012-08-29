@@ -148,10 +148,7 @@ public class SifSubscriber implements Subscriber {
         }
         updateMap(matchedEntity.getData(), sliEntity.createBody());
         slcInterface.update(matchedEntity);
-        if (sliEntity.hasOtherSifRefId()) {
-            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(),
-                    matchedEntity.getId(), zoneId);
-        }
+
         LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
