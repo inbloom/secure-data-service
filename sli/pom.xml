@@ -32,6 +32,7 @@
 		<maven.tomcat.version>1.1</maven.tomcat.version>
 		<maven.jetty.version>6.1.10</maven.jetty.version>
 		<maven.release.version>2.2</maven.release.version>
+        <maven.emma.version>1.0-alpha-3</maven.emma.version>
 
 		<!-- Spring Framework Versions -->
 		<spring.version>3.0.6.RELEASE</spring.version>
@@ -964,6 +965,17 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>emma-maven-plugin</artifactId>
+                <version>${maven.emma.version}</version>
+                <configuration>
+                    <filters>
+                        <filter>-org.slc.sli.shtick.*</filter>
+                    </filters>
+                </configuration>
+            </plugin>
 
             <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
