@@ -80,7 +80,7 @@ public class StudentProgressManagerTest {
         GenericEntity subjArea = new GenericEntity();
         subjArea.put(Constants.ATTR_SUBJECTAREA, subjectArea);
 
-        when(mockApiClient.getCoursesForStudent(token, section, params)).thenReturn(buildHistoricalData());
+        when(mockApiClient.getStudentsForSection(token, section, params)).thenReturn(buildHistoricalData());
 
         when(mockApiClient.getEntity(token, Constants.ATTR_COURSES, course,
                 new HashMap<String, String>())).thenReturn(subjArea);

@@ -297,7 +297,7 @@ public interface APIClient {
      * Returns a list of sections for the given student and params
      *
      */
-    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params);
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, Map<String, String> params);
 
     /**
      * Get a list of transcripts for the given student id

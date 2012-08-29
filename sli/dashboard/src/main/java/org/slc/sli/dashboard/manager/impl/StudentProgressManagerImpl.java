@@ -206,7 +206,7 @@ public class StudentProgressManagerImpl extends ApiClientManager implements Stud
         String subjectArea = getSubjectArea(token, selectedCourse);
         Map<String, String> params = new HashMap<String, String>();
 
-        List<GenericEntity> students = getApiClient().getCoursesForStudent(token, selectedSection, params);
+        List<GenericEntity> students = getApiClient().getStudentsForSection(token, selectedSection, params);
 
         if (students == null || students.isEmpty()) {
             return results;

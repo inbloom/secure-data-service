@@ -418,7 +418,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params) {
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, Map<String, String> params) {
         return null;
     }
 
