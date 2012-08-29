@@ -397,6 +397,8 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     }
                 }
             }
+        } else {
+            belongConfig = false;
         }
         return belongConfig;
     }
