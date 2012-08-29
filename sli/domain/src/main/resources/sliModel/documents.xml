@@ -385,8 +385,8 @@
 	</document>
 	<document name="Staff Education Organization Association">
 		<class name="StaffEducationOrganizationAssociation"></class>
-		<graph>staffEducationOrganizationAssociations</graph>
-		<singular>staffEducationOrganizationAssociation</singular>
+		<graph>staffEducationOrgAssignmentAssociations</graph>
+		<singular>staffEducationOrgAssignmentAssociation</singular>
 	</document>
 	<document name="StaffIdentificationCode">
 		<class name="StaffIdentificationCode"></class>
