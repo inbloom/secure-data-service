@@ -79,6 +79,19 @@ public class UserResource {
         return securityEvent;
     }
 
+    private static String rolesToString(User user) {
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        if (user.getGroups().size() > 0) {
+            buf.append(user.getGroups().get(0));
+            for (int i = 1; i < user.getGroups().size(); i++) {
+                buf.append(',').append(user.getGroups().get(i));
+            }
+        }
+        buf.append(']');
+        return buf.toString();
+    }
+
     @POST
     public final Response create(final User newUser) {
         assertEnabled();
@@ -96,7 +109,7 @@ public class UserResource {
             return Response.status(Status.CONFLICT).build();
         }
 
-        audit(createSecurityEvent("Created user " + newUser.getUid(), newUser.getTenant(), newUser.getEdorg()));
+        audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
@@ -146,7 +159,7 @@ public class UserResource {
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
 
-        audit(createSecurityEvent("Updated user " + updateUser.getUid(), updateUser.getTenant(), updateUser.getEdorg()));
+        audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -163,7 +176,7 @@ public class UserResource {
         User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
 
-        audit(createSecurityEvent("Deleted user " + uid, userToDelete.getTenant(), userToDelete.getEdorg()));
+        audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
