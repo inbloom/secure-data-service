@@ -96,7 +96,7 @@ public class SifIdResolverCustomDataTest {
     private static final String SIF_REF_ID_STAFF_EDORG = "SIF_REF_ID_STAFF_EDORG";
 
     @InjectMocks
-    public SifIdResolverCustomData resolver = new SifIdResolverCustomData();
+    private SifIdResolverCustomData resolver = new SifIdResolverCustomData();
 
     @Mock
     ZoneMapProvider mockZoneMapProvider;
@@ -117,7 +117,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldLookupSliEntities() throws Exception {
+    public void getSliEntityShouldLookupSliEntities() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity(SLI_TYPE1, new HashMap<String, Object>());
@@ -130,12 +130,13 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldFixStaffEdOrgAssociationType() throws Exception {
+    public void getSliEntityShouldFixStaffEdOrgAssociationType() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity("staffEducationOrganizationAssociation", new HashMap<String, Object>());
         List<Entity> queryResult = Arrays.asList(new Entity[] { expected });
-        when(mockSlcInterface.read(eq("staffEducationOrgAssignmentAssociation"), any(Query.class))).thenReturn(queryResult);
+        when(mockSlcInterface.read(eq("staffEducationOrgAssignmentAssociation"), any(Query.class))).thenReturn(
+                queryResult);
 
         Entity result = resolver.getSliEntity(SIF_REF_ID_STAFF_EDORG, ZONE_ID1);
 
@@ -144,7 +145,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldHandleEmptyQueryList() throws Exception {
+    public void getSliEntityShouldHandleEmptyQueryList() throws Exception {
         setupCustomDataMocking();
 
         List<Entity> queryResult = Arrays.asList(new Entity[] {});
@@ -156,7 +157,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldUseCorrectType() throws Exception {
+    public void getSliEntityShouldUseCorrectType() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity(SLI_TYPE2, new HashMap<String, Object>());
@@ -171,7 +172,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldUseQueryFilter() throws Exception {
+    public void getSliEntityShouldUseQueryFilter() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity(SLI_TYPE2, new HashMap<String, Object>());
@@ -181,15 +182,12 @@ public class SifIdResolverCustomDataTest {
 
         resolver.getSliEntity(SIF_REF_ID2, ZONE_ID1);
 
-        System.out.println(queryCaptor.getValue().getParameters());
-        System.out.println(queryCaptor.getAllValues().get(0).getParameters());
-
         Assert.assertEquals(SLI_VALUE2, queryCaptor.getAllValues().get(0).getParameters().get(SLI_FIELD2));
         Assert.assertEquals(1, queryCaptor.getAllValues().get(0).getParameters().get("limit"));
     }
 
     @Test
-    public void getSliEntity_shouldHandleEmptyLocatorList() throws Exception {
+    public void getSliEntityShouldHandleEmptyLocatorList() throws Exception {
         setupCustomDataMocking();
 
         Entity result = resolver.getSliEntity(SIF_REF_ID_EMPTY_LIST, ZONE_ID1);
@@ -198,7 +196,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldHandleNullLocatorList() throws Exception {
+    public void getSliEntityShouldHandleNullLocatorList() throws Exception {
         setupCustomDataMocking();
 
         Entity result = resolver.getSliEntity(SIF_REF_ID_NULL_LIST, ZONE_ID1);
@@ -207,7 +205,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldLookupSeaGuid() throws Exception {
+    public void getSliEntityShouldLookupSeaGuid() throws Exception {
 
         // setup
         when(mockZoneMapProvider.getZoneToSliIdMap()).thenReturn(getDummySeaIdMap());
@@ -231,7 +229,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldHandleNullSeaEntityList() throws Exception {
+    public void getSliEntityShouldHandleNullSeaEntityList() throws Exception {
 
         // setup
         when(mockZoneMapProvider.getZoneToSliIdMap()).thenReturn(getDummySeaIdMap());
@@ -245,7 +243,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntity_shouldHandleEmptySeaEntityList() throws Exception {
+    public void getSliEntityShouldHandleEmptySeaEntityList() throws Exception {
 
         // setup
         when(mockZoneMapProvider.getZoneToSliIdMap()).thenReturn(getDummySeaIdMap());
@@ -259,7 +257,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getZoneSea_shouldLookupSeaGuid() throws Exception {
+    public void getZoneSeaShouldLookupSeaGuid() throws Exception {
 
         // setup
         when(mockZoneMapProvider.getZoneToSliIdMap()).thenReturn(getDummySeaIdMap());
@@ -280,24 +278,22 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntityList_shouldLookupSliEntities() throws Exception {
+    public void getSliEntityListShouldLookupSliEntities() throws Exception {
 
         // setup
         setupCustomDataMocking();
 
         List<Entity> expected = new ArrayList<Entity>();
-        {
-            Entity entity = new GenericEntity(SLI_TYPE3A, new HashMap<String, Object>());
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
-        {
-            Entity entity = new GenericEntity(SLI_TYPE3B, new HashMap<String, Object>());
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
+
+        Entity entity = new GenericEntity(SLI_TYPE3A, new HashMap<String, Object>());
+        List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
+
+        entity = new GenericEntity(SLI_TYPE3B, new HashMap<String, Object>());
+        queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
 
         // execute
         List<Entity> result = resolver.getSliEntityList(SIF_REF_ID3, ZONE_ID1);
@@ -313,7 +309,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntityFromOtherSifId_shouldLookupSliEntities() throws Exception {
+    public void getSliEntityFromOtherSifIdShouldLookupSliEntities() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity(SLI_TYPE4, new HashMap<String, Object>());
@@ -326,7 +322,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliGuid_shouldFindGuid() throws Exception {
+    public void getSliGuidShouldFindGuid() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = Mockito.mock(Entity.class);
@@ -341,7 +337,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliGuid_shouldHandleNull() throws Exception {
+    public void getSliGuidShouldHandleNull() throws Exception {
         setupCustomDataMocking();
 
         List<Entity> queryResult = Collections.emptyList();
@@ -352,28 +348,24 @@ public class SifIdResolverCustomDataTest {
         Assert.assertNull(result);
     }
 
-
     @Test
-    public void getSliGuidList_shouldLookupSliEntities() throws Exception {
+    public void getSliGuidListShouldLookupSliEntities() throws Exception {
 
         // setup
         setupCustomDataMocking();
 
         List<Entity> expected = new ArrayList<Entity>();
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3A);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3B);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
+        Entity entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3A);
+        List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
+
+        entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3B);
+        queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
 
         // execute
         List<String> result = resolver.getSliGuidList(SIF_REF_ID3, ZONE_ID1);
@@ -386,26 +378,24 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntityListByType_shouldLookupSliEntities() throws Exception {
+    public void getSliEntityListByTypeShouldLookupSliEntities() throws Exception {
 
         // setup
         setupCustomDataMocking();
 
         List<Entity> expected = new ArrayList<Entity>();
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3A);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3B);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
+
+        Entity entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3A);
+        List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
+
+        entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3B);
+        queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
 
         // execute
         List<Entity> result = resolver.getSliEntityListByType(SIF_REF_ID3, SLI_TYPE3A, ZONE_ID1);
@@ -420,9 +410,8 @@ public class SifIdResolverCustomDataTest {
 
     }
 
-
     @Test
-    public void getSliEntityByType_shouldLookupSliEntities() throws Exception {
+    public void getSliEntityByTypeShouldLookupSliEntities() throws Exception {
         setupCustomDataMocking();
 
         Entity expected = new GenericEntity(SLI_TYPE4, new HashMap<String, Object>());
@@ -434,28 +423,25 @@ public class SifIdResolverCustomDataTest {
         assertEquals(expected, result);
     }
 
-
     @Test
-    public void getSliGuidListByType_shouldLookupSliGuids() throws Exception {
+    public void getSliGuidListByTypeShouldLookupSliGuids() throws Exception {
 
         // setup
         setupCustomDataMocking();
 
         List<Entity> expected = new ArrayList<Entity>();
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3A);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
-        {
-            Entity entity = Mockito.mock(Entity.class);
-            when(entity.getId()).thenReturn(SLI_ID3B);
-            List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
-            when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
-            expected.add(entity);
-        }
+
+        Entity entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3A);
+        List<Entity> queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3A), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
+
+        entity = Mockito.mock(Entity.class);
+        when(entity.getId()).thenReturn(SLI_ID3B);
+        queryResult = Arrays.asList(new Entity[] { entity });
+        when(mockSlcInterface.read(eq(SLI_TYPE3B), any(Query.class))).thenReturn(queryResult);
+        expected.add(entity);
 
         // execute
         List<String> result = resolver.getSliGuidListByType(SIF_REF_ID3, SLI_TYPE3A, ZONE_ID1);
@@ -468,7 +454,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliGuidByType_shouldLookupSliGuid() throws Exception {
+    public void getSliGuidByTypeShouldLookupSliGuid() throws Exception {
         setupCustomDataMocking();
 
         Entity entity = Mockito.mock(Entity.class);
@@ -482,12 +468,12 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliGuidByType_shouldHandleNull() throws Exception {
+    public void getSliGuidByTypeShouldHandleNull() throws Exception {
         setupCustomDataMocking();
 
         Entity entity = Mockito.mock(Entity.class);
         when(entity.getId()).thenReturn(SLI_ID4);
-        List<Entity> queryResult = Arrays.asList(new Entity[] { });
+        List<Entity> queryResult = Arrays.asList(new Entity[] {});
         when(mockSlcInterface.read(eq(SLI_TYPE4), any(Query.class))).thenReturn(queryResult);
 
         String result = resolver.getSliGuidByType(SIF_REF_ID4, SLI_TYPE4, ZONE_ID1);
@@ -495,9 +481,8 @@ public class SifIdResolverCustomDataTest {
         Assert.assertNull(result);
     }
 
-
     @Test
-    public void putSliGuid_storeNewId() throws Exception{
+    public void putSliGuidStoreNewId() throws Exception {
 
         Map<String, List<SliEntityLocator>> idMap = setupCustomDataMocking();
 
@@ -516,7 +501,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void putSliGuid_storeAdditionalId() throws Exception{
+    public void putSliGuidStoreAdditionalId() throws Exception {
 
         Map<String, List<SliEntityLocator>> idMap = setupCustomDataMocking();
 
@@ -535,7 +520,7 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void putSliGuid_updatelId() throws Exception{
+    public void putSliGuidUpdatelId() throws Exception {
 
         Map<String, List<SliEntityLocator>> idMap = setupCustomDataMocking();
 
@@ -549,9 +534,8 @@ public class SifIdResolverCustomDataTest {
 
     }
 
-
     @Test
-    public void putSliGuidForOtherSifId_storeNewId() throws Exception{
+    public void putSliGuidForOtherSifIdStoreNewId() throws Exception {
 
         Map<String, List<SliEntityLocator>> idMap = setupCustomDataMocking();
 
@@ -568,9 +552,6 @@ public class SifIdResolverCustomDataTest {
         Assert.assertEquals("sliId", locator.getValue());
         Assert.assertEquals(ParameterConstants.ID, locator.getField());
     }
-
-
-
 
     private Map<String, List<SliEntityLocator>> setupCustomDataMocking() throws Exception {
         when(mockZoneMapProvider.getZoneToSliIdMap()).thenReturn(getDummySeaIdMap());
@@ -619,7 +600,7 @@ public class SifIdResolverCustomDataTest {
         locators.add(new SliEntityLocator(SLI_TYPE4, SLI_VALUE4, SLI_FIELD4));
         map.put(SIF_REF_ID4 + "-" + SLI_TYPE4, locators);
 
-        // for the getSliEntity_shouldFixStaffEdOrgAssociationType() test
+        // for the getSliEntityShouldFixStaffEdOrgAssociationType() test
         locators = new ArrayList<SliEntityLocator>();
         locators.add(new SliEntityLocator("staffEducationOrgAssignmentAssociation", SLI_VALUE4, SLI_FIELD4));
         map.put(SIF_REF_ID_STAFF_EDORG, locators);
@@ -638,6 +619,5 @@ public class SifIdResolverCustomDataTest {
 
         return map;
     }
-
 
 }
