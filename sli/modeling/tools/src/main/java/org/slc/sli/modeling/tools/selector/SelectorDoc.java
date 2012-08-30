@@ -19,6 +19,9 @@ package org.slc.sli.modeling.tools.selector;
 import java.util.Map;
 import java.util.List;
 import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ClassType;
@@ -52,6 +55,7 @@ public class SelectorDoc {
             return;
         }
 
+        String fileName = "selectors.xml";
         String simpleSect = "<simpleSect xml:id = \"selector-%s\">";
         String features = "    <features>";
         String feature = "        <feature type = \"%s\" name = \"%s\"/>";
@@ -96,7 +100,14 @@ public class SelectorDoc {
         }
 
         System.out.println (selectors);
-
+        try {
+            BufferedWriter output = new BufferedWriter(new FileWriter(fileName));
+            output.write (selectors.toString());
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
