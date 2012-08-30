@@ -39,10 +39,13 @@ public class AsynchMongoReferenceValidator implements ReferenceValidator {
 			public void run() {
 				while (true) {
 					try {
-						Pair<String, String> ref = queue.take();
-						if (!repo.exists(getCollectionName(ref.getLeft()), ref.getRight())) {
-							queue.offer(ref, 1, TimeUnit.MILLISECONDS);
+						for (int i = 50; i > 0; i--) {
+							Pair<String, String> ref = queue.take();
+							if (!repo.exists(getCollectionName(ref.getLeft()), ref.getRight())) {
+								queue.offer(ref, 1, TimeUnit.MILLISECONDS);
+							}
 						}
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -50,8 +53,7 @@ public class AsynchMongoReferenceValidator implements ReferenceValidator {
 			}
 
 			/**
-			 * Figures out which collection to query 
-			 * FIXME needs to do actual figuring out
+			 * Figures out which collection to query FIXME needs to do actual figuring out
 			 * 
 			 * @param elementName
 			 * @return
@@ -78,7 +80,7 @@ public class AsynchMongoReferenceValidator implements ReferenceValidator {
 
 	@Override
 	public Set<Pair<String, String>> getRemainingReferences() {
-		return new HashSet<Pair<String,String>>(this.queue);
+		return new HashSet<Pair<String, String>>(this.queue);
 	}
 
 }

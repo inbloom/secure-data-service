@@ -35,8 +35,8 @@ public class StreamingLoader {
 	@Resource
 	private VersionAwareAdapter va;
 
-	//@Resource
-	//private ReferenceValidator ref;
+	@Resource
+	private ReferenceValidator ref;
 
 	public void process(Reader reader) throws XMLStreamException {
 		XMLEventReader r = XMLInputFactory.newInstance().createXMLEventReader(reader);
@@ -110,7 +110,7 @@ public class StreamingLoader {
 					result.put(elementName, tp.convertType(elementName, value));
 
 					if (tp.isReference(elementName)) {
-						//ref.addForValidation(elementName, value);
+						ref.addForValidation(elementName, value);
 					}
 				}
 			}
