@@ -20,6 +20,7 @@ package org.slc.sli.api.security.service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -30,11 +31,22 @@ import org.slc.sli.domain.NeutralQuery;
  * @author srupasinghe
  */
 public class SecurityCriteria {
+    //The collection this query pertains to
+    private String collectionName;
+
     //main security criteria
     private NeutralCriteria securityCriteria;
     //black list criteria
     private NeutralCriteria blacklistCriteria;
 
+    public String getCollectionName() {
+        return collectionName;
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
+    }
+    
     public NeutralCriteria getSecurityCriteria() {
         return securityCriteria;
     }
@@ -61,18 +73,26 @@ public class SecurityCriteria {
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
         }
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+        String userId = user.getEntity().getEntityId();
 
+        NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+        createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
+        query.addOrQuery(createdByQuery);
+        
         if (securityCriteria != null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-            String userId = user.getEntity().getEntityId();
-
-            NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-            query.addOrQuery(new NeutralQuery(securityCriteria));
-            query.addOrQuery(createdByQuery);
+            //Check the type of who we are and if we're a teacher, handle it differently.
+            if (EntityNames.TEACHER.equals(user.getEntity().getType())) {
+                
+            }
+            else {
+                query.addOrQuery(new NeutralQuery(securityCriteria));
+            }
         }
 
         return query;
     }
+    
 }
