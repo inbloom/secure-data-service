@@ -17,8 +17,10 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -465,44 +469,102 @@ public class IdNormalizer {
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
-        List<String> ids = checkInCache(collection, tenantId, filter);
+        List<String> ids = new ArrayList<String>();
 
-        if (CollectionUtils.isEmpty(ids)) {
+        List<String> takesContext = refConfig.getTakesContext();
+        if (takesContext != null) {
+            // if takes context is set, once records are queried for, peel off metaData.[Takes] and put on record
+            // cannot check in cache --> need whole records for metaData propagation
+            // update cache with query results
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
             if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                // for each string in takesContext array
+                // -> metaData.get(takesField) --> get context in metaData
+                // -> add context to local record
+                // -> add entity id to ids array (normal part of id normalization)
+                for (String takesField : takesContext) {
+                    LOG.info("Updating metaData.{} with ids from collection: {}", new Object[]{takesField, collection});
+                    for (Entity record : foundRecords) {
+                        if (record.getMetaData().containsKey(takesField)) {
+                            @SuppressWarnings("unchecked")
+                            List<String> addToContext = (List<String>) record.getMetaData().get(takesField);
 
-                boolean isEducationOrganization = collection.equals("educationOrganization");
-
-                List<String> metaEdOrgs = new ArrayList<String>();
-                for (Entity record : foundRecords) {
-
-                    if (isEducationOrganization && record.getMetaData().containsKey("edOrgs")) {
-                        @SuppressWarnings("unchecked")
-                        List<String> edOrgs = (List<String>) record.getMetaData().get("edOrgs");
-                        metaEdOrgs.addAll(edOrgs);
-                    }
-
-                    ids.add(record.getEntityId());
-                }
-
-                if (isEducationOrganization) {
-                    if (entity.getMetaData().containsKey("edOrgs")) {
-                        @SuppressWarnings("unchecked")
-                        List<String> original = (List<String>) entity.getMetaData().get("edOrgs");
-                        LOG.info("Adding edOrgs: {} to already existing edOrgs on metaData of entity: {}",
-                                new Object[] { metaEdOrgs, original });
-                        original.addAll(metaEdOrgs);
-                        entity.getMetaData().put("edOrgs", original);
-                    } else {
-                        LOG.info("Adding edOrgs: {} to metaData of entity: {}", new Object[] { metaEdOrgs, entity });
-                        entity.getMetaData().put("edOrgs", metaEdOrgs);
+                            if (entity.getMetaData().containsKey(takesField)) {
+                                @SuppressWarnings("unchecked")
+                                List<String> original = (List<String>) entity.getMetaData().get(takesField);
+                                original.addAll(addToContext);
+                                entity.getMetaData().put(takesField, original);
+                            } else {
+                                entity.getMetaData().put(takesField, addToContext);
+                            }
+                        }
+                        ids.add(record.getEntityId());
                     }
                 }
             }
-
             cache(ids, collection, tenantId, filter);
+        } else {
+            // if takes context is null, query for records normally (check cache first), store on record
+            // update cache with query results
+            ids.addAll(checkInCache(collection, tenantId, filter));
+
+            if (CollectionUtils.isEmpty(ids)) {
+                @SuppressWarnings("deprecation")
+                Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+
+                if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                    for (Entity record : foundRecords) {
+                        ids.add(record.getEntityId());
+                    }
+                }
+                cache(ids, collection, tenantId, filter);
+            }
+        }
+
+        List<String> givesContext = refConfig.getGivesContext();
+        if (givesContext != null) {
+            // if gives context is set, then using current metaData, peel off metaData.[Gives], and update records
+            // gives context should only operate on metaData fields
+
+            for (String givesField : givesContext) {
+                Object addToContext = entity.getMetaData().get(givesField);
+                if (addToContext != null) {
+                    NeutralQuery query = new NeutralQuery(ids.size());
+                    query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
+                    query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, ids, false));
+
+                    // have tenantId --> needs to be prepended due to sharding
+                    // have ids --> looked up id(s) to perform update operation on (limit operation to that size)
+
+                    if (addToContext instanceof String) {
+                        String context = (String) addToContext;
+                        String type = refConfig.getEntityType();
+
+                        Map<String, Object> metaDataFields = new HashMap<String, Object>();
+                        metaDataFields.put("metaData." + givesField, Arrays.asList(context));
+                        Map<String, Object> update = new HashMap<String, Object>();
+                        update.put("addToSet", metaDataFields);
+
+                        // TODO: need to add updateMulti into repository --> make available here
+                        //entityRepository.updateMulti(query, update, type);
+
+                    } else if (addToContext instanceof List) {
+                        @SuppressWarnings("unchecked")
+                        List<String> context = (List<String>) addToContext;
+                        String type = refConfig.getEntityType();
+
+                        Map<String, Object> metaDataFields = new HashMap<String, Object>();
+                        metaDataFields.put("metaData." + givesField, context);
+                        Map<String, Object> update = new HashMap<String, Object>();
+                        update.put("addToSet", metaDataFields);
+
+                        // TODO: need to add updateMulti into repository --> make available here
+                        //entityRepository.updateMulti(query, update, type);
+                    }
+                }
+            }
         }
 
         // sort because the $or query can produce different results every time
@@ -630,7 +692,6 @@ public class IdNormalizer {
 
         if (val == null) {
             ids = new ArrayList<String>();
-
         } else {
             ids = (List<String>) val;
         }

@@ -4,12 +4,12 @@
     [
         {
            "fieldPath" : "body.gradingPeriodReference",
-           "givesContext" : ["edOrgs"],
             "ref" :
             {
                 "entityType" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.gradingPeriodReference",
+                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

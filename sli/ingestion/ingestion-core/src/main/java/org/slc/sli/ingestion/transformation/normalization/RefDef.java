@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.transformation.normalization;
 
-import java.util.List;
 
 /**
  * Holds definition for external reference that needs to be resolved.
@@ -26,7 +25,6 @@ import java.util.List;
  */
 public class RefDef {
     private String fieldPath;
-    private List<String> givesContext;
     private Ref ref;
 
     public String getFieldPath() {
@@ -45,17 +43,12 @@ public class RefDef {
         this.ref = ref;
     }
 
-    public List<String> getGivesContext() {
-        return givesContext;
-    }
-
-    public void setGivesContext(List<String> givesContext) {
-        this.givesContext = givesContext;
-    }
-
     @Override
     public String toString() {
-        return "RefDef [fieldPath=" + fieldPath + ", ref=" + ref + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("[RefDef = {fieldPath=").append(fieldPath).append(", ");
+        builder.append("ref=").append(ref.toString());
+        builder.append("}]");
+        return builder.toString();
     }
-
 }

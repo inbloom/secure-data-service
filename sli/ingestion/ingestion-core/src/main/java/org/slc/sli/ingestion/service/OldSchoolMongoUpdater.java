@@ -45,7 +45,7 @@ public final class OldSchoolMongoUpdater {
         if (entityConfig.getReferences() != null) {
             for (RefDef refDef : entityConfig.getReferences()) {
 
-                List<String> givesContextList = refDef.getGivesContext();
+                List<String> givesContextList = refDef.getRef().getGivesContext();
                 if (givesContextList != null) {
 
                     String entityReferenced = refDef.getRef().getEntityType();
