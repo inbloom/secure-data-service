@@ -428,6 +428,36 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(query, collectionName);
+
+        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Update convertedUpdate = new Update();
+
+        for (Map.Entry<String, Object> entry : update.entrySet()) {
+            String operation = entry.getKey();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> operands = (Map<String, Object>) entry.getValue();
+
+            if (operation.equals("push")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
+                }
+            } else if (operation.equals("pushAll")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.pushAll(fieldValues.getKey(), (Object[]) fieldValues.getValue());
+                }
+            } else if (operation.equals("addToSet")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.addToSet(fieldValues.getKey(), fieldValues.getValue());
+                }
+            }
+        }
+        return template.updateMulti(convertedQuery, convertedUpdate, collectionName);
+    }
+
     @Override
     public boolean doUpdate(String collection, String id, Update update) {
         return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
