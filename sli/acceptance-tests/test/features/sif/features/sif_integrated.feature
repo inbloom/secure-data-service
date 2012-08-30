@@ -5,7 +5,8 @@ Background: Set my data store
 Given the data store is "data_integrated"
 
 Scenario: Add an LEA
-Given I wait for "10" seconds
+Given the data store is "data_LEAInfo"
+And I wait for "10" seconds
 And I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
 And the following collections are clean and bootstrapped in datastore:
      | collectionName           |
@@ -28,7 +29,8 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string     | expected_LEAInfo_add |
 
 Scenario: Update an LEA
-Given I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
+Given the data store is "data_LEAInfo"
+And I want to POST a(n) "sifEvent_LEAInfo_change_1" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -46,7 +48,8 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string     | expected_LEAInfo_change_1 |
 
 Scenario: Add a School
-Given I want to POST a(n) "sifEvent_SchoolInfo_add" SIF message
+Given the data store is "data_SchoolInfo"
+And I want to POST a(n) "sifEvent_SchoolInfo_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -65,7 +68,8 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_add |
 
 Scenario: Update a School
-Given I want to POST a(n) "sifEvent_SchoolInfo_change_1" SIF message
+Given the data store is "data_SchoolInfo"
+And I want to POST a(n) "sifEvent_SchoolInfo_change_1" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -82,7 +86,8 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | body.stateOrganizationId | Daybreak West High            | string     | expected_SchoolInfo_change_1 |
 
 Scenario: Add a Student
-Given I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
+Given the data store is "data_StudentPersonal"
+And I want to POST a(n) "sifEvent_StudentPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -96,7 +101,8 @@ Then I should see following map of entry counts in the corresponding collections
      | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_add |
 
 Scenario: Update a student
-Given I want to POST a(n) "sifEvent_StudentPersonal_change" SIF message
+Given the data store is "data_StudentPersonal"
+And I want to POST a(n) "sifEvent_StudentPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -110,7 +116,8 @@ Then I should see following map of entry counts in the corresponding collections
      | student          | body.studentUniqueStateId | WB0025       | string     | expected_StudentPersonal_change |
 
 Scenario: Add a StudentLEARelationship
-Given I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
+Given the data store is "data_StudentLEARelationship"
+And I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -127,7 +134,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Update a StudentLEARelationship
-Given I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
+Given the data store is "data_StudentLEARelationship"
+And I want to POST a(n) "sifEvent_StudentLEARelationship_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -144,7 +152,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak School District 4530 | string           |
 
 Scenario: Add a StudentSchoolEnrollment
-Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
+Given the data store is "data_StudentSchoolEnrollment"
+And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -163,7 +172,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation | body.schoolYear | 2011-2012   | string     | body.schoolId     | educationOrganization | body.stateOrganizationId  | Daybreak West High            | string           |
 
 Scenario: Update a StudentSchoolEnrollment
-Given I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
+Given the data store is "data_StudentSchoolEnrollment"
+And I want to POST a(n) "sifEvent_StudentSchoolEnrollment_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -185,6 +195,7 @@ Scenario: Add an Employee
 Given the following collections are clean and bootstrapped in datastore:
      | collectionName    |
      | staff             |
+And the data store is "data_EmployeePersonal"
 And I want to POST a(n) "sifEvent_EmployeePersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
@@ -199,7 +210,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_add |
 
 Scenario: Update an Employee
-Given I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
+Given the data store is "data_EmployeePersonal"
+And I want to POST a(n) "sifEvent_EmployeePersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -213,7 +225,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_EmployeePersonal_change |
 
  Scenario: Add an Staff with existing employee record
-Given I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
+Given the data store is "data_StaffPersonal"
+And I want to POST a(n) "sifEvent_StaffPersonal_add" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -227,7 +240,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_add_exist |
 
 Scenario: Change a Staff record
-Given I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
+Given the data store is "data_StaffPersonal"
+And I want to POST a(n) "sifEvent_StaffPersonal_change" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -241,7 +255,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staff          | body.staffUniqueStateId | C2345681     | string     | expected_StaffPersonal_change |
 
 Scenario: Add an EmploymentRecord for a staff
-Given I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
+Given the data store is "data_EmploymentRecord"
+And I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -257,7 +272,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation | body.positionTitle | Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
 
 Scenario: Update an EmploymentRecord for a staff
-Given I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
+Given the data store is "data_EmploymentRecord"
+And I want to POST a(n) "sifEvent_EmploymentRecord_change_staff_educationOrganization" SIF message
 When I POST the message to the ZIS
 And I wait for "3" seconds
 Then I should see following map of entry counts in the corresponding collections:
@@ -272,4 +288,69 @@ Then I should see following map of entry counts in the corresponding collections
      | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
      | staffEducationOrganizationAssociation | body.positionTitle | Super Senior Staff | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak School District 4530 | string           |
 
+Scenario: Add a StaffAssignment for a staff
+Given the data store is "data_StaffAssignment"
+And I want to POST a(n) "sifEvent_StaffAssignment_add_staff" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 3     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                  |
+     | staffEducationOrganizationAssociation | body.endDate       | 2018-03-11         | string     | expected_StaffAssignment_add_staff  |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.endDate       | 2018-03-11         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.endDate       | 2018-03-11         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak West High            | string           |
 
+Scenario: Update a StaffAssignment for a staff
+Given the data store is "data_StaffAssignment"
+And I want to POST a(n) "sifEvent_StaffAssignment_change_staff" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 3     |
+     | teacherSchoolAssociation              | 0     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                     |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | expected_StaffAssignment_change_staff  |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak West High            | string           |
+  
+Scenario: Add an EmployeeAssignment for a staff
+Given the data store is "data_EmployeeAssignment"
+And I want to POST a(n) "sifEvent_EmployeeAssignment_add_staff" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 3     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | expected_EmployeeAssignment_add_staff_staffEdOrg  |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | IL                            | string           |
+  
+Scenario: Update an EmployeeAssignment for a teacher
+Given the data store is "data_EmployeeAssignment"
+And I want to POST a(n) "sifEvent_EmployeeAssignment_change_staff" SIF message
+When I POST the message to the ZIS
+And I wait for "3" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                        | count |
+     | staffEducationOrganizationAssociation | 3     |
+   And I check that the record contains all of the expected values:
+     | collectionName                        | searchParameter    | searchValue        | searchType | expectedValuesFile                                |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | expected_EmployeeAssignment_change_staff_staffEdOrg  |
+   And I check that ID fields resolved correctly:
+     | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
+     | staffEducationOrganizationAssociation | body.endDate       | 2013-08-31         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | IL                            | string           |
+  

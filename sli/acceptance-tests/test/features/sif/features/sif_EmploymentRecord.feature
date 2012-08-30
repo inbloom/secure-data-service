@@ -13,7 +13,7 @@ And the following collections are clean and bootstrapped in datastore:
      | staffEducationOrganizationAssociation |
      | teacherSchoolAssociation              |
      | custom_entities                       |
-And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
+And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And the fixture data "sif_staff_fixture" has been imported into collection "staff"
 And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
 And I want to POST a(n) "sifEvent_EmploymentRecord_add_staff_educationOrganization" SIF message
@@ -26,7 +26,7 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
      | staffEducationOrganizationAssociation | 1                   | body.staffReference                 | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     |
-     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012fx-6dc8a6c8-dcc5-11e1-95f6-0021701f543f | string     |
+     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012vv-cd444c5b-dcd7-11e1-992f-0021701f543f | string     |
    And I check that the record contains all of the expected values:
      | collectionName                        | searchParameter     | searchValue                                 | searchType | expectedValuesFile                                        |
      | staffEducationOrganizationAssociation | body.staffReference | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_EmploymentRecord_add_staff_educationOrganization |
@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
      | staffEducationOrganizationAssociation | 1                   | body.staffReference                 | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     |
-     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012fx-6dc8a6c8-dcc5-11e1-95f6-0021701f543f | string     |
+     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012vv-cd444c5b-dcd7-11e1-992f-0021701f543f | string     |
    And I check that the record contains all of the expected values:
      | collectionName                        | searchParameter     | searchValue                                 | searchType | expectedValuesFile                                           |
      | staffEducationOrganizationAssociation | body.staffReference | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_EmploymentRecord_change_staff_educationOrganization |

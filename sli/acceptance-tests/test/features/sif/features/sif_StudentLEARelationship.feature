@@ -14,6 +14,7 @@ Given the following collections are clean and bootstrapped in datastore:
 And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
 And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
 And the fixture data "sif_student_fixture" has been imported into collection "student"
+And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And I want to POST a(n) "sifEvent_StudentLEARelationship_add" SIF message
 And I wait for "10" seconds
 When I POST the message to the ZIS
@@ -51,6 +52,7 @@ Given the following collections are clean and bootstrapped in datastore:
      | custom_entities          |
 And the fixture data "sif_educationOrganization_fixture" has been imported into collection "educationOrganization"
 And the fixture data "sif_bootstrap_custom_entity_fixture" has been imported into collection "custom_entities"
+And the fixture data "sif_lea_fixture" has been imported into collection "educationOrganization"
 And the fixture data "sif_student_fixture" has been imported into collection "student"
 And I want to POST a(n) "sifEvent_StudentLEARelationship_add_missing_SLI_required_fields" SIF message
 When I POST the message to the ZIS

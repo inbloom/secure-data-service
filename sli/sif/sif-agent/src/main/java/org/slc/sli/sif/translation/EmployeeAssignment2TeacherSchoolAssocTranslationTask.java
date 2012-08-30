@@ -75,8 +75,8 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends
 
         //TODO determine whether we should promote an SLI staff to a student if the receive an employeeAssignment
         //specifying a teacher staffClassification but referencing a staff.
-        if (staffClassificationType == null || !staffClassificationType.equals("Teacher") ||
-                !TEACHER_TYPE.equals(staff.getEntityType())) {
+        if (staffClassificationType == null || !staffClassificationType.equals("Teacher")
+                || !TEACHER_TYPE.equals(staff.getEntityType())) {
             // not handled by this translator
             return result;
         }
@@ -84,7 +84,6 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends
         TeacherSchoolAssociationEntity tsae = new TeacherSchoolAssociationEntity();
 
         tsae.setTeacherId(staff.getId());
-        tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
 
         tsae.setProgramAssignment(hrProgramTypeConverter.convert(sifData.getProgramType()));
 
@@ -92,6 +91,9 @@ public class EmployeeAssignment2TeacherSchoolAssocTranslationTask extends
         tsae.setOtherSifRefId(sifData.getEmployeePersonalRefId());
 
         result.add(tsae);
+
+        //TODO default to be removed once partial entities are supported
+        tsae.setSchoolId(sifIdResolver.getZoneSea(zoneId));
 
         return result;
     }

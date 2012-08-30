@@ -102,9 +102,13 @@ public class SifIdResolverCustomData implements SifIdResolver {
     public String getSliGuid(String sifId, String zoneId) {
         List<String> guidList = getSliGuidList(sifId, zoneId);
         if (guidList != null && !guidList.isEmpty()) {
+            LOG.debug("Found sli id for sifId(" + sifId + "): " + guidList.get(0));
+            if (guidList.size() > 1) {
+                LOG.warn("Found " + guidList.size() + " matching guids but only returning the first.");
+            }
             return guidList.get(0);
         }
-
+        LOG.debug("No sli id found for sifId(" + sifId + ")");
         return null;
     }
 
@@ -137,6 +141,9 @@ public class SifIdResolverCustomData implements SifIdResolver {
     public String getSliGuidByType(String sifId, String sliType, String zoneId) {
         List<String> guidList = getSliGuidListByType(sifId, sliType, zoneId);
         if (guidList != null && !guidList.isEmpty()) {
+            if (guidList.size() > 1) {
+                LOG.warn("Found " + guidList.size() + " matching guids but only returning the first.");
+            }
             return guidList.get(0);
         }
 
@@ -171,6 +178,9 @@ public class SifIdResolverCustomData implements SifIdResolver {
     public Entity getSliEntityByType(String sifId, String sliType, String zoneId) {
         List<Entity> entityList = getSliEntityListByType(sifId, sliType, zoneId);
         if (entityList != null && !entityList.isEmpty()) {
+            if (entityList.size() > 1) {
+                LOG.warn("Found " + entityList.size() + " matching entities but only returning the first.");
+            }
             return entityList.get(0);
         }
 
@@ -207,6 +217,10 @@ public class SifIdResolverCustomData implements SifIdResolver {
     public Entity getSliEntity(String sifId, String zoneId) {
         List<Entity> entityList = getSliEntityList(sifId, zoneId);
         if (entityList != null && !entityList.isEmpty()) {
+            if (entityList.size() > 1) {
+                LOG.warn("Found " + entityList.size() + " matching entities but only returning the first.");
+            }
+
             return entityList.get(0);
         }
 
@@ -273,6 +287,11 @@ public class SifIdResolverCustomData implements SifIdResolver {
     }
 
     @Override
+    public Entity getSliEntityFromOtherSifId(String sifId, String sliType, String zoneId) {
+        return getSliEntity(sifId + "-" + sliType, zoneId);
+    }
+
+    @Override
     public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId) {
 
         synchronized (lock) {
@@ -283,13 +302,15 @@ public class SifIdResolverCustomData implements SifIdResolver {
             Map<String, List<Map<String, String>>> idMap = getIdMap(zoneId);
             SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
 
-            List<Map<String, String>> existingIdList = idMap.get(sifId);
+            String key = sifId + "-" + sliType;
+            
+            List<Map<String, String>> existingIdList = idMap.get(key);
             if (existingIdList == null) {
                 existingIdList = new ArrayList<Map<String, String>>();
             }
             existingIdList.add(id.toMap());
 
-            idMap.put(sifId + "-" + sliType, existingIdList);
+            idMap.put(key, existingIdList);
 
             GenericEntity entity = new GenericEntity("custom", toGenericMap(idMap));
             slcInterface.create(entity, "/educationOrganizations/" + seaGuid + "/custom");
@@ -416,5 +437,4 @@ public class SifIdResolverCustomData implements SifIdResolver {
         }
         return retVal;
     }
-
 }
