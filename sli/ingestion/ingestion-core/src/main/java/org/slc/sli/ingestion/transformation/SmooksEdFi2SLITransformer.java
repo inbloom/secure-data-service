@@ -66,8 +66,10 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                 entity.setRecordNumber(recordNumber.longValue());
             }
 
-            if (entity.getMetaData() == null) {
+            if (item.getMetaData() == null) {
                 entity.setMetaData(new HashMap<String, Object>());
+            } else {
+                entity.setMetaData(item.getMetaData());
             }
 
             String externalId = (String) item.getLocalId();

@@ -481,7 +481,6 @@ public class IdNormalizer {
                 // -> add context to local record
                 // -> add entity id to ids array (normal part of id normalization)
                 for (String takesField : takesContext) {
-                    LOG.info("UPDATING CONTEXT: taking metaData.{} from entity of type: {}", new Object[]{takesField, collection});
                     for (Entity record : foundRecords) {
                         if (record.getMetaData().containsKey(takesField)) {
                             @SuppressWarnings("unchecked")
@@ -490,7 +489,11 @@ public class IdNormalizer {
                             if (entity.getMetaData().containsKey(takesField)) {
                                 @SuppressWarnings("unchecked")
                                 List<String> original = (List<String>) entity.getMetaData().get(takesField);
-                                original.addAll(addToContext);
+                                for (String context : addToContext) {
+                                    if (!original.contains(context)) {
+                                        original.add(context);
+                                    }
+                                }
                                 entity.getMetaData().put(takesField, original);
                             } else {
                                 entity.getMetaData().put(takesField, addToContext);
