@@ -137,10 +137,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
         // propagate context according to configuration
-        giveContext(item, entityConfig);
+        giveContext(entity, entityConfig);
     }
 
-    public void giveContext(NeutralRecord item, EntityConfig entityConfig) {
+    public void giveContext(Entity entity, EntityConfig entityConfig) {
         ComplexRefDef complexRefDef = entityConfig.getComplexReference();
         if (complexRefDef != null) {
             // wat is this?
@@ -153,36 +153,29 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 List<String> givesContextList = refDef.getRef().getGivesContext();
                 if (givesContextList != null) {
 
-                    String entityReferenced = refDef.getRef().getEntityType();
+                    String referencedEntityType = refDef.getRef().getEntityType();
+
+                    List<String> referencedIds = determineIdsToQuery(entity, refDef);
 
                     // propagate each kind of context specified
-                    for (String contextToGive : givesContextList) {
+                    for (String typeOfContext : givesContextList) {
 
-                        Object context = item.getMetaData().get(contextToGive);
+                        Object context = entity.getMetaData().get(typeOfContext);
                         if (context != null) {
 
-                            List<String> idsToQuery = determineIdsToQuery(item, refDef);
+                            updateContext(referencedEntityType, typeOfContext, context, referencedIds);
+                        }
+                    }
 
-                            NeutralQuery query = new NeutralQuery(idsToQuery.size());
-                            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                                    TenantContext.getTenantId(), false));
-                            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery,
-                                    false));
+                    // if the referenced entity "gives" context to any other entity, recurse!
+                    if (entityConfigGivesContext(entityConfig, referencedEntityType)) {
+                        for (String id : referencedIds) {
 
-                            // need to use $each operator to add an array with $addToSet
-                            Object updateValue = context;
-                            if (context instanceof List) {
-                                Map<String, Object> eachList = new HashMap<String, Object>();
-                                eachList.put("$each", context);
-                                updateValue = eachList;
+                            Entity entityReferenced = entityRepository.findById(referencedEntityType, id);
+                            if (entityReferenced != null) {
+
+                                giveContext(entityReferenced, entityConfig);
                             }
-
-                            Map<String, Object> metaDataFields = new HashMap<String, Object>();
-                            metaDataFields.put("metaData." + contextToGive, updateValue);
-                            Map<String, Object> update = new HashMap<String, Object>();
-                            update.put("addToSet", metaDataFields);
-
-                            entityRepository.updateMulti(query, update, entityReferenced);
                         }
                     }
                 }
@@ -190,17 +183,59 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
     }
 
+    private boolean entityConfigGivesContext(EntityConfig entityConfig, String referencedEntityType) {
+        EntityConfig referencedEntityConfig = entityConfigurations.getEntityConfiguration(referencedEntityType);
+        if (referencedEntityConfig != null && entityConfig.getReferences() != null) {
+            for (RefDef refDef : entityConfig.getReferences()) {
+                List<String> givesContextList = refDef.getRef().getGivesContext();
+                if (givesContextList != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void updateContext(String referencedEntityType, String typeOfContext, Object context,
+            List<String> idsToQuery) {
+
+        NeutralQuery query = new NeutralQuery(idsToQuery.size());
+        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, TenantContext
+                .getTenantId(), false));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery, false));
+
+        // need to use $each operator to add an array with $addToSet
+        Object updateValue = context;
+        if (context instanceof List) {
+            Map<String, Object> eachList = new HashMap<String, Object>();
+            eachList.put("$each", context);
+            updateValue = eachList;
+        }
+
+        Map<String, Object> metaDataFields = new HashMap<String, Object>();
+        metaDataFields.put("metaData." + typeOfContext, updateValue);
+        Map<String, Object> update = new HashMap<String, Object>();
+        update.put("addToSet", metaDataFields);
+
+        entityRepository.updateMulti(query, update, referencedEntityType);
+    }
+
     @SuppressWarnings("unchecked")
-    private static List<String> determineIdsToQuery(NeutralRecord item, RefDef refDef) {
+    private static List<String> determineIdsToQuery(Entity entity, RefDef refDef) {
         List<String> idsToQuery = new ArrayList<String>();
 
         String bodyPath = refDef.getFieldPath().replaceFirst("body\\.", "");
-        Object normalizedIdValue = item.getAttributes().get(bodyPath);
+        Object normalizedIdValue = entity.getBody().get(bodyPath);
 
         if (normalizedIdValue instanceof String) {
             idsToQuery.add(normalizedIdValue.toString());
         } else if (normalizedIdValue instanceof List) {
-            idsToQuery.addAll((List<String>) normalizedIdValue);
+            // we don't want dupes but want as List so Mongo can handle as an array
+            for (String id : (List<String>) normalizedIdValue) {
+                if (!idsToQuery.contains(id)) {
+                    idsToQuery.add(id);
+                }
+            }
         }
         return idsToQuery;
     }
