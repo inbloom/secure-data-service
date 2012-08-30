@@ -6,6 +6,7 @@
         "ref" :
         {
 	        "entityType" : "student",
+	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [
@@ -25,6 +26,7 @@
         "ref" :
         {
 	        "entityType" : "cohort",
+	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [
@@ -42,6 +44,7 @@
                             {"ref" :
                                 {
                                     "entityType" : "educationOrganization",
+                                    "takesContext" : ["edOrgs"],
                                     "choiceOfFields" :
                                     [[
                                         {

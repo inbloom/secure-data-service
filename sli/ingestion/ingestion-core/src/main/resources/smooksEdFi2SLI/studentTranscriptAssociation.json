@@ -13,6 +13,7 @@
         "fieldPath" : "body.studentAcademicRecordId","ref" :
         {
 	        "entityType" : "studentAcademicRecord",
+	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [

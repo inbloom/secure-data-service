@@ -6,6 +6,7 @@
         "ref" :
         {
 	        "entityType" : "student",
+	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [
@@ -25,6 +26,7 @@
         "ref" :
         {
             "entityType" : "disciplineIncident",
+            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

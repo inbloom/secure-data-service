@@ -3,6 +3,26 @@
     "references" :
     [
         {
+            "fieldPath" : "body.schoolId",
+            "ref" :
+            {
+                "entityType" : "school",
+                "takesContext" : ["edOrgs"],
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.schoolId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
            "fieldPath" : "body.gradingPeriodReference",
             "ref" :
             {
@@ -47,25 +67,6 @@
                                        ]
                                    ]
                                }
-                            }]
-                        }
-                    ]
-                ]
-            }
-        },
-        {
-            "fieldPath" : "body.schoolId",
-            "ref" :
-            {
-                "entityType" : "school",
-                "choiceOfFields" :
-                [
-                    [
-                        {
-                            "path" : "body.stateOrganizationId",
-                            "values" :
-                            [{
-                                "valueSource" : "body.schoolId"
                             }]
                         }
                     ]
