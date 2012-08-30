@@ -17,7 +17,6 @@
 package org.slc.sli.modeling.tools.selector;
 
 import java.util.Map;
-import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -106,8 +105,6 @@ public class SelectorDoc {
 		if (documentationString == null) {
 			return;
 		}
-		
-		System.out.println(documentationString);
 		
 		try {
             BufferedWriter output = new BufferedWriter(new FileWriter(this.outputXmlFilename));
