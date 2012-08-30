@@ -94,13 +94,13 @@ public class JobReportingProcessor implements Processor {
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Value("${sli.ingestion.errorsCountPerInterchange}")
-    private int ERRORS_COUNT_PER_INTERCHANGE;
+    private int errorsCountPerInterchange;
 
     @Value("${sli.ingestion.warningsCountPerInterchange}")
-    private int WARNINGS_COUNT_PER_INTERCHANGE;
-    
+    private int warningsCountPerInterchange;
+
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
@@ -242,13 +242,13 @@ public class JobReportingProcessor implements Processor {
 
         Map<String, PrintWriter> resourceToErrorMap = new HashMap<String, PrintWriter>();
         Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
-        
-        
+
+
 
         try {
             Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
             LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
-            
+
             Map<String, Integer> resourceToErrorCount = new HashMap<String, Integer>();
             Map<String, Integer> resourceToWarningCount = new HashMap<String, Integer>();
 
@@ -258,56 +258,56 @@ public class JobReportingProcessor implements Processor {
                 PrintWriter errorWriter = null;
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
 
-					if (resourceToErrorCount.get(externalResourceId) == null
-							|| resourceToErrorCount.get(externalResourceId) < ERRORS_COUNT_PER_INTERCHANGE) {
-						if (resourceToErrorCount.get(externalResourceId) == null) {
-							resourceToErrorCount.put(externalResourceId, 1);
-						} else {
-							resourceToErrorCount.put(externalResourceId,
-									resourceToErrorCount
-											.get(externalResourceId) + 1);
-						}
+                    if (resourceToErrorCount.get(externalResourceId) == null
+                            || resourceToErrorCount.get(externalResourceId) < errorsCountPerInterchange) {
+                        if (resourceToErrorCount.get(externalResourceId) == null) {
+                            resourceToErrorCount.put(externalResourceId, 1);
+                        } else {
+                            resourceToErrorCount.put(externalResourceId,
+                                    resourceToErrorCount
+                                    .get(externalResourceId) + 1);
+                        }
 
 
-						hasErrors = true;
-						errorWriter = getErrorWriter("error", job.getId(),
-								externalResourceId, resourceToErrorMap,
-								landingZone);
+                        hasErrors = true;
+                        errorWriter = getErrorWriter("error", job.getId(),
+                                externalResourceId, resourceToErrorMap,
+                                landingZone);
 
-						if (errorWriter != null) {
-							writeErrorLine(errorWriter, error.getErrorDetail());
-						} else {
-							LOG.error(
-									"Unable to write to error file for: {} {}",
-									job.getId(), externalResourceId);
-						}
-					}
-				} else if (FaultType.TYPE_WARNING.getName().equals(
-						error.getSeverity())) {
+                        if (errorWriter != null) {
+                            writeErrorLine(errorWriter, error.getErrorDetail());
+                        } else {
+                            LOG.error(
+                                    "Unable to write to error file for: {} {}",
+                                    job.getId(), externalResourceId);
+                        }
+                    }
+                } else if (FaultType.TYPE_WARNING.getName().equals(
+                        error.getSeverity())) {
 
-					if (resourceToWarningCount.get(externalResourceId) == null || resourceToWarningCount.get(externalResourceId) < WARNINGS_COUNT_PER_INTERCHANGE) {
+                    if (resourceToWarningCount.get(externalResourceId) == null || resourceToWarningCount.get(externalResourceId) < warningsCountPerInterchange) {
 
-						if (resourceToWarningCount.get(externalResourceId) == null) {
-							resourceToWarningCount.put(externalResourceId, 1);
-						} else {
-							resourceToWarningCount.put(externalResourceId,
-									resourceToWarningCount
-											.get(externalResourceId) + 1);
-						}
+                        if (resourceToWarningCount.get(externalResourceId) == null) {
+                            resourceToWarningCount.put(externalResourceId, 1);
+                        } else {
+                            resourceToWarningCount.put(externalResourceId,
+                                    resourceToWarningCount
+                                    .get(externalResourceId) + 1);
+                        }
 
-						errorWriter = getErrorWriter("warn", job.getId(),
-								externalResourceId, resourceToWarningMap,
-								landingZone);
+                        errorWriter = getErrorWriter("warn", job.getId(),
+                                externalResourceId, resourceToWarningMap,
+                                landingZone);
 
-						if (errorWriter != null) {
-							writeWarningLine(errorWriter,
-									error.getErrorDetail());
-						} else {
-							LOG.error(
-									"Unable to write to warning file for: {} {}",
-									job.getId(), externalResourceId);
-						}
-					}
+                        if (errorWriter != null) {
+                            writeWarningLine(errorWriter,
+                                    error.getErrorDetail());
+                        } else {
+                            LOG.error(
+                                    "Unable to write to warning file for: {} {}",
+                                    job.getId(), externalResourceId);
+                        }
+                    }
                 }
 
             }

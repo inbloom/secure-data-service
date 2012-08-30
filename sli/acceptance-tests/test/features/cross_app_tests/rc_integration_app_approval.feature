@@ -18,8 +18,8 @@ And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
-And I should enter "https://rcidp01ext.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
+And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
+And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
@@ -189,17 +189,17 @@ When I click on the row containing "Sollars"
 Then I am redirected to the particular associations Simple View
 
 Scenario: Sessions are shared between apps
-When I navigate to the dashboard page
+When I navigate to the databrowser page
 When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
+Then I should be redirected to the Data Browser home page
+When I navigate to the dashboard page
 And I am redirected to the dashboard home page
-When I navigate to the databrowser page
 Then I do not see any login pages
-And I click on the logout link
-Then I should see a message that I was logged out
-And I should forced to reauthenticate to gain access
-When I navigate to the dashboard home page
+And I exit out of the iframe
+And I click on log out
+When I navigate to the databrowser page
 Then I should forced to reauthenticate to gain access
 
 Scenario: User sees non-installed Developer App 

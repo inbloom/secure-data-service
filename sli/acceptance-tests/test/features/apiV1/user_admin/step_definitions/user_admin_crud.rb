@@ -214,7 +214,7 @@ Then /^I should receive a return code "(.*?)"$/ do |return_code|
   assert_equal(return_code.to_i, @response_code)
 end
 
-Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
+Then /^I (should|should not) see "(.*?)" on my list of allowed apps$/ do |should, name|
   restHttpGet("/userapps?is_admin=true")
   @res.should_not == nil
   @res.code.should == 200
@@ -224,11 +224,11 @@ Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
   admin = apps.find { |app| app["name"] == "Admin Apps" }
   if should == "should"
     admin.should_not == nil
-    samt = admin["endpoints"].find { |ep| ep["name"] == "Admin Account Management" }
+    samt = admin["endpoints"].find { |ep| ep["name"] == name }
     samt.should_not == nil
   else
     if admin != nil
-      samt = admin["endpoints"].find { |ep| ep["name"] == "Admin Account Management" }
+      samt = admin["endpoints"].find { |ep| ep["name"] == name }
       samt.should == nil
     end
   end

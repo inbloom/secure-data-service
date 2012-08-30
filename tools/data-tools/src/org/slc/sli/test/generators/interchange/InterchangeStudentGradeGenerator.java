@@ -125,12 +125,15 @@ public final class InterchangeStudentGradeGenerator {
         EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();// References to
                                                                                  // EducationalOrg
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+       //edOrgIdentity.setStateOrganizationId(schoolId);
+       
         EducationOrgIdentificationCode edOrgCode = new EducationOrgIdentificationCode();
         edOrgCode.setID(schoolId);
         edOrgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
 //        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgCode);
         edOrgIdentity.getEducationOrgIdentificationCode().add(edOrgCode);
         edOrgRef.setEducationalOrgIdentity(edOrgIdentity);
+        
         return edOrgRef;
     }
 

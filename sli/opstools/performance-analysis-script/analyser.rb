@@ -71,8 +71,9 @@ class Analyser
       end
       rescue => e
         puts "Exception received after "+count.to_s+" number of records " + e.message
+        puts e
         @conn.close
-        continue_exec = true
+        continue_exec = true 
       end
     end
     calculate_stat

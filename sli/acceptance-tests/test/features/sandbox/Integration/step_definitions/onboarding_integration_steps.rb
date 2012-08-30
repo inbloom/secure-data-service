@@ -216,7 +216,7 @@ end
 
 Then /^the user is redirected to "([^"]*)"$/ do |link|
   sleep(1)
-  assert( @driver.current_url.include?(link),"the user is not redirected to #{link}")
+  assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
 end
 
 When /^the user selects the option to use the "([^"]*)"$/ do |arg1|

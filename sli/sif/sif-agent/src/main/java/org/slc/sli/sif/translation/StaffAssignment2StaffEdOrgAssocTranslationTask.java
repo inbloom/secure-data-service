@@ -23,7 +23,6 @@ import openadk.library.student.StaffAssignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.converter.DateConverter;
 import org.slc.sli.sif.domain.slientity.StaffEducationOrganizationAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
@@ -70,18 +69,13 @@ public class StaffAssignment2StaffEdOrgAssocTranslationTask extends AbstractTran
         if (sa.getJobEndDate() != null) {
             e.setEndDate(dateConverter.convert(sa.getJobEndDate()));
         }
-        // If there is a previous EmployeeAssignment of the same EmployeePersonalRefId
-        // We need to check if a Matched Entity can be found
-        if (sa.getEmployeePersonalRefId() != null && sa.getEmployeePersonalRefId().length() > 0) {
-            Entity staffEdOrgAssocEntity = sifIdResolver.getSliEntityByType(sa.getEmployeePersonalRefId(), e.entityType(), zoneId);
-            if (staffEdOrgAssocEntity != null) {
-                e.setMatchedEntity(staffEdOrgAssocEntity);
-            }
-        }
-        // If there is no Matched Entity, we need to set a default for the mandatory StaffClassification
-        if (e.getMatchedEntity() == null) {
-            e.setStaffClassification("Other");
-        }
+
+        //set the other Sif Ids for matching
+        e.setZoneId(zoneId);
+        e.setOtherSifRefId(sa.getStaffPersonalRefId());
+
+        //TODO default to be removed once partial entities are supported
+        e.setStaffClassification("Other");
 
         return Arrays.asList(e);
     }

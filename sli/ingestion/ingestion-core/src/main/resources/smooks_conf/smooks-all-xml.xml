@@ -1924,7 +1924,6 @@
   <!-- StudentAcademicRecord -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:expression property="recordType">'studentAcademicRecord'</jb:expression>
-    <jb:value property="localId" data="InterchangeStudentGrade/StudentAcademicRecord/@id" />
     <jb:wiring property="attributes" beanIdRef="studentAcademicRecordAttributes" />
   </jb:bean>
 
@@ -1980,7 +1979,12 @@
     <jb:value property="gradeType" data="GradeType" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
     <jb:wiring property="courseCode" beanIdRef="CourseTranscript_CourseCodeTypeArray" />
-    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
+    <jb:wiring property="studentAcademicRecordReference" beanIdRef="CourseTranscript_StudentAcademicRecordReference" />
+  </jb:bean>
+
+  <jb:bean beanId="CourseTranscript_StudentAcademicRecordReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
+    <jb:value property="studentUniqueStateId" data="StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="sessionName" data="StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/SessionName" />
   </jb:bean>
 
   <jb:bean beanId="CourseTranscript_CourseCodeTypeArray" class="java.util.ArrayList"

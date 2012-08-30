@@ -33,6 +33,12 @@ class Report
       query = {"body.resource"=> "/"+endPoint,"body.buildNumber"=>buildTag}
       create_report('url','responseTime',query,'apiResponse')
     end
+  def self.get_single_call_record(params)
+    urlParams = params[0].to_s
+    puts urlParams
+    doc = @db['apiResponse'].find_one({'_id'=>urlParams})
+    doc['body'].to_json()
+  end
 
   def self.initialize_parameters
       environment = ENV['RACK_ENV']
@@ -52,15 +58,16 @@ class Report
       @log = Logger.new(STDOUT)
       @col = '"cols": [{"label": "%s", "type": "string"},
                      {"label": "%s", "type": "number"},
-                     {"label":"%s","type":"number"}],
+                     {"label":"%s","type":"number"},
+                     {"label":"%s","type":"number"}
+                     ],
               "rows":['
-      @row = '{"c":[{"v":"%s"},{"v":%s},{"v":%s}]}'
+      @row = '{"c":[{"v":"%s"},{"v":%s},{"v":%s},{"v":%s}],"p": {"id":"%s"}}'
     end
 
   def self.create_report(hAxis,yAxis,query,collection='apiResponseStat')
-       response = "{" + @col%["endPoint","responseTime","80%density"]
+       response = "{" + @col%["endPoint","responseTime","response time for 80% api call","db call count"]
 
-       @log.info "Iterating sections with query: "+query.to_s
        bench_mark = String.new
        avarage = String.new
        if collection == 'apiResponse'
@@ -68,20 +75,24 @@ class Report
          bench_mark=doc['br']
          avarage = doc['avg']
        end
-
           @db[collection].find(query, @basic_options) do |cur|
             cur.each do |record|
+              dbCount = 0
 
               if collection == 'apiResponse'
                 hAxisVal = record['body'][hAxis]
                 responseTime = record['body'][yAxis]
                 cutOff = bench_mark
+                if record['body']['dbHitCount'].nil? == false
+                  dbCount = record['body']['dbHitCount']
+                end
               else
                 hAxisVal = record[hAxis]
                 responseTime = record[yAxis]
                 cutOff = record["br"]
               end
-              response = response + @row%[hAxisVal,responseTime.to_s,cutOff.to_s] +','
+              id = record["_id"]
+              response = response + @row%[hAxisVal,responseTime.to_s,cutOff.to_s,dbCount.to_s,id.to_s] +','
             end
           end
           response = response[0..-2]+ "]}"

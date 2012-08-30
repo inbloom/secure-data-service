@@ -78,7 +78,9 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 
 		$scope.id = $scope.profile.id;
 
-		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId});
+		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId}, function() {}, function(error) {
+			dbSharedService.showError(error.status, null);
+		});
 
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
@@ -187,6 +189,7 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 
 	$scope.cancelPageTitle = function () {
 		parent.checked = false;
+		$scope.pageName = $scope.page.name;
 	};
 
 	$scope.editPageTitle = function () {
@@ -209,14 +212,23 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 	};
 
 	$scope.removePage = function () {
-		parent.removePageFromProfile($scope.$index);
-		$rootScope.$broadcast("pageRemoved", $scope.$index);
+		if(confirm("Are you sure you want to remove the tab? There is no way to undo this action.")) {
+			parent.removePageFromProfile($scope.$index);
+			$rootScope.$broadcast("pageRemoved", $scope.$index);
+		}
 	};
 
 	$scope.showPanels = function () {
 		dbSharedService.showModal("#allPanelsModal", {mode: "panel", id: "", modalTitle: "Add A Panel"});
 		dbSharedService.setPage($scope.page);
 	};
+
+	// After re-ordering the panels, save the panel order into the profile config
+	$scope.$on("panelChanged", function () {
+		$scope.page.items = [];
+		$scope.page.items = $scope.newPageArray;
+		parent.saveProfile();
+	});
 
 }
 
@@ -231,9 +243,13 @@ function panelCtrl($scope) {
 	var parent = $scope.$parent;
 
 	$scope.removePanel = function () {
-		$scope.pagePanels.splice($scope.$index, 1);
-		parent.saveProfile();
+		if(confirm("Are you sure you want to remove the panel?")) {
+			$scope.pagePanels.splice($scope.$index, 1);
+			parent.saveProfile();
+		}
 	};
+
+
 }
 
 panelCtrl.$inject = ['$scope'];
@@ -290,8 +306,10 @@ function allPanelListCtrl($scope, dbSharedService) {
 			stop: function() {
 				parent.selectedPanels = [];
 				$( ".ui-selected", this ).each(function() {
-					var index = $( "#panelSelectable li" ).index( this );
-					parent.selectedPanels.push($scope.allPanels[index]);
+					if(this.tagName !== "SPAN") {
+						var index = $( "#panelSelectable li" ).index( this );
+						parent.selectedPanels.push($scope.allPanels[index]);
+					}
 				});
 			}
 		});

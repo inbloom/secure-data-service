@@ -16,11 +16,11 @@
     </SIF_Header>
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="StaffAssignment" Action="Add">
-        <StaffAssignment RefId="201208219D75101A8C3D00AA001A1652" SchoolInfoRefId="201208089D75101A8C3D00AA001A1652" SchoolYear="2013" StaffPersonalRefId="20120821190817988094852308234014">
+        <StaffAssignment RefId="201208219D75101A8C3D00AA001A1652" SchoolInfoRefId="D3E34B359D75101A8C3D00AA001A1652" SchoolYear="2013" StaffPersonalRefId="3333333333333333333D00AA001A1652">
           <Description>Staff member</Description>
           <PrimaryAssignment>Yes</PrimaryAssignment>
           <JobStartDate>2010-08-01</JobStartDate>
-          <JobEndDate>2013-07-31</JobEndDate>
+          <JobEndDate>2018-03-11</JobEndDate>
           <JobFTE>1</JobFTE>
           <JobFunction>
             <Code>2800</Code>

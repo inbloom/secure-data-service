@@ -183,12 +183,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         try {
             entityRepository.insert(queued, collectionName);
-        } catch(Exception e) {
+        } catch (Exception e) {
             //Assuming there would NOT be DuplicateKeyException at this point.
             //Because "queued" only contains new records(with no Id), and we don't have unique indexes
 
             //Try to do individual upsert again for other exceptions
-            for(Entity entity : queued) {
+            for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
             }
         }

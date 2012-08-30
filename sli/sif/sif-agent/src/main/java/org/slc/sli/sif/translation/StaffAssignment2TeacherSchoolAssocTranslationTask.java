@@ -24,7 +24,6 @@ import openadk.library.student.StaffAssignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.TeachingAssignmentConverter;
 import org.slc.sli.sif.domain.slientity.TeacherSchoolAssociationEntity;
@@ -77,18 +76,14 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTask extends AbstractT
             if (sa.getGradeLevels() != null) {
                 e.setInstructionalGradeLevels(gradeLevelsConverter.convert(sa.getGradeLevels()));
             }
-            // If there is a previous EmployeeAssignment of the same EmployeePersonalRefId
-            // We need to check if a Matched Entity can be found
-            if (sa.getEmployeePersonalRefId() != null && sa.getEmployeePersonalRefId().length() > 0) {
-                Entity teacherSchoolAssocEntity = sifIdResolver.getSliEntityByType(sa.getEmployeePersonalRefId(), e.entityType(), zoneId);
-                if (teacherSchoolAssocEntity != null) {
-                    e.setMatchedEntity(teacherSchoolAssocEntity);
-                }
-            }
-            // If there is no Matched Entity, we need to set a default for the mandatory StaffClassification
-            if (e.getMatchedEntity() == null) {
-                e.setProgramAssignment("Regular Education");
-            }
+
+            //set the other Sif Ids for matching
+            e.setZoneId(zoneId);
+            e.setOtherSifRefId(sa.getStaffPersonalRefId());
+
+            //TODO default to be removed once partial entities are supported
+            e.setProgramAssignment("Regular Education");
+
             return Arrays.asList(e);
 
         } else {

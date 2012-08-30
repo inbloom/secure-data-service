@@ -23,19 +23,19 @@ class LandingZoneController < ApplicationController
   rescue_from KeyValidationError, :with => :handle_validation_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
   rescue_from ActiveResource::BadRequest, :with => :handle_error
-  
+
   def provision
     if (params[:cancel] == "Cancel")
       redirect_to "/"
       return
     end
-    
+
     tenant = get_tenant
     if (tenant == nil)
       render_403
       return
     end
-    
+
     if APP_CONFIG["is_sandbox"]
       ed_org_id = params[:ed_org]
       ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
@@ -45,21 +45,21 @@ class LandingZoneController < ApplicationController
     else
       ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
     end
-    
+
     @public_key = params[:public_key]
     Rails.logger.debug("Public key: #{@public_key}")
-    
+
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-      
-       if sample_data_select!=nil && sample_data_select!=""
-       @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
-       @landingzone[:preload] =sample_data_select
-       else
-       @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
-       end
+
+      if sample_data_select != nil && sample_data_select != ""
+        @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
+        @landingzone[:preload] = sample_data_select
+      else
+        @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
+      end
     end
   end
 
@@ -67,17 +67,17 @@ class LandingZoneController < ApplicationController
     @edOrgs = LandingZone.possible_edorgs
     @sample_data =LandingZone.possible_sample_data
   end
-  
+
   def handle_validation_error(exception)
     @validation_errors = exception.to_s
     Rails.logger.warn("Caught KeyValidationError: #{@validation_errors}")
     render :action => 'index', :controller => 'landing_zone'
   end
-  
+
   def handle_error
     render :status => 500, :text => "An error occurred when provisioning the landing zone"
   end
-  
+
   def check_roles
     allowed_roles = ["Ingestion User"]
     if APP_CONFIG["is_sandbox"]

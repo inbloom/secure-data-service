@@ -42,13 +42,13 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 		return {
 			restrict: 'A',
 			link: function (scope, element, attrs) {
-				scope.$watch(attrs.ngFocus, function(newValue, oldValue){
-					if(newValue) {
+				attrs.$observe('ngFocus', function(value) {
+					if(value) {
 						window.setTimeout(function(){
 							element.focus();
-						},100);
+						},200);
 					}
-				}, true);
+				});
 			}
 		};
 	})
@@ -65,13 +65,19 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 		};
 	})
 	.directive("ngSortable", function($rootScope){
-
 		return {
+			restrict: 'A',
 			link: function(scope, linkElement, attrs){
 				linkElement.sortable({
-					axis: "x",
 					update: function() {
-						var model = scope.$parent.$eval(attrs.ngSortable);
+						var model;
+
+						if(scope.$eval(attrs.ngSortable)) {
+							model = scope.$eval(attrs.ngSortable);
+						}
+						else {
+							model = scope.$parent.$eval(attrs.ngSortable);
+						}
 						$rootScope.newPageArray = [];
 
 						// loop through items in new order
@@ -87,7 +93,13 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 
 						// notify angular of the change
 						scope.$parent.$apply();
-						scope.$parent.$broadcast("tabChanged");
+
+						if(attrs.ngSortable === "pages") {
+							scope.$parent.$broadcast("tabChanged", attrs.ngSortable);
+						}
+						else if (attrs.ngSortable === "pagePanels") {
+							scope.$parent.$broadcast("panelChanged", attrs.ngSortable);
+						}
 					}
 				});
 			}
@@ -102,6 +114,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				var panes = $scope.panes = [],
 					parent = $scope.$parent;
 
+				// The selected tab will display in active mode
 				$scope.select = function(pane) {
 					angular.forEach(panes, function(pane) {
 						pane.selected = false;
@@ -117,6 +130,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					panes.push(pane);
 				};
 
+				// When the page gets removed from the profile, the associated tab will get removed from the pane
 				$scope.$on("pageRemoved", function (e, index) {
 					panes.splice(index, 1);
 					if (panes[index]) {
@@ -127,6 +141,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					} 
 				});
 
+				// Add a new page/tab into the profile
 				$scope.addPage = function () {
 					var pageId = dbSharedService.generatePageId(parent.pages);
 					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
@@ -138,7 +153,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			},
 			template:
 				'<div class="tabbable">' +
-					'<ul class="nav nav-tabs" ng-sortable="pages">' +
+					'<ul class="nav nav-tabs clearfix" ng-sortable="pages">' +
 					'<li ng-repeat="pane in panes" ng-sortable-index="{{$index}}" ng-class="{active:pane.selected}">'+
 					'<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
 					'</li>' +
@@ -150,8 +165,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					'</div>',
 			replace: true
 		};
-	}).
-		directive('pane', function() {
+	})
+	.directive('pane', function() {
 			return {
 				require: '^tabs',
 				restrict: 'E',
