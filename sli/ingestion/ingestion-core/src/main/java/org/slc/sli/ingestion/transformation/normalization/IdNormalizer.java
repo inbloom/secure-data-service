@@ -483,13 +483,12 @@ public class IdNormalizer {
                 for (String takesField : takesContext) {
                     for (Entity record : foundRecords) {
                         if (record.getMetaData().containsKey(takesField)) {
-                            @SuppressWarnings("unchecked")
-                            List<String> addToContext = (List<String>) record.getMetaData().get(takesField);
+                            BasicDBList addToContext = (BasicDBList) record.getMetaData().get(takesField);
 
                             if (entity.getMetaData().containsKey(takesField)) {
-                                @SuppressWarnings("unchecked")
-                                List<String> original = (List<String>) entity.getMetaData().get(takesField);
-                                for (String context : addToContext) {
+                                BasicDBList original = (BasicDBList) entity.getMetaData().get(takesField);
+                                for (int i = 0; i < original.size(); i++) {
+                                    String context = (String) original.get(i);
                                     if (!original.contains(context)) {
                                         original.add(context);
                                     }
