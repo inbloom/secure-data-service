@@ -20,6 +20,14 @@ require 'rbconfig'
 require File.dirname(__FILE__) + '/slc_fixer'
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+if is_windows
+  # Horrible horrible duckpunching for windows
+  module Process
+    def fork
+      yield
+    end
+  end
+end
 
 trap('HUP') {
   @pids.each do |pid|
