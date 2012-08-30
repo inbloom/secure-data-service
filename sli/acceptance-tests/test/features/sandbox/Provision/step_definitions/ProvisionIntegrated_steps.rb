@@ -25,7 +25,6 @@ require 'digest'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
-require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 PRELOAD_EDORG = "STANDARD-SEA"
 
@@ -209,6 +208,12 @@ Then /^the Ingestion Admin gets a success message$/ do
   step "the user gets a success message"
 end
 
+Then /^the Ingestion Admin gets an already provisioned message$/ do
+  step "the user gets an already provisioned message"
+end
+
+
+
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
@@ -245,7 +250,7 @@ Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
 end
 
-Then /^the user gets an error message$/ do
+Then /^the user gets an already provisioned message$/ do
   already_provisioned = @driver.find_element(:id,"alreadyProvisioned")
   assert(already_provisioned!=nil,"didnt get an already provisioned message")
 end
@@ -293,23 +298,33 @@ Then /^the user gets a success message indicating preloading has been triggered$
   step "the user gets a success message"
 end
 
+Given /^the previous preload has completed$/ do
+  tenant_job_lock_coll=@db["tenantJobLock"]
+  tenant_job_lock_coll.remove("_id" => @tenantId)
+end
+
 Given /^user's landing zone is still provisioned from the prior preloading$/ do
   tenant_coll = @db["tenant"]
   preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => PRELOAD_EDORG)
   assert(preload_tenant.count()>0, "the user's landing zone is not provisioned from the prior preloading")
 end
 
-Then /^I go to my landing zone$/ do
-  tenant_collection =@db["tenant"]
-  tenant=tenant_collection.find("body.tenantId"=> @tenantId).next
-  puts "tenant is #{tenant}"
-  @landing_zone_path = tenant["body"]["landingZone"][0]["path"] + "/"
-  @source_file_name = "preload"
+Given /^ingestion is locked due to an existing ingestion job$/ do
+  step "the previous preload has completed"
+  tenant_job_lock_coll=@db["tenantJobLock"]
+  lock_entity ={
+      "_id" => @tenantId,
+      "batchJobId" => "test"
+  }
+  tenant_job_lock_coll.save(lock_entity)
 end
 
-Then /^I clean the landing zone$/ do
-  initializeLandingZone(@landing_zone_path)
+Then /^the user gets a error message that their account is currently ingesting data$/ do
+  step "the user gets an already provisioned message"
+  step "the previous preload has completed"
 end
+
+
 
 def check_lz_path(path, tenant, edOrg)
   path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)
