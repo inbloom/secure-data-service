@@ -154,6 +154,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 if (givesContextList != null) {
 
                     String referencedEntityType = refDef.getRef().getEntityType();
+                    String persistedCollectionName = getPersistedCollectionName(referencedEntityType);
 
                     List<String> referencedIds = determineIdsToQuery(entity, refDef);
 
@@ -163,7 +164,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         Object context = entity.getMetaData().get(typeOfContext);
                         if (context != null) {
 
-                            updateContext(referencedEntityType, typeOfContext, context, referencedIds);
+                            updateContext(persistedCollectionName, typeOfContext, context, referencedIds);
                         }
                     }
 
@@ -171,7 +172,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     if (entityConfigGivesContext(entityConfig, referencedEntityType)) {
                         for (String id : referencedIds) {
 
-                            Entity entityReferenced = entityRepository.findById(referencedEntityType, id);
+                            Entity entityReferenced = entityRepository.findById(persistedCollectionName, id);
                             if (entityReferenced != null) {
 
                                 giveContext(entityReferenced, entityConfig);
