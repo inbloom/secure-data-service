@@ -104,3 +104,4 @@ Then I should see following map of entry counts in the corresponding collections
      | studentTranscriptAssociation             |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
+    And I should not see an error log file created
