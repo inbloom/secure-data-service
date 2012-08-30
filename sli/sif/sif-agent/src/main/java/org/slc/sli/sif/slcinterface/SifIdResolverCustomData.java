@@ -379,9 +379,6 @@ public class SifIdResolverCustomData implements SifIdResolver {
         }
 
         Entity entity = retVal.get(0);
-//        if ("staffEducationOrganizationAssociation".equals(entity.getEntityType())) {
-//            entity = new GenericEntity("staffEducationOrgAssignmentAssociation", entity.getData());
-//        }
 
         return entity;
     }
