@@ -187,6 +187,9 @@ public abstract class Level3ClientWriter implements WadlHandler {
                 writePUT(method, resource, resources, application, ancestors);
             } else if (Method.NAME_HTTP_DELETE.equals(verb)) {
                 writeDELETE(method, resource, resources, application, ancestors);
+            } else if (Method.NAME_HTTP_PATCH.equals(verb)) {
+                // TODO write patch
+                System.out.println("TODO! PATCH");
             } else {
                 throw new AssertionError(method);
             }
