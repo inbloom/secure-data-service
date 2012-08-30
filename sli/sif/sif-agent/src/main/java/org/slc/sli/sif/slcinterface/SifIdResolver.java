@@ -97,8 +97,19 @@ public interface SifIdResolver {
     public void putSliGuid(String sifId, String sliType, String sliId, String zoneId);
 
     /**
-     * Given a sif reference id and the guid and type of the corresponding entity,
-     * saves the association.
+     * Retrieve a sli entity from the sifId of an associated (referenced) sli entity.
+     *
+     *
+     * @param sifId
+     * @param sliType
+     * @param zoneId
+     */
+    public Entity getSliEntityFromOtherSifId(String sifId, String sliType, String zoneId);
+
+
+    /**
+     * Save the association of a guid of an sli entity with a sifId of an associated (referenced)
+     * sli entity.
      *
      * This allows later to find a sli guid by using the combination of sif reference id and a sli type
      *

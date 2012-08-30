@@ -67,6 +67,14 @@ public class SifSubscriberTest {
     @Mock
     private SifIdResolver sifIdResolver;
 
+    private static final String SIF_ID = "sif_id";
+    private static final String OTHER_SIF_ID = "other_sif_id";
+    private static final String CREATOR_SIF_ID = "creator_sif_id";
+    private static final String SLI_ID = "sli_id";
+    private static final String SIF_TYPE = "sif_type";
+    private static final String SLI_TYPE = "sli_type";
+    private static final String ZONE_ID = "zone_id";
+
     @Before
     public void setup() {
         subscriber = new SifSubscriber();
@@ -83,18 +91,10 @@ public class SifSubscriberTest {
 
     @Test
     public void shouldCallSessionCheckOnEvent() throws ADKException {
-        Event mockEvent = Mockito.mock(Event.class);
-        Zone mockZone = Mockito.mock(Zone.class);
-        MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
-        DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
-        SIFDataObject mockSIFDataObject = Mockito.mock(SIFDataObject.class);
-
-        Mockito.when(mockEvent.getActionString()).thenReturn("event");
-        Mockito.when(mockZone.getZoneId()).thenReturn("zoneId");
-        Mockito.when(mockInfo.getMessage()).thenReturn("message");
-        Mockito.when(mockEvent.getData()).thenReturn(mockDataObjectInputStream);
-        Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(mockSIFDataObject);
-        Mockito.when(mockSIFDataObject.toString()).thenReturn("dataObject");
+        SIFDataObject mockSifDataObject = createMockSifDataObject();
+        Event mockEvent = createMockSifEvent(false, mockSifDataObject);
+        Zone mockZone = createMockZone();
+        MessageInfo mockInfo = createMockInfo();
 
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 
@@ -105,70 +105,176 @@ public class SifSubscriberTest {
 
     @Test
     public void testAddEntityOnEvent() throws ADKException {
-        Event mockEvent = Mockito.mock(Event.class);
-        Zone mockZone = Mockito.mock(Zone.class);
-        MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
-        DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
-        SchoolInfo mockSchoolInfo = Mockito.mock(SchoolInfo.class);
-
-        Mockito.when(mockEvent.getActionString()).thenReturn("Add");
-        Mockito.when(mockEvent.getAction()).thenReturn(EventAction.ADD);
-        Mockito.when(mockZone.getZoneId()).thenReturn("zoneId");
-        Mockito.when(mockInfo.getMessage()).thenReturn("message");
-        Mockito.when(mockEvent.getData()).thenReturn(mockDataObjectInputStream);
-        Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(mockSchoolInfo);
-        Mockito.when(mockSchoolInfo.toString()).thenReturn("SchoolInfo");
+        SIFDataObject mockSifDataObject = createMockSifDataObject();
+        Event mockEvent = createMockSifEvent(false, mockSifDataObject);
+        Zone mockZone = createMockZone();
+        MessageInfo mockInfo = createMockInfo();
 
         SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
         List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
         mockSliEntities.add(mockSliEntity);
         GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
         Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
+        Mockito.when(mockSliEntity.entityType()).thenReturn(SLI_TYPE);
+        Mockito.when(mockSliEntity.getOtherSifRefId()).thenReturn(OTHER_SIF_ID);
+        Mockito.when(mockSliEntity.hasOtherSifRefId()).thenReturn(true);
+        Mockito.when(mockSliEntity.isCreatedByOthers()).thenReturn(false);
+        Mockito.when(sifIdResolver.getSliEntityFromOtherSifId(OTHER_SIF_ID,
+                SLI_TYPE, ZONE_ID)).thenReturn(null);
 
-        Mockito.when(mockTranslationManager.translate(mockSchoolInfo, "zoneId")).thenReturn(mockSliEntities);
-        Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
-        Mockito.when(mockSlcInterface.create(Mockito.any(GenericEntity.class))).thenReturn("5678");
+        Mockito.when(mockTranslationManager.translate(mockSifDataObject, ZONE_ID)).thenReturn(mockSliEntities);
+        Mockito.when(mockSlcInterface.create(Mockito.any(GenericEntity.class))).thenReturn(SLI_ID);
 
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 
         //verify that the SDK create call is made
-        Mockito.verify(mockSlcInterface, Mockito.times(1)).create(Mockito.any(GenericEntity.class));
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).create(mockGenericEntity);
+
+        Mockito.verify(sifIdResolver, Mockito.times(1)).putSliGuid(SIF_ID, SLI_TYPE, SLI_ID, ZONE_ID);
+
+        Mockito.verify(sifIdResolver, Mockito.times(1)).putSliGuidForOtherSifId(OTHER_SIF_ID, SLI_TYPE, SLI_ID, ZONE_ID);
     }
 
     @Test
     public void testChangeEntityOnEvent() throws ADKException {
-        Event mockEvent = Mockito.mock(Event.class);
-        Zone mockZone = Mockito.mock(Zone.class);
-        MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
-        DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
-        SchoolInfo mockSchoolInfo = Mockito.mock(SchoolInfo.class);
+        SIFDataObject mockSifDataObject = createMockSifDataObject();
+        Event mockEvent = createMockSifEvent(true, mockSifDataObject);
+        Zone mockZone = createMockZone();
+        MessageInfo mockInfo = createMockInfo();
 
-        Mockito.when(mockEvent.getActionString()).thenReturn("Change");
-        Mockito.when(mockEvent.getAction()).thenReturn(EventAction.CHANGE);
-        Mockito.when(mockZone.getZoneId()).thenReturn("zoneId");
-        Mockito.when(mockInfo.getMessage()).thenReturn("message");
-        Mockito.when(mockEvent.getData()).thenReturn(mockDataObjectInputStream);
-        Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(mockSchoolInfo);
-        Mockito.when(mockSchoolInfo.toString()).thenReturn("SchoolInfo");
 
         SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
         List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
         mockSliEntities.add(mockSliEntity);
         Map<String, Object> mockBody = new HashMap<String, Object>();
         Mockito.when(mockSliEntity.createBody()).thenReturn(mockBody);
-        Mockito.when(mockSliEntity.entityType()).thenReturn("type");
+        Mockito.when(mockSliEntity.entityType()).thenReturn(SLI_TYPE);
 
-        Mockito.when(mockTranslationManager.translate(mockSchoolInfo, "zoneId")).thenReturn(mockSliEntities);
-        Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
-        GenericEntity mockEntity = new GenericEntity("type", mockBody);
+        Mockito.when(mockTranslationManager.translate(mockSifDataObject, ZONE_ID)).thenReturn(mockSliEntities);
+
+        GenericEntity mockEntity = new GenericEntity(SLI_TYPE, mockBody);
         List<Entity> mockEntityList = new ArrayList<Entity>();
         mockEntityList.add(mockEntity);
-        Mockito.when(sifIdResolver.getSliEntityList("1234", "zoneId")).thenReturn(mockEntityList);
+        Mockito.when(sifIdResolver.getSliEntityList(SIF_ID, ZONE_ID)).thenReturn(mockEntityList);
 
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 
         //verify that the SDK create call is made
         Mockito.verify(mockSlcInterface, Mockito.times(1)).update(mockEntity);
+
+        //change events should not add to the custom data maps
+        Mockito.verify(sifIdResolver, Mockito.never()).putSliGuid(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString());
+        Mockito.verify(sifIdResolver, Mockito.never()).putSliGuidForOtherSifId(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString());
+    }
+
+    @Test
+    public void testAddWithCommonCreatorCombine() throws ADKException {
+        SIFDataObject mockSifDataObject = createMockSifDataObject();
+        Event mockEvent = createMockSifEvent(false, mockSifDataObject);
+        Zone mockZone = createMockZone();
+        MessageInfo mockInfo = createMockInfo();
+
+        SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
+        List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
+        mockSliEntities.add(mockSliEntity);
+        GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
+        Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
+        Mockito.when(mockSliEntity.entityType()).thenReturn(SLI_TYPE);
+        Mockito.when(mockSliEntity.hasOtherSifRefId()).thenReturn(false);
+        Mockito.when(mockSliEntity.isCreatedByOthers()).thenReturn(true);
+        Mockito.when(mockSliEntity.getCreatorRefId()).thenReturn(CREATOR_SIF_ID);
+
+        //mock the extraction of the combining entity
+        Entity combiningEntity = Mockito.mock(Entity.class);
+        Mockito.when(combiningEntity.getId()).thenReturn(SLI_ID);
+        Mockito.when(combiningEntity.getEntityType()).thenReturn(SLI_TYPE);
+        Mockito.when(sifIdResolver.getSliEntity(CREATOR_SIF_ID, ZONE_ID)).thenReturn(combiningEntity);
+
+
+        Mockito.when(mockTranslationManager.translate(mockSifDataObject, ZONE_ID)).thenReturn(mockSliEntities);
+
+        subscriber.onEvent(mockEvent, mockZone, mockInfo);
+
+        //verify that the SDK update call is made
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).update(combiningEntity);
+
+        //verify sif custom data map updates
+        Mockito.verify(sifIdResolver, Mockito.times(1)).putSliGuid(SIF_ID, SLI_TYPE, SLI_ID, ZONE_ID);
+        Mockito.verify(sifIdResolver, Mockito.never()).putSliGuidForOtherSifId(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString());
+    }
+
+    @Test
+    public void testAddWithCommonOtherIdCombine() throws ADKException {
+        SIFDataObject mockSifDataObject = createMockSifDataObject();
+        Event mockEvent = createMockSifEvent(false, mockSifDataObject);
+        Zone mockZone = createMockZone();
+        MessageInfo mockInfo = createMockInfo();
+
+        SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
+        List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
+        mockSliEntities.add(mockSliEntity);
+        GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
+        Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
+        Mockito.when(mockSliEntity.entityType()).thenReturn(SLI_TYPE);
+        Mockito.when(mockSliEntity.hasOtherSifRefId()).thenReturn(true);
+        Mockito.when(mockSliEntity.isCreatedByOthers()).thenReturn(false);
+        Mockito.when(mockSliEntity.getOtherSifRefId()).thenReturn(OTHER_SIF_ID);
+
+        //mock the extraction of the combining entity
+        Entity combiningEntity = Mockito.mock(Entity.class);
+        Mockito.when(combiningEntity.getId()).thenReturn(SLI_ID);
+        Mockito.when(combiningEntity.getEntityType()).thenReturn(SLI_TYPE);
+        Mockito.when(sifIdResolver.getSliEntityFromOtherSifId(OTHER_SIF_ID,
+                SLI_TYPE, ZONE_ID)).thenReturn(combiningEntity);
+
+        Mockito.when(mockTranslationManager.translate(mockSifDataObject, ZONE_ID)).thenReturn(mockSliEntities);
+
+        subscriber.onEvent(mockEvent, mockZone, mockInfo);
+
+        //verify that the SDK update call is made
+        Mockito.verify(mockSlcInterface, Mockito.times(1)).update(combiningEntity);
+
+        //verify sif custom data map updates
+        Mockito.verify(sifIdResolver, Mockito.times(1)).putSliGuid(SIF_ID, SLI_TYPE, SLI_ID, ZONE_ID);
+        Mockito.verify(sifIdResolver, Mockito.never()).putSliGuidForOtherSifId(Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString());
+    }
+
+    private Event createMockSifEvent(boolean change, SIFDataObject dataObject) throws ADKException {
+        Event mockEvent = Mockito.mock(Event.class);
+        DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
+        if (change) {
+            Mockito.when(mockEvent.getActionString()).thenReturn("Change");
+            Mockito.when(mockEvent.getAction()).thenReturn(EventAction.CHANGE);
+        } else {
+            Mockito.when(mockEvent.getActionString()).thenReturn("Add");
+            Mockito.when(mockEvent.getAction()).thenReturn(EventAction.ADD);
+        }
+        Mockito.when(mockEvent.getData()).thenReturn(mockDataObjectInputStream);
+        Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(dataObject);
+        return mockEvent;
+    }
+
+    private MessageInfo createMockInfo() throws ADKException {
+        MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
+        Mockito.when(mockInfo.getMessage()).thenReturn("message");
+        return mockInfo;
+    }
+
+    private Zone createMockZone() throws ADKException {
+        Zone mockZone = Mockito.mock(Zone.class);
+        Mockito.when(mockZone.getZoneId()).thenReturn(ZONE_ID);
+        return mockZone;
+    }
+
+    private SIFDataObject createMockSifDataObject() {
+        SchoolInfo mockSchoolInfo = Mockito.mock(SchoolInfo.class);
+        Mockito.when(mockSchoolInfo.toString()).thenReturn(SIF_TYPE);
+        Mockito.when(mockSchoolInfo.getRefId()).thenReturn(SIF_ID);
+        return mockSchoolInfo;
     }
 
 }

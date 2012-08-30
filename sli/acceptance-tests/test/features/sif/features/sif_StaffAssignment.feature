@@ -26,7 +26,7 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
      | staffEducationOrganizationAssociation | 1                   | body.staffReference                 | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     |
-     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012av-6dcc2939-dcc5-11e1-95f6-0021701f543f | string     |
+     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012gj-2115e874-f071-11e1-9bea-3c07546d6513 | string     |
    And I check that the record contains all of the expected values:
      | collectionName                        | searchParameter     | searchValue                                 | searchType | expectedValuesFile                 |
      | staffEducationOrganizationAssociation | body.staffReference | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_StaffAssignment_add_staff |
@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter                     | searchValue                                 | searchType |
      | staffEducationOrganizationAssociation | 1                   | body.staffReference                 | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     |
-     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012av-6dcc2939-dcc5-11e1-95f6-0021701f543f | string     |
+     | staffEducationOrganizationAssociation | 1                   | body.educationOrganizationReference | 2012gj-2115e874-f071-11e1-9bea-3c07546d6513 | string     |
    And I check that the record contains all of the expected values:
      | collectionName                        | searchParameter     | searchValue                                 | searchType | expectedValuesFile                    |
      | staffEducationOrganizationAssociation | body.staffReference | 2012fw-e2efce80-eb85-11e1-b59f-406c8f06bd30 | string     | expected_StaffAssignment_change_staff |

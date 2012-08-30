@@ -16,8 +16,8 @@
     </SIF_Header>
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="EmploymentRecord" Action="Add">
-        <EmploymentRecord SIF_RefId="20120821190817988094852308234014" SIF_RefObject="StaffPersonal">
-          <LEAInfoRefId>20120822888624AA5294BC6380173276</LEAInfoRefId>
+        <EmploymentRecord SIF_RefId="3333333333333333333D00AA001A1652" SIF_RefObject="StaffPersonal">
+          <LEAInfoRefId>73648462888624AA5294BC6380173276</LEAInfoRefId>
           <Active>true</Active>
           <FullTimeStatus>0843</FullTimeStatus>
           <HireDate>2010-08-01</HireDate>
