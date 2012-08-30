@@ -967,7 +967,7 @@ local-sandbox:
 
     ingestion:
         <<: *INGESTION-LOCAL
-        sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.loadDefaultTenants: false
 
     dashboard:
         <<: *DASHBOARD-LOCAL
