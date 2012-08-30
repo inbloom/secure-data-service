@@ -63,6 +63,8 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTaskTest extends AdkTe
     @Mock
     TeachingAssignmentConverter mockTeachingAssignmentConverter;
 
+    private static final String DEFAULT_PROGRAM_ASSIGNMENT = "Regular Education";
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -99,14 +101,13 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTaskTest extends AdkTe
         Assert.assertEquals(1, result.size());
 
         TeacherSchoolAssociationEntity e = result.get(0);
-        Assert.assertEquals("schoolInfoRefId is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, e.getSchoolId());
-        Assert.assertEquals("staffPersonalRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, e.getTeacherId());
+        Assert.assertEquals("schoolId is expected to be '" + schoolInfoRefId + "'", schoolInfoRefId, e.getSchoolId());
+        Assert.assertEquals("teacherId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, e.getTeacherId());
         Assert.assertEquals(instructionalGradeLevels, e.getInstructionalGradeLevels());
-        Assert.assertEquals("staffEdOrgAssocEntity is expected to be '" + staffEdOrgAssocEntity + "'", staffEdOrgAssocEntity, e.getMatchedEntity());
-        Assert.assertNull("ProgramAssignment is expected to be 'null'", e.getProgramAssignment());
-        Assert.assertNull("ProgramAssignment is expected to be 'null'", e.getProgramAssignment());
+        Assert.assertEquals("ProgramAssignment is expected to be '" + DEFAULT_PROGRAM_ASSIGNMENT + "'",
+                DEFAULT_PROGRAM_ASSIGNMENT, e.getProgramAssignment());
         Assert.assertNull("AcademicSubjects is expected to be 'null'", e.getAcademicSubjects());
-
+        Assert.assertEquals("otherSifRefId is expected to be '" + staffPersonalRefId + "'", staffPersonalRefId, e.getOtherSifRefId());
     }
 
     @Test
@@ -126,9 +127,9 @@ public class StaffAssignment2TeacherSchoolAssocTranslationTaskTest extends AdkTe
         Assert.assertNull("TeacherId is expected to be 'null'", e.getTeacherId());
         Assert.assertNull("SchoolId is expected to be 'null'", e.getSchoolId());
         Assert.assertNull("InstructionalGradeLevels is expected to be 'null'", e.getInstructionalGradeLevels());
-        Assert.assertEquals("ProgramAssignment is expected to be 'Regular Education'", "Regular Education", e.getProgramAssignment());
-        Assert.assertEquals(academicSubjects, e.getAcademicSubjects());
-
+        Assert.assertEquals("ProgramAssignment is expected to be '" + DEFAULT_PROGRAM_ASSIGNMENT + "'", DEFAULT_PROGRAM_ASSIGNMENT, e.getProgramAssignment());
+        Assert.assertEquals("AcademicSubjects is expected to be '" + academicSubjects + "'",
+                academicSubjects, e.getAcademicSubjects());
     }
 }
 

@@ -23,8 +23,10 @@ class App < Sinatra::Base
     end
 
     get '/generateEndPointReportForBuild/*' do
-      puts params[:splat]
       Report.generate_end_point_report_for_build params[:splat]
+    end
+    get '/getIndividualCallDetail/*' do
+      Report.get_single_call_record params[:splat]
     end
 
 end
