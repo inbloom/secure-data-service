@@ -1097,7 +1097,7 @@ public class SDKAPIClient implements APIClient {
             List<Entity> entityList = getClient(token).read(url);
             for (Entity entity : entityList) {
                 GenericEntity genericEntity = new GenericEntity(entity);
-                genericEntity.put("links", entity.getLinks());
+                genericEntity.put("links", mappifyLinks(entity.getLinks()));
                 genericEntities.add(genericEntity);
             }
         } catch (SLIClientException e) {
@@ -1108,6 +1108,24 @@ public class SDKAPIClient implements APIClient {
         return genericEntities;
     }
 
+    
+    private List<Map<String, String>> mappifyLinks(List<Link> realLinks) {
+        // somewhere some code is dying because the links in the SDK are being returned as Link
+        // objects and not maps. I don't feel like digging through acres of code to find it, so I'm
+        // putting in this hack
+        List<Map<String, String>> mapLinks = new ArrayList<Map<String, String>>();
+        if (realLinks != null) {
+            for (Link link : realLinks) {
+                Map<String, String> mapLink = new HashMap<String, String>();
+                mapLink.put("rel", link.getLinkName());
+                mapLink.put("href", link.getResourceURL().toString());
+                mapLinks.add(mapLink);
+            }
+        }
+        return mapLinks;
+    }    
+    
+    
 
     /**
      * Read a list of resource entities using the SDK. This method checks id for
