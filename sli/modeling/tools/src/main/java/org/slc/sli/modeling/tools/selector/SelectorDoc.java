@@ -25,6 +25,7 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 /**
@@ -53,8 +54,7 @@ public class SelectorDoc {
 
         String simpleSect = "<simpleSect xml:id = \"selector-%s\">";
         String features = "    <features>";
-        String featureType = "        <feature type = \"%s\"";
-        String featureName = "                 name = \"%s\"/>";
+        String feature = "        <feature type = \"%s\" name = \"%s\"/>";
         String featuresEnd = "    </features>";
         String simpleSectEnd = "</simpleSect>";
 
@@ -70,10 +70,34 @@ public class SelectorDoc {
 
             System.out.println (String.format (simpleSect, classTypeName));
             System.out.println (features);
+
             String type = "";
             String name = "";
-            System.out.println (String.format (featureType, type));
-            System.out.println (String.format (featureName, name));
+
+            if (classType.isAssociation()) {
+                type = "Association";
+                AssociationEnd lhs = classType.getLHS();
+                AssociationEnd rhs = classType.getRHS();
+                String lhsName = lhs.getAssociatedAttributeName();
+                String rhsName = rhs.getAssociatedAttributeName();
+
+                System.out.println (String.format (feature, type, lhsName));
+                System.out.println (String.format (feature, type, rhsName));
+
+                for (Attribute attribute : attributes) {
+                    type = "Attribute";
+                    name = attribute.getName();
+                    System.out.println (String.format (feature, type, name));
+                }
+
+            } else {
+                type = "Attribute";
+                for (Attribute attribute : attributes) {
+                    name = attribute.getName();
+                    System.out.println (String.format (feature, type, name));
+                }
+            }
+
             System.out.println (featuresEnd);
             System.out.println (simpleSectEnd);
         }
