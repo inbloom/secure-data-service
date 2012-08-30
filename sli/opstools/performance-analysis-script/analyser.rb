@@ -56,7 +56,7 @@ class Analyser
       continue_exec = false
       create_connection
       begin
-      @db['apiResponse'].find({'$or'=>[{'processed'=>{'$exists'=>false}},{'processed'=>false}]}},@basic_options) do |cur|
+      @db['apiResponse'].find({'$or'=>[{'processed'=>{'$exists'=>false}},{'processed'=>false}]},@basic_options) do |cur|
           cur.each do |rec|
             count = count +1
             build_number = rec['body']['buildNumber']
