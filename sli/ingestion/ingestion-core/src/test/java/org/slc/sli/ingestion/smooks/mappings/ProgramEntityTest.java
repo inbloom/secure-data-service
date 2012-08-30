@@ -72,7 +72,6 @@ public class ProgramEntityTest {
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "program", neutralRecord.getRecordType());
 
-        assertEquals("Expected different local id", "ACC-TEST-PROG-1", neutralRecord.getLocalId());
         assertEquals("Expected no local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
@@ -96,7 +95,7 @@ public class ProgramEntityTest {
         Map<String, Object> choice = service1.get(0);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different service code value", "Test service 1", choice.get("CodeValue"));
- 
+
         choice = service1.get(1);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different short description of service", "Short description for acceptance test program service 1", choice.get("ShortDescription"));
@@ -112,11 +111,11 @@ public class ProgramEntityTest {
         choice = service2.get(0);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different service code value", "Test service 2", choice.get("CodeValue"));
-        
+
         choice = service2.get(1);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different short description of service", "Short description for acceptance test program service 2", choice.get("ShortDescription"));
-        
+
         choice = service2.get(2);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test program service 2. More detail could be provided here.", choice.get("Description"));

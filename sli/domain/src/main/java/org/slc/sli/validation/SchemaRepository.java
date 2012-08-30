@@ -17,6 +17,8 @@
 
 package org.slc.sli.validation;
 
+import java.util.List;
+
 import org.slc.sli.validation.schema.NeutralSchema;
 
 
@@ -35,7 +37,7 @@ public interface SchemaRepository {
      * @return the actual schema
      */
     public NeutralSchema getSchema(String type);
-    
+
     /**
      * Gets the schema for an underlying field on the given type
      *
@@ -43,5 +45,12 @@ public interface SchemaRepository {
      * @param field the potentially nested field whose schema is to be returned
      */
     public NeutralSchema getSchema(String type, String field);
+
+    /**
+     * Returns the NeutralSchemas in this repository.
+     *
+     * @return the NeutralSchemas in this repository.
+     */
+    public List<NeutralSchema> getSchemas();
 
 }

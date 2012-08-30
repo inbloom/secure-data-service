@@ -65,16 +65,22 @@ class LandingZone
     end
 
     isDuplicate = false
-    if(APP_CONFIG['is_sandbox'])
+    if(APP_CONFIG['is_sandbox']&&(sample_data_select==nil||sample_data_select==""))
       isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
-    else
+    elsif APP_CONFIG['is_sandbox'] == false
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
-
-    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant, :preloadFiles => sample_data_select)
+    Rails.logger.info("the first isDuplicate is: #{isDuplicate}")
+     result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant, :preloadFiles => sample_data_select)
+     
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
+    elsif (result.attributes[:isDuplicate]=="true" && sample_data_select!=nil && sample_data_select!="")
+      isDuplicate=true
     end
+    
+    Rails.logger.info("the second isDuplicate is: #{isDuplicate}")
+        
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"

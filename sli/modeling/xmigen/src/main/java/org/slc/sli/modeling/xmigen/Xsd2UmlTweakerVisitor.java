@@ -135,7 +135,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     private static final AssociationEnd compute(final AssociationEnd end) {
         final Range r = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity m = new Multiplicity(r);
-        return new AssociationEnd(m, Xsd2UmlHelper.pluralize(end.getName()), true, end.getType());
+        return new AssociationEnd(m, Xsd2UmlHelper.pluralize(end.getName()), true, end.getType(), end.getAssociatedAttributeName());
     }
     
     @Override

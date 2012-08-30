@@ -148,10 +148,7 @@ public class SifSubscriber implements Subscriber {
         }
         updateMap(matchedEntity.getData(), sliEntity.createBody());
         slcInterface.update(matchedEntity);
-        if (sliEntity.hasOtherSifRefId()) {
-            sifIdResolver.putSliGuidForOtherSifId(sliEntity.getOtherSifRefId(), sliEntity.entityType(),
-                    matchedEntity.getId(), zoneId);
-        }
+
         LOG.info("changeEntity " + sliEntity.entityType() + ": RefId=" + sifData.getRefId());
     }
 
@@ -162,22 +159,22 @@ public class SifSubscriber implements Subscriber {
         Entity matched = null;
         // Two combining cases to handle:
         // 1) match by a reference
-        if(sliEntity.isCreatedByOthers()) {
+        if (sliEntity.isCreatedByOthers()) {
           //TODO this should probably include type but should be fine for PI5
             matched = sifIdResolver.getSliEntity(sliEntity.getCreatorRefId(), zoneId);
             if (matched != null) {
-                LOG.info("Combining through common SIF creator with a " + matched.getEntityType() +
-                        " entity with id " + matched.getId());
+                LOG.info("Combining through common SIF creator with a " + matched.getEntityType()
+                        + " entity with id " + matched.getId());
             }
         }
         // 2) match by a common other entity
-        if(sliEntity.hasOtherSifRefId()) {
+        if (sliEntity.hasOtherSifRefId()) {
 
             matched = sifIdResolver.getSliEntityFromOtherSifId(sliEntity.getOtherSifRefId(),
                     sliEntity.entityType(), zoneId);
             if (matched != null) {
-                LOG.info("Combining through common SIF reference with a " + matched.getEntityType() +
-                        " entity with id " + matched.getId());
+                LOG.info("Combining through common SIF reference with a " + matched.getEntityType()
+                        + " entity with id " + matched.getId());
             }
         }
 
