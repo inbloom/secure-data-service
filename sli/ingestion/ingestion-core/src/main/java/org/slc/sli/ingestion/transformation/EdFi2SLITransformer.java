@@ -169,8 +169,16 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                             query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery,
                                     false));
 
+                            // need to use $each operator to add an array with $addToSet
+                            Object updateValue = context;
+                            if (context instanceof List) {
+                                Map<String, Object> eachList = new HashMap<String, Object>();
+                                eachList.put("$each", context);
+                                updateValue = eachList;
+                            }
+
                             Map<String, Object> metaDataFields = new HashMap<String, Object>();
-                            metaDataFields.put("metaData." + contextToGive, context);
+                            metaDataFields.put("metaData." + contextToGive, updateValue);
                             Map<String, Object> update = new HashMap<String, Object>();
                             update.put("addToSet", metaDataFields);
 
