@@ -16,9 +16,11 @@
 
 package org.slc.sli.ingestion.transformation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -28,13 +30,15 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
-import org.slc.sli.ingestion.service.OldSchoolMongoUpdater;
 import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -133,7 +137,64 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
         // propagate context according to configuration
-        OldSchoolMongoUpdater.giveContext(item, entityConfig);
+        giveContext(item, entityConfig);
+    }
+
+    public void giveContext(NeutralRecord item, EntityConfig entityConfig) {
+        ComplexRefDef complexRefDef = entityConfig.getComplexReference();
+        if (complexRefDef != null) {
+            // wat is this?
+        }
+
+        // check all references to potentially propagate context
+        if (entityConfig.getReferences() != null) {
+            for (RefDef refDef : entityConfig.getReferences()) {
+
+                List<String> givesContextList = refDef.getRef().getGivesContext();
+                if (givesContextList != null) {
+
+                    String entityReferenced = refDef.getRef().getEntityType();
+
+                    // propagate each kind of context specified
+                    for (String contextToGive : givesContextList) {
+
+                        Object context = item.getMetaData().get(contextToGive);
+                        if (context != null) {
+
+                            List<String> idsToQuery = determineIdsToQuery(item, refDef);
+
+                            NeutralQuery query = new NeutralQuery(idsToQuery.size());
+                            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                                    TenantContext.getTenantId(), false));
+                            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery,
+                                    false));
+
+                            Map<String, Object> metaDataFields = new HashMap<String, Object>();
+                            metaDataFields.put("metaData." + contextToGive, context);
+                            Map<String, Object> update = new HashMap<String, Object>();
+                            update.put("addToSet", metaDataFields);
+
+                            entityRepository.updateMulti(query, update, entityReferenced);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<String> determineIdsToQuery(NeutralRecord item, RefDef refDef) {
+        List<String> idsToQuery = new ArrayList<String>();
+
+        String bodyPath = refDef.getFieldPath().replaceFirst("body\\.", "");
+        Object normalizedIdValue = item.getAttributes().get(bodyPath);
+
+        if (normalizedIdValue instanceof String) {
+            idsToQuery.add(normalizedIdValue.toString());
+        } else if (normalizedIdValue instanceof List) {
+            idsToQuery.addAll((List<String>) normalizedIdValue);
+        }
+        return idsToQuery;
     }
 
     private String getPersistedCollectionName(String entityType) {

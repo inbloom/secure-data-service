@@ -469,7 +469,8 @@ public class IdNormalizer {
 
         List<String> takesContext = refConfig.getTakesContext();
         if (takesContext != null) {
-            // if takes context is set, once records are queried for, peel off metaData.[Takes] and store on current record
+            // if takes context is set, once records are queried for, peel off metaData.[Takes] and
+            // store on current record
             // cannot check in cache --> need whole records for metaData propagation
             // update cache with query results
             @SuppressWarnings("deprecation")
@@ -504,7 +505,8 @@ public class IdNormalizer {
             }
             cache(ids, collection, tenantId, filter);
         } else {
-            // if takes context is null, query for records normally (check cache first), store on record
+            // if takes context is null, query for records normally (check cache first), store on
+            // record
             // update cache with query results
             ids.addAll(checkInCache(collection, tenantId, filter));
 
@@ -520,50 +522,6 @@ public class IdNormalizer {
                 cache(ids, collection, tenantId, filter);
             }
         }
-
-//        List<String> givesContext = refConfig.getGivesContext();
-//        if (givesContext != null) {
-//            // if gives context is set, then using current metaData, peel off metaData.[Gives], and update records
-//            // gives context should only operate on metaData fields
-//
-//            for (String givesField : givesContext) {
-//                Object addToContext = entity.getMetaData().get(givesField);
-//                if (addToContext != null) {
-//                    NeutralQuery query = new NeutralQuery(ids.size());
-//                    query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
-//                    query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, ids, false));
-//
-//                    // have tenantId --> needs to be prepended due to sharding
-//                    // have ids --> looked up id(s) to perform update operation on (limit operation to that size)
-//
-//                    if (addToContext instanceof String) {
-//                        String context = (String) addToContext;
-//                        String type = refConfig.getEntityType();
-//
-//                        Map<String, Object> metaDataFields = new HashMap<String, Object>();
-//                        metaDataFields.put("metaData." + givesField, Arrays.asList(context));
-//                        Map<String, Object> update = new HashMap<String, Object>();
-//                        update.put("addToSet", metaDataFields);
-//
-//                        // TODO: need to add updateMulti into repository --> make available here
-//                        //entityRepository.updateMulti(query, update, type);
-//
-//                    } else if (addToContext instanceof List) {
-//                        @SuppressWarnings("unchecked")
-//                        List<String> context = (List<String>) addToContext;
-//                        String type = refConfig.getEntityType();
-//
-//                        Map<String, Object> metaDataFields = new HashMap<String, Object>();
-//                        metaDataFields.put("metaData." + givesField, context);
-//                        Map<String, Object> update = new HashMap<String, Object>();
-//                        update.put("addToSet", metaDataFields);
-//
-//                        // TODO: need to add updateMulti into repository --> make available here
-//                        //entityRepository.updateMulti(query, update, type);
-//                    }
-//                }
-//            }
-//        }
 
         // sort because the $or query can produce different results every time
         Collections.sort(ids);
