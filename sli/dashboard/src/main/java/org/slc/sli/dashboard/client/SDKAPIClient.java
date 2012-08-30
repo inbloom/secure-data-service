@@ -514,7 +514,8 @@ public class SDKAPIClient implements APIClient {
     public GenericEntity getSectionHomeForStudent(String token, String studentId) {
 
     	String sectionId = null;
-    	List<GenericEntity> stuSecAssociations = readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC);
+    	List<GenericEntity> stuSecAssociations = readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId
+    				+ SDKConstants.STUDENT_SECTION_ASSOC +  "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS);
     	
     	if(stuSecAssociations == null) {
     		return null;
