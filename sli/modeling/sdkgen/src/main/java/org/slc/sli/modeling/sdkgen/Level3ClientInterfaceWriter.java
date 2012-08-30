@@ -159,7 +159,32 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.endStmt();
         }
     }
-    
+
+    @Override
+    protected void writePATCH(Method method, Resource resource, Resources resources, Application application, Stack<Resource> ancestors) throws IOException {
+        final boolean quietMode = true;
+        final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
+
+        final String methodName = method.getId();
+
+        writeMethodDocumentation(method);
+
+        jsw.beginStmt();
+        try {
+            jsw.writeType(JavaType.JT_VOID).space().write(methodName);
+            jsw.parenL();
+            final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final JavaParam requestParam = getRequestJavaParam(method, grammars, quietMode);
+            final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
+
+            jsw.writeParams(jparams);
+            jsw.parenR();
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+        } finally {
+            jsw.endStmt();
+        }
+    }
+
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {

@@ -15,7 +15,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 public final class StAXLevel1Client implements Level1Client {
-    
+
     private final Level0Client inner;
     
     public StAXLevel1Client() {
@@ -47,6 +47,11 @@ public final class StAXLevel1Client implements Level1Client {
     
     @Override
     public void put(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public void patch(String token, Entity data, URI uri) throws IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
     

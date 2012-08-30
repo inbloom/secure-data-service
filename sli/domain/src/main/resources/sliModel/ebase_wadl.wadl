@@ -4,7 +4,7 @@
                   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.slcedu.org/api/v1">
   <wadl:doc></wadl:doc>
   <wadl:grammars>
-    <wadl:include href="../../domain/src/main/resources/sliModel/SLI.xsd"></wadl:include>
+    <wadl:include href="SLI.xsd"></wadl:include>
   </wadl:grammars>
   <wadl:resources base="http://local.slidev.org:8080/api/rest/">
     <wadl:resource path="v1/studentAssessments/{id}/assessments">
