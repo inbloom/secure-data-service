@@ -272,6 +272,40 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
     }
 
     @Override
+    protected void writePATCH(Method method, Resource resource, Resources resources, Application application, Stack<Resource> ancestors) throws IOException {
+        jsw.writeComment(method.getId());
+        jsw.writeOverride();
+        jsw.write("public ");
+        jsw.write("void " + method.getId());
+        jsw.parenL();
+        final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+        final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+        jsw.writeParams(jparams);
+        jsw.parenR();
+        jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+        jsw.beginBlock();
+        try {
+            jsw.write("try");
+            jsw.beginBlock();
+            final String uri = computeURI(resource, resources, application, ancestors);
+            final JavaParam urlParam = new JavaParam("path", JavaType.JT_STRING, true);
+            final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            writeURIStringForPUT(urlParam, uri, templateParams);
+            jsw.beginStmt()
+                    .write("final URIBuilder builder = URIBuilder.baseUri(" + FIELD_BASE_URI.getName()
+                            + ").addPath(path)").endStmt();
+            jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
+            jsw.beginStmt().write(FIELD_CLIENT.getName()).write(".patch(token, entity, uri)").endStmt();
+            jsw.endBlock();
+            jsw.beginCatch(URI_SYNTAX_EXCEPTION, "e");
+            jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+            jsw.endCatch();
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
+    @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
     }

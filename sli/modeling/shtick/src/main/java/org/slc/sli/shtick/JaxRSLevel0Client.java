@@ -1,5 +1,6 @@
 package org.slc.sli.shtick;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -122,7 +123,28 @@ public final class JaxRSLevel0Client implements Level0Client {
         
         checkResponse(response, Response.Status.NO_CONTENT);
     }
-    
+
+    @Override
+    public void patch(String token, String data, URI uri, String mediaType) throws IOException, StatusCodeException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (uri == null) {
+            throw new NullPointerException("uri");
+        }
+        if (data == null) {
+            throw new NullPointerException("data");
+        }
+        if (mediaType == null) {
+            throw new NullPointerException("mediaType");
+        }
+
+        final Invocation.Builder builder = createBuilder(token, uri, mediaType);
+        final Response response = builder.build("PATCH", Entity.entity(data, mediaType)).invoke();
+
+        checkResponse(response, Response.Status.NO_CONTENT);
+    }
+
     private Invocation.Builder createBuilder(final String token, final URI uri, final String mediaType) {
         if (token == null) {
             throw new NullPointerException("token");

@@ -190,6 +190,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
             } else if (Method.NAME_HTTP_PATCH.equals(verb)) {
                 // TODO write patch
                 System.out.println("TODO! PATCH");
+                writePATCH(method, resource, resources, application, ancestors);
             } else {
                 throw new AssertionError(method);
             }
@@ -231,5 +232,8 @@ public abstract class Level3ClientWriter implements WadlHandler {
 
     protected abstract void writeDELETE(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException;
+
+    protected abstract void writePATCH(final Method method, final Resource resource, final Resources resources,
+                                        final Application application, final Stack<Resource> ancestors) throws IOException;
 
 }
