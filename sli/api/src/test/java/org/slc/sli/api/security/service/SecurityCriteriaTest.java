@@ -18,6 +18,7 @@
 package org.slc.sli.api.security.service;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,5 +75,12 @@ public class SecurityCriteriaTest {
         query = securityCriteria.applySecurityCriteria(query);
 
         assertEquals("Should match", 2, query.getOrQueries().size());
+    }
+    
+    @Test
+    public void testGettersAndSetters() {
+        SecurityCriteria securityCriteria = new SecurityCriteria();
+        securityCriteria.setCollectionName("Waffles");
+        assertTrue(securityCriteria.getCollectionName().equals("Waffles"));
     }
 }
