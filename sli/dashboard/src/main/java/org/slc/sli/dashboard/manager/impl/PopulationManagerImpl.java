@@ -1651,12 +1651,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 	
 	    	//Iterate the links of the student. 
 	    	
-	    	Link studentSectionAssociationLink = student.getLink(Constants.GET_STUDENT_SECTION_ASSOCIATIONS);
-			// If link is getStudentSectionAssociations.
-			if (studentSectionAssociationLink != null) {
-				
-				//Retrieve all associations.
-				List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, studentSectionAssociationLink.getResourceURL().toString()+"?limit=0");
+	    	List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + 
+	    			SDKConstants.STUDENT_SECTION_ASSOC);
+	    	
+			if (studentSectionAssociations != null) {
 				
 				//Iterate over associations
 				for (GenericEntity studentSectionAssociation : studentSectionAssociations) {
