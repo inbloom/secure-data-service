@@ -40,12 +40,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
-    
+
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
     private final boolean titleCaseSchemaTypeNames = true;
-    
+
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
         final Range range = new Range(lower, upper);
@@ -53,7 +53,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         final Identifier id = host.ensureTagDefinitionId(name);
         return new TagDefinition(id, name, multiplicity);
     }
-    
+
     private static final String stringValue(final NodeList markup) {
         final StringBuilder sb = new StringBuilder();
         final int length = markup.getLength();
@@ -63,14 +63,14 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         }
         return sb.toString();
     }
-    
+
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
-    
+
     public Xsd2UmlPluginForSLI() {
     }
-    
+
     @Override
     public List<TagDefinition> declareTagDefinitions(final Xsd2UmlPluginHost host) {
         final List<TagDefinition> tagDefs = new LinkedList<TagDefinition>();
@@ -87,7 +87,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SECURITY_SPHERE, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
-    
+
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
@@ -101,7 +101,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         }
         return null;
     }
-    
+
     @Override
     /**
      * The most reliable way to determine whether the attribute should be an association is to look for the tag that indicates
@@ -118,12 +118,14 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         }
         return false;
     }
-    
+
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
-        return host.nameAssociation(lhs, rhs, host);
+        // DE1531: don't return a name for the association as it just adds unwanted <=> to the end documentation
+        // return host.nameAssociation(lhs, rhs, host);
+        return "";
     }
-    
+
     @Override
     public String nameFromSchemaTypeName(final QName name) {
         if (titleCaseSchemaTypeNames) {
@@ -132,7 +134,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
             return name.getLocalPart();
         }
     }
-    
+
     @Override
     public List<TaggedValue> tagsFromAppInfo(final XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -141,7 +143,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
             final Node node = markup.item(i);
             if (Node.ELEMENT_NODE == node.getNodeType()) {
                 final Element element = (Element) node;
-                
+
                 final String namespace = element.getNamespaceURI();
                 final String localName = element.getLocalName();
                 final QName name = new QName(namespace, localName);
@@ -209,6 +211,8 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     } else {
                         throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
                     }
+                } else if (SliMongoConstants.SLI_SCHEMA_VERSION.equals(name)) {
+                    // ignore
                 } else {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }

@@ -23,6 +23,7 @@ import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.Manager.EntityMapping;
 import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
+import org.slc.sli.dashboard.util.Constants;
 
 /**
  * Facilitates creation of logical aggregations of EdFi entities/associations
@@ -129,8 +130,10 @@ public interface PopulationManager {
     
     @EntityMapping("sectionInfo")
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
-    
-    
+
+    @EntityMapping(Constants.COURSES_AND_GRADES)
+    public GenericEntity getCoursesAndGrades(String token, Object studentId, Config.Data config);
+
     /**
      * Retrieves attendance for student for the current year. Returns a generic entity,
      * with startDate, endDate, and a list of absent and tardy events.
@@ -142,6 +145,12 @@ public interface PopulationManager {
     @EntityMapping("studentAttendanceCalendar")
     public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Config.Data config);
     
+    @EntityMapping("edorgInfo")
+    public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config);
     
+    @EntityMapping("sedorgInfo")
+    public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config);
+    
+
 }
 

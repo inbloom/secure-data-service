@@ -17,6 +17,8 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
 And I add a Page named "State Tab"
+And I upload custom json for it
+And in "Subjects and Courses" Page, it has the following panels: "sectionList"
  And I logout
  ## STATE IT admin logs out
 When I navigate to the Dashboard home page
@@ -27,8 +29,10 @@ When I select "Illinois Daybreak School District 4529" and click go
 When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
 And I add a Page named "School Tab"
+And I add an available panel named "sectionList"
 And I click on "Section" Profile Builder
 And I add a Page named "LOS 2"
+And I add an available panel named "listOfStudents"
 When I navigate to the Dashboard home page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"

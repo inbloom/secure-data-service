@@ -1,0 +1,46 @@
+{
+  "calculated_value" : {
+      "metadata" : {
+          "type" : "Assessment",
+          "value_type" : "java.lang.Double",
+          "description" : "Calculate the highest ever score per student for an assessment.",
+          "abbreviation" : "CV-HE-SMA-7"
+      },
+
+      "hadoop" : {
+          "map" : {
+              "class" : "IDMapper",
+              "input" : {
+                  "collection" : "sli.studentAssessmentAssociation",
+                  "key_field" : "body.studentId",
+                  "query" : { "body.assessmentId" : "@ID@", "body.scoreResults.assessmentReportingMethod" : "Scale score" },
+                  "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.scoreResults.result" : 1 },
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoIdInputFormat",
+                  "read_from_secondaries" : true
+              },
+              "output" : {
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoAggFormatter"
+              }
+          },
+          "reduce" : {
+              "class" : "Highest",
+              "collection" : "sli.student",
+              "map_field" : "body.scoreResults.result",
+              "field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore",
+              "id_map" : { "body.studentId" : "_id" }
+          },
+          "options" : { }
+      }
+  },
+  "schedule" : {
+      "event" : "create student | create SAA",
+      "waiting_period" : 600,
+      "command" : "hadoop",
+      "arguments" : "jar HighestEver.jar StateMath_conf.json -fs hdfs://localhost:9001 -jt http://localhost:9000",
+      "retry_on_failure" : "false"
+  }
+}

@@ -70,7 +70,7 @@ public class StateEdFiXmlGenerator {
     public static String fidelityOfData = "low";
     public static String propertyPath = "config.properties";
     public static String rootOutputPath = "./data";
-	public static String XSDVersionPath = "1.0.04";
+	public static String XSDVersionPath = "version";
     
     					
     /**
@@ -97,8 +97,7 @@ public class StateEdFiXmlGenerator {
 
         MetaRelations.construct();
  
-        //if (XSDVersionPath.equals("1.0.04") ) {
-        if ("1.0.04".equalsIgnoreCase(XSDVersionPath)) {
+        if ("sliXsd-R1".equalsIgnoreCase(XSDVersionPath)) {
         
         	generateAndMarshalInterchangesForSliXsdRI();
         	
@@ -155,7 +154,7 @@ public class StateEdFiXmlGenerator {
     private static void generateAndMarshalInterchangesForSliXsdRI() throws Exception {
     	
              section();
-             masterSchedule();
+             
          
     }
     private static void generateAndMarshalInterchanges() throws Exception {

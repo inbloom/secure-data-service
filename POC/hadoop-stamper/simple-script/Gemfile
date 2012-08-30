@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+
+gem 'mongo'
+gem 'bson'
+gem 'bson_ext'
+
+# Better than the Rails Logger
+gem 'logging-rails', :require => 'logging/rails'

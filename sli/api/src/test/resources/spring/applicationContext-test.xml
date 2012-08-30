@@ -28,6 +28,16 @@
         class=" org.springframework.security.authentication.TestingAuthenticationProvider">
     </bean>
 
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <context:component-scan base-package="org.slc">
         <context:exclude-filter type="regex"
             expression=".*CustomImpl" />

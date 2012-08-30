@@ -46,8 +46,7 @@ public class Cohorts {
             client.read(collection, ResourceNames.COHORTS, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
-        }
-        catch (SLIClientException e) {
+        } catch (SLIClientException e) {
             // the read was unsucessful
             LOG.error("Exception occurred", e);
         }

@@ -207,7 +207,7 @@ def cleanTenants()
     edOrg = lz_key
 
     # split tenant from edOrg on hyphen
-    if lz_key.index('-') > 0
+    if lz_key.index('-') != nil
       tenant = lz_key[0, lz_key.index('-')]
       edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
     end
@@ -758,7 +758,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   edOrg = lz_key
 
   # split tenant from edOrg on hyphen
-  if lz_key.index('-') > 0
+  if lz_key.index('-') != nil
     tenant = lz_key[0, lz_key.index('-')]
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
@@ -1219,6 +1219,10 @@ end
 
 When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
   runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
+end
+
+When /^an ingestion service "([^"]*)" running with pid "([^"]*)" stops$/ do |instance_name, pid|
+    Process.kill(9, pid.to_i)
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
@@ -1814,6 +1818,13 @@ Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
     assert(arg2.to_i == numEdorg, "there should be #{arg2} authorized edorgs, but found #{numEdorg}")
   end
   
+end
+
+Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
+  step "I add a new tenant for \"TENANT\""
+  @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
+  @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
+  @tenantColl.save(@newTenant)
 end
 
 ############################################################

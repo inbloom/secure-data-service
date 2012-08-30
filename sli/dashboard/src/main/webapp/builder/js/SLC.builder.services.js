@@ -16,17 +16,29 @@
 
 /*
  * SLC Dashboard Builder Services
+ * Contains all SLC builder API calls and shared service called "dbSharedService for all the controllers"
  */
 /*global $ angular console*/
 angular.module('SLC.builder.sharedServices', ['ngResource'])
+
+	// Get all profiles which will display in the left column of the Dashboard Builder
 	.factory('Profiles', function($resource){
 			return $resource('../s/c/cfg?type=LAYOUT');
 		})
+
+	// Get the config for the profile
 	.factory('Profile', function($resource){
 		return $resource('../s/c/cfg?type=LAYOUT&id=:profilePageId', {}, {
 			query: {method:'GET', params:{profilePageId:''}, isArray:true}
 		});
 	})
+
+	// Get the list of available panels for the profile
+	.factory('AllPanels', function($resource){
+		return $resource('../s/c/cfg/all?layoutName=:profileId', {profileId:''});
+	})
+
+	// Service which contains common methods shared by controllers
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
 			modalConfig = {};
@@ -49,7 +61,12 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 					dialog.data.hide();
 					dialog.container.fadeIn('fast', function () {
 						dialog.data.slideDown('fast');
-						$rootScope.$broadcast("modalDisplayed");
+						if(modalId === "#allPanelsModal") {
+							$rootScope.$broadcast("allPanelsModalDisplayed");
+						}
+						else {
+							$rootScope.$broadcast("modalDisplayed");
+						}
 					});
 				});
 			}});
@@ -66,7 +83,6 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 					});
 				});
 			}});
-			$rootScope.$broadcast("modalDisplayed");
 		}
 
 		function getModalConfig() {
@@ -77,19 +93,23 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			$.extend(modalConfig, modalCfg);
 		}
 
-		function saveDataSource(profileData) {
+		function saveDataSource(profileData, callback) {
 			$http({
 				method: 'POST',
 				url: '../s/c/cfg',
 				data: profileData
 			}).success(function() {
 				console.log("success");
+				if(callback) {
+					callback();
+				}
 			}).error(function(data, status, headers, config) {
 				console.log("fail");
 				showError(status, null);
 			});
 		}
 
+		// Generate unique id for the new page
 		function generatePageId(pages) {
 			var tabIdPrefix = "tab",
 				pageNumMax = 0,
@@ -114,14 +134,14 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		}
 
 		function showError(errorStatus, errorMsg) {
-			
+
 			// when the user session times out, the ajax request returns with
 			// error status 0. when that happens, reload the page, forcing re-login
 			if (errorStatus === 0) {
 				location.reload();
 				return;
 			}
-			
+
 			$(".errorMessage").removeClass("hide");
 			$("#banner").addClass("hide");
 			$(".profileList").addClass("hide");

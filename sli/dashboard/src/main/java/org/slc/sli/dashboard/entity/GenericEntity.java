@@ -16,8 +16,10 @@
 
 package org.slc.sli.dashboard.entity;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,5 +136,32 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
     @Override
     public List<Link> getLinks() {
         return links;
+    }
+    
+    public Link getLink(String linkName) {
+    	if (links == null){
+    		return null;
+    	}
+    	
+    	for(Link link : links) {
+    		if(link.getLinkName().equals(linkName)) {
+    			return link;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    @Override
+    public Map<String, URL> getLinkMap() {
+        List<Link> links = getLinks();
+        if (links != null) {
+            Map<String, URL> linkMap = new HashMap<String, URL>();
+            for (Link link : links) {
+                linkMap.put(link.getLinkName(), link.getResourceURL());
+            }
+            return linkMap;
+        }
+        return null;
     }
 }

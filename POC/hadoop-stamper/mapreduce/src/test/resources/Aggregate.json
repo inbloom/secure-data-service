@@ -1,0 +1,44 @@
+{
+  "aggregation" : {
+      "metadata" : {
+          "description" : "Aggregate of the highest scores for the grade 7 state math assessment for the school",
+          "abbreviation" : "HE-AGG-SMA-7",
+          "type" : "count",
+          "valid_range" : { "min" : 0, "max" : 100 },
+          "bands" : [
+             { "rank" : -1, "description" : "invalid score" },
+             { "rank" :  0, "description" : "no score" },
+             { "rank" :  1, "description" : "below standard", "range" : { "min" :  0, "max" :  70 } },
+             { "rank" :  2, "description" : "at standard",    "range" : { "min" : 71, "max" :  85 } },
+             { "rank" :  3, "description" : "above standard", "range" : { "min" : 86, "max" : 100 } }
+          ]
+      },
+
+      "hadoop" : {
+          "map" : {
+              "class" : "IDMapper",
+              "input" : {
+                  "collection" : "sli.student",
+                  "key_field" : "_id",
+                  "query" : { },
+                  "fields" : { "calculatedValues.assessments.@ID@.HighestEver.ScaleScore" : 1 },
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoIdInputFormat",
+                  "read_from_secondaries" : true
+              },
+              "output" : {
+                  "key_type" : "IdFieldEmittableKey",
+                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
+                  "format_type" : "MongoAggFormatter"
+              }
+          },
+          "reduce" : {
+              "class" : "Highest",
+              "collection" : "sli.school",
+              "field" : "aggregates.assessments.@ID@.ScaleScore"
+          },
+          "options" : { "skipTests" : true }
+      }
+  }
+}

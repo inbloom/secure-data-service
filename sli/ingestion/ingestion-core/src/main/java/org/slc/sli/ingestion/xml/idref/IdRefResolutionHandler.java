@@ -585,7 +585,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, addToXml);
 
         } catch (XMLStreamException e) {
-            LogUtil.error(LOG,"Exception reading xml stream for idref", e);
+            LogUtil.error(LOG, "Exception reading xml stream for idref", e);
         }
     }
 

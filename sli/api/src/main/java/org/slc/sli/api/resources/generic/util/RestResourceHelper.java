@@ -15,15 +15,17 @@
  */
 package org.slc.sli.api.resources.generic.util;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.resources.generic.representation.Resource;
+import java.util.Map;
+
+import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
-import javax.ws.rs.core.UriInfo;
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.generic.representation.Resource;
 /**
  * @author jstokes
  */
@@ -88,6 +90,13 @@ public class RestResourceHelper implements ResourceHelper {
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
 
         return definition;
+    }
+
+    @Override
+    public boolean resolveResourcePath(final String uri, final ResourceTemplate template) {
+        final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
+
+        return uriTemplate.matches(uri);
     }
 
     private Map<String, String> getMatchList(final UriInfo uriInfo, final ResourceTemplate template) {
