@@ -134,12 +134,12 @@ class ApplicationController < ActionController::Base
 
   def get_tenant
     check = Check.get ""
-    if APP_CONFIG["is_sandbox"]
-      return check["external_id"]
+   # if APP_CONFIG["is_sandbox"]
+   #   return check["external_id"]
       #return check["user_id"]
-    else
-      return check["tenantId"]
-    end
+  #  else
+     return check["tenantId"]
+   # end
   end
 
 
