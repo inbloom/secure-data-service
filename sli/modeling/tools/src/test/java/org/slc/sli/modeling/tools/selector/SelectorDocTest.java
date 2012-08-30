@@ -32,7 +32,7 @@ public class SelectorDocTest {
 
     @Test
     public void test() {
-        fail("Not yet implemented");
+    	SelectorDoc.main(new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"});
     }
 
 }

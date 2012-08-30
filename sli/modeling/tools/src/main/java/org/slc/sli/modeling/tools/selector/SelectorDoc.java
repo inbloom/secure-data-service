@@ -40,74 +40,101 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  */
 public class SelectorDoc {
 
-    public static void main(String[] args) {
-        final Model model;
-        final ModelIndex mi;
-        try {
-            model = XmiReader.readModel(args[0]);
-        } catch (FileNotFoundException e) {
-            return;
-        }
+	public final static String ATTRIBUTE = "Attribute";
+	public final static String ASSOCIATION = "Association";
 
-        if (model != null) {
-            mi = new DefaultModelIndex(model);
-        } else {
-            return;
-        }
+    private final static String simpleSectStart = "<simpleSect xml:id = \"selector-%s\">\n";
+    private final static String featuresStart   = "    <features>\n";
+    private final static String feature         = "        <feature type = \"%s\" name = \"%s\"/>\n";
+    private final static String featuresEnd     = "    </features>\n";
+    private final static String simpleSectEnd   = "</simpleSect>\n";
+    
+    private String inputXmiFilename;
+    private String outputXmlFilename;
+    
+    public SelectorDoc(String inputXmiFilename, String outputXmlFilename) {
+    	this.inputXmiFilename = inputXmiFilename;
+    	this.outputXmlFilename = outputXmlFilename;
+    }
 
-        String fileName = "selectors.xml";
-        String simpleSect = "<simpleSect xml:id = \"selector-%s\">";
-        String features = "    <features>";
-        String feature = "        <feature type = \"%s\" name = \"%s\"/>";
-        String featuresEnd = "    </features>";
-        String simpleSectEnd = "</simpleSect>";
-
-        StringBuffer selectors = new StringBuffer();
+	protected String getSelectorDocumentation(ModelIndex mi) {
+		StringBuffer stringBuffer = new StringBuffer();
 
         Map<String, ClassType> classTypes = mi.getClassTypes();
         for(String classTypeKey : classTypes.keySet()) {
 
-            ClassType classType = classTypes.get (classTypeKey);
+            ClassType classType = classTypes.get(classTypeKey);
             String classTypeName = classType.getName();
-            selectors.append (String.format (simpleSect, classTypeName) + "\n");
-            selectors.append (features + "\n");
-
-            String type = "";
-            String name = "";
-            List<Attribute> attributes = classType.getAttributes();
-
+            
+            if (classTypeName.equals("Student")) {
+            	stringBuffer.append("");
+            }
+        
+            stringBuffer.append(String.format(simpleSectStart, classTypeName));
+            stringBuffer.append(featuresStart);
+            
+            for (Attribute attribute : classType.getAttributes()) {
+                stringBuffer.append(String.format(feature, ATTRIBUTE, attribute.getName()));
+            }
+            
             if (classType.isAssociation()) {
-                type = "Association";
                 AssociationEnd lhs = classType.getLHS();
                 AssociationEnd rhs = classType.getRHS();
-                selectors.append (String.format (feature, type, lhs.getAssociatedAttributeName()) + "\n");
-                selectors.append (String.format (feature, type, rhs.getAssociatedAttributeName()) + "\n");
-
-                for (Attribute attribute : attributes) {
-                    type = "Attribute";
-                    selectors.append (String.format (feature, type, attribute.getName()) + "\n");
-                }
-
-            } else {
-                type = "Attribute";
-                for (Attribute attribute : attributes) {
-                    selectors.append (String.format (feature, type, attribute.getName()) + "\n");
-                }
+                stringBuffer.append(String.format(feature, ASSOCIATION, lhs.getAssociatedAttributeName()));
+                stringBuffer.append(String.format(feature, ASSOCIATION, rhs.getAssociatedAttributeName()));
             }
-
-            selectors.append (featuresEnd + "\n");
-            selectors.append (simpleSectEnd + "\n");
+            
+            stringBuffer.append(featuresEnd);
+            stringBuffer.append(simpleSectEnd);
+            
+        }
+        
+        return stringBuffer.toString();
+	}
+	
+	protected ModelIndex getModelIndex(String filename) {
+		final Model model;
+        
+        try {
+            model = XmiReader.readModel(filename);
+        } catch (FileNotFoundException e) {
+            return null;
         }
 
-        System.out.println (selectors);
-        try {
-            BufferedWriter output = new BufferedWriter(new FileWriter(fileName));
-            output.write (selectors.toString());
+        if (model != null) {
+            return new DefaultModelIndex(model);
+        } else {
+            return null;
+        }
+	}
+	
+	protected void writeSelectorDocumentationToFile(String documentationString) {
+		
+		if (documentationString == null) {
+			return;
+		}
+		
+		System.out.println(documentationString);
+		
+		try {
+            BufferedWriter output = new BufferedWriter(new FileWriter(this.outputXmlFilename));
+            output.write(documentationString);
             output.flush();
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	
+	protected void generateSelectorDocumentation() {
+		
+		ModelIndex mi = this.getModelIndex(this.inputXmiFilename);
+        String selectorDocumentation = this.getSelectorDocumentation(mi);
+        this.writeSelectorDocumentationToFile(selectorDocumentation);
+	}
+    
+    public static void main(String[] args) {
+    	new SelectorDoc(args[0], args[1]).generateSelectorDocumentation();
     }
 
 }
