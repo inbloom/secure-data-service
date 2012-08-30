@@ -24,13 +24,13 @@ class LandingZone
     if APP_CONFIG["is_sandbox"]
       edOrgs = []
       edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "Use a SLC sample dataset")
-     # edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
-    return edOrgs
+      # edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
+      return edOrgs
     else
-    []
+      []
     end
   end
-  
+
   def self.possible_sample_data
     if APP_CONFIG["is_sandbox"]
       sample_data=[]
@@ -42,10 +42,10 @@ class LandingZone
     end
   end
 
-  def self.provision(edorg_id, tenant, uid, sample_data_select =nil, public_key = nil)
+  def self.provision(edorg_id, tenant, uid, sample_data_select = nil, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
     Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
-    
+
     user_info = APP_LDAP_CLIENT.read_user(uid)
     if(!user_info)
       raise ProvisioningError.new "User does not exist in LDAP"
@@ -65,32 +65,32 @@ class LandingZone
     end
 
     isDuplicate = false
-    if(APP_CONFIG['is_sandbox']&&(sample_data_select==nil||sample_data_select==""))
+    if(APP_CONFIG['is_sandbox'] && (sample_data_select == nil || sample_data_select == ""))
       isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
     elsif APP_CONFIG['is_sandbox'] == false
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
-     result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
-     
+    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
-    
+
     @landingzone = result.attributes[:landingZone]
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
     Rails.logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
-    
-    if(APP_CONFIG['is_sandbox']&&sample_data_select!=nil && sample_data_select!="")
+
+    if(APP_CONFIG['is_sandbox'] && sample_data_select != nil && sample_data_select != "")
       begin
-      Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]},with #{sample_data_select} sample data")
-      preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid],sample_data_select)
-      Rails.logger.info("preload status code is: #{preload_result.code}")
-      if preload_result.code == 409
-        isDuplicate=true
-      end
+        Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]}, with #{sample_data_select} sample data")
+        preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid], sample_data_select)
+        Rails.logger.info("preload status code is: #{preload_result.code}")
+        if preload_result.code == 409
+          isDuplicate = true
+        end
       rescue ActiveResource::ResourceConflict
-        isDuplicate=true
+        isDuplicate = true
       end
     end
 
@@ -109,10 +109,10 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
-        if sample_data_select !=nil && sample_data_select !="" && isDuplicate==false
-        ApplicationMailer.auto_provision_email(user_info[:emailAddress],user_info[:first]).deliver 
-        elsif (sample_data_select == nil || sample_data_select =="")
-        ApplicationMailer.provision_email(user_info[:emailAddress],user_info[:first],@server,edorg_id).deliver
+        if sample_data_select !=nil && sample_data_select != "" && isDuplicate == false
+          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first]).deliver
+        elsif (sample_data_select == nil || sample_data_select == "")
+          ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
         end
       rescue => e
         Rails.logger.error "Could not send email to #{email[:email_addr]}."
@@ -121,8 +121,8 @@ class LandingZone
       @emailWarningMessage = ""
     else
       @emailWarningMessage = "Unfortunately, your account does not have an email address and " <<
-                             "therefore we cannot send an email to you.  Please use this page " <<
-                             "as reference or contact the SLC Operator for your landing zone details."
+          "therefore we cannot send an email to you.  Please use this page " <<
+          "as reference or contact the SLC Operator for your landing zone details."
     end
 
     {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
@@ -152,7 +152,7 @@ class ProvisioningError < StandardError
 
 end
 class ErbBinding < OpenStruct
-    def get_binding
-      return binding()
-    end
+  def get_binding
+    return binding()
   end
+end
