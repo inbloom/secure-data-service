@@ -1646,9 +1646,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     	try {
 
-			//Get the student by ID.
-	    	GenericEntity student = getStudent(token, studentId);
-	
 	    	//Iterate the links of the student. 
 	    	
 	    	List<GenericEntity> studentSectionAssociations = getApiClient().readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + 
