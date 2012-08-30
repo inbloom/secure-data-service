@@ -58,49 +58,44 @@ public class SelectorDoc {
         String featuresEnd = "    </features>";
         String simpleSectEnd = "</simpleSect>";
 
-        System.out.println("=== ClassTypes ===");
+        StringBuffer selectors = new StringBuffer();
 
         Map<String, ClassType> classTypes = mi.getClassTypes();
         for(String classTypeKey : classTypes.keySet()) {
 
             ClassType classType = classTypes.get (classTypeKey);
             String classTypeName = classType.getName();
-            List<Attribute> attributes = classType.getAttributes();
-            boolean isAssociation = classType.isAssociation();
-
-            System.out.println (String.format (simpleSect, classTypeName));
-            System.out.println (features);
+            selectors.append (String.format (simpleSect, classTypeName) + "\n");
+            selectors.append (features + "\n");
 
             String type = "";
             String name = "";
+            List<Attribute> attributes = classType.getAttributes();
 
             if (classType.isAssociation()) {
                 type = "Association";
                 AssociationEnd lhs = classType.getLHS();
                 AssociationEnd rhs = classType.getRHS();
-                String lhsName = lhs.getAssociatedAttributeName();
-                String rhsName = rhs.getAssociatedAttributeName();
-
-                System.out.println (String.format (feature, type, lhsName));
-                System.out.println (String.format (feature, type, rhsName));
+                selectors.append (String.format (feature, type, lhs.getAssociatedAttributeName()) + "\n");
+                selectors.append (String.format (feature, type, rhs.getAssociatedAttributeName()) + "\n");
 
                 for (Attribute attribute : attributes) {
                     type = "Attribute";
-                    name = attribute.getName();
-                    System.out.println (String.format (feature, type, name));
+                    selectors.append (String.format (feature, type, attribute.getName()) + "\n");
                 }
 
             } else {
                 type = "Attribute";
                 for (Attribute attribute : attributes) {
-                    name = attribute.getName();
-                    System.out.println (String.format (feature, type, name));
+                    selectors.append (String.format (feature, type, attribute.getName()) + "\n");
                 }
             }
 
-            System.out.println (featuresEnd);
-            System.out.println (simpleSectEnd);
+            selectors.append (featuresEnd + "\n");
+            selectors.append (simpleSectEnd + "\n");
         }
+
+        System.out.println (selectors);
 
     }
 
