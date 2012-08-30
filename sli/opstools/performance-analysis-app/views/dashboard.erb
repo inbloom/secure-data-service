@@ -4,29 +4,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Wireframe</title>
 
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 
 </head>
 
 <body>
-    <div id="chart_div" style="width: 100%; height: 1000px;"></div>
+<div class="row">
+    <div class="span10">
+        <ul class="breadcrumb">
+            <li><a id="home" href="dashboard">Home</a> <span class="divider">/</span><p id="epVal"></p></li>
+            <li id="endPlist"><a id="endPoint" href="#">EndPoint</a> <span class="divider">/</span></li>
+            <li id="callDetail"class="active">Call Details</li>
+        </ul>
+    </div>
+    <div class="span2">
+        <table>
+            <tr>
+                <td><input type="text" class="typeahead" data-items="8"></td>
+                <td><button id="go" type="submit" class="btn">Go</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="chart_div" style="width:100%; height: 800px;"></div>
+<div id="chart_m_count" style="width:100%;"></div>
+
 </body>
 <script type="text/javascript">
     google.load("visualization", "1", {packages:["corechart"]});
     $(document).ready(function(){
-        $.ajax({
+        $("#endPlist").hide();
+        $("#callDetail").hide();
+        $("#epVal").hide();
+        $("#endPoint").click(function(){
+            $("#callDetail").hide();
+            drawChartForEndPoint($("#epVal").val());
+        });
+       $.ajax({
             type: "GET",
             dataType: "json",
             url: "/generateReport",
             success: function(result){
                 var json = eval(result);
                 var dataJSON = new google.visualization.DataTable(json);
-
+                var endpoints = dataJSON.getDistinctValues(0);
+                dataJSON.removeColumn(3);
                 var options = {
                     title: 'Response Time for each end point',
-                    legend: 'none',
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
                     hAxis : {title: 'Api endpoints',textPosition: 'none'},
                     seriesType: "bars",
@@ -40,11 +68,25 @@
                     drawChartForEndPoint(endPoint);
                 });
 
+                $('.typeahead').typeahead({
+                      source: endpoints
+                });
             }
         });
+        $("#go").click(function() {
+            var ep = $('.typeahead').val();
+            drawChartForEndPoint(ep);
+        });
+
     });
 
+
     function drawChartForEndPoint(endPoint) {
+        $("#chart_m_count").empty();
+        $("#endPlist").show();
+        $("#endPoint").addClass("active");
+        $("#epVal").hide();
+        $("#epVal").val(endPoint);
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -52,10 +94,9 @@
             success: function(result){
                 var json = eval(result);
                 var dataJSON = new google.visualization.DataTable(json);
-
+                dataJSON.removeColumn(3);
                 var options = {
                     title: 'Response Time for '+endPoint,
-                    legend: 'none',
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
                     hAxis : {title: 'Jenkins build ',textPosition: 'none'},
                     seriesType: "bars",
@@ -74,6 +115,8 @@
     }
 
     function drawChartForEndPointPerBuild(endPoint,buildTag) {
+        $("#callDetail").show();
+        $("#endPoint").removeClass("active");
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -81,10 +124,11 @@
             success: function(result){
                 var json = eval(result);
                 var dataJSON = new google.visualization.DataTable(json);
+                var dbHitCountJSON = dataJSON.clone();
+                dataJSON.removeColumn(3);
 
                 var options = {
-                    title: 'Response Time for '+endPoint + 'in build '+ buildTag,
-                    legend: 'none',
+                    title: 'Response Time for '+endPoint + ' in build '+ buildTag,
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
                     hAxis : {title: 'call details',textPosition: 'none'},
                     seriesType: "bars",
@@ -93,9 +137,38 @@
                 };
                 var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);
+                dbHitCountJSON.removeColumns(1,2);
+                var dbCountOptions = {
+                    legend: 'none',
+                    title: 'Mongo Hit Count for api Call',
+                    vAxis: {title: 'Number Of Call',  titleTextStyle: {color: 'red'} },
+                    hAxis : {title: 'call details',textPosition: 'none'}
+                };
+                var dbCountChart = new google.visualization.ColumnChart(document.getElementById('chart_m_count'));
+                dbCountChart.draw(dbHitCountJSON, dbCountOptions);
+
+                google.visualization.events.addListener(chart, 'select', function() {
+                    var tableRow = chart.getSelection();
+                    getIndividualCallDetail(tableRow,dataJSON);
+                });
+                google.visualization.events.addListener(dbCountChart, 'select', function() {
+                    var tableRow = dbCountChart.getSelection();
+                    getIndividualCallDetail(tableRow,dbHitCountJSON);
+                });
             }
         });
+
     }
+        function getIndividualCallDetail(tableRow,dataJSON){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/getIndividualCallDetail/"+ dataJSON.getRowProperty(tableRow[0].row,"id"),
+                success: function(result) {
+                    alert(JSON.stringify(result, null, "\t"));
+                }
+            });
+        }
 
 </script>
 </html>

@@ -20,17 +20,25 @@
  */
 /*global $ angular console*/
 angular.module('SLC.builder.sharedServices', ['ngResource'])
+
+	// Get all profiles which will display in the left column of the Dashboard Builder
 	.factory('Profiles', function($resource){
 			return $resource('../s/c/cfg?type=LAYOUT');
 		})
+
+	// Get the config for the profile
 	.factory('Profile', function($resource){
 		return $resource('../s/c/cfg?type=LAYOUT&id=:profilePageId', {}, {
 			query: {method:'GET', params:{profilePageId:''}, isArray:true}
 		});
 	})
+
+	// Get the list of available panels for the profile
 	.factory('AllPanels', function($resource){
 		return $resource('../s/c/cfg/all?layoutName=:profileId', {profileId:''});
 	})
+
+	// Service which contains common methods shared by controllers
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
 			modalConfig = {};
@@ -101,6 +109,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			});
 		}
 
+		// Generate unique id for the new page
 		function generatePageId(pages) {
 			var tabIdPrefix = "tab",
 				pageNumMax = 0,

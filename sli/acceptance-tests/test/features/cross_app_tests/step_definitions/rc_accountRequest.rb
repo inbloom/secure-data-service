@@ -16,27 +16,16 @@ limitations under the License.
 
 =end
 
-require_relative '../../liferay/step_definitions/all_steps.rb'
-
-###############################################################################
-# BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
-###############################################################################
-
-Before do
-  @rc_admintools_url = "https://rcadmin.slidev.org"
-  @rc_portal_url = "https://rcportal.slidev.org/portal"
-end
-
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
 Given /^I go to the account registration page on RC$/ do
-  @driver.get @rc_admintools_url + "/registration"
+  @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
 end
 
 Given /^I go to the portal page on RC$/ do
-  @driver.get @rc_portal_url
+  @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
 end
 
 Given /^I received an email to verify my email address$/ do
