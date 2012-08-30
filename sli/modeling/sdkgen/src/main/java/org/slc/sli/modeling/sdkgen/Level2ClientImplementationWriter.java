@@ -126,6 +126,7 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
 
         jsw.writeComment(method.getId());
         jsw.writeOverride();
+
         final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
         jsw.write("public").space().writeType(LevelNClientJavaHelper.computeGenericType(responseType, quietMode))
                 .space().write(method.getId());
