@@ -22,12 +22,6 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
@@ -39,7 +33,6 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
-import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
@@ -48,6 +41,11 @@ import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion route builder.
@@ -68,9 +66,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     ConcurrentEdFiProcessor concurrentEdFiProcessor;
-
-    @Autowired
-    PurgeProcessor purgeProcessor;
 
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
@@ -115,7 +110,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private String xmlProcessorMode;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
-    private String workItemQueue;
+    private final String workItemQueue;
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private String workItemConsumers;
@@ -285,10 +280,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ControlFileProcessor.").process(ctlFileProcessor)
                 .to("direct:assembledJobs")
-
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
-                .process(purgeProcessor).to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")

@@ -102,13 +102,6 @@ task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
 end
 
-desc "Run Tenant Purge Test"
-task :ingestionTenantPurgeTests do
-  Rake::Task["realmInit"].invoke
-  Rake::Task["importSandboxData"].invoke
-  runTests("test/features/ingestion/features/tenant_purge.feature")
-end
-
 desc "Run XXE Injection Protection Test"
 task :ingestionXXETest do
   runTests("test/features/ingestion/features/xxe_testing.feature")
