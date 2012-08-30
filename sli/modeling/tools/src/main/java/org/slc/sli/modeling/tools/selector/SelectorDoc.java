@@ -57,19 +57,15 @@ public class SelectorDoc {
     	this.outputXmlFilename = outputXmlFilename;
     }
 
-	protected String getSelectorDocumentation(ModelIndex mi) {
+	protected String getSelectorDocumentation(ModelIndex modelIndex) {
 		StringBuffer stringBuffer = new StringBuffer();
 
-        Map<String, ClassType> classTypes = mi.getClassTypes();
+        Map<String, ClassType> classTypes = modelIndex.getClassTypes();
         for(String classTypeKey : classTypes.keySet()) {
 
             ClassType classType = classTypes.get(classTypeKey);
             String classTypeName = classType.getName();
             
-            if (classTypeName.equals("Student")) {
-            	stringBuffer.append("");
-            }
-        
             stringBuffer.append(String.format(simpleSectStart, classTypeName));
             stringBuffer.append(featuresStart);
             
@@ -77,11 +73,8 @@ public class SelectorDoc {
                 stringBuffer.append(String.format(feature, ATTRIBUTE, attribute.getName()));
             }
             
-            if (classType.isAssociation()) {
-                AssociationEnd lhs = classType.getLHS();
-                AssociationEnd rhs = classType.getRHS();
-                stringBuffer.append(String.format(feature, ASSOCIATION, lhs.getAssociatedAttributeName()));
-                stringBuffer.append(String.format(feature, ASSOCIATION, rhs.getAssociatedAttributeName()));
+            for (AssociationEnd associationEnd : modelIndex.getAssociationEnds(classType.getId())) {
+            	stringBuffer.append(String.format(feature, ASSOCIATION, associationEnd.getName()));
             }
             
             stringBuffer.append(featuresEnd);
