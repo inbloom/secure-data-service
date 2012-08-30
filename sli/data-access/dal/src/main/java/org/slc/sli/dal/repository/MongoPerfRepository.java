@@ -25,6 +25,7 @@ import java.util.Map;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -238,5 +239,11 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         throw new UnsupportedOperationException("MongoPerfRepository.patch not implemented");
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

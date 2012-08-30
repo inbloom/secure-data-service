@@ -30,6 +30,7 @@ import java.util.UUID;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
 import org.springframework.context.annotation.Primary;
@@ -652,5 +653,11 @@ public class MockRepo implements Repository<Entity> {
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         this.findById(type, id).getBody().putAll(newValues);
         return true;
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

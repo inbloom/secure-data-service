@@ -22,6 +22,7 @@ import java.util.Map;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
@@ -302,8 +303,11 @@ public interface Repository<T> {
 
     public long count(String collectionName, Query query);
 
-    public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries);
-    public T createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData, String collectionName, int noOfRetries);
+    public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries);
+
+    public T createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries);
 
     public boolean updateWithRetries(String collection, T object, int noOfRetries);
 
@@ -311,10 +315,23 @@ public interface Repository<T> {
      * Updates only the provided keys with their values in the target ID'd entity
      * in the specified collection name.
      *
-     * @param collectionName where the entity to be patched can be found
-     * @param id the id of the entity to patch
-     * @param newValues the new values to be persisted to the entity
+     * @param collectionName
+     *            where the entity to be patched can be found
+     * @param id
+     *            the id of the entity to patch
+     * @param newValues
+     *            the new values to be persisted to the entity
      * @return true if successful, false otherwise
      */
     boolean patch(String type, String collectionName, String id, Map<String, Object> newValues);
+
+    /**
+     * Update all documents matching the query rather than just one.
+     *
+     * @param query
+     * @param update
+     * @param entityReferenced
+     * @return
+     */
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced);
 }
