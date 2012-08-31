@@ -25,6 +25,11 @@ public abstract class Level3ClientWriter implements WadlHandler {
      * The (reserved) name given to the custom property in the SLI database.
      */
     private static final QName CUSTOM_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "custom");
+
+    private static final QName CALCULATED_VALUES_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "calculatedValuesList");
+
+    private static final QName AGGREGATIONS_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "aggregationsList");
+
     /**
      * This is the default type used for all JSON objects.
      */
@@ -84,6 +89,9 @@ public abstract class Level3ClientWriter implements WadlHandler {
                         } else {
                             if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
                                 return JT_MAP_STRING_TO_OBJECT;
+                            } else if (CALCULATED_VALUES_ELEMENT_NAME.equals(elementName) ||
+                                    AGGREGATIONS_ELEMENT_NAME.equals(elementName)) {
+                                return JT_LIST_OF_ENTITY;
                             } else {
                                 if (quietMode) {
                                     return JavaType.JT_OBJECT;

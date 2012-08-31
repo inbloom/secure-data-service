@@ -260,10 +260,17 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
                 jsw.writeAssignment(responseList, new NewInstanceExpr(responseArrayListType));
 
                 final JavaParam entity = new JavaParam("entity", JT_ENTITY, true);
-                jsw.write(new EnhancedForLoop(entity, new VarNameExpr(entityList.getName()), new Stmt(
-                        new MethodCallExpr(new VarNameExpr(responseList.getName()), "add", new NewInstanceExpr(
-                                responseType.primeType(), new MethodCallExpr(new VarNameExpr(entity.getName()),
-                                "getData"))))));
+
+                if (LevelNClientJavaHelper.isEntityList(responseType)) {
+                    jsw.write(new EnhancedForLoop(entity, new VarNameExpr(entityList.getName()), new Stmt(
+                            new MethodCallExpr(new VarNameExpr(responseList.getName()), "add",
+                                    new VarNameExpr(entity.getName())))));
+                } else {
+                    jsw.write(new EnhancedForLoop(entity, new VarNameExpr(entityList.getName()), new Stmt(
+                            new MethodCallExpr(new VarNameExpr(responseList.getName()), "add", new NewInstanceExpr(
+                                    responseType.primeType(), new MethodCallExpr(new VarNameExpr(entity.getName()),
+                                    "getData"))))));
+                }
                 jsw.write(new ReturnStmt(new VarNameExpr(responseList.getName())));
             }
         } finally {
