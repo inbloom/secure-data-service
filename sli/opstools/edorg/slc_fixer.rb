@@ -68,6 +68,7 @@ class SLCFixer
       finalTime = Time.now - time
       @log.info "\t Final time is #{finalTime} secs"
       @log.info "\t Documents(#{@count}) per second #{@count/finalTime}"
+      @log.error "Finished stamping tenant \'#{@tenant}\'."
     end while(@forever)
   end
 

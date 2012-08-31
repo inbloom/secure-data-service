@@ -16,12 +16,7 @@
   <!-- Start Grade mapping -->
   <jb:bean beanId="grade" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'grade'</jb:expression>
-    <jb:wiring property="metaData" beanIdRef="gradeMeta" />
     <jb:wiring property="body" beanIdRef="gradeBody" />
-  </jb:bean>
-
-  <jb:bean beanId="gradeMeta" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="externalId" data="attributes gradeId" />
   </jb:bean>
 
   <jb:bean beanId="gradeBody" class="java.util.HashMap"

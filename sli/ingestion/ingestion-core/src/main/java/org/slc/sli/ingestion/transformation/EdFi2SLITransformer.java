@@ -34,6 +34,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -233,6 +234,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 } else {
                     query.addCriteria(Criteria.where(field).is(fieldValue));
                 }
+            }
+            ComplexKeyField complexField = entityConfig.getComplexKeyField();
+            if (complexField !=null) {
+                String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+                Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
+
+                query.addCriteria(Criteria.where(complexField.getListPath() + "." +complexField.getFieldPath()).is(fieldValue));
             }
         } catch (Exception e) {
             errorReport.error(errorMessage, this);
