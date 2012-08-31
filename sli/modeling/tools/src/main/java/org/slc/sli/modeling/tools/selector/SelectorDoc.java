@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ClassType;
@@ -116,14 +117,13 @@ public class SelectorDoc {
         }
 	}
 	
-	protected boolean writeSelectorDocumentationToFile(String documentationString) {
+	protected boolean writeSelectorDocumentationToFile(String documentationString, Writer output) {
 		
 		if (documentationString == null) {
 			return false;
 		}
 		
 		try {
-            BufferedWriter output = this.getBufferedWriter();
             output.write(documentationString);
             output.flush();
             output.close();
@@ -134,15 +134,19 @@ public class SelectorDoc {
         return true;
 	}
 	
-	protected void generateSelectorDocumentation() {
+	protected void generateSelectorDocumentation() throws IOException {
 		
 		ModelIndex mi = this.getModelIndex();
         String selectorDocumentation = this.getSelectorDocumentation(mi);
-        this.writeSelectorDocumentationToFile(selectorDocumentation);
+        this.writeSelectorDocumentationToFile(selectorDocumentation, getBufferedWriter());
 	}
     
     public static void main(String[] args) {
-    	new SelectorDoc(args[0], args[1]).generateSelectorDocumentation();
+    	try {
+			new SelectorDoc(args[0], args[1]).generateSelectorDocumentation();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 }

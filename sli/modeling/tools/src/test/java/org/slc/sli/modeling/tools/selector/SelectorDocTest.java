@@ -29,11 +29,13 @@ import static org.mockito.Mockito.when;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -55,8 +57,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 public class SelectorDocTest {
 
 	private final static String[] args = new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"};
-	private final static SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
-	private final static SelectorDoc spy = spy(selectorDoc);
+	private SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
 	private final static Range range = new Range(Occurs.ONE, Occurs.ONE);
 	private final static Multiplicity multiplicity = new Multiplicity(range);
 	private final static Identifier identifier = Identifier.random();
@@ -77,7 +78,6 @@ public class SelectorDocTest {
 		associationEnds.add(associationEnd1);
 		associationEnds.add(associationEnd2);
 	}
-	
 	
 	private final static Attribute attribute1 = new Attribute(identifier, attribute1Name, identifier, multiplicity, new ArrayList<TaggedValue>());
 	private final static Attribute attribute2 = new Attribute(identifier, attribute2Name, identifier, multiplicity, new ArrayList<TaggedValue>());
@@ -105,15 +105,14 @@ public class SelectorDocTest {
 	
     @Test
     public void testWriteBuffer() throws IOException {
-        BufferedWriter writer = mock(BufferedWriter.class);
-        when(spy.getBufferedWriter()).thenReturn(writer);
-        assertTrue(spy.writeSelectorDocumentationToFile("foo"));
+        Writer writer = mock(Writer.class);
+    	assertTrue(this.selectorDoc.writeSelectorDocumentationToFile("foo", writer));
     }
 
 	@Test
 	public void testAppendClassTypeAttributes() {
 		
-		SelectorDocTest.selectorDoc.appendClassTypeAttributes(stringBuffer, classType);
+		this.selectorDoc.appendClassTypeAttributes(stringBuffer, classType);
 		
 		String part1 = String.format(SelectorDoc.FEATURE, SelectorDoc.ATTRIBUTE, attribute1Name); 
 	    String part2 = String.format(SelectorDoc.FEATURE, SelectorDoc.ATTRIBUTE, attribute2Name);
@@ -124,7 +123,7 @@ public class SelectorDocTest {
 	@Test
 	public void testAppendClassTypeAssociations() {
 		
-		SelectorDocTest.selectorDoc.appendClassTypeAssociations(stringBuffer, classType, modelIndex);
+		this.selectorDoc.appendClassTypeAssociations(stringBuffer, classType, modelIndex);
 		
 		String part1 = String.format(SelectorDoc.FEATURE, SelectorDoc.ASSOCIATION, associationEnd1Name); 
 	    String part2 = String.format(SelectorDoc.FEATURE, SelectorDoc.ASSOCIATION, associationEnd2Name);
@@ -135,7 +134,7 @@ public class SelectorDocTest {
 	@Test
 	public void testGetSelectorDocumentation() {
 		
-		String receivedResult = SelectorDocTest.selectorDoc.getSelectorDocumentation(modelIndex);
+		String receivedResult = this.selectorDoc.getSelectorDocumentation(modelIndex);
 
 		String part1 = String.format(SelectorDoc.SIMPLE_SECT_START, classTypeName) + SelectorDoc.FEATURES_START;
 		String part2 = String.format(SelectorDoc.FEATURE, SelectorDoc.ATTRIBUTE, attribute1Name); 
