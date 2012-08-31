@@ -68,13 +68,8 @@ public class SelectorDoc {
             stringBuffer.append(String.format(simpleSectStart, classTypeName));
             stringBuffer.append(featuresStart);
             
-            for (Attribute attribute : classType.getAttributes()) {
-                stringBuffer.append(String.format(feature, ATTRIBUTE, attribute.getName()));
-            }
-            
-            for (AssociationEnd associationEnd : modelIndex.getAssociationEnds(classType.getId())) {
-            	stringBuffer.append(String.format(feature, ASSOCIATION, associationEnd.getName()));
-            }
+            this.appendClassTypeAttributes(stringBuffer, classType);
+            this.appendClassTypeAssociations(stringBuffer, classType, modelIndex);
             
             stringBuffer.append(featuresEnd);
             stringBuffer.append(simpleSectEnd);
@@ -83,12 +78,32 @@ public class SelectorDoc {
         
         return stringBuffer.toString();
 	}
+
+	protected void appendClassTypeAttributes(StringBuffer stringBuffer, ClassType classType) {
+		for (Attribute attribute : classType.getAttributes()) {
+            stringBuffer.append(String.format(feature, ATTRIBUTE, attribute.getName()));
+        }
+	}
+
+	protected void appendClassTypeAssociations(StringBuffer stringBuffer, ClassType classType, ModelIndex modelIndex) {
+		for (AssociationEnd associationEnd : modelIndex.getAssociationEnds(classType.getId())) {
+        	stringBuffer.append(String.format(feature, ASSOCIATION, associationEnd.getName()));
+        }
+	}
 	
-	protected ModelIndex getModelIndex(String filename) {
+	protected Model readModel() throws FileNotFoundException {
+		return XmiReader.readModel(this.inputXmiFilename);
+	}
+
+	protected BufferedWriter getBufferedWriter() throws IOException {
+		return new BufferedWriter(new FileWriter(this.outputXmlFilename));
+	}
+	
+	protected ModelIndex getModelIndex() {
 		final Model model;
         
         try {
-            model = XmiReader.readModel(filename);
+            model = this.readModel();
         } catch (FileNotFoundException e) {
             return null;
         }
@@ -107,7 +122,7 @@ public class SelectorDoc {
 		}
 		
 		try {
-            BufferedWriter output = new BufferedWriter(new FileWriter(this.outputXmlFilename));
+            BufferedWriter output = this.getBufferedWriter();
             output.write(documentationString);
             output.flush();
             output.close();
@@ -118,7 +133,7 @@ public class SelectorDoc {
 	
 	protected void generateSelectorDocumentation() {
 		
-		ModelIndex mi = this.getModelIndex(this.inputXmiFilename);
+		ModelIndex mi = this.getModelIndex();
         String selectorDocumentation = this.getSelectorDocumentation(mi);
         this.writeSelectorDocumentationToFile(selectorDocumentation);
 	}

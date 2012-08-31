@@ -30,9 +30,12 @@ import org.junit.Test;
  */
 public class SelectorDocTest {
 
-    @Test
+	private final String[] args = new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"};
+	private final SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
+	
+	@Test
     public void test() {
-    	SelectorDoc.main(new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"});
+    	SelectorDoc.main(new String[]{});
     }
 
 }
