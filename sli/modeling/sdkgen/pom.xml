@@ -116,26 +116,6 @@
                   </arguments>
                 </configuration>
               </execution>
-                <execution>
-                    <id>sdkgen</id>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                    <phase>compile</phase>
-                    <configuration>
-                        <mainClass>org.slc.sli.modeling.sdkgen.SdkGen</mainClass>
-                        <arguments>
-                            <argument>--outFolder</argument>
-                            <argument>${sli.home}/modeling/shtick/src/main/java/org/slc/sli/shtick</argument>
-                            <argument>--wadlFile</argument>
-                            <argument>${sli.home}/modeling/sdkgen/src/main/resources/sli.wadl</argument>
-                            <argument>--package</argument>
-                            <argument>org.slc.sli.shtick</argument>
-                            <argument>--xmiFile</argument>
-                            <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
-                        </arguments>
-                    </configuration>
-                </execution>
             </executions>
           </plugin>
         </plugins>
