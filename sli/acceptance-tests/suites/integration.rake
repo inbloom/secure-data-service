@@ -33,6 +33,11 @@ task :rcSamtTests do
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
 end
 
+desc "Run RC SAMT Tests"
+task :rcLeaSamtTests do
+  runTests("test/features/cross_app_tests/rc_integration_lea_samt.feature")
+end
+
 desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
   runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
@@ -61,8 +66,9 @@ task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
-  Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcIngestionTests"].execute
+  Rake::Task["rcLeaSamtTests"].execute
+  Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
   check_stamper_log("Finished stamping tenant \'RCTestTenant\'.")
   Rake::Task["rcDashboardTests"].execute
