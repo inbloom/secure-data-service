@@ -562,7 +562,7 @@ public class UserResource {
                 // Ed-Org must already exist in the tenant
                 Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg());
                 if (!allowedEdorgs.contains(user.getEdorg())) {
-                    return composeBadDataResponse("Not allowed to modify users in this Education Organization");
+                    return composeBadDataResponse("Not allowed to create or modify users in this Education Organization");
                 }
             }
         }

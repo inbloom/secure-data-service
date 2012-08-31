@@ -1,16 +1,8 @@
 #! /bin/bash
 #set -x
 
-if [ -z $1 ]; then
-  mongos_port=27017
-else
-  mongos_port=$1
-fi
-if [ -z $2 ]; then
-  num_shards=2
-else
-  num_shards=$2
-fi
+mongos_port=27017
+num_shards=2
 
 
 M=~/mongo/shard
@@ -68,7 +60,7 @@ mongo config --port 20000 --eval 'db.settings.save({"_id":"chunksize", "value":1
 
 
 echo "Starting up mongos router..."
-mongos --configdb localhost:20000 --port $mongos_port > $M/logs/mongos.log &
+    mongos --configdb localhost:20000 --port $mongos_port > $M/logs/mongos.log &
 echo $! >> $M/pids
 
 wait_for_mongo $mongos_port
