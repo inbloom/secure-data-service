@@ -23,7 +23,6 @@ is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 if is_windows
   module Process
     def fork
-      puts "DERLKJFA:LKJSDFL:KJSDLKJFHAL:KJ:LDKFJ"
       yield
     end
   end
@@ -44,7 +43,6 @@ def run_fixer(tenant = nil)
   begin
     fixer.start
     connection.close
-    @log.error "Finished stamping tenant \'#{tenant}\'."
   rescue Exception => e
     #KILL THE THREADS
     @tenants.delete tenant
