@@ -18,7 +18,10 @@
 
 package org.slc.sli.modeling.tools.selector;
 
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -28,8 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 
 /**
  * JUnit test for SelectorDoc class.
@@ -50,24 +60,26 @@ public class SelectorDocTest {
         when(spy.getBufferedWriter()).thenReturn(writer);
         assertTrue(spy.writeSelectorDocumentationToFile("foo"));
     }
-	
+
 	@Test
 	public void testAppendClassTypeAttributes() {
 		
 		String attribute1Name = "foo";
 		String attribute2Name = "bar";
 		
-		Attribute attribute1 = mock(Attribute.class);
-		when(attribute1.getName()).thenReturn(attribute1Name);
-		Attribute attribute2 = mock(Attribute.class);
-		when(attribute2.getName()).thenReturn(attribute2Name);
+		Identifier identifier = Identifier.random();
+		
+		Range range = new Range(Occurs.ONE, Occurs.ONE);
+		Multiplicity multiplicity = new Multiplicity(range);
+	    
+		Attribute attribute1 = new Attribute(identifier, attribute1Name, identifier, multiplicity, new ArrayList<TaggedValue>());
+		Attribute attribute2 = new Attribute(identifier, attribute2Name, identifier, multiplicity, new ArrayList<TaggedValue>());
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		attributes.add(attribute1);
 		attributes.add(attribute2);
 		
-		ClassType classType = mock(ClassType.class);
-		when(classType.getAttributes()).thenReturn(attributes);
+		ClassType classType = new ClassType(identifier, "whatever", false, attributes, new ArrayList<TaggedValue>());
 		
 		StringBuffer stringBuffer = new StringBuffer();
 		this.selectorDoc.appendClassTypeAttributes(stringBuffer, classType);
@@ -77,5 +89,42 @@ public class SelectorDocTest {
 	    String expectedToString = part1 + part2;
 		assertEquals(expectedToString, stringBuffer.toString());
 	}
+
+	@Test
+	public void testAppendClassTypeAssociations() {
+		
+		
+		List<AssociationEnd> associationEnds = new ArrayList<AssociationEnd>();
+		
+		ModelIndex modelIndex = mock(ModelIndex.class);
+		when(modelIndex.getAssociationEnds(any(Identifier.class))).thenReturn(associationEnds);
+		
+		String attribute1Name = "foo";
+		String attribute2Name = "bar";
+		
+		Identifier identifier = Identifier.random();
+		
+		Range range = new Range(Occurs.ONE, Occurs.ONE);
+		Multiplicity multiplicity = new Multiplicity(range);
+	    
+		Attribute attribute1 = new Attribute(identifier, attribute1Name, identifier, multiplicity, new ArrayList<TaggedValue>());
+		Attribute attribute2 = new Attribute(identifier, attribute2Name, identifier, multiplicity, new ArrayList<TaggedValue>());
+		
+		List<Attribute> attributes = new ArrayList<Attribute>();
+		attributes.add(attribute1);
+		attributes.add(attribute2);
+		
+		ClassType classType = new ClassType(identifier, "whatever", false, attributes, new ArrayList<TaggedValue>());
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		this.selectorDoc.appendClassTypeAttributes(stringBuffer, classType);
+		
+		String part1 = String.format(SelectorDoc.FEATURE, SelectorDoc.ATTRIBUTE, attribute1Name); 
+	    String part2 = String.format(SelectorDoc.FEATURE, SelectorDoc.ATTRIBUTE, attribute2Name);
+	    String expectedToString = part1 + part2;
+		assertEquals(expectedToString, stringBuffer.toString());
+	}
+	
+	
 
 }
