@@ -20,15 +20,29 @@ require 'rubygems'
 require 'mongo'
 require 'fileutils'
 
+def parseGitb(out)
+  branchName=""
+  out.each_line do |line|
+    if line.include? "*"
+      branchName = line.split(" ")[1]
+    end
+  end
+  
+  
+  branchName
+end
+
+gitb_out = `git branch`
+branch = parseGitb(gitb_out)
 if __FILE__ == $0
   if ARGV.length == 0
-    branch = "master"
+    branch = branch
   elsif ARGV.length == 1
     branch = ARGV[0]
   else
     puts "Usage: prompt>ruby #{$0} branchName"
     puts "Example: ruby #{$0} alpha.1"
-    puts "If no branchName is specified, it defaults to master"
+    puts "If no branchName is specified, it defaults to what is determine from git"
     exit(1)
   end
 end
@@ -41,6 +55,9 @@ dirString = ""
 dirs_to_zip = ["acceptance-tests", "opstools", "admin-tools/approval", "ingestion/ingestion-validation/target/"]
 
 `cd ..;zip -r testBundle_#{curTime.strftime("%m%d%Y_%H%M%S")}_#{branch}.zip #{dirs_to_zip.join(" ")}`
+
+
+
 
 
 
