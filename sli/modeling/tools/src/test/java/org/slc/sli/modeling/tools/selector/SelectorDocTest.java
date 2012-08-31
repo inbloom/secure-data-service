@@ -19,6 +19,7 @@
 package org.slc.sli.modeling.tools.selector;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
 
 import org.junit.Test;
 
@@ -32,6 +33,7 @@ public class SelectorDocTest {
 
 	private final String[] args = new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"};
 	private final SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
+	private final SelectorDoc spy = spy(selectorDoc);
 	
 	@Test
     public void test() {
