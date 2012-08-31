@@ -17,6 +17,7 @@
 package org.slc.sli.modeling.tools.selector;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.io.FileNotFoundException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -60,12 +61,12 @@ public class SelectorDoc {
 		StringBuffer stringBuffer = new StringBuffer();
 
         Map<String, ClassType> classTypes = modelIndex.getClassTypes();
-        for(String classTypeKey : classTypes.keySet()) {
+        
+        for(Entry<String, ClassType> classTypeEntry : classTypes.entrySet()) {
 
-            ClassType classType = classTypes.get(classTypeKey);
-            String classTypeName = classType.getName();
+            ClassType classType = classTypeEntry.getValue();
             
-            stringBuffer.append(String.format(simpleSectStart, classTypeName));
+            stringBuffer.append(String.format(simpleSectStart, classType.getName()));
             stringBuffer.append(featuresStart);
             
             this.appendClassTypeAttributes(stringBuffer, classType);

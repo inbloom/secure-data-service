@@ -20,8 +20,10 @@ package org.slc.sli.modeling.tools.selector;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
+import org.slc.sli.modeling.uml.ClassType;
 
 /**
  * JUnit test for SelectorDoc class.
@@ -39,5 +41,15 @@ public class SelectorDocTest {
     public void test() {
     	SelectorDoc.main(new String[]{});
     }
+	
+	@Test
+	public void testAppendClassTypeAttributes() {
+		ClassType classType = mock(ClassType.class);
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		
+		String expectedToString = "";
+		assertEquals(expectedToString, stringBuffer.toString());
+	}
 
 }
