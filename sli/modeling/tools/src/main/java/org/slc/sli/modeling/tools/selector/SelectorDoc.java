@@ -43,11 +43,11 @@ public class SelectorDoc {
 	public final static String ATTRIBUTE = "Attribute";
 	public final static String ASSOCIATION = "Association";
 
-    private final static String simpleSectStart = "<simpleSect xml:id = \"selector-%s\">\n";
-    private final static String featuresStart   = "    <features>\n";
-    private final static String feature         = "        <feature type = \"%s\" name = \"%s\"/>\n";
-    private final static String featuresEnd     = "    </features>\n";
-    private final static String simpleSectEnd   = "</simpleSect>\n";
+    protected final static String SIMPLE_SECT_START = "<simpleSect xml:id = \"selector-%s\">\n";
+    protected final static String FEATURES_START   = "    <features>\n";
+    protected final static String FEATURE         = "        <feature type = \"%s\" name = \"%s\"/>\n";
+    protected final static String FEATURES_END     = "    </features>\n";
+    protected final static String SIMPLE_SECT_END   = "</simpleSect>\n";
     
     private String inputXmiFilename;
     private String outputXmlFilename;
@@ -66,14 +66,14 @@ public class SelectorDoc {
 
             ClassType classType = classTypeEntry.getValue();
             
-            stringBuffer.append(String.format(simpleSectStart, classType.getName()));
-            stringBuffer.append(featuresStart);
+            stringBuffer.append(String.format(SIMPLE_SECT_START, classType.getName()));
+            stringBuffer.append(FEATURES_START);
             
             this.appendClassTypeAttributes(stringBuffer, classType);
             this.appendClassTypeAssociations(stringBuffer, classType, modelIndex);
             
-            stringBuffer.append(featuresEnd);
-            stringBuffer.append(simpleSectEnd);
+            stringBuffer.append(FEATURES_END);
+            stringBuffer.append(SIMPLE_SECT_END);
             
         }
         
@@ -82,13 +82,13 @@ public class SelectorDoc {
 
 	protected void appendClassTypeAttributes(StringBuffer stringBuffer, ClassType classType) {
 		for (Attribute attribute : classType.getAttributes()) {
-            stringBuffer.append(String.format(feature, ATTRIBUTE, attribute.getName()));
+            stringBuffer.append(String.format(FEATURE, ATTRIBUTE, attribute.getName()));
         }
 	}
 
 	protected void appendClassTypeAssociations(StringBuffer stringBuffer, ClassType classType, ModelIndex modelIndex) {
 		for (AssociationEnd associationEnd : modelIndex.getAssociationEnds(classType.getId())) {
-        	stringBuffer.append(String.format(feature, ASSOCIATION, associationEnd.getName()));
+        	stringBuffer.append(String.format(FEATURE, ASSOCIATION, associationEnd.getName()));
         }
 	}
 	
@@ -116,10 +116,10 @@ public class SelectorDoc {
         }
 	}
 	
-	protected void writeSelectorDocumentationToFile(String documentationString) {
+	protected boolean writeSelectorDocumentationToFile(String documentationString) {
 		
 		if (documentationString == null) {
-			return;
+			return false;
 		}
 		
 		try {
@@ -129,7 +129,9 @@ public class SelectorDoc {
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
 	}
 	
 	protected void generateSelectorDocumentation() {
