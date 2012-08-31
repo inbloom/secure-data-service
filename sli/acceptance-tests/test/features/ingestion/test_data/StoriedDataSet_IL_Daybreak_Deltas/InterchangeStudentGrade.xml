@@ -66,6 +66,13 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Grade>
 	<ReportCard>
 		<GradeReference ref="GR-GR3-800000025-1"/>
