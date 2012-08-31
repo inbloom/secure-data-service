@@ -23,7 +23,6 @@ is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 if is_windows
   module Process
     def fork
-      puts "DERLKJFA:LKJSDFL:KJSDLKJFHAL:KJ:LDKFJ"
       yield
     end
   end
