@@ -158,10 +158,7 @@ def initializeTenants()
   @lzs_to_remove  = Array.new
 
   defaultLz = @ingestion_lz_identifer_map['Midgar-Daybreak']
-  if defaultLz == nil then
-    puts "Default landing zone not defined"
-    return
-  end
+  assert(defaultLz != nil, "Default landing zone not defined (Midgar-Daybreak)")
 
   if defaultLz.rindex('/') == (defaultLz.length - 1)
     # remove last character (/)

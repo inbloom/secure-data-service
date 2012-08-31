@@ -58,6 +58,7 @@ class Analyser
       begin
       @db['apiResponse'].find({'$or'=>[{'processed'=>{'$exists'=>false}},{'processed'=>false}]},@basic_options) do |cur|
           cur.each do |rec|
+            puts rec
             count = count +1
             build_number = rec['body']['buildNumber']
             end_point = rec['body']['resource']
