@@ -97,20 +97,12 @@ public class SelectorDoc {
 		return XmiReader.readModel(this.inputXmiFilename);
 	}
 
-	protected BufferedWriter getBufferedWriter() throws IOException {
+	protected Writer getBufferedWriter() throws IOException {
 		return new BufferedWriter(new FileWriter(this.outputXmlFilename));
 	}
 	
-	protected ModelIndex getModelIndex() {
-		final Model model;
-        
-        try {
-            model = this.readModel();
-        } catch (FileNotFoundException e) {
-            return null;
-        }
-
-        if (model != null) {
+	protected ModelIndex getModelIndex(Model model) {
+		if (model != null) {
             return new DefaultModelIndex(model);
         } else {
             return null;
@@ -136,9 +128,9 @@ public class SelectorDoc {
 	
 	protected void generateSelectorDocumentation() throws IOException {
 		
-		ModelIndex mi = this.getModelIndex();
+		ModelIndex mi = this.getModelIndex(this.readModel());
         String selectorDocumentation = this.getSelectorDocumentation(mi);
-        this.writeSelectorDocumentationToFile(selectorDocumentation, getBufferedWriter());
+        this.writeSelectorDocumentationToFile(selectorDocumentation, this.getBufferedWriter());
 	}
     
     public static void main(String[] args) {

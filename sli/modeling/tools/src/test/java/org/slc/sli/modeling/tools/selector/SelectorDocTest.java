@@ -23,10 +23,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.Writer;
@@ -35,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -149,7 +146,8 @@ public class SelectorDocTest {
     @Test
     public void testGetModelIndex() throws FileNotFoundException {
         Model model = this.selectorDoc.readModel();
-        assertNotNull("Expected non-null model", model);
+        ModelIndex modelIndex = this.selectorDoc.getModelIndex(model);
+        assertNotNull("Expected non-null modelIndex", modelIndex);
     }
 
 
