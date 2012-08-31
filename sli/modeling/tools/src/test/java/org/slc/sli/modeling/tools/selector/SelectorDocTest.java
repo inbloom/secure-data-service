@@ -20,6 +20,10 @@ package org.slc.sli.modeling.tools.selector;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 import org.junit.Test;
 
@@ -37,7 +41,9 @@ public class SelectorDocTest {
 
 
     @Test
-    public void testWriteBuffer() {
+    public void testWriteBuffer() throws IOException {
+        BufferedWriter writer = mock(BufferedWriter.class);
+        when(spy.getBufferedWriter()).thenReturn(writer);
         assertTrue(spy.writeSelectorDocumentationToFile("foo"));
     }
 
