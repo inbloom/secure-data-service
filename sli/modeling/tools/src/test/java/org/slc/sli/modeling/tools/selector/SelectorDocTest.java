@@ -34,10 +34,11 @@ public class SelectorDocTest {
 	private final String[] args = new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"};
 	private final SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
 	private final SelectorDoc spy = spy(selectorDoc);
-	
-	@Test
-    public void test() {
-    	SelectorDoc.main(new String[]{});
+
+
+    @Test
+    public void testWriteBuffer() {
+        assertTrue(spy.writeSelectorDocumentationToFile("foo"));
     }
 
 }

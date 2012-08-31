@@ -115,10 +115,10 @@ public class SelectorDoc {
         }
 	}
 	
-	protected void writeSelectorDocumentationToFile(String documentationString) {
+	protected boolean writeSelectorDocumentationToFile(String documentationString) {
 		
 		if (documentationString == null) {
-			return;
+			return false;
 		}
 		
 		try {
@@ -128,7 +128,9 @@ public class SelectorDoc {
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
 	}
 	
 	protected void generateSelectorDocumentation() {
