@@ -43,7 +43,6 @@ def run_fixer(tenant = nil)
   begin
     fixer.start
     connection.close
-    @log.error "Finished stamping tenant \'#{tenant}\'."
   rescue Exception => e
     #KILL THE THREADS
     @tenants.delete tenant

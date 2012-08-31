@@ -64,6 +64,7 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcIngestionTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
+  check_stamper_log("Finished stamping tenant \'RCTestTenant\'.")
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcCleanUpTests"].execute
 
@@ -77,3 +78,30 @@ end
 ############################################################
 # Cross App Tests end
 ############################################################
+
+############################################################
+# STAMPER LOG MONITORING
+############################################################
+
+private
+
+def check_stamper_log(line = nil)
+  edorg_stamper_log = "/var/log/edorg.log"
+  teacher_stamper_log = "/var/log/teacher.log"
+  edorg_stamper_finished = false
+  teacher_stamper_finished = false
+  seconds_to_wait = 120
+  backward = 1000
+
+  seconds_to_wait.times do
+    if edorg_stamper_finished && teacher_stamper_finished
+      puts line
+      return
+    end
+    edorg_stamper_finished  = `tail -n #{backward} #{edorg_stamper_log}`.to_s.include?(line) if !edorg_stamper_finished
+    teacher_stamper_finished = `tail -n #{backward} #{teacher_stamper_log}`.to_s.include?(line) if !teacher_stamper_finished
+    sleep 1
+  end
+
+  fail("Tenant data not stamped within #{seconds_to_wait} seconds.")
+end
