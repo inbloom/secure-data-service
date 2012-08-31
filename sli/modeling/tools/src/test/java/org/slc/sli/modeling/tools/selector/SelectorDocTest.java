@@ -21,18 +21,21 @@ package org.slc.sli.modeling.tools.selector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -144,6 +147,11 @@ public class SelectorDocTest {
 		assertEquals(expectedToString, receivedResult);
 	}
 	
-	
+    @Test
+    public void testGetModelIndex() throws FileNotFoundException {
+        Model model = this.selectorDoc.readModel();
+        assertNotNull("Expected non-null model", model);
+    }
+
 
 }
