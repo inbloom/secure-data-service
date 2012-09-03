@@ -40,12 +40,32 @@ public class QueryManglerFactoryTest {
     
     @Test
     public void testGetManglerForSection() {
-        assertFalse(true);
+        NeutralQuery query = new NeutralQuery();
+        SecurityCriteria criteria = new SecurityCriteria();
+        criteria.setCollectionName("section");
+        criteria.setSecurityCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, new ArrayList<String>()));
+        Mangler chosenMangler = factory.getMangler(query, criteria);
+        assertTrue(chosenMangler != null);
+        assertTrue(chosenMangler.respondsTo("section"));
     }
     
     @Test
-    public void testGetManglerForInvalidParameter() {
-        assertFalse(true);
+    public void testGetManglerForInvalidCollection() {
+        NeutralQuery query = new NeutralQuery();
+        SecurityCriteria criteria = new SecurityCriteria();
+        criteria.setCollectionName("student");
+        criteria.setSecurityCriteria(null);
+        Mangler chosenMangler = factory.getMangler(query, criteria);
+        assertTrue(chosenMangler == null);
     }
     
+    @Test
+    public void testGetManglerForInvalidCriteria() {
+        NeutralQuery query = new NeutralQuery();
+        SecurityCriteria criteria = new SecurityCriteria();
+        criteria.setCollectionName("student");
+        criteria.setSecurityCriteria(null);
+        Mangler chosenMangler = factory.getMangler(query, criteria);
+        assertTrue(chosenMangler == null);
+    }    
 }

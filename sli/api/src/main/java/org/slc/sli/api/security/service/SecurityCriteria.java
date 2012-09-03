@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.service.mangler.Mangler;
+import org.slc.sli.api.security.service.mangler.QueryManglerFactory;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -85,7 +87,14 @@ public class SecurityCriteria {
         if (securityCriteria != null) {
             //Check the type of who we are and if we're a teacher, handle it differently.
             if (EntityNames.TEACHER.equals(user.getEntity().getType())) {
-                
+                QueryManglerFactory factory = new QueryManglerFactory();
+                Mangler queryMangler = factory.getMangler(query, this);
+                if(queryMangler == null) {
+                    //Unsupported problem.
+                    //TODO Find the correct exception and way to throw it.
+                    throw new UnsupportedOperationException("We are unable to handle this request");
+                }
+                query = queryMangler.mangleQuery(query, securityCriteria);
             }
             else {
                 query.addOrQuery(new NeutralQuery(securityCriteria));

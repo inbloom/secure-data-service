@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.domain.Entity;
@@ -19,8 +20,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SessionSecurityCache implements SecurityCachingStrategy {
-    public static final String STUDENT_CACHE = "students";
-    public static final String SECTION_CACHE = "sections";
     public static final String USER_SESSION = "userSession";
     
     @Autowired
@@ -40,16 +39,18 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
         Entity userSession = getUserSession();
         
         //Update the session with the new cache.
-        userSession.getBody().put(STUDENT_CACHE, ids.toArray());
+        userSession.getBody().put(cacheId, ids.toArray());
         
         //Put it back into mongo
         repo.update(USER_SESSION, userSession);
         
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public Set<String> retrieve(String cacheId) {
-        return new HashSet<String>((Set<String>) getUserSession().getBody().get(cacheId));
+        EntityBody body = (EntityBody) getUserSession().getBody();
+        return new HashSet<String>((Set<String>) body.get(cacheId));
     }
     
     @Override

@@ -75,8 +75,8 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Override
     public List<String> findAccessible(Entity principal) {
         // If we have a cache, bail.
-        if(securityCachingStrategy.contains(SessionSecurityCache.STUDENT_CACHE)) {
-            return new ArrayList<String>(securityCachingStrategy.retrieve(SessionSecurityCache.SECTION_CACHE));
+        if(securityCachingStrategy.contains(TO_ENTITY)) {
+            return new ArrayList<String>(securityCachingStrategy.retrieve(TO_ENTITY));
         }
 
         Set<String> ids = new TreeSet<String>();
@@ -86,9 +86,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
             ids.addAll(findAccessibleThroughCohort(principal));
             ids.addAll(findAccessibleThroughProgram(principal));
 
-            securityCachingStrategy.warm(SessionSecurityCache.STUDENT_CACHE, new HashSet<String>(ids));
+            securityCachingStrategy.warm(TO_ENTITY, new HashSet<String>(ids));
         } else {
-            ids = securityCachingStrategy.retrieve(FROM_ENTITY + TO_ENTITY);
+            ids = securityCachingStrategy.retrieve(TO_ENTITY);
         }
 
         return new ArrayList<String>(ids);
