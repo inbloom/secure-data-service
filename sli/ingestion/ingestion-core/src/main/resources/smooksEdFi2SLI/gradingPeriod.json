@@ -8,7 +8,6 @@
                         "entityType" : "calendarDate",
                         "isRefList" : true,
                         "refObjectPath" : "body.calendarDateReference",
-                        "givesContext" : ["edOrgs"],
                         "choiceOfFields" :
                                 [
                                     [
