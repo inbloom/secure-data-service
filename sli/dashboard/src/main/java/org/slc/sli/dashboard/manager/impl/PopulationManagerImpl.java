@@ -16,6 +16,8 @@
 
 package org.slc.sli.dashboard.manager.impl;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -1695,7 +1697,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 			}
     	}catch(Exception e) {
     		log.error(e.getMessage());
-    		e.printStackTrace();
+    		StringWriter errors = new StringWriter();
+    		e.printStackTrace(new PrintWriter(errors));
+    		log.error(errors.toString());
     	}
     	
     	GenericEntity ge = new GenericEntity();
