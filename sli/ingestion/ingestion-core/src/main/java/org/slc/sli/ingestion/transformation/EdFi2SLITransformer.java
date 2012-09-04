@@ -144,6 +144,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         ComplexRefDef complexRefDef = entityConfig.getComplexReference();
         if (complexRefDef != null) {
             // wat is this?
+            // -> thinking we'll need this for course lookups
         }
 
         // check all references to potentially propagate context
@@ -169,33 +170,33 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     }
 
                     // if the referenced entity "gives" context to any other entity, recurse!
-                    if (entityConfigGivesContext(entityConfig, referencedEntityType)) {
-                        for (String id : referencedIds) {
-
-                            Entity entityReferenced = entityRepository.findById(persistedCollectionName, id);
-                            if (entityReferenced != null) {
-
-                                giveContext(entityReferenced, entityConfig);
-                            }
-                        }
-                    }
+//                    if (entityConfigGivesContext(entityConfig, referencedEntityType)) {
+//                        for (String id : referencedIds) {
+//
+//                            Entity entityReferenced = entityRepository.findById(persistedCollectionName, id);
+//                            if (entityReferenced != null) {
+//
+//                                giveContext(entityReferenced, entityConfig);
+//                            }
+//                        }
+//                    }
                 }
             }
         }
     }
 
-    private boolean entityConfigGivesContext(EntityConfig entityConfig, String referencedEntityType) {
-        EntityConfig referencedEntityConfig = entityConfigurations.getEntityConfiguration(referencedEntityType);
-        if (referencedEntityConfig != null && entityConfig.getReferences() != null) {
-            for (RefDef refDef : entityConfig.getReferences()) {
-                List<String> givesContextList = refDef.getRef().getGivesContext();
-                if (givesContextList != null) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    private boolean entityConfigGivesContext(EntityConfig entityConfig, String referencedEntityType) {
+//        EntityConfig referencedEntityConfig = entityConfigurations.getEntityConfiguration(referencedEntityType);
+//        if (referencedEntityConfig != null && entityConfig.getReferences() != null) {
+//            for (RefDef refDef : entityConfig.getReferences()) {
+//                List<String> givesContextList = refDef.getRef().getGivesContext();
+//                if (givesContextList != null) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private void updateContext(String referencedEntityType, String typeOfContext, Object context,
             List<String> idsToQuery) {
