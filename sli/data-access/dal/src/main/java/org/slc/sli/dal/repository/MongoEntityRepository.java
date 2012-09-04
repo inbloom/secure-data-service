@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +49,6 @@ import org.slc.sli.validation.EntityValidator;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
-    protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     private static final int PADDING = 300;
 
