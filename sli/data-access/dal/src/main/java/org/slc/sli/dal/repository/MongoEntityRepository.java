@@ -179,7 +179,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<Entity> persist = new ArrayList<Entity>();
 
         for (Entity record : records) {
-            LOG.info("Adding record into bulk insert: {}", record);
             Entity entity = new MongoEntity(record.getType(), record.getStagedEntityId(), record.getBody(),
                     record.getMetaData(), PADDING);
             persist.add(entity);
