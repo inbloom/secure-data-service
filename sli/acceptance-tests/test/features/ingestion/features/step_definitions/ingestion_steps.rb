@@ -1338,6 +1338,27 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
+Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |tenantId, stateOrganizationId, table|
+  @db = @conn[INGESTION_DB_NAME]
+  @edOrgCollection = @db.collection("educationOrganization")
+  @edOrgEntity = edOrgCollection.find_one("metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId)
+  @stateOrganizationId = @edOrgEntity['_id']
+  
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.find(@stateOrganizationId => {"$in" => "metaData.edOrgs"}).count().to_i
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+  end
+  assert(@result == "true", "Some records do not have the correct education organization context.")
+end
+
 Then /^I check to find if complex record is in batch job collection:$/ do |table|
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
