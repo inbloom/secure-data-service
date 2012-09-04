@@ -23,8 +23,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.GrantedAuthority;
-
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -35,6 +33,7 @@ import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Unit tests for user resource.
@@ -79,7 +78,6 @@ public class UserResourceTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         resource.setRealm(REALM);
-        resource.setEnableSamt(true);
         Mockito.when(adminService.getAllowedEdOrgs(TENANT, EDORG1)).thenReturn(
                 new HashSet<String>(Arrays.asList(EDORG1, EDORG2)));
         Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
