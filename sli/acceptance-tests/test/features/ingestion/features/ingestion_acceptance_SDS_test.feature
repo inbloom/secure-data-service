@@ -515,7 +515,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 1     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
      | studentProgramAssociation             | 0     |
@@ -575,9 +575,9 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
-     | course                                | 26    |
-     | courseOffering                        | 26    |
-     | disciplineAction                      | 0     |
+     | course                                | 25    |
+     | courseOffering                        | 25    |
+     | disciplineAction                      | 2     |
      | disciplineIncident                    | 2     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
@@ -681,7 +681,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
-@wip
+@ingstamp @stamp
 Scenario: Verify ingestion inline context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
