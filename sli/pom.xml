@@ -34,9 +34,9 @@
 		<maven.release.version>2.2</maven.release.version>
 
 		<!-- Spring Framework Versions -->
-		<spring.version>3.0.6.RELEASE</spring.version>
-		<springdata.version>1.2.0.M1</springdata.version>
-		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
+		<spring.version>3.0.7.RELEASE</spring.version>
+		<springdata.version>1.2.1.RELEASE</springdata.version>
+		<springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
 		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
 

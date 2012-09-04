@@ -24,7 +24,7 @@
 
    <!-- MONGODB CONFIG -->
    <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
-      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true"/>
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true" slave-ok="false"/>
    </mongo:mongo>
 
   <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
@@ -43,7 +43,7 @@
 
    <!-- DB TO LOG API PERF CONFIG-->
     <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
-        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
+        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true" slave-ok="false"/>
     </mongo:mongo>
 
     <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
@@ -67,7 +67,6 @@
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
-    <property name="slaveOk" value="false" />
     <!--  <property name="writeConcern">
       <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>
@@ -77,7 +76,6 @@
     <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
         <constructor-arg ref="mongoPerfDbFactory" />
         <constructor-arg ref="mappingPerfDbConverter" />
-        <property name="slaveOk" value="false" />
     </bean>
 
   <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
