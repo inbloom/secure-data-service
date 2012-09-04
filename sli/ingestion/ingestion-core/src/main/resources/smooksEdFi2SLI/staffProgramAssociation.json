@@ -30,7 +30,8 @@
 	        "entityType" : "program",
 	        "isRefList" : true,
     		"refObjectPath" : "body.programReference",
-	        "choiceOfFields" :
+	        "givesContext" : ["edOrgs"],
+            "choiceOfFields" :
 	        [
 	            [
 		            { 

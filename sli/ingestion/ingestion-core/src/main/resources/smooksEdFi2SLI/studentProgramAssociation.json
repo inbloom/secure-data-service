@@ -26,7 +26,7 @@
         "ref" :
         {
 	        "entityType" : "program",
-	        "takesContext" : ["edOrgs"],
+	        "givesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [

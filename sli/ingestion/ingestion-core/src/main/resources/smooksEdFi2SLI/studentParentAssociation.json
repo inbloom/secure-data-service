@@ -26,6 +26,7 @@
         "ref" :
         {
             "entityType" : "parent",
+            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
