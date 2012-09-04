@@ -554,18 +554,18 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffEducationOrganizationAssociation | 3     |
      | staffProgramAssociation               | 0     |
      | student                               | 27    |
-     | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
+     | studentAcademicRecord                 | 15    |
+     | studentAssessmentAssociation          | 23    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
      | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 105   |
+     | studentGradebookEntry                 | 108   |
      | studentParentAssociation              | 9     |
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 55    |
-     | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
+     | studentSectionAssociation             | 144   |
+     | studentTranscriptAssociation          | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
