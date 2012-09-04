@@ -488,14 +488,17 @@ public class IdNormalizer {
 
                             if (entity.getMetaData().containsKey(takesField)) {
                                 BasicDBList original = (BasicDBList) entity.getMetaData().get(takesField);
-                                for (int i = 0; i < original.size(); i++) {
-                                    String context = (String) original.get(i);
+                                for (int i = 0; i < addToContext.size(); i++) {
+                                    String context = (String) addToContext.get(i);
                                     if (!original.contains(context)) {
+                                        LOG.info("Adding _id: {} to metaData.{} on entity (_id:{})", new Object[]{context, takesField, entity.getEntityId()});
                                         original.add(context);
                                     }
                                 }
+                                LOG.info("Updating metaData.{} on entity (_id:{}) to: {}", new Object[]{takesField, entity.getEntityId(), original});
                                 entity.getMetaData().put(takesField, original);
                             } else {
+                                LOG.info("Setting metaData.{} on entity (_id:{}) to: {}", new Object[]{takesField, entity.getEntityId(), addToContext});
                                 entity.getMetaData().put(takesField, addToContext);
                             }
                         }
@@ -526,11 +529,6 @@ public class IdNormalizer {
         // sort because the $or query can produce different results every time
         Collections.sort(ids);
         return ids;
-    }
-
-    protected boolean inheritEdOrgPermissions(String type) {
-        return (type.equals("stateEducationAgency")) || (type.equals("localEducationAgency"))
-                || (type.equals("school"));
     }
 
     /**
