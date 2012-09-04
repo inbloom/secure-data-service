@@ -96,8 +96,6 @@ public enum EdfiEntity {
     STUDENT_PROGRAM_ASSOCIATION("studentProgramAssociation", Arrays.asList(STUDENT, PROGRAM, STATE_EDUCATION_AGENCY,
             LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL)),
 
-    STAFF_PROGRAM_ASSOCIATION("staffProgramAssociation", Arrays.asList(STAFF, PROGRAM)),
-
     ASSESSMENT_ITEM("assessmentItem", Arrays.asList(LEARNING_STANDARD)),
 
     BEHAVIOR_DESCRIPTOR("behaviorDescriptor", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
@@ -125,6 +123,9 @@ public enum EdfiEntity {
     STUDENT_SCHOOL_ASSOCIATION("studentSchoolAssociation", Arrays.asList(STUDENT, SCHOOL, GRADUATION_PLAN)),
 
     TEACHER_SCHOOL_ASSOCIATION("teacherSchoolAssociation", Arrays.asList(TEACHER, SCHOOL)),
+
+    STAFF_PROGRAM_ASSOCIATION("staffProgramAssociation", Arrays.asList(STAFF, PROGRAM, TEACHER_SCHOOL_ASSOCIATION,
+            STAFF_EDUCATION_ORG_ASSIGNMENT_ASSOCIATION)),
 
     STUDENT_PARENT_ASSOCIATION("studentParentAssociation", Arrays.asList(STUDENT, PARENT, STUDENT_SCHOOL_ASSOCIATION)),
 
