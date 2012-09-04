@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -67,6 +69,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private EntityConfigFactory entityConfigurations;
 
     private Repository<Entity> entityRepository;
+
+    @Value("${sli.security.gracePeriod}")
+    private String gracePeriod;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -140,10 +145,34 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         giveContext(entity, entityConfig);
     }
 
+    /**
+     * Checks the entity for 'body.exitWithdrawDate' and marks the association as expired accordingly.
+     *
+     * @param entity Entity to check for expiry.
+     * @return True (if association is expired) and False otherwise.
+     */
+    private boolean isAssociationExpired(Entity entity) {
+        boolean expired = false;
+        if (entity.getType().equals("studentSchoolAssociation")
+                && entity.getBody().containsKey("exitWithdrawDate")) {
+            try {
+                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody()
+                        .get("exitWithdrawDate"));
+                if (exitWithdrawDate.isBefore(DateTime.now().minusDays(Integer.valueOf(gracePeriod)))) {
+                    expired = true;
+                }
+            } catch (Exception e) {
+                LOG.warn("Error parsing exitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.", new Object[] {
+                        entity.getBody().get("studentId"), entity.getBody().get("schoolId") });
+            }
+        }
+        return expired;
+    }
+
     public void giveContext(Entity entity, EntityConfig entityConfig) {
         ComplexRefDef complexRefDef = entityConfig.getComplexReference();
         if (complexRefDef != null) {
-            // wat is this?
+            // what is this?
             // -> thinking we'll need this for course lookups
         }
 
@@ -153,6 +182,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
                 List<String> givesContextList = refDef.getRef().getGivesContext();
                 if (givesContextList != null) {
+
+                    if (isAssociationExpired(entity)) {
+                        continue;
+                    }
 
                     String referencedEntityType = refDef.getRef().getEntityType();
                     String persistedCollectionName = getPersistedCollectionName(referencedEntityType);
@@ -168,35 +201,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                             updateContext(persistedCollectionName, typeOfContext, context, referencedIds);
                         }
                     }
-
-                    // if the referenced entity "gives" context to any other entity, recurse!
-//                    if (entityConfigGivesContext(entityConfig, referencedEntityType)) {
-//                        for (String id : referencedIds) {
-//
-//                            Entity entityReferenced = entityRepository.findById(persistedCollectionName, id);
-//                            if (entityReferenced != null) {
-//
-//                                giveContext(entityReferenced, entityConfig);
-//                            }
-//                        }
-//                    }
                 }
             }
         }
     }
-
-//    private boolean entityConfigGivesContext(EntityConfig entityConfig, String referencedEntityType) {
-//        EntityConfig referencedEntityConfig = entityConfigurations.getEntityConfiguration(referencedEntityType);
-//        if (referencedEntityConfig != null && entityConfig.getReferences() != null) {
-//            for (RefDef refDef : entityConfig.getReferences()) {
-//                List<String> givesContextList = refDef.getRef().getGivesContext();
-//                if (givesContextList != null) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     private void updateContext(String referencedEntityType, String typeOfContext, Object context,
             List<String> idsToQuery) {
