@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,7 +36,7 @@ import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * ValueMapperTest
@@ -58,7 +58,7 @@ public class ValueMapperTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMap() throws Exception {
-        IdFieldEmittableKey key = new IdFieldEmittableKey();
+        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey();
         ValueMapper m = new MockValueMapper();
         BSONObject entry = new BasicBSONObject("found", "data");
         BSONWritable entity = new BSONWritable(entry);
@@ -75,11 +75,11 @@ public class ValueMapperTest {
                 assertNotNull(args);
                 assertEquals(args.length, 2);
 
-                assertTrue(args[0] instanceof IdFieldEmittableKey);
+                assertTrue(args[0] instanceof TenantAndIdEmittableKey);
                 assertTrue(args[1] instanceof ContentSummary);
 
-                IdFieldEmittableKey id = (IdFieldEmittableKey) args[0];
-                assertEquals(id.getIdField().toString(), "_id");
+                TenantAndIdEmittableKey id = (TenantAndIdEmittableKey) args[0];
+                assertNotNull(id);
 
                 ContentSummary e = (ContentSummary) args[1];
                 assertEquals(e.getLength(), 1);
@@ -96,13 +96,13 @@ public class ValueMapperTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testMapValueNotFound() throws Exception {
-        IdFieldEmittableKey key = new IdFieldEmittableKey();
+        TenantAndIdEmittableKey key = new TenantAndIdEmittableKey();
         ValueMapper m = new MockValueMapper();
         BSONObject entry = new BasicBSONObject("not_found", "data");
         BSONWritable entity = new BSONWritable(entry);
 
         Context context = Mockito.mock(Context.class);
-        PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
+        PowerMockito.when(context, "write", Matchers.any(TenantAndIdEmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
             @Override
@@ -113,7 +113,7 @@ public class ValueMapperTest {
                 assertNotNull(args);
                 assertEquals(args.length, 2);
 
-                assertTrue(args[0] instanceof IdFieldEmittableKey);
+                assertTrue(args[0] instanceof TenantAndIdEmittableKey);
                 assertTrue(args[1] instanceof NullWritable);
 
                 return null;

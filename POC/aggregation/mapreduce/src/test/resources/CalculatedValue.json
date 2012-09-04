@@ -1,36 +1,28 @@
 {
-  "calculated_value" : {
-      "metadata" : {
-          "type" : "Assessment",
-          "value_type" : "java.lang.Double",
-          "description" : "Calculate the highest ever score per student for the grade 7 state math assessment.",
-          "abbreviation" : "HE-SMA-7"
-      },
-
-      "hadoop" : {
-          "map" : {
-              "class" : "org.slc.sli.aggregation.mapreduce.map.IDMapper",
-              "input" : {
-                  "collection" : "sli.studentAssessmentAssociation",
-                  "key_field" : "body.studentId",
-                  "query" : { "body.assessmentId" : "@ID@", "body.scoreResults.assessmentReportingMethod" : "Scale score" },
-                  "fields" : { "metaData.tenantId" : 1, "body.studentId" : 1, "body.scoreResults" : 1 },
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
-                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoIdInputFormat",
-                  "read_from_secondaries" : true
-              },
-              "output" : {
-                  "key_type" : "org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey",
-                  "value_type" : "com.mongodb.hadoop.io.BSONWritable",
-                  "format_type" : "org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter"
-              }
-          },
-          "reduce" : {
-              "class" : "org.slc.sli.aggregation.mapreduce.reduce.Highest",
-              "collection" : "sli.student",
-              "field" : "calculatedValues.assessments.@ID@.HighestEver.ScaleScore"
-          }
-      }
-  }
+    "metadata" : {
+        "namespace" : "org.slc.basics",
+        "description" : "Calculate the highest value for the latest 'Math for Grade 5' assessment family for Daybreak Elementary School.",
+        "entity" : "assessment",
+        "operation" : "calculate_value",
+        "function" : "Nth_highest",
+        "parameters" : { "n" : 1, "period" : "year" },
+        "what" : "Assessment.body.assessmentFamilyHierarchyName"
+    },
+    "map" : {
+        "mapper" : "IDMapper",
+        "collection" : "sli.studentAssessmentAssociation",
+        "query" : { "metaData.tenantId" : "IL", "metaData.edOrgs" : "Daybreak", "body.assessmentId" : "State Math for Grade 5", "body.scoreResults.assessmentReportingMethod" : "Scale score" },
+        "fields" : { "body.scoreResults.result" : 1 }
+    },
+    "reduce" : {
+        "collection" : "sli.student",
+        "field" : "calculatedValues.assessments.State Math for Grade 5.Highest"
+    },
+    "schedule" : {
+        "event" : "create student | create studentAssessmentAssociation",
+        "waiting_period" : 600,
+        "command" : "hadoop_job",
+        "arguments" : "jar mapreduce-job.jar StateMath_conf.json",
+        "retry_on_failure" : "false"
+    }
 }

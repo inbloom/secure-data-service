@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,53 +22,46 @@ import static org.junit.Assert.assertTrue;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.junit.Test;
 
+
 /**
- * DoubleValueMapperTest
+ * EnumValueMapperTest
  */
-public class DoubleValueMapperTest {
+public class EnumValueMapperTest {
+
+    private enum Testing { TEST1, TEST2, TEST3 };
 
     @Test
     public void testGetValue() {
-        BSONObject field = new BasicBSONObject("field", 1.312D);
-        BSONObject entry = new BasicBSONObject("double", field);
+
+        BSONObject field = new BasicBSONObject("field", "TEST1");
+        BSONObject entry = new BasicBSONObject("enum", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
+        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
 
-        Writable value = mapper.getValue(entity);
+        Writable value = m.getValue(entity);
         assertFalse(value instanceof NullWritable);
-        assertTrue(value instanceof DoubleWritable);
-        assertEquals(((DoubleWritable) value).get(), 1.312D, 0.05);
+        assertTrue(value instanceof Text);
+        assertEquals(((Text) value).toString(), Testing.TEST1.toString());
     }
 
     @Test
-    public void testValueNotFound() {
-        BSONObject field = new BasicBSONObject("field", 1.312D);
-        BSONObject entry = new BasicBSONObject("double", field);
+    public void testGetValueNotFound() {
+
+        BSONObject field = new BasicBSONObject("field", "Unknown");
+        BSONObject entry = new BasicBSONObject("enum", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        DoubleValueMapper mapper = new DoubleValueMapper("double.missing_field");
+        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
 
-        Writable value = mapper.getValue(entity);
-        assertTrue(value instanceof NullWritable);
-    }
-
-    @Test
-    public void testGetValueNotDouble() {
-        BSONObject field = new BasicBSONObject("field", "Bob");
-        BSONObject entry = new BasicBSONObject("double", field);
-        BSONWritable entity = new BSONWritable(entry);
-
-        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
-
-        Writable value = mapper.getValue(entity);
+        Writable value = m.getValue(entity);
         assertTrue(value instanceof NullWritable);
     }
 }

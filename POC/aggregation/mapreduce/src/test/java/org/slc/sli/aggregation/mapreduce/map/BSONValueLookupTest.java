@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -74,7 +74,7 @@ public class BSONValueLookupTest extends BSONUtilities {
     @Test
     public void testSetValue() {
 
-        BSONObject root = BSONUtilities.setValue("root.body.profile.name.first", "George");
+        BSONObject root = BSONUtilities.setValue("body.profile.name.first", "George");
         assertNotNull(root);
         BSONObject body = (BSONObject) root.get("body");
         assertNotNull(body);

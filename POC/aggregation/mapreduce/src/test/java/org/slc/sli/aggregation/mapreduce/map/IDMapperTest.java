@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -38,6 +38,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * IDMapperTest
@@ -56,14 +57,14 @@ public class IDMapperTest {
     public void testMapIdFieldKey() throws Exception {
         String[] fields = { "data.element.id" };
 
-        BSONObject elem = new BasicBSONObject("id", 3697);
+        BSONObject elem = new BasicBSONObject("value", 7631);
         BSONObject data = new BasicBSONObject("element", elem);
         BSONObject entry = new BasicBSONObject("data", data);
         final BSONWritable entity = new BSONWritable(entry);
 
-        IDMapper mapper = new IDMapper();
+        IDMapper<IdFieldEmittableKey> mapper = new IDMapper<IdFieldEmittableKey>();
 
-        IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
+        IDMapper<IdFieldEmittableKey>.Context context = Mockito.mock(IDMapper.Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
@@ -92,26 +93,26 @@ public class IDMapperTest {
 
         IdFieldEmittableKey id = new IdFieldEmittableKey();
         id.setFieldNames(fields);
+        id.setId(new Text("3697"));
         mapper.map(id, entity, context);
     }
 
-    /**
     @SuppressWarnings("unchecked")
     @Test
     public void testMapTenantAndIdKey() throws Exception {
 
         String[] fields = { "metaData.tenantId", "data.element.id" };
 
-        BSONObject elem = new BasicBSONObject("id", 90210);
+        BSONObject elem = new BasicBSONObject("value", 7632);
         BSONObject data = new BasicBSONObject("element", elem);
         BSONObject entry = new BasicBSONObject("data", data);
         final BSONWritable entity = new BSONWritable(entry);
 
-        BSONObject tenantId = new BasicBSONObject("tenantId", "Midgar");
+        BSONObject tenantId = new BasicBSONObject("EdOrgs", "Midtown");
         entity.put("metaData", tenantId);
 
-        IDMapper mapper = new IDMapper();
-        IDMapper.Context context = Mockito.mock(IDMapper.Context.class);
+        IDMapper<TenantAndIdEmittableKey> mapper = new IDMapper<TenantAndIdEmittableKey>();
+        IDMapper<TenantAndIdEmittableKey>.Context context = Mockito.mock(IDMapper.Context.class);
         PowerMockito.when(context, "write", Matchers.any(EmittableKey.class),
             Matchers.any(BSONObject.class)).thenAnswer(new Answer<BSONObject>() {
 
@@ -144,7 +145,8 @@ public class IDMapperTest {
 
         TenantAndIdEmittableKey id = new TenantAndIdEmittableKey();
         id.setFieldNames(fields);
+        id.setTenantId(new Text("Midgar"));
+        id.setId(new Text("90210"));
         mapper.map(id, entity, context);
     }
-    */
 }

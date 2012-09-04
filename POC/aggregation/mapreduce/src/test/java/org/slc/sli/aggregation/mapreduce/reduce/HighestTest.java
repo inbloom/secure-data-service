@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.reduce;
+package org.slc.sli.aggregation.mapreduce.reduce;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,9 +37,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
+import org.slc.sli.aggregation.functions.Highest;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
@@ -54,8 +55,9 @@ public class HighestTest {
     public void testReduce() throws Exception {
         Highest toTest = new Highest();
 
-        IdFieldEmittableKey id = new IdFieldEmittableKey("body.test.id");
+        TenantAndIdEmittableKey id = new TenantAndIdEmittableKey("metaData.tenatnId", "body.test.id");
         id.setId(new Text("MytestId"));
+        id.setTenantId(new Text("Tenant1"));
 
         ArrayList<BSONWritable> results = new ArrayList<BSONWritable>();
 
@@ -85,15 +87,15 @@ public class HighestTest {
                 assertNotNull(args);
                 assertEquals(args.length, 2);
 
-                assertTrue(args[0] instanceof IdFieldEmittableKey);
+                assertTrue(args[0] instanceof TenantAndIdEmittableKey);
                 assertTrue(args[1] instanceof BSONWritable);
 
-                IdFieldEmittableKey id = (IdFieldEmittableKey) args[0];
+                TenantAndIdEmittableKey id = (TenantAndIdEmittableKey) args[0];
                 assertEquals(id.getIdField().toString(), "body.test.id");
                 assertEquals(id.getId().toString(), "MytestId");
 
                 BSONWritable e = (BSONWritable) args[1];
-                String val = BSONUtilities.getValue(e, "test.reduce.output.field");
+                String val = BSONUtilities.getValue(e, "calculatedValues.assessments.State Math for Grade 5.Highest");
                 assertNotNull(val);
                 assertEquals(31.0D, Double.parseDouble(val), 0.001D);
                 return null;
@@ -101,7 +103,8 @@ public class HighestTest {
         });
 
         Configuration conf = new Configuration();
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "test.reduce.output.field");
+
+        conf.set(JobConfiguration.CONFIGURATION_PROPERTY, "CalculatedValue.json");
         PowerMockito.when(context, "getConfiguration").thenReturn(conf);
 
         toTest.reduce(id, results, context);

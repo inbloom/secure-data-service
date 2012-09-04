@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.io;
+package org.slc.sli.aggregation.mapreduce.io;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,30 +37,30 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ UserGroupInformation.class, MongoConfigUtil.class })
 public class MongoAggFormatterTest {
-    
+
     /**
      * Test method for
      * {@link org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter#getRecordWriter(org.apache.hadoop.mapreduce.TaskAttemptContext)}
      * .
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testGetRecordWriter() throws Exception {
-        
+
         DBCollection mockCollection = Mockito.mock(DBCollection.class);
         UserGroupInformation ugi = Mockito.mock(UserGroupInformation.class);
-        
+
         PowerMockito.mockStatic(UserGroupInformation.class);
-        
+
         Mockito.when(UserGroupInformation.getCurrentUser()).thenReturn(ugi);
-        
+
         TaskAttemptContext c = new MockTaskAttemptContext();
         Configuration config = c.getConfiguration();
-        
+
         PowerMockito.mockStatic(MongoConfigUtil.class);
         Mockito.when(MongoConfigUtil.getOutputCollection(config)).thenReturn(mockCollection);
-        
+
         MongoAggFormatter f = new MongoAggFormatter();
         assertTrue(f.getRecordWriter(new MockTaskAttemptContext()) instanceof MongoAggWriter);
     }

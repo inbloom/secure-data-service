@@ -15,4 +15,6 @@ public interface Level1Client {
     URI post(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException;
     
     void put(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException;
+
+    void patch(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException;
 }

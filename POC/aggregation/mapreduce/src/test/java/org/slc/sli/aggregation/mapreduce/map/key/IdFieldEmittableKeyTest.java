@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map.key;
+package org.slc.sli.aggregation.mapreduce.map.key;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

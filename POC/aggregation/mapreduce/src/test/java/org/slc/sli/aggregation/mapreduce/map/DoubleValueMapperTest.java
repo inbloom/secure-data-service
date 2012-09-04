@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
-import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
 import org.bson.BSONObject;
@@ -30,43 +30,43 @@ import org.bson.BasicBSONObject;
 import org.junit.Test;
 
 /**
- * LongValueMapperTest
+ * DoubleValueMapperTest
  */
-public class LongValueMapperTest {
+public class DoubleValueMapperTest {
 
     @Test
     public void testGetValue() {
-        BSONObject field = new BasicBSONObject("field", 123L);
-        BSONObject entry = new BasicBSONObject("long", field);
+        BSONObject field = new BasicBSONObject("field", 1.312D);
+        BSONObject entry = new BasicBSONObject("double", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        LongValueMapper mapper = new LongValueMapper("long.field");
+        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
 
         Writable value = mapper.getValue(entity);
         assertFalse(value instanceof NullWritable);
-        assertTrue(value instanceof LongWritable);
-        assertEquals(((LongWritable) value).get(), 123L);
+        assertTrue(value instanceof DoubleWritable);
+        assertEquals(((DoubleWritable) value).get(), 1.312D, 0.05);
     }
 
     @Test
     public void testValueNotFound() {
-        BSONObject field = new BasicBSONObject("field", 123L);
-        BSONObject entry = new BasicBSONObject("long", field);
+        BSONObject field = new BasicBSONObject("field", 1.312D);
+        BSONObject entry = new BasicBSONObject("double", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        LongValueMapper mapper = new LongValueMapper("long.missing_field");
+        DoubleValueMapper mapper = new DoubleValueMapper("double.missing_field");
 
         Writable value = mapper.getValue(entity);
         assertTrue(value instanceof NullWritable);
     }
 
     @Test
-    public void testValueNotLong() {
-        BSONObject field = new BasicBSONObject("field", true);
-        BSONObject entry = new BasicBSONObject("long", field);
+    public void testGetValueNotDouble() {
+        BSONObject field = new BasicBSONObject("field", "Bob");
+        BSONObject entry = new BasicBSONObject("double", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        LongValueMapper mapper = new LongValueMapper("long.field");
+        DoubleValueMapper mapper = new DoubleValueMapper("double.field");
 
         Writable value = mapper.getValue(entity);
         assertTrue(value instanceof NullWritable);

@@ -87,6 +87,25 @@ public abstract class AbstractLevel1Client implements Level1Client {
         client.put(token, sw.toString(), uri, getMediaType());
         
     }
+
+    @Override
+    public void patch(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (uri == null) {
+            throw new NullPointerException("uri");
+        }
+        if (data == null) {
+            throw new NullPointerException("data");
+        }
+
+        final StringWriter sw = new StringWriter();
+        mapper.writeValue(sw, data);
+
+        client.patch(token, sw.toString(), uri, getMediaType());
+
+    }
     
     private List<Entity> deserialize(final String body) throws IOException {
         try {
