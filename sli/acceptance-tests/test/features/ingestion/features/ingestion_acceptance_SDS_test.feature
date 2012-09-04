@@ -527,9 +527,9 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | attendance                            | 23    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -538,11 +538,11 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | educationOrganization                 | 1     |
      | grade                                 | 4     |
      | gradebookEntry                        | 4     |
-     | gradingPeriod                         | 12    |
+     | gradingPeriod                         | 15    |
      | graduationPlan                        | 0     |
      | learningObjective                     | 0     |
      | learningStandard                      | 0     |
-     | parent                                | 7     |
+     | parent                                | 9     |
      | performanceLevelDescriptor            | 0     |
      | program                               | 0     |
      | reportCard                            | 2     |
@@ -553,7 +553,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 3     |
      | staffProgramAssociation               | 0     |
-     | student                               | 26    |
+     | student                               | 27    |
      | studentAcademicRecord                 | 9     |
      | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
@@ -561,7 +561,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentCompetencyObjective            | 4     |
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
-     | studentParentAssociation              | 7     |
+     | studentParentAssociation              | 9     |
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
