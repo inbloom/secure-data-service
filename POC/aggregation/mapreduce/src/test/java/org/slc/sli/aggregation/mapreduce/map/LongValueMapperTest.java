@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.map;
+package org.slc.sli.aggregation.mapreduce.map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,46 +22,53 @@ import static org.junit.Assert.assertTrue;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.junit.Test;
 
-
 /**
- * EnumValueMapperTest
+ * LongValueMapperTest
  */
-public class EnumValueMapperTest {
-
-    private enum Testing { TEST1, TEST2, TEST3 };
+public class LongValueMapperTest {
 
     @Test
     public void testGetValue() {
-
-        BSONObject field = new BasicBSONObject("field", "TEST1");
-        BSONObject entry = new BasicBSONObject("enum", field);
+        BSONObject field = new BasicBSONObject("field", 123L);
+        BSONObject entry = new BasicBSONObject("long", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
+        LongValueMapper mapper = new LongValueMapper("long.field");
 
-        Writable value = m.getValue(entity);
+        Writable value = mapper.getValue(entity);
         assertFalse(value instanceof NullWritable);
-        assertTrue(value instanceof Text);
-        assertEquals(((Text) value).toString(), Testing.TEST1.toString());
+        assertTrue(value instanceof LongWritable);
+        assertEquals(((LongWritable) value).get(), 123L);
     }
 
     @Test
-    public void testGetValueNotFound() {
-
-        BSONObject field = new BasicBSONObject("field", "Unknown");
-        BSONObject entry = new BasicBSONObject("enum", field);
+    public void testValueNotFound() {
+        BSONObject field = new BasicBSONObject("field", 123L);
+        BSONObject entry = new BasicBSONObject("long", field);
         BSONWritable entity = new BSONWritable(entry);
 
-        EnumValueMapper<Testing> m = new EnumValueMapper<Testing>("enum.field", Testing.class);
+        LongValueMapper mapper = new LongValueMapper("long.missing_field");
 
-        Writable value = m.getValue(entity);
+        Writable value = mapper.getValue(entity);
+        assertTrue(value instanceof NullWritable);
+    }
+
+    @Test
+    public void testValueNotLong() {
+        BSONObject field = new BasicBSONObject("field", true);
+        BSONObject entry = new BasicBSONObject("long", field);
+        BSONWritable entity = new BSONWritable(entry);
+
+        LongValueMapper mapper = new LongValueMapper("long.field");
+
+        Writable value = mapper.getValue(entity);
         assertTrue(value instanceof NullWritable);
     }
 }

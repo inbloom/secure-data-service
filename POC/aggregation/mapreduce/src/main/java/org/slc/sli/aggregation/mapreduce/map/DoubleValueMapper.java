@@ -29,7 +29,7 @@ import org.slc.sli.aggregation.util.BSONUtilities;
 /**
  * DoubleValueMapper - mongo value mapper that emits double values.
  */
-class DoubleValueMapper extends ValueMapper {
+public class DoubleValueMapper extends ValueMapper {
 
     private Logger log = Logger.getLogger("DoubleValueMapper");
 

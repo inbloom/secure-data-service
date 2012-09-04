@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.stamper.mapreduce.io;
+package org.slc.sli.aggregation.mapreduce.io;
 
 import java.io.IOException;
 import java.net.URI;
@@ -40,8 +40,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
     protected Configuration conf = new Configuration();
 
     public MockTaskAttemptContext() throws IOException {
-        conf.set(MongoAggFormatter.KEY_FIELD, "_id");
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "body.name");
         conf.set("mongo.output.uri", "mongodb://test.server:27017/test.collection");
     }
 
@@ -134,7 +132,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public Class<? extends Partitioner<?, ?>> getPartitionerClass() throws ClassNotFoundException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -147,7 +144,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public RawComparator<?> getSortComparator() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -160,7 +156,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String getJar() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -173,7 +168,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public RawComparator<?> getGroupingComparator() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -186,7 +180,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public boolean getJobSetupCleanupNeeded() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -199,7 +192,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public boolean getProfileEnabled() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -212,7 +204,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String getProfileParams() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -225,7 +216,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String getUser() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -238,7 +228,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public boolean getSymlink() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -251,7 +240,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public Path[] getArchiveClassPaths() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -264,7 +252,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public URI[] getCacheArchives() throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -277,7 +264,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public URI[] getCacheFiles() throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -290,7 +276,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public Path[] getLocalCacheArchives() throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -303,7 +288,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public Path[] getLocalCacheFiles() throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -316,7 +300,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public Path[] getFileClassPaths() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -329,7 +312,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String[] getArchiveTimestamps() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -342,7 +324,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String[] getFileTimestamps() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -355,7 +336,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public int getMaxMapAttempts() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -368,7 +348,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public int getMaxReduceAttempts() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -381,8 +360,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public void progress() {
-        // TODO Auto-generated method stub
-
     }
 
     /*
@@ -394,7 +371,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public TaskAttemptID getTaskAttemptID() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -407,8 +383,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public void setStatus(String msg) {
-        // TODO Auto-generated method stub
-
     }
 
     /*
@@ -420,7 +394,6 @@ public class MockTaskAttemptContext implements TaskAttemptContext {
      */
     @Override
     public String getStatus() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

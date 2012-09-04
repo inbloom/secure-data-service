@@ -17,35 +17,22 @@
 package org.slc.sli.aggregation.mapreduce.io;
 
 import com.mongodb.hadoop.input.MongoInputSplit;
-import com.mongodb.hadoop.input.MongoRecordReader;
 import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputSplit;
-import org.apache.hadoop.mapreduce.RecordReader;
 import org.bson.BSONObject;
 
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 import org.slc.sli.aggregation.util.BSONUtilities;
 
 /**
- * MongoAggReader
- *
+ * MongoTenantAndIdRecordReader
  */
-public class MongoIdRecordReader extends RecordReader<EmittableKey, BSONWritable> {
+public class MongoTenantAndIdRecordReader extends MongoIdRecordReader {
 
-    protected MongoRecordReader privateReader = null;
-    protected String keyField;
-
-    public MongoIdRecordReader(MongoInputSplit split) {
-        privateReader = new MongoRecordReader(split);
-        this.keyField = split.getKeyField();
-    }
-
-    @Override
-    public void close() {
-        privateReader.close();
+    public MongoTenantAndIdRecordReader(MongoInputSplit split) {
+        super(split);
     }
 
     @Override
@@ -53,9 +40,11 @@ public class MongoIdRecordReader extends RecordReader<EmittableKey, BSONWritable
         BSONObject obj = privateReader.getCurrentValue();
 
         String id = BSONUtilities.getValue(obj, keyField);
+        String tenantId = BSONUtilities.getValue(obj, "metaData.tenantId");
 
-        IdFieldEmittableKey rval = new IdFieldEmittableKey(keyField);
+        TenantAndIdEmittableKey rval = new TenantAndIdEmittableKey();
         rval.setId(new Text(id));
+        rval.setTenantId(new Text(tenantId));
         return rval;
     }
 
@@ -64,18 +53,4 @@ public class MongoIdRecordReader extends RecordReader<EmittableKey, BSONWritable
         return new BSONWritable(privateReader.getCurrentValue());
     }
 
-    @Override
-    public float getProgress() {
-        return privateReader.getProgress();
-    }
-
-    @Override
-    public void initialize(InputSplit split, org.apache.hadoop.mapreduce.TaskAttemptContext context) {
-        privateReader.initialize(split, context);
-    }
-
-    @Override
-    public boolean nextKeyValue() {
-        return privateReader.nextKeyValue();
-    }
 }
