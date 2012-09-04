@@ -27,7 +27,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -173,11 +172,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public void createCollection(String collection) {
-        // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
         // To change body of implemented methods use File | Settings | File Templates.
     }
 

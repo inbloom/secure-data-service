@@ -35,7 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
@@ -126,12 +125,6 @@ public class ReferenceSchemaTest {
 
         @Override
         public void createCollection(String collection) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void ensureIndex(IndexDefinition index, String collection) {
             // TODO Auto-generated method stub
 
         }

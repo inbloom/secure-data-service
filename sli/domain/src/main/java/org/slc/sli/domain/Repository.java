@@ -23,7 +23,6 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -275,16 +274,6 @@ public interface Repository<T> {
      * @param collection
      */
     public void createCollection(String collection);
-
-    /**
-     * ensureIndex for a collection the database
-     *
-     * @param index
-     *            : the index to be ensured
-     * @param collection
-     *            : name of collection
-     */
-    public void ensureIndex(IndexDefinition index, String collection);
 
     /**
      * Supports configuring a write concern on a repository.

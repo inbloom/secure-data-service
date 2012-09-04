@@ -25,7 +25,6 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -144,11 +143,6 @@ public class MockPerfRepo implements Repository<Entity> {
 
     @Override
     public void createCollection(String collection) {
-
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
 
     }
 
