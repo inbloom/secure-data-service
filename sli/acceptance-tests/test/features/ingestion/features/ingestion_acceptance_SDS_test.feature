@@ -248,6 +248,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
+@ingstamp
 Scenario: Check the collections: Clean Database
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                             | searchType           |
@@ -389,6 +390,7 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
+@stamp
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |

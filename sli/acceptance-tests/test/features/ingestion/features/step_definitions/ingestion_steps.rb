@@ -1338,15 +1338,17 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
-Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |tenantId, stateOrganizationId, table|
+Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+  @result = "true"
+  
   @db = @conn[INGESTION_DB_NAME]
   @edOrgCollection = @db.collection("educationOrganization")
-  @edOrgEntity = edOrgCollection.find_one("metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId)
+  @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
   @stateOrganizationId = @edOrgEntity['_id']
   
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find(@stateOrganizationId => {"$in" => "metaData.edOrgs"}).count().to_i
+    @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
