@@ -248,7 +248,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@ingstamp
+@smoke @ingstamp
 Scenario: Check the collections: Clean Database
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                             | searchType           |
@@ -390,7 +390,7 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
-@ingstamp @stamp
+@smoke @ingstamp
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -542,7 +542,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | graduationPlan                        | 0     |
      | learningObjective                     | 0     |
      | learningStandard                      | 0     |
-     | parent                                | 9     |
+     | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
      | program                               | 0     |
      | reportCard                            | 2     |
@@ -553,19 +553,19 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 3     |
      | staffProgramAssociation               | 0     |
-     | student                               | 27    |
-     | studentAcademicRecord                 | 15    |
-     | studentAssessmentAssociation          | 23    |
+     | student                               | 26    |
+     | studentAcademicRecord                 | 9     |
+     | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
      | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 108   |
-     | studentParentAssociation              | 9     |
+     | studentGradebookEntry                 | 105   |
+     | studentParentAssociation              | 7     |
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 55    |
-     | studentSectionAssociation             | 144   |
-     | studentTranscriptAssociation          | 84    |
+     | studentSectionAssociation             | 107   |
+     | studentTranscriptAssociation          | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
@@ -681,7 +681,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
-@ingstamp @stamp
+@ingstamp
 Scenario: Verify ingestion inline context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -732,7 +732,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 1     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -779,7 +779,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 40    |
-     | courseOffering                        | 42    |
+     | courseOffering                        | 41    |
      | disciplineAction                      | 0     |
      | disciplineIncident                    | 0     |
      | educationOrganization                 | 1     |
@@ -806,7 +806,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 1     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
      | studentProgramAssociation             | 0     |
@@ -818,9 +818,9 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | attendance                            | 23    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -829,7 +829,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | educationOrganization                 | 1     |
      | grade                                 | 4     |
      | gradebookEntry                        | 4     |
-     | gradingPeriod                         | 12    |
+     | gradingPeriod                         | 15    |
      | graduationPlan                        | 0     |
      | learningObjective                     | 0     |
      | learningStandard                      | 0     |
@@ -868,7 +868,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | compentencyLevelDescriptor            | 0     |
      | course                                | 25    |
      | courseOffering                        | 25    |
-     | disciplineAction                      | 0     |
+     | disciplineAction                      | 2     |
      | disciplineIncident                    | 2     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
@@ -1063,7 +1063,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@wip
+@ingstamp @stamp
 Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -1114,7 +1114,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 1     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -1160,7 +1160,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
-     | course                                | 39    |
+     | course                                | 40    |
      | courseOffering                        | 41    |
      | disciplineAction                      | 0     |
      | disciplineIncident                    | 0     |
@@ -1188,7 +1188,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 1     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
      | studentProgramAssociation             | 0     |
@@ -1200,9 +1200,9 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | attendance                            | 23    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -1211,7 +1211,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | educationOrganization                 | 1     |
      | grade                                 | 4     |
      | gradebookEntry                        | 4     |
-     | gradingPeriod                         | 12    |
+     | gradingPeriod                         | 15    |
      | graduationPlan                        | 0     |
      | learningObjective                     | 0     |
      | learningStandard                      | 0     |
@@ -1248,9 +1248,9 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
-     | course                                | 26    |
-     | courseOffering                        | 26    |
-     | disciplineAction                      | 0     |
+     | course                                | 25    |
+     | courseOffering                        | 25    |
+     | disciplineAction                      | 2     |
      | disciplineIncident                    | 2     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
@@ -1452,7 +1452,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -1496,7 +1496,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -1540,7 +1540,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -1558,7 +1558,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | compentencyLevelDescriptor            | 0     |
      | course                                | 2     |
      | courseOffering                        | 2     |
-     | disciplineAction                      | 0     |
+     | disciplineAction                      | 1     |
      | disciplineIncident                    | 2     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
@@ -1584,7 +1584,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
+     | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -1647,7 +1647,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | course                                | 2     |
      | courseOffering                        | 2     |
      | disciplineAction                      | 1     |
-     | disciplineIncident                    | 2     |
+     | disciplineIncident                    | 0     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
      | gradebookEntry                        | 0     |
@@ -1672,7 +1672,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -1908,7 +1908,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
 
-@wip
+@ingstamp
 Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -2620,62 +2620,7 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 103   |
         | studentAcademicRecord       | 117   |
 
-@IL-Daybreak
-Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
-	Given I should see following map of entry counts in the corresponding collections:
-        | collectionName              | count |
-        | gradebookEntry              | 12    |
-        | studentGradebookEntry       | 315   |
-        | studentCompetency           | 59    |
-        | grade                       | 4     |
-        | reportCard                  | 2     |
-        | staffCohortAssociation      | 3     |
-        | staffProgramAssociation     | 3     |
-	And I check to find if record is in collection:
-        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
-        | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
-        | studentGradebookEntry       | 0                   | body.letterGradeEarned         | Q                       | string               |
-        | studentCompetency           | 0                   | body.competencyLevel.codeValue | 99                      | string               |
-        | grade                       | 0                   | body.letterGradeEarned         | U                       | string               |
-        | reportCard                  | 0                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
-        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
-        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
-        | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
-	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
-	And zip file is scp to ingestion landing zone
-	And a batch job log has been created
-	Then I should see following map of entry counts in the corresponding collections:
-        | collectionName              | count |
-        | gradebookEntry              | 12    |
-        | studentGradebookEntry       | 315   |
-        | studentCompetency           | 59    |
-        | grade                       | 4     |
-        | reportCard                  | 2     |
-        | staffCohortAssociation      | 4     |
-        | staffProgramAssociation     | 4     |
-	And I check to find if record is in collection:
-        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
-        | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
-        | studentGradebookEntry       | 1                   | body.letterGradeEarned         | Q                       | string               |
-        | studentCompetency           | 1                   | body.competencyLevel.codeValue | 99                      | string               |
-        | grade                       | 1                   | body.letterGradeEarned         | U                       | string               |
-        | reportCard                  | 1                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
-        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
-        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |
-
-@wip
+@ingstamp
 Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -3206,3 +3151,57 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
 
+@IL-Daybreak
+Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
+	Given I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | gradebookEntry              | 12    |
+        | studentGradebookEntry       | 315   |
+        | studentCompetency           | 59    |
+        | grade                       | 4     |
+        | reportCard                  | 2     |
+        | staffCohortAssociation      | 3     |
+        | staffProgramAssociation     | 3     |
+	And I check to find if record is in collection:
+        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
+        | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
+        | studentGradebookEntry       | 0                   | body.letterGradeEarned         | Q                       | string               |
+        | studentCompetency           | 0                   | body.competencyLevel.codeValue | 99                      | string               |
+        | grade                       | 0                   | body.letterGradeEarned         | U                       | string               |
+        | reportCard                  | 0                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
+	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
+	And zip file is scp to ingestion landing zone
+	And a batch job log has been created
+	Then I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | gradebookEntry              | 12    |
+        | studentGradebookEntry       | 315   |
+        | studentCompetency           | 59    |
+        | grade                       | 4     |
+        | reportCard                  | 2     |
+        | staffCohortAssociation      | 4     |
+        | staffProgramAssociation     | 4     |
+	And I check to find if record is in collection:
+        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
+        | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
+        | studentGradebookEntry       | 1                   | body.letterGradeEarned         | Q                       | string               |
+        | studentCompetency           | 1                   | body.competencyLevel.codeValue | 99                      | string               |
+        | grade                       | 1                   | body.letterGradeEarned         | U                       | string               |
+        | reportCard                  | 1                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
+        | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |
