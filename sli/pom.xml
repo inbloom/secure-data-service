@@ -39,6 +39,8 @@
 		<springdata-mongodb-version>1.0.4.RELEASE</springdata-mongodb-version>
 		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
+		<!-- MongoDB Java Driver Version -->
+                <mongodb.java.driver.version>2.9.0</mongodb.java.driver.version>
 
 		<!-- Java EE Versions -->
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
@@ -301,6 +303,14 @@
 				<scope>test</scope>
 			</dependency>
 
+
+			<!-- MongoDB Java Driver -->
+
+		        <dependency>
+			    <groupId>org.mongodb</groupId>
+			    <artifactId>mongo-java-driver</artifactId>
+			    <version>${mongodb.java.driver.version}</version>
+		        </dependency>
 
 			<!-- Spring Framework -->
 
