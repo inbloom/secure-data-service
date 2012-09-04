@@ -390,7 +390,7 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
-@stamp
+@ingstamp
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -441,7 +441,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 1     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
