@@ -148,7 +148,7 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the "small" data to preload is stored for the tenant in mongo
 And the user gets a success message indicating preloading has been triggered
-Then "5" seconds have elapsed
+Then "10" seconds have elapsed
 When the developer go to the provisioning application web page
 When the developer selects to preload "Small Dataset"
 Then the user gets an error message
