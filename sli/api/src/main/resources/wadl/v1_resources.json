@@ -31,9 +31,7 @@
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courseOfferings/sessions" },
         { "path": "/{id}/courseTranscripts" },
-        { "path": "/{id}/courseTranscripts/students" },
-        { "path": "/{id}/studentParentAssociations" },
-        { "path": "/{id}/studentParentAssociations/students" }
+        { "path": "/{id}/courseTranscripts/students" }
       ]
     },
     {
