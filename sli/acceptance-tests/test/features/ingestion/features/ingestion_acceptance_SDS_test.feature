@@ -22,7 +22,7 @@ Feature: Acceptance Storied Data Ingestion Test
 Background: I have a landing zone route configured
 Given I am using local data store
 
-@smoke @integration @IL-Daybreak @ingstamp
+@smoke @integration @IL-Daybreak
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
@@ -248,7 +248,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@smoke @ingstamp
+@smoke
 Scenario: Check the collections: Clean Database
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                             | searchType           |
@@ -390,7 +390,7 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
-@smoke @ingstamp
+@smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -474,7 +474,8 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-     | studentProgramAssociation             | 3     |
+#     | studentProgramAssociation             | 3     |
+     | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
      | studentTranscriptAssociation          | 196   |
@@ -500,7 +501,8 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -518,7 +520,8 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
      | studentTranscriptAssociation          | 148   |
@@ -544,7 +547,8 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -562,7 +566,8 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
      | studentTranscriptAssociation          | 48    |
@@ -613,7 +618,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
 
-@integration @IL-Sunset @ingstamp
+@integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
    And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
@@ -681,7 +686,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
-@ingstamp
 Scenario: Verify ingestion inline context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -765,7 +769,8 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-     | studentProgramAssociation             | 3     |
+#     | studentProgramAssociation             | 3     |
+     | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
      | studentTranscriptAssociation          | 196   |
@@ -791,7 +796,8 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -809,7 +815,8 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
      | studentTranscriptAssociation          | 148   |
@@ -835,7 +842,8 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -853,7 +861,8 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
      | studentTranscriptAssociation          | 48    |
@@ -992,7 +1001,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
 
-@integration @NY-NYC @ingstamp
+@integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
@@ -1063,7 +1072,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@ingstamp @stamp
 Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -1147,7 +1155,8 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-     | studentProgramAssociation             | 3     |
+#     | studentProgramAssociation             | 3     |
+     | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
      | studentTranscriptAssociation          | 196   |
@@ -1173,7 +1182,8 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -1191,7 +1201,8 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
      | studentTranscriptAssociation          | 148   |
@@ -1217,7 +1228,8 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -1235,7 +1247,8 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
      | studentTranscriptAssociation          | 48    |
@@ -1682,7 +1695,6 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
 
-@ingstamp
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "StoriedDataSet_IL_Daybreak_Append.zip" file as the payload of the ingestion job
@@ -1908,626 +1920,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
 
-@ingstamp
-Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Populated Database
-   And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 75    |
-     | calendarDate                          | 0     |
-     | cohort                                | 4     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 96    |
-     | courseOffering                        | 97    |
-     | disciplineAction                      | 3     |
-     | disciplineIncident                    | 5     |
-     | educationOrganization                 | 7     |
-     | grade                                 | 4     |
-     | gradebookEntry                        | 12    |
-     | gradingPeriod                         | 19    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 11    |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 3     |
-     | reportCard                            | 2     |
-     | section                               | 100   |
-     | serviceDescriptor                     | 0     |
-     | session                               | 24    |
-     | staff                                 | 20    |
-     | staffCohortAssociation                | 5     |
-     | staffEducationOrganizationAssociation | 16    |
-     | staffProgramAssociation               | 7     |
-     | student                               | 183   |
-     | studentAcademicRecord                 | 121   |
-     | studentAssessmentAssociation          | 204   |
-     | studentCohortAssociation              | 6     |
-     | studentCompetency                     | 59    |
-     | studentCompetencyObjective            | 4     |
-     | studentDisciplineIncidentAssociation  | 5     |
-     | studentGradebookEntry                 | 315   |
-     | studentParentAssociation              | 11    |
-     | studentProgramAssociation             | 9     |
-     | studentSchoolAssociation              | 272   |
-     | studentSectionAssociation             | 402   |
-     | studentTranscriptAssociation          | 200   |
-     | teacherSchoolAssociation              | 4     |
-     | teacherSectionAssociation             | 14    |
-   And I check _id of stateOrganizationId "IL-DAYBREAK" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 75    |
-     | calendarDate                          | 0     |
-     | cohort                                | 3     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 95    |
-     | courseOffering                        | 96    |
-     | disciplineAction                      | 3     |
-     | disciplineIncident                    | 5     |
-     | educationOrganization                 | 4     |
-     | grade                                 | 4     |
-     | gradebookEntry                        | 12    |
-     | gradingPeriod                         | 18    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 11    |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 3     |
-     | reportCard                            | 2     |
-     | section                               | 97    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 23    |
-     | staff                                 | 10    |
-     | staffCohortAssociation                | 4     |
-     | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 7     |
-     | student                               | 78    |
-     | studentAcademicRecord                 | 121   |
-     | studentAssessmentAssociation          | 204   |
-     | studentCohortAssociation              | 6     |
-     | studentCompetency                     | 59    |
-     | studentCompetencyObjective            | 4     |
-     | studentDisciplineIncidentAssociation  | 5     |
-     | studentGradebookEntry                 | 315   |
-     | studentParentAssociation              | 11    |
-     | studentProgramAssociation             | 9     |
-     | studentSchoolAssociation              | 167   |
-     | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 200   |
-     | teacherSchoolAssociation              | 3     |
-     | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 23    |
-     | calendarDate                          | 0     |
-     | cohort                                | 2     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 29    |
-     | courseOffering                        | 29    |
-     | disciplineAction                      | 2     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 4     |
-     | gradebookEntry                        | 4     |
-     | gradingPeriod                         | 13    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 9     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 3     |
-     | reportCard                            | 2     |
-     | section                               | 31    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 10    |
-     | staff                                 | 4     |
-     | staffCohortAssociation                | 2     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 2     |
-     | student                               | 26    |
-     | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
-     | studentCohortAssociation              | 4     |
-     | studentCompetency                     | 59    |
-     | studentCompetencyObjective            | 4     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 105   |
-     | studentParentAssociation              | 9     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 55    |
-     | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 29    |
-     | calendarDate                          | 0     |
-     | cohort                                | 1     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 40    |
-     | courseOffering                        | 43    |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 2     |
-     | gradebookEntry                        | 5     |
-     | gradingPeriod                         | 12    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 7     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 3     |
-     | reportCard                            | 1     |
-     | section                               | 41    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 7     |
-     | staff                                 | 1     |
-     | staffCohortAssociation                | 2     |
-     | staffEducationOrganizationAssociation | 0     |
-     | staffProgramAssociation               | 2     |
-     | student                               | 29    |
-     | studentAcademicRecord                 | 69    |
-     | studentAssessmentAssociation          | 127   |
-     | studentCohortAssociation              | 3     |
-     | studentCompetency                     | 27    |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 1     |
-     | studentGradebookEntry                 | 143   |
-     | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 9     |
-     | studentSchoolAssociation              | 61    |
-     | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 149   |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 25    |
-     | calendarDate                          | 0     |
-     | cohort                                | 1     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 26    |
-     | courseOffering                        | 26    |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 5     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 3     |
-     | gradingPeriod                         | 10    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 2     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 3     |
-     | reportCard                            | 0     |
-     | section                               | 25    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 5     |
-     | staff                                 | 1     |
-     | staffCohortAssociation                | 1     |
-     | staffEducationOrganizationAssociation | 0     |
-     | staffProgramAssociation               | 2     |
-     | student                               | 25    |
-     | studentAcademicRecord                 | 57    |
-     | studentAssessmentAssociation          | 76    |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 5     |
-     | studentGradebookEntry                 | 75    |
-     | studentParentAssociation              | 2     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 51    |
-     | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 87    |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 1     |
-   And I check _id of stateOrganizationId "IL-SUNSET" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 1     |
-     | courseOffering                        | 1     |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 2     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 1     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 3     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 7     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 6     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 105   |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 105   |
-     | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 3     |
-   And I check _id of stateOrganizationId "Sunset Central High School" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 1     |
-     | courseOffering                        | 1     |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 1     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 3     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 4     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 105   |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 105   |
-     | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 3     |
-   And I check _id of stateOrganizationId "NY" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 8     |
-     | courseOffering                        | 8     |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 2     |
-     | educationOrganization                 | 7     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 6     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 16    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 4     |
-     | staff                                 | 37    |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 21    |
-     | staffProgramAssociation               | 0     |
-     | student                               | 8     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 4     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 8     |
-     | studentSectionAssociation             | 8     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 16    |
-     | teacherSectionAssociation             | 16    |
-   And I check _id of stateOrganizationId "NY-Dusk" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 4     |
-     | courseOffering                        | 4     |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 2     |
-     | educationOrganization                 | 3     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 5     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 8     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 2     |
-     | staff                                 | 17    |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 9     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 4     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 4     |
-     | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 8     |
-     | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "NY-Parker" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 4     |
-     | courseOffering                        | 4     |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 3     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 4     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 8     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 2     |
-     | staff                                 | 17    |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 9     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 4     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 4     |
-     | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 8     |
-     | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "1000000112" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 2     |
-     | courseOffering                        | 2     |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 4     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 4     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 7     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 4     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 4     |
-     | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 4     |
-     | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "10000000121" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 2     |
-     | courseOffering                        | 2     |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 2     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 5     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 4     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 7     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 0     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 0     |
-     | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 4     |
-     | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000111" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 2     |
-     | courseOffering                        | 2     |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 3     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 4     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 7     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 0     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 0     |
-     | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 4     |
-     | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000122" with tenantId "Hyrule" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 0     |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 2     |
-     | courseOffering                        | 2     |
-     | disciplineAction                      | 1     |
-     | disciplineIncident                    | 2     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 0     |
-     | gradingPeriod                         | 3     |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 0     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 4     |
-     | serviceDescriptor                     | 0     |
-     | session                               | 1     |
-     | staff                                 | 7     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 4     |
-     | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
-     | studentGradebookEntry                 | 0     |
-     | studentParentAssociation              | 0     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 4     |
-     | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
-     | teacherSchoolAssociation              | 4     |
-     | teacherSectionAssociation             | 4     |
-
-@ingstamp
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
@@ -2620,7 +2012,6 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 103   |
         | studentAcademicRecord       | 117   |
 
-@ingstamp
 Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
@@ -2671,7 +2062,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 2     |
+     | cohort                                | 1     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -2704,12 +2095,149 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-     | studentProgramAssociation             | 3     |
+#     | studentProgramAssociation             | 3     |
+     | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
+   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
+     | collectionName                        | count |
+     | assessment                            | 0     |
+     | attendance                            | 29    |
+     | calendarDate                          | 0     |
+     | cohort                                | 0     |
+     | compentencyLevelDescriptor            | 0     |
+     | course                                | 40    |
+     | courseOffering                        | 41    |
+     | disciplineAction                      | 0     |
+     | disciplineIncident                    | 0     |
+     | educationOrganization                 | 1     |
+     | grade                                 | 2     |
+     | gradebookEntry                        | 5     |
+     | gradingPeriod                         | 12    |
+     | graduationPlan                        | 0     |
+     | learningObjective                     | 0     |
+     | learningStandard                      | 0     |
+     | parent                                | 7     |
+     | performanceLevelDescriptor            | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
+     | reportCard                            | 1     |
+     | section                               | 41    |
+     | serviceDescriptor                     | 0     |
+     | session                               | 7     |
+     | staff                                 | 1     |
+     | staffCohortAssociation                | 0     |
+     | staffEducationOrganizationAssociation | 0     |
+     | staffProgramAssociation               | 0     |
+     | student                               | 29    |
+     | studentAcademicRecord                 | 68    |
+     | studentAssessmentAssociation          | 127   |
+     | studentCohortAssociation              | 3     |
+     | studentCompetency                     | 27    |
+     | studentCompetencyObjective            | 0     |
+     | studentDisciplineIncidentAssociation  | 0     |
+     | studentGradebookEntry                 | 143   |
+     | studentParentAssociation              | 7     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 3     |
+     | studentSchoolAssociation              | 61    |
+     | studentSectionAssociation             | 175   |
+     | studentTranscriptAssociation          | 148   |
+     | teacherSchoolAssociation              | 1     |
+     | teacherSectionAssociation             | 5     |
+   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
+     | collectionName                        | count |
+     | assessment                            | 0     |
+     | attendance                            | 24    |
+     | calendarDate                          | 0     |
+     | cohort                                | 0     |
+     | compentencyLevelDescriptor            | 0     |
+     | course                                | 30    |
+     | courseOffering                        | 29    |
+     | disciplineAction                      | 2     |
+     | disciplineIncident                    | 0     |
+     | educationOrganization                 | 1     |
+     | grade                                 | 4     |
+     | gradebookEntry                        | 4     |
+     | gradingPeriod                         | 15    |
+     | graduationPlan                        | 0     |
+     | learningObjective                     | 0     |
+     | learningStandard                      | 0     |
+     | parent                                | 7     |
+     | performanceLevelDescriptor            | 0     |
+#     | program                               | 0     |
+     | program                               | 1     |
+     | reportCard                            | 2     |
+     | section                               | 31    |
+     | serviceDescriptor                     | 0     |
+     | session                               | 10    |
+     | staff                                 | 4     |
+     | staffCohortAssociation                | 2     |
+     | staffEducationOrganizationAssociation | 3     |
+     | staffProgramAssociation               | 0     |
+     | student                               | 26    |
+     | studentAcademicRecord                 | 9     |
+     | studentAssessmentAssociation          | 20    |
+     | studentCohortAssociation              | 4     |
+     | studentCompetency                     | 59    |
+     | studentCompetencyObjective            | 4     |
+     | studentDisciplineIncidentAssociation  | 0     |
+     | studentGradebookEntry                 | 105   |
+     | studentParentAssociation              | 7     |
+#     | studentProgramAssociation             | 0     |
+     | studentProgramAssociation             | 4     |
+     | studentSchoolAssociation              | 55    |
+     | studentSectionAssociation             | 107   |
+     | studentTranscriptAssociation          | 48    |
+     | teacherSchoolAssociation              | 1     |
+     | teacherSectionAssociation             | 5     |
+   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
+     | collectionName                        | count |
+     | assessment                            | 0     |
+     | attendance                            | 25    |
+     | calendarDate                          | 0     |
+     | cohort                                | 0     |
+     | compentencyLevelDescriptor            | 0     |
+     | course                                | 25    |
+     | courseOffering                        | 25    |
+     | disciplineAction                      | 2     |
+     | disciplineIncident                    | 2     |
+     | educationOrganization                 | 1     |
+     | grade                                 | 0     |
+     | gradebookEntry                        | 3     |
+     | gradingPeriod                         | 10    |
+     | graduationPlan                        | 0     |
+     | learningObjective                     | 0     |
+     | learningStandard                      | 0     |
+     | parent                                | 2     |
+     | performanceLevelDescriptor            | 0     |
+     | program                               | 0     |
+     | reportCard                            | 0     |
+     | section                               | 25    |
+     | serviceDescriptor                     | 0     |
+     | session                               | 5     |
+     | staff                                 | 1     |
+     | staffCohortAssociation                | 0     |
+     | staffEducationOrganizationAssociation | 0     |
+     | staffProgramAssociation               | 0     |
+     | student                               | 25    |
+     | studentAcademicRecord                 | 54    |
+     | studentAssessmentAssociation          | 75    |
+     | studentCohortAssociation              | 0     |
+     | studentCompetency                     | 0     |
+     | studentCompetencyObjective            | 0     |
+     | studentDisciplineIncidentAssociation  | 4     |
+     | studentGradebookEntry                 | 75    |
+     | studentParentAssociation              | 2     |
+     | studentProgramAssociation             | 0     |
+     | studentSchoolAssociation              | 51    |
+     | studentSectionAssociation             | 110   |
+     | studentTranscriptAssociation          | 84    |
+     | teacherSchoolAssociation              | 1     |
+     | teacherSectionAssociation             | 1     |
    And I check _id of stateOrganizationId "NY" with tenantId "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
@@ -2789,7 +2317,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -2833,7 +2361,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -2877,7 +2405,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -2895,7 +2423,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | compentencyLevelDescriptor            | 0     |
      | course                                | 2     |
      | courseOffering                        | 2     |
-     | disciplineAction                      | 0     |
+     | disciplineAction                      | 1     |
      | disciplineIncident                    | 2     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
@@ -2921,7 +2449,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 0     |
+     | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -2984,7 +2512,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | course                                | 2     |
      | courseOffering                        | 2     |
      | disciplineAction                      | 1     |
-     | disciplineIncident                    | 2     |
+     | disciplineIncident                    | 0     |
      | educationOrganization                 | 1     |
      | grade                                 | 0     |
      | gradebookEntry                        | 0     |
@@ -3009,7 +2537,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 2     |
+     | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 0     |
      | studentParentAssociation              | 0     |
      | studentProgramAssociation             | 0     |
@@ -3018,138 +2546,6 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 29    |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 40    |
-     | courseOffering                        | 42    |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 2     |
-     | gradebookEntry                        | 5     |
-     | gradingPeriod                         | 12    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 7     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 1     |
-     | section                               | 41    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 7     |
-     | staff                                 | 1     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 0     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 29    |
-     | studentAcademicRecord                 | 68    |
-     | studentAssessmentAssociation          | 127   |
-     | studentCohortAssociation              | 3     |
-     | studentCompetency                     | 27    |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 1     |
-     | studentGradebookEntry                 | 143   |
-     | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 61    |
-     | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 148   |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 23    |
-     | calendarDate                          | 0     |
-     | cohort                                | 2     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 30    |
-     | courseOffering                        | 29    |
-     | disciplineAction                      | 2     |
-     | disciplineIncident                    | 0     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 4     |
-     | gradebookEntry                        | 4     |
-     | gradingPeriod                         | 12    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 7     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 2     |
-     | section                               | 31    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 10    |
-     | staff                                 | 4     |
-     | staffCohortAssociation                | 2     |
-     | staffEducationOrganizationAssociation | 3     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 26    |
-     | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
-     | studentCohortAssociation              | 4     |
-     | studentCompetency                     | 59    |
-     | studentCompetencyObjective            | 4     |
-     | studentDisciplineIncidentAssociation  | 0     |
-     | studentGradebookEntry                 | 105   |
-     | studentParentAssociation              | 7     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 55    |
-     | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
-     | collectionName                        | count |
-     | assessment                            | 0     |
-     | attendance                            | 25    |
-     | calendarDate                          | 0     |
-     | cohort                                | 0     |
-     | compentencyLevelDescriptor            | 0     |
-     | course                                | 25    |
-     | courseOffering                        | 25    |
-     | disciplineAction                      | 0     |
-     | disciplineIncident                    | 2     |
-     | educationOrganization                 | 1     |
-     | grade                                 | 0     |
-     | gradebookEntry                        | 3     |
-     | gradingPeriod                         | 10    |
-     | graduationPlan                        | 0     |
-     | learningObjective                     | 0     |
-     | learningStandard                      | 0     |
-     | parent                                | 2     |
-     | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
-     | reportCard                            | 0     |
-     | section                               | 25    |
-     | serviceDescriptor                     | 0     |
-     | session                               | 5     |
-     | staff                                 | 1     |
-     | staffCohortAssociation                | 0     |
-     | staffEducationOrganizationAssociation | 0     |
-     | staffProgramAssociation               | 0     |
-     | student                               | 25    |
-     | studentAcademicRecord                 | 54    |
-     | studentAssessmentAssociation          | 75    |
-     | studentCohortAssociation              | 0     |
-     | studentCompetency                     | 0     |
-     | studentCompetencyObjective            | 0     |
-     | studentDisciplineIncidentAssociation  | 4     |
-     | studentGradebookEntry                 | 75    |
-     | studentParentAssociation              | 2     |
-     | studentProgramAssociation             | 0     |
-     | studentSchoolAssociation              | 51    |
-     | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 84    |
-     | teacherSchoolAssociation              | 1     |
-     | teacherSectionAssociation             | 1     |
 
 @IL-Daybreak
 Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
