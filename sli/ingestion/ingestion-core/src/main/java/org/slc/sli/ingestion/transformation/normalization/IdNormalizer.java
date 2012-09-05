@@ -491,14 +491,11 @@ public class IdNormalizer {
                                 for (int i = 0; i < addToContext.size(); i++) {
                                     String context = (String) addToContext.get(i);
                                     if (!original.contains(context)) {
-                                        LOG.info("Adding _id: {} to metaData.{} on entity (_id:{})", new Object[]{context, takesField, entity.getEntityId()});
                                         original.add(context);
                                     }
                                 }
-                                LOG.info("Updating metaData.{} on entity (_id:{}) to: {}", new Object[]{takesField, entity.getEntityId(), original});
                                 entity.getMetaData().put(takesField, original);
                             } else {
-                                LOG.info("Setting metaData.{} on entity (_id:{}) to: {}", new Object[]{takesField, entity.getEntityId(), addToContext});
                                 entity.getMetaData().put(takesField, addToContext);
                             }
                         }
