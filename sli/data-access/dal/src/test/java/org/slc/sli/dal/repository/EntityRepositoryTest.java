@@ -366,7 +366,7 @@ public class EntityRepositoryTest {
         Map<String, Object> studentBody = entity.getBody();
         studentBody.put("cityOfBirth", "ABC");
 
-        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData(), 300);
+        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData());
         repository.updateWithRetries("student", studentEntity, 5);
 
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -401,7 +401,7 @@ public class EntityRepositoryTest {
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
-        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
+        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData);
         int noOfRetries = 3;
 
         Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo)

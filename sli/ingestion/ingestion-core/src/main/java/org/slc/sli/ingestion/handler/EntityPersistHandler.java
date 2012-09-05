@@ -173,12 +173,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 if (entity.getMetaData().containsKey(METADATA_ED_ORG_KEY)) {
                     @SuppressWarnings("unchecked")
                     List<String> edOrgs = (List<String>) entity.getMetaData().get(METADATA_ED_ORG_KEY);
-                    LOG.info("Entity has edOrgs in metaData --> adding id: {} to edOrgs: {}", new Object[]{entity.getStagedEntityId(), edOrgs});
                     edOrgs.add(entity.getStagedEntityId());
                     entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
                 } else {
                     List<String> edOrgs = new ArrayList<String>();
-                    LOG.info("Entity has no edOrgs in metaData --> setting to id: {}", new Object[]{entity.getStagedEntityId()});
                     edOrgs.add(entity.getStagedEntityId());
                     entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
                 }

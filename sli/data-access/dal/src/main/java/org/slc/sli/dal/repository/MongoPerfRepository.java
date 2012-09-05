@@ -82,7 +82,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
         @SuppressWarnings("unchecked")
-        Entity entity = (Entity) new MongoEntity(type, null, body, metaData, PADDING);
+        Entity entity = (Entity) new MongoEntity(type, null, body, metaData);
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }

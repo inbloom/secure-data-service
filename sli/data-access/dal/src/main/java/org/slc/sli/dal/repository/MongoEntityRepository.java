@@ -50,8 +50,6 @@ import org.slc.sli.validation.EntityValidator;
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
 
-    private static final int PADDING = 300;
-
     @Autowired
     private EntityValidator validator;
 
@@ -111,7 +109,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
-        Entity entity = new MongoEntity(type, null, newValues, null, PADDING);
+        Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
         return super.patch(type, collectionName, id, newValues);
     }
@@ -130,7 +128,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
+        Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
 
         this.addTimestamps(entity);
@@ -164,7 +162,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        Entity entity = new MongoEntity(type, id, body, metaData, PADDING);
+        Entity entity = new MongoEntity(type, id, body, metaData);
         validator.validate(entity);
 
         this.addTimestamps(entity);
@@ -177,7 +175,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         for (Entity record : records) {
             Entity entity = new MongoEntity(record.getType(), record.getStagedEntityId(), record.getBody(),
-                    record.getMetaData(), PADDING);
+                    record.getMetaData());
             persist.add(entity);
         }
 
