@@ -17,14 +17,6 @@ When I make an API call to get my available apps filtered by admin
 Then I receive a JSON object listing all the admin apps that my SEA/LEA have approved
 And the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app
 
-Scenario: SLI administrator has admin app endpoints filtered based on role
-
-Given I am logged in using "operator" "operator1234" to realm "SLI"
-When I make an API call to get my available apps filtered by admin
-Then I receive a JSON object listing all the admin apps
-And the list contains the admin app
-And the admin app endpoints only contains SLI operator endpoints
-
 Scenario: Authenticated State-level users see all apps within child districts
 
 Given I am logged in using "jjackson" "jjackson1234" to realm "IL"
@@ -60,3 +52,30 @@ Given I am logged in using "operator" "operator1234" to realm "SLI"
 When I make an API call to get my available apps 
 Then I receive a JSON object listing all the apps approved for "SLI"
 And the list contains and app named "AuthorizeTestApp4"
+
+Scenario Outline: Verify endpoints in admin app
+
+    Given I am logged in using <USERNAME> <PASSWORD> to realm "SLI"
+    When I make an API call to get my available apps filtered by admin
+    Then I receive a JSON object listing all the admin apps
+    And the list contains the admin app
+    And the admin app endpoints contain <ENDPOINT>
+    Examples:
+    | USERNAME            | PASSWORD              | ENDPOINT                            |
+    | "sandboxoperator"   | "sandboxoperator1234" | "Developer Account Management"      |
+    | "sandboxoperator"   | "sandboxoperator1234" | "Change Password"                   |
+    | "operator"          | "operator1234"        | "Application Registration Approval" |
+    | "operator"          | "operator1234"        | "Account Approval"                  |
+    | "operator"          | "operator1234"        | "Change Password"                   |
+    | "operator"          | "operator1234"        | "Administrative Account Management" |
+    | "developer"         | "developer1234"       | "Application Registration"          |
+    | "developer"         | "developer1234"       | "Change Password"                   |
+    | "sunsetadmin"       | "sunsetadmin1234"     | "Admin Delegation"                  |
+    | "sunsetadmin"       | "sunsetadmin1234"     | "Application Authorization"         |
+    | "sunsetadmin"       | "sunsetadmin1234"     | "Change Password"                   |
+    | "sunsetadmin"       | "sunsetadmin1234"     | "Administrative Account Management" |
+    | "iladmin"           | "iladmin1234"         | "Change Password"                   |
+    | "iladmin"           | "iladmin1234"         | "Administrative Account Management" |
+    | "ingestionuser"     | "ingestionuser1234"   | "Provision Landing Zone"            |
+    | "ingestionuser"     | "ingestionuser1234"   | "Change Password"                   |
+
