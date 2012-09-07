@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.EntityNames;
@@ -16,6 +12,9 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * TeacherAttendanceContextResolver
@@ -99,6 +98,8 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.ATTENDANCE.equals(toEntityType);
+        return false;
+        // return EntityNames.TEACHER.equals(fromEntityType) &&
+        // EntityNames.ATTENDANCE.equals(toEntityType);
     }
 }
