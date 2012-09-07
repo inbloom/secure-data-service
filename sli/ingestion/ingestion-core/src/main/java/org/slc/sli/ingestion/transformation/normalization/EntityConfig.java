@@ -34,6 +34,7 @@ public class EntityConfig {
     private List<String> keyFields;
     private List<RefDef> references;
     private ComplexRefDef complexReference;
+    private ComplexKeyField complexKeyField;
     private Map<String, Object> piiFields;
     private Map<String, String> subEntities;
 
@@ -80,6 +81,14 @@ public class EntityConfig {
     public static EntityConfig parse(InputStream inputStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(inputStream, EntityConfig.class);
+    }
+
+    public ComplexKeyField getComplexKeyField() {
+        return complexKeyField;
+    }
+
+    public void setComplexKeyField(ComplexKeyField complexKeyField) {
+        this.complexKeyField = complexKeyField;
     }
 
 }

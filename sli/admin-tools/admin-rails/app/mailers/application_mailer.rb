@@ -77,6 +77,7 @@ class ApplicationMailer < ActionMailer::Base
   
   def auto_provision_email(email_address, firstName)
     @firstName = firstName
+    @portal_link = APP_CONFIG["portal_url"]
     mail(:to => email_address,:subject => PROVISION_EMAIL_SUBJECT_SANDBOX)
   end
 

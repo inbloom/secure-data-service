@@ -53,4 +53,14 @@ public class URLBuilderTest {
         builder.addPath(PathConstants.API_SERVER_PATH).addPath(ResourceNames.STUDENTS);
         builder.build();
     }
+    
+    @Test
+    public void testTypeToResourceConversion() throws Exception{
+        URLBuilder builder = URLBuilder.create("http://localhost");
+        builder.addPath(PathConstants.API_SERVER_PATH);
+        builder.entityType("staffEducationOrganizationAssociation");
+        URL url = builder.build();
+        assertEquals("the url should be http://localhost/api/rest/v1/staffEducationOrgAssignmentAssociations", "http://localhost/"
+                + PathConstants.API_SERVER_PATH + "/staffEducationOrgAssignmentAssociations", url.toString());
+    }
 }

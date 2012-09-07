@@ -146,7 +146,9 @@ public class ApprovedApplicationResource {
         //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
         if (hasAppAuthorizationRight()) {
             toReturn.add(DELEGATED_ADMIN_PLACEHOLDER);
-        } else if (SecurityUtil.hasRight(Right.CRUD_ROLE)) {
+        }
+        
+        if (SecurityUtil.hasRight(Right.CRUD_ROLE)) {
             toReturn.add(CUSTOM_ROLE_ADMIN_PLACEHOLDER);
         }
 

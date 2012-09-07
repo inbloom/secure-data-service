@@ -20,7 +20,13 @@ require 'rbconfig'
 require File.dirname(__FILE__) + '/slc_fixer'
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
-
+if is_windows
+  module Process
+    def fork
+      yield
+    end
+  end
+end
 trap('HUP') {
   @pids.each do |pid|
     @log.warn "Killing process #{pid}"
@@ -37,7 +43,6 @@ def run_fixer(tenant = nil)
   begin
     fixer.start
     connection.close
-    @log.error "Finished stamping tenant \'#{tenant}\'."
   rescue Exception => e
     #KILL THE THREADS
     @tenants.delete tenant

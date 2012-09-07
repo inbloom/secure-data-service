@@ -147,7 +147,7 @@ Then /^his account status changed to "([^"]*)"$/ do |arg1|
       found=true
     end
   end  
-  assert(found,"user account status is not #{arg1}")
+  assert(found,"user account status is not #{arg1}, was instead #{statuses.map{|s|s.text}}")
   clear_users()
 end
 

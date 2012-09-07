@@ -68,6 +68,7 @@ class SLCFixer
       finalTime = Time.now - time
       @log.info "\t Final time is #{finalTime} secs"
       @log.info "\t Documents(#{@count}) per second #{@count/finalTime}"
+      @log.error "Finished stamping tenant \'#{@tenant}\'."
     end while(@forever)
   end
 
@@ -395,7 +396,7 @@ class SLCFixer
 
   def fix_miscellany
     set_stamps(@db['studentTranscriptAssociation'])
-    set_stamps(@db['studentSectionGradebookEntry'])
+    set_stamps(@db['studentGradebookEntry'])
     set_stamps(@db['studentCompetency'])
     set_stamps(@db['studentAcademicRecord'])
     #StudentTranscriptAssociation

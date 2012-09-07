@@ -43,6 +43,16 @@
     <doc>Deletes the specified resource.</doc>
   </merge>
 
+  <merge type="node" action="add" xpath="//method[@name='PATCH']">
+    <doc>While the PUT method completely replaces a document,
+      PATCH allows you to make partial changes to that document.
+      You can do this by providing only the document fields that
+      you want to replace. For each field in the request, PATCH fully
+      overwrites that field on the document, including arrays and
+      maps. PATCH has no effect on fields other than those
+      specified in the request.</doc>
+  </merge>
+
   <!-- add media types to POST/PUT -->
   <merge type="node" action="add" xpath="//method[@name='POST' or @name='PUT']">
     <request>

@@ -3,26 +3,129 @@
     "references" :
             [
                 {
-                    "fieldPath" : "body.grades",
-                    "ref" :
-                    {
-                        "entityType" : "grade",
-                        "isRefList" : true,
-                        "refObjectPath" : "body.grades",
-                        "choiceOfFields" :
-                                [
-                                    [
-                                        {
-                                            "path" : "metaData.externalId",
-                                            "values" :
-                                                    [{
-                                                        "valueSource" : "body.grades.gradeId"
-                                                    }]
-                                        }
-                                    ]
-                                ]
-                    }
-                },
+            "fieldPath" : "body.grades",
+            "ref" :
+            {
+                "entityType" : "grade",
+                "isRefList" : true,
+                "refObjectPath" : "body.gradeReference",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.studentSectionAssociationId",
+                            "values" :
+                            [{
+                                 "ref" :
+                                 {
+                                      "entityType" : "studentSectionAssociation",
+                                      "isRefList" : true,
+                                      "refObjectPath" : "body.gradeReference",
+                                      "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                               "path" : "body.studentId",
+                                                "values" :
+                                                [{
+                                                      "ref":
+                                                      {
+                                                          "entityType" : "student",
+                                                          "choiceOfFields" :
+                                                          [
+                                                              [
+                                                                  {
+                                                                   "path" : "body.studentUniqueStateId",
+                                                                   "values" :
+                                                                   [{
+                                                                        "valueSource" : "body.gradeReference.studentUniqueStateId"
+                                                                   }]
+                                                                  }
+                                                              ]
+                                                          ]
+                                                      }
+                                                }]
+                                              },
+                                              {
+                                               "path" : "body.sectionId",
+                                               "values" :
+                                               [{
+                                                      "ref":
+                                                      {
+                                                          "entityType" : "section",
+                                                          "choiceOfFields" :
+                                                          [
+                                                            [{
+                                                              "path" : "body.uniqueSectionCode",
+                                                               "values" :
+                                                               [{
+                                                                     "valueSource" : "body.gradeReference.uniqueSectionCode"
+                                                               }]
+                                                            }]
+                                                          ]
+                                                      }
+                                               }]
+                                              }
+                                          ]
+                                      ]
+                                  }
+                             }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodId",
+                            "values" :
+                             [{
+                                 "ref" :
+                                 {
+                                     "entityType" : "gradingPeriod",
+                                     "choiceOfFields" :
+                                     [
+                                         [
+                                             {
+                                              "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                                              "values" :
+                                              [{
+                                                   "valueSource" : "body.gradeReference.gradingPeriod"
+                                              }]
+                                             },
+                                             {
+                                              "path" : "body.gradingPeriodIdentity.schoolYear",
+                                              "values" :
+                                              [{
+                                                   "valueSource" : "body.gradeReference.schoolYear"
+                                              }]
+                                            },
+                                            {
+                                             "path" : "body.gradingPeriodIdentity.schoolId",
+                                             "values" :
+                                             [{
+                                                  "ref" :
+                                                  {
+                                                      "entityType" : "educationOrganization",
+                                                      "isRefList" : true,
+                                                      "refObjectPath" : "body.gradeReference",
+                                                      "choiceOfFields" :
+                                                      [
+                                                       [{
+                                                         "path" : "body.stateOrganizationId" ,
+                                                         "values" :
+                                                         [{
+                                                               "valueSource" : "body.gradeReference.stateOrganizationId"
+                                                         }]
+                                                       }]
+                                                      ]
+                                                  }
+                                             }]
+                                            }
+                                         ]
+                                     ]
+                                 }
+                             }]
+                        }
+                    ]
+                ]
+            }
+        },
                 {
                     "fieldPath" : "body.studentId",
                     "ref" :

@@ -29,7 +29,6 @@ import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.api.client.util.Query;
 
 /**
@@ -246,9 +245,6 @@ public class SifIdResolverCustomData implements SifIdResolver {
             return null;
         }
         Entity entity = list.get(0);
-        if ("staffEducationOrganizationAssociation".equals(entity.getEntityType())) {
-            entity = new GenericEntity("staffEducationOrgAssignmentAssociation", entity.getData());
-        }
         return entity;
     }
 

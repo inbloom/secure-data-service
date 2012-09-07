@@ -130,21 +130,6 @@ public class SifIdResolverCustomDataTest {
     }
 
     @Test
-    public void getSliEntityShouldFixStaffEdOrgAssociationType() throws Exception {
-        setupCustomDataMocking();
-
-        Entity expected = new GenericEntity("staffEducationOrganizationAssociation", new HashMap<String, Object>());
-        List<Entity> queryResult = Arrays.asList(new Entity[] { expected });
-        when(mockSlcInterface.read(eq("staffEducationOrgAssignmentAssociation"), any(Query.class))).thenReturn(
-                queryResult);
-
-        Entity result = resolver.getSliEntity(SIF_REF_ID_STAFF_EDORG, ZONE_ID1);
-
-        assertEquals("staffEducationOrgAssignmentAssociation", result.getEntityType());
-
-    }
-
-    @Test
     public void getSliEntityShouldHandleEmptyQueryList() throws Exception {
         setupCustomDataMocking();
 

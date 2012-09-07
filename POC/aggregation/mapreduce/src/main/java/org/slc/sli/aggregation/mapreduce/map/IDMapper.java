@@ -20,39 +20,27 @@ import java.io.IOException;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
-import org.slc.sli.aggregation.util.BSONUtilities;
+import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
  * IDMapper
  *
- * A basic mapper that emits the unique identifiers for a provided collection.
+ * The most basic of mapper functions -- emit what is given.
  *
  * Map input / output:
- * IdFieldEmittableKey - Input key type. Defines the fields that represent a key in the entity.
+ * EmittableKey - Input key type. Defines the fields that represent a key in the entity.
  * BSONOBject - Entity to examine.
  * EmittableKey - Output key for the mapper.
  * BSONObject -- The entity the key corresponds to.
+ *
+ * @param <T> EmittableKey type.
  */
-public class IDMapper extends Mapper<IdFieldEmittableKey, BSONWritable, IdFieldEmittableKey, BSONWritable> {
+public class IDMapper<T extends EmittableKey> extends Mapper<T, BSONWritable, T, BSONWritable> {
 
     @Override
-    public void map(IdFieldEmittableKey id, BSONWritable entity, Context context) throws IOException, InterruptedException {
-
-        IdFieldEmittableKey identifier = new IdFieldEmittableKey();
-
-        // Values in the getIdNames Set are dot-separated Mongo field names.
-        Text[] idFieldNames = id.getFieldNames();
-        for (Text field : idFieldNames) {
-            String value = BSONUtilities.getValue(entity, field.toString());
-            if (value != null) {
-                identifier.setFieldName(field.toString());
-                identifier.setId(new Text(value));
-            }
-        }
-        context.write(identifier, entity);
+    public void map(T id, BSONWritable entity, Context context) throws IOException, InterruptedException {
+        context.write(id, entity);
     }
 }

@@ -29,7 +29,7 @@ import org.slc.sli.aggregation.util.BSONUtilities;
 /**
  * LongValueMapper - mongo value mapper that emits long values.
  */
-class LongValueMapper extends ValueMapper {
+public class LongValueMapper extends ValueMapper {
 
     private Logger log = Logger.getLogger("LongValueMapper");
 

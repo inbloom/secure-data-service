@@ -20,7 +20,8 @@ import org.bson.BSONObject;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.ConfigSections;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.CutPointConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.RangeConfig;
 import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
@@ -50,7 +51,7 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
     DBCollection studentColl = null;
     ObjectMapper om = new ObjectMapper();
     RangeConfig validRange = null;
-    ArrayList<BandConfig> bands = null;
+    ArrayList<CutPointConfig> bands = null;
     String[] fields = null;
 
     public SchoolProficiencyMapper() throws UnknownHostException, MongoException {
@@ -78,22 +79,22 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
                 Double scaleScore = Double.valueOf(score);
 
                 boolean valid = false;
-                for (BandConfig band : bands) {
+                for (CutPointConfig band : bands) {
                     RangeConfig range = band.getRange();
 
                     if (range != null && scaleScore >= range.getMin() && scaleScore <= range.getMax()) {
-                        code.set(band.getAbbreviation());
+                        code.set(band.getEmit());
                         valid = true;
                         break;
                     }
                 }
                 if (!valid) {
                     // first entry is the 'invalid' band.
-                    code.set(bands.get(0).getAbbreviation());
+                    code.set(bands.get(0).getEmit());
                 }
             } else {
                 // second entry is the 'no score' band.
-                code.set(bands.get(1).getAbbreviation());
+                code.set(bands.get(1).getEmit());
             }
 
             String tenantId = BSONUtilities.getValue(school, "metaData.tenantId");
@@ -140,8 +141,9 @@ public class SchoolProficiencyMapper extends Mapper<IdFieldEmittableKey, BSONObj
     protected void setup(Mapper.Context context) throws IOException, InterruptedException {
         super.setup(context);
 
-        MetadataConfig cfg = JobConfiguration.getAggregateMetadata(context.getConfiguration());
-        bands = cfg.getBands();
+        ConfigSections cfg = JobConfiguration.fromHadoopConfiguration(context.getConfiguration());
+        MetadataConfig meta = cfg.getMetadata();
+        bands = meta.getCutPoints();
 
         BSONObject obj = MongoConfigUtil.getFields(context.getConfiguration());
         if (obj != null) {
