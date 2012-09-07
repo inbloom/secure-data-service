@@ -17,35 +17,28 @@
 
 package org.slc.sli.modeling.xdm;
 
-import java.util.Collections;
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
-import javax.xml.namespace.QName;
+import org.junit.Test;
 
-public final class DmText implements DmNode {
 
-    protected static final QName NO_NAME = new QName("");
-    private final String value;
+public final class DmCommentTest {
 
-    public DmText(final String value) {
-        if (value == null) {
-            throw new NullPointerException("value");
-        }
-        this.value = value;
-    }
-
-    @Override
-    public List<DmNode> getChildAxis() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public QName getName() {
-        return NO_NAME;
-    }
-
-    @Override
-    public String getStringValue() {
-        return value;
-    }
+	@Test
+	public void testConstructorAndGetters() {
+		
+		String value = "foo";
+		
+		DmComment dmComment = new DmComment(value);
+		
+		assertTrue(dmComment.getName() == DmComment.NO_NAME);
+		assertTrue(dmComment.getChildAxis().size() == 0);
+		assertTrue(dmComment.getStringValue() == value);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testNullValueForConstructorThrowsException() {
+		
+		new DmComment(null);
+	}
 }
