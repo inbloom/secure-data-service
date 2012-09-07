@@ -17,7 +17,9 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 
@@ -36,33 +39,39 @@ import org.slc.sli.domain.Entity;
 @Component
 public class TeacherToStudentSchoolAssociationResolver implements
         EntityContextResolver {
-    private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
-
-    @Value("${sli.security.gracePeriod}")
-    private String gracePeriod;
 
     @Autowired
     private AssociativeContextHelper helper;
 
     @Autowired
     private StudentGracePeriodNodeFilter graceFilter;
-
-
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return false;
+        return (EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(toEntityType));
+//        return false;
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-                "studentId", studentIds, Arrays.asList((NodeFilter) graceFilter));
-
-        debug("Accessable student-school association IDS [ {} ]", associationIds);
-        return associationIds;
+        if(!securityCachingStrategy.contains(EntityNames.STUDENT_SCHOOL_ASSOCIATION)) {
+            List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
+                    ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+            List<String> associationIds = helper.findEntitiesContainingReference(
+                    EntityNames.STUDENT_SCHOOL_ASSOCIATION, "studentId", studentIds,
+                    Arrays.asList((NodeFilter) graceFilter));
+            securityCachingStrategy.warm(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new HashSet<String>(associationIds));
+            
+            debug("Accessable student-school association IDS [ {} ]", associationIds);
+            return associationIds;
+        }
+        else {
+            return new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+        }
+                
 
     }
 

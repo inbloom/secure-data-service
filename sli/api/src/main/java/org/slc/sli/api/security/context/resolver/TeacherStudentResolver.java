@@ -63,7 +63,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         boolean canHandle = false;
-        if (EntityNames.STUDENT.equals(toEntityType) || EntityNames.COHORT.equals(toEntityType) || EntityNames.PROGRAM.equals(toEntityType) || EntityNames.ATTENDANCE.equals(toEntityType) || EntityNames.PARENT.equals(toEntityType)) {
+        if (EntityNames.STUDENT.equals(toEntityType)) {
             canHandle = true;
         }
         if (!EntityNames.TEACHER.equals(fromEntityType)) {
@@ -74,14 +74,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        // If we have a cache, bail.
-        if(securityCachingStrategy.contains(TO_ENTITY)) {
-            return new ArrayList<String>(securityCachingStrategy.retrieve(TO_ENTITY));
-        }
-
         Set<String> ids = new TreeSet<String>();
 
-        if (!securityCachingStrategy.contains(FROM_ENTITY + TO_ENTITY)) {
+        if (!securityCachingStrategy.contains(TO_ENTITY)) {
             ids.addAll(findAccessibleThroughSection(principal));
             ids.addAll(findAccessibleThroughCohort(principal));
             ids.addAll(findAccessibleThroughProgram(principal));

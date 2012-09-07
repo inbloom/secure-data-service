@@ -17,8 +17,11 @@
 
 package org.slc.sli.api.security.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -32,9 +35,13 @@ import org.slc.sli.domain.NeutralQuery;
  *
  * @author srupasinghe
  */
+@Component
 public class SecurityCriteria {
     //The collection this query pertains to
     private String collectionName;
+    
+    @Autowired
+    private QueryManglerFactory factory;
 
     //main security criteria
     private NeutralCriteria securityCriteria;
@@ -76,18 +83,17 @@ public class SecurityCriteria {
             query.addCriteria(blacklistCriteria);
         }
         
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-        String userId = user.getEntity().getEntityId();
-
-        NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-        createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-        query.addOrQuery(createdByQuery);
-        
         if (securityCriteria != null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+            String userId = user.getEntity().getEntityId();
+
+            NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
+            query.addOrQuery(createdByQuery);
+            
             //Check the type of who we are and if we're a teacher, handle it differently.
             if (EntityNames.TEACHER.equals(user.getEntity().getType())) {
-                QueryManglerFactory factory = new QueryManglerFactory();
                 Mangler queryMangler = factory.getMangler(query, this);
                 if(queryMangler == null) {
                     //Unsupported problem.
@@ -95,6 +101,10 @@ public class SecurityCriteria {
                     throw new UnsupportedOperationException("We are unable to handle this request");
                 }
                 query = queryMangler.mangleQuery(query, securityCriteria);
+                if (query == null) {
+                    // 403
+                    throw new AccessDeniedException("Access to resource denied.");
+                }
             }
             else {
                 query.addOrQuery(new NeutralQuery(securityCriteria));
