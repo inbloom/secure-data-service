@@ -18,6 +18,7 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -71,6 +72,14 @@ public class TeacherCohortResolver implements EntityContextResolver {
         List<String> cohortIds = new ArrayList<String>();
         final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : studentCohortAssociations) {
+            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
+                cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
+            }
+        }
+        Iterable<Entity> staffCohort = helper.getReferenceEntities(EntityNames.STAFF_COHORT_ASSOCIATION,
+                ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
+        for (Entity assoc : staffCohort) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
             if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
