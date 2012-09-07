@@ -69,6 +69,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			restrict: 'A',
 			link: function(scope, linkElement, attrs){
 				linkElement.sortable({
+					items: "li:not(.nonSortable)",
+					cancel: ".nonSortable",
 					update: function() {
 						var model;
 
@@ -95,10 +97,10 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						scope.$parent.$apply();
 
 						if(attrs.ngSortable === "pages") {
-							scope.$parent.$broadcast("tabChanged", attrs.ngSortable);
+							scope.$parent.$broadcast("tabChanged");
 						}
 						else if (attrs.ngSortable === "pagePanels") {
-							scope.$parent.$broadcast("panelChanged", attrs.ngSortable);
+							scope.$parent.$broadcast("panelChanged");
 						}
 					}
 				});
@@ -130,7 +132,11 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					panes.push(pane);
 				};
 
-				// When the page gets removed from the profile, the associated tab will get removed from the pane
+				$scope.$on("tabChanged", function (e, index) {
+
+
+				});
+
 				$scope.$on("pageRemoved", function (e, index) {
 					panes.splice(index, 1);
 					if (panes[index]) {
@@ -157,7 +163,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					'<li ng-repeat="pane in panes" ng-sortable-index="{{$index}}" ng-class="{active:pane.selected}">'+
 					'<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
 					'</li>' +
-					'<li class="addPageSection">' +
+					'<li class="addPageSection nonSortable">' +
 					'<button class="btn btn-primary" data-toggle="modal" ng-click="addPage()" >+</button>' +
 					'</li>' +
 					'</ul>' +
