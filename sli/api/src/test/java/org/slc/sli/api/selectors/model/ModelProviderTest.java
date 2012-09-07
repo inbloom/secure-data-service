@@ -96,14 +96,14 @@ public class ModelProviderTest {
         provider = new ModelProvider(TEST_XMI_LOC);
         final ClassType student = provider.getClassType("Student");
         assertTrue(provider.isAttribute(student, "name"));
-        assertTrue(!provider.isAttribute(student, "sectionAssociations"));
+        assertTrue(!provider.isAttribute(student, "studentSectionAssociations"));
     }
 
     @Test
     public void testIsAssociation() {
         provider = new ModelProvider(TEST_XMI_LOC);
         final ClassType student = provider.getClassType("Student");
-        assertTrue(provider.isAssociation(student, "sectionAssociations"));
+        assertTrue(provider.isAssociation(student, "studentSectionAssociations"));
         assertTrue(!provider.isAssociation(student, "name"));
     }
 
@@ -117,7 +117,7 @@ public class ModelProviderTest {
         assertTrue(name.isClassType());
         assertTrue(name.getAttributes().size() > 0);
 
-        final ClassType sectionAssociations = provider.getClassType(student, "sectionAssociations");
+        final ClassType sectionAssociations = provider.getClassType(student, "studentSectionAssociations");
         assertNotNull(sectionAssociations);
         assertTrue(sectionAssociations.isClassType());
         assertTrue(sectionAssociations.getAttributes().size() > 0);

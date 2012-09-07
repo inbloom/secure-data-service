@@ -148,7 +148,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("resource", endPoint);
             body.put("buildNumber", buildTag);
             body.put("id", uri.get("id"));
-            body.put("parameters", request.getQueryParameters());
+//            body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("startTime", timeFormatter.print(new DateTime(startTime)));
             body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));

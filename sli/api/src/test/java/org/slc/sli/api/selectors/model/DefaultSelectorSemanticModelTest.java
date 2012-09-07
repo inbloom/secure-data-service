@@ -129,7 +129,7 @@ public class DefaultSelectorSemanticModelTest {
         final Map<String, Object> sectionAssocs = new HashMap<String, Object>();
         sectionAssocs.put("*", true);
         sectionAssocs.put("beginDate", false);
-        selector.put("sectionAssociations", sectionAssocs);
+        selector.put("studentSectionAssociations", sectionAssocs);
 
         final ClassType student = provider.getClassType("Student");
         final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(selector, student);
@@ -220,8 +220,8 @@ public class DefaultSelectorSemanticModelTest {
         final Map<String, Object> studentsAttrs = new HashMap<String, Object>();
         studentsAttrs.put("name", nameAttrs);
         studentsAttrs.put("economicDisadvantaged", true);
-        studentsAttrs.put("sectionAssociations", true);
-        studentsAttrs.put("schoolAssociations", ssaAttrs);
+        studentsAttrs.put("studentSectionAssociations", true);
+        studentsAttrs.put("studentSchoolAssociations", ssaAttrs);
 
         final Map<String, Object> sectionAttributes = new HashMap<String, Object>();
         sectionAttributes.put("*", true);
