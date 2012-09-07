@@ -18,7 +18,6 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -45,6 +44,9 @@ public class TeacherCohortResolver implements EntityContextResolver {
     
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
+    
+    @Autowired
+    private TeacherStudentResolver studentResolver;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -54,17 +56,24 @@ public class TeacherCohortResolver implements EntityContextResolver {
     @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
-
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
+            studentIds = studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+        }
         // teacher -> staffCohortAssociation
-        Iterable<Entity> staffCohortAssociations = helper.getReferenceEntities(EntityNames.STAFF_COHORT_ASSOCIATION, ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
+        Iterable<Entity> studentCohortAssociations = helper.getReferenceEntities(
+                EntityNames.STUDENT_COHORT_ASSOCIATION,
+                ParameterConstants.STUDENT_ID, studentIds);
 
         // filter on end_date to get list of cohortIds
         List<String> cohortIds = new ArrayList<String>();
         final String currentDate = dateFilter.getCurrentDate();
-        for (Entity assoc : staffCohortAssociations) {
+        for (Entity assoc : studentCohortAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
             if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
-                cohortIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.COHORT_ID));
+                cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
             }
         }
         
