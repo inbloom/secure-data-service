@@ -33,6 +33,8 @@ Feature: Tailored welcome email, user is able to log in
     And I can log in with my username and password
   Examples:
     |groups                                                          |template_type                              |
+    |Application Developer, Ingestion User                           |Application Developer and Sandbox Ingestion|
+    |Sandbox Administrator, Application Developer                    |Sandbox Admin and Application Developer    |
     |Sandbox Administrator                                           |Sandbox Admin only                         |
     |Ingestion User                                                  |Sandbox Ingestion only                     |
     |Application Developer                                           |Application Developer only                 |
@@ -40,4 +42,3 @@ Feature: Tailored welcome email, user is able to log in
     |Sandbox Administrator, Ingestion User, Application Developer    |Sandbox all rights                         |
     |Sandbox SLC Operator, Ingestion User                            |Sandbox Admin and Sandbox Ingestion        |
     |Sandbox SLC Operator, Ingestion User, Application Developer     |Sandbox all rights                         |
-    |Application Developer, Ingestion User                           |Application Developer and Sandbox Ingestion|

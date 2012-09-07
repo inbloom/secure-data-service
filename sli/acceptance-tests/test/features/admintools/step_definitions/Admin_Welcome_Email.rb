@@ -120,6 +120,11 @@ Then /^I get a welcome email of (.*?)$/ do |email_type|
       strings_included = ["Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your"]
     when "Application Developer only"
       strings_included = ["When you are ready to register your application, select Application Registration from the"]
+    when "Sandbox Admin and Application Developer"
+      strings_included = ["Your request for an application developer account has been approved. You can use this account to develop",
+                          "Use the Admin Account Management feature to create new administrative accounts for the sandbox.  Click the Admin link",
+                          "While you develop SLC-compatible applications, refer to the documentation available at",
+                          "When you are ready to register your application, use the Application Registration feature. Click the Admin"]
   end
   strings_included.each do |string_included|
     assert(@welcome_email_content.include?(string_included), "FAILED:\n\nemail = #{@welcome_email_content}\n\nstring_included = <#{string_included}>\n\n")
