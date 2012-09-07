@@ -21,7 +21,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 		|operator   	|operator1234   		|SLC Operator           |SLI        | should not|Developer Account Management|
 		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should not|Developer Account Management|
 		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should not|Developer Account Management|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should not|Developer Account Management|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should |Developer Account Management|
 		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|Developer Account Management|
 		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Developer Account Management|
 		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Developer Account Management|
