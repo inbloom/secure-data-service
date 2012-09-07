@@ -17,16 +17,18 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Resolves teacher's access and security context to program records.
@@ -40,11 +42,14 @@ public class TeacherProgramResolver implements EntityContextResolver {
 
     @Autowired
     private StudentSectionAssociationEndDateFilter dateFilter;
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return false;
-        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
+        // return false;
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,6 +68,7 @@ public class TeacherProgramResolver implements EntityContextResolver {
                 programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
             }
         }
+        securityCachingStrategy.warm(EntityNames.PROGRAM, new HashSet<String>(programIds));
 
         return programIds;
     }
