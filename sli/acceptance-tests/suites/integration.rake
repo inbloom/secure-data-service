@@ -1,12 +1,26 @@
 ############################################################
-# Cross App Tests start
+# Environment Variables Set Up For RC Tests
 ############################################################
-require_relative '../test/features/utils/rakefile_common.rb'
+
+RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+STAMPER_WAIT = ENV['STAMPER_WAIT'] ? ENV['STAMPER_WAIT'].to_i : 120  # default is 2 minutes
+EDORG_LOG = ENV['EDORG_LOG'] ? ENV['EDORG_LOG'] : "/var/log/edorg.log"
+TEACHER_LOG = ENV['TEACHER_LOG'] ? ENV['TEACHER_LOG'] : "/var/log/teacher.log"
+
+############################################################
+# Cross App Tests
+############################################################
 
 desc "Run cross application testing"
 task :crossAppTests => [:appInit] do
   runTests("test/features/cross_app_tests")
 end
+
+############################################################
+# RC Tests
+############################################################
+
+require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
 task :rcIngestionTests do
@@ -61,6 +75,15 @@ task :rcDeleteLDAPUsers do
   end
 end
 
+desc "Check the stamper status / run the stamper on RC/CI"
+task :rcCheckStampers do
+  if RUN_ON_RC
+    check_stamper_log("Finished stamping tenant \'RCTestTenant\'.")
+  else
+    addSecurityData()
+  end
+end
+
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
@@ -70,9 +93,10 @@ task :rcTests do
   Rake::Task["rcLeaSamtTests"].execute
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
-  check_stamper_log("Finished stamping tenant \'RCTestTenant\'.")
+  Rake::Task["rcCheckStampers"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcCleanUpTests"].execute
+  Rake::Task["rcDeleteLDAPUsers"].execute
 
   displayFailureReport()
   if $SUCCESS
@@ -81,22 +105,19 @@ task :rcTests do
     raise "Tests have failed"
   end
 end
-############################################################
-# Cross App Tests end
-############################################################
 
 ############################################################
-# STAMPER LOG MONITORING
+# Check Stamper Logs
 ############################################################
 
 private
 
 def check_stamper_log(line = nil)
-  edorg_stamper_log = "/var/log/edorg.log"
-  teacher_stamper_log = "/var/log/teacher.log"
+  edorg_stamper_log = EDORG_LOG
+  teacher_stamper_log = TEACHER_LOG
   edorg_stamper_finished = false
   teacher_stamper_finished = false
-  seconds_to_wait = 120
+  seconds_to_wait = STAMPER_WAIT
   backward = 1000
 
   seconds_to_wait.times do
