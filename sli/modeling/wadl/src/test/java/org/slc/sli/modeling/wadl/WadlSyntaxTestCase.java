@@ -26,6 +26,12 @@ import junit.framework.TestCase;
 
 import org.slc.sli.modeling.rest.ParamStyle;
 
+/**
+ * JUnit test for WadlSyntax class.
+ *
+ * @author dholmes
+ *
+ */
 public class WadlSyntaxTestCase extends TestCase {
 
     public void testDecodeParamStyle() {
