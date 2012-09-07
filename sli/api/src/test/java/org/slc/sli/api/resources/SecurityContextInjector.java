@@ -18,23 +18,25 @@
 package org.slc.sli.api.resources;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -46,6 +48,11 @@ public class SecurityContextInjector {
     public static final String ED_ORG_ID = "1111-1111-1111";
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     public static final String TENANT_ID = "Midgar";
+    private static final String SESSION_ID = "SOME_SESSION_ID";
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
     @Autowired
     private RolesToRightsResolver resolver;
@@ -269,6 +276,9 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         principal.setEntity(principalEntity);
         principal.setRealm(realmId);
+        // Create the user session for security caching
+        Entity session = repo.create("userSession", new HashMap<String, Object>());
+        principal.setSessionId(session.getEntityId());
         return principal;
     }
 
