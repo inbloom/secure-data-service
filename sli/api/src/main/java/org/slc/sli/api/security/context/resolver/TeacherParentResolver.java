@@ -18,6 +18,7 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -51,7 +52,7 @@ public class TeacherParentResolver implements EntityContextResolver {
         List<String> finalIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
-        securityCachingStrategy.warm(EntityNames.PARENT, finalIds);
+        securityCachingStrategy.warm(EntityNames.PARENT, new HashSet<String>(finalIds));
         return finalIds;
     }
 }
