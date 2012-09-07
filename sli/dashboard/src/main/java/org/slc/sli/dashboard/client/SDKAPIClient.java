@@ -173,7 +173,7 @@ public class SDKAPIClient implements APIClient {
             }
         }
         
-        return null;
+        return id;
     }
     
     /**
