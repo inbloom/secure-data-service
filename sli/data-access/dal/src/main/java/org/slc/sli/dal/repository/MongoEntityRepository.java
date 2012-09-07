@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import java.util.Date;
@@ -35,6 +34,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -64,6 +64,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
+    @Autowired
+    private SubDocAccessor subDocs;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -87,7 +89,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(final String type, final Map<String, Object> body, final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+    public Entity createWithRetries(final String type, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -121,11 +124,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
+        MongoEntity entity = new MongoEntity(type, null, body, metaData, PADDING);
         validator.validate(entity);
 
         this.addTimestamps(entity);
-        return super.create(entity, collectionName);
+        if (subDocs.isSubDoc(collectionName)) {
+            subDocs.subDoc(collectionName).create(entity.getBody());
+            return entity;
+        } else {
+            return super.create(entity, collectionName);
+        }
     }
 
     @Override
