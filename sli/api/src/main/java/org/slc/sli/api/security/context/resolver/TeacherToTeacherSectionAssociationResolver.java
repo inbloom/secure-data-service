@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -23,11 +27,6 @@ import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCach
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Resolves which TeacherSection a given teacher is allowed to see.
@@ -43,23 +42,18 @@ public class TeacherToTeacherSectionAssociationResolver implements EntityContext
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-//        return false;
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.TEACHER_SECTION_ASSOCIATION.equals(toEntityType);
+        // return false;
+        return EntityNames.TEACHER.equals(fromEntityType)
+                && EntityNames.TEACHER_SECTION_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (!securityCachingStrategy.contains(EntityNames.TEACHER_SECTION_ASSOCIATION)) {
-            List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
-            List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.TEACHER_SECTION_ASSOCIATION,
-                    "teacherId", ids);
-            securityCachingStrategy.warm(EntityNames.TEACHER_SECTION_ASSOCIATION, new HashSet<String>(finalIds));
-            return finalIds;
-        }
-        else {
-            return new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.TEACHER_SECTION_ASSOCIATION));
-        }
+        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
+        List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.TEACHER_SECTION_ASSOCIATION,
+                "teacherId", ids);
+        securityCachingStrategy.warm(EntityNames.TEACHER_SECTION_ASSOCIATION, new HashSet<String>(finalIds));
+        return finalIds;
     }
-
 
 }

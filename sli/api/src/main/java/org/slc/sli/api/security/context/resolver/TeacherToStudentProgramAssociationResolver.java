@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
@@ -25,14 +28,9 @@ import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
 /**
  * Resolves which StudentProgramAssociations a given teacher is allowed to see.
- *
+ * 
  * @author vmcglaughlin
  */
 @Component
@@ -46,23 +44,20 @@ public class TeacherToStudentProgramAssociationResolver implements EntityContext
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-//        return false;
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(toEntityType);
+        // return false;
+        return EntityNames.TEACHER.equals(fromEntityType)
+                && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (!securityCachingStrategy.contains(EntityNames.STUDENT_PROGRAM_ASSOCIATION)) {
-            List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
-                    ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-            
-            List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-                    "studentId", studentIds);
-            securityCachingStrategy.warm(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(finalIds));
-            return finalIds;
-        }
-        else {
-            return new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT_PROGRAM_ASSOCIATION));
-        }
+        
+        List<String> studentIds = helper.findAccessible(principal,
+                Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        
+        List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+                "studentId", studentIds);
+        securityCachingStrategy.warm(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(finalIds));
+        return finalIds;
     }
 }
