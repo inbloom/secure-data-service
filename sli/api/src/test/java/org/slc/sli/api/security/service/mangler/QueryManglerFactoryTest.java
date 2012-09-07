@@ -53,17 +53,7 @@ public class QueryManglerFactoryTest {
     public void testGetManglerForInvalidCollection() {
         NeutralQuery query = new NeutralQuery();
         SecurityCriteria criteria = new SecurityCriteria();
-        criteria.setCollectionName("student");
-        criteria.setSecurityCriteria(null);
-        Mangler chosenMangler = factory.getMangler(query, criteria);
-        assertTrue(chosenMangler == null);
-    }
-    
-    @Test
-    public void testGetManglerForInvalidCriteria() {
-        NeutralQuery query = new NeutralQuery();
-        SecurityCriteria criteria = new SecurityCriteria();
-        criteria.setCollectionName("student");
+        criteria.setCollectionName("blerbler");
         criteria.setSecurityCriteria(null);
         Mangler chosenMangler = factory.getMangler(query, criteria);
         assertTrue(chosenMangler == null);

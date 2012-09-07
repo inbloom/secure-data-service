@@ -114,6 +114,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
+    
+    @Autowired
+    private SecurityCriteria securityCriteria;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -630,6 +633,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
+        //TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, defn.getType())) {
@@ -690,10 +694,10 @@ public class BasicService implements EntityService {
     }
 
     private SecurityCriteria findAccessible(String toType) {
-        SecurityCriteria securityCriteria = new SecurityCriteria();
         String securityField = "_id";
         String blackListedEdOrgs = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        securityCriteria.setCollectionName(toType);
 
         if (principal == null) {
             throw new AccessDeniedException("Principal cannot be found");
