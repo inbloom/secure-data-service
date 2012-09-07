@@ -34,8 +34,9 @@ public class StudentQueryManglerTest {
         securityCriteria.setCollectionName("students");
         securityCriteria.setSecurityCriteria(baseCriteria);
         NeutralQuery finalQuery = mangler.mangleQuery(query, baseCriteria);
-        assertTrue(finalQuery.getCriteria().size() == 1);
-        assertTrue(finalQuery.getCriteria().get(0).equals(baseCriteria));        
+        assertTrue(finalQuery.getCriteria().size() == 0);
+        assertTrue(finalQuery.getOrQueries().size() == 1);
+        assertEquals(finalQuery.getOrQueries().get(0).getCriteria().get(0), baseCriteria);
     }
     
     @Test
@@ -50,8 +51,9 @@ public class StudentQueryManglerTest {
         securityCriteria.setCollectionName("students");
         securityCriteria.setSecurityCriteria(secureCriteria);
         NeutralQuery finalQuery = mangler.mangleQuery(query, secureCriteria);
-        assertEquals(finalQuery.getCriteria().get(0), baseCriteria);
-        assertTrue(finalQuery.getCriteria().size() == 1);
+        assertTrue(finalQuery.getCriteria().size() == 0);
+        assertTrue(finalQuery.getOrQueries().size() == 1);
+        assertEquals(finalQuery.getOrQueries().get(0).getCriteria().get(0), baseCriteria);
     }
     
     @Test
