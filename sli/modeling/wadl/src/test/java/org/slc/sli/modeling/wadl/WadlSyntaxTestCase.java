@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.modeling.wadl;
 
 import java.lang.reflect.Constructor;
@@ -23,18 +24,16 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
 import org.slc.sli.modeling.rest.ParamStyle;
 
 /**
  * JUnit test for WadlSyntax class.
- * 
+ *
  * @author dholmes
- * 
+ *
  */
 public class WadlSyntaxTestCase extends TestCase {
 
-    @Test(expected = IllegalArgumentException.class)
     public void testDecodeParamStyle() {
 
         assertEquals(5, ParamStyle.values().length);
@@ -47,8 +46,12 @@ public class WadlSyntaxTestCase extends TestCase {
 
         assertNull(WadlSyntax.decodeParamStyle(null));
 
-        assertEquals(ParamStyle.TEMPLATE, WadlSyntax.decodeParamStyle("foo"));
-        fail();
+        try {
+            assertEquals(ParamStyle.TEMPLATE, WadlSyntax.decodeParamStyle("foo"));
+            fail();
+        } catch (final IllegalArgumentException e) {
+            // Expected
+        }
     }
 
     public void testEncodeParamStyle() {
