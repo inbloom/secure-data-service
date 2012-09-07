@@ -545,8 +545,8 @@ public final class WadlReader {
                 case XMLStreamConstants.CHARACTERS: {
                     // Assume that the element will coalesce text nodes.
                     children.add(new DmText(reader.getText()));
-                }
                     break;
+                }
                 case XMLStreamConstants.COMMENT: {
                     // Ignore for now.
                     break;

@@ -28,6 +28,12 @@ import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 
+/**
+ * Wadl Helper methods.
+ * 
+ * @author dholmes
+ *
+ */
 public final class WadlHelper {
 
     private WadlHelper() {

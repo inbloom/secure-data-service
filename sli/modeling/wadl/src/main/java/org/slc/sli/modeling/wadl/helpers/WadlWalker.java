@@ -23,6 +23,12 @@ import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 
+/**
+ * Iterates through the resources of a wadl, calling the appropriate handler methods.
+ * 
+ * @author dholmes
+ *
+ */
 public final class WadlWalker {
 
     private final WadlHandler handler;

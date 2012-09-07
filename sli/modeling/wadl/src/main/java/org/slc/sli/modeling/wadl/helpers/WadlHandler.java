@@ -23,6 +23,12 @@ import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 
+/**
+ * Interface for WADL handler
+ * 
+ * @author dholmes
+ *
+ */
 public interface WadlHandler {
 
     void beginApplication(Application application);
