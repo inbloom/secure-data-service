@@ -29,6 +29,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides a map of zone->SEA
+ * @author sashton
+ *
+ */
 @Component
 public class ZoneMapProvider {
 

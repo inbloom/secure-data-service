@@ -15,6 +15,8 @@
  */
 package org.slc.sli.sif.slcinterface;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.util.Query;
@@ -54,7 +57,7 @@ public class SifIdResolverCustomData implements SifIdResolver {
         synchronized (lock) {
             Entity entity = getSliEntity(sifId, zoneId);
             if (entity == null) {
-                LOG.debug("No sli id found for sifId(" + sifId + ")");
+                LOG.info("No sli id found for sifId(" + sifId + ")");
                 return null;
             }
             return entity.getId();
@@ -229,9 +232,12 @@ public class SifIdResolverCustomData implements SifIdResolver {
                 .build();
         List<Entity> list;
         try {
-            LOG.debug("Querying api: " + locator);
             list = slcInterface.read(locator.getType(), query);
-        } catch (Exception e) {
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SLIClientException e) {
             throw new RuntimeException(e);
         }
         if (list == null || list.size() == 0) {
