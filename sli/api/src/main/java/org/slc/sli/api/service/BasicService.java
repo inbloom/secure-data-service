@@ -717,10 +717,6 @@ public class BasicService implements EntityService {
             return securityCriteria;
         }
 
-       if (EntityNames.TEACHER.equals(type) && TEACHER_STAMPED_ENTITIES.contains(toType)) {
-            securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
-            return securityCriteria;
-        }
         List<String> allowed = null;
         EntityContextResolver resolver = new DenyAllContextResolver();
         if(!securityCachingStrategy.contains(toType)) {
@@ -737,16 +733,16 @@ public class BasicService implements EntityService {
 
             Set<String> blacklist = edOrgNodeFilter.getBlacklist();
             blackListedEdOrgs = StringUtils.join(blacklist, ',');
+            if (!blacklist.isEmpty()) {
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs,
+                        false));
+            }
         }
 
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false));
-        }
-
-        if (blackListedEdOrgs != null && !blackListedEdOrgs.isEmpty()) {
-            securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs, false));
         }
 
         return securityCriteria;
