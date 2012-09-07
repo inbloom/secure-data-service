@@ -155,7 +155,7 @@ public final class WadlExpert {
         return new QName(config.getNamespaceURI(), type.getName(), config.getPrefix());
     }
 
-    private static final List<String> getNames(final List<? extends HasName> namedElements) {
+    protected static final List<String> getNames(final List<? extends HasName> namedElements) {
         if (namedElements == null) {
             throw new NullPointerException("namedElements");
         }
@@ -168,11 +168,11 @@ public final class WadlExpert {
 
     }
 
-    private static final boolean isTemplateParam(final String step) {
+    protected static final boolean isTemplateParam(final String step) {
         return step.startsWith("{") && step.endsWith("}");
     }
 
-    private static final List<String> splitBasedOnFwdSlash(final String path) {
+    protected static final List<String> splitBasedOnFwdSlash(final String path) {
         final List<String> result = new LinkedList<String>();
         for (final String s : path.split("/")) {
             result.add(s);
@@ -180,7 +180,7 @@ public final class WadlExpert {
         return result;
     }
 
-    private static final List<String> toSteps(final Resource resource, final Stack<Resource> ancestors) {
+    protected static final List<String> toSteps(final Resource resource, final Stack<Resource> ancestors) {
         final List<String> result = new LinkedList<String>();
         for (final Resource ancestor : ancestors) {
             result.addAll(splitBasedOnFwdSlash(ancestor.getPath()));
@@ -189,7 +189,7 @@ public final class WadlExpert {
         return result;
     }
 
-    private WadlExpert() {
+    protected WadlExpert() {
         throw new RuntimeException();
     }
 
