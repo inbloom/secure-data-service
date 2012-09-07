@@ -18,7 +18,6 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -44,6 +43,9 @@ public class TeacherProgramResolver implements EntityContextResolver {
     private StudentSectionAssociationEndDateFilter dateFilter;
     
     @Autowired
+    TeacherStudentResolver studentResolver;
+
+    @Autowired
     private SessionSecurityCache securityCachingStrategy;
 
     @Override
@@ -55,17 +57,24 @@ public class TeacherProgramResolver implements EntityContextResolver {
     @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
-
+        //Get my students
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
+            studentIds = studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+        }
         // teacher -> staffProgramAssociation
-        Iterable<Entity> staffProgramAssociations = helper.getReferenceEntities(EntityNames.STAFF_PROGRAM_ASSOCIATION, ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
+        Iterable<Entity> studentProgramAssociations = helper.getReferenceEntities(
+                EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.STUDENT_ID, studentIds);
 
         // filter on end_date to get list of programIds
         List<String> programIds = new ArrayList<String>();
         final String currentDate = dateFilter.getCurrentDate();
-        for (Entity assoc : staffProgramAssociations) {
+        for (Entity assoc : studentProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
             if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
-                programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
+                programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
             }
         }
         securityCachingStrategy.warm(EntityNames.PROGRAM, new HashSet<String>(programIds));
