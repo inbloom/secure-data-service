@@ -64,7 +64,8 @@ public class StudentQueryMangler extends Mangler {
     @Override
     public boolean respondsTo(String type) {
         //FIXME get rid of this until we know we need to split by type.
-        return (type.equals("student") || type.equals("section"));
+       return true;
+        // return (type.equals("student") || type.equals("section"));
     }
     
 }
