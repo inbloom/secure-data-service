@@ -73,11 +73,7 @@ public final class Xsd2UmlHelper {
             } else {
                 // FIXME: It's rather crude to use a type name.
                 final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
-                if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
-                    return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
-                } else {
-                    return Xsd2UmlHelper.camelCase(targetName);
-                }
+                return Xsd2UmlHelper.camelCase(targetName);
             }
         }
     }
