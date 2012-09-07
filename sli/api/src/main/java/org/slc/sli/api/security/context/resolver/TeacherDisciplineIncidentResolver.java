@@ -18,6 +18,7 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -39,17 +41,21 @@ public class TeacherDisciplineIncidentResolver implements EntityContextResolver 
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return false;
-        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_INCIDENT.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.DISCIPLINE_INCIDENT.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
+        List<String> ids = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                                                               ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                                                               ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS));
+        securityCachingStrategy.warm(EntityNames.DISCIPLINE_INCIDENT, new HashSet<String>(ids));
+        return ids;
     }
 }
