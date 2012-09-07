@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SubDocAccessor {
     private final Map<String, Location> locations = new HashMap<String, SubDocAccessor.Location>();
+
+    @Qualifier("mongoTemplate")
     @Autowired
     private MongoTemplate template;
 
