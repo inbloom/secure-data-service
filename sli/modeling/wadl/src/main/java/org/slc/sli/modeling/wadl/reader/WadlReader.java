@@ -50,7 +50,6 @@ import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.ResourceType;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.wadl.WadlAttributeName;
 import org.slc.sli.modeling.wadl.WadlElementName;
 import org.slc.sli.modeling.wadl.WadlSyntax;
