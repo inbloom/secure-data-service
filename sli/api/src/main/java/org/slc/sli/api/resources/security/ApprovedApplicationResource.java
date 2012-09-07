@@ -31,14 +31,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -49,6 +41,14 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -64,7 +64,6 @@ public class ApprovedApplicationResource {
 
     public static final String RESOURCE_NAME = "application";
     public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
-    public static final String CUSTOM_ROLE_ADMIN_PLACEHOLDER = "CUSTOM_ROLE_ADMIN";
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description",
@@ -139,20 +138,19 @@ public class ApprovedApplicationResource {
         return false;
     }
 
-    private List<String> getUsersRoles() {
+    private List<String> getUsersRights() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ArrayList<String> toReturn = new ArrayList(principal.getRoles());
+        ArrayList<String> rights = new ArrayList<String>();
+        for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+            rights.add(right.toString());
+        }
 
         //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
         if (hasAppAuthorizationRight()) {
-            toReturn.add(DELEGATED_ADMIN_PLACEHOLDER);
-        }
-        
-        if (SecurityUtil.hasRight(Right.CRUD_ROLE)) {
-            toReturn.add(CUSTOM_ROLE_ADMIN_PLACEHOLDER);
+            rights.add(DELEGATED_ADMIN_PLACEHOLDER);
         }
 
-        return toReturn;
+        return rights;
     }
 
     private boolean hasAppAuthorizationRight() {
@@ -167,22 +165,22 @@ public class ApprovedApplicationResource {
     }
 
     private void filterEndpoints(List<Map<String, Object>> endpoints) {
-        List<String> userRoles = getUsersRoles();
+        List<String> userRights = getUsersRights();
 
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
             @SuppressWarnings("unchecked")
-            List<String> reqRoles = (List<String>) i.next().get("roles");
+            List<String> reqRights = (List<String>) i.next().get("rights");
 
-            //if no roles specified, don't filter it
-            if (reqRoles.size() == 0) {
+            //if no rights specified, don't filter it
+            if (reqRights.size() == 0) {
                 continue;
             }
 
-            List<String> intersection = new ArrayList<String>(reqRoles);
-            intersection.retainAll(userRoles);
-            if (userRoles.size() == 0 || intersection.size() == 0) {
-                debug("Removing endpoint because users roles {} did not match required roles {}.", userRoles, reqRoles);
+            List<String> intersection = new ArrayList<String>(reqRights);
+            intersection.retainAll(userRights);
+            if (userRights.size() == 0 || intersection.size() == 0) {
+                debug("Removing endpoint because users rights {} did not match required rights {}.", userRights, reqRights);
                 i.remove();
             }
         }

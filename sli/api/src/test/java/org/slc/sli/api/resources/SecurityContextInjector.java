@@ -96,7 +96,7 @@ public class SecurityContextInjector {
         setSecurityContext(principal);
 
         // TODO why do developers have admin access?
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD };
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.INGEST_DATA }; //Have INGEST_DATA right in sandbox
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));

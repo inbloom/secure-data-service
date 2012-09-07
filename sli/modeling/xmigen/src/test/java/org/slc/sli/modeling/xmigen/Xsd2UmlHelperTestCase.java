@@ -65,12 +65,12 @@ public class Xsd2UmlHelperTestCase extends TestCase {
     }
     
     public void testMakeAssociationEndName() {
-        checkEndName("fooAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
-        checkEndName("barBazAssociations", "Foo", "foo", 1, "FooBarBazAssociation");
+        checkEndName("fooBarBazAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
+        checkEndName("fooBarBazAssociations", "Foo", "foo", 1, "FooBarBazAssociation");
         checkEndName("fooBars", "BigBad", "bigBads", 1, "FooBar");
         checkEndName("bigBadFooBars", "Bad", "bigBad", 2, "FooBar");
-        checkEndName("fooAssociations", "Bar", "bar", 1, "FooBarAssociation");
-        checkEndName("barAssociations", "Foo", "foo", 1, "FooBarAssociation");
+        checkEndName("fooBarAssociations", "Bar", "bar", 1, "FooBarAssociation");
+        checkEndName("fooBarAssociations", "Foo", "foo", 1, "FooBarAssociation");
         checkEndName("foos", "BarBaz", "barBaz", 1, "Foo");
         checkEndName("foos", "BarBazAssociation", "barBazAssociation", 1, "Foo");
         checkEndName("fooBars", "Big", "big", 1, "FooBar");
@@ -90,19 +90,19 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         checkEndName("restraintEvents", "Program", "programs", 1, "RestraintEvent");
         checkEndName("restraintEvents", "School", "school", 1, "RestraintEvent");
         checkEndName("restraintEvents", "Student", "student", 1, "RestraintEvent");
-        checkEndName("academicRecords", "Student", "student", 1, "StudentAcademicRecord");
+        checkEndName("studentAcademicRecords", "Student", "student", 1, "StudentAcademicRecord");
         checkEndName("studentAcademicRecords", "Session", "session", 1, "StudentAcademicRecord");
         checkEndName("studentCompetencies", "LearningObjective", "learningObjective", 1, "StudentCompetency");
         checkEndName("fooBarcies", "FooBarcyObjective", "fooBarcyObjective", 1, "FooBarcy");
         checkEndName("fooCompetencies", "FooSectionAssociation", "fooSectionAssociation", 1, "FooCompetency");
-        checkEndName("disciplineIncidentAssociations", "Student", "student", 1, "StudentDisciplineIncidentAssociation");
-        checkEndName("fooAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
+        checkEndName("studentDisciplineIncidentAssociations", "Student", "student", 1, "StudentDisciplineIncidentAssociation");
+        checkEndName("fooBarBazAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
         checkEndName("fooOrganizations", "FooOrganization", "parentFooAgency", 1, "FooOrganization");
         checkEndName("sections", "Assessment", "assessmentReferences", 1, "Section");
         checkEndName("sections", "CourseOffering", "courseOffering", 1, "Section");
-        checkEndName("staffAssociations", "Program", "programs", 1, "StaffProgramAssociation");
-        checkEndName("programAssociations", "Staff", "staff", 1, "StaffProgramAssociation");
-        checkEndName("offerings", "Course", "course", 1, "CourseOffering");
+        checkEndName("staffProgramAssociations", "Program", "programs", 1, "StaffProgramAssociation");
+        checkEndName("staffProgramAssociations", "Staff", "staff", 1, "StaffProgramAssociation");
+        checkEndName("courseOfferings", "Course", "course", 1, "CourseOffering");
         checkEndName("courseOfferings", "EducationOrganization", "school", 1, "CourseOffering");
         checkEndName("courseOfferings", "Session", "session", 1, "CourseOffering");
         checkEndName("fooDescriptors", "EducationOrganization", "educationOrganizations", 1, "FooDescriptor");
@@ -115,10 +115,10 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         checkEndName("fooBarAssociations", "EducationOrganization", "educationOrganization", 1, "FooBarAssociation");
         checkEndName("studentTranscriptAssociations", "Course", "course", 1, "StudentTranscriptAssociation");
         checkEndName("fooBarAssociations", "FooAcademicRecord", "fooAcademicRecord", 1, "FooBarAssociation");
-        checkEndName("transcriptAssociations", "Student", "student", 1, "StudentTranscriptAssociation");
+        checkEndName("studentTranscriptAssociations", "Student", "student", 1, "StudentTranscriptAssociation");
         checkEndName("cohorts", "Program", "programs", 1, "Cohort");
         checkEndName("cohorts", "EducationOrganization", "educationOrg", 1, "Cohort");
-        checkEndName("gradebookEntries", "Student", "student", 1, "StudentGradebookEntry");
+        checkEndName("studentGradebookEntries", "Student", "student", 1, "StudentGradebookEntry");
         checkEndName("studentGradebookEntries", "Section", "section", 1, "StudentGradebookEntry");
         checkEndName("fooStudentGradebookEntries", "GradebookEntry", "gradebookEntry", 1, "FooStudentGradebookEntry");
         checkEndName("courses", "School", "school", 1, "Course");

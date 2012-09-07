@@ -72,7 +72,9 @@ public class SlcInterface {
     public String sessionCheck() {
         try {
             return client.sessionCheck(token);
-        } catch (Exception e) {
+        } catch (URISyntaxException e) {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (IOException e) {
             LOG.error("  " + e.getMessage(), e);
         }
         return "";
