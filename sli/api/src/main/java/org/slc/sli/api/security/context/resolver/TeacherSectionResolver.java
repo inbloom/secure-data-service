@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,12 +25,14 @@ public class TeacherSectionResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private SessionSecurityCache securityCache;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return false;
-        // return EntityNames.TEACHER.equals(fromEntityType) &&
-        // EntityNames.SECTION.equals(toEntityType);
+        // return false;
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class TeacherSectionResolver implements EntityContextResolver {
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
-
+        securityCache.warm(EntityNames.SECTION, sectionIds);
         return new ArrayList<String>(sectionIds);
     }
 }
