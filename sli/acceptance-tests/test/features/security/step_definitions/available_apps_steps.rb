@@ -42,7 +42,7 @@ Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have 
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
   puts @result.inspect if ENV['DEBUG']
-  assert(@result.length < 6, "around 6 admin apps") #important thing is this is less than the result of the size of the list of all apps
+  assert(@result.length < 6, "needed around 6 admin apps, found #{@result.length}") #important thing is this is less than the result of the size of the list of all apps
 end
 
 Then /^I receive a JSON object listing all the admin apps$/ do
@@ -116,14 +116,6 @@ Then /^the list does not contain and app named "(.*?)"$/ do |app_name|
 	assert(@found_app == nil, "Found an app named #{app_name}")
 end
 
-
-And /^the admin app endpoints only contains SLI operator endpoints$/ do
-	assert(@admin_app["endpoints"] != nil)
-	@admin_app["endpoints"].each do |endpoint|
-		assert(endpoint["roles"].include? "SLC Operator")
-	end
-end
-
 And /^none of the apps are admin apps$/ do
 	@result.each do |app|
 		assert(app["is_admin"] == false, "#{app['name']} is non-admin app") 
@@ -133,3 +125,14 @@ end
 And /^the resulting list is empty$/ do
 	assert(@result.length == 0, "list is empty")
 end
+
+Then /^the admin app endpoints contain "(.*?)"$/ do |arg1|
+  found = false
+  @admin_app["endpoints"].each do |endpoint|
+    if endpoint["name"] == arg1
+      found = true
+    end
+  end
+  assert(found == true, "Looking for #{arg1} in list")
+end
+
