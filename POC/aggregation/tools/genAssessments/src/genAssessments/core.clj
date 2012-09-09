@@ -50,16 +50,34 @@
                                (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
                                         (element :ID {} assessment)))))))
 
+
 (defn create-school [districtName, school]
   (let [tmp (element :School {}
     (element :StateOrganizationId {} school)
-    (element :EducationOrgIdentificationCode {}
-      (element :IdentificationSystem {} "School")
+    (element :EducationOrgIdentificationCode {:IdentificationSystem "School"}
       (element :ID {} school)
     )
     (element :NameOfInstitution {} school)
     (element :OrganizationCategories {}
       (element :OrganizationCategory {} "School")
+    )
+    (element :Address {:AddressType "Physical"}
+      (element :StreetNumberName {} "123 Street")
+      (element :City {} "Albany")
+      (element :StateAbbreviation {} "NY")
+      (element :PostalCode {} "11011")
+      (element :NameOfCounty {} districtName)
+    )
+    (element :Telephone {:InstitutionTelephoneNumberType "Main"}
+      (element :TelephoneNumber {} "(425)-555-1212" )
+    )
+    (element :GradesOffered {}
+      (element :GradeLevel {} "First grade")
+      (element :GradeLevel {} "Second grade")
+      (element :GradeLevel {} "Third grade")
+      (element :GradeLevel {} "Fourth grade")
+      (element :GradeLevel {} "Fifth grade")
+      (element :GradeLevel {} "Sixth grade")
     )
     (element :SchoolCategories {}
       (element :schoolCategory {} "Elementary School")
@@ -68,18 +86,75 @@
       (element :EducationalOrgIdentity {}
         (element :StateOrganizationId {} districtName)
       )
+      (element :EducationOrgIdentificationCode {:IdentificationSystem "SEA"}
+        (element :ID {} districtName)
+      )
     )
   )]
   tmp
   )
 )
 
+(defn create-state []
+  (let [tmp (element :StateEducationAgency {}
+    (element :StateOrganizationId {} "NY")
+    (element :NameOfInstitution {} "New York State Board of Education")
+    (element :OrganizationCategories {}
+      (element :OrganizationCategory {} "State Education Agency")
+    )
+    (element :Address {}
+      (element :StreetNumberName {} "123 Street")
+      (element :City {} "Albany")
+      (element :StateAbbreviation {} "NY")
+      (element :PostalCode {} "11011")
+    )
+  )]
+  tmp
+  )
+)
+
+(defn create-district [districtName]
+  (let [tmp (element :LocalEducationAgency {}
+    (element :StateOrganizationId {} districtName)
+    (element :NameOfInstitution {} districtName)
+    (element :OrganizationCategories {}
+      (element :OrganizationCategory {} "Local Education Agency")
+    )
+    (element :Address {}
+      (element :StreetNumberName {} "123 Street")
+      (element :City {}  districtName)
+      (element :StateAbbreviation {} "NY")
+      (element :PostalCode {} "11011")
+    )
+    (element :LEACategory {} "Independent")
+    (element :StateEducationAgencyReference {}
+      (element :EducationalOrgIdentity {}
+        (element :StateOrganizationId {} "NY")
+      )
+      (element :EducationOrgIdentificationCode {:IdentificationSystem "SEA"}
+        (element :ID {} "IL")
+      )
+    )
+    )]
+    tmp
+  )
+)
+
 (defn gen-schools
   [district schools output-file]
   (gen-edfi :InterchangeEducationOrganization output-file
-    (for [school schools
-      :let [tmp (create-school district school)]]
-      tmp)
+    (reverse
+      (into ()
+        [
+          (create-state)
+          (create-district district)
+          (for [school schools
+            :let [tmp (create-school district school)]]
+            tmp
+          )
+        ]
+      )
+    )
   )
 )
 
@@ -180,7 +255,7 @@
 
 (defn gen-big-data
     []
-    (doseq [ [district] (map list (gen-district-schools 5 15 1500))]
+    (doseq [ [district] (map list (gen-district-schools 1 1 100))]
       (doseq [ [districtName schools] district]
         (gen-schools districtName schools (format "/tmp/test/%s-schools.xml" districtName))
       )
