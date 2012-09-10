@@ -1,22 +1,19 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 
 
@@ -30,7 +27,10 @@ import org.slc.sli.domain.Repository;
 public class TeacherCourseResolver implements EntityContextResolver {
 
     @Autowired
-    private AssociativeContextHelper helper;
+    private TeacherCourseOfferingResolver coResolver;
+    
+    @Autowired
+    private SessionSecurityCache securityCache;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -43,37 +43,26 @@ public class TeacherCourseResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
-
-        List<String> studentSectionIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-
-        Set<String> sectionIds = new HashSet<String>();
-        sectionIds.addAll(teacherSectionIds);
-        sectionIds.addAll(studentSectionIds);
-
-        List<String> ids = new ArrayList<String>();
-        for (String sectionId : sectionIds) {
-            ids.add(sectionId);
+        List<String> courseOfferingIds = new ArrayList<String>();
+        if (!securityCache.contains(EntityNames.COURSE_OFFERING)) {
+            courseOfferingIds = coResolver.findAccessible(principal);
+        } else {
+            courseOfferingIds = new ArrayList<String>(securityCache.retrieve(EntityNames.COURSE_OFFERING));
         }
-
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", courseOfferingIds));
 
-        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
-        Set<String> sessionIds = new HashSet<String>();
+        Iterable<Entity> entities = repository.findAll(EntityNames.COURSE_OFFERING, neutralQuery);
+        Set<String> courseIds = new HashSet<String>();
 
         for (Entity e : entities) {
             String courseId = (String) e.getBody().get("courseId");
             if (courseId != null) {
-                sessionIds.add(courseId);
+                courseIds.add(courseId);
             }
         }
-
-        return new ArrayList<String>(sessionIds);
+        securityCache.warm(EntityNames.COURSE, courseIds);
+        return new ArrayList<String>(courseIds);
     }
 
 }
