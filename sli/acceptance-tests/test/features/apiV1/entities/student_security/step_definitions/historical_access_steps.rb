@@ -159,14 +159,21 @@ def check_grades(arg1, response)
   restHttpGet("/v1/studentSectionAssociations?studentId=#{arg1}")
   ssa = JSON.parse(@res.body)
   grades = []
+  studentCompetencies = []
   if (response != 403)
     ssa.each do |association|
       #Get the grade for this.
       restHttpGet("/v1/studentSectionAssociations/#{association["id"]}/grades")
       grade = JSON.parse(@res.body)
       grades += grade
+      #Get the student Competency for this.
+      restHttpGet("/v1/studentSectionAssociations/#{association["id"]}/studentCompetencies")
+      studentCompetency = JSON.parse(@res.body)
+      studentCompetencies += studentCompetency
     end
     grades = grades.flatten.uniq
     assert(grades.count >= 1, "Expected to only see one grade, but saw #{grades.count}")
+    studentCompetencies = studentCompetencies.flatten.uniq
+    assert(studentCompetencies.count >= 1, "Expected to only see one studentCompetency, but saw #{studentCompetencies.count}")
   end
 end
