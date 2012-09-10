@@ -76,15 +76,16 @@ public class SubDocAccessor {
         }
 
         private String makeEntityId(Map<String, Object> entity) {
-            //TODO this needs to be done a bit smarter, probably using whatever is in place for deterministic ids
+            // TODO this needs to be done a bit smarter, probably using whatever is in place for
+            // deterministic ids
             return getParentEntityId(entity) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
         }
 
         @SuppressWarnings("unchecked")
         public Map<String, Object> read(String id) {
-            return (Map<String, Object>) ((Map<String, Object>) template.findOne(
-                    Query.query(Criteria.where("_id").is(getParentEntityId(id))), Map.class, collection).get(
-                    subCollection)).get(id);
+            Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))), Map.class,
+                    collection);
+            return (Map<String, Object>) ((Map<String, Object>) result.get(subCollection)).get(id);
         }
 
         private String getField(String id) {
