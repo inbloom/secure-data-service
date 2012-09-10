@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -16,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,11 +45,20 @@ public class Xsd2UmlPluginHostAdapterTest {
     TagDefinition tagDefinition;
 
     @Mock
+    Attribute attribute;
+
+    @Mock
+    ClassType classType;
+
+    @Mock
+    QName qName;
+
     Identifier identifier;
 
 @Before
 public void before() throws Exception {
     adapter = new Xsd2UmlPluginHostAdapter(mapper);
+    identifier = Identifier.random();
 
 } 
 
@@ -76,9 +88,9 @@ public void testDeclareTagDefinitions() throws Exception {
 */ 
 @Test
 public void testEnsureTagDefinitionId() throws Exception {
-    when(tagDefinition.getId()).thenReturn(identifier);
+    when(tagDefinition.getId()).thenReturn(Identifier.random());
     when(mapper.getTagDefinition(any(QName.class))).thenReturn(tagDefinition);
-    assertEquals(identifier , adapter.ensureTagDefinitionId("mock"));
+    assertNotNull(adapter.ensureTagDefinitionId("mock"));
 } 
 
 /** 
@@ -86,10 +98,10 @@ public void testEnsureTagDefinitionId() throws Exception {
 * Method: getAssociationEndTypeName(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) 
 * 
 */ 
-@Test
-public void testGetAssociationEndTypeName() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testGetAssociationEndTypeName() throws Exception {
+    adapter.getAssociationEndTypeName(classType,attribute,host);
+}
 
 /** 
 * 
@@ -146,10 +158,10 @@ public void testNameFromComplexTypeExtension() throws Exception {
 * Method: nameFromSchemaElementName(final QName name) 
 * 
 */ 
-@Test
-public void testNameFromSchemaElementName() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testNameFromSchemaElementName() throws Exception {
+    adapter.nameFromSchemaElementName(qName);
+}
 
 /** 
 * 
