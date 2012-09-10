@@ -35,9 +35,14 @@ class Oauth
     apiUrl = "#{APP_CONFIG['api_base']}"
     uri = URI.parse(apiUrl)
     apiUrl = "#{uri.scheme}://#{uri.host}:#{uri.port}"
-    clientId = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_id'])
-    clientSecret = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_secret'])
-    return OAuth2::Client.new(clientId, clientSecret, {:site => apiUrl, :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
+    if @clientId == nil
+    	@clientId = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_id'])
+    end
+    if @clientSecret == nil
+    	@clientSecret = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_secret'])
+    end
+    
+    return OAuth2::Client.new(@clientId, @clientSecret, {:site => apiUrl, :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
   end 
 
   def get_token(code)
