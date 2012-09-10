@@ -539,7 +539,7 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForStudent(final String token, final String studentId,
             Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentSectionAssociations)");
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), studentId);
@@ -845,7 +845,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentAssociations)");
+        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentParentAssociations)");
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
     }
