@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -18,15 +15,13 @@ import org.springframework.stereotype.Component;
  * @author nbrown
  *
  */
-@Component
 public class SubDocAccessor {
     private final Map<String, Location> locations = new HashMap<String, SubDocAccessor.Location>();
 
-    @Qualifier("mongoTemplate")
-    @Autowired
-    private MongoTemplate template;
+    private final MongoTemplate template;
 
-    public SubDocAccessor() {
+    public SubDocAccessor(MongoTemplate template) {
+        this.template = template;
         locations.put("studentAssessmentAssociation", new Location("student", "studentId", "assessments"));
         locations.put("studentSectionAssociation", new Location("student", "studentId", "sections"));
     }

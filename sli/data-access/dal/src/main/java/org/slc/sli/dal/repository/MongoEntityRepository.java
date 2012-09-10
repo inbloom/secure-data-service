@@ -64,12 +64,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
-    @Autowired
     private SubDocAccessor subDocs;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
+        subDocs = new SubDocAccessor(getTemplate());
     }
 
     @Override
