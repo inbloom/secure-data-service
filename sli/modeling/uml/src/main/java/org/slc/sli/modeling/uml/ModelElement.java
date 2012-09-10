@@ -64,7 +64,7 @@ public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
     }
     
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof ModelElement) {
             final ModelElement other = (ModelElement) obj;
             return id.equals(other.id);
@@ -74,7 +74,7 @@ public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
     }
     
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return id.hashCode();
     }
 }
