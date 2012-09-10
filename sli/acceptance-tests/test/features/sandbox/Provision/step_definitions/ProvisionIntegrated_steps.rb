@@ -181,6 +181,7 @@ end
 
 
 Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
+  sleep 3 # Used to deal with wait between clicking button and checking mongo
   tenant_coll=@db["tenant"]
   assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
 end
