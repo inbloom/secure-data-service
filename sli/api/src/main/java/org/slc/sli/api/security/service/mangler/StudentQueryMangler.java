@@ -51,8 +51,10 @@ public class StudentQueryMangler extends Mangler {
             finalIdSet = new HashSet<String>(adjustIdListForPaging(new ArrayList<String>(finalIdSet)));
             // They're asking for something they CAN see.
             query.removeCriteria(idCriteria);
-            idCriteria.setValue(new ArrayList<String>(finalIdSet));
-            query.addOrQuery(new NeutralQuery(idCriteria));
+            if (finalIdSet.size() > 0) {
+                idCriteria.setValue(new ArrayList<String>(finalIdSet));
+                query.addOrQuery(new NeutralQuery(idCriteria));
+            }
             return query;
         }
     }
