@@ -37,51 +37,6 @@ public class IndexingVisitorTest {
     }
 
     @Test
-    public void testBeginPackage() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testEndPackage() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetDataTypesByName() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetClassTypesByName() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetModelElementMap() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetNameMap() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetNamespaceMap() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetTagDefinitionsByName() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetWhereUsed() {
-        fail("Not yet implemented");
-    }
-
-    @Test
     public void testVisitAssociationEnd() {
         Identifier assocEndId = Identifier.random();
         String assocEndName = "assocEndName";
@@ -210,11 +165,6 @@ public class IndexingVisitorTest {
         assertTrue(iv.getModelElementMap().containsKey(generalizationId));
         assertEquals(1, iv.getNameMap().size());
         assertTrue(iv.getNameMap().containsKey(new QName(generalizationName)));
-    }
-
-    @Test
-    public void testVisitModel() {
-        fail("Not yet implemented");
     }
 
     @Test
