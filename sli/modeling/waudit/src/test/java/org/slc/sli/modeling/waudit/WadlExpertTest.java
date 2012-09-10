@@ -37,6 +37,11 @@ public class WadlExpertTest {
 		
 		assertEquals(expectedResult, WadlExpert.splitBasedOnFwdSlash(string));
 	}
+	
+	@Test
+	public void testToSteps() {
+		
+	}
 
 
 
