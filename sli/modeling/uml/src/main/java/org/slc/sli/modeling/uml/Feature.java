@@ -48,12 +48,12 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
     public abstract boolean isAssociationEnd();
     
     @Override
-    public final Multiplicity getMultiplicity() {
+    public Multiplicity getMultiplicity() {
         return multiplicity;
     }
     
     @Override
-    public final Identifier getType() {
+    public Identifier getType() {
         return type;
     }
     
