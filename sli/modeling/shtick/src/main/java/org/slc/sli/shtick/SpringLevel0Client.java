@@ -73,7 +73,8 @@ public final class SpringLevel0Client implements Level0Client {
     }
 
     @Override
-    public void patch(String token, String data, URI uri, String mediaType) throws IOException, StatusCodeException {
+    public void patch(final String token, final String data, final URI uri, final String mediaType)
+            throws StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 }

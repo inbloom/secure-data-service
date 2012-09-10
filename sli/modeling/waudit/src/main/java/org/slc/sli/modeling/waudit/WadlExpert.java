@@ -69,7 +69,7 @@ public final class WadlExpert {
             if (elementNames.containsKey(typeName.getLocalPart())) {
                 final QName elementName = elementNames.get(typeName.getLocalPart());
                 if (elementName != null) {
-                    if (elementName.getLocalPart().equals("custom")) {
+                    if (elementName.getLocalPart().equals("custom") || elementName.getLocalPart().equals("home")) {
                         return elementName;
                     } else {
                         return new QName(elementName.getNamespaceURI(), elementName.getLocalPart().concat("List"));
@@ -138,13 +138,14 @@ public final class WadlExpert {
                         if (found) {
                             // Keep on going.
                         } else {
-                            System.err.println("---------------------------------------");
-                            System.err.println("step      : \"" + step + "\"");
-                            System.err.println("type      : \"" + type.getName() + "\"");
-                            System.err.println(step + " is not a valid association end name in steps " + steps
-                                    + " for type " + type.getName());
-                            System.err.println("ends  : " + getNames(ends));
-                            System.err.println("types : " + getNames(types));
+                            // Keep quiet!
+//                            System.err.println("---------------------------------------");
+//                            System.err.println("step      : \"" + step + "\"");
+//                            System.err.println("type      : \"" + type.getName() + "\"");
+//                            System.err.println(step + " is not a valid association end name in steps " + steps
+//                                    + " for type " + type.getName());
+//                            System.err.println("ends  : " + getNames(ends));
+//                            System.err.println("types : " + getNames(types));
                         }
                     }
                 } else {
