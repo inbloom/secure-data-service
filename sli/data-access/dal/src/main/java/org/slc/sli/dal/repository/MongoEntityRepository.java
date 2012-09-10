@@ -210,4 +210,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         this.validator = validator;
     }
 
+    @Override
+    public Entity findById(String collectionName, String id) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id), null);
+        }
+        return super.findById(collectionName, id);
+    }
+
 }
