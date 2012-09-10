@@ -69,7 +69,7 @@ public class TeacherCourseOfferingResolver implements EntityContextResolver {
         }
 
 
-        securityCachingStrategy.warm(EntityNames.SESSION, new HashSet<String>(finalIds));
+        securityCachingStrategy.warm(EntityNames.COURSE_OFFERING, new HashSet<String>(finalIds));
         return finalIds;
     }
     
