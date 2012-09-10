@@ -72,9 +72,7 @@ public final class WadlHelper {
             if (isTemplateParam(step)) {
                 seenParam = true;
                 paramName = parseTemplateParam(step);
-            } else if (isVersion(step)) {
-                // Ignore.
-            } else {
+            } else if (!isVersion(step)) {
                 if (first) {
                     first = false;
                 } else {
