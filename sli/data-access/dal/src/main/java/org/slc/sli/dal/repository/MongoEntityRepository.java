@@ -140,9 +140,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
         if (subDocs.isSubDoc(collectionName)) {
-            for (Entity entity : records) {
-                subDocs.subDoc(collectionName).create(entity.getBody());
-            }
+            subDocs.subDoc(collectionName).insert(records);
             return records;
         } else {
             return super.insert(records, collectionName);

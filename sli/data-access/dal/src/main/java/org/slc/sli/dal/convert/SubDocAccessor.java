@@ -1,13 +1,20 @@
 package org.slc.sli.dal.convert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -49,8 +56,8 @@ public class SubDocAccessor {
             return key;
         }
 
-        private Query getQuery(Map<String, Object> entity) {
-            return Query.query(Criteria.where("_id").is(getParentEntityId(entity)));
+        private Query getQuery(String parentId) {
+            return Query.query(Criteria.where("_id").is(parentId));
         }
 
         private String getParentEntityId(Map<String, Object> entity) {
@@ -61,18 +68,52 @@ public class SubDocAccessor {
             return entityId.split(ID_SEPERATOR)[0];
         }
 
-        private Update getUpdateObject(String id, Map<String, Object> entity) {
-            return new Update().set(getField(id), entity);
+        private Update getUpdateObject(Map<String, Map<String, Object>> newEntities) {
+            Update update = new Update();
+            for (Entry<String, Map<String, Object>> entity : newEntities.entrySet()) {
+                update.set(getField(entity.getKey()), entity.getValue());
+            }
+            return update;
         }
 
         public boolean update(String id, Map<String, Object> entity) {
-            Query query = getQuery(entity);
-            Update updateObject = getUpdateObject(id, entity);
+            Query query = getQuery(getParentEntityId(entity));
+            Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
+            updateMap.put(id, entity);
+            Update updateObject = getUpdateObject(updateMap);
             return template.updateFirst(query, updateObject, collection).getLastError().ok();
+        }
+
+        public boolean bulkUpdate(String parentId, Map<String, Map<String, Object>> newEntities) {
+            Query query = getQuery(parentId);
+            Update update = getUpdateObject(newEntities);
+            return template.updateFirst(query, update, collection).getLastError().ok();
         }
 
         public boolean create(Map<String, Object> entity) {
             return update(makeEntityId(entity), entity);
+        }
+
+        public boolean bulkCreate(String parentId, List<Map<String, Object>> entities) {
+            Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
+            for (Map<String, Object> entity : entities) {
+                updateMap.put(makeEntityId(entity), entity);
+            }
+            return bulkUpdate(parentId, updateMap);
+        }
+
+        public boolean insert(List<Entity> entities) {
+            ConcurrentMap<String, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<String, List<Map<String, Object>>>();
+            for (Entity entity : entities) {
+                String parentEntityId = getParentEntityId(entity.getBody());
+                parentEntityMap.putIfAbsent(parentEntityId, new ArrayList<Map<String, Object>>());
+                parentEntityMap.get(parentEntityId).add(entity.getBody());
+            }
+            boolean result = true;
+            for (Entry<String, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
+                result &= bulkCreate(entry.getKey(), entry.getValue());
+            }
+            return result;
         }
 
         private String makeEntityId(Map<String, Object> entity) {
@@ -83,8 +124,8 @@ public class SubDocAccessor {
 
         @SuppressWarnings("unchecked")
         public Map<String, Object> read(String id) {
-            Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))), Map.class,
-                    collection);
+            Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))),
+                    Map.class, collection);
             return (Map<String, Object>) ((Map<String, Object>) result.get(subCollection)).get(id);
         }
 
