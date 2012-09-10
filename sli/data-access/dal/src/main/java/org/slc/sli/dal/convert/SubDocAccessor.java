@@ -66,7 +66,9 @@ public class SubDocAccessor {
         }
 
         public boolean update(String id, Map<String, Object> entity) {
-            return template.updateFirst(getQuery(entity), getUpdateObject(id, entity), collection).getLastError().ok();
+            Query query = getQuery(entity);
+            Update updateObject = getUpdateObject(id, entity);
+            return template.updateFirst(query, updateObject, collection).getLastError().ok();
         }
 
         public boolean create(Map<String, Object> entity) {
