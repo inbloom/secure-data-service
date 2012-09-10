@@ -43,7 +43,6 @@ public class TeacherParentResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        // return false;
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PARENT.equals(toEntityType);
     }
 

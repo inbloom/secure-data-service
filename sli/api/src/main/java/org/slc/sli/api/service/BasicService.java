@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,13 +78,6 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-
-    private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COHORT, EntityNames.COURSE, EntityNames.COURSE_OFFERING, EntityNames.DISCIPLINE_ACTION,
-            EntityNames.DISCIPLINE_INCIDENT, EntityNames.GRADE, EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADING_PERIOD, EntityNames.PARENT, EntityNames.PROGRAM, EntityNames.REPORT_CARD, EntityNames.SCHOOL, EntityNames.SECTION,
-            EntityNames.SECTION_ASSESSMENT_ASSOCIATION, EntityNames.SESSION, EntityNames.STAFF, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-            EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, EntityNames.TEACHER, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -191,8 +183,6 @@ public class BasicService implements EntityService {
     @Override
     public void delete(String id) {
         // DE260 - Logging of possibly sensitive data
-        // LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
-
         checkAccess(writeRight, id);
 
         try {
@@ -219,7 +209,6 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = repo.findOne(collectionName, query);
-        // Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -300,7 +289,6 @@ public class BasicService implements EntityService {
     }
 
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
-        // this.addDefaultQueryParams(neutralQuery, collectionName);
         if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
             return new ArrayList<EntityBody>();
         } else {
