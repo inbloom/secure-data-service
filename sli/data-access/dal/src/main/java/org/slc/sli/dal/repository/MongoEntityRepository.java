@@ -18,6 +18,7 @@ package org.slc.sli.dal.repository;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -133,6 +134,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return entity;
         } else {
             return super.create(entity, collectionName);
+        }
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        if (subDocs.isSubDoc(collectionName)) {
+            for (Entity entity : records) {
+                subDocs.subDoc(collectionName).create(entity.getBody());
+            }
+            return records;
+        } else {
+            return super.insert(records, collectionName);
         }
     }
 
