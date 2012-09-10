@@ -66,6 +66,7 @@ end
 
 Given /^I create a valid base level student object$/ do
   @result = CreateEntityHash.createBaseStudent()
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a valid base level school object$/ do
@@ -96,13 +97,15 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 end
 
 Given /^I create a student object with "([^"]*)" set to Guy$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result['sex'] = 'Guy'
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a student object with sex equal to "([^"]*)" instead of "([^"]*)"$/ do |arg1, arg2|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result['sex'] = arg1
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a create a school object with "([^"]*)" set to a single map$/ do |arg1|
@@ -127,12 +130,13 @@ end
 
 
 Given /^I create a student object with "([^"]*)" set to an array of names$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result[arg1] = [@result[arg1]]
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create the same student object with "([^"]*)" as a map with the same data$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentDefinedId(@lastStudentId)
 end
 
 Given /^an SSA object is valid except for "([^"]*)"$/ do |arg1|
@@ -144,13 +148,15 @@ Given /^an SSA object is valid except for "([^"]*)"$/ do |arg1|
 end
 
 Given /^I create a student object with "learningStyles.([^"]*)" equal to a string$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result["learningStyles"][arg1] = "no"
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a student object with "([^"]*)" equal to a integer$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result[arg1] = 12345678
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a school object with "([^"]*)" equal to a (\d+) character string$/ do |arg1, arg2|
@@ -159,13 +165,15 @@ Given /^I create a school object with "([^"]*)" equal to a (\d+) character strin
 end
 
 Given /^I create a student object with "([^"]*)" set to a true string$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result[arg1] = "true"
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
-  @result = CreateEntityHash.createBaseStudent()
+  @result = CreateEntityHash.createBaseStudentRandomId()
   @result['birthData'][arg1] = "01-01-2012"
+  @lastStudentId = @result['studentUniqueStateId']
 end
 
 Given /^a valid json document for ([^\"]*)$/ do |entity|
