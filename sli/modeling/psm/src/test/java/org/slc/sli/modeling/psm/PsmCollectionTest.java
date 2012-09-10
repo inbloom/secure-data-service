@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.psm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.junit.Test;
 
-public class PsmConfig<TYPE> {
+import static org.junit.Assert.assertEquals;
 
-    private final List<PsmDocument<TYPE>> documents;
+/**
+ * @author jstokes
+ */
+public class PsmCollectionTest {
 
-    public PsmConfig(final List<PsmDocument<TYPE>> documents) {
-        if (documents == null) {
-            throw new NullPointerException("documents");
-        }
-        this.documents = Collections.unmodifiableList(new ArrayList<PsmDocument<TYPE>>(documents));
+    @Test
+    public void testGetName() {
+        final PsmCollection coll = new PsmCollection("Test");
+        assertEquals("Test", coll.getName());
     }
 
-    public List<PsmDocument<TYPE>> getDocuments() {
-        return documents;
+    @Test(expected = NullPointerException.class)
+    public void testThrowsNull() {
+        final PsmCollection coll = new PsmCollection(null);
     }
 }

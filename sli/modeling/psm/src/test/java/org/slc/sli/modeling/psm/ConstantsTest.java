@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.psm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.junit.Test;
+import org.slc.sli.modeling.psm.helpers.PsmHelpers;
+import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
+import org.slc.sli.modeling.psm.helpers.TagName;
 
-public class PsmConfig<TYPE> {
+import static junit.framework.Assert.assertNotNull;
 
-    private final List<PsmDocument<TYPE>> documents;
-
-    public PsmConfig(final List<PsmDocument<TYPE>> documents) {
-        if (documents == null) {
-            throw new NullPointerException("documents");
-        }
-        this.documents = Collections.unmodifiableList(new ArrayList<PsmDocument<TYPE>>(documents));
-    }
-
-    public List<PsmDocument<TYPE>> getDocuments() {
-        return documents;
+/**
+ */
+public class ConstantsTest {
+    @Test
+    public void testInit() {
+        final PsmHelpers helpers = new PsmHelpers();
+        assertNotNull(helpers);
+        assertNotNull(SliMongoConstants.NAMESPACE_SLI);
+        assertNotNull(SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS);
+        assertNotNull(TagName.DOCUMENTATION);
     }
 }
