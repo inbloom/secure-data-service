@@ -17,57 +17,57 @@
 
 package org.slc.sli.modeling.xdm;
 
-import java.util.LinkedList;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public final class DmElementTestCase extends TestCase {
 
+public final class DmElementTest {
+
+	@Test
     public void testConstruction() {
         final QName name = new QName("");
-        final List<DmNode> nodes = new LinkedList<DmNode>();
+        final List<DmNode> nodes = new ArrayList<DmNode>();
         final DmElement element = new DmElement(name, nodes);
         assertEquals(name, element.getName());
         assertEquals(nodes, element.getChildAxis());
     }
 
+	@Test
     public void testConstructionNameOnly() {
         final QName name = new QName("");
-        final List<DmNode> nodes = new LinkedList<DmNode>();
+        final List<DmNode> nodes = new ArrayList<DmNode>();
         final DmElement element = new DmElement(name);
         assertEquals(name, element.getName());
         assertEquals(nodes, element.getChildAxis());
     }
 
-    /**
-     * Producer extends Consumer super.
-     */
+    @Test
     public void testConstructionPECS() {
         // We're just looking for compilation and no exceptions
-        new DmElement(new QName(""), new LinkedList<DmElement>());
-        new DmElement(new QName(""), new LinkedList<DmText>());
-        new DmElement(new QName(""), new LinkedList<DmProcessingInstruction>());
-        new DmElement(new QName(""), new LinkedList<DmComment>());
+        new DmElement(new QName(""), new ArrayList<DmElement>());
+        new DmElement(new QName(""), new ArrayList<DmText>());
+        new DmElement(new QName(""), new ArrayList<DmProcessingInstruction>());
+        new DmElement(new QName(""), new ArrayList<DmComment>());
     }
 
+    @Test (expected = NullPointerException.class)
     public void testConstructionNullName() {
-        try {
-            new DmElement(null, new LinkedList<DmNode>());
-            fail();
-        } catch (final NullPointerException e) {
-            assertEquals("name", e.getMessage());
-        }
+    	new DmElement(null, new ArrayList<DmNode>());
     }
 
+    @Test (expected = NullPointerException.class)
     public void testConstructionNullNodes() {
-        try {
-            new DmElement(new QName(""), null);
-            fail();
-        } catch (final NullPointerException e) {
-            assertEquals("childAxis", e.getMessage());
-        }
+    	new DmElement(new QName(""), null);
+    }
+    
+    @Test (expected = UnsupportedOperationException.class) 
+    public void testGetStringValue() {
+    	new DmElement(new QName(""), new ArrayList<DmElement>()).getStringValue();
     }
 }
