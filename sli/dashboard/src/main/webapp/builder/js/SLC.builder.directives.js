@@ -72,15 +72,20 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					items: "li:not(.nonSortable)",
 					cancel: ".nonSortable",
 					update: function() {
-						var model;
+						var model, paneModel;
 
 						if(scope.$eval(attrs.ngSortable)) {
 							model = scope.$eval(attrs.ngSortable);
 						}
 						else {
 							model = scope.$parent.$eval(attrs.ngSortable);
+
+							if (attrs.ngSortable === "pages") {
+								paneModel = scope.$eval("panes");
+							}
 						}
 						$rootScope.newPageArray = [];
+						$rootScope.newPaneArray = [];
 
 						// loop through items in new order
 						linkElement.children().each(function(index) {
@@ -90,13 +95,16 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							var oldIndex = parseInt(item.attr("ng-sortable-index"), 10);
 							if(model[oldIndex] !== null && model[oldIndex] !== undefined) {
 								$rootScope.newPageArray.push(model[oldIndex]);
+								if (attrs.ngSortable === "pages") {
+									$rootScope.newPaneArray.push(paneModel[oldIndex]);
+								}
 							}
 						});
 
 						// notify angular of the change
 						scope.$parent.$apply();
 
-						if(attrs.ngSortable === "pages") {
+						if (attrs.ngSortable === "pages") {
 							scope.$parent.$broadcast("tabChanged");
 						}
 						else if (attrs.ngSortable === "pagePanels") {
@@ -114,7 +122,8 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			scope: {},
 			controller: function($scope, $element, dbSharedService) {
 				var panes = $scope.panes = [],
-					parent = $scope.$parent;
+					parent = $scope.$parent,
+					self = this;
 
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
@@ -132,19 +141,28 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					panes.push(pane);
 				};
 
-				$scope.$on("tabChanged", function (e, index) {
+				this.removePane = function(pane) {
+					panes.splice(pane, 1);
+				};
 
+				$scope.$parent.$on("tabChanged", function () {
+					panes = $scope.panes = [];
+					$scope.panes = $scope.$parent.newPaneArray;
 
+					angular.forEach($scope.panes, function(pane) {
+						panes.push(pane);
+					});
+
+					panes = $scope.panes;
 				});
 
+				// When the page will get removed, the associated pane will also get removed.
 				$scope.$on("pageRemoved", function (e, index) {
 					panes.splice(index, 1);
-					if (panes[index]) {
-						$scope.select(panes[index]);
+
+					if (panes[0]) {
+						$scope.select(panes[0]);
 					}
-					else if (panes[index-1]) {
-						$scope.select(panes[index-1]);
-					} 
 				});
 
 				// Add a new page/tab into the profile
