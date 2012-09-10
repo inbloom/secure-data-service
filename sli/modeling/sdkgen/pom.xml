@@ -147,6 +147,18 @@
               </execution>
 
               <execution>
+                <id>create pojo directory</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>compile</phase>
+                <configuration>
+                  <executable>mkdir</executable>
+                  <commandlineArgs>-p ${sli.home}/modeling/shtick/src/main/java/org/slc/sli/shtick/pojo</commandlineArgs>
+                </configuration>
+              </execution>
+
+              <execution>
                 <id>sdkgen</id>
                 <goals>
                   <goal>java</goal>
