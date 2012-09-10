@@ -15,24 +15,30 @@
  */
 
 
+package org.slc.sli.modeling.xdm;
 
-package org.slc.sli.modeling.wadl;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-/**
- * @author wscott
- *
- */
-public class WadlAttributeNameTest {
 
-    @Test
-    public void testWadlAttributeName() {
-        final String attributeName = "base";
-        WadlAttributeName wadlAttributeName = WadlAttributeName.BASE;
-        assertEquals(attributeName, wadlAttributeName.getLocalName());
-    }
+public final class DmCommentTest {
 
+	@Test
+	public void testConstructorAndGetters() {
+		
+		String value = "foo";
+		
+		DmComment dmComment = new DmComment(value);
+		
+		assertTrue(dmComment.getName() == DmComment.NO_NAME);
+		assertTrue(dmComment.getChildAxis().size() == 0);
+		assertTrue(dmComment.getStringValue() == value);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testNullValueForConstructorThrowsException() {
+		
+		new DmComment(null);
+	}
 }
