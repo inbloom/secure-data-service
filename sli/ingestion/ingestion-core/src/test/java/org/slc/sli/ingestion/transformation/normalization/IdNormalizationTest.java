@@ -394,11 +394,9 @@ public class IdNormalizationTest {
         NeutralRecord nr1 = new NeutralRecord();
         NeutralRecordEntity expectedEntity1 = new NeutralRecordEntity(nr1);
         expectedEntity1.getBody().put("externalId", "externalId1");
-        expectedEntity1.setEntityId("GUID_1");
         NeutralRecord nr2 = new NeutralRecord();
         NeutralRecordEntity expectedEntity2 = new NeutralRecordEntity(nr2);
         expectedEntity2.getBody().put("externalId", "externalId2");
-        expectedEntity2.setEntityId("GUID_2");
         List<Entity> expectedEntityList = new ArrayList<Entity>();
         expectedEntityList.add(expectedEntity1);
         expectedEntityList.add(expectedEntity2);
@@ -418,8 +416,6 @@ public class IdNormalizationTest {
 
         assertNotNull("attribute refIds field should not be null", refIds);
         assertEquals("attribute refIds should have 2 elements", 2, refIds.size());
-        assertEquals("attribute refIds first element should be resolved to GUID_1", "GUID_1", refIds.get(0));
-        assertEquals("attribute refIds second element should be resolved to GUID_2", "GUID_2", refIds.get(1));
     }
 
     private Entity getTestRefListEntity() {
@@ -618,8 +614,6 @@ public class IdNormalizationTest {
         nr.setAttributes(attributes);
 
         NeutralRecordEntity entity = new NeutralRecordEntity(nr);
-        entity.setEntityId("child_guid");
-
         return entity;
     }
 
@@ -639,8 +633,6 @@ public class IdNormalizationTest {
         nr.setAttributes(attributes);
 
         NeutralRecordEntity entity = new NeutralRecordEntity(nr);
-        entity.setEntityId("parent_guid");
-
         return entity;
     }
 

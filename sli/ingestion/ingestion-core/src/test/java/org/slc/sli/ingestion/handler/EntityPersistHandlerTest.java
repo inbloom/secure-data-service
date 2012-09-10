@@ -279,7 +279,6 @@ public class EntityPersistHandlerTest {
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
-        foundStudent.setEntityId(INTERNAL_STUDENT_ID);
 
         LinkedList<Entity> studentList = new LinkedList<Entity>();
         studentList.add(foundStudent);
@@ -293,7 +292,6 @@ public class EntityPersistHandlerTest {
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
-        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);

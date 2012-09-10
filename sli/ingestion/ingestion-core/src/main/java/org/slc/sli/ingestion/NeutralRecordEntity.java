@@ -30,9 +30,7 @@ import org.slc.sli.domain.Entity;
 public class NeutralRecordEntity implements Entity {
 
     private NeutralRecord neutralRecord;
-
     private long recordNumberInFile;
-    private String entityId;  // Added 2/2/2012 by Thomas Shewchuk
 
     public NeutralRecordEntity() {
         this(null, 0);
@@ -48,7 +46,6 @@ public class NeutralRecordEntity implements Entity {
     public NeutralRecordEntity(NeutralRecord neutralRecord, long recordNumber) {
         this.neutralRecord = neutralRecord;
         this.recordNumberInFile = recordNumber;  // Added 2/2/2012 by Thomas Shewchuk
-        this.entityId = null;  // Added 2/7/2012 by Thomas Shewchuk
     }
 
     @Override
@@ -58,7 +55,7 @@ public class NeutralRecordEntity implements Entity {
 
     @Override
     public String getEntityId() {
-        return entityId;  // Modified 2/7/2012 by Thomas Shewchuk
+        return neutralRecord.getRecordId();
     }
 
     @Override
@@ -104,13 +101,6 @@ public class NeutralRecordEntity implements Entity {
      */
     public boolean isAssociation() {
         return neutralRecord.isAssociation();
-    }
-
-    /**
-     * @author tshewchuk 2/7/2010 (PI3 US811)
-     */
-    public void setEntityId(String entityId) {
-        this.entityId = entityId;
     }
 
     public NeutralRecord getNeutralRecord() {
