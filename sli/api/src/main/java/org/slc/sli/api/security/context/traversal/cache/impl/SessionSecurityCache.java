@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.traversal.cache.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SessionSecurityCache implements SecurityCachingStrategy {
+    private static final String CACHE = "cache";
+
     public static final String USER_SESSION = "userSession";
     
     @Autowired
@@ -53,7 +56,15 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
         Entity userSession = getUserSession();
         
         //Update the session with the new cache.
-        userSession.getBody().put(cacheId, ids.toArray());
+        Map<String, Object> cache = null;
+        Map<String, Object> body = (Map<String, Object>) userSession.getBody();
+        if (!body.containsKey(CACHE)) {
+            cache = new HashMap<String, Object>();
+        } else {
+            cache = (Map) body.get(CACHE);
+        }
+        cache.put(cacheId, ids.toArray());
+        userSession.getBody().put(CACHE, cache);
         
         //Put it back into mongo
         repo.update(USER_SESSION, userSession);
@@ -65,7 +76,9 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     public Set<String> retrieve(String cacheId) {
         info("Using cached context for {}", cacheId);
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
-        return new HashSet<String>((List<String>) body.get(cacheId));
+        Map<String, Object> cache = (Map) body.get("cache");
+        
+        return new HashSet<String>((List) cache.get(cacheId));
     }
     
     @Override
@@ -76,7 +89,11 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     
     @Override
     public boolean contains(String cacheId) {
-        return getUserSession().getBody().containsKey(cacheId);
+        Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
+        if (!body.containsKey(CACHE))
+            return false;
+        Map<String, Object> cache = (Map) getUserSession().getBody().get("cache");
+        return cache.containsKey(cacheId);
     }
     
     private Entity getUserSession() {
