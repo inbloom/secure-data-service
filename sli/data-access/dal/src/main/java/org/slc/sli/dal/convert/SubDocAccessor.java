@@ -31,6 +31,7 @@ public class SubDocAccessor {
         this.template = template;
         locations.put("studentAssessmentAssociation", new Location("student", "studentId", "assessments"));
         locations.put("studentSectionAssociation", new Location("student", "studentId", "sections"));
+        locations.put("studentSchoolAssociation", new Location("student", "studentId", "schools"));
     }
 
     /**
