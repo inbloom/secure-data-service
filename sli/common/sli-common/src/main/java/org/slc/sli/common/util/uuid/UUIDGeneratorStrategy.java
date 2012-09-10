@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.common.util.uuid;
 
+import java.util.Map;
 
 /**
  * Generates a UUID, provides a consistent strategy for _id fields in Mongo
+ * 
  * @author smelody
- *
+ * 
  */
 public interface UUIDGeneratorStrategy {
-
-
+    
     public String randomUUID();
+    
+    public String randomUUID(Map<String, String> naturalKeys);
 }

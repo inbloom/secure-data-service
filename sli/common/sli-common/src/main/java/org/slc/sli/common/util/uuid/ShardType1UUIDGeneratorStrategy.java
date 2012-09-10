@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.common.util.uuid;
 
 import java.security.SecureRandom;
-
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import java.util.Map;
 
 import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
+
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Generates Type 1 (time-based) UUIDs, preceeded by a shard key 'YYYYRR-'.
@@ -54,5 +54,10 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
         builder.append(generator.generate().toString());
         String uuid = builder.toString();
         return uuid;
+    }
+    
+    @Override
+    public String randomUUID(Map<String, String> naturalKeys) {
+        return randomUUID();
     }
 }

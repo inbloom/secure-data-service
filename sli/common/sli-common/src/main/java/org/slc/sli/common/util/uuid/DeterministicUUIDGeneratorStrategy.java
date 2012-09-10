@@ -13,36 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.common.util.uuid;
 
 import java.util.Map;
-import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-/**
- * Generates Type 4 (random) UUIDs.
- * 
- * @author smelody
- * 
- */
 @Component
-@Qualifier("type4UUIDGeneratorStrategy")
-public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
+@Qualifier("deterministicUUIDGeneratorStrategy")
+public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     
-    /**
-     * Generate a type 4 random UUID.
-     */
+    @Autowired
+    @Qualifier("shardType1UUIDGeneratorStrategy")
+    ShardType1UUIDGeneratorStrategy oldStrategy;
+    
     @Override
     public String randomUUID() {
-        return UUID.randomUUID().toString();
+        return oldStrategy.randomUUID();
     }
     
     @Override
     public String randomUUID(Map<String, String> naturalKeys) {
-        return randomUUID();
+        // TODO: Replace with real code
+        return oldStrategy.randomUUID();
+        
+        // String key;
+        // if (naturalKeys != null && naturalKeys != null && naturalKeys.size() > 0) {
+        // key = UUID.randomUUID().toString() + "||";
+        // for (Entry<String, String> entry : naturalKeys.entrySet()) {
+        // key += entry.getKey() + ":" + entry.getValue() + "||";
+        // }
+        // } else {
+        // key = UUID.randomUUID().toString();
+        //
+        // }
+        // return key;
     }
     
 }
