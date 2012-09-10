@@ -123,4 +123,8 @@
     <allow pkg="org.slc.sli.sample"/>
   </subpackage>
 
+  <subpackage name="modeling">
+    <allow pkg="joptsimple"/>
+  </subpackage>
+
 </import-control>

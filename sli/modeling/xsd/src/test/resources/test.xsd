@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.slcedu.org/api/v1" targetNamespace="http://www.slcedu.org/api/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:simpleType name="WeaponItemType">
+    <xs:annotation>
+      <xs:documentation>The enumeration items for the types of weapon used during an incident.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Firearm"/>
+      <xs:enumeration value="Illegal Knife"/>
+      <xs:enumeration value="Non-Illegal Knife"/>
+      <xs:enumeration value="Club"/>
+      <xs:enumeration value="Other Sharp Objects"/>
+      <xs:enumeration value="Other Object"/>
+      <xs:enumeration value="Substance Used as Weapon"/>
+      <xs:enumeration value="Knife"/>
+      <xs:enumeration value="Unknown"/>
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="weaponsType" type="WeaponsType">
+    <xs:annotation>
+      <xs:documentation>Identifies the type of weapon used during an incident.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="WeaponsType">
+    <xs:sequence>
+      <xs:element name="weapon" type="WeaponItemType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Zero or more selection of the weapon(s).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

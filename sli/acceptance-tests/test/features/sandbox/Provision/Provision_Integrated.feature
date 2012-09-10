@@ -81,7 +81,7 @@ And there is a landing zone for the "<PROD_EDORG>" in LDAP
 When the Ingestion Admin go to the provisioning application web page
 Then the Ingestion Admin is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
 When the Ingestion Admin provision a Landing zone
-Then the Ingestion Admin gets an already provisioned message
+Then the user gets an error message
 
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create a LZ for my sandbox tenancy
