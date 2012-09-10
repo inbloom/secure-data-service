@@ -91,10 +91,8 @@ public final class WadlExpert {
         for (final String step : steps) {
             stepIndex = stepIndex + 1;
             if (stepIndex == 1) {
-                if ("v1".equals(step)) {
-                    // Expected
-                } else {
-                    System.err.println("1st step is not the version specifier.");
+                if (!"v1".equals(step)) {
+                	System.err.println("1st step is not the version specifier.");
                 }
             } else if (stepIndex == 2) {
                 if ("home".equals(step)) {
@@ -124,31 +122,14 @@ public final class WadlExpert {
                     } else if ("studentWithGrade".equals(step)) {
                         return new QName(config.getNamespaceURI(), "Unknown", config.getPrefix());
                     } else {
-                        boolean found = false;
                         for (final AssociationEnd end : ends) {
                             if (end.getName().equals(step)) {
                                 final Identifier endTypeId = end.getType();
                                 final Type endType = model.getType(endTypeId);
                                 types.push(endType);
-                                found = true;
-                            } else {
-                                // Try the next association end.
-                            }
-                        }
-                        if (found) {
-                            // Keep on going.
-                        } else {
-                            // Keep quiet!
-//                            System.err.println("---------------------------------------");
-//                            System.err.println("step      : \"" + step + "\"");
-//                            System.err.println("type      : \"" + type.getName() + "\"");
-//                            System.err.println(step + " is not a valid association end name in steps " + steps
-//                                    + " for type " + type.getName());
-//                            System.err.println("ends  : " + getNames(ends));
-//                            System.err.println("types : " + getNames(types));
+                            } 
                         }
                     }
-                } else {
                 }
             }
         }
