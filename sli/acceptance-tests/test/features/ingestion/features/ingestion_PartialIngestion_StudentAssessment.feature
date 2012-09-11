@@ -109,7 +109,118 @@ Then I should see following map of entry counts in the corresponding collections
      | studentTranscriptAssociation             |                  0|
      | teacherSchoolAssociation                 |                  0|
      | teacherSectionAssociation                |                  0|
-    And I should see "Processed 4148 records." in the resulting batch job file
+    And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+    And I should see "Processed 203 records." in the resulting batch job file
+  
+    And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I post "SSDS_No_StudentAssessment.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+    And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                           |              count|
+     | assessment                               |                 19|
+     | attendance                               |                 75|
+     | calendarDate                             |                556|
+     | cohort                                   |                  3|
+     | competencyLevelDescriptor                |                  0|
+     | course                                   |                 95|
+     | courseOffering                           |                 95|
+     | courseSectionAssociation                 |                  0|
+     | disciplineAction                         |                  2|
+     | disciplineIncident                       |                  2|
+     | educationOrganization                    |                  5|
+     | educationOrganizationAssociation         |                  0|
+     | educationOrganizationSchoolAssociation   |                  0|
+     | grade                                    |                  4|
+     | gradebookEntry                           |                 12|
+     | gradingPeriod                            |                 17|
+     | graduationPlan                           |                  0|
+     | learningObjective                        |                135|
+     | learningStandard                         |               1463|
+     | parent                                   |                  9|
+     | program                                  |                  2|
+     | reportCard                               |                  2|
+     | schoolSessionAssociation                 |                  0|
+     | section                                  |                 97|
+     | sectionAssessmentAssociation             |                  0|
+     | sectionSchoolAssociation                 |                  0|
+     | session                                  |                 22|
+     | sessionCourseAssociation                 |                  0|
+     | staff                                    |                 14|
+     | staffCohortAssociation                   |                  3|
+     | staffEducationOrganizationAssociation    |                 10|
+     | staffProgramAssociation                  |                  3|
+     | student                                  |                 78|
+     | studentAcademicRecord                    |                117|
+     | studentAssessmentAssociation             |                  0|
+     | studentCohortAssociation                 |                  6|
+     | studentCompetency                        |                 59|
+     | studentCompetencyObjective               |                  4|
+     | studentDisciplineIncidentAssociation     |                  4|
+     | studentParentAssociation                 |                  9|
+     | studentProgramAssociation                |                  6|
+     | studentSchoolAssociation                 |                167|
+     | studentSectionAssociation                |                297|
+     | studentGradebookEntry                    |                315|
+     | studentTranscriptAssociation             |                196|
+     | teacherSchoolAssociation                 |                  3|
+     | teacherSectionAssociation                |                 11|
+    And I should see "Processed 3945 records." in the resulting batch job file
     And I should not see an error log file created
 
+    And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I post "SSDS_StudentAssessment.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName                           |              count|
+     | assessment                               |                 19|
+     | attendance                               |                 75|
+     | calendarDate                             |                556|
+     | cohort                                   |                  3|
+     | competencyLevelDescriptor                |                  0|
+     | course                                   |                 95|
+     | courseOffering                           |                 95|
+     | courseSectionAssociation                 |                  0|
+     | disciplineAction                         |                  2|
+     | disciplineIncident                       |                  2|
+     | educationOrganization                    |                  5|
+     | educationOrganizationAssociation         |                  0|
+     | educationOrganizationSchoolAssociation   |                  0|
+     | grade                                    |                  4|
+     | gradebookEntry                           |                 12|
+     | gradingPeriod                            |                 17|
+     | graduationPlan                           |                  0|
+     | learningObjective                        |                135|
+     | learningStandard                         |               1463|
+     | parent                                   |                  9|
+     | program                                  |                  2|
+     | reportCard                               |                  2|
+     | schoolSessionAssociation                 |                  0|
+     | section                                  |                 97|
+     | sectionAssessmentAssociation             |                  0|
+     | sectionSchoolAssociation                 |                  0|
+     | session                                  |                 22|
+     | sessionCourseAssociation                 |                  0|
+     | staff                                    |                 14|
+     | staffCohortAssociation                   |                  3|
+     | staffEducationOrganizationAssociation    |                 10|
+     | staffProgramAssociation                  |                  3|
+     | student                                  |                 78|
+     | studentAcademicRecord                    |                117|
+     | studentAssessmentAssociation             |                178|
+     | studentCohortAssociation                 |                  6|
+     | studentCompetency                        |                 59|
+     | studentCompetencyObjective               |                  4|
+     | studentDisciplineIncidentAssociation     |                  4|
+     | studentParentAssociation                 |                  9|
+     | studentProgramAssociation                |                  6|
+     | studentSchoolAssociation                 |                167|
+     | studentSectionAssociation                |                297|
+     | studentGradebookEntry                    |                315|
+     | studentTranscriptAssociation             |                196|
+     | teacherSchoolAssociation                 |                  3|
+     | teacherSectionAssociation                |                 11|
+    And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+    And I should see "Processed 203 records." in the resulting batch job file
 
