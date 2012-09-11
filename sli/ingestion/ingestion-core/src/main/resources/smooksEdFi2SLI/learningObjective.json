@@ -33,6 +33,7 @@
             "ref" :
             {
                 "entityType" : "learningStandard",
+                "optional" : true,
                 "isRefList" : true,
                 "refObjectPath" : "localParentIds.childLearningStandards",
                 "choiceOfFields" :
