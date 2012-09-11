@@ -3,6 +3,7 @@ package org.slc.sli.api.security.context.resolver;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -16,7 +17,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherStudentTrasncriptAssociationResolver implements EntityContextResolver {
+public class TeacherStudentTranscriptAssociationResolver implements EntityContextResolver {
+    @Autowired
+    private TeacherStudentAcademicRecordResolver academicResolver;
+    
     @Autowired
     private TeacherStudentResolver studentResolver;
     
@@ -35,19 +39,43 @@ public class TeacherStudentTrasncriptAssociationResolver implements EntityContex
     
     @Override
     public List<String> findAccessible(Entity principal) {
+        Set<String> ids = getAcademicRecordTranscripts(principal);
+        ids.addAll(getStudentTranscripts(principal));
+        securityCache.warm(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, ids);
+        return new ArrayList<String>(ids);
+    }
+    
+    private Set<String> getAcademicRecordTranscripts(Entity principal) {
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCache.contains(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+            studentIds = academicResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT_ACADEMIC_RECORD));
+        }
+        Iterable<String> staIds = repo.findAllIds(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, new NeutralQuery(
+                new NeutralCriteria(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, NeutralCriteria.CRITERIA_IN,
+                        studentIds)));
+        Set<String> ids = new HashSet<String>();
+        for (String id : staIds) {
+            ids.add(id);
+        }
+        return ids;
+    }
+    
+    private Set<String> getStudentTranscripts(Entity principal) {
+        
         List<String> studentIds = new ArrayList<String>();
         if (!securityCache.contains(EntityNames.STUDENT)) {
-            studentIds = studentResolver.findAccessible(principal);
+            studentIds = academicResolver.findAccessible(principal);
         } else {
             studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT));
         }
         Iterable<String> staIds = repo.findAllIds(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentIds)));
-        List<String> ids = new ArrayList<String>();
+        Set<String> ids = new HashSet<String>();
         for (String id : staIds) {
             ids.add(id);
         }
-        securityCache.warm(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, new HashSet<String>(ids));
         return ids;
     }
 }
