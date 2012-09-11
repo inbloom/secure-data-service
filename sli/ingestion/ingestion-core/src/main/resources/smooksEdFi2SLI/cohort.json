@@ -22,7 +22,6 @@
                 ]
             }
           },
-
           {
             "fieldPath" : "body.programId",
             "ref" :
@@ -30,7 +29,6 @@
                 "entityType" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.programReferences",
-                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                   [
@@ -45,7 +43,5 @@
                 ]
             }
           }
-
       ]
-
 }

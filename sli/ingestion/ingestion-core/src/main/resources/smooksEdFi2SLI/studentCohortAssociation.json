@@ -26,7 +26,6 @@
         "ref" :
         {
 	        "entityType" : "cohort",
-	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [

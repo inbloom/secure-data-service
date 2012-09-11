@@ -47,7 +47,6 @@
                             {"ref" :
                                 {
                                     "entityType" : "educationOrganization",
-                                    "takesContext" : ["edOrgs"],
                                     "choiceOfFields" :
                                     [[
                                         {
