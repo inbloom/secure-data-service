@@ -14,22 +14,30 @@
  * limitations under the License.
  */
 
+package org.slc.sli.modeling.psm;
 
-package org.slc.sli.modeling.xdm;
+import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public final class DmNodeList implements DmNodeSequence {
+import static junit.framework.Assert.assertEquals;
 
-    @SuppressWarnings("unused")
-    private final List<DmNode> nodes;
+/**
+ * @author jstokes
+ */
+public class PsmConfigTest {
 
-    public DmNodeList(final List<? extends DmNode> nodes) {
-        if (nodes == null) {
-            throw new NullPointerException("nodes");
-        }
-        this.nodes = Collections.unmodifiableList(new ArrayList<DmNode>(nodes));
+    @Test
+    public void testGetDocuments() {
+        final List<PsmDocument<String>> documents = new ArrayList<PsmDocument<String>>();
+        final PsmConfig<String> config = new PsmConfig<String>(documents);
+
+        assertEquals(config.getDocuments(), documents);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testThrowsNull() {
+        final PsmConfig<String> config = new PsmConfig<String>(null);
     }
 }

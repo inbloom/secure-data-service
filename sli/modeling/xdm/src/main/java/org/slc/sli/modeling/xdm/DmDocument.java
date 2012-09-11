@@ -25,7 +25,7 @@ import javax.xml.namespace.QName;
 
 public final class DmDocument implements DmNode {
 
-    private static final QName NO_NAME = new QName("");
+    protected static final QName NO_NAME = new QName("");
 
     private final List<DmNode> children;
 

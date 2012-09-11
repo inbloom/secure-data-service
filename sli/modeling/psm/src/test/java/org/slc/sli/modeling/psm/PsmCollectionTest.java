@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
+package org.slc.sli.modeling.psm;
 
-package org.slc.sli.modeling.xdm;
+import org.junit.Test;
 
-import java.util.LinkedList;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
+/**
+ * @author jstokes
+ */
+public class PsmCollectionTest {
 
-public final class DmNodeListTestCase extends TestCase {
-
-    public void testConstruction() {
-        new DmNodeList(new LinkedList<DmNode>());
-        new DmNodeList(new LinkedList<DmElement>());
-        new DmNodeList(new LinkedList<DmAttribute>());
-        new DmNodeList(new LinkedList<DmText>());
-        new DmNodeList(new LinkedList<DmProcessingInstruction>());
-        new DmNodeList(new LinkedList<DmComment>());
-        new DmNodeList(new LinkedList<DmDocument>());
+    @Test
+    public void testGetName() {
+        final PsmCollection coll = new PsmCollection("Test");
+        assertEquals("Test", coll.getName());
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testThrowsNull() {
+        final PsmCollection coll = new PsmCollection(null);
+    }
 }
