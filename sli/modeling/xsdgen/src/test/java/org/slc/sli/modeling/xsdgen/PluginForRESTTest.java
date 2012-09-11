@@ -17,13 +17,14 @@
 package org.slc.sli.modeling.xsdgen;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slc.sli.modeling.psm.PsmCollection;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.psm.PsmResource;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.*;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xsd.WxsNamespace;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -141,24 +142,49 @@ public class PluginForRESTTest {
     }
 
     @Test
-    @Ignore
     public void testWriteReference() throws Exception {
         final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
         final Identifier id = Identifier.fromString("1234");
         final List<TaggedValue> taggedValueList = new ArrayList<TaggedValue>();
-//        taggedValueList.add(new TaggedValue());
-
-        final AssociationEnd mockEnd = new AssociationEnd(multiplicity, "test", true, id, "test");
+        final TaggedValue mockTaggedValue = new TaggedValue("MockValue", id);
+        taggedValueList.add(mockTaggedValue);
+        final AssociationEnd mockEnd = new AssociationEnd(multiplicity, "test", true, taggedValueList, id, "test");
         final ClassType mockClassType = mock(ClassType.class);
         final ModelIndex mockIndex = mock(ModelIndex.class);
         final Uml2XsdPluginWriter mockWriter = mock(Uml2XsdPluginWriter.class);
-        final Type mockType = mock(Type.class);
+        final TagDefinition mockTagDef = new TagDefinition(id, TagName.MONGO_NAME, multiplicity);
+
+        when(mockIndex.getTagDefinition(id)).thenReturn(mockTagDef);
 
         pluginForREST.writeReference(mockClassType, mockEnd, mockIndex, mockWriter);
+
+        verify(mockWriter).element();
+        verify(mockWriter).type(WxsNamespace.STRING);
+        verify(mockWriter).minOccurs(Occurs.ZERO);
+        verify(mockWriter).maxOccurs(Occurs.ONE);
+        verify(mockWriter, atLeastOnce()).end();
     }
 
     @Test
     public void testWriteTopLevelElement() throws Exception {
+        final Type mockType = mock(Type.class);
+        final PsmDocument<Type> mockClassType = new PsmDocument<Type>(mockType,
+                new PsmResource("resource"), new PsmCollection("collection"));
+        final ModelIndex mockIndex = mock(ModelIndex.class);
+        final Uml2XsdPluginWriter mockWriter = mock(Uml2XsdPluginWriter.class);
 
+        when(mockType.getName()).thenReturn("MockType");
+
+        final QName elementName = pluginForREST.getElementName(mockClassType);
+        final QName expectedQName =
+                new QName(elementName.getNamespaceURI(), elementName.getLocalPart().concat("List"));
+
+        pluginForREST.writeTopLevelElement(mockClassType, mockIndex, mockWriter);
+
+        verify(mockWriter, atLeastOnce()).element();
+        verify(mockWriter).elementName(expectedQName);
+        verify(mockWriter).complexType();
+        verify(mockWriter).sequence();
+        verify(mockWriter, atLeastOnce()).end();
     }
 }

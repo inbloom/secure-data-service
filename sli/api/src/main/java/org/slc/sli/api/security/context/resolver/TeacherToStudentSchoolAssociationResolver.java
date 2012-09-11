@@ -17,14 +17,12 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,10 +35,7 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
     
     @Autowired
     private AssociativeContextHelper helper;
-    
-    @Autowired
-    private StudentGracePeriodNodeFilter graceFilter;
-    
+
     @Autowired
     private TeacherStudentResolver studentResolver;
     
@@ -65,7 +60,7 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
             studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
         }
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-                "studentId", studentIds, Arrays.asList((NodeFilter) graceFilter));
+                "studentId", studentIds);
         securityCachingStrategy.warm(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new HashSet<String>(associationIds));
         
         return associationIds;
