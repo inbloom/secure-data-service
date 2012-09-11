@@ -5780,7 +5780,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationId" type="reference">
+                        <xs:element name="studentSectionAssociationId" type="reference" minOccurs="0"> <!--TODO make this required once deterministic ids are done -->
 				<xs:annotation>
 					<xs:documentation>Association to the student-section association
 						with which the grade is awarded.
@@ -7198,7 +7198,7 @@
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="grades" type="reference" minOccurs="0"
+                  <!-- <xs:element name="grades" type="reference" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Grades for the classes attended by the student
@@ -7207,8 +7207,8 @@
 						<sli:ReferenceType>grade</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
-			</xs:element>
-			<xs:element name="studentCompetencyId" type="reference"
+                        </xs:element> -->
+                        <!--<xs:element name="studentCompetencyId" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The student competency evaluations associated for
@@ -7217,7 +7217,7 @@
 						<sli:ReferenceType>studentCompetency</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
-			</xs:element>
+                        </xs:element> -->
 			<xs:element name="gpaGivenGradingPeriod" type="xs:double">
 				<xs:annotation>
 					<xs:documentation>A measure of average performance in all courses

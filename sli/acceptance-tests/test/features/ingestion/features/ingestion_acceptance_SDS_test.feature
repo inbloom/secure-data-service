@@ -104,10 +104,10 @@ Then I should see following map of entry counts in the corresponding collections
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
         | studentDisciplineIncidentAssociation| 4|
-        | grade                       | 4     |
+        #| grade                       | 4     |
         | gradingPeriod               | 17    |
         | calendarDate                | 556   |
-        | reportCard                  | 2     |
+        #| reportCard                  | 2     |
         | courseOffering              | 95    |
         | studentAcademicRecord       | 117   |
         | graduationPlan              | 3     |
