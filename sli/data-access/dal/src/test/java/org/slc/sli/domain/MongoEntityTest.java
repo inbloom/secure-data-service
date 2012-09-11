@@ -49,8 +49,8 @@ public class MongoEntityTest {
 
         mockGeneratorStrategy = Mockito.mock(UUIDGeneratorStrategy.class);
 
-        when(mockGeneratorStrategy.deterministicUUID()).thenReturn(FIXED_UUID);
-        when(mockGeneratorStrategy.deterministicUUID(new NaturalKeyDescriptor(Mockito.anyMap()))).thenReturn(FIXED_UUID);
+        when(mockGeneratorStrategy.generateId()).thenReturn(FIXED_UUID);
+        when(mockGeneratorStrategy.generateId(new NaturalKeyDescriptor(Mockito.anyMap()))).thenReturn(FIXED_UUID);
     }
 
     @Test

@@ -39,8 +39,7 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
     EntityEncryption encrypt;
     
     @Autowired
-    // @Qualifier("deterministicUUIDGeneratorStrategy")
-    @Qualifier("shardType1UUIDGeneratorStrategy")
+    @Qualifier("deterministicUUIDGeneratorStrategy")
     UUIDGeneratorStrategy uuidGeneratorStrategy;
     
     @Autowired
