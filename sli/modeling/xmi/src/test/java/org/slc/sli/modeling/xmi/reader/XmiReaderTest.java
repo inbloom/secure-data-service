@@ -1,13 +1,5 @@
 package org.slc.sli.modeling.xmi.reader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +18,14 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
 
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+
 /**
  * Tests the XMI reading utility.
  *
  * @author kmyers
- *
  */
 public class XmiReaderTest {
 
@@ -83,7 +78,7 @@ public class XmiReaderTest {
         assertTrue(XmiReader.getOccurs(mockReader, sampleAttribute) == Occurs.UNBOUNDED);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testGetOccursSadPath() {
 
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn("123");
@@ -97,7 +92,7 @@ public class XmiReaderTest {
         assertTrue(XmiReader.getIdRef(mockReader).toString().equals(id));
     }
 
-    @Test (expected = XmiMissingAttributeException.class)
+    @Test(expected = XmiMissingAttributeException.class)
     public void testGetIdRefSadPath() {
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
         XmiReader.getIdRef(mockReader);
@@ -154,7 +149,7 @@ public class XmiReaderTest {
 
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testAssertElementNameEqualsStreamReadNameSadPath() {
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
         String elementName = XmiElementName.ASSOCIATION_END.getLocalName();
@@ -178,7 +173,7 @@ public class XmiReaderTest {
 
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testAssertQNameEqualsStreamReadNameSadPath() {
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
         String elementName = xmiElementName.getLocalName();
@@ -228,7 +223,7 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath1TrueCheck() throws XMLStreamException {
 
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
@@ -239,14 +234,14 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, true);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath2NoNext() throws XMLStreamException {
 
         when(mockReader.hasNext()).thenReturn(false);
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath3UnknownEventType() throws XMLStreamException {
 
         when(mockReader.hasNext()).thenReturn(true);
@@ -255,7 +250,7 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath4LocalNamesDoNotMatch() throws XMLStreamException {
 
         final List<String> localNames = new ArrayList<String>();
