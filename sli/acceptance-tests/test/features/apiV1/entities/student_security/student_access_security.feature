@@ -373,6 +373,25 @@ Examples:
 | "staff21"   | 3     | "student62"       | "student61"          |
 | "staff22"   | 7     | "student60"       | "student62"          |
 
+Scenario Outline: Seeing data about section only if you can see the section
+Given I am user <User> in IDP "SEC"
+When I make an API call to get my section list
+Then I should see a count of <Count>
+When I make an API call to get the section <Section I can see>
+Then I should receive a return code of 200
+And I should be able to access data about the section <Section I can see>
+When I make an API call to get the section <Section I cannot see>
+Then I should receive a return code of 403
+And I should not be able to access data about the section <Section I cannot see>
+Examples:
+| User        | Count | Section I can see | Section I cannot see |
+| "teacher10" | 1     | "section4"        | "section5"           |
+| "teacher11" | 1     | "section5"        | "section4"           |
+| "teacher12" | 1     | "section4"        | "section5"           |
+#| "staff20"   | 7     | "student61"       | "student62"          |
+#| "staff21"   | 3     | "student62"       | "student61"          |
+#| "staff22"   | 7     | "student60"       | "student62"          |
+
 Scenario: Update data associations to change access for teachers and staff
 Given I am user "staff13" in IDP "SEC"
 When I move teacher12 to a new section
@@ -381,7 +400,7 @@ And I move staff22 to a new school
 And I move student61 to a new school
 Then the stamper runs and completes
 
-Scenario Outline: Teachers and Staff seeing new data from changed associations
+Scenario Outline: Teachers and Staff seeing new student data from changed associations
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my student list
 Then I should see a count of <Count>
@@ -399,3 +418,22 @@ Examples:
 | "staff20"   | 6     | "student60"       | "student61"          |
 | "staff21"   | 4     | "student61"       | "student60"          |
 | "staff22"   | 4     | "student62"       | "student60"          |
+
+Scenario Outline: Teachers and Staff seeing new section data from changed associations
+Given I am user <User> in IDP "SEC"
+When I make an API call to get my section list
+Then I should see a count of <Count>
+When I make an API call to get the section <Section I can see>
+Then I should receive a return code of 200
+And I should be able to access data about the section <Section I can see>
+When I make an API call to get the section <Section I cannot see>
+Then I should receive a return code of 403
+And I should not be able to access data about the section <Section I cannot see>
+Examples:
+| User        | Count | Section I can see | Section I cannot see | Notes |
+| "teacher10" | 1     | "section4"        | "section5"           | none |
+| "teacher11" | 2     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
+| "teacher12" | 2     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
+#| "staff20"   | 7     | "student61"       | "student62"          |
+#| "staff21"   | 3     | "student62"       | "student61"          |
+#| "staff22"   | 7     | "student60"       | "student62"          |

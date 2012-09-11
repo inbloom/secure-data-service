@@ -14,48 +14,46 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * Resolves which discipline actions a given staff is allowed to see
- *
- * @author syau
- *
+ * Resolves which TeacherSection a given teacher is allowed to see.
  */
-//@Component
-public class StaffDisciplineActionResolver implements EntityContextResolver {
-
-    @Autowired
-    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
+@Component
+public class TeacherToTeacherSectionAssociationResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.STAFF.equals(fromEntityType) && EntityNames.DISCIPLINE_ACTION.equals(toEntityType);
+        // return false;
+        return EntityNames.TEACHER.equals(fromEntityType)
+                && EntityNames.TEACHER_SECTION_ASSOCIATION.equals(toEntityType);
     }
 
-    // Staff should have access to discipline actions to which they are referred.
     @Override
     public List<String> findAccessible(Entity principal) {
-
-        List<String> referenceIds = new ArrayList<String>();
-        referenceIds.add(principal.getEntityId());
-
-        List<String> references = helper.findEntitiesContainingReference(EntityNames.DISCIPLINE_ACTION, "staffId", referenceIds);
-
-        references.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.DISCIPLINE_ACTION));
-        return references;
+        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
+        List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.TEACHER_SECTION_ASSOCIATION,
+                "teacherId", ids);
+        securityCachingStrategy.warm(EntityNames.TEACHER_SECTION_ASSOCIATION, new HashSet<String>(finalIds));
+        return finalIds;
     }
+
 }
