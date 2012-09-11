@@ -334,6 +334,7 @@ task :appInit do
   swap_app_ids()
 end
 
+desc "Approve SLC apps for ingested realms"
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
