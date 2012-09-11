@@ -175,7 +175,7 @@ end
 private
 def check_associated_data(arg1, response)
   @format = "application/vnd.slc+json"
-  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
+  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentGradebookEntries", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
     restHttpGet("/v1/#{endpoint}?studentId=#{arg1}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
