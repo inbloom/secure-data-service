@@ -59,7 +59,7 @@ public abstract class ModelElement implements HasIdentity, Taggable, Visitable {
     }
     
     @Override
-    public final List<TaggedValue> getTaggedValues() {
+    public List<TaggedValue> getTaggedValues() {
         return taggedValues;
     }
     
