@@ -85,9 +85,6 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  if RUN_STAMPER
-    addSecurityData()
-  end
 
   if IS_WINDOWS
     @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
@@ -947,13 +944,17 @@ task :importUnifiedData => [:realmInit] do
   setMultipleFixtureFiles(testHash)
 end
 
-desc "Apply security denormalization"
-task :addSecurityData do
-    sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+def addSecurityData()
+  addEdOrgSecurityData()
+  addTeacherSecurityData()
 end
 
-def addSecurityData()
-    sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+def addEdOrgSecurityData()
+  sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+end
+
+def addTeacherSecurityData()
+  sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
 desc "Turn off stamper"

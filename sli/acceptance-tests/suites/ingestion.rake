@@ -88,7 +88,7 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-  addSecurityData()
+  addTeacherSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
