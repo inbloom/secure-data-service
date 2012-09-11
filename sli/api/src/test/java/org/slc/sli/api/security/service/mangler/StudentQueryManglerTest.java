@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.service.mangler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
@@ -68,14 +69,14 @@ public class StudentQueryManglerTest {
         securityCriteria.setCollectionName("students");
         securityCriteria.setSecurityCriteria(secureCriteria);
         NeutralQuery finalQuery = mangler.mangleQuery(query, secureCriteria);
-        assertEquals(finalQuery, null);
+        assertEquals(finalQuery.getOrQueries().size(), 0);
     }
     
     @Test
     public void testRespondsTo() {
         StudentQueryMangler mangler = new StudentQueryMangler();
         assertTrue(mangler.respondsTo("student"));
-        assertFalse(mangler.respondsTo("Waffles"));
+        assertTrue(mangler.respondsTo("Waffles"));
     }
     
 }

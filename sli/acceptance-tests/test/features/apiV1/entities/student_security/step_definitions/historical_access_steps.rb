@@ -19,12 +19,38 @@ limitations under the License.
 require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
+Transform /the section "([^"]*)"/ do |arg1|
+  base = "00000000-0001-0000-0000-00000000000"
+  base << arg1.match(/(\d+)/)[0]
+  base
+end
+
 Then /^I should be able to access data about (the student "[^"]*")$/ do |arg1|
   check_associated_data(arg1, 200)
 end
 
 Then /^I should not be able to access data about (the student "[^"]*")$/ do |arg1|
   check_associated_data(arg1, 403)
+end
+
+When /^I make an API call to get my section list$/ do
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/sections?limit=0")
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get (the section ".*?")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/sections/"+arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+Then /^I should be able to access data about (the section ".*?")$/ do |arg1|
+  check_section_data(arg1, 200)
+end
+
+Then /^I should not be able to access data about (the section ".*?")$/ do |arg1|
+  check_section_data(arg1, 403)
 end
 
 When /^I move teacher12 to a new section$/ do
@@ -145,10 +171,11 @@ Then /^the stamper runs and completes$/ do
   assert(db[:userSession].find({"body.cache" => {"$exists" => true}}).count == 0)
   #puts `ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017`
 end
+
 private
 def check_associated_data(arg1, response)
   @format = "application/vnd.slc+json"
-  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
+  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentGradebookEntries", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
     restHttpGet("/v1/#{endpoint}?studentId=#{arg1}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
@@ -181,4 +208,17 @@ def check_grades(arg1, response)
     studentCompetencies = studentCompetencies.flatten.uniq
     assert(studentCompetencies.count >= 1, "Expected to only see one studentCompetency, but saw #{studentCompetencies.count}")
   end
+end
+def check_section_data(arg1, response)
+  @format = "application/vnd.slc+json"
+  ["gradebookEntries"].each do |endpoint|
+    restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
+    restHttpGet("/v1/#{endpoint}?sectionId=#{arg1}") unless endpoint.include? arg1
+    assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
+    data = JSON.parse(@res.body) unless response == 403
+    assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}") unless response == 403
+  end
+  #check sessions
+  #check course/courseoffering
 end
