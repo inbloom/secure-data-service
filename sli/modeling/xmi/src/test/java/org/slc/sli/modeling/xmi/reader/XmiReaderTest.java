@@ -1,5 +1,6 @@
 package org.slc.sli.modeling.xmi.reader;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -274,25 +275,16 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
+    @Test
+    public void testGetName() {
+        String defaultString;
 
+        defaultString = "defString";
+        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn("specifiedString");
+        assertEquals("specifiedString", XmiReader.getName(mockReader, defaultString, sampleAttribute));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
+        assertEquals(defaultString, XmiReader.getName(mockReader, defaultString, sampleAttribute));
+    }
 
 }
