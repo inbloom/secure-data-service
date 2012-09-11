@@ -148,6 +148,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final EnumLiteral enumLiteral) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -170,11 +171,13 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final Multiplicity multiplicity) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public void visit(final Range range) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -185,5 +188,6 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final TaggedValue taggedValue) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
 }
