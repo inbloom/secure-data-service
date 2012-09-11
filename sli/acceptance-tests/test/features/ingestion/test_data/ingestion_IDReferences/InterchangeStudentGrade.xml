@@ -9,7 +9,18 @@
         <CompetencyLevel ref="CL_1" />
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_1" />
-        <GradebookEntryReference ref="GE_1" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 1</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-02-02</DateFulfilled>
@@ -18,7 +29,18 @@
         <CompetencyLevel ref="CL_101" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_2" />
-        <GradebookEntryReference ref="GE_2" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 2</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-03-03</DateFulfilled>
@@ -27,7 +49,19 @@
         <CompetencyLevel ref="CL_2" />
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_101" />
-        <GradebookEntryReference ref="GE_3" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 3</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-04-04</DateFulfilled>
@@ -36,7 +70,19 @@
         <CompetencyLevel ref="CL_3" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_3" />
-        <GradebookEntryReference ref="GE_101" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 17</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-05-05</DateFulfilled>
@@ -45,7 +91,19 @@
         <CompetencyLevel ref="CL_102" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_102" />
-        <GradebookEntryReference ref="GE_4" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 4</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-06-06</DateFulfilled>
@@ -54,7 +112,19 @@
         <CompetencyLevel ref="CL_103" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_4" />
-        <GradebookEntryReference ref="GE_102" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 18</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-07-07</DateFulfilled>
@@ -63,7 +133,19 @@
         <CompetencyLevel ref="CL_4" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_103" />
-        <GradebookEntryReference ref="GE_103" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 19</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-08-08</DateFulfilled>
@@ -72,7 +154,19 @@
         <CompetencyLevel ref="CL_104" />
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_104" />
-        <GradebookEntryReference ref="GE_104" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 20</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 
 	<GradebookEntry id="GE_1">
@@ -507,7 +601,7 @@
         </SectionReference>
 		<GradingPeriodReference ref="GP_108" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_1">
+	<GradebookEntry id="GE_101">
 		<GradebookEntryType>funeral homework 17</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -534,7 +628,7 @@
         </SectionReference>
 		<GradingPeriodReference ref="GP_1" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_2">
+	<GradebookEntry id="GE_102">
 		<GradebookEntryType>funeral homework 18</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -561,7 +655,7 @@
         </SectionReference>
         <GradingPeriodReference ref="GP_2" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_3">
+	<GradebookEntry id="GE_103">
 		<GradebookEntryType>funeral homework 19</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -588,7 +682,7 @@
         </SectionReference>
         <GradingPeriodReference ref="GP_3" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_4">
+	<GradebookEntry id="GE_104">
 		<GradebookEntryType>funeral homework 20</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
