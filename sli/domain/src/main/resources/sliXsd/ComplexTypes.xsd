@@ -7495,6 +7495,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="studentId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to student that was evaluated.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

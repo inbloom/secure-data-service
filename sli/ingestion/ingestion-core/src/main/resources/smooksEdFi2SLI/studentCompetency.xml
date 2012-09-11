@@ -32,6 +32,7 @@
     <jb:value property="learningObjectiveId" data="attributes learningObjectiveId" />
     <jb:value property="studentCompetencyObjectiveId" data="attributes studentCompetencyObjectiveId" />
     <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
+    <jb:value property="studentId" data="attributes studentId" />
   </jb:bean>
 
   <jb:bean beanId="CompetencyLevelsArray" class="java.util.ArrayList" createOnElement="attributes">

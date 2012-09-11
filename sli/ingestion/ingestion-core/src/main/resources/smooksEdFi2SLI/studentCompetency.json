@@ -41,60 +41,24 @@
                     ]
                 ]
             }
-        },
-        {
-            "fieldPath" : "body.studentSectionAssociationId",
+        },{
+            "fieldPath" : "body.studentId",
             "ref" :
             {
-                "entityType" : "studentSectionAssociation",
+                "entityType" : "student",
                 "choiceOfFields" :
                 [
                     [
                         {
-                            "path" : "body.studentId",
+                            "path" : "body.studentUniqueStateId",
                             "values" :
                             [{
-                                 "ref":
-                                 {
-                                     "entityType" : "student",
-                                     "choiceOfFields" :
-                                      [
-                                          [
-                                              {
-                                                  "path" : "body.studentUniqueStateId",
-                                                  "values" :
-                                                   [{
-                                                         "valueSource" : "body.studentId"
-                                                   }]
-                                              }
-                                          ]
-                                      ]
-                                 }
+                                "valueSource" : "body.studentId"
                             }]
-                        },
-                        {
-                            "path" : "body.sectionId",
-                            "values" :
-                             [{
-                                 "ref":
-                                 {
-                                     "entityType" : "section",
-                                     "choiceOfFields" :
-                                      [
-                                          [{
-                                              "path" : "body.uniqueSectionCode",
-                                              "values" :
-                                               [{
-                                                   "valueSource" : "body.uniqueSectionCode"
-                                               }]
-                                          }]
-                                      ]
-                                 }
-                             }]
                         }
                     ]
                 ]
             }
-        }
+        } 
     ]
 }
