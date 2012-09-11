@@ -60,7 +60,7 @@ public abstract class NamedModelElement extends ModelElement implements HasName 
     }
     
     @Override
-    public final String getName() {
+    public String getName() {
         return name;
     }
 }

@@ -16,7 +16,17 @@ limitations under the License.
 
 =end
 
-
+Transform /endpoints for the role "([^\"]*)"/ do |arg1|
+  array = ["Developer Account Management", "Change Password"] if arg1 == "Sandbox Operator"
+  array = ["Application Registration Approval", "Account Approval", "Change Password", "Administrative Account Management"] if arg1 == "Production Operator"
+  array = ["Application Registration", "Change Password"] if arg1 == "Production Developer"
+  array = ["Admin Delegation", "Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "LEA Admin"
+  #NOTE: previous admin delegation tests delegate app auth to this SEA Admin
+  array = ["Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "SEA Admin"
+  array = ["Change Password", "Provision Landing Zone"] if arg1 == "Ingestion User"
+  array = ["Custom roles", "Realm Management", "Change Password"] if arg1 == "LEA and Realm Admin"
+  array
+end
  
 When /^I make an API call to get my available apps$/ do
   @format = "application/json"
@@ -126,13 +136,10 @@ And /^the resulting list is empty$/ do
 	assert(@result.length == 0, "list is empty")
 end
 
-Then /^the admin app endpoints contain "(.*?)"$/ do |arg1|
-  found = false
+Then /^the admin app endpoints contains (endpoints for the role ".*?")$/ do |arg1|
   @admin_app["endpoints"].each do |endpoint|
-    if endpoint["name"] == arg1
-      found = true
-    end
+    assert(arg1.include?(endpoint["name"]), "Endpoint #{endpoint["name"]} was not expected to be returned") 
   end
-  assert(found == true, "Looking for #{arg1} in list")
+  assert(@admin_app["endpoints"].length == arg1.length, "Expected endpoints counts do not match: expected #{arg1.length} actual: #{@admin_app["endpoints"].length}")
 end
 
