@@ -84,9 +84,14 @@ end
 
 Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
   sleep 2
-  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  rights.each do |right|
-    group.find_elements(:xpath, "//span[text()='#{right}']")
+  begin
+    group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+    rights.each do |right|
+      group.find_elements(:xpath, "//span[text()='#{right}']")
+    end
+  rescue Exception => e
+    puts @driver.page_source
+    raise e
   end
 end
 

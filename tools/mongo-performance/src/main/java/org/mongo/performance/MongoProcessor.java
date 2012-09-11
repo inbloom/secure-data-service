@@ -128,7 +128,6 @@ public class MongoProcessor<T> {
        	for(int i = 0; i < indexes.size(); i++) {
        		da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on(indexes.get(i), Order.ASCENDING)); 
        	}
-
     }
 
 

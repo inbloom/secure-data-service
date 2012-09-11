@@ -327,7 +327,39 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>ruby</executable>
+          <workingDirectory>${basedir}/../../acceptance-tests/test/features/ingestion/test_data/</workingDirectory>
+          <arguments>
+            <argument>${basedir}/../../acceptance-tests/test/features/ingestion/test_data/packageSampleDataSets.rb</argument>
+          </arguments>
+        </configuration>
+      </plugin>
     </plugins>
+    <resources combine.children="append">
+      <resource> 
+        <directory>../../acceptance-tests/test/features/ingestion/test_data/</directory>
+        <includes>
+          <include>MediumSampleDataSet.zip</include>
+          <include>SmallSampleDataSet.zip</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+      </resource>
+    </resources>
 
   </build>
 

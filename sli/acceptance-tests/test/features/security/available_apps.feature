@@ -17,14 +17,6 @@ When I make an API call to get my available apps filtered by admin
 Then I receive a JSON object listing all the admin apps that my SEA/LEA have approved
 And the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app
 
-Scenario: SLI administrator has admin app endpoints filtered based on role
-
-Given I am logged in using "operator" "operator1234" to realm "SLI"
-When I make an API call to get my available apps filtered by admin
-Then I receive a JSON object listing all the admin apps
-And the list contains the admin app
-And the admin app endpoints only contains SLI operator endpoints
-
 Scenario: Authenticated State-level users see all apps within child districts
 
 Given I am logged in using "jjackson" "jjackson1234" to realm "IL"
@@ -60,3 +52,21 @@ Given I am logged in using "operator" "operator1234" to realm "SLI"
 When I make an API call to get my available apps 
 Then I receive a JSON object listing all the apps approved for "SLI"
 And the list contains and app named "AuthorizeTestApp4"
+
+Scenario Outline: Verify endpoints in admin app
+
+    Given I am logged in using <USERNAME> <PASSWORD> to realm "SLI"
+    When I make an API call to get my available apps filtered by admin
+    Then I receive a JSON object listing all the admin apps
+    And the list contains the admin app
+    And the admin app endpoints contains endpoints for the role <ROLE>
+    Examples:
+    | USERNAME            | PASSWORD              | ROLE                   |
+    | "sandboxoperator"   | "sandboxoperator1234" | "Sandbox Operator"     |
+    | "operator"          | "operator1234"        | "Production Operator"  |
+    | "developer"         | "developer1234"       | "Production Developer" |
+    | "sunsetadmin"       | "sunsetadmin1234"     | "LEA Admin"            |
+    | "iladmin"           | "iladmin1234"         | "SEA Admin"            |
+    | "ingestionuser"     | "ingestionuser1234"   | "Ingestion User"       |
+    | "sunsetrealmadmin"  | "sunsetrealmadmin1234"| "LEA and Realm Admin"  |
+    

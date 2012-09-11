@@ -26,19 +26,21 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.JobContext;
+import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
-import org.slc.sli.aggregation.mapreduce.map.key.IdFieldEmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
 
 /**
  * MongoIdInputFormat
  */
-public class MongoIdInputFormat extends InputFormat<IdFieldEmittableKey, BSONWritable> {
+public class MongoIdInputFormat extends InputFormat<EmittableKey, BSONWritable> {
 
     protected MongoInputFormat privateFormat = new MongoInputFormat();
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public MongoIdRecordReader createRecordReader(InputSplit split, TaskAttemptContext context) {
+    public RecordReader createRecordReader(InputSplit split, TaskAttemptContext context) {
         if (!(split instanceof MongoInputSplit)) {
             throw new IllegalStateException("Creation of a new MongoIdInputFormat requires a MongoInputSplit instance.");
         }

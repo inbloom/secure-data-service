@@ -8,7 +8,7 @@
   <merge type="node" action="delete" xpath="//resource[@path='v1/metrics']" />
   <merge type="node" action="delete" xpath="//resource[@path='v1/tenant_metrics']" />
   <merge type="node" action="delete" xpath="//resource[@path='v1/system/support']" />
-  <merge type="node" action="delete" xpath="//resources/resource[not(starts-with(@path, 'v1'))]" />
+  <merge type="node" action="delete" xpath="//resources/resource[not(starts-with(@path, 'v1')) and not(starts-with(@path, '/userapps'))]" />
 
   <!-- Add views documentation -->
   <merge type="node" action="add" xpath="//resource[@path='v1/students']/resource[@path='{id}']/method[@name='GET']">
@@ -41,6 +41,16 @@
 
   <merge type="node" action="add" xpath="//method[@name='DELETE']">
     <doc>Deletes the specified resource.</doc>
+  </merge>
+
+  <merge type="node" action="add" xpath="//method[@name='PATCH']">
+    <doc>While the PUT method completely replaces a document,
+      PATCH allows you to make partial changes to that document.
+      You can do this by providing only the document fields that
+      you want to replace. For each field in the request, PATCH fully
+      overwrites that field on the document, including arrays and
+      maps. PATCH has no effect on fields other than those
+      specified in the request.</doc>
   </merge>
 
   <!-- add media types to POST/PUT -->

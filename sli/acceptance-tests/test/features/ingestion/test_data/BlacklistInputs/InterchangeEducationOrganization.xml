@@ -83,7 +83,7 @@
 AControlCharacter</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Club/Team</ID>
+      <ID>Club/TeamSpace</ID>
     </CourseCode>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>

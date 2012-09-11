@@ -72,7 +72,9 @@ public class SlcInterface {
     public String sessionCheck() {
         try {
             return client.sessionCheck(token);
-        } catch (Exception e) {
+        } catch (URISyntaxException e) {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (IOException e) {
             LOG.error("  " + e.getMessage(), e);
         }
         return "";
@@ -148,12 +150,12 @@ public class SlcInterface {
         return new ArrayList<Entity>();
     }
 
-    /**
-     * Pass-through interface
-     */
-    public void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+    public List<Entity> read(final String type, final Query query) throws URISyntaxException,
             IOException, SLIClientException {
-        client.read(entities, type, null, query);
+        // create a local copy of the list to avoid side effects in client.read(...)
+        List<Entity> localList = new ArrayList<Entity>();
+        client.read(localList, type, null, query);
+        return localList;
     }
 
 }

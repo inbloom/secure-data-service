@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.client.impl.BasicClient;
@@ -54,16 +53,11 @@ public class Teachers {
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }
+        Map<String, URL> linkMap = home.getLinkMap();
         URL myURL = null;
-        List<Link> links = home.getLinks();
 
-        if (links != null) {
-            for (Link link : links) {
-                if (link.getLinkName().equals("self")) {
-                    myURL = link.getResourceURL();
-                    break;
-                }
-            }
+        if (linkMap != null) {
+            myURL = linkMap.get("self");
         }
 
         if (myURL == null) {

@@ -27,31 +27,31 @@
          "name":"Application Registration",
          "description":"Register and manage applications that can access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
-         "roles":[
-            "Application Developer"
+         "rights":[
+            "DEV_APP_CRUD"
          ]
       },
       {
          "name":"Application Registration Approval",
          "description":"Approve applications to access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
-         "roles":[
-            "SLC Operator"
+         "rights":[
+            "SLC_APP_APPROVE"
          ]
       },
       {
          "name":"Admin Delegation",
          "description":"Delegate District Privileges to a State Super Administrator",
          "url":"${bootstrap.app.admin.url}/admin_delegations",
-         "roles":[
-            "LEA Administrator"
+         "rights":[
+            "EDORG_APP_AUTHZ"
          ]
       },
       {
          "name":"Application Authorization",
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
-         "roles":[
+         "rights":[
             "DELEGATED_ADMIN"
          ]
       },
@@ -59,64 +59,58 @@
          "name":"Custom roles",
          "description":"Create custom roles and control how roles from the IDP are mapped to SLC rights.",
          "url":"${bootstrap.app.admin.url}/custom_roles/",
-         "roles":[
-           "CUSTOM_ROLE_ADMIN"
+         "rights":[
+           "CRUD_ROLE"
          ]
       },
       {
          "name":"Realm Management",
          "description":"Manage realm settings.",
          "url":"${bootstrap.app.admin.url}/realm_management/",
-         "roles":[
-           "Realm Administrator"
+         "rights":[
+           "CRUD_REALM"
          ]
       },
       {
          "name":"Provision Landing Zone",
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
-         "roles":[
-            "Ingestion User"
+         "rights":[
+            "INGEST_DATA"
          ]
       },
       {
       "name":"Account Approval",
          "description":"Approve Reject and Disable Accounts",
          "url":"${bootstrap.app.admin.url}/account_managements",
-         "roles":[
-            "SLC Operator"
+         "rights":[
+            "CRUD_SLC_OPERATOR"
             ]
       },
       {
       "name":"Change Password",
          "description":"Change your password",
          "url":"${bootstrap.app.admin.url}/changePassword",
-         "roles":[
-            "SLC Operator",
-            "Ingestion User",
-            "Realm Administrator",
-            "Application Developer",
-            "LEA Administrator",
-            "SEA Administrator",
-            "Application Developer"
+         "rights":[
+            "ADMIN_ACCESS"
             ]
       },
       {
       "name":"Administrative Account Management",
          "description":"Manage SLI administrative users",
          "url":"${bootstrap.app.admin.url}/users",
-         "roles":[
-            "SLC Operator",
-            "LEA Administrator",
-            "SEA Administrator"
+         "rights":[
+            "CRUD_SLC_OPERATOR",
+            "CRUD_LEA_ADMIN",
+            "CRUD_SEA_ADMIN"
             ]
       },
       {
       "name":"Developer Account Management",
          "description":"Manage developers within your sandbox",
          "url":"${bootstrap.app.admin.url}/users",
-         "roles":[
-            "Sandbox Administrator"
+         "rights":[
+            "CRUD_SANDBOX_ADMIN"
             ]
       }
    ]

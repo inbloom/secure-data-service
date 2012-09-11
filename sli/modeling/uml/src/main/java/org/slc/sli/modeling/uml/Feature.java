@@ -53,7 +53,7 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
     }
     
     @Override
-    public final Identifier getType() {
+    public Identifier getType() {
         return type;
     }
     

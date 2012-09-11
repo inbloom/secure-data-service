@@ -1,6 +1,7 @@
 package org.slc.sli.aggregation.jobs.school.assessment;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.mongodb.hadoop.io.BSONWritable;
@@ -11,8 +12,8 @@ import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandConfig;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandsConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.ConfigSections;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.CutPointConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
@@ -37,7 +38,7 @@ public class SchoolProficiencyReducer
         extends Reducer<TenantAndIdEmittableKey, Text, TenantAndIdEmittableKey, BSONWritable> {
 
     BSONObject counts = new BasicBSONObject();
-    private BandsConfig bands;
+    private ArrayList<CutPointConfig> bands;
 
     @Override
     public void reduce(final TenantAndIdEmittableKey pKey,
@@ -70,13 +71,14 @@ public class SchoolProficiencyReducer
     protected void setup(Reducer.Context context) throws IOException, InterruptedException {
         super.setup(context);
 
-        MetadataConfig cfg = JobConfiguration.getAggregateMetadata(context.getConfiguration());
-        bands = cfg.getBands();
+        ConfigSections s = JobConfiguration.fromHadoopConfiguration(context.getConfiguration());
+        MetadataConfig cfg = s.getMetadata();
+        bands = cfg.getCutPoints();
 
-        BandConfig[] config = bands.toArray(new BandConfig[0]);
+        CutPointConfig[] config = bands.toArray(new CutPointConfig[0]);
 
-        for (BandConfig band : config) {
-            counts.put(band.getAbbreviation(), 0L);
+        for (CutPointConfig band : config) {
+            counts.put(band.getEmit(), 0L);
         }
     }
 }

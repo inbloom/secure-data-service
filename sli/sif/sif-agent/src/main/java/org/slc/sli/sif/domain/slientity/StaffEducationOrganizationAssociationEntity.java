@@ -90,7 +90,7 @@ public class StaffEducationOrganizationAssociationEntity extends SliEntity {
 
     @Override
     public String entityType() {
-        return "staffEducationOrgAssignmentAssociation";
+        return "staffEducationOrganizationAssociation";
     }
 
 }

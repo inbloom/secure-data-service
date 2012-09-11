@@ -104,3 +104,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentTranscriptAssociation             |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
+    And I should not see an error log file created
+
+
+Scenario: Preload Small Sample Data Set
+   Then I create a tenant set to preload data set "medium"
+   And a batch job log has been created
+   And I should not see an error log file created
