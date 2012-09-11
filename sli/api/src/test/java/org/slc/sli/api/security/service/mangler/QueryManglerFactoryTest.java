@@ -1,9 +1,8 @@
 package org.slc.sli.api.security.service.mangler;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,14 +47,4 @@ public class QueryManglerFactoryTest {
         assertTrue(chosenMangler != null);
         assertTrue(chosenMangler.respondsTo("section"));
     }
-    
-    @Test
-    public void testGetManglerForInvalidCollection() {
-        NeutralQuery query = new NeutralQuery();
-        SecurityCriteria criteria = new SecurityCriteria();
-        criteria.setCollectionName("blerbler");
-        criteria.setSecurityCriteria(null);
-        Mangler chosenMangler = factory.getMangler(query, criteria);
-        assertTrue(chosenMangler == null);
-    }    
 }

@@ -16,12 +16,12 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
@@ -42,6 +42,9 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
     private StudentGracePeriodNodeFilter graceFilter;
     
     @Autowired
+    private TeacherStudentResolver studentResolver;
+    
+    @Autowired
     private SessionSecurityCache securityCachingStrategy;
     
     @Override
@@ -53,13 +56,18 @@ public class TeacherToStudentSchoolAssociationResolver implements EntityContextR
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = helper.findAccessible(principal,
-                Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        // We can see the associations of all the students we can see.
+        
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
+            studentIds = studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+        }
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
                 "studentId", studentIds, Arrays.asList((NodeFilter) graceFilter));
         securityCachingStrategy.warm(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new HashSet<String>(associationIds));
         
-        debug("Accessable student-school association IDS [ {} ]", associationIds);
         return associationIds;
     }
     
