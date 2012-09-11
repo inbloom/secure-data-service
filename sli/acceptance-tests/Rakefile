@@ -822,6 +822,7 @@ task :importSecuredData do
     "program" => "secured/program.json",
     "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
+    "session" => "secured/session.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
