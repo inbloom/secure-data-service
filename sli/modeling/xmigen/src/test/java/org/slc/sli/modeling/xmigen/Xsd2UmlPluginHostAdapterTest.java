@@ -1,25 +1,29 @@
 package org.slc.sli.modeling.xmigen;
 
-import org.junit.Test; 
+import org.apache.ws.commons.schema.XmlSchemaAppInfo;
+import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import org.junit.runner.RunWith;
 
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.modeling.uml.Attribute;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.TagDefinition;
+import org.mockito.stubbing.Answer;
+import org.slc.sli.modeling.uml.*;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slc.sli.modeling.xsd.WxsNamespace;
 
 import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /** 
@@ -49,8 +53,12 @@ public class Xsd2UmlPluginHostAdapterTest {
 
     @Mock
     ClassType classType;
+    @Mock
+    AssociationEnd lhs;
 
     @Mock
+    AssociationEnd rhs;
+
     QName qName;
 
     Identifier identifier;
@@ -59,8 +67,9 @@ public class Xsd2UmlPluginHostAdapterTest {
 public void before() throws Exception {
     adapter = new Xsd2UmlPluginHostAdapter(mapper);
     identifier = Identifier.random();
+    qName = new QName(WxsNamespace.URI,"test");
 
-} 
+}
 
 @After
 public void after() throws Exception { 
@@ -88,10 +97,20 @@ public void testDeclareTagDefinitions() throws Exception {
 */ 
 @Test
 public void testEnsureTagDefinitionId() throws Exception {
-    when(tagDefinition.getId()).thenReturn(Identifier.random());
+    when(tagDefinition.getId()).thenAnswer(new Answer<Identifier>() {
+        @Override
+        public Identifier answer(InvocationOnMock invocation) throws Throwable {
+            return Identifier.random();
+        }
+    });
     when(mapper.getTagDefinition(any(QName.class))).thenReturn(tagDefinition);
-    assertNotNull(adapter.ensureTagDefinitionId("mock"));
-} 
+    assertNotNull(adapter.ensureTagDefinitionId(Mockito.anyString()));
+}
+@Test(expected = IllegalArgumentException.class)
+public void testEnsureTagDefinitionException() throws Exception {
+    when(mapper.getTagDefinition(any(QName.class))).thenReturn(null);
+    adapter.ensureTagDefinitionId(Mockito.anyString());
+}
 
 /** 
 * 
@@ -110,8 +129,10 @@ public void testGetAssociationEndTypeName() throws Exception {
 */ 
 @Test
 public void testGetTagDefinition() throws Exception { 
-//TODO: Test goes here... 
-} 
+//TODO: Test goes here...
+   when(mapper.getTagDefinition(any(Identifier.class))).thenReturn(tagDefinition);
+    assertEquals(tagDefinition, adapter.getTagDefinition(identifier));
+}
 
 /** 
 * 
@@ -119,9 +140,11 @@ public void testGetTagDefinition() throws Exception {
 * 
 */ 
 @Test
-public void testGetType() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testGetType() throws Exception {
+    when(mapper.getType(any(Identifier.class))).thenReturn(classType);
+    Type type = adapter.getType(identifier);
+    assertEquals(classType, type);
+}
 
 /** 
 * 
@@ -129,9 +152,9 @@ public void testGetType() throws Exception {
 * 
 */ 
 @Test
-public void testIsAssociationEnd() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testIsAssociationEnd() throws Exception {
+    assertFalse(adapter.isAssociationEnd(classType,attribute,host));
+}
 
 /** 
 * 
@@ -139,9 +162,12 @@ public void testIsAssociationEnd() throws Exception {
 * 
 */ 
 @Test
-public void testNameAssociation() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testNameAssociation() throws Exception {
+    when(lhs.getName()).thenReturn("lhs");
+    when(rhs.getName()).thenReturn("rhs");
+    String assocEnd = adapter.nameAssociation(lhs,rhs,host);
+    assertEquals("lhs<=>rhs" ,assocEnd);
+}
 
 /** 
 * 
@@ -149,9 +175,10 @@ public void testNameAssociation() throws Exception {
 * 
 */ 
 @Test
-public void testNameFromComplexTypeExtension() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testNameFromComplexTypeExtension() throws Exception {
+
+    assertEquals("test extends test",adapter.nameFromComplexTypeExtension(qName, qName));
+}
 
 /** 
 * 
@@ -168,10 +195,10 @@ public void testNameFromSchemaElementName() throws Exception {
 * Method: nameFromSchemaAttributeName(final QName name) 
 * 
 */ 
-@Test
-public void testNameFromSchemaAttributeName() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testNameFromSchemaAttributeName() throws Exception {
+    adapter.nameFromSchemaAttributeName(qName);
+}
 
 /** 
 * 
@@ -180,8 +207,8 @@ public void testNameFromSchemaAttributeName() throws Exception {
 */ 
 @Test
 public void testNameFromSimpleTypeRestriction() throws Exception { 
-//TODO: Test goes here... 
-} 
+    assertEquals("test restricts test",adapter.nameFromSimpleTypeRestriction(qName, qName));
+}
 
 /** 
 * 
@@ -189,9 +216,9 @@ public void testNameFromSimpleTypeRestriction() throws Exception {
 * 
 */ 
 @Test
-public void testNameFromSchemaTypeName() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testNameFromSchemaTypeName() throws Exception {
+    assertEquals("test",adapter.nameFromSchemaTypeName(qName));
+}
 
 /** 
 * 
@@ -199,9 +226,9 @@ public void testNameFromSchemaTypeName() throws Exception {
 * 
 */ 
 @Test
-public void testTagsFromAppInfo() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testTagsFromAppInfo() throws Exception {
+    assertEquals(Collections.emptyList(), adapter.tagsFromAppInfo(new XmlSchemaAppInfo(),host));
+}
 
 
 } 
