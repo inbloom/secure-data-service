@@ -44,13 +44,20 @@ public class SubDocAccessor {
         private static final String ID_SEPERATOR = ";";
         private final String collection;
         private final String key;
-        private final String subCollection;
+        private final String subField;
 
-        public Location(String collection, String key, String subCollection) {
+        /**
+         * Create a new location to store subdocs
+         *
+         * @param collection the collection the superdoc is in
+         * @param key the field in the subdoc that refers to the super doc's id
+         * @param subField the place to put the sub doc
+         */
+        public Location(String collection, String key, String subField) {
             super();
             this.collection = collection;
             this.key = key;
-            this.subCollection = subCollection;
+            this.subField = subField;
         }
 
         private String getKey() {
@@ -127,11 +134,11 @@ public class SubDocAccessor {
         public Map<String, Object> read(String id) {
             Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))),
                     Map.class, collection);
-            return (Map<String, Object>) ((Map<String, Object>) result.get(subCollection)).get(id);
+            return (Map<String, Object>) ((Map<String, Object>) result.get(subField)).get(id);
         }
 
         private String getField(String id) {
-            return subCollection + "." + id;
+            return subField + "." + id;
         }
 
     }
