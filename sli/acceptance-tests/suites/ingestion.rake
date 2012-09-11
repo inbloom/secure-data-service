@@ -17,6 +17,11 @@ task :ingestionAcceptanceSdsTest do
   addSecurityData()
 end
 
+desc "Run Ingestion LearningObjective Tests"
+task :ingestionLearningObjectiveTest do
+  runTests("test/features/ingestion/features/ingestion_learningObjective.feature")
+end
+
 desc "Run Ingestion Tenant Test"
 task :ingestionTenantTest do
   runTests("test/features/ingestion/features/ingestion_tenant.feature")

@@ -17,9 +17,9 @@
 
 package org.slc.sli.modeling.xsdgen;
 
-import java.util.Comparator;
-
 import org.slc.sli.modeling.uml.Type;
+
+import java.util.Comparator;
 
 enum TypeComparator implements Comparator<Type> {
     SINGLETON;

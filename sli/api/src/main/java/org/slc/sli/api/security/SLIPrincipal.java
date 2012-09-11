@@ -45,9 +45,18 @@ public class SLIPrincipal implements Principal, Serializable {
     private String adminRealm;
     private String edOrg;
     private String tenantId;
+    private String sessionId;
     private List<String> roles;
     private String edOrgId;
     
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     private Entity entity;
     
     public SLIPrincipal() {
