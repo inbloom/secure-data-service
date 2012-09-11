@@ -15,7 +15,7 @@
 
 (defn gen-student [districtName schoolName id]
   (element :Student {}
-    (element :StudentUniqueStateId {} (join "-" [districtName schoolName id]))
+    (element :StudentUniqueStateId {} (join "-" [schoolName id]))
     (element :Name {}
       (element :FirstName {} (rand-nth ["Nathan" "Gina" "Alan" "Morena" "Adam" "Jewel" "Sean" "Summer" "Ron"]))
       (element :LastSurname {} (rand-nth ["Fillion" "Torres" "Tudyk" "Baccarin" "Baldwin" "Staite" "Maher" "Glau" "Glass"]))
@@ -45,7 +45,7 @@
 (defn student-ref [districtName schoolName student]
   (element :StudentReference {}
     (element :StudentIdentity {}
-      (element :StudentUniqueStateId {} (join "-" [districtName schoolName student]))
+      (element :StudentUniqueStateId {} (join "-" [schoolName student]))
     )
   )
 )
@@ -303,7 +303,7 @@
   )
 )
 
-(defn create-session [districtName schoolName]
+(defn create-session [districtName]
   (into () [
     (element :CalendarDate {:id "tmp_day" }
       (element :Date {} "2011-09-22")
@@ -340,8 +340,8 @@
   )
 )
 
-(defn gen-session [districtName schoolName output-file]
-  (gen-edfi :InterchangeEducationOrgCalendar output-file (reverse (create-session districtName schoolName)))
+(defn gen-session [districtName output-file]
+  (gen-edfi :InterchangeEducationOrgCalendar output-file (reverse (create-session districtName)))
 )
 
 (defn create-section [districtName schoolName]
@@ -518,9 +518,9 @@
   (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
     (doseq [ [districtName schools] district]
       (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))
+      (gen-session districtName (format "/tmp/test/C-%s-calendar.xml" districtName))
       (doseq [ schoolName schools ]
         (def rng (range 1 (+ 1 studentCount)))
-        (gen-session districtName schoolName (format "/tmp/test/C-%s-calendar.xml" districtName))
         (gen-students districtName schoolName rng (format "/tmp/test/D-%s-student.xml" schoolName))
         (gen-sections districtName schoolName (format "/tmp/test/E-%s-sections.xml" schoolName))
         (gen-enrollments districtName schoolName rng "7th Grade Math - Sec 2" (format "/tmp/test/F-%s-enrollment.xml" schoolName))
@@ -544,6 +544,11 @@
 ; 42000 students
 (defn gen-medium-set []
   (gen-big-data 6 7 1000)
+)
+
+; 500k students
+(defn gen-medium-large-set []
+  (gen-big-data 20 10 2500)
 )
 
 ; 1.5 million students

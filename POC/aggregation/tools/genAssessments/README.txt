@@ -6,11 +6,12 @@ To run you will need:
 - /tmp/test directory must exist.
 
 This supports the following data generation commands:
-(gen-tiny-set)       ;   1 district,   1 school/district,   100 students/school => 100 students
-(gen-small-set)      ;   1 district,   5 schools/district,  500 students/school => 2500 students
-(gen-medium-set)     ;   6 districts,  7 schools/district, 1000 students/school => 42000 students
-(gen-large-set)      ;  25 districts, 25 schools/district, 2500 students/school => ~1.5 million students
-(gen-extra-large-set ; 125 districts, 50 schools/district, 2500 students/school  => ~15 million students
+(gen-tiny-set)         ;   1 district,   1 school/district,   100 students/school => 100 students
+(gen-small-set)        ;   1 district,   5 schools/district,  500 students/school => 2500 students
+(gen-medium-set)       ;   6 districts,  7 schools/district, 1000 students/school => 42000 students
+(gen-medium-large-set) ;  20 districts, 10 schools/district, 2500 students/school => 500k students
+(gen-large-set)        ;  25 districts, 25 schools/district, 2500 students/school => ~1.5 million students
+(gen-extra-large-set   ; 125 districts, 50 schools/district, 2500 students/school  => ~15 million students
 
 You can generate a custom data set by using the gen-big-data function. Example:
 (gen-big-data 1 5 750)  ; 1 district,  5 schools/district,  750 students/school
