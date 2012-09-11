@@ -70,11 +70,13 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final AssociationEnd associationEnd) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public void visit(final Attribute attribute) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
