@@ -334,6 +334,7 @@ task :appInit do
   swap_app_ids()
 end
 
+desc "Approve SLC apps for ingested realms"
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
@@ -822,6 +823,7 @@ task :importSecuredData do
     "program" => "secured/program.json",
     "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
+    "session" => "secured/session.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
@@ -829,6 +831,7 @@ task :importSecuredData do
     "student" => "secured/student.json",
     "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
+    "studentCompetency" => "secured/studentCompetency.json",
     "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentTranscriptAssociation" => "secured/studentTranscriptAssociation.json",
