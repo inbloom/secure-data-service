@@ -17,18 +17,16 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Resolves which DisciplineAction a given teacher is allowed to see
@@ -41,6 +39,12 @@ public class TeacherDisciplineActionResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private SessionSecurityCache securityCache;
+    
+    @Autowired
+    private TeacherStudentResolver studentResolver;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -52,9 +56,14 @@ public class TeacherDisciplineActionResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> accessibleStudents = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                                                                                         ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        List<String> ids = helper.findEntitiesContainingReference(EntityNames.DISCIPLINE_ACTION, "studentId", accessibleStudents);
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCache.contains(EntityNames.STUDENT)) {
+            studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT));
+        }
+        List<String> ids = helper.findEntitiesContainingReference(EntityNames.DISCIPLINE_ACTION, "studentId",
+                studentIds);
         securityCachingStrategy.warm(EntityNames.DISCIPLINE_ACTION, new HashSet<String>(ids));
         return ids;
     }
