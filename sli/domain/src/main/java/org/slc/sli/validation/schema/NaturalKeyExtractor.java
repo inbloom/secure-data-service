@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,21 @@ public class NaturalKeyExtractor {
         }
         
         return naturalKeyFields;
+    }
+    
+    /**
+     * Returns a natural key descriptor for the given entity
+     * 
+     * @param entity
+     * @return
+     */
+    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
+        
+        Map<String, String> map = getNaturalKeys(entity);
+        
+        String entityType = entity.getType();
+        String tenantId = (String) entity.getMetaData().get("tenantId");
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, entityType, tenantId);
+        return naturalKeyDescriptor;
     }
 }
