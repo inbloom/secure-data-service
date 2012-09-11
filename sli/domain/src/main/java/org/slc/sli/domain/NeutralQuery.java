@@ -229,6 +229,10 @@ public class NeutralQuery {
         this.excludeFields = excludeFields;
         return this;
     }
+    
+    public boolean removeCriteria(NeutralCriteria criteria) {
+        return this.queryCriteria.remove(criteria);
+    }
 
     @Deprecated
     public String getIncludeFieldString() {

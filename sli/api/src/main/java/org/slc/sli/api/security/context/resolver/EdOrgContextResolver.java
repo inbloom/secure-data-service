@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +51,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
-    @Autowired
+    @Resource(name = "simpleSecurityCachingStrategy")
     private SecurityCachingStrategy securityCachingStrategy;
 
     @Override
