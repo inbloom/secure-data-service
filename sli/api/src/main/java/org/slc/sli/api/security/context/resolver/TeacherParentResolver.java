@@ -17,16 +17,19 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,9 +37,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeacherParentResolver implements EntityContextResolver {
+    
+    @Autowired
+    private TeacherToStudentParentAssociationResolver spaResolver;
 
     @Autowired
-    private AssociativeContextHelper helper;
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
     
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
@@ -49,9 +56,20 @@ public class TeacherParentResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> finalIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
+        List<String> spaIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT_PARENT_ASSOCIATION)) {
+            spaIds = spaResolver.findAccessible(principal);
+        } else {
+            spaIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT_PARENT_ASSOCIATION));
+        }
+        Iterable<Entity> spas = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, new NeutralQuery(
+                new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, spaIds)));
+        List<String> finalIds = new ArrayList<String>();
+        for (Entity spa : spas) {
+            if (spa.getBody().containsKey(ParameterConstants.PARENT_ID)) {
+                finalIds.add((String) spa.getBody().get(ParameterConstants.PARENT_ID));
+            }
+        }
         securityCachingStrategy.warm(EntityNames.PARENT, new HashSet<String>(finalIds));
         return finalIds;
     }
