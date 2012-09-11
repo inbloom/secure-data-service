@@ -13,7 +13,7 @@
 		</SectionReference>
 	</GradebookEntry>
 	<!-- StudentGradebookEntry objects for each kid and each GradebookEntry in linda.kim's class -->
-    <StudentGradebookEntry>
+	<StudentGradebookEntry>
 		<DateFulfilled>2011-10-05</DateFulfilled>
 		<LetterGradeEarned>Q</LetterGradeEarned>
 		<StudentSectionAssociationReference>
@@ -27,7 +27,18 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
-		<GradebookEntryReference ref="GBE-8th_Grade_English-1"/>
+		<GradebookEntryReference>
+			<GradebookEntryIdentity>
+				<GradebookEntryType>Assignment</GradebookEntryType>
+				<DateAssigned>2011-09-27</DateAssigned>
+				<SectionReference>
+					<SectionIdentity>
+						<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+						<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+					</SectionIdentity>
+				</SectionReference>
+			</GradebookEntryIdentity>
+		</GradebookEntryReference>
 	</StudentGradebookEntry>
  	<StudentCompetency id="SC-GR3-800000025-1">
 		<LearningObjectiveReference>
