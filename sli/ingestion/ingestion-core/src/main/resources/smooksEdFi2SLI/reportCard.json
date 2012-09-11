@@ -131,6 +131,7 @@
                     "ref" :
                     {
                         "entityType" : "student",
+                        "takesContext" : ["edOrgs"],
                         "choiceOfFields" :
                                 [
                                     [

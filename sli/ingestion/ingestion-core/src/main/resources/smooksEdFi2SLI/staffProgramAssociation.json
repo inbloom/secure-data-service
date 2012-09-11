@@ -8,6 +8,7 @@
 	        "entityType" : "staff",
 	        "isRefList" : true,
     		"refObjectPath" : "body.staffReference",
+    		"takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [
@@ -29,7 +30,7 @@
 	        "entityType" : "program",
 	        "isRefList" : true,
     		"refObjectPath" : "body.programReference",
-	        "choiceOfFields" :
+            "choiceOfFields" :
 	        [
 	            [
 		            { 

@@ -7,6 +7,7 @@
          "ref":
          {
             "entityType":"school",
+            "takesContext" : ["edOrgs"],
             "choiceOfFields":
             [
                [
@@ -26,6 +27,7 @@
          "ref":
          {
             "entityType":"session",
+            "takesContext" : ["edOrgs"],
             "choiceOfFields":
             [
                [
@@ -83,6 +85,7 @@
           "ref" : 
           {
               "entityType" : "courseOffering",
+              "takesContext" : ["edOrgs"],
               "choiceOfFields" :
               [
                   [
