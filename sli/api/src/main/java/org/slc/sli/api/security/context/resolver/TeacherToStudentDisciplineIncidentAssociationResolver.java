@@ -17,16 +17,18 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,9 +38,13 @@ import org.springframework.stereotype.Component;
 public class TeacherToStudentDisciplineIncidentAssociationResolver implements EntityContextResolver {
 
     @Autowired
-    private AssociativeContextHelper helper;
+    private TeacherStudentResolver studentResolver;
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -48,9 +54,18 @@ public class TeacherToStudentDisciplineIncidentAssociationResolver implements En
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "studentId", studentIds);
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
+            studentIds = studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+        }
+        Iterable<String> sdiaIds = repo.findAllIds(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+                new NeutralQuery(new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds)));
+        List<String> finalIds = new ArrayList<String>();
+        for (String id : sdiaIds) {
+            finalIds.add(id);
+        }
         securityCachingStrategy.warm(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new HashSet<String>(finalIds));
         return finalIds;
     }
