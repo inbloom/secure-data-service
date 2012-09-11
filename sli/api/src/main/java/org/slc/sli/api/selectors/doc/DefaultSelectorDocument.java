@@ -233,8 +233,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        results = filterIncludeFields(results, plan);
-        results = filterExcludeFields(results, plan);
+        //results = filterIncludeFields(results, plan);
+        //results = filterExcludeFields(results, plan);
 
         return results;
     }

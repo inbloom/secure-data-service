@@ -66,7 +66,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected IdConverter idConverter;
 
     @Autowired
-    private MongoQueryConverter queryConverter;
+    protected MongoQueryConverter queryConverter;
 
     private static final String[] COLLECTIONS_EXCLUDED = { "tenant", "userSession", "userAccount", "roles",
             "application", "tenantJobLock" };

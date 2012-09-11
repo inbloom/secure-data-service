@@ -17,10 +17,19 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.dal.adapter.AttributeMapper;
+import org.slc.sli.dal.adapter.LocationMapper;
+import org.slc.sli.dal.adapter.Mappable;
+import org.slc.sli.dal.adapter.SchemaVisitable;
+import org.slc.sli.dal.adapter.SchemaVisitor;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -41,6 +50,8 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntityValidator;
 
+import javax.annotation.Resource;
+
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
@@ -49,7 +60,7 @@ import org.slc.sli.validation.EntityValidator;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean, SchemaVisitor {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     private static final int PADDING = 300;
@@ -64,6 +75,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
+    @Resource(name = "schemaMappings")
+    private Map<String, Mappable> schemaMappings;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -122,10 +135,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
-        validator.validate(entity);
 
+        SchemaVisitable visitable = schemaMappings.get(collectionName);
+        if (visitable != null) {
+            return visitable.acceptWrite(type, entity, this);
+        }
+
+        validator.validate(entity);
         this.addTimestamps(entity);
         return super.create(entity, collectionName);
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+        SchemaVisitable visitable = schemaMappings.get(collectionName);
+
+        if (visitable != null) {
+            return visitable.acceptRead(collectionName, neutralQuery, this);
+        }
+
+        return super.findAll(collectionName, neutralQuery);
     }
 
     @Override
@@ -200,6 +229,42 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     public void setValidator(EntityValidator validator) {
         this.validator = validator;
+    }
+
+    @Override
+    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, AttributeMapper mapper) {
+        Iterable<Entity> list = super.findAll(type, neutralQuery);
+
+        return mapper.readAll(null, list);
+    }
+
+    @Override
+    public Entity visitWrite(String type, Entity entity, AttributeMapper mapper) {
+        entity = mapper.write(entity);
+
+        validator.validate(entity);
+        this.addTimestamps(entity);
+
+        return super.create(entity, type);
+    }
+
+    @Override
+    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, LocationMapper mapper) {
+        List<String> ids = new ArrayList<String>();
+
+        for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
+            if (criteria.getKey().equals("_id")) {
+                ids = (List<String>) criteria.getValue();
+                break;
+            }
+        }
+
+        return mapper.readAll(ids, null);
+    }
+
+    @Override
+    public Entity visitWrite(String type, Entity entity, LocationMapper mapper) {
+        return mapper.write(entity);
     }
 
 }
