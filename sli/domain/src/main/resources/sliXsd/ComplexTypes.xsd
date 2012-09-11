@@ -2650,6 +2650,12 @@
 					<xs:documentation>Current school</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="joeTest" type="xs:string" minOccurs="0"
+                maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>This is only a test</xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

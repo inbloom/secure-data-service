@@ -48,7 +48,6 @@
     <value>staffEducationOrganizationAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
-    <value>student</value>
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
@@ -70,6 +69,7 @@
     <value>assessment</value>
     <value>attendance</value>
     <value>learningObjective</value>
+    <value>student</value>
     <value>studentAssessmentAssociation</value>
     <value>studentTranscriptAssociation</value>
   </util:set>
