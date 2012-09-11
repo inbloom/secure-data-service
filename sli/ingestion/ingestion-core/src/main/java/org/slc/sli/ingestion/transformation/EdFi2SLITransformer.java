@@ -146,24 +146,25 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     /**
-     * Checks the entity for 'body.exitWithdrawDate' and marks the association as expired accordingly.
+     * Checks the entity for 'body.exitWithdrawDate' and marks the association as expired
+     * accordingly.
      *
-     * @param entity Entity to check for expiry.
+     * @param entity
+     *            Entity to check for expiry.
      * @return True (if association is expired) and False otherwise.
      */
     private boolean isAssociationExpired(Entity entity) {
         boolean expired = false;
-        if (entity.getType().equals("studentSchoolAssociation")
-                && entity.getBody().containsKey("exitWithdrawDate")) {
+        if (entity.getType().equals("studentSchoolAssociation") && entity.getBody().containsKey("exitWithdrawDate")) {
             try {
-                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody()
-                        .get("exitWithdrawDate"));
+                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody().get("exitWithdrawDate"));
                 if (exitWithdrawDate.isBefore(DateTime.now().minusDays(Integer.valueOf(gracePeriod)))) {
                     expired = true;
                 }
             } catch (Exception e) {
-                LOG.warn("Error parsing exitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.", new Object[] {
-                        entity.getBody().get("studentId"), entity.getBody().get("schoolId") });
+                LOG.warn(
+                        "Error parsing exitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.",
+                        new Object[] { entity.getBody().get("studentId"), entity.getBody().get("schoolId") });
             }
         }
         return expired;
@@ -176,13 +177,24 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // -> thinking we'll need this for course lookups
         }
 
+        if (isEducationOrganization(entity.getType())) {
+            @SuppressWarnings("unchecked")
+            List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
+            if (edOrgs != null) {
+                edOrgs.add(entity.getEntityId());
+                entity.getMetaData().put("edOrgs", edOrgs);
+            } else {
+                List<String> edOrg = new ArrayList<String>();
+                edOrg.add(entity.getEntityId());
+                entity.getMetaData().put("edOrgs", edOrg);
+            }
+        }
+
         // check all references to potentially propagate context
         if (entityConfig.getReferences() != null) {
             for (RefDef refDef : entityConfig.getReferences()) {
-
                 List<String> givesContextList = refDef.getRef().getGivesContext();
                 if (givesContextList != null) {
-
                     if (isAssociationExpired(entity)) {
                         continue;
                     }
@@ -192,23 +204,44 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
                     List<String> referencedIds = determineIdsToQuery(entity, refDef);
 
-                    // propagate each kind of context specified
-                    for (String typeOfContext : givesContextList) {
-
-                        Object context = entity.getMetaData().get(typeOfContext);
-                        if (context != null) {
-
-                            updateContext(persistedCollectionName, typeOfContext, context, referencedIds);
+                    // if the list of referenced id's has entries
+                    // --> propagate specified context to each entity
+                    if (referencedIds.size() > 0) {
+                        for (String typeOfContext : givesContextList) {
+                            Object context = entity.getMetaData().get(typeOfContext);
+                            if (context != null) {
+                                updateContext(persistedCollectionName, typeOfContext, context, referencedIds);
+                            }
                         }
                     }
                 }
             }
         }
+
+        // de1550: update program and cohort context
+        if (isChildEducationOrganization(entity.getType())) {
+            updateProgramContext(entity);
+            updateCohortContextUsingEdOrg(entity);
+        } else if (isCohort(entity.getType())) {
+            updateCohortContextUsingCohort(entity);
+        }
+    }
+
+    private boolean isEducationOrganization(String type) {
+        return (type.equals("stateEducationAgency")) || (type.equals("localEducationAgency"))
+                || (type.equals("school"));
+    }
+
+    private boolean isChildEducationOrganization(String type) {
+        return (type.equals("localEducationAgency")) || (type.equals("school"));
+    }
+
+    private boolean isCohort(String type) {
+        return type.equals("cohort");
     }
 
     private void updateContext(String referencedEntityType, String typeOfContext, Object context,
             List<String> idsToQuery) {
-
         NeutralQuery query = new NeutralQuery(idsToQuery.size());
         query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, TenantContext
                 .getTenantId(), false));
@@ -228,6 +261,97 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         update.put("addToSet", metaDataFields);
 
         entityRepository.updateMulti(query, update, referencedEntityType);
+    }
+
+    private void updateCohortContextUsingCohort(Entity entity) {
+        LOG.info("updating cohort context for {}: {}", entity.getType(), entity.getBody().get("cohortIdentifier"));
+
+        String edOrgId = (String) entity.getBody().get("educationOrgId");
+
+        if (edOrgId != null) {
+            NeutralQuery query = new NeutralQuery(0);
+            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
+            query.addCriteria(new NeutralCriteria("metaData.edOrgs", "=", edOrgId, false));
+            Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
+
+            if (edOrgs != null) {
+                @SuppressWarnings("unchecked")
+                List<String> myEdOrgs = (List<String>) entity.getMetaData().get("edOrgs");
+                for (Entity edOrg : edOrgs) {
+                    if (!myEdOrgs.contains(edOrg.getEntityId())) {
+                        myEdOrgs.add(edOrg.getEntityId());
+                    }
+                }
+                entity.getMetaData().put("edOrgs", myEdOrgs);
+            }
+        }
+    }
+
+    private void updateCohortContextUsingEdOrg(Entity entity) {
+        LOG.info("updating cohort context for {}: {}", entity.getType(), entity.getBody().get("stateOrganizationId"));
+
+        @SuppressWarnings("unchecked")
+        List<String> edOrgIds = (List<String>) entity.getMetaData().get("edOrgs");
+
+        if (edOrgIds != null) {
+            NeutralQuery query = new NeutralQuery(0);
+            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
+            query.addCriteria(new NeutralCriteria("educationOrgId", "=", edOrgIds));
+            Iterable<Entity> cohorts = entityRepository.findAll("cohort", query);
+
+            if (cohorts != null) {
+                List<String> cohortsToUpdate = new ArrayList<String>();
+                for (Entity cohort : cohorts) {
+                    String cohortId = cohort.getEntityId();
+                    if (!cohortsToUpdate.contains(cohortId)) {
+                        cohortsToUpdate.add(cohortId);
+                    }
+                }
+
+                if (cohortsToUpdate.size() > 0) {
+                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(),
+                            cohortsToUpdate);
+                    updateContext("cohort", "edOrgs", entity.getEntityId(), cohortsToUpdate);
+                } else {
+                    LOG.info("found no cohorts to update for ed org: {}", entity.getEntityId());
+                }
+            }
+        }
+    }
+
+    private void updateProgramContext(Entity entity) {
+        LOG.info("updating program context for {}: {}", entity.getType(), entity.getBody().get("stateOrganizationId"));
+
+        @SuppressWarnings("unchecked")
+        List<String> edOrgIds = (List<String>) entity.getMetaData().get("edOrgs");
+
+        if (edOrgIds != null && edOrgIds.size() > 0) {
+            NeutralQuery query = new NeutralQuery(0);
+            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
+            query.addCriteria(new NeutralCriteria("_id", "=", edOrgIds, false));
+            Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
+
+            if (edOrgs != null) {
+                List<String> programsToUpdate = new ArrayList<String>();
+                for (Entity edOrg : edOrgs) {
+                    @SuppressWarnings("unchecked")
+                    List<String> programIds = (List<String>) edOrg.getBody().get("programReference");
+                    for (String programId : programIds) {
+                        if (!programsToUpdate.contains(programId)) {
+                            programsToUpdate.add(programId);
+                        }
+                    }
+                }
+
+                if (programsToUpdate.size() > 0) {
+                    LOG.info("adding id: {} to context for programs with ids: {}", entity.getEntityId(),
+                            programsToUpdate);
+                    updateContext("program", "edOrgs", entity.getEntityId(), programsToUpdate);
+                } else {
+                    LOG.info("found no programs to update for ed org: {}", entity.getEntityId());
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -81,9 +81,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Autowired
     private EntityValidator validator;
 
-    private static final String EDUCATION_ORGANIZATION = "educationOrganization";
-    private static final String METADATA_ED_ORG_KEY = "edOrgs";
-
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
@@ -169,19 +166,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
-            if (collectionName.equals(EDUCATION_ORGANIZATION)) {
-                if (entity.getMetaData().containsKey(METADATA_ED_ORG_KEY)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> edOrgs = (List<String>) entity.getMetaData().get(METADATA_ED_ORG_KEY);
-                    edOrgs.add(entity.getStagedEntityId());
-                    entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
-                } else {
-                    List<String> edOrgs = new ArrayList<String>();
-                    edOrgs.add(entity.getStagedEntityId());
-                    entity.getMetaData().put(METADATA_ED_ORG_KEY, edOrgs);
-                }
-            }
-
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, errorReport);
             } else {
@@ -202,7 +186,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         try {
-            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.size(), collectionName});
+            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[] { queued.size(),
+                    collectionName });
             entityRepository.insert(queued, collectionName);
         } catch (Exception e) {
             // Assuming there would NOT be DuplicateKeyException at this point.
