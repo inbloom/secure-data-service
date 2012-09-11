@@ -14,6 +14,7 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+  addTeacherSecurityData()
 end
 
 desc "Run Ingestion Tenant Test"

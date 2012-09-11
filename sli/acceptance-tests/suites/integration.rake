@@ -80,7 +80,7 @@ task :rcCheckStampers do
   if RUN_ON_RC
     check_stamper_log("Finished stamping tenant \'RCTestTenant\'.")
   else
-    addSecurityData()
+    addTeacherSecurityData()
   end
 end
 
@@ -113,22 +113,18 @@ end
 private
 
 def check_stamper_log(line = nil)
-  edorg_stamper_log = EDORG_LOG
   teacher_stamper_log = TEACHER_LOG
-  edorg_stamper_finished = false
   teacher_stamper_finished = false
   seconds_to_wait = STAMPER_WAIT
   backward = 1000
 
   seconds_to_wait.times do
-    if edorg_stamper_finished && teacher_stamper_finished
+    if teacher_stamper_finished
       puts line
       return
     end
-    edorg_stamper_finished  = `tail -n #{backward} #{edorg_stamper_log}`.to_s.include?(line) if !edorg_stamper_finished
     teacher_stamper_finished = `tail -n #{backward} #{teacher_stamper_log}`.to_s.include?(line) if !teacher_stamper_finished
     sleep 1
   end
-
   fail("Tenant data not stamped within #{seconds_to_wait} seconds.")
 end
