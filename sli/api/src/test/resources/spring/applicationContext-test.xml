@@ -49,6 +49,8 @@
             expression=".*AggregationLoader" />
             <context:exclude-filter type="regex"
             expression=".*NeutralSchemaValidator" />
+            <context:exclude-filter type="regex"
+            expression=".*Mapping" />
     </context:component-scan>
 
 

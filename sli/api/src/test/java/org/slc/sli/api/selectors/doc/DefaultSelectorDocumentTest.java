@@ -18,6 +18,7 @@ package org.slc.sli.api.selectors.doc;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
@@ -105,6 +106,7 @@ public class DefaultSelectorDocumentTest {
         SecurityContextHolder.clearContext();
     }
 
+    @Ignore("need multiple schemas to enable this test")
     @Test
     public void testComplexSelectorQueryPlan() {
 
@@ -196,6 +198,7 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", 2, sectionsList.size());
     }
 
+    @Ignore("need multiple schemas to enable this test")
     @Test
     public void testFilterFields() {
         SelectorQueryPlan plan = new SelectorQueryPlan();
@@ -259,6 +262,7 @@ public class DefaultSelectorDocumentTest {
         assertFalse("Should be false", body.containsKey("field3"));
     }
 
+    @Ignore("need multiple schemas to enable this test")
     @Test
     public void testIncludeXSDSelector() {
         List<String> ids = new ArrayList<String>();
@@ -278,6 +282,7 @@ public class DefaultSelectorDocumentTest {
         assertTrue("Should be true", body.containsKey("name"));
     }
 
+    @Ignore("need multiple schemas to enable this test")
     @Test
     public void testEmptySelector() {
         List<String> ids = new ArrayList<String>();
