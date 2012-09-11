@@ -57,7 +57,10 @@ public void before() throws Exception {
 @After
 public void after() throws Exception { 
 } 
-
+@Test (expected = NullPointerException.class)
+public void testInvalidInstance() throws Exception {
+   Xsd2UmlTweakerVisitor invalidVisitor = new Xsd2UmlTweakerVisitor(null);
+}
 /** 
 * 
 * Method: beginPackage(final UmlPackage pkg) 
@@ -149,19 +152,21 @@ public void testVisitAssocTypeAssertion() throws Exception {
 * 
 */ 
 @Test
-public void testVisitDataType() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testVisitDataType() throws Exception {
+    int expectedCount = visitor.getOwnedElements().size() + 1;
+    visitor.visit(mock(DataType.class));
+    assertEquals(expectedCount,visitor.getOwnedElements().size());
+}
 
 /** 
 * 
 * Method: visit(final EnumLiteral enumLiteral) 
 * 
 */ 
-@Test
-public void testVisitEnumLiteral() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testVisitEnumLiteral() throws Exception {
+    visitor.visit(mock(EnumLiteral.class));
+}
 
 /** 
 * 
@@ -169,8 +174,10 @@ public void testVisitEnumLiteral() throws Exception {
 * 
 */ 
 @Test
-public void testVisitEnumType() throws Exception { 
-//TODO: Test goes here... 
+public void testVisitEnumType() throws Exception {
+    int expectedCount = visitor.getOwnedElements().size() + 1;
+    visitor.visit(mock(EnumType.class));
+    assertEquals(expectedCount,visitor.getOwnedElements().size());
 } 
 
 /** 
@@ -179,39 +186,31 @@ public void testVisitEnumType() throws Exception {
 * 
 */ 
 @Test
-public void testVisitGeneralization() throws Exception { 
-//TODO: Test goes here... 
+public void testVisitGeneralization() throws Exception {
+    int expectedCount = visitor.getOwnedElements().size() + 1;
+    visitor.visit(mock(Generalization.class));
+    assertEquals(expectedCount,visitor.getOwnedElements().size());
 } 
 
-/** 
-* 
-* Method: visit(final Model model) 
-* 
-*/ 
-@Test
-public void testVisitModel() throws Exception { 
-//TODO: Test goes here... 
-} 
-
-/** 
+/**
 * 
 * Method: visit(final Multiplicity multiplicity) 
 * 
 */ 
-@Test
-public void testVisitMultiplicity() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testVisitMultiplicity() throws Exception {
+    visitor.visit(mock(Multiplicity.class));
+}
 
 /** 
 * 
 * Method: visit(final Range range) 
 * 
 */ 
-@Test
-public void testVisitRange() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testVisitRange() throws Exception {
+    visitor.visit(mock(Range.class));
+}
 
 /** 
 * 
@@ -219,8 +218,10 @@ public void testVisitRange() throws Exception {
 * 
 */ 
 @Test
-public void testVisitTagDefinition() throws Exception { 
-//TODO: Test goes here... 
+public void testVisitTagDefinition() throws Exception {
+    int expectedCount = visitor.getOwnedElements().size() + 1;
+    visitor.visit(mock(TagDefinition.class));
+    assertEquals(expectedCount,visitor.getOwnedElements().size());
 } 
 
 /** 
@@ -228,10 +229,10 @@ public void testVisitTagDefinition() throws Exception {
 * Method: visit(final TaggedValue taggedValue) 
 * 
 */ 
-@Test
-public void testVisitTaggedValue() throws Exception { 
-//TODO: Test goes here... 
-} 
+@Test(expected = UnsupportedOperationException.class)
+public void testVisitTaggedValue() throws Exception {
+    visitor.visit(mock(TaggedValue.class));
+}
 
 
 /** 
