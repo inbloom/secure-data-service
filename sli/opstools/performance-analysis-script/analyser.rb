@@ -55,9 +55,11 @@ class Analyser
     while continue_exec
       continue_exec = false
       create_connection
+      id = String.new
       begin
       @db['apiResponse'].find({'$or'=>[{'processed'=>{'$exists'=>false}},{'processed'=>false}]},@basic_options) do |cur|
           cur.each do |rec|
+            id = rec['_id']
             count = count +1
             build_number = rec['body']['buildNumber']
             end_point = rec['body']['resource']
@@ -71,8 +73,10 @@ class Analyser
       end
       rescue => e
         puts "Exception received after "+count.to_s+" number of records " + e.message
+        puts "removing record with id #{id}"
+        @db['apiResponse'].remove({'_id'=>id})
         @conn.close
-        continue_exec = true
+        continue_exec = true 
       end
     end
     calculate_stat

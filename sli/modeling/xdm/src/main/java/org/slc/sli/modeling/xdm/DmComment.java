@@ -24,7 +24,7 @@ import javax.xml.namespace.QName;
 
 public final class DmComment implements DmNode {
 
-    private static final QName NO_NAME = new QName("");
+    protected static final QName NO_NAME = new QName("");
     private final String value;
 
     public DmComment(final String value) {

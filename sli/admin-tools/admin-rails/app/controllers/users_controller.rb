@@ -144,7 +144,6 @@ class UsersController < ApplicationController
         @is_operator = is_operator?
         @is_lea = is_lea_admin?
         @is_sea = is_sea_admin?
-        @user.errors[:edorg] << "tenant and edorg mismatch"
         flash[:create_error] = api_error_message if api_error_message != nil
         format.html {render "new"}
       else

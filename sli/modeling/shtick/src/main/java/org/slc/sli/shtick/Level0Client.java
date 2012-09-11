@@ -16,4 +16,7 @@ public interface Level0Client {
     
     void put(final String token, final String data, final URI uri, final String mediaType) throws IOException,
             StatusCodeException;
+
+    void patch(final String token, final String data, final URI uri, final String mediaType) throws IOException,
+            StatusCodeException;
 }

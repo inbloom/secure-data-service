@@ -27,12 +27,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dashboard.entity.Config;
-import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.ModelAndViewConfig;
 import org.slc.sli.dashboard.entity.Config.Condition;
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.Config.Item;
 import org.slc.sli.dashboard.entity.Config.Type;
+import org.slc.sli.dashboard.entity.GenericEntity;
+import org.slc.sli.dashboard.entity.ModelAndViewConfig;
 import org.slc.sli.dashboard.manager.component.impl.CustomizationAssemblyFactoryImpl;
 import org.slc.sli.dashboard.web.controller.PanelController;
 import org.slc.sli.dashboard.web.entity.SafeUUID;
@@ -70,7 +70,7 @@ public class PanelControllerTest {
             Data simpleData = new Data("entity", componentId, true, params);
 
             Config simpleViewConfig = new Config(componentId, "parent", "name", type, condition, simpleData, items,
-                    "root",null);
+                    "root", null);
             ModelAndViewConfig simpleModelAndViewConfig = new ModelAndViewConfig();
 
             simpleModelAndViewConfig.addData(componentId, simpleEntity);

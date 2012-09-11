@@ -97,13 +97,7 @@ public class OnboardingResource {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
-        // Ensure the user is an admin.
-        Right requiredRight = Right.INGEST_DATA;
-        if (isSandboxEnabled) {
-            requiredRight = Right.ADMIN_ACCESS;
-        }
-
-        if (!SecurityUtil.hasRight(requiredRight)) {
+        if (!SecurityUtil.hasRight(Right.INGEST_DATA)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
             return Response.status(Status.FORBIDDEN).entity(body).build();

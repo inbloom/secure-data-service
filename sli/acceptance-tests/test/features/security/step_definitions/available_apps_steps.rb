@@ -16,7 +16,17 @@ limitations under the License.
 
 =end
 
-
+Transform /endpoints for the role "([^\"]*)"/ do |arg1|
+  array = ["Developer Account Management", "Change Password"] if arg1 == "Sandbox Operator"
+  array = ["Application Registration Approval", "Account Approval", "Change Password", "Administrative Account Management"] if arg1 == "Production Operator"
+  array = ["Application Registration", "Change Password"] if arg1 == "Production Developer"
+  array = ["Admin Delegation", "Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "LEA Admin"
+  #NOTE: previous admin delegation tests delegate app auth to this SEA Admin
+  array = ["Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "SEA Admin"
+  array = ["Change Password", "Provision Landing Zone"] if arg1 == "Ingestion User"
+  array = ["Custom roles", "Realm Management", "Change Password"] if arg1 == "LEA and Realm Admin"
+  array
+end
  
 When /^I make an API call to get my available apps$/ do
   @format = "application/json"
@@ -42,7 +52,7 @@ Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have 
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
   puts @result.inspect if ENV['DEBUG']
-  assert(@result.length < 6, "around 6 admin apps") #important thing is this is less than the result of the size of the list of all apps
+  assert(@result.length < 6, "needed around 6 admin apps, found #{@result.length}") #important thing is this is less than the result of the size of the list of all apps
 end
 
 Then /^I receive a JSON object listing all the admin apps$/ do
@@ -116,14 +126,6 @@ Then /^the list does not contain and app named "(.*?)"$/ do |app_name|
 	assert(@found_app == nil, "Found an app named #{app_name}")
 end
 
-
-And /^the admin app endpoints only contains SLI operator endpoints$/ do
-	assert(@admin_app["endpoints"] != nil)
-	@admin_app["endpoints"].each do |endpoint|
-		assert(endpoint["roles"].include? "SLC Operator")
-	end
-end
-
 And /^none of the apps are admin apps$/ do
 	@result.each do |app|
 		assert(app["is_admin"] == false, "#{app['name']} is non-admin app") 
@@ -133,3 +135,11 @@ end
 And /^the resulting list is empty$/ do
 	assert(@result.length == 0, "list is empty")
 end
+
+Then /^the admin app endpoints contains (endpoints for the role ".*?")$/ do |arg1|
+  @admin_app["endpoints"].each do |endpoint|
+    assert(arg1.include?(endpoint["name"]), "Endpoint #{endpoint["name"]} was not expected to be returned") 
+  end
+  assert(@admin_app["endpoints"].length == arg1.length, "Expected endpoints counts do not match: expected #{arg1.length} actual: #{@admin_app["endpoints"].length}")
+end
+

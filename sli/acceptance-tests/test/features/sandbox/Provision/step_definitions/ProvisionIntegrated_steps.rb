@@ -19,20 +19,21 @@ limitations under the License.
 
 require "selenium-webdriver"
 require 'approval'
-require "mongo" 
+require "mongo"
 require 'rumbster'
 require 'digest'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 PRELOAD_EDORG = "STANDARD-SEA"
 
-Before do 
-   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-   @edorgId =  "Test_Ed_Org"
-   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+Before do
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
+  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+  @edorgId =  "Test_Ed_Org"
+  @email = "devldapuser_#{Socket.gethostname}@slidev.org"
 end
 
 
@@ -52,61 +53,61 @@ end
 
 
 Given /^LDAP server has been setup and running$/ do
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
                           PropLoader.getProps['ldap_admin_pass'])
   @email_sender_name= "Administrator"
   @email_sender_address= "noreply@slidev.org"
   @email_conf = {
-    :host =>  PropLoader.getProps['email_smtp_host'],
-    :port => PropLoader.getProps['email_smtp_port'],
-    :sender_name => @email_sender_name,
-    :sender_email_addr => @email_sender_address
+      :host =>  PropLoader.getProps['email_smtp_host'],
+      :port => PropLoader.getProps['email_smtp_port'],
+      :sender_name => @email_sender_name,
+      :sender_email_addr => @email_sender_address
   }
 end
 
 Given /^there is an sandbox account in ldap$/ do
-@sandbox = true
-ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
+  @sandbox = true
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
 end
 
 Given /^there is an production Ingestion Admin account in ldap$/ do
-@sandbox = false
-ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
+  @sandbox = false
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
 
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #@email="devldapuser_#{Socket.gethostname}@slidev.org"
-@tenantId = tenantId
-removeUser(@email)
-sleep(1)
+  @tenantId = tenantId
+  removeUser(@email)
+  sleep(1)
 
   user_info = {
       :first => "Provision",
       :last => "test",
-       :email => @email,
-       :emailAddress => @email,
-       :password => "test1234",
-       :emailtoken => "token",
-       :vendor => "test",
-       :status => "submitted",
-       :homedir => "/dev/null",
-       :uidnumber => "500",
-       :gidnumber => "500",
-       :tenant => @tenantId
-   }
+      :email => @email,
+      :emailAddress => @email,
+      :password => "test1234",
+      :emailtoken => "token",
+      :vendor => "test",
+      :status => "submitted",
+      :homedir => "/dev/null",
+      :uidnumber => "500",
+      :gidnumber => "500",
+      :tenant => @tenantId
+  }
 
   ApprovalEngine.add_disabled_user(user_info)
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
- # if(@sandbox==false)
- #ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
- #end
-  #ApprovalEngine.change_user_status(@email,"approve",true)
-  #clear_edOrg()
-  #clear_tenant()
+# if(@sandbox==false)
+#ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
+#end
+#ApprovalEngine.change_user_status(@email,"approve",true)
+#clear_edOrg()
+#clear_tenant()
 end
 
 
@@ -124,9 +125,9 @@ Given /^there is no corresponding ed\-org "(.*?)" in mongo$/ do |edorg|
 end
 
 Given /^the account has a edorg of "(.*?)"$/ do |edorgId|
-@edorgName = edorgId
-user_info = ApprovalEngine.get_user(@email).merge( {:edorg => edorgId })
-ApprovalEngine.update_user_info(user_info)
+  @edorgName = edorgId
+  user_info = ApprovalEngine.get_user(@email).merge( {:edorg => edorgId })
+  ApprovalEngine.update_user_info(user_info)
 end
 
 Given /^there is already a tenant with tenantId "(.*?)" in mongo$/ do |tenantId|
@@ -143,19 +144,19 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
   found = false
   tenant_coll = @db['tenant']
   tenant_coll.find("body.tenantId" => @tenantId).each do |tenant|
-  tenant['body']['landingZone'].each do |landing_zone|
-  if landing_zone.include?(@tenantId) and landing_zone.include?(edorgId)
-  found = true
-  puts landing_zone
-  end
-  end
+    tenant['body']['landingZone'].each do |landing_zone|
+      if landing_zone.include?(@tenantId) and landing_zone.include?(edorgId)
+        found = true
+        puts landing_zone
+      end
+    end
   end
   assert(found==false,"there is a landing zone for #{edorgId} in mongo")
 end
 
 Given /^there is no landing zone for the user in LDAP$/ do
- user_info = ApprovalEngine.get_user(@email)
- assert(user_info[:homedir].include?("dev/null"),"the user landing zone is already set to #{user_info[:homedir]}")
+  user_info = ApprovalEngine.get_user(@email)
+  assert(user_info[:homedir].include?("dev/null"),"the user landing zone is already set to #{user_info[:homedir]}")
 end
 
 Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
@@ -172,16 +173,17 @@ end
 
 When /^the developer provision a "(.*?)" Landing zone with edorg is "(.*?)"$/ do |env,edorgId|
   step "I provision with \"#{env}\" high\-level ed\-org to \"#{edorgId}\""
-  end
-  
+end
+
 When /^the Ingestion Admin go to the provisioning application web page$/ do
   step "the developer go to the provisioning application web page"
 end
 
-  
+
 Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
- tenant_coll=@db["tenant"]
- assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
+  sleep 3 # Used to deal with wait between clicking button and checking mongo
+  tenant_coll=@db["tenant"]
+  assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
 end
 
 Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
@@ -200,19 +202,13 @@ Then /^the directory structure for the landing zone is stored for tenant in mong
 end
 
 Then /^the user gets a success message$/ do
- success = @driver.find_element(:id,"successMessage")
- assert(success!=nil,"didnt get a success message")
+  success = @driver.find_element(:id,"successMessage")
+  assert(success!=nil,"didnt get a success message")
 end
 
 Then /^the Ingestion Admin gets a success message$/ do
- step "the user gets a success message"
+  step "the user gets a success message"
 end
-
-Then /^the Ingestion Admin gets an already provisioned message$/ do
-  step "the user gets an already provisioned message"
-end
-
-
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
@@ -239,8 +235,8 @@ end
 
 When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
   if(env=="sandbox")
-  @driver.find_element(:id, "custom").click
-  @driver.find_element(:id, "custom_ed_org").send_keys edorgName
+    @driver.find_element(:id, "custom").click
+    @driver.find_element(:id, "custom_ed_org").send_keys edorgName
   end
   @driver.find_element(:id, "provisionButton").click
   @edorgName=edorgName
@@ -250,13 +246,13 @@ Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
 end
 
-Then /^the user gets an already provisioned message$/ do
+Then /^the user gets an error message$/ do
   already_provisioned = @driver.find_element(:id,"alreadyProvisioned")
   assert(already_provisioned!=nil,"didnt get an already provisioned message")
 end
 
 Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
-step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
+  step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
   uri="/v1/educationOrganizations"
   uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
   restHttpGet(uri)
@@ -264,7 +260,7 @@ step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
 end
 
 Then /^a request to provision a landing zone is made$/ do
-   # this request is made by landing zone app in admin tools
+  # this request is made by landing zone app in admin tools
 end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
@@ -273,16 +269,16 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
 end
 
 When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
-   if sample_data_set.downcase.include? "small"
-     sample_data_set="small"
-   else
-     sample_data_set="medium"
-   end
-   @explicitWait.until{@driver.find_element(:id,"ed_org_STANDARD-SEA").click}
-   select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
-   select.select_by(:value, sample_data_set)
-   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
-   @edorgName = PRELOAD_EDORG
+  if sample_data_set.downcase.include? "small"
+    sample_data_set="small"
+  else
+    sample_data_set="medium"
+  end
+  @explicitWait.until{@driver.find_element(:id,"ed_org_STANDARD-SEA").click}
+  select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
+  select.select_by(:value, sample_data_set)
+  @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
+  @edorgName = PRELOAD_EDORG
 end
 
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
@@ -298,33 +294,23 @@ Then /^the user gets a success message indicating preloading has been triggered$
   step "the user gets a success message"
 end
 
-Given /^the previous preload has completed$/ do
-  tenant_job_lock_coll=@db["tenantJobLock"]
-  tenant_job_lock_coll.remove("_id" => @tenantId)
-end
-
 Given /^user's landing zone is still provisioned from the prior preloading$/ do
   tenant_coll = @db["tenant"]
   preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => PRELOAD_EDORG)
   assert(preload_tenant.count()>0, "the user's landing zone is not provisioned from the prior preloading")
 end
 
-Given /^ingestion is locked due to an existing ingestion job$/ do
-  step "the previous preload has completed"
-  tenant_job_lock_coll=@db["tenantJobLock"]
-  lock_entity ={
-  "_id" => @tenantId,
-  "batchJobId" => "test"
-  }
-  tenant_job_lock_coll.save(lock_entity)
+Then /^I go to my landing zone$/ do
+  tenant_collection =@db["tenant"]
+  tenant=tenant_collection.find("body.tenantId"=> @tenantId).next
+  puts "tenant is #{tenant}"
+  @landing_zone_path = tenant["body"]["landingZone"][0]["path"] + "/"
+  @source_file_name = "preload"
 end
 
-Then /^the user gets a error message that their account is currently ingesting data$/ do
-  step "the user gets an already provisioned message"
-  step "the previous preload has completed"
+Then /^I clean the landing zone$/ do
+  initializeLandingZone(@landing_zone_path)
 end
-
-
 
 def check_lz_path(path, tenant, edOrg)
   path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)
@@ -336,19 +322,19 @@ end
 
 def removeUser(email)
   if ApprovalEngine.user_exists?(email)
-  ApprovalEngine.remove_user(email)
+    ApprovalEngine.remove_user(email)
   end
 end
 def clear_edOrg
-   edOrg_coll=@db["educationOrganization"]
-   edOrg_coll.remove("body.stateOrganizationId"=>@edorgId)
-   assert(edOrg_coll.find("body.stateOrganizationId"=>@edorgId).count==0,"edorg with stateOrganizationId #{@edorgId} still exist in mongo")
+  edOrg_coll=@db["educationOrganization"]
+  edOrg_coll.remove("body.stateOrganizationId"=>@edorgId)
+  assert(edOrg_coll.find("body.stateOrganizationId"=>@edorgId).count==0,"edorg with stateOrganizationId #{@edorgId} still exist in mongo")
 end
 
 def clear_tenant
-   tenant_coll=@db["tenant"]
-   tenant_coll.remove("body.tenantId"=>@tenantId)
-   assert(tenant_coll.find('body.tenantId'=> @tenantId).count()==0,"tenant with tenantId #{@tenantId} still exist in mongo")
+  tenant_coll=@db["tenant"]
+  tenant_coll.remove("body.tenantId"=>@tenantId)
+  assert(tenant_coll.find('body.tenantId'=> @tenantId).count()==0,"tenant with tenantId #{@tenantId} still exist in mongo")
 end
 
 def assertText(text)
@@ -358,54 +344,54 @@ def assertText(text)
 end
 
 def create_tenant (tenantId,edorgId)
-tenant_entity = 
-{
-  "_id" => "2012lr-80a2ba9a-b9b6-11e1-a6ba-68a86d3e6628",
-  "type" => "tenant",
-  "body" => {
-    "tenantId" => tenantId,
-    "landingZone" => [
+  tenant_entity =
       {
-        "ingestionServer" => "Mac.local",
-        "educationOrganization" => edorgId,
-        "desc" => nil,
-        "path" => "/ingestion/lz/inbound/"+tenantId+"/"+edorgId,
-        "userNames" => nil
+          "_id" => "2012lr-80a2ba9a-b9b6-11e1-a6ba-68a86d3e6628",
+          "type" => "tenant",
+          "body" => {
+              "tenantId" => tenantId,
+              "landingZone" => [
+                  {
+                      "ingestionServer" => "Mac.local",
+                      "educationOrganization" => edorgId,
+                      "desc" => nil,
+                      "path" => "/ingestion/lz/inbound/"+tenantId+"/"+edorgId,
+                      "userNames" => nil
+                  }
+              ]
+          },
+          "metaData" => {
+              "tenantId" => "SLI",
+              "createdBy" => tenantId
+          }
       }
-    ]
-  },
-  "metaData" => {
-    "tenantId" => "SLI",
-    "createdBy" => tenantId
-  }
-}
-tenant_coll = @db['tenant']
-tenant_coll.save(tenant_entity)
+  tenant_coll = @db['tenant']
+  tenant_coll.save(tenant_entity)
 end
 
 def create_edOrg (stateOrganizationId)
-edorg_entity={
-"_id" => "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e6628",
-  "type" => "educationOrganization",
-  "body" => {
-    "organizationCategories" => [
-      "State Education Agency"
-    ],
-    "address" => [
-      {
-        "postalCode" => "27713",
-        "streetNumberName" => "unknown",
-        "stateAbbreviation" => "NC",
-        "city" => "unknown"
+  edorg_entity={
+      "_id" => "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e6628",
+      "type" => "educationOrganization",
+      "body" => {
+          "organizationCategories" => [
+              "State Education Agency"
+          ],
+          "address" => [
+              {
+                  "postalCode" => "27713",
+                  "streetNumberName" => "unknown",
+                  "stateAbbreviation" => "NC",
+                  "city" => "unknown"
+              }
+          ],
+          "stateOrganizationId" => stateOrganizationId,
+          "nameOfInstitution" => stateOrganizationId
+      },
+      "metaData" => {
+          "tenantId" => @tenantId
       }
-    ],
-    "stateOrganizationId" => stateOrganizationId,
-    "nameOfInstitution" => stateOrganizationId
-  },
-  "metaData" => {
-    "tenantId" => @tenantId
   }
-}
-edorg_coll = @db["educationOrganization"]
-edorg_coll.save(edorg_entity)
+  edorg_coll = @db["educationOrganization"]
+  edorg_coll.save(edorg_entity)
 end

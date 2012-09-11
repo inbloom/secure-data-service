@@ -65,6 +65,11 @@ public class SifIdResolverImplDummy implements SifIdResolver {
     }
 
     @Override
+    public Entity getSliEntityFromOtherSifId(String sifId, String sliType, String zoneId) {
+        return null;
+    }
+
+    @Override
     public void putSliGuidForOtherSifId(String sifId, String sliType, String sliId, String zoneId) {
     }
 

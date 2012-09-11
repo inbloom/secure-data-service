@@ -1,8 +1,10 @@
 package org.slc.sli.modeling.sdkgen;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import javax.xml.namespace.QName;
@@ -29,6 +31,10 @@ public final class LevelNClientJavaHelper {
      * The (reserved) name given to the custom property in the SLI database.
      */
     private static final QName CUSTOM_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "custom");
+
+    private static final QName CALCULATED_VALUES_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "calculatedValuesList");
+
+    private static final QName AGGREGATIONS_ELEMENT_NAME = new QName("http://www.slcedu.org/api/v1", "aggregationsList");
     /**
      * This is the default type used for all JSON objects.
      */
@@ -67,13 +73,16 @@ public final class LevelNClientJavaHelper {
                     representation.getMediaType();
                     final QName elementName = representation.getElementName();
                     if (elementName != null) {
-                        final XmlSchemaElement element = grammars.getElement(elementName);
+                        XmlSchemaElement element = grammars.getElement(elementName);
                         if (element != null) {
                             final Stack<QName> elementNames = new Stack<QName>();
                             return Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element, elementNames, grammars);
                         } else {
                             if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
                                 return JT_MAP_STRING_TO_OBJECT;
+                            } else if (CALCULATED_VALUES_ELEMENT_NAME.equals(elementName) ||
+                                    AGGREGATIONS_ELEMENT_NAME.equals(elementName)) {
+                                return JT_LIST_OF_ENTITY;
                             } else {
                                 if (quietMode) {
                                     return JavaType.JT_OBJECT;
@@ -141,6 +150,30 @@ public final class LevelNClientJavaHelper {
         default: {
             throw new AssertionError(collectionKind);
         }
+        }
+    }
+
+    public static final boolean isEntityList(final JavaType type) {
+        final JavaCollectionKind collectionKind = type.getCollectionKind();
+        switch (collectionKind) {
+            case LIST: {
+                if (type.primeType().equals(JT_ENTITY)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            case MAP: {
+                // FIXME: This should check the key type and bvalue type as well.
+                return false;
+            }
+            case NONE: {
+                return false;
+            }
+            default: {
+                throw new AssertionError(collectionKind);
+            }
         }
     }
 

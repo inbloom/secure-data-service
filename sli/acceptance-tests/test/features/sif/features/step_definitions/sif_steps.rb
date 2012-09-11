@@ -49,7 +49,7 @@ Before do
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
-  @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
+  @base_local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
 end
 
 
@@ -58,7 +58,7 @@ end
 ############################################################
 
 Given /^the data store is "(.*?)"$/ do |dataStore|
-  @local_file_store_path = @local_file_store_path + dataStore + "/"
+  @local_file_store_path = @base_local_file_store_path + dataStore + "/"
 end
 
 # Doesn't remove entities where _id is in BOOTSTRAPPED_GUIDS

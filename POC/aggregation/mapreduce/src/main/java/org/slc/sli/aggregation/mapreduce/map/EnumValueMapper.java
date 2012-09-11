@@ -32,7 +32,7 @@ import org.slc.sli.aggregation.util.BSONUtilities;
  * @param <T>
  *            Enum type.
  */
-class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
+public class EnumValueMapper<T extends Enum<T>> extends ValueMapper {
 
     private Logger log = Logger.getLogger("EnumValueMapper");
 

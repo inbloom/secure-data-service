@@ -140,7 +140,7 @@
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="roles" minOccurs="1">
+            <xs:element name="rights" minOccurs="1">
                 <xs:simpleType>
                     <xs:list itemType="xs:string" />
                 </xs:simpleType>

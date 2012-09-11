@@ -32,7 +32,7 @@ public class WadlAttributeNameTest {
     public void testWadlAttributeName() {
         final String attributeName = "base";
         WadlAttributeName wadlAttributeName = WadlAttributeName.BASE;
-        assertEquals("base", wadlAttributeName.getLocalName());
+        assertEquals(attributeName, wadlAttributeName.getLocalName());
     }
 
 }

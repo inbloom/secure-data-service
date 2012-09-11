@@ -12236,6 +12236,13 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Grade>
 	<Grade id="GR-GR3-800000025-2">
 		<LetterGradeEarned>B+</LetterGradeEarned>
@@ -12251,6 +12258,13 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Grade>
 	<ReportCard>
 		<GradeReference ref="GR-GR3-800000025-1"/>
@@ -13050,6 +13064,13 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Grade>
 	<Grade id="GR-GRK-100000017-2">
 		<LetterGradeEarned>B</LetterGradeEarned>
@@ -13065,6 +13086,13 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Grade>
 	<ReportCard id="RC-GK-100000017-1">
 		<GradeReference ref="GR-GRK-100000017-1"/>

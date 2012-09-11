@@ -98,10 +98,10 @@ public class ApprovedApplicationResourceTest {
         endpoint.put("name", "myName");
         endpoint.put("description", "myDesc");
         endpoint.put("url", "http://url/");
-        ArrayList<String> roles = new ArrayList<String>();
-        roles.add("SLI Administrator");
-        roles.add("LEA Administrator");
-        endpoint.put("roles", roles);
+        ArrayList<String> rights = new ArrayList<String>();
+        rights.add(Right.ADMIN_ACCESS.toString());
+        rights.add(Right.CRUD_LEA_ADMIN.toString());
+        endpoint.put("rights", rights);
         endpoints.add(endpoint);
         adminApp.put("endpoints", endpoints);
         adminApp.put("created_by", "slcdeveloper");
@@ -143,7 +143,7 @@ public class ApprovedApplicationResourceTest {
     public void testEndpointFilteringNoRoles() {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.ADMIN_ACCESS, null);
+        setupAuth(Right.AGGREGATE_READ, null);
         Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse("Admin should be filtered out since no endpoints are applicable", isInEntityList(adminApp, ents));

@@ -95,25 +95,25 @@ public class BSONUtilities {
 
         BSONObject node = entity;
         String[] fieldPath = field.toString().split("\\.");
+
         for (String path : fieldPath) {
-            if (node instanceof BasicBSONList) {
-                for (Object e : ((BasicBSONList) node)) {
-                    if (e instanceof BSONObject) {
-                        node = (BSONObject) e;
-                        String tmp = getValue(node, path);
-                        if (tmp != null) {
-                            rval.add(tmp);
-                        }
-                    }
-                }
-            } else if (node.containsField(path)) {
-                Object val = node.get(path);
-                if (val instanceof BSONObject) {
-                    node = (BSONObject) val;
-                } else {
-                    rval.add(String.valueOf(val));
-                    break;
-                }
+            if (!node.containsField(path)) {
+                break;
+            }
+
+            Object val = node.get(path);
+            if (val instanceof BSONObject) {
+                node = (BSONObject) val;
+            }
+        }
+
+        if (node instanceof BasicBSONList) {
+            for (Object e : ((BasicBSONList) node)) {
+                rval.add(e.toString());
+            }
+        } else {
+            for (String key : node.keySet()) {
+                rval.add(node.get(key).toString());
             }
         }
         return rval.toArray(new String[0]);

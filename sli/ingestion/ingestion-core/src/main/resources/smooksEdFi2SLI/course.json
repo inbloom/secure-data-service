@@ -1,5 +1,6 @@
 {
-    "keyFields": ["body.courseTitle", "body.schoolId"],
+    "keyFields": ["body.schoolId"],
+    "complexKeyField": {"listPath":"body.courseCode", "fieldPath":"ID"},
     "references":
     [
         {

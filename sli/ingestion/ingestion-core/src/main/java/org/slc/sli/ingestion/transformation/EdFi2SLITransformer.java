@@ -34,6 +34,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -221,7 +222,25 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         try {
             for (String field : entityConfig.getKeyFields()) {
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
-                query.addCriteria(Criteria.where(field).is(fieldValue));
+                if (fieldValue instanceof List) {
+                    int size = ((List) fieldValue).size();
+                    //make sure we have exactly the number of desired values
+                    query.addCriteria(Criteria.where(field).size(size));
+                    //make sure we have each individual desired value
+                    for (Object val : (List) fieldValue) {
+                        query.addCriteria(Criteria.where(field).is(val));
+                    }
+                    //this will be insufficient if fieldValue can contain duplicates
+                } else {
+                    query.addCriteria(Criteria.where(field).is(fieldValue));
+                }
+            }
+            ComplexKeyField complexField = entityConfig.getComplexKeyField();
+            if (complexField !=null) {
+                String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+                Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
+
+                query.addCriteria(Criteria.where(complexField.getListPath() + "." +complexField.getFieldPath()).is(fieldValue));
             }
         } catch (Exception e) {
             errorReport.error(errorMessage, this);

@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId", "body.studentSectionAssociationId"],
+    "keyFields" : ["body.gradingPeriodId", "body.studentSectionAssociationId"],
     "references" :
     [
         {
@@ -51,6 +51,55 @@
                                       ]
                                  }
                              }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+           "fieldPath" : "body.gradingPeriodId",
+            "ref" :
+            {
+                "entityType" : "gradingPeriod",
+                "refObjectPath" : "body.gradingPeriodReference",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.schoolYear"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolId",
+                            "values" :
+                            [{
+                                "ref" :
+                                {
+                                   "entityType" : "educationOrganization",
+                                   "choiceOfFields" :
+                                   [
+                                       [
+                                            {
+                                                 "path" : "body.stateOrganizationId" ,
+                                                 "values" :
+                                                 [{
+                                                    "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                                 }]
+                                            }
+                                       ]
+                                   ]
+                               }
+                            }]
                         }
                     ]
                 ]

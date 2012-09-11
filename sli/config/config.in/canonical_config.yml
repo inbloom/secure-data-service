@@ -29,9 +29,6 @@ default:
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
         
-        # Feature flag for Super Admin management resource.  When false or not set, then SAMT api resource will be disabled.
-        sli.feature.enableSamt: true
-
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false
@@ -199,8 +196,8 @@ default:
         sli.ingestion.totalRetries: 5
 
         sli.ingestion.dataset.sample:
-            small: [../../acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [../../acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
+            small: [SmallSampleDataSet.zip]
+            medium : [MediumSampleDataSet.zip]
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -478,7 +475,7 @@ ci:
 
 
         api.perf.log.path:
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # ci/data-access/db.properties
@@ -533,9 +530,6 @@ ci:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-        sli.ingestion.dataset.sample:
-            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -1073,7 +1067,7 @@ team:
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -1153,10 +1147,6 @@ team:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
-        sli.ingestion.dataset.sample:
-            small: [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/SmallSampleDataSet]
-            medium : [/jenkins/workspace/NxIngestion-Service-Tests/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet]
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

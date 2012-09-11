@@ -170,7 +170,8 @@ public final class WadlAudit {
     }
 
     public static void main(final String[] args) {
-        final OptionParser parser = new OptionParser();
+        
+    	final OptionParser parser = new OptionParser();
         final OptionSpec<?> helpSpec = parser.acceptsAll(ARGUMENT_HELP, "Show help");
         final OptionSpec<File> documentFileSpec = optionSpec(parser, ARGUMENT_DOCUMENT_FILE, "Domain file", File.class);
         final OptionSpec<File> wadlFileSpec = optionSpec(parser, ARGUMENT_WADL, "WADL file", File.class);
@@ -246,6 +247,8 @@ public final class WadlAudit {
         }
         final Map<String, QName> elementNames = new HashMap<String, QName>();
         elementNames.put("Custom", new QName(namespaceUri, "custom"));
+        elementNames.put("Aggregations", new QName(namespaceUri, "aggregations"));
+        elementNames.put("CalculatedValues", new QName(namespaceUri, "calculatedValues"));
         elementNames.put("Home", null);
         elementNames.put("Unknown", null);
         for (final PsmDocument<Type> document : psm.getDocuments()) {

@@ -14,8 +14,15 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
 When I select ed org "Daybreak School District 4529"
-When I select school "South Daybreak Elementary"
 And I click on the go button
+And I look at Ed Org Profile
+And the ed org name shown is "Daybreak School District 4529"
+And I see the following schools:
+|School                       |
+|Daybreak Central High        |
+|East Daybreak Junior High    |
+|South Daybreak Elementary    |
+And I click on school "South Daybreak Elementary"
  When I click on "Teacher" Tab
  And I see the following teachers:
  |Teachers                    |

@@ -23,13 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -40,6 +33,12 @@ import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -60,9 +59,6 @@ public class UserResource {
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
 
-    @Value("${sli.feature.enableSamt:false}")
-    private boolean enableSamt;
-
     @Autowired
     private SuperAdminService adminService;
 
@@ -79,9 +75,21 @@ public class UserResource {
         return securityEvent;
     }
 
+    private static String rolesToString(User user) {
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        if (user.getGroups().size() > 0) {
+            buf.append(user.getGroups().get(0));
+            for (int i = 1; i < user.getGroups().size(); i++) {
+                buf.append(',').append(user.getGroups().get(i));
+            }
+        }
+        buf.append(']');
+        return buf.toString();
+    }
+
     @POST
     public final Response create(final User newUser) {
-        assertEnabled();
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -96,14 +104,13 @@ public class UserResource {
             return Response.status(Status.CONFLICT).build();
         }
 
-        audit(createSecurityEvent("Created user " + newUser.getUid(), newUser.getTenant(), newUser.getEdorg()));
+        audit(createSecurityEvent("Created user " + newUser.getUid() + " with roles " + rolesToString(newUser), newUser.getTenant(), newUser.getEdorg()));
         return Response.status(Status.CREATED).build();
     }
 
     @GET
     public final Response readAll() {
 
-        assertEnabled();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
 
@@ -138,7 +145,6 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser) {
-        assertEnabled();
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -146,14 +152,13 @@ public class UserResource {
         updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
 
-        audit(createSecurityEvent("Updated user " + updateUser.getUid(), updateUser.getTenant(), updateUser.getEdorg()));
+        audit(createSecurityEvent("Updated user " + updateUser.getUid() + " with roles " + rolesToString(updateUser), updateUser.getTenant(), updateUser.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @DELETE
     @Path("{uid}")
     public final Response delete(@PathParam("uid") final String uid) {
-        assertEnabled();
 
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
@@ -163,7 +168,7 @@ public class UserResource {
         User userToDelete = ldapService.getUser(realm, uid);
         ldapService.removeUser(realm, uid);
 
-        audit(createSecurityEvent("Deleted user " + uid, userToDelete.getTenant(), userToDelete.getEdorg()));
+        audit(createSecurityEvent("Deleted user " + uid + " with roles " + rolesToString(userToDelete), userToDelete.getTenant(), userToDelete.getEdorg()));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -175,7 +180,6 @@ public class UserResource {
     @GET
     @Path("edorgs")
     public final Response getEdOrgs() {
-        assertEnabled();
 
         String tenant = secUtil.getTenantId();
 
@@ -195,12 +199,6 @@ public class UserResource {
         Collections.sort(edOrgs);
 
         return Response.status(Status.OK).entity(edOrgs).build();
-    }
-
-    private void assertEnabled() {
-        if (!enableSamt) {
-            throw new RuntimeException("This feature is currently disabled via configuration.");
-        }
     }
 
     private Response validateUserCreate(User user, String tenant) {
@@ -270,7 +268,7 @@ public class UserResource {
                 }
 
                 if (!foundLEA) {
-                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in "+user.getEdorg());
+                    return composeBadDataResponse("Can not create Realm Administrator or Ingestion User because there is no LEA Administrator in " + user.getEdorg());
                 }
             }
         }
@@ -549,7 +547,7 @@ public class UserResource {
                 // Ed-Org must already exist in the tenant
                 Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), secUtil.getEdOrg());
                 if (!allowedEdorgs.contains(user.getEdorg())) {
-                    return composeBadDataResponse("Not allowed to modify users in this Education Organization");
+                    return composeBadDataResponse("Not allowed to create or modify users in this Education Organization");
                 }
             }
         }
@@ -767,7 +765,4 @@ public class UserResource {
         this.realm = realm;
     }
 
-    public void setEnableSamt(boolean enableSamt) {
-        this.enableSamt = enableSamt;
-    }
 }

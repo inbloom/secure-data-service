@@ -145,5 +145,12 @@ public interface PopulationManager {
     @EntityMapping("studentAttendanceCalendar")
     public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Config.Data config);
     
+    @EntityMapping("edorgInfo")
+    public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config);
+    
+    @EntityMapping("sedorgInfo")
+    public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config);
+    
+
 }
 

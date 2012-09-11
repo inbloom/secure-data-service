@@ -78,7 +78,9 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 
 		$scope.id = $scope.profile.id;
 
-		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId});
+		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId}, function() {}, function(error) {
+			dbSharedService.showError(error.status, null);
+		});
 
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
@@ -304,8 +306,10 @@ function allPanelListCtrl($scope, dbSharedService) {
 			stop: function() {
 				parent.selectedPanels = [];
 				$( ".ui-selected", this ).each(function() {
-					var index = $( "#panelSelectable li" ).index( this );
-					parent.selectedPanels.push($scope.allPanels[index]);
+					if(this.tagName !== "SPAN") {
+						var index = $( "#panelSelectable li" ).index( this );
+						parent.selectedPanels.push($scope.allPanels[index]);
+					}
 				});
 			}
 		});

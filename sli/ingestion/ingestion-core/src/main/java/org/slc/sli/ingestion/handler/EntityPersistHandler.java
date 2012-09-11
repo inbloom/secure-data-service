@@ -38,6 +38,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -183,12 +184,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         try {
             entityRepository.insert(queued, collectionName);
-        } catch(Exception e) {
+        } catch (Exception e) {
             //Assuming there would NOT be DuplicateKeyException at this point.
             //Because "queued" only contains new records(with no Id), and we don't have unique indexes
 
             //Try to do individual upsert again for other exceptions
-            for(Entity entity : queued) {
+            for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
             }
         }
@@ -198,6 +199,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig, ErrorReport errorReport, SimpleEntity entity) {
         List<String> keyFields = entityConfig.getKeyFields();
+        ComplexKeyField complexField = entityConfig.getComplexKeyField();
         if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
             for (String field : keyFields) {
@@ -207,6 +209,18 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     String errorMessage = "Issue finding key field: " + field + " for entity of type: " + entity.getType() + "\n";
                     errorReport.error(errorMessage, this);
                 }
+
+                if (complexField !=null) {
+                    String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+
+                    try {
+                        keyValues.add(PropertyUtils.getProperty(entity, propertyString));
+                    } catch (Exception e) {
+                        String errorMessage = "Issue finding key field: " +" for entity of type: " + entity.getType() + "\n";
+                        errorReport.error(errorMessage, this);
+                    }
+                }
+
             }
             memory.put(keyValues, entity);
         }

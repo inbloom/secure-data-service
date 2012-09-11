@@ -1,22 +1,30 @@
 package org.slc.sli.ingestion.streaming;
 
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.XMLEvent;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 @Component
 public class StreamingLoader {
+	public static final Logger log = LoggerFactory.getLogger(StreamingLoader.class);
 
 	@Resource(name = "mongoEntityRepository")
 	private Repository<Entity> repo;
@@ -33,34 +41,68 @@ public class StreamingLoader {
 	public void process(Reader reader) throws XMLStreamException {
 		XMLEventReader r = XMLInputFactory.newInstance().createXMLEventReader(reader);
 
-		String rootNodeName = "InterchangeBulk";
+		XMLEvent root;
+		while ((root = r.nextEvent()).getEventType() != XMLEvent.START_ELEMENT);
+		String rootNodeName = extractName(root);
 
 		StopWatch sw = new StopWatch();
 		while (true) {
 			XMLEvent e = r.nextEvent();
 
-			if (e.getEventType() == XMLEvent.END_ELEMENT && e.asEndElement().getName().getLocalPart().equals(rootNodeName)) {
+			if (e.getEventType() == XMLEvent.END_ELEMENT && extractName(e).equals(rootNodeName)) {
 				break;
-			} else if (e.getEventType() == XMLEvent.START_ELEMENT && tp.isComplexType(e.asStartElement().getName().getLocalPart())) {
-				Map<String, Object> entity = parseMap(r, e.asStartElement().getName().getLocalPart());
+			} else if (e.getEventType() == XMLEvent.START_ELEMENT && tp.isComplexType(extractName(e))) {
+				Map<String, Object> entity = parseMap(r, extractName(e));
 				sw.start();
-				repo.create(e.asStartElement().getName().getLocalPart(), va.adapt(entity));
+				repo.create(extractName(e), va.adapt(entity));
 				sw.stop();
+				log.debug("Saved entity: {}",extractName(e));
 			}
 		}
 
-		System.out.println("~~" + sw.getTotalTimeMillis());
+		log.info("Total mongo time:" + sw.getTotalTimeMillis());
 	}
 
+	@SuppressWarnings({ "unchecked", "serial" })
 	private Map<String, Object> parseMap(XMLEventReader r, String nodeName) throws XMLStreamException {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>() {
+
+			@Override
+			public Object put(String key, Object value) {
+				Object result;
+				if(this.containsKey(key)) {
+					Object stored = this.get(key);
+					if(List.class.isAssignableFrom(stored.getClass())) {
+						List<Object> storage = (List<Object>) stored;
+						storage.add(value);
+						result = storage;
+					}
+					else
+					{
+						result = super.put(key, new ArrayList<Object>(Arrays.asList(stored,value)));
+					}
+				}
+				else {
+					result = super.put(key, value);
+				}
+				return result;
+			}
+
+		};
 
 		while (true) {
 			XMLEvent e = r.nextEvent();
 
 			if (e.getEventType() == XMLEvent.START_ELEMENT) {
-				String elementName = e.asStartElement().getName().getLocalPart();
+				String elementName = extractName(e);
+				Iterator<Attribute> it = e.asStartElement().getAttributes();
 
+				while (it.hasNext()) {
+					Attribute a = it.next();
+					result.put(a.getName().getLocalPart(), a.getValue());
+				}
+
+				log.debug("Processing: {}", elementName);
 				if (tp.isComplexType(elementName)) {
 					result.put(elementName, parseMap(r, elementName));
 				} else {
@@ -73,12 +115,27 @@ public class StreamingLoader {
 				}
 			}
 
-			if (e.getEventType() == XMLEvent.END_ELEMENT && e.asEndElement().getName().getLocalPart().equals(nodeName)) {
+			if (e.getEventType() == XMLEvent.END_ELEMENT && extractName(e).equals(nodeName)) {
 				break;
 			}
 		}
 
 		return result;
+	}
+	
+	private String extractName(XMLEvent e) {
+		String result = "";
+		if (e.getEventType() == XMLEvent.END_ELEMENT) {
+			result = lowerCaseFirst(e.asEndElement().getName().getLocalPart());
+		} else if (e.getEventType() == XMLEvent.START_ELEMENT) {
+			result = lowerCaseFirst(e.asStartElement().getName().getLocalPart());
+		}
+
+		return result;
+	}
+
+	private String lowerCaseFirst(String string) {
+		return Character.toLowerCase(string.charAt(0)) + (string.length() > 1 ? string.substring(1) : "");
 	}
 
 }

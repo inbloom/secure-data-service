@@ -15,6 +15,8 @@
  */
 package org.slc.sli.sif.slcinterface;
 
+import java.net.URL;
+
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +59,12 @@ public class SimpleEntity implements Entity {
 
     @Override
     public List<Link> getLinks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Map<String, URL> getLinkMap() {
         // TODO Auto-generated method stub
         return null;
     }

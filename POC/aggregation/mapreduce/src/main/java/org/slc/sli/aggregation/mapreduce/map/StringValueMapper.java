@@ -27,7 +27,7 @@ import org.slc.sli.aggregation.util.BSONUtilities;
 /**
  * StringValueMapper - mongo value mapper that emits String values.
  */
-class StringValueMapper extends ValueMapper {
+public class StringValueMapper extends ValueMapper {
 
     public StringValueMapper(String fieldName) {
         this.fieldName = fieldName;
