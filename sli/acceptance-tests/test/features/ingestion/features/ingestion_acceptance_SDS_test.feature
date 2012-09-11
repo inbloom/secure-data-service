@@ -441,7 +441,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 1     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -474,7 +474,6 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-#     | studentProgramAssociation             | 3     |
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
@@ -486,7 +485,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | assessment                            | 0     |
      | attendance                            | 29    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 40    |
      | courseOffering                        | 41    |
@@ -501,8 +500,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -520,7 +518,6 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
@@ -532,7 +529,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | assessment                            | 0     |
      | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -547,8 +544,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -566,7 +562,6 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
@@ -578,7 +573,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | assessment                            | 0     |
      | attendance                            | 25    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 25    |
      | courseOffering                        | 25    |
@@ -593,7 +588,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | learningStandard                      | 0     |
      | parent                                | 2     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 2     |
      | reportCard                            | 0     |
      | section                               | 25    |
      | serviceDescriptor                     | 0     |
@@ -736,7 +731,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 1     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -769,7 +764,6 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-#     | studentProgramAssociation             | 3     |
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
@@ -781,7 +775,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 29    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 40    |
      | courseOffering                        | 41    |
@@ -796,8 +790,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -815,7 +808,6 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
@@ -827,7 +819,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -842,8 +834,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -861,7 +852,6 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
@@ -873,7 +863,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 25    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 25    |
      | courseOffering                        | 25    |
@@ -888,7 +878,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 2     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 2     |
      | reportCard                            | 0     |
      | section                               | 25    |
      | serviceDescriptor                     | 0     |
@@ -917,7 +907,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 0     |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 1     |
      | courseOffering                        | 1     |
@@ -932,7 +922,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 0     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 0     |
      | section                               | 3     |
      | serviceDescriptor                     | 0     |
@@ -961,7 +951,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | assessment                            | 0     |
      | attendance                            | 0     |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 1     |
      | courseOffering                        | 1     |
@@ -976,7 +966,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | learningStandard                      | 0     |
      | parent                                | 0     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 0     |
      | section                               | 3     |
      | serviceDescriptor                     | 0     |
@@ -1122,7 +1112,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 1     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -1155,7 +1145,6 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-#     | studentProgramAssociation             | 3     |
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
@@ -1167,7 +1156,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 29    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 40    |
      | courseOffering                        | 41    |
@@ -1182,8 +1171,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -1201,7 +1189,6 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
@@ -1213,7 +1200,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -1228,8 +1215,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -1247,7 +1233,6 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
@@ -1259,7 +1244,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 25    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 25    |
      | courseOffering                        | 25    |
@@ -1274,7 +1259,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 2     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 2     |
      | reportCard                            | 0     |
      | section                               | 25    |
      | serviceDescriptor                     | 0     |
@@ -1303,7 +1288,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 0     |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 1     |
      | courseOffering                        | 1     |
@@ -1318,7 +1303,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 0     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 0     |
      | section                               | 3     |
      | serviceDescriptor                     | 0     |
@@ -1347,7 +1332,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | assessment                            | 0     |
      | attendance                            | 0     |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 1     |
      | courseOffering                        | 1     |
@@ -1362,7 +1347,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | learningStandard                      | 0     |
      | parent                                | 0     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 1     |
      | reportCard                            | 0     |
      | section                               | 3     |
      | serviceDescriptor                     | 0     |
@@ -2062,7 +2047,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | assessment                            | 0     |
      | attendance                            | 75    |
      | calendarDate                          | 0     |
-     | cohort                                | 1     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 95    |
      | courseOffering                        | 95    |
@@ -2095,7 +2080,6 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentDisciplineIncidentAssociation  | 4     |
      | studentGradebookEntry                 | 315   |
      | studentParentAssociation              | 9     |
-#     | studentProgramAssociation             | 3     |
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
@@ -2107,7 +2091,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | assessment                            | 0     |
      | attendance                            | 29    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 40    |
      | courseOffering                        | 41    |
@@ -2122,8 +2106,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 1     |
      | section                               | 41    |
      | serviceDescriptor                     | 0     |
@@ -2141,7 +2124,6 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 143   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
@@ -2153,7 +2135,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | assessment                            | 0     |
      | attendance                            | 24    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 30    |
      | courseOffering                        | 29    |
@@ -2168,8 +2150,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | learningStandard                      | 0     |
      | parent                                | 7     |
      | performanceLevelDescriptor            | 0     |
-#     | program                               | 0     |
-     | program                               | 1     |
+     | program                               | 2     |
      | reportCard                            | 2     |
      | section                               | 31    |
      | serviceDescriptor                     | 0     |
@@ -2187,7 +2168,6 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentDisciplineIncidentAssociation  | 0     |
      | studentGradebookEntry                 | 105   |
      | studentParentAssociation              | 7     |
-#     | studentProgramAssociation             | 0     |
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
@@ -2199,7 +2179,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | assessment                            | 0     |
      | attendance                            | 25    |
      | calendarDate                          | 0     |
-     | cohort                                | 0     |
+     | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
      | course                                | 25    |
      | courseOffering                        | 25    |
@@ -2214,7 +2194,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | learningStandard                      | 0     |
      | parent                                | 2     |
      | performanceLevelDescriptor            | 0     |
-     | program                               | 0     |
+     | program                               | 2     |
      | reportCard                            | 0     |
      | section                               | 25    |
      | serviceDescriptor                     | 0     |
