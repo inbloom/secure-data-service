@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.xdm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
-public final class DmNodeList implements DmNodeSequence {
+import org.junit.Test;
 
-    @SuppressWarnings("unused")
-    private final List<DmNode> nodes;
+public class DmStringTest {
 
-    public DmNodeList(final List<? extends DmNode> nodes) {
-        if (nodes == null) {
-            throw new NullPointerException("nodes");
-        }
-        this.nodes = Collections.unmodifiableList(new ArrayList<DmNode>(nodes));
-    }
+	@Test
+	public void test() {
+		assertTrue(new DmString() != null);
+	}
 }

@@ -76,6 +76,8 @@
   <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
+  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
+
   <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
       <list>

@@ -17,20 +17,28 @@
 
 package org.slc.sli.modeling.xdm;
 
-import java.util.LinkedList;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public final class DmNodeListTestCase extends TestCase {
 
-    public void testConstruction() {
-        new DmNodeList(new LinkedList<DmNode>());
-        new DmNodeList(new LinkedList<DmElement>());
-        new DmNodeList(new LinkedList<DmAttribute>());
-        new DmNodeList(new LinkedList<DmText>());
-        new DmNodeList(new LinkedList<DmProcessingInstruction>());
-        new DmNodeList(new LinkedList<DmComment>());
-        new DmNodeList(new LinkedList<DmDocument>());
-    }
+public final class DmTextTest {
 
+	@Test
+	public void testConstructorAndGetters() {
+		
+		String value = "foo";
+		
+		DmText dmText = new DmText(value);
+		
+		assertTrue(dmText.getName() == DmText.NO_NAME);
+		assertTrue(dmText.getChildAxis().size() == 0);
+		assertTrue(dmText.getStringValue() == value);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testNullValueForConstructorThrowsException() {
+		
+		new DmText(null);
+	}
 }
