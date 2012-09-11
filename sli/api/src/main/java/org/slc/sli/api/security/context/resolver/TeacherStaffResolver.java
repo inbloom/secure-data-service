@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -32,43 +33,50 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * Resolves which StudentDisciplineIncidentAssociation a given teacher is allowed to see.
+ * Resolves which TeacherSection a given teacher is allowed to see.
  */
 @Component
-public class TeacherToStudentDisciplineIncidentAssociationResolver implements EntityContextResolver {
+public class TeacherStaffResolver implements EntityContextResolver {
 
     @Autowired
-    private TeacherStudentResolver studentResolver;
+    private AssociativeContextHelper helper;
+
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
     
     @Autowired
+    private TeacherTeacherResolver teacherResolver;
+
+    @Autowired
     @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    private Repository<Entity> repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-//        return false;
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(toEntityType);
+         return EntityNames.TEACHER.equals(fromEntityType)
+                && EntityNames.STAFF.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = new ArrayList<String>();
-        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
-            studentIds = studentResolver.findAccessible(principal);
+        Iterable<Entity> ents = helper.getReferenceEntities(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId", Arrays.asList(principal.getEntityId()));
+        HashSet<String> ids = new HashSet<String>();
+        for (Entity ent : ents) {
+            String schoolId = (String) ent.getBody().get("schoolId");
+            for (Entity assoc : repository.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, 
+                    new NeutralQuery(new NeutralCriteria("educationOrganizationReference", "=", schoolId)))) {
+                ids.add((String) assoc.getBody().get("staffReference"));
+            }
+        }
+        
+        if (!securityCachingStrategy.contains(EntityNames.TEACHER)) {
+            ids.addAll(teacherResolver.findAccessible(principal));
         } else {
-            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+            ids.addAll(securityCachingStrategy.retrieve(EntityNames.TEACHER));
         }
-        Iterable<String> sdiaIds = repo.findAllIds(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                new NeutralQuery(new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds)));
-        List<String> finalIds = new ArrayList<String>();
-        for (String id : sdiaIds) {
-            finalIds.add(id);
-        }
-        securityCachingStrategy.warm(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new HashSet<String>(finalIds));
-        return finalIds;
-    }
 
+        securityCachingStrategy.warm(EntityNames.STAFF, ids);
+        return new ArrayList<String>(ids);
+    }
 
 }

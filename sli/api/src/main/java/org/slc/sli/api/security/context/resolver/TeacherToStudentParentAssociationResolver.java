@@ -16,12 +16,11 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
@@ -33,6 +32,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeacherToStudentParentAssociationResolver implements EntityContextResolver {
+    
+    @Autowired
+    private TeacherStudentResolver studentResolver;
     
     @Autowired
     private AssociativeContextHelper helper;
@@ -48,8 +50,12 @@ public class TeacherToStudentParentAssociationResolver implements EntityContextR
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = helper.findAccessible(principal,
-                Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        List<String> studentIds = new ArrayList<String>();
+        if (!securityCachingStrategy.contains(EntityNames.STUDENT)) {
+            studentIds = studentResolver.findAccessible(principal);
+        } else {
+            studentIds = new ArrayList<String>(securityCachingStrategy.retrieve(EntityNames.STUDENT));
+        }
         List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_PARENT_ASSOCIATION,
                 "studentId", studentIds);
         securityCachingStrategy.warm(EntityNames.STUDENT_PARENT_ASSOCIATION, new HashSet<String>(finalIds));
