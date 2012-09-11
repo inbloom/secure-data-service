@@ -211,7 +211,7 @@ def check_grades(arg1, response)
 end
 def check_section_data(arg1, response)
   @format = "application/vnd.slc+json"
-  ["sessions", "courses", "gradebookEntries"].each do |endpoint|
+  ["gradebookEntries"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
     restHttpGet("/v1/#{endpoint}?sectionId=#{arg1}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
@@ -219,4 +219,6 @@ def check_section_data(arg1, response)
     data = JSON.parse(@res.body) unless response == 403
     assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}") unless response == 403
   end
+  #check sessions
+  #check course/courseoffering
 end
