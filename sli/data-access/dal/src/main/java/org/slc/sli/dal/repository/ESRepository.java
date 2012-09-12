@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -24,6 +26,10 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.CalculatedData;
@@ -39,6 +45,7 @@ import org.slc.sli.domain.NeutralQuery;
 public class ESRepository extends SimpleEntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
     private Client getClient() {
+        // TODO: can't use transport client anymore
         Settings settings = ImmutableSettings.settingsBuilder()
                 .put("client.transport.sniff", true)
                 .put("client.transport.ignore_cluster_name", true).build();
@@ -47,9 +54,79 @@ public class ESRepository extends SimpleEntityRepository {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        SearchResponse response = Converter.getQuery(getClient(), neutralQuery).execute().actionGet();
-        return Converter.toEntityCol(response.hits());
+
+        // try to send a rest call
+        String query2 = Converter.getQuery(getClient(), neutralQuery).toString();
+        RestTemplate templateIn = new RestTemplate();
+        String url = "http://localhost:9200/" + TenantContext.getTenantId().toLowerCase() + "/_search";
+        HttpMethod method = HttpMethod.POST;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity entity = new HttpEntity(query2, headers);
+        HttpEntity<String> response2 = null;
+        try {
+            response2 = templateIn.exchange(url, method, entity, String.class);
+        } catch(Exception e) {
+            System.out.println("ERROR");
+        }
+
+        System.out.println(entity);
+        System.out.println(response2.getBody());
+
+        // convert the response to search hits
+        ObjectMapper mapper = new ObjectMapper();
+        //Map<String, Object> userInMap = null;
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(response2.getBody());
+            //userInMap = mapper.readValue(
+            //    response2.getBody(),
+            //    new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JsonNode hitsNode = node.get("hits").get("hits");
+        System.out.println(hitsNode);
+        //System.out.println(userInMap);
+
+        Collection<SearchHitEntity> hits = new ArrayList<SearchHitEntity>();
+
+        /*
+        try {
+            hits = mapper.readValue(hitsNode, new TypeReference<Collection<SearchHitEntity>>() {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
+        try {
+            for(int i=0; i<hitsNode.size(); i++) {
+                JsonNode hitNode = hitsNode.get(i);
+                String id = hitNode.get("_id").getTextValue();
+                String type = hitNode.get("_type").getTextValue();
+                JsonNode bodyNode = hitNode.get("fields").get("body");
+                Map<String, Object> body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
+                JsonNode metaDataNode = hitNode.get("fields").get("metaData");
+                Map<String, Object> metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
+                SearchHitEntity hit = new SearchHitEntity(id, type, body, metaData);
+                hits.add(hit);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*
+        for(SearchHitEntity hit : hits) {
+            System.out.println(hit.getEntityId());
+            System.out.println(hit.getType());
+            System.out.println(hit.getBody());
+            System.out.println(hit.getMetaData());
+        }
+        */
+        Collection<Entity> ret = new ArrayList<Entity>(hits);
+        return ret;
+        //SearchResponse response = Converter.getQuery(getClient(), neutralQuery).execute().actionGet();
+        //return Converter.toEntityCol(response.hits());
     }
+
 
     /**
      * Converter SLI to/from ES
@@ -106,6 +183,7 @@ public class ESRepository extends SimpleEntityRepository {
         }
     }
 
+
     /**
      * Simple adapter for SearchHits to Entity
      * @author agrebneva
@@ -124,6 +202,14 @@ public class ESRepository extends SimpleEntityRepository {
             this.type = hit.getType();
             this.id = hit.getId();
             this.metaData = hit.getFields().get("metaData").getValue();
+        }
+
+        SearchHitEntity(String id, String type, Map<String, Object> body, Map<String, Object> metaData) {
+            this.id = id;
+            this.type = type;
+            this.body = body;
+            this.body.put("type", type);
+            this.metaData = metaData;
         }
 
         @Override
