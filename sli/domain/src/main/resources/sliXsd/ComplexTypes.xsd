@@ -3598,7 +3598,7 @@
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentId" type="reference">
+			<xs:element minOccurs="0" name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The student enrolled in the section.
 					</xs:documentation>
@@ -3608,7 +3608,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sectionId" type="reference">
+			<xs:element minOccurs="0" name="sectionId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The section the student is enrolled in.
 					</xs:documentation>

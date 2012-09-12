@@ -3,60 +3,6 @@
     "references" :
     [
         {
-            "fieldPath" : "body.studentSectionAssociationId",
-            "ref" :
-            {
-                "entityType" : "studentSectionAssociation",
-                "choiceOfFields" :
-                [
-                    [
-                        {
-                            "path" : "body.studentId",
-                            "values" :
-                            [{
-                                 "ref":
-                                 {
-                                     "entityType" : "student",
-                                     "choiceOfFields" :
-                                      [
-                                          [
-                                              {
-                                                  "path" : "body.studentUniqueStateId",
-                                                  "values" :
-                                                   [{
-                                                         "valueSource" : "body.studentId"
-                                                   }]
-                                              }
-                                          ]
-                                      ]
-                                 }
-                            }]
-                        },
-                        {
-                            "path" : "body.sectionId",
-                            "values" :
-                             [{
-                                 "ref":
-                                 {
-                                     "entityType" : "section",
-                                     "choiceOfFields" :
-                                      [
-                                          [{
-                                              "path" : "body.uniqueSectionCode",
-                                              "values" :
-                                               [{
-                                                   "valueSource" : "body.uniqueSectionCode"
-                                               }]
-                                          }]
-                                      ]
-                                 }
-                             }]
-                        }
-                    ]
-                ]
-            }
-        },
-        {
            "fieldPath" : "body.gradingPeriodId",
             "ref" :
             {

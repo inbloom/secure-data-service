@@ -41,24 +41,6 @@
 	            ]
 	        ]
         }
-    },
-    {
-        "fieldPath" : "body.studentId",
-        "ref" :
-        {
-	        "entityType" : "student",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
-        }
-    }]
+    }
+    ]
 }
