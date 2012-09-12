@@ -157,9 +157,12 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 
 	};
 
-	$scope.removePageFromProfile = function (index) {
+	$scope.removePageFromProfile = function (index, callback) {
 		$scope.pages.splice(index, 1);
 		$scope.saveProfile();
+		if(callback) {
+			callback();
+		}
 	};
 
 	$scope.showPageSourceCode = function () {
@@ -213,8 +216,9 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 
 	$scope.removePage = function () {
 		if(confirm("Are you sure you want to remove the tab? There is no way to undo this action.")) {
-			parent.removePageFromProfile($scope.$index);
-			$rootScope.$broadcast("pageRemoved", $scope.$index);
+			parent.removePageFromProfile($scope.$index, function () {
+				$rootScope.$broadcast("pageRemoved", $scope.$index);
+			});
 		}
 	};
 
