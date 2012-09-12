@@ -33,15 +33,18 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 
+/**
+ * Tests SeaCustomDataProvider
+ *
+ * @author sashton
+ *
+ */
 public class SeaCustomDataProviderTest {
-
 
     private static final String TYPE = "TYPE";
     private static final String VALUE = "VALUE";
-    private static final String FIELD  = "FIELD";
-    private static final String SIF_ID  = "SIF_ID";
-
-
+    private static final String FIELD = "FIELD";
+    private static final String SIF_ID = "SIF_ID";
 
     @InjectMocks
     private SeaCustomDataProvider dataProvider = new SeaCustomDataProvider();
@@ -49,15 +52,13 @@ public class SeaCustomDataProviderTest {
     @Mock
     SlcInterface mockSlcInterface;
 
-
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test
-    public void testGetMap(){
+    public void testGetMap() {
         String seaGuid = "asladfalsd";
         String url = "/educationOrganizations/" + seaGuid + "/custom";
 
@@ -81,9 +82,8 @@ public class SeaCustomDataProviderTest {
 
     }
 
-
     @Test
-    public void testStoreMap(){
+    public void testStoreMap() {
         // setup
         String seaGuid = "asladfalsd";
         String url = "/educationOrganizations/" + seaGuid + "/custom";
@@ -98,17 +98,13 @@ public class SeaCustomDataProviderTest {
         // verify
         Mockito.verify(mockSlcInterface).create(Mockito.any(GenericEntity.class), Mockito.eq(url));
 
-
-
     }
 
-
-
-    private List<Entity> buildCustomDataList(){
+    private List<Entity> buildCustomDataList() {
 
         Map<String, Object> map = new HashMap<String, Object>();
-        List<Map<String,String>> subList = new ArrayList<Map<String,String>>();
-        Map<String,String> subMap = new HashMap<String, String>();
+        List<Map<String, String>> subList = new ArrayList<Map<String, String>>();
+        Map<String, String> subMap = new HashMap<String, String>();
         subMap.put("type", TYPE);
         subMap.put("value", VALUE);
         subMap.put("field", FIELD);
@@ -116,7 +112,7 @@ public class SeaCustomDataProviderTest {
         map.put(SIF_ID, subList);
 
         Entity entity = new GenericEntity(TYPE, map);
-        return Arrays.asList(new Entity[]{entity});
+        return Arrays.asList(new Entity[] { entity });
     }
 
 }

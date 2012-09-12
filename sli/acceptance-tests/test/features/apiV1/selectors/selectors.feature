@@ -103,7 +103,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | sex        |
 
   Scenario: Applying selectors on nested fields
-    Given selector "(name,sectionAssociations:(*))"
+    Given selector "(name,studentSectionAssociations:(*))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
@@ -121,7 +121,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentCompetencies |
     | studentId           |
     | students            |
-    Given selector "(name,sectionAssociations:(section:(*)))"
+    Given selector "(name,studentSectionAssociations:(section:(*)))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
@@ -225,7 +225,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | id         |
     | entityType |
     | links      |
-    Given selector "(sectionAssociations:())"
+    Given selector "(studentSectionAssociations:())"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in "studentSectionAssociations" I should see the following fields only:
@@ -257,18 +257,18 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
-    Given selector "(name,sectionAssociations:($))"
+    Given selector "(name,studentSectionAssociations:($))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
 
   Scenario: Sad path - ID as selector field
-    Given selector "(sectionAssociations:(sectionId))"
+    Given selector "(studentSectionAssociations:(sectionId))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
     
   Scenario: Sad path - Selector embeds too many documents
-    Given selector "(sections:(*),sectionAssociations:(*,section:(*)),schools:(*,sections:(*)))"
+    Given selector "(sections:(*),studentSectionAssociations:(*,section:(*)),schools:(*,sections:(*)))"
     When I navigate to GET "/v1/students"
     Then I should receive a return code of 413

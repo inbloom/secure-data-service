@@ -23,21 +23,19 @@ import com.mongodb.hadoop.io.BSONWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * ValueMapper - Lookup the value of a mongo collection field for each input value. If found,
  * emit the value using type Writable. If not found, emit NullWritable.
  */
-public abstract class ValueMapper extends Mapper<EmittableKey, BSONWritable, EmittableKey, Writable> {
+public abstract class ValueMapper extends Mapper<TenantAndIdEmittableKey, BSONWritable, TenantAndIdEmittableKey, Writable> {
 
     protected String fieldName = null;
 
     @Override
-    public void map(EmittableKey key, BSONWritable entity, Context context) throws InterruptedException, IOException {
-
-        Writable value = getValue(entity);
-        context.write(key, value);
+    public void map(TenantAndIdEmittableKey key, BSONWritable entity, Context context) throws InterruptedException, IOException {
+        context.write(key, getValue(entity));
     }
 
     /**

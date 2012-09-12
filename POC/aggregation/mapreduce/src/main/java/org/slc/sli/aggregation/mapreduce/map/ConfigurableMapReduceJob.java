@@ -18,19 +18,19 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -38,13 +38,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.hsqldb.lib.StringInputStream;
 
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.BandsConfig;
 import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.ConfigSections;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.HadoopConfig;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MetadataConfig;
-import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.RangeConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.MapConfig;
+import org.slc.sli.aggregation.mapreduce.io.JobConfiguration.ReduceConfig;
 import org.slc.sli.aggregation.mapreduce.io.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.io.MongoTenantAndIdInputFormat;
 import org.slc.sli.aggregation.mapreduce.map.key.EmittableKey;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 /**
  * ConfigurableMapReduceJob
@@ -61,50 +61,61 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
 
     static ObjectMapper om = new ObjectMapper();
 
-    public static JobConf parseMapper(Configuration conf, final String resourcePath) throws IOException {
+    private static String mapCollection;
+    private static Map<String, Object> mapFields;
+    private static JobConfiguration.mapper mapper;
+    private static Map<String, Object> mapQuery;
+    private static String reduceCollection;
+    private static String reduceField;
+    private static JobConfiguration.function reduceFunction;
 
-        String configString = updatePlaceholders(conf, resourcePath);
+    public static JobConf parse(Configuration conf, final String json) throws IOException {
+        ConfigSections s = JobConfiguration.readStream(new StringInputStream(json));
+        return parse(conf, s);
+    }
 
-        ConfigSections s = JobConfiguration.readStream(new StringInputStream(configString));
+    public static JobConf parse(Configuration conf, final InputStream stream) throws IOException {
+        ConfigSections s = JobConfiguration.readStream(stream);
+        return parse(conf, s);
+    }
+
+    public static JobConf parse(Configuration conf, ConfigSections s) throws IOException {
         JobConf rval = new JobConf(conf);
-        if (s.getCalculatedValue() != null) {
-            rval = ConfigurableMapReduceJob.parseCalculatedValueConfig(rval, s.getCalculatedValue());
-        }
-        if (s.getAggregation() != null) {
-            rval = ConfigurableMapReduceJob.parseAggregationConfig(rval, s.getAggregation());
-        }
+        reduceFunction = s.getMetadata().getFunction();
+
+        parseMapper(s);
+        parseReducer(s);
+        finalizeConfig(rval, s);
+
         return rval;
     }
 
-    public static JobConf parseCalculatedValueConfig(JobConf conf, JobConfiguration.CalculatedValueConfig mapperDef) throws IOException {
-        return parseMapperConfig(conf, mapperDef.getMetadata(), mapperDef.getHadoop());
+    protected static void parseMapper(ConfigSections s) {
+        MapConfig mapConf = s.getMapper();
+        if (mapConf != null) {
+            mapCollection = mapConf.getCollection();
+            mapFields = mapConf.getFields();
+            mapper = JobConfiguration.mapper.valueOf(mapConf.getMapper());
+            mapQuery = mapConf.getQuery();
+        }
     }
 
-    public static JobConf parseAggregationConfig(JobConf conf, JobConfiguration.AggregationConfig mapperDef) throws IOException {
-        return parseMapperConfig(conf, mapperDef.getMetadata(), mapperDef.getHadoop());
+    public static void parseReducer(ConfigSections s) {
+        ReduceConfig reduceConfig = s.getReduce();
+        if (reduceConfig != null) {
+            reduceCollection = reduceConfig.getCollection();
+            reduceField = reduceConfig.getField();
+        }
     }
+
+
 
     @SuppressWarnings("rawtypes")
-    protected static JobConf parseMapperConfig(JobConf conf, MetadataConfig metadata, HadoopConfig hadoop) throws IOException {
+    protected static JobConf finalizeConfig(JobConf jobConf, ConfigSections s) throws IOException {
 
-        JobConfiguration.MapConfig mapper = hadoop.getMapper();
-        JobConfiguration.ReduceConfig reducer = hadoop.getReduce();
-        Class<? extends Mapper> mapperClass = mapper.getMapperClass();
-        Class<? extends Writable> inputKeyType = mapper.getInput().getKeyTypeClass();
-        Class<? extends Writable> inputValueType = mapper.getInput().getValueTypeClass();
-        Class<? extends InputFormat> inputFormatType = mapper.getInput().getFormatTypeClass();
-        Class<? extends Writable> outputKeyType = mapper.getOutput().getKeyTypeClass();
-        Class<? extends Writable> outputValueType = mapper.getOutput().getValueTypeClass();
-        Class<? extends MongoOutputFormat> outputFormatType = mapper.getOutput().getFormatTypeClass();
-        String keyFieldName = mapper.getInput().getKeyField();
-        String collectionName = mapper.getInput().getCollection();
-        Map<String, Object> query = mapper.getInput().getQuery();
-        Map<String, Object> fields = mapper.getInput().getFields();
-        Map<String, Object> hadoopOptions = hadoop.getOptions();
-
-        Class<? extends Reducer> reducerClass = reducer.getReducerClass();
-        String updateCollection = reducer.getCollection();
-        String updateField = reducer.getField();
+        Class<? extends Mapper> mapperClass = JobConfiguration.mapper.getMapClass(mapper);
+        Class<? extends Reducer> reducerClass = JobConfiguration.function.getReduceClass(reduceFunction);
+        Map<String, String> idFields = s.getMapper().getMapIdFields();
 
         // validate we have enough to continue
         boolean valid = true;
@@ -112,48 +123,33 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
             log.severe("Invalid map/reduce configuration detected : no mapper class specified.");
             valid = false;
         }
-        if (inputKeyType == null) {
-            log.severe("Invalid map/reduce configuration detected : no input key type specified.");
+        if (idFields == null) {
+            idFields = new HashMap<String, String>();
+            log.severe("Invalid map/reduce configuration detected : no map id fields specified.");
             valid = false;
         }
-        if (inputValueType == null) {
-            log.severe("Invalid map/reduce configuration detected : no input value type specified.");
+        if (mapCollection == null) {
+            log.severe("Invalid map/reduce configuration detected : no map collection specified.");
             valid = false;
         }
-        if (outputKeyType == null) {
-            log.severe("Invalid map/reduce configuration detected : no output key type specified.");
+        if (mapQuery == null) {
+            log.severe("Invalid map/reduce configuration detected : no map query specified.");
             valid = false;
         }
-        if (outputValueType == null) {
-            log.severe("Invalid map/reduce configuration detected : no output value type specified.");
-            valid = false;
-        }
-        if (keyFieldName == null) {
-            log.severe("Invalid map/reduce configuration detected : no key field specified.");
-            valid = false;
-        }
-        if (collectionName == null) {
-            log.severe("Invalid map/reduce configuration detected : no mongo collection specified.");
-            valid = false;
-        }
-        if (query == null) {
-            log.severe("Invalid map/reduce configuration detected : no mongo input query specified.");
-            valid = false;
-        }
-        if (fields == null) {
-            log.severe("Invalid map/reduce configuration detected : no mongo input fields specified.");
+        if (mapFields == null) {
+            log.severe("Invalid map/reduce configuration detected : no map input fields specified.");
             valid = false;
         }
         if (reducerClass == null) {
             log.severe("Invalid map/reduce configuration detected : no reducer class specified.");
             valid = false;
         }
-        if (updateCollection == null) {
-            log.severe("Invalid map/reduce configuration detected : no output collection specified.");
+        if (reduceCollection == null) {
+            log.severe("Invalid map/reduce configuration detected : no reduce collection specified.");
             valid = false;
         }
-        if (updateField == null) {
-            log.severe("Invalid map/reduce configuration detected : no output field specified.");
+        if (reduceField == null) {
+            log.severe("Invalid map/reduce configuration detected : no reduce field specified.");
             valid = false;
         }
 
@@ -161,31 +157,19 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
             throw new IllegalArgumentException("Invalid mapper specified. Check log for details.");
         }
 
-        JobConf mapperConf = new JobConf(conf);
+        jobConf.set("mapred.output.dir",
+                String.format("%s-%s-%d", s.getMapper().getMapper(), s.getMetadata().getFunction(), System.currentTimeMillis()));
+
+        jobConf.setJobName(s.getMetadata().getDescription() == null ? "M/R Job" : s.getMetadata().getDescription());
+
         // enable speculative execution. Multiple mapper tasks are created for the same split.
         // First one to finish wins; the remaining tasks are terminated.
-        mapperConf.setSpeculativeExecution(true);
-        mapperConf.setUseNewMapper(true);
-        mapperConf.setUseNewReducer(true);
+        jobConf.setSpeculativeExecution(true);
+        jobConf.setUseNewMapper(true);
+        jobConf.setUseNewReducer(true);
 
-        mapperConf.set("JOB_DESCRIPTION", metadata.getDescription());
-        mapperConf.set("JOB_ABBREVIATION", metadata.getAbbreviation());
-        mapperConf.set("JOB_TYPE", metadata.getType());
-        mapperConf.setClass("JOB_VALUE_TYPE", metadata.getValueTypeClass(), Object.class);
-
-        ObjectMapper m = new ObjectMapper();
-        BandsConfig bands = metadata.getBands();
-        if (bands != null) {
-            String s = m.writeValueAsString(bands);
-            mapperConf.set("JOB_AGGREGATE_BANDS", s);
-        }
-
-        RangeConfig range = metadata.getValidRange();
-        if (range != null) {
-            String s = m.writeValueAsString(range);
-            mapperConf.set("JOB_VALID_RANGE", s);
-        }
-
+        /**
+         * TODO -- decide if this is required.
         String id = conf.get("@ID@");
         String tenantId = conf.get("@TENANT_ID@");
         for (Map.Entry<String, Object> entry : query.entrySet()) {
@@ -209,30 +193,39 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         if (updateField.indexOf("@TENANT_ID@") >= 0 && tenantId != null) {
             updateField = updateField.replace("@TENANT_ID@", tenantId);
         }
+        */
 
-        MongoConfigUtil.setQuery(mapperConf, new BasicDBObject(query));
-        MongoConfigUtil.setFields(mapperConf, new BasicDBObject(fields));
-        MongoConfigUtil.setInputKey(mapperConf, keyFieldName);
-        MongoConfigUtil.setInputURI(mapperConf, "mongodb://localhost:27017/" + collectionName);
-        MongoConfigUtil.setMapperOutputKey(mapperConf, outputKeyType);
-        MongoConfigUtil.setMapperOutputValue(mapperConf, outputValueType);
-        MongoConfigUtil.setOutputKey(mapperConf, outputKeyType);
-        MongoConfigUtil.setOutputValue(mapperConf, outputValueType);
-        MongoConfigUtil.setReadSplitsFromSecondary(mapperConf, mapper.getInput().getReadFromSecondaries());
+        MongoConfigUtil.setQuery(jobConf, new BasicDBObject(mapQuery));
 
-        mapperConf.setClass("mapred.input.key.class", inputKeyType, Object.class);
-        mapperConf.setClass("mapred.input.value.class", inputValueType, Object.class);
-        if (inputFormatType != null) {
-            mapperConf.setClass("mapreduce.inputformat.class", inputFormatType, InputFormat.class);
-            MongoConfigUtil.setInputFormat(mapperConf,  inputFormatType);
+        Map<String, Object> fullFields = new HashMap<String, Object>();
+        for (String f : idFields.values()) {
+            fullFields.put(f, 1);
         }
+        fullFields.putAll(mapFields);
 
-        mapperConf.setClass("mapred.output.key.class", outputKeyType, Object.class);
-        mapperConf.setClass("mapred.output.value.class", inputValueType, Object.class);
-        if (outputFormatType != null) {
-            mapperConf.setClass("mapreduce.outputformat.class", outputFormatType, MongoOutputFormat.class);
-            MongoConfigUtil.setOutputFormat(mapperConf, outputFormatType);
-        }
+        MongoConfigUtil.setFields(jobConf, new BasicDBObject(fullFields));
+        MongoConfigUtil.setInputKey(jobConf, idFields.get("id"));
+        MongoConfigUtil.setInputURI(jobConf, "mongodb://localhost:27017/" + mapCollection);
+        MongoConfigUtil.setMapperOutputKey(jobConf, TenantAndIdEmittableKey.class);
+        MongoConfigUtil.setMapperOutputValue(jobConf, BSONWritable.class);
+        MongoConfigUtil.setOutputKey(jobConf, TenantAndIdEmittableKey.class);
+        MongoConfigUtil.setOutputValue(jobConf, BSONWritable.class);
+
+        // TODO - this probably should be configurable
+        MongoConfigUtil.setReadSplitsFromSecondary(jobConf, true);
+
+        MongoConfigUtil.setSplitSize(jobConf, 128);
+
+        jobConf.setClass("mapred.input.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
+        jobConf.setClass("mapred.input.value.class", BSONWritable.class, Object.class);
+
+        jobConf.setClass("mapred.output.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
+        jobConf.setClass("mapred.output.value.class", BSONWritable.class, Object.class);
+
+        jobConf.setClass("mapreduce.inputformat.class", MongoTenantAndIdInputFormat.class, MongoInputFormat.class);
+        jobConf.setClass("mapreduce.outputformat.class", MongoAggFormatter.class, MongoOutputFormat.class);
+        MongoConfigUtil.setInputFormat(jobConf,  MongoTenantAndIdInputFormat.class);
+        MongoConfigUtil.setOutputFormat(jobConf, MongoAggFormatter.class);
 
         /**
          * Configure how hadoop calculates splits.
@@ -249,46 +242,24 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
          * on how well data is distributed by _id. Setting the key pattern gives finer grained
          * control over how splits are calculated.
          */
-        MongoConfigUtil.setCreateInputSplits(mapperConf, true);
-        MongoConfigUtil.setShardChunkSplittingEnabled(mapperConf, true);
-        MongoConfigUtil.setReadSplitsFromShards(mapperConf, false);
+        MongoConfigUtil.setCreateInputSplits(jobConf, true);
+        MongoConfigUtil.setShardChunkSplittingEnabled(jobConf, true);
+        MongoConfigUtil.setReadSplitsFromShards(jobConf, false);
 
-        MongoConfigUtil.setOutputURI(mapperConf, "mongodb://localhost:27017/" + updateCollection);
-        mapperConf.set(MongoAggFormatter.UPDATE_FIELD, updateField);
+        MongoConfigUtil.setOutputURI(jobConf, "mongodb://localhost:27017/" + reduceCollection);
 
-        if (reducer.getIdMap() != null) {
-            mapperConf.set(JobConfiguration.ID_MAP_PROPERTY, om.writeValueAsString(reducer.getIdMap()));
-        }
-        if (reducer.getMapField() != null) {
-            mapperConf.set(JobConfiguration.MAP_FIELD_PROPERTY, reducer.getMapField());
-        }
+        jobConf.setJarByClass(JobConfiguration.class);
 
-        if (metadata.getValidRange() != null) {
-            mapperConf.set(JobConfiguration.VALID_RANGE_PROPERTY, om.writeValueAsString(metadata.getValidRange()));
-        }
+        MongoConfigUtil.setMapper(jobConf,  mapperClass);
+        jobConf.setClass(JobContext.MAP_CLASS_ATTR, mapperClass, Mapper.class);
 
-        if (metadata.getBands() != null) {
-            mapperConf.set(JobConfiguration.BANDS_PROPERTY, om.writeValueAsString(metadata.getBands()));
-        }
+        MongoConfigUtil.setReducer(jobConf, reducerClass);
+        jobConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
 
-        /**
-         * Any additional hadoop options are added to the configuration as key/value pairs.
-         */
-        if (hadoopOptions != null) {
-            for (Map.Entry<String, Object> option : hadoopOptions.entrySet()) {
-                mapperConf.set(option.getKey(), option.getValue().toString());
-            }
-        }
+        // Add the configuration itself to the JobConf.
+        JobConfiguration.toHadoopConfiguration(s, jobConf);
 
-        mapperConf.setJarByClass(mapperClass);
-
-        MongoConfigUtil.setMapper(mapperConf,  mapperClass);
-        mapperConf.setClass(JobContext.MAP_CLASS_ATTR, mapperClass, Mapper.class);
-
-        MongoConfigUtil.setReducer(mapperConf, reducerClass);
-        mapperConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
-
-        return mapperConf;
+        return jobConf;
     }
 
 

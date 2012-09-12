@@ -27,7 +27,9 @@ class CustomRolesController < ApplicationController
     if custom_role != nil
       redirect_to  :action => "show", :id => custom_role.id
     else
-      flash[:notice] = "No custom roles exist.  First create a realm in the Realm Management tool."
+      message = (APP_CONFIG["is_sandbox"] ? "No custom roles exist.  First create a landing zone in the Provizion Landing Zone tool." :
+                                            "No custom roles exist.  First create a realm in the Realm Management tool.")
+      flash[:notice] = message
       respond_to do |format|
         format.html # index.html.erb
       end

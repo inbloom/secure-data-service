@@ -2,7 +2,9 @@ package org.slc.sli.modeling.sdkgen.grammars.xsd;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -14,6 +16,18 @@ import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
 
     private List<XmlSchema> xmlSchemas;
+
+    private static final Map<QName, QName> NAME_MAP = new HashMap<QName, QName>();
+    static {
+        NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "courseTranscript"),
+                new QName("http://www.slcedu.org/api/v1", "studentTranscriptAssociation"));
+        NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "courseTranscriptList"),
+                new QName("http://www.slcedu.org/api/v1", "studentTranscriptAssociationList"));
+        NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "staffEducationOrgAssignmentAssociation"),
+                new QName("http://www.slcedu.org/api/v1", "staffEducationOrganizationAssociation"));
+        NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "staffEducationOrgAssignmentAssociationList"),
+                new QName("http://www.slcedu.org/api/v1", "staffEducationOrganizationAssociationList"));
+    }
 
     public SdkGenGrammarsWrapper(final List<XmlSchema> xmlSchemas) {
         if (xmlSchemas == null) {
@@ -33,6 +47,12 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
                 return element;
             }
         }
+
+        QName name = NAME_MAP.get(elementName);
+        if (name != null) {
+            return getElement(NAME_MAP.get(elementName));
+        }
+
         return null;
     }
 }

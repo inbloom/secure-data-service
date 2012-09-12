@@ -9,6 +9,6 @@
 	},
     {
         "type" : "Student",
-        "selector" : ":($,sectionAssociations)"
+        "selector" : ":($,studentSectionAssociations)"
     }
 ]

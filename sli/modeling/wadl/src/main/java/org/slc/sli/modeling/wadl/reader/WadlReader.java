@@ -50,7 +50,6 @@ import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.ResourceType;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.wadl.WadlAttributeName;
 import org.slc.sli.modeling.wadl.WadlElementName;
 import org.slc.sli.modeling.wadl.WadlSyntax;
@@ -546,8 +545,8 @@ public final class WadlReader {
                 case XMLStreamConstants.CHARACTERS: {
                     // Assume that the element will coalesce text nodes.
                     children.add(new DmText(reader.getText()));
-                }
                     break;
+                }
                 case XMLStreamConstants.COMMENT: {
                     // Ignore for now.
                     break;

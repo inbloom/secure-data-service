@@ -183,10 +183,10 @@ Then /^I get the (data containing "[^"]*") returned in json format$/ do |idArray
   assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil)
-  
-  if result.class == Array 
+
+  if result.class == Array
     numMatches = 0
-    result.each {|jsonObj| 
+    result.each {|jsonObj|
       # Find each ID in the JSON
       assert(idArray.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
       numMatches += 1
@@ -203,10 +203,10 @@ Then /^I should get a response which includes the (data containing "[^"]*") retu
   assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil)
-  
-  if result.class == Array 
+
+  if result.class == Array
     numMatches = 0
-    result.each {|jsonObj| 
+    result.each {|jsonObj|
       numMatches += 1 if idArray.include?(jsonObj["id"])
     }
     assert(numMatches == idArray.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+idArray.length.to_s+" maches")
@@ -241,7 +241,7 @@ When /^I try to update the (data for "[^"]*") in my "[^"]*" from the API$/ do |d
       "birthDate" => "1994-04-04"
     },
     "sex" => "Male",
-    "studentUniqueStateId" => "123456",
+    "studentUniqueStateId" => (0...8).map{65.+(rand(25)).chr}.join,
     "economicDisadvantaged" => false,
     "name" => {
       "firstName" => "Updated",

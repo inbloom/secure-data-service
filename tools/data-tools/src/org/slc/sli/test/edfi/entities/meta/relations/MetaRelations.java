@@ -969,9 +969,6 @@ public final class MetaRelations {
                 studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
                 sectionCounter++;
             }
-//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
-//                studentMeta.sectionIds.add(sectionMeta.id);
-//            }
         }
         
         
@@ -981,21 +978,14 @@ public final class MetaRelations {
     
     private static void addSectionsToStudents(Map<String, SectionMeta> sectionsForSchool,
             Map<String, StudentMeta> studentsForSchool) {
-//    	Object [] superSectionMetas = new Object[];
        Object[] sectionMetas = sectionsForSchool.values().toArray();
        Object[] studentMetas = studentsForSchool.values().toArray();
 
- //       List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
-    //    List<StudentMeta> studentMetas = new ArrayList<StudentMeta>(studentsForSchool.values());
-  //      List<SectionMeta> sectionMetas = new ArrayList<SectionMeta>(sectionsForSchool.values());
-  //      List<SuperSectionMeta> superSectionMetas = new ArrayList<SuperSectionMeta>();
-     //   Object [] superSectionMetas = new Object[sectionMetas.length];
         int studentCounter = 0;
         SuperSectionMeta supperSectionMeta;
                 
         for (SectionMeta sectionMeta : sectionsForSchool.values()) {
        
- 
         	//Step2 start a loop, add students to superSection 1:STUDENTS_PER_SECTION relationship
             // TODO students should not belong to simultaneous sections
             for (int i = 0; i < STUDENTS_PER_SECTION; i++) { //
@@ -1004,49 +994,31 @@ public final class MetaRelations {
   
                 	studentCounter = 0;
                 }
-                
-//                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-//                superSectionMetas.get(i).sectionIds.add(e)
            
                 if(studentCounter < studentMetas.length) {
                 	//why in SUPERSECTION_MAP cannot see the list of studentIds
-//                	String id = ((StudentMeta) studentMetas[studentCounter]).id;
-//                	List<String> studentIds = SUPERSECTION_MAP.get(sectionMeta.id).studentIds;
-//                	SuperSectionMeta superSectionMeta = SUPERSECTION_MAP.get(sectionMeta.id);
                 	SUPERSECTION_MAP.get(sectionMeta.id).studentIds.add(((StudentMeta) studentMetas[studentCounter]).id);
- 
-                	//studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-                	
+                 	
                 }
                 studentCounter++;
             }
                     	
-//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
-//                studentMeta.sectionIds.add(sectionMeta.id);
-//            }
         }
-        
-        
+                
     }
     
     
     private static void addTeachersToSections(Map<String, SectionMeta> sectionsForSchool,
-            Map<String, TeacherMeta> teachersForSchool) {
-//    	Object [] superSectionMetas = new Object[];
+       Map<String, TeacherMeta> teachersForSchool) {
+
        Object[] sectionMetas = sectionsForSchool.values().toArray();
        Object[] teacherMetas = teachersForSchool.values().toArray();
 
- //       List<StudentMeta> studentMetas = studentsForSchool.values().toArray();
-    //    List<StudentMeta> studentMetas = new ArrayList<StudentMeta>(studentsForSchool.values());
-  //      List<SectionMeta> sectionMetas = new ArrayList<SectionMeta>(sectionsForSchool.values());
-  //      List<SuperSectionMeta> superSectionMetas = new ArrayList<SuperSectionMeta>();
-     //   Object [] superSectionMetas = new Object[sectionMetas.length];
         int teacherCounter = 0;
         SuperSectionMeta supperSectionMeta;
                 
         for (SectionMeta sectionMeta : sectionsForSchool.values()) {
-       
- 
+   
         	//Step2 start a loop, add students to superSection 1:STUDENTS_PER_SECTION relationship
             // TODO students should not belong to simultaneous sections
             for (int i = 0; i < TEACHERS_PER_SECTION; i++) { //
@@ -1055,26 +1027,16 @@ public final class MetaRelations {
   
                 	teacherCounter = 0;
                 }
-                
-//                superSectionMetas.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-//                superSectionMetas.get(i).sectionIds.add(e)
-           
+                           
                 if(teacherCounter < teacherMetas.length) {
                 	//why in SUPERSECTION_MAP cannot see the list of studentIds
-//                	String id = ((StudentMeta) studentMetas[studentCounter]).id;
-//                	List<String> studentIds = SUPERSECTION_MAP.get(sectionMeta.id).studentIds;
-//                	SuperSectionMeta superSectionMeta = SUPERSECTION_MAP.get(sectionMeta.id);
+
                 	SUPERSECTION_MAP.get(sectionMeta.id).teacherIds.add(((TeacherMeta) teacherMetas[teacherCounter]).id);
-  
-                	//studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
                 	
                 }
                 teacherCounter++;
             }
                     	
-//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
-//                studentMeta.sectionIds.add(sectionMeta.id);
-//            }
         }
         
         

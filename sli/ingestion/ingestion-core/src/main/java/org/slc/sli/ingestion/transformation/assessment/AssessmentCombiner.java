@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for Assessment Entities
@@ -41,9 +44,9 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 @Component("assessmentTransformationStrategy")
 public class AssessmentCombiner extends AbstractTransformationStrategy {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
-    
+
     private Map<Object, NeutralRecord> assessments;
     private List<NeutralRecord> transformedAssessments;
 
@@ -141,6 +144,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
@@ -150,6 +154,16 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
+        } else {
+            Query choice = new Query().limit(0);
+            choice.addCriteria(Criteria.where("metaData.tenantId").is(getJob().getTenantId()));
+            choice.addCriteria(Criteria.where("body.assessmentPeriodDescriptor.codeValue").is(assessmentPeriodDescriptorRef));
+            MongoEntityRepository mongoEntityRepository = getMongoEntityRepository();
+            Entity assessmentEntity = mongoEntityRepository.findOne(ASSESSMENT, choice);
+            if (assessmentEntity != null) {
+                Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) assessmentEntity.getBody().get(ASSESSMENT_PERIOD_DESCRIPTOR);
+                return assessmentPeriodDescriptor;
+            }
         }
         return null;
     }

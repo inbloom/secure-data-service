@@ -33,7 +33,7 @@ When /^I navigate to the Dashboard home page$/ do
   @driver.get url
   # Setting an explicit timeout for elements that may take a long time to load
   # We should be able to get rid of this and reply on the implicitWait
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 10)  
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 15)  
 end
 
 Then /^I click on the browser back button$/ do

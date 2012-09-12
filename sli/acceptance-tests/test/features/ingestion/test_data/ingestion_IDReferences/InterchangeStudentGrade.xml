@@ -6,73 +6,199 @@
         <DateFulfilled>2013-01-01</DateFulfilled>
         <LetterGradeEarned>A</LetterGradeEarned>
         <NumericGradeEarned>95</NumericGradeEarned>
-        <CompetencyLevel ref="CL_1" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 1</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_1" />
-        <GradebookEntryReference ref="GE_1" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 1</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-02-02</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
-        <CompetencyLevel ref="CL_101" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 1</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_2" />
-        <GradebookEntryReference ref="GE_2" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 2</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-03-03</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
-        <CompetencyLevel ref="CL_2" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 2</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_101" />
-        <GradebookEntryReference ref="GE_3" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 3</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-04-04</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_3" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 3</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_3" />
-        <GradebookEntryReference ref="GE_101" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 17</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-05-05</DateFulfilled>
         <LetterGradeEarned>F</LetterGradeEarned>
         <NumericGradeEarned>55</NumericGradeEarned>
-        <CompetencyLevel ref="CL_102" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 2</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_102" />
-        <GradebookEntryReference ref="GE_4" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 4</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-06-06</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_103" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 3</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_4" />
-        <GradebookEntryReference ref="GE_102" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 18</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-07-07</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
-        <CompetencyLevel ref="CL_4" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 4</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_103" />
-        <GradebookEntryReference ref="GE_103" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 19</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 	<StudentGradebookEntry>
         <DateFulfilled>2013-08-08</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
-        <CompetencyLevel ref="CL_104" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 4</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_104" />
-        <GradebookEntryReference ref="GE_104" />
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>funeral homework 20</GradebookEntryType>
+                <DateAssigned>2012-05-08</DateAssigned>
+                <Description>Herman must write a story about his pet Spot</Description>
+                <SectionReference>
+                    <SectionIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
     </StudentGradebookEntry>
 
 	<GradebookEntry id="GE_1">
@@ -507,7 +633,7 @@
         </SectionReference>
 		<GradingPeriodReference ref="GP_108" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_1">
+	<GradebookEntry id="GE_101">
 		<GradebookEntryType>funeral homework 17</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -534,7 +660,7 @@
         </SectionReference>
 		<GradingPeriodReference ref="GP_1" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_2">
+	<GradebookEntry id="GE_102">
 		<GradebookEntryType>funeral homework 18</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -561,7 +687,7 @@
         </SectionReference>
         <GradingPeriodReference ref="GP_2" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_3">
+	<GradebookEntry id="GE_103">
 		<GradebookEntryType>funeral homework 19</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -588,7 +714,7 @@
         </SectionReference>
         <GradingPeriodReference ref="GP_3" />
 	</GradebookEntry>
-	<GradebookEntry id="GE_4">
+	<GradebookEntry id="GE_104">
 		<GradebookEntryType>funeral homework 20</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
@@ -616,36 +742,36 @@
 		<GradingPeriodReference ref="GP_4" />
 	</GradebookEntry>
 
-	<CompentencyLevelDescriptor id="CL_1">
+	<CompetencyLevelDescriptor id="CL_1">
 		<CodeValue>Barely Competent 1</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_2">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_2">
 		<CodeValue>Barely Competent 2</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_3">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_3">
 		<CodeValue>Barely Competent 3</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_4">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_4">
 		<CodeValue>Barely Competent 4</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_1">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_1">
 		<CodeValue>Barely Competent 5</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_2">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_2">
 		<CodeValue>Barely Competent 6</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
+	</CompetencyLevelDescriptor>
 
 	<StudentSectionAssociationReference id="SSA_1">
 		<StudentSectionAssociationIdentity>

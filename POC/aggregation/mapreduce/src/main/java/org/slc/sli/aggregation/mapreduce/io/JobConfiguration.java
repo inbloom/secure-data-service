@@ -22,32 +22,27 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.mongodb.hadoop.MongoInputFormat;
-import com.mongodb.hadoop.MongoOutputFormat;
+import com.mongodb.hadoop.io.BSONWritable;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.annotate.JsonGetter;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSetter;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hsqldb.lib.StringInputStream;
+
+import org.slc.sli.aggregation.mapreduce.map.IDMapper;
+import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
 
 
 /**
  * JobConfiguration - Parse a map/reduce configuration file.  Exposes constants and helper
  * methods to retrieve specific values.
  */
-// Some Jackson annotations were briefly deprecated for version 1.5 - ignore deprecation for now.
-@SuppressWarnings("deprecation")
 public class JobConfiguration {
 
     static Logger log = Logger.getLogger("JobConfiguration");
+    static ObjectMapper om = new ObjectMapper();
 
     /**
      * readResource - read configuration from the given resource.
@@ -79,106 +74,119 @@ public class JobConfiguration {
     }
 
     /**
+     * Read the job configuration from an existing configuration.
+     *
+     * @param conf configuration to look at.
+     * @return ConfigSections if the context was valid, null if not.
+     * @throws IOException
+     */
+    public static ConfigSections readFromConfiguration(final Configuration conf) throws IOException {
+        String sliConf = conf.get(JobConfiguration.CONFIGURATION_PROPERTY);
+        if (sliConf == null) {
+            throw new IOException("Configuration is misssing section: " + JobConfiguration.CONFIGURATION_PROPERTY);
+        }
+        return readStream(new StringInputStream(sliConf));
+    }
+
+    /**
      * ConfigSections - helper class to hold top level configuration sections.
      */
     public static class ConfigSections {
-        @JsonProperty(CALCULATED_VALUE_PROPERTY)
-        private CalculatedValueConfig calculatedValue;
-        public void setCalculatedValue(final CalculatedValueConfig v) { calculatedValue = v; }
-        public final CalculatedValueConfig getCalculatedValue() { return calculatedValue; }
+        @JsonProperty(METADATA_PROPERTY)
+        private MetadataConfig metadata;
+        public void setMetadata(final MetadataConfig v) { metadata = v; }
+        public final MetadataConfig getMetadata() { return metadata; }
 
-        @JsonProperty(AGGREGATION_PROPERTY)
-        private AggregationConfig aggregation;
-        public void setAggregation(final AggregationConfig v) { aggregation = v; }
-        public final AggregationConfig getAggregation() { return aggregation; }
+        @JsonProperty(MAP_PROPERTY)
+        private MapConfig mapper;
+        public void setMapper(final MapConfig v) { mapper = v; }
+        public final MapConfig getMapper() { return mapper; }
+
+        @JsonProperty(REDUCE_PROPERTY)
+        private ReduceConfig reducer;
+        public void setReduce(final ReduceConfig v) { reducer = v; }
+        public final ReduceConfig getReduce() { return reducer; }
 
         @JsonProperty(SCHEDULE_PROPERTY)
         private ScheduleConfig schedule;
         public void setSchedule(final ScheduleConfig v) { schedule = v; }
         public final ScheduleConfig getSchedule() { return schedule; }
-
-        public ConfigSections() { }
      }
 
-    /**
-     *
-     * CalculatedValueConfig - helper class to hold calculated value configuration.
-     */
-    public static class CalculatedValueConfig {
-        @JsonProperty(METADATA_PROPERTY)
-        private MetadataConfig metadata;
-        public void setMetadata(final MetadataConfig v) { metadata = v; }
-        public final MetadataConfig getMetadata() { return metadata; }
-
-        @JsonProperty(HADOOP_PROPERTY)
-        private HadoopConfig hadoop;
-        public void setHadoop(final HadoopConfig v) { hadoop = v; }
-        public final HadoopConfig getHadoop() { return hadoop; }
-
-        public CalculatedValueConfig() { }
-    }
-
-    /**
-     * AggregationConfig - helper class to hold aggregation configuration.
-     */
-    public static class AggregationConfig {
-        @JsonProperty(METADATA_PROPERTY)
-        private MetadataConfig metadata;
-        public void setMetadata(final MetadataConfig v) { metadata = v; }
-        public final MetadataConfig getMetadata() { return metadata; }
-
-        @JsonProperty(HADOOP_PROPERTY)
-        private HadoopConfig hadoop;
-        public void setHadoop(final HadoopConfig v) { hadoop = v; }
-        public final HadoopConfig getHadoop() { return hadoop; }
-
-        public AggregationConfig() { }
-    }
 
     /**
      * MetadataConfig - helper class to hold metadata configuration.
      */
     public static class MetadataConfig {
-        @JsonProperty(TYPE_PROPERTY)
-        private String type;
-        public void setType(final String v) { type = v; }
-        public final String getType() { return type; }
-
-        @JsonIgnore
-        private Class<?> valueTypeClass;
-        public final Class<?> getValueTypeClass() { return valueTypeClass; }
-
-        @JsonProperty(VALUE_TYPE_PROPERTY)
-        private String valueType;
-        @JsonSetter(VALUE_TYPE_PROPERTY)
-        public void setValueType(final String v) throws ClassNotFoundException {
-            valueType = v;
-            valueTypeClass = Class.forName(valueType);
-        }
-        @JsonGetter(VALUE_TYPE_PROPERTY)
-        public final String getValueType() { return valueType; }
+        @JsonProperty(NAMESPACE_PROPERTY)
+        private String namespace;
+        public void setNamespace(final String v) { namespace = v; }
+        public final String getNamespace() { return namespace; }
 
         @JsonProperty(DESCRIPTION_PROPERTY)
         private String description;
         public void setDescription(final String v) { description = v; }
         public final String getDescription() { return description; }
 
-        @JsonProperty(ABBREVIATION_PROPERTY)
-        private String abbreviation;
-        public void setAbbreviation(final String v) { abbreviation = v; }
-        public final String getAbbreviation() { return abbreviation; }
+        @JsonProperty(ENTITY_PROPERTY)
+        private JobConfiguration.entity entity;
+        public void setEntity(final String v) { entity = JobConfiguration.entity.valueOf(v); }
+        public final JobConfiguration.entity getEntity() { return entity; }
 
-        @JsonProperty(VALID_RANGE_PROPERTY)
-        private RangeConfig validRange;
-        public void setValidRange(final RangeConfig v) { validRange = v; }
-        public final RangeConfig getValidRange() { return validRange; }
+        @JsonProperty(OPERATION_PROPERTY)
+        private JobConfiguration.operation operation;
+        public void setOperation(final String v) { operation = JobConfiguration.operation.valueOf(v); }
+        public final JobConfiguration.operation getOperation() { return operation; }
 
-        @JsonProperty(BANDS_PROPERTY)
-        private BandsConfig bands;
-        public void setBands(final BandsConfig v) { bands = v; }
-        public final BandsConfig getBands() { return bands; }
+        @JsonProperty(FUNCTION_PROPERTY)
+        private JobConfiguration.function function;
+        public void setFunction(final String v) { function = JobConfiguration.function.valueOf(v); }
+        public final JobConfiguration.function getFunction() { return function; }
 
-        public MetadataConfig() { }
+        @JsonProperty(PARAMETERS_PROPERTY)
+        private ParametersConfig parameters;
+        public void setParameters(final ParametersConfig v) { parameters = v; }
+        public final ParametersConfig getParameters() { return parameters; }
+
+        @JsonProperty(WHAT_PROPERTY)
+        private java.util.Map<String, Object> what;
+        public void setWhat(final Map<String, Object> v) { what = v; }
+        public final Map<String, Object> getWhat() { return what; }
+
+        @JsonProperty(CUT_POINTS_PROPERTY)
+        private ArrayList<CutPointConfig> cutPoints;
+        public void setCutPoints(final ArrayList<CutPointConfig> v) { cutPoints = v; }
+        public final ArrayList<CutPointConfig> getCutPoints() { return cutPoints; }
+    }
+
+    /**
+     * CutPointsConfig - individual band configuration.
+     */
+    public static class CutPointConfig {
+        @JsonProperty(RANGE_PROPERTY)
+        private RangeConfig range;
+        public void setRange(final RangeConfig v) { range = v; }
+        public final RangeConfig getRange() { return range; }
+
+        @JsonProperty(MATCH_PROPERTY)
+        private String match;
+        public void setMatch(final String v) { match = v; }
+        public final String getMatch() { return match; }
+
+        @JsonProperty(DESCRIPTION_PROPERTY)
+        private String description;
+        public void setDescription(final String v) { description = v; }
+        public final String getDescription() { return description; }
+
+        @JsonProperty(EMIT_PROPERTY)
+        private String emit;
+        public void setEmit(final String v) { emit = v; }
+        public final String getEmit() { return emit; }
+
+        @JsonProperty(RANK_PROPERTY)
+        private Long rank;
+        public void setRank(final Long v) { rank = v; }
+        public final Long getRank() { return rank; }
     }
 
     /**
@@ -194,119 +202,38 @@ public class JobConfiguration {
         private Double min;
         public void setMin(final Double v) { min = v; }
         public final Double getMin() { return min; }
-
-        public RangeConfig() { }
     }
 
     /**
-     * BandConfig - individual band configuration.
+     * ParametersConfig - helper class to hold job parameters.
      */
-    public static class BandConfig {
-        @JsonProperty(RANGE_PROPERTY)
-        private RangeConfig range;
-        public void setRange(final RangeConfig v) { range = v; }
-        public final RangeConfig getRange() { return range; }
+    public static class ParametersConfig {
 
-        @JsonProperty(DESCRIPTION_PROPERTY)
-        private String description;
-        public void setDescription(final String v) { description = v; }
-        public final String getDescription() { return description; }
+        @JsonProperty(N_PROPERTY)
+        private int n;
+        public void getN(final int v) { n = v; }
+        public final int getN() { return n; }
 
-        @JsonProperty(RANK_PROPERTY)
-        private Long rank;
-        public void setRank(final Long v) { rank = v; }
-        public final Long getRank() { return rank; }
-
-        @JsonProperty(ABBREVIATION_PROPERTY)
-        private String abbreviation;
-        public void setAbbreviation(final String v) { abbreviation = v; }
-        public final String getAbbreviation() { return abbreviation; }
-
-        public BandConfig() { }
-    }
-
-    /**
-     * BandsConfig - helper class to hold bands configuration.
-     */
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.WRAPPER_ARRAY)
-    public static class BandsConfig extends ArrayList<BandConfig> {
-        private static final long serialVersionUID = -2686345244528883103L;
-
-        public void setBands(final ArrayList<BandConfig> v) { clear(); addAll(v); }
-        public final ArrayList<BandConfig> getBands() { return this; }
-
-        public BandsConfig() { }
-    }
-
-    /**
-     * HadoopConfig - helper class to hold hadoop configuration.
-     */
-    public static class HadoopConfig {
-        @JsonProperty(MAP_PROPERTY)
-        private MapConfig mapper;
-        public void setMapper(final MapConfig v) { mapper = v; }
-        public final MapConfig getMapper() { return mapper; }
-
-        @JsonProperty(REDUCE_PROPERTY)
-        private ReduceConfig reducer;
-        public void setReduce(final ReduceConfig v) { reducer = v; }
-        public final ReduceConfig getReduce() { return reducer; }
-
-        @JsonProperty(OPTIONS_PROPERTY)
-        private Map<String, Object> options;
-        public void setOptions(final Map<String, Object> v) { options = v; }
-        public final Map<String, Object> getOptions() { return options; }
-
-        public HadoopConfig() { }
+        @JsonProperty(PERIOD_PROPERTY)
+        private JobConfiguration.period periodValue;
+        public void setPeriod(final String v) { periodValue = JobConfiguration.period.valueOf(v); }
+        public final JobConfiguration.period getPeriod() { return periodValue; }
     }
 
     /**
      * MapConfig - helper class to hold mapper configuration.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static class MapConfig {
 
-        @JsonIgnore
-        private Class<? extends Mapper> mapperClass;
-        public final Class<? extends Mapper> getMapperClass() { return mapperClass; }
+        @JsonProperty(MAPPER_PROPERTY)
+        private String mapper;
+        public void setMapper(final String v) { mapper = v; }
+        public final String getMapper() { return mapper; }
 
-        @JsonProperty(CLASS_PROPERTY)
-        private String mapperType;
-        @JsonSetter(CLASS_PROPERTY)
-        public void setMapperType(final String v) throws ClassNotFoundException {
-            mapperType = v;
-            mapperClass = (Class<? extends Mapper>) Class.forName(mapperType);
-        }
-        @JsonGetter(CLASS_PROPERTY)
-        public final String getMapperType() { return mapperType; }
-
-        @JsonProperty(INPUT_PROPERTY)
-        private InputConfig input;
-        public void setInput(final InputConfig v) { input = v; }
-        public final InputConfig getInput() { return input; }
-
-        @JsonProperty(OUTPUT_PROPERTY)
-        private OutputConfig output;
-        public void setOutput(final OutputConfig v) { output = v; }
-        public final OutputConfig getOutput() { return output; }
-
-        public MapConfig() { }
-    }
-
-    /**
-     * InputConfig - helper class to hold input configuration.
-     */
-    @SuppressWarnings("unchecked")
-    public static class InputConfig {
         @JsonProperty(COLLECTION_PROPERTY)
         private String collection;
         public void setCollection(final String v) { collection = v; }
         public final String getCollection() { return collection; }
-
-        @JsonProperty(KEY_FIELD_PROPERTY)
-        private String keyField;
-        public void setKeyField(final String v) { keyField = v; }
-        public final String getKeyField() { return keyField; }
 
         @JsonProperty(QUERY_PROPERTY)
         private java.util.Map<String, Object> query;
@@ -318,126 +245,16 @@ public class JobConfiguration {
         public void setFields(final Map<String, Object> v) { fields = v; }
         public final Map<String, Object> getFields() { return fields; }
 
-        @JsonIgnore
-        private Class<? extends Writable> keyTypeClass;
-        public final Class<? extends Writable> getKeyTypeClass() { return keyTypeClass; }
-
-        @JsonProperty(KEY_TYPE_PROPERTY)
-        private String keyType;
-        @JsonSetter(KEY_TYPE_PROPERTY)
-        public void setKeyType(final String v) throws ClassNotFoundException {
-            keyType = v;
-            keyTypeClass = (Class<? extends Writable>) Class.forName(keyType);
-        }
-        @JsonGetter(KEY_TYPE_PROPERTY)
-        public final String getKeyType() { return keyType; }
-
-        @JsonIgnore
-        private Class<? extends Writable> valueTypeClass;
-        public final Class<? extends Writable> getValueTypeClass() { return valueTypeClass; }
-
-        @JsonProperty(VALUE_TYPE_PROPERTY)
-        private String valueType;
-        @JsonSetter(VALUE_TYPE_PROPERTY)
-        public void setValueType(final String v) throws ClassNotFoundException {
-            valueType = v;
-            valueTypeClass = (Class<? extends Writable>) Class.forName(valueType);
-        }
-        @JsonGetter(VALUE_TYPE_PROPERTY)
-        public final String getValueType() { return valueType; }
-
-        @JsonIgnore
-        private Class<? extends MongoInputFormat> formatTypeClass;
-        public final Class<? extends MongoInputFormat> getFormatTypeClass() { return formatTypeClass; }
-
-        @JsonProperty(FORMAT_TYPE_PROPERTY)
-        private String formatType;
-        @JsonSetter(FORMAT_TYPE_PROPERTY)
-        public void setFormatType(final String v) throws ClassNotFoundException {
-            formatType = v;
-            formatTypeClass = (Class<? extends MongoInputFormat>) Class.forName(formatType);
-        }
-        @JsonGetter(FORMAT_TYPE_PROPERTY)
-        public final String getFormatType() { return formatType; }
-
-        @JsonProperty(READ_FROM_SECONDARIES_PROPERTY)
-        private Boolean readFromSecondaries;
-        @JsonSetter(READ_FROM_SECONDARIES_PROPERTY)
-        public void setReadFromSecondaries(final Boolean v) { readFromSecondaries = v; }
-        @JsonGetter(READ_FROM_SECONDARIES_PROPERTY)
-        public final Boolean getReadFromSecondaries() { return readFromSecondaries; }
-
-        public InputConfig() { }
-    }
-
-    /**
-     * OutputConfig - helper class to hold output configuration.
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static class OutputConfig {
-        @JsonIgnore
-        private Class<? extends Writable> keyTypeClass;
-        public final Class<? extends Writable> getKeyTypeClass() { return keyTypeClass; }
-
-        @JsonProperty(KEY_TYPE_PROPERTY)
-        private String keyType;
-        @JsonSetter(KEY_TYPE_PROPERTY)
-        public void setKeyType(final String v) throws ClassNotFoundException {
-            keyType = v;
-            keyTypeClass = (Class<? extends Writable>) Class.forName(keyType);
-        }
-        @JsonGetter(KEY_TYPE_PROPERTY)
-        public final String getKeyType() { return keyType; }
-
-        @JsonIgnore
-        private Class<? extends Writable> valueTypeClass;
-        public final Class<? extends Writable> getValueTypeClass() { return valueTypeClass; }
-
-        @JsonProperty(VALUE_TYPE_PROPERTY)
-        private String valueType;
-        @JsonSetter(VALUE_TYPE_PROPERTY)
-        public void setValueType(final String v) throws ClassNotFoundException {
-            valueType = v;
-            valueTypeClass = (Class<? extends Writable>) Class.forName(valueType);
-        }
-        @JsonGetter(VALUE_TYPE_PROPERTY)
-        public final String getValueType() { return valueType; }
-
-        @JsonIgnore
-        private Class<? extends MongoOutputFormat> formatTypeClass;
-        public final Class<? extends MongoOutputFormat> getFormatTypeClass() { return formatTypeClass; }
-
-        @JsonProperty(FORMAT_TYPE_PROPERTY)
-        private String formatType;
-        @JsonSetter(FORMAT_TYPE_PROPERTY)
-        public void setFormatType(final String v) throws ClassNotFoundException {
-            formatType = v;
-            formatTypeClass = (Class<? extends MongoOutputFormat>) Class.forName(formatType);
-        }
-        @JsonGetter(FORMAT_TYPE_PROPERTY)
-        public final String getFormatType() { return formatType; }
-
-        public OutputConfig() { }
+        @JsonProperty(MAP_ID_FIELDS_PROPERTY)
+        private java.util.Map<String, String> mapIdFields;
+        public void setMapIdFields(final Map<String, String> v) { mapIdFields = v; }
+        public final Map<String, String> getMapIdFields() { return mapIdFields; }
     }
 
     /**
      * ReduceConfig - helper class to hold reducer configuration.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static class ReduceConfig {
-        @JsonIgnore
-        private Class<? extends Reducer> reducerClass;
-        public final Class<? extends Reducer> getReducerClass() { return reducerClass; }
-
-        @JsonProperty(CLASS_PROPERTY)
-        private String reducerType;
-        @JsonSetter(CLASS_PROPERTY)
-        public void setReducer(final String v) throws ClassNotFoundException {
-            reducerType = v;
-            reducerClass = (Class<? extends Reducer>) Class.forName(reducerType);
-        }
-        @JsonGetter(CLASS_PROPERTY)
-        public final String getReducerType() { return reducerType; }
 
         @JsonProperty(COLLECTION_PROPERTY)
         private String collection;
@@ -448,16 +265,6 @@ public class JobConfiguration {
         private String field;
         public void setField(final String v) { field = v; }
         public final String getField() { return field; }
-
-        @JsonProperty(ID_MAP_PROPERTY)
-        private Map<String, String> idMap;
-        public void setIdMap(final Map<String, String> v) { idMap = v; }
-        public final Map<String, String> getIdMap() { return idMap; }
-
-        @JsonProperty(MAP_FIELD_PROPERTY)
-        private String mapField;
-        public void setMapField(final String v) { mapField = v; }
-        public final String getMapField() { return mapField; }
 
         public ReduceConfig() { }
     }
@@ -470,6 +277,11 @@ public class JobConfiguration {
         private String event;
         public void setEvent(final String v) { event = v; }
         public final String getEvent() { return event; }
+
+        @JsonProperty(TRIGGER_PROPERTY)
+        private java.util.Map<String, Object> trigger;
+        public void setTrigger(final Map<String, Object> v) { trigger = v; }
+        public final Map<String, Object> getTrigger() { return trigger; }
 
         @JsonProperty(WAITING_PERIOD_PROPERTY)
         private Long waitingPeriod;
@@ -494,171 +306,130 @@ public class JobConfiguration {
         public ScheduleConfig() { }
     }
 
-    /**
-     * calculateBands - helper method to extract band information from configuration.
-     *
-     * @param context
-     * @throws IOException
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     */
-    public static MetadataConfig getAggregateMetadata(Configuration config) throws IOException {
-
-        MetadataConfig rval = new MetadataConfig();
-        ObjectMapper om = new ObjectMapper();
-
-        String tmp = config.get(JobConfiguration.BANDS_PROPERTY);
-        if (tmp != null) {
-            BandsConfig cfg = om.readValue(tmp, BandsConfig.class);
-            rval.setBands(cfg);
-        } else {
-            throw new IllegalArgumentException("Invalid configuration found. "
-                + "Aggregates must specify the metadata.bands property.");
-        }
-
-        if (rval.bands.size() <= 2) {
-            throw new IllegalArgumentException("Invalid configuration found. "
-                + "Aggregates must specify at least 3 bands, where band[0] specifies "
-                + "invalid values, band[1] specifies no value found, and the remaining bands "
-                + "map to score range values.");
-        }
-
-        tmp = config.get(JobConfiguration.VALID_RANGE_PROPERTY);
-        if (tmp != null) {
-            rval.validRange = om.readValue(tmp, RangeConfig.class);
-        } else {
-            throw new IllegalArgumentException("Invalid configuration found. Aggregates must "
-                + "specify a metadata.valid_range property.");
-        }
-
-        return rval;
-    }
-
-    /**
-     * Map keys for the configuration file.
-     */
-    public static enum config_key {
-        // CALCULATED_VALUE key
-        CALCULATED_VALUE,
-            // METADATA key
-            METADATA,
-                // METADATA values
-                TYPE, VALUE_TYPE, DESCRIPTION, ABBREVIATION,
-            // HADOOP key
-            HADOOP,
-                // MAP key
-                MAP,
-                    // CLASS key
-                    CLASS,
-                    // INPUT key
-                    INPUT,
-                        // INPUT values
-                        COLLECTION, KEY_FIELD, QUERY, FIELDS, KEY_TYPE, /* VALUE_TYPE, */ FORMAT_TYPE, READ_FROM_SECONDARIES,
-                    // OUTPUT key
-                    OUTPUT,
-                        // OUTPUT values
-                        /* KEY_TYPE, VALUE_TYPE, FORMAT_TYPE */
-                // REDUCE key
-                REDUCE,
-                    // REDUCE values
-                    /* CLASS, COLLECTION, */ FIELD, ID_MAP, MAP_FIELD,
-                // OPTIONS key
-                OPTIONS,
-        // AGGREGATION key
-        AGGREGATION,
-            // METADATA key
-            /* METADATA, */
-                // METADATA values
-                /* TYPE, DESCRIPTION, ABBREVIATION, */
-                // VALID_RANGE key
-                VALID_RANGE,
-                    // VALID_RANGE values
-                    MIN, MAX,
-                // BANDS key
-                BANDS,
-                    // BANDS values
-                    RANK, /* DESCRIPTION, */
-                        // RANGE key
-                        RANGE,
-                            // RANGE values
-                            /* MIN, MAX, */
-            // HADOOP key
-            /* HADOOP, */
-                // MAP key
-                /* MAP, */
-                    // CLASS key
-                    /* CLASS, */
-                    // INPUT key
-                    /* INPUT, */
-                        // INPUT values
-                        /* COLLECTION, KEY_FIELD, QUERY, FIELDS, KEY_TYPE, VALUE_TYPE, FORMAT_TYPE, READ_FROM_SECONDARIES, */
-                    // OUTPUT key
-                    /* OUTPUT, */
-                        // OUTPUT values
-                        /* KEY_TYPE, VALUE_TYPE, FORMAT_TYPE */
-                // REDUCE key
-                /* REDUCE, */
-                    // REDUCE values
-                    /* CLASS, COLLECTION, FIELD, */
-        SCHEDULE,
-            // ScheduleConfig values
-            EVENT, WAITING_PERIOD, COMMAND, ARGUMENTS, RETRY_ON_FAILURE;
-
-        @Override
-        public String toString() {
-            return super.toString().toLowerCase();
-        }
-
-        public static config_key parseValue(String s) {
-            return config_key.valueOf(s.toUpperCase());
-        }
-    };
-
-    public static final String CALCULATED_VALUE_PROPERTY = "calculated_value";
+    public static final String CONFIGURATION_PROPERTY = "configuration";
     public static final String METADATA_PROPERTY = "metadata";
-    public static final String TYPE_PROPERTY = "type";
-    public static final String VALUE_TYPE_PROPERTY = "value_type";
+    public static final String NAMESPACE_PROPERTY = "namespace";
     public static final String DESCRIPTION_PROPERTY = "description";
-    public static final String ABBREVIATION_PROPERTY = "abbreviation";
-    public static final String HADOOP_PROPERTY = "hadoop";
-    public static final String MAP_PROPERTY = "map";
-    public static final String CLASS_PROPERTY = "class";
-    public static final String INPUT_PROPERTY = "input";
-    public static final String COLLECTION_PROPERTY = "collection";
-    public static final String KEY_FIELD_PROPERTY = "key_field";
-    public static final String QUERY_PROPERTY = "query";
-    public static final String FIELDS_PROPERTY = "fields";
-    public static final String KEY_TYPE_PROPERTY = "key_type";
-    public static final String FORMAT_TYPE_PROPERTY = "format_type";
-    public static final String READ_FROM_SECONDARIES_PROPERTY = "read_from_secondaries";
-    public static final String OUTPUT_PROPERTY = "output";
-    public static final String REDUCE_PROPERTY = "reduce";
-    public static final String FIELD_PROPERTY = "field";
-    public static final String OPTIONS_PROPERTY = "options";
-    public static final String AGGREGATION_PROPERTY = "aggregation";
-    public static final String VALID_RANGE_PROPERTY = "valid_range";
+    public static final String ENTITY_PROPERTY = "entity";
+    public static final String OPERATION_PROPERTY = "operation";
+    public static final String FUNCTION_PROPERTY = "function";
+    public static final String PARAMETERS_PROPERTY = "parameters";
+    public static final String N_PROPERTY = "n";
+    public static final String PERIOD_PROPERTY = "period";
+    public static final String WHAT_PROPERTY = "what";
+    public static final String CUT_POINTS_PROPERTY = "cut_points";
+    public static final String RANK_PROPERTY = "rank";
+    public static final String EMIT_PROPERTY = "emit";
+    public static final String RANGE_PROPERTY = "range";
     public static final String MIN_PROPERTY = "min";
     public static final String MAX_PROPERTY = "max";
-    public static final String BANDS_PROPERTY = "bands";
-    public static final String RANK_PROPERTY = "rank";
-    public static final String RANGE_PROPERTY = "range";
+    public static final String MATCH_PROPERTY = "match";
+    public static final String MAP_PROPERTY = "map";
+    public static final String MAPPER_PROPERTY = "mapper";
+    public static final String COLLECTION_PROPERTY = "collection";
+    public static final String QUERY_PROPERTY = "query";
+    public static final String FIELDS_PROPERTY = "fields";
+    public static final String MAP_ID_FIELDS_PROPERTY = "map_id_fields";
+    public static final String REDUCE_PROPERTY = "reduce";
+    public static final String FIELD_PROPERTY = "field";
     public static final String SCHEDULE_PROPERTY = "schedule";
     public static final String EVENT_PROPERTY = "event";
+    public static final String TRIGGER_PROPERTY = "trigger";
     public static final String WAITING_PERIOD_PROPERTY = "waiting_period";
     public static final String COMMAND_PROPERTY = "command";
     public static final String ARGUMENTS_PROPERTY = "arguments";
     public static final String RETRY_ON_FAILURE_PROPERTY = "retry_on_failure";
-    public static final String ID_MAP_PROPERTY = "id_map";
-    public static final String MAP_FIELD_PROPERTY = "map_field";
 
     /**
-     * Placeholder values that are substituted with their real values by the top level M/R job.
+     * Valid functions
      */
-    public static final String ID_PLACEHOLDER = "@ID@";
-    public static final String TENANT_ID_PLACEHOLDER = "@TENANT_ID@";
+    public static enum function {
+        Nth_highest, Nth_recent, count, percentage, percentile_rank;
+
+        public static
+        Class<? extends Reducer<TenantAndIdEmittableKey, BSONWritable, TenantAndIdEmittableKey, BSONWritable>>
+        getReduceClass(function f) {
+            Class<? extends Reducer<TenantAndIdEmittableKey, BSONWritable, TenantAndIdEmittableKey, BSONWritable>> rval = null;
+            switch (f) {
+                case Nth_highest:
+                    rval = org.slc.sli.aggregation.functions.Highest.class;
+                break;
+            }
+            return rval;
+        }
+    }
 
     /**
-     * For assessments, the score type to use when calculating values and aggregates.
+     * Valid operations
      */
-    public static final String ASSESSMENT_SCORE_TYPE = "ASSESSMENT_SCORE_TYPE";
+    public static enum operation {
+        calculate_value, aggregate }
+
+    /**
+     * Valid entities.
+     */
+    public static enum entity {
+        assessment, attendance, discipline, student }
+
+    /**
+     * Valid reporting periods.
+     */
+    public static enum period {
+        session, year, all }
+
+    /**
+     * Valid mappers.
+     */
+    public static enum mapper {
+        IDMapper, StringMapper, LongMapper, DoubleMapper, EnumMapper;
+
+        private static IDMapper<TenantAndIdEmittableKey> tmp = new IDMapper<TenantAndIdEmittableKey>();
+
+        @SuppressWarnings("rawtypes")
+        public static
+        Class<? extends Mapper> getMapClass(mapper m) {
+            Class<? extends Mapper> rval = null;
+
+            switch(m) {
+                case IDMapper:
+                    rval = tmp.getClass();
+                break;
+                case StringMapper:
+                    rval = org.slc.sli.aggregation.mapreduce.map.StringValueMapper.class;
+                break;
+                case LongMapper:
+                    rval = org.slc.sli.aggregation.mapreduce.map.LongValueMapper.class;
+                break;
+                case DoubleMapper:
+                    rval = org.slc.sli.aggregation.mapreduce.map.DoubleValueMapper.class;
+                break;
+                case EnumMapper:
+                    rval = org.slc.sli.aggregation.mapreduce.map.EnumValueMapper.class;
+                break;
+            }
+            return rval;
+        }
+    }
+
+    /**
+     * Write the configuration sections to the provided configuration.
+     * @throws IOException
+     */
+    public static void toHadoopConfiguration(final ConfigSections s, Configuration cfg)
+        throws IOException {
+        // Add the configuration itself to the JobConf.
+        String seralized = om.writeValueAsString(s);
+        cfg.set(JobConfiguration.CONFIGURATION_PROPERTY, seralized);
+    }
+
+    /**
+     * Read the configuration sections from the provided configuration.
+     * @param cfg
+     * @return
+     * @throws IOException
+     */
+    public static ConfigSections fromHadoopConfiguration(Configuration cfg) throws IOException {
+        String seralized = cfg.get("JOB_CONFIGURATION");
+        return om.readValue(seralized, ConfigSections.class);
+    }
 }
