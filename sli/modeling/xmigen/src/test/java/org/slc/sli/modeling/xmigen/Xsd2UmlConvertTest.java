@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Xsd2UmlConvertTests {
+public class Xsd2UmlConvertTest {
 
 	@Test
 	public void test() {
@@ -145,5 +145,10 @@ public class Xsd2UmlConvertTests {
 		when(plugin.nameFromSimpleTypeRestriction(any(QName.class), any(QName.class))).thenReturn("name");
 		
 		assertNotNull(Xsd2UmlConvert.extract(name, schema, plugin));
+	}
+	
+	@Test (expected = UnsupportedOperationException.class) 
+	public void testNonInstantiable() {
+		new Xsd2UmlConvert();
 	}
 }

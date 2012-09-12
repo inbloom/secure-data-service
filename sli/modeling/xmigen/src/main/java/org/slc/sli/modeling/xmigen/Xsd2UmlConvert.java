@@ -90,6 +90,10 @@ final class Xsd2UmlConvert {
     
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
     
+    public Xsd2UmlConvert() {
+    	throw new UnsupportedOperationException();
+    }
+    
     /**
      * The xs:annotation is parsed into {@link TaggedValue} with one entry per
      * xs:documentation or xs:appinfo.
