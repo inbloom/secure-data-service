@@ -516,7 +516,7 @@
 
 (defn gen-big-data
   [districtCount schoolCount studentCount]
-  (def sectionName "7th Grade Math -Sec 2")
+  (def sectionName "7th Grade Math - Sec 2")
   (def assessmentName "Grade 7 State Math")
 
   (gen-assessment assessmentName "/tmp/test/A-assessment.xml")
