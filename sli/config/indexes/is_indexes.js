@@ -65,6 +65,7 @@ db["studentObjectiveAssessment"].ensureIndex({"batchJobId" : 1, "creationTime":1
 db["studentParentAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentProgramAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentSectionAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
+db["studentSectionAssociation"].ensureIndex({"batchJobId" : 1, "body.studentReference.studentIdentity.studentUniqueStateId":1});
 db["studentGradebookEntry"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentSchoolAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentTranscriptAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
