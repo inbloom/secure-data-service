@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
  * This is a coarse representation of a Java type, but one which is sufficiently rich as to
  * facilitate typical code generation tasks.
  */
-public final class JavaType {
+public class JavaType {
 
     public static final JavaType JT_VOID = simpleType("void");
     public static final JavaType JT_OBJECT = simpleType(Object.class.getSimpleName());
