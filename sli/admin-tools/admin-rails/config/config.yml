@@ -59,7 +59,7 @@ development:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7 
 
 local-acceptance-tests:
@@ -77,7 +77,7 @@ local-acceptance-tests:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 development_sb:
@@ -94,7 +94,7 @@ development_sb:
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 team:
@@ -112,7 +112,7 @@ team:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 team_sb:
@@ -129,7 +129,7 @@ team_sb:
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 test:
@@ -144,7 +144,7 @@ test:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 production:
@@ -162,6 +162,6 @@ production:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp
-    encryption_keyfile: ../../data-access/dal/keystore/localRailsKey
+    encryption_keyfile: config/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
 
