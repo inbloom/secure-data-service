@@ -18,7 +18,6 @@ import org.apache.ws.commons.schema.XmlSchemaMaxLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinInclusiveFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
-import org.apache.ws.commons.schema.XmlSchemaParticle;
 import org.apache.ws.commons.schema.XmlSchemaPatternFacet;
 import org.apache.ws.commons.schema.XmlSchemaSimpleType;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
@@ -40,21 +39,16 @@ public class Xsd2UmlConvertTests {
 		
 		final QName nameQName = new QName("NAMESPACE_URI", "name", "PREFIX");
 		
-		XmlSchemaComplexContentExtension xmlSchemaComplexContentExtension = new XmlSchemaComplexContentExtension() {
-			@Override
-			public XmlSchemaParticle getParticle() {
-				return new XmlSchemaElement() {
-					@Override
-					public QName getQName() {
-						return nameQName;
-					}
-				};
-			}
-			
-			public QName getBaseTypeName() {
-				return nameQName;
-			}
-		};
+		XmlSchemaSimpleType xmlSchemaSimpleType = mock(XmlSchemaSimpleType.class);
+		when(xmlSchemaSimpleType.getQName()).thenReturn(nameQName);
+		
+		XmlSchemaElement xmlSchemaElement = mock(XmlSchemaElement.class);
+		when(xmlSchemaElement.getQName()).thenReturn(nameQName);
+		when(xmlSchemaElement.getSchemaType()).thenReturn(xmlSchemaSimpleType);
+		
+		XmlSchemaComplexContentExtension xmlSchemaComplexContentExtension = mock(XmlSchemaComplexContentExtension.class);
+		when(xmlSchemaComplexContentExtension.getParticle()).thenReturn(xmlSchemaElement);
+		when(xmlSchemaComplexContentExtension.getBaseTypeName()).thenReturn(nameQName);
 		
 		NamespacePrefixList namespacePrefixList = mock(NamespacePrefixList.class);
 		when(namespacePrefixList.getPrefix(any(String.class))).thenReturn("PREFIX");
@@ -85,18 +79,18 @@ public class Xsd2UmlConvertTests {
 		XmlSchemaSimpleTypeRestriction xmlSchemaSimpleTypeRestriction = mock(XmlSchemaSimpleTypeRestriction.class);
 		when(xmlSchemaSimpleTypeRestriction.getBaseTypeName()).thenReturn(nameQName);
 		
-		XmlSchemaSimpleType xmlSchemaSimpleType = mock(XmlSchemaSimpleType.class);
-		when(xmlSchemaSimpleType.getContent()).thenReturn(xmlSchemaSimpleTypeRestriction);
+		XmlSchemaSimpleType xmlSchemaSimpleType2 = mock(XmlSchemaSimpleType.class);
+		when(xmlSchemaSimpleType2.getContent()).thenReturn(xmlSchemaSimpleTypeRestriction);
 		
 		XmlSchemaAttribute xmlSchemaAttribute = mock(XmlSchemaAttribute.class);
 		when(xmlSchemaAttribute.getQName()).thenReturn(nameQName);
-		when(xmlSchemaAttribute.getSchemaType()).thenReturn(xmlSchemaSimpleType);
+		when(xmlSchemaAttribute.getSchemaType()).thenReturn(xmlSchemaSimpleType2);
 		
 		XmlSchemaObjectCollection xmlSchemaAttributes = new XmlSchemaObjectCollection();
 		xmlSchemaAttributes.add(xmlSchemaAttribute);
 		
 		XmlSchemaComplexType xmlso1 = mock(XmlSchemaComplexType.class);
-		when(xmlso1.getQName()).thenReturn(new QName("NAMESPACE_URI", "name", "PREFIX"));
+		when(xmlso1.getQName()).thenReturn(nameQName);
 		when(xmlso1.getContentModel()).thenReturn(xmlSchemaContentModel);
 		when(xmlso1.getAttributes()).thenReturn(xmlSchemaAttributes);
 		when(xmlso1.getAnnotation()).thenReturn(xmlSchemaAnnotation);
@@ -131,7 +125,7 @@ public class Xsd2UmlConvertTests {
 		when(xmlSchemaSimpleTypeRestriction2.getFacets()).thenReturn(facets);
 		
 		XmlSchemaSimpleType xmlso2 = mock(XmlSchemaSimpleType.class);
-		when(xmlso2.getQName()).thenReturn(new QName("NAMESPACE_URI", "name", "PREFIX"));
+		when(xmlso2.getQName()).thenReturn(nameQName);
 		when(xmlso2.getContent()).thenReturn(xmlSchemaSimpleTypeRestriction2);
 		
 
