@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
+package org.slc.sli.modeling.sdkgen.snippets;
 
-package org.slc.sli.modeling.jgen;
+import org.junit.Test;
+import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
-public final class JavaGenConfig {
 
-    private boolean useDataTypeBase;
+import static junit.framework.Assert.assertEquals;
 
-    public JavaGenConfig(final boolean useDataTypeBase) {
-        this.useDataTypeBase = useDataTypeBase;
-    }
+/**
+ * @author jstokes
+ */
+public class RemoveMapEntryTest {
+    @Test
+    public void testWrite() throws Exception {
+        RemoveMapEntry expr = new RemoveMapEntry("test");
+        MockJavaStreamWriter jsw = new MockJavaStreamWriter();
 
-    public boolean useDataTypeBase() {
-        return useDataTypeBase;
+        expr.write(jsw);
+
+        assertEquals("data.remove(\"test\");", jsw.read());
     }
 }

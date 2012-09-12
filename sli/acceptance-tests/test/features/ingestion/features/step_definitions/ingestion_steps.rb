@@ -557,7 +557,7 @@ end
 #def getMaxErrorWarnCount
 #    maxError = 0
 #    maxWarning = 0
-#    file=File.open(INGESTION_PROPERTIES_FILE,"r") 
+#    file=File.open(INGESTION_PROPERTIES_FILE,"r")
 #    file.each_line do |line|
 #       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
 #          maxError = line[line.rindex('=')+1,line.length-1]
@@ -576,7 +576,7 @@ def getErrorCount
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
       if(entry.rindex('error'))
-        @error_filename = entry 
+        @error_filename = entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
         file = File.open(@landing_zone_path+entry, "r")
         file.each_line do |line|
@@ -610,7 +610,7 @@ def getWarnCount
   end
     return resourceToWarnCount
 end
-    
+
 #check if the actually error count is less than the max error count
 def verifyErrorCount(count)
    maxError = Integer(count)
@@ -1327,6 +1327,8 @@ Then /^I check to find if record is in collection:$/ do |table|
         else
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         end
+    elsif row["searchType"] == "nil"
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     else
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
@@ -1836,14 +1838,14 @@ end
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
   @db = @conn[INGESTION_DB_NAME]
   appColl = @db.collection("application")
-  
+
   application = appColl.find({"_id" => arg1})
-  
+
   application.each do |app|
     numEdorg = app['body']['authorized_ed_orgs'].size
     assert(arg2.to_i == numEdorg, "there should be #{arg2} authorized edorgs, but found #{numEdorg}")
   end
-  
+
 end
 
 Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
