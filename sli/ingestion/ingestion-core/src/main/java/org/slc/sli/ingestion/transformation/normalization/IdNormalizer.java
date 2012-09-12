@@ -103,6 +103,11 @@ public class IdNormalizer {
         try {
             for (RefDef reference : entityConfig.getReferences()) {
 
+                //Don't resolve references marked as deprecated, allows the transition to deterministicIdResolution
+                if (reference.isDeprecated()) {
+                    continue;
+                }
+
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
                 NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());
                 if (schema != null) {
