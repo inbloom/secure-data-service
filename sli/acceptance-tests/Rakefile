@@ -23,8 +23,6 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
-
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos@mokey.org", "fakedev@zork.net"]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
@@ -950,11 +948,6 @@ end
 def addSecurityData()
   sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
   sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
-end
-
-desc "Turn off stamper"
-task :turnOffStamper do
-    RUN_STAMPER = false
 end
 
 desc "Help information for this Rakefile"
