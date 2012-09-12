@@ -37,7 +37,7 @@ import org.slc.sli.dashboard.web.entity.SafeUUID;
 @Controller
 public class LayoutController extends GenericLayoutController {
     private static final String TABBED_ONE_COL = "tabbed_one_col";
-    private static final String LOS_ID = "section";
+    private static final String HOME_ID = "home";
 
 
     /**
@@ -77,7 +77,7 @@ public class LayoutController extends GenericLayoutController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView handleLos(HttpServletRequest request) {
-        return getModelAndView(LOS_ID, null, request);
+        return getModelAndView(HOME_ID, null, request);
     }
 
     private ModelAndView getModelAndView(String componentId, SafeUUID id, HttpServletRequest request) {

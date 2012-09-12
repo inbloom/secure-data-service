@@ -13,8 +13,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public class DidRefConfig {
-    String entityType;
-    List<KeyFieldDef> keyFields;
+    private String entityType;
+    private List<KeyFieldDef> keyFields;
 
     public String getEntityType() {
         return entityType;

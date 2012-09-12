@@ -59,6 +59,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String SESSION = "session";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
+    private static final String EDUCATIONORGANIZATION = "educationOrganization";
 
     private Map<Object, NeutralRecord> attendances;
 
@@ -338,12 +339,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return schools;
     }
 
-    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentId) {
+    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentUniqueStateId) {
         List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
 
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+        NeutralQuery studentQuery = new NeutralQuery(0);
+        studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
+        Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
+        String studentEntityId = studentEntity.getEntityId();
 
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
         Iterable<Entity> associations = getMongoEntityRepository().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, query);
 
         if (associations != null) {
@@ -355,8 +360,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
 
             NeutralQuery schoolQuery = new NeutralQuery(0);
-            schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.CRITERIA_IN, schoolIds));
-
+            schoolQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, schoolIds));
             Iterable<Entity> queriedSchools = getMongoEntityRepository().findAll(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
 
             if (queriedSchools != null) {
@@ -392,6 +396,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SESSION, query);
+
+        //get sessions of the school from SLI db
+        Iterable<NeutralRecord> sliSessions = getSliSessions(schoolId);
+
+        queriedSessions = concat((List<NeutralRecord>)queriedSessions, (List<NeutralRecord>)sliSessions);
 
         if (queriedSessions != null) {
             Iterator<NeutralRecord> itr = queriedSessions.iterator();
@@ -429,6 +438,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         if (queriedSchool.iterator().hasNext()) {
             NeutralRecord record = queriedSchool.iterator().next();
             parentEducationAgency = (String) record.getAttributes().get("parentEducationAgencyReference");
+        } else {
+            Entity school = getSliSchool(schoolId);
+            if(school != null) {
+                parentEducationAgency = (String) school.getBody().get("parentEducationAgencyReference");
+            }
         }
 
         return parentEducationAgency;
@@ -476,7 +490,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get("beginDate"));
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
 
-            List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> events = null;
+
+            //It is possible that there are multiple sessions with the same school year,
+            // from input data and SLI db.
+            if(!schoolYears.containsKey(schoolYear)) {
+                events = new ArrayList<Map<String, Object>>();
+                schoolYears.put(schoolYear, events);
+            } else {
+                events = schoolYears.get(schoolYear);
+            }
 
             for (int i = 0; i < attendance.size(); i++) {
                 Map<String, Object> event = attendance.get(i);
@@ -487,8 +510,72 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     events.add(event);
                 }
             }
-            schoolYears.put(schoolYear, events);
         }
         return schoolYears;
     }
+
+    @SuppressWarnings("deprecation")
+    private Entity getSliSchool(String schoolName) {
+        Query sliEdorgQuery = new Query().limit(0);
+        sliEdorgQuery.addCriteria(Criteria.where("body.nameOfInstitution").is(schoolName));
+
+        Iterable<Entity> sliSchool = getMongoEntityRepository().findByQuery(EDUCATIONORGANIZATION, sliEdorgQuery, 0, 0);
+        Iterator<Entity> it = sliSchool.iterator();
+        //At most one school is returned from the previous query
+        if(it.hasNext()) {
+            return it.next();
+        }
+        return null;
+    }
+
+    /**
+     * Get the sessions from SLI db
+     * @param schoolName:
+     * @return: List of sessions of the school from SLI
+     */
+    @SuppressWarnings("deprecation")
+    private Iterable<NeutralRecord> getSliSessions(String schoolName) {
+        //Get schoolId within SLI db
+        //TODO: we may not need this query when deterministic ID is implemented.
+        Entity school = getSliSchool(schoolName);
+        String sliSchoolId = "";
+
+        if(school != null){
+            sliSchoolId = school.getEntityId();
+        }
+
+        Query sliSessionQuery = new Query().limit(0);
+        sliSessionQuery.addCriteria(Criteria.where("body.schoolId").is(sliSchoolId));
+
+        Iterable<NeutralRecord> sliSessions = transformIntoNeutralRecord(getMongoEntityRepository().findByQuery(SESSION, sliSessionQuery, 0, 0));
+
+        return sliSessions;
+    }
+
+    private Iterable<NeutralRecord> transformIntoNeutralRecord(Iterable<Entity> entities) {
+        Iterator<Entity> entityItr = entities.iterator();
+        List<NeutralRecord> sessionRecords = new ArrayList<NeutralRecord>();
+
+        //Trasnforming SLI entity back to neutralRecord
+        Entity sliSession = null;
+        while (entityItr.hasNext()) {
+            sliSession = entityItr.next();
+            NeutralRecord session = new NeutralRecord();
+            session.setRecordId(sliSession.getEntityId());
+            session.setRecordType(sliSession.getType());
+            session.setBatchJobId(getBatchJobId());
+            session.setAttributes(sliSession.getBody());
+
+            sessionRecords.add(session);
+        }
+        return sessionRecords;
+    }
+
+    private Iterable<NeutralRecord> concat(List<NeutralRecord> first, List<NeutralRecord> second) {
+        List<NeutralRecord> res = new ArrayList<NeutralRecord>();
+        res.addAll(first);
+        res.addAll(second);
+        return res;
+    }
+
 }

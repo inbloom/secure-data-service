@@ -29,7 +29,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public class DidEntityConfig {
-    List<DidRefSource> referenceSources;
+    private List<DidRefSource> referenceSources;
 
     public List<DidRefSource> getReferenceSources() {
         return referenceSources;
