@@ -24,14 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -51,61 +46,78 @@ import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
- *
+ * 
  * @author okrook
- *
+ * 
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
-
+    
     protected static final String METADATA_BLOCK = "metaData";
-
+    
+    protected static final String ID = "_id";
+    
     private IdNormalizer idNormalizer;
-
+    
     private EntityConfigFactory entityConfigurations;
-
+    
     private Repository<Entity> entityRepository;
-
+    
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
 
     @Autowired
     private SchemaRepository schemaRepository;
-
+    
+    @Autowired
+    private INaturalKeyExtractor naturalKeyExtractor;
+    
+    @Autowired
+    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+    
     @Override
     public List<SimpleEntity> handle(NeutralRecord item) {
         return handle(item, new DummyErrorReport());
     }
-
+    
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
         resolveReferences(item, errorReport);
-
+        
         if (errorReport.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");
             return Collections.emptyList();
         }
-
+        
         List<SimpleEntity> transformed = transform(item, errorReport);
-
+        
         if (errorReport.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.transform()");
             return Collections.emptyList();
         }
-
+        
         if (transformed != null && !transformed.isEmpty()) {
+            
             for (SimpleEntity entity : transformed) {
+                
                 if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
-
+                
                 entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
-
+                
                 if (item.getMetaData().get("edOrgs") != null) {
                     entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
                 }
@@ -115,7 +127,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
                 }
-
+                
                 if (errorReport.hasErrors()) {
                     return Collections.emptyList();
                 }
@@ -123,14 +135,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         } else {
             LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
         }
-
+        
         return transformed;
     }
-
+    
     protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
+        
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
             String entityType = ref.getEntityType();
@@ -386,11 +398,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
         return collectionName;
     }
-
+    
     /**
      * Find a matched entity in the data store. If match is found the EntityID gets updated with the
      * ID from the data store.
-     *
+     * 
      * @param entity
      *            Entity to match
      * @param entityConfig
@@ -400,13 +412,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      */
     protected void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
+        
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
-
+        
         if (errorReport.hasErrors()) {
             return;
         }
-
+        
         String collection = "";
         NeutralSchema schema = schemaRepository.getSchema(entity.getType());
         if (schema != null) {
@@ -415,10 +427,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 collection = appInfo.getCollectionType();
             }
         }
-
+        
         @SuppressWarnings("deprecation")
         Iterable<Entity> match = entityRepository.findByQuery(collection, query, 0, 0);
-
+        
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();
@@ -442,10 +454,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             entity.getMetaData().putAll(matched.getMetaData());
         }
     }
-
+    
     /**
      * Create entity lookup query from EntityConfig fields
-     *
+     * 
      * @param entity
      *            : the entity to be looked up.
      * @param keyFields
@@ -453,90 +465,104 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            : error reporting
      * @return Look up filter
-     *
+     * 
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
         Query query = new Query();
-
-        String errorMessage = "ERROR: Invalid key fields for an entity\n";
-        if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-            errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
-        } else {
-            errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
-                    + entityConfig.getKeyFields() + "\n";
-            if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
-                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
-                for (RefDef refDef : entityConfig.getReferences()) {
-                    String collectionName = "";
-                    NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
-                    if (schema != null) {
-                        AppInfo appInfo = schema.getAppInfo();
-                        if (appInfo != null) {
-                            collectionName = appInfo.getCollectionType();
-                        }
-                    }
-
-                    errorMessage += "       collection = " + collectionName + "\n";
-                }
-            }
-        }
-
+        
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
         query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
-
-        try {
-            for (String field : entityConfig.getKeyFields()) {
-                Object fieldValue = PropertyUtils.getProperty(entity, field);
-                if (fieldValue instanceof List) {
-                    int size = ((List) fieldValue).size();
-                    //make sure we have exactly the number of desired values
-                    query.addCriteria(Criteria.where(field).size(size));
-                    //make sure we have each individual desired value
-                    for (Object val : (List) fieldValue) {
-                        query.addCriteria(Criteria.where(field).is(val));
+        
+        NaturalKeyDescriptor naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        
+        if (naturalKeyDescriptor == null) {
+            // look the entity up the old way -> key fields
+            
+            String errorMessage = "ERROR: Invalid key fields for an entity\n";
+            if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
+                errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+            } else {
+                errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
+                        + entityConfig.getKeyFields() + "\n";
+                if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
+                    errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                    for (RefDef refDef : entityConfig.getReferences()) {
+                        String collectionName = "";
+                        NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
+                        if (schema != null) {
+                            AppInfo appInfo = schema.getAppInfo();
+                            if (appInfo != null) {
+                                collectionName = appInfo.getCollectionType();
+                            }
+                        }
+                        
+                        errorMessage += "       collection = " + collectionName + "\n";
                     }
-                    //this will be insufficient if fieldValue can contain duplicates
-                } else {
-                    query.addCriteria(Criteria.where(field).is(fieldValue));
                 }
             }
-            ComplexKeyField complexField = entityConfig.getComplexKeyField();
-            if (complexField !=null) {
-                String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
-                Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
-
-                query.addCriteria(Criteria.where(complexField.getListPath() + "." +complexField.getFieldPath()).is(fieldValue));
+            
+            try {
+                for (String field : entityConfig.getKeyFields()) {
+                    Object fieldValue = PropertyUtils.getProperty(entity, field);
+                    if (fieldValue instanceof List) {
+                        int size = ((List) fieldValue).size();
+                        // make sure we have exactly the number of desired values
+                        query.addCriteria(Criteria.where(field).size(size));
+                        // make sure we have each individual desired value
+                        for (Object val : (List) fieldValue) {
+                            query.addCriteria(Criteria.where(field).is(val));
+                        }
+                        // this will be insufficient if fieldValue can contain duplicates
+                    } else {
+                        query.addCriteria(Criteria.where(field).is(fieldValue));
+                    }
+                }
+                ComplexKeyField complexField = entityConfig.getComplexKeyField();
+                if (complexField != null) {
+                    String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+                    Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
+                    
+                    query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath())
+                            .is(fieldValue));
+                }
+            } catch (Exception e) {
+                errorReport.error(errorMessage, this);
             }
-        } catch (Exception e) {
-            errorReport.error(errorMessage, this);
+            LOG.info("OLD WAY: " + entity.getType() + " " + query.toString());
+            
+        } else {
+            // look the entity up the new way -> natural keys
+            String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+            query.addCriteria(Criteria.where(ID).is(entityId));
+            LOG.info("NEW WAY: " + entity.getType() + " " + query.toString());
         }
-
+        
         return query;
     }
-
+    
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
-
+    
     public IdNormalizer getIdNormalizer() {
         return idNormalizer;
     }
-
+    
     public void setIdNormalizer(IdNormalizer idNormalizer) {
         this.idNormalizer = idNormalizer;
     }
-
+    
     public EntityConfigFactory getEntityConfigurations() {
         return entityConfigurations;
     }
-
+    
     public void setEntityConfigurations(EntityConfigFactory entityConfigurations) {
         this.entityConfigurations = entityConfigurations;
     }
-
+    
     public Repository<Entity> getEntityRepository() {
         return entityRepository;
     }
-
+    
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
