@@ -103,6 +103,11 @@ public class IdNormalizer {
         try {
             for (RefDef reference : entityConfig.getReferences()) {
 
+                //Don't resolve references marked as deprecated, allows the transition to deterministicIdResolution
+                if (reference.isDeprecated()) {
+                    continue;
+                }
+
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
                 NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());
                 if (schema != null) {
@@ -643,14 +648,16 @@ public class IdNormalizer {
 
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
+            numRefInstances = 0;
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
-            Set<String> valueSet = new LinkedHashSet<String>();
-            for (Object entry : refValues) {
-                valueSet.add(entry.toString());
+            if (refValues != null) {
+                Set<String> valueSet = new LinkedHashSet<String>();
+                for (Object entry : refValues) {
+                    valueSet.add(entry.toString());
+                }
+                numRefInstances = valueSet.size();
             }
-            numRefInstances = valueSet.size();
         }
-
         return numRefInstances;
     }
 

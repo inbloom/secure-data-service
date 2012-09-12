@@ -40,6 +40,7 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
@@ -59,6 +60,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected static final String METADATA_BLOCK = "metaData";
 
     private IdNormalizer idNormalizer;
+    private DeterministicIdResolver didResolver;
 
     private EntityConfigFactory entityConfigurations;
 

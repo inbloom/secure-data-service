@@ -45,12 +45,11 @@ public class DidRefConfigTest {
 
         Assert.assertEquals("key_field_1", firstKeyField.getKeyFieldName());
         Assert.assertNull(firstKeyField.getRefConfig());
-        Assert.assertNotNull(firstKeyField.getValueSources());
-        Assert.assertEquals(1, firstKeyField.getValueSources().size());
-        Assert.assertEquals("key_field_source_path_1", firstKeyField.getValueSources().get(0));
+        Assert.assertNotNull(firstKeyField.getValueSource());
+        Assert.assertEquals("key_field_source_path_1", firstKeyField.getValueSource());
 
         Assert.assertEquals("key_field_2", secondKeyField.getKeyFieldName());
-        Assert.assertNull(secondKeyField.getValueSources());
+        Assert.assertNull(secondKeyField.getValueSource());
 
         DidRefConfig nestedRefConfig = secondKeyField.getRefConfig();
         Assert.assertNotNull(nestedRefConfig);
@@ -61,9 +60,8 @@ public class DidRefConfigTest {
         KeyFieldDef nestedKeyField = nestedRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(nestedKeyField);
         Assert.assertNull(nestedKeyField.getRefConfig());
-        Assert.assertNotNull(nestedKeyField.getValueSources());
+        Assert.assertNotNull(nestedKeyField.getValueSource());
         Assert.assertEquals("key_field_3", nestedKeyField.getKeyFieldName());
-        Assert.assertEquals(1, nestedKeyField.getValueSources().size());
-        Assert.assertEquals("key_field_source_path_3", nestedKeyField.getValueSources().get(0));
+        Assert.assertEquals("key_field_source_path_3", nestedKeyField.getValueSource());
     }
 }

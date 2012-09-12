@@ -81,40 +81,44 @@ public class MongoTrackingAspect {
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long end = System.currentTimeMillis();
         if (isEnabled()) {
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
 
         String collection = determineCollectionName(pjp);
 
-        proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection);
+        proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection,start,end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
            dbCallTracker.increamentHitCount();
         }
 
-        return pjp.proceed();
+        return result;
     }
 
     @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long end = System.currentTimeMillis();
         if (isEnabled()) {
         DBCollection col = (DBCollection) pjp.getTarget();
 
-        proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
+        proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(),start,end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.increamentHitCount();
         }
-        return pjp.proceed();
+        return result;
     }
 
-    private void  proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection)
+    private void  proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection,long start,
+                                  long end)
             throws Throwable {
-
-        long start = System.currentTimeMillis();
-        long elapsed = System.currentTimeMillis() - start;
-
+        long elapsed = end - start;
         trackCallStatistics(db, function, collection, elapsed);
 
         logSlowQuery(elapsed, db, function, collection, pjp);
