@@ -645,7 +645,7 @@
   </jb:bean>
 
   <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
-    <jb:wiring property="studentReference" beanIdRef="studentSectionAssociation_StudentReference"/>
+    <jb:wiring property="StudentReference" beanIdRef="StudentSectionAssociation_StudentReference" />
     <jb:wiring property="sectionReference" beanIdRef="studentSectionAssociation_SectionReference" />
     <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
@@ -653,12 +653,17 @@
     <jb:value property="repeatIdentifier" data="StudentSectionAssociation/RepeatIdentifier" />
   </jb:bean>
 
-  <jb:bean beanId="studentSectionAssociation_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/StudentReference">
-    <jb:wiring property="studentIdentity" beanIdRef="studentSectionAssociation_StudentReference_StudentIdentity" />
+  <!-- StudentSectionAssociation support object: StudentSectionAssociation_StudentReference  -->
+  <jb:bean beanId="StudentSectionAssociation_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentSectionAssociation_StudentReference_StudentIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="studentSectionAssociation_StudentReference_StudentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/StudentReference/StudentIdentity">
-    <jb:value property="studentUniqueStateId" data="InterchangeStudentEnrollment/StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  <jb:bean beanId="StudentSectionAssociation_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="studentSectionAssociation_SectionReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference">
@@ -669,6 +674,7 @@
     <jb:value property="uniqueSectionCode" data="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="stateOrganizationId" data="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" />
   </jb:bean>
+
 
   <!-- Section Mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Section">
