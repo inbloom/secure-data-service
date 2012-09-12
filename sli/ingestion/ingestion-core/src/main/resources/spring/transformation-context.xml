@@ -156,5 +156,13 @@
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
 
+  <bean id="didEntityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigFactory">
+    <property name="searchPath" value="classpath:didEntityConfigs/" />
+  </bean>
+
+  <bean id="didRefConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.did.DidRefConfigFactory">
+    <property name="searchPath" value="classpath:didRefConfigs/" />
+  </bean>
+
 </beans>
 
