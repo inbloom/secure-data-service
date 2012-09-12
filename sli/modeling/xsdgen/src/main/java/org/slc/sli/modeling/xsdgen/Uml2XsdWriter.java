@@ -82,6 +82,10 @@ final class Uml2XsdWriter {
             // Ignore.
         }
     }
+    
+    public Uml2XsdWriter() {
+    	throw new UnsupportedOperationException();
+    }
 
     private static final Iterable<SimpleType> combine(final Iterable<DataType> dataTypes,
             final Iterable<EnumType> enumTypes) {
@@ -200,10 +204,10 @@ final class Uml2XsdWriter {
         final String namespace = name.getNamespaceURI();
         if (namespace.length() > 0) {
             final String prefix = namespaceContext.getPrefix(namespace);
-            if (prefix.length() > 0) {
-                return prefix.concat(":").concat(name.getLocalPart());
+            if (prefix == null || prefix.length() == 0) {
+            	return name.getLocalPart();
             } else {
-                return name.getLocalPart();
+            	return prefix.concat(":").concat(name.getLocalPart());
             }
         } else {
             return name.getLocalPart();

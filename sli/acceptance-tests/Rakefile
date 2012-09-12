@@ -334,6 +334,7 @@ task :appInit do
   swap_app_ids()
 end
 
+desc "Approve SLC apps for ingested realms"
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
@@ -598,7 +599,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-#task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+#task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
 #                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
 #                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
 #                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
@@ -606,7 +607,7 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,

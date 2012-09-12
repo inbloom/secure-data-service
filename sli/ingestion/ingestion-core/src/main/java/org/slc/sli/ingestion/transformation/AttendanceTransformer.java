@@ -34,8 +34,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -326,6 +328,45 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 NeutralRecord record = null;
                 while (itr.hasNext()) {
                     record = itr.next();
+                    schools.add(record);
+                }
+            }
+        }
+        if (schools.size() == 0) {
+            schools.addAll(getSchoolsForStudentFromSLI(studentId));
+        }
+        return schools;
+    }
+
+    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentId) {
+        List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
+
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+
+        Iterable<Entity> associations = getMongoEntityRepository().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, query);
+
+        if (associations != null) {
+            List<String> schoolIds = new ArrayList<String>();
+            for (Entity association : associations) {
+                Map<String, Object> associationAttributes = association.getBody();
+                String schoolId = (String) associationAttributes.get("schoolId");
+                schoolIds.add(schoolId);
+            }
+
+            NeutralQuery schoolQuery = new NeutralQuery(0);
+            schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.CRITERIA_IN, schoolIds));
+
+            Iterable<Entity> queriedSchools = getMongoEntityRepository().findAll(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
+
+            if (queriedSchools != null) {
+                Iterator<Entity> itr = queriedSchools.iterator();
+                NeutralRecord record = null;
+                Entity entity = null;
+                while (itr.hasNext()) {
+                    entity = itr.next();
+                    record = new NeutralRecord();
+                    record.setAttributes(entity.getBody());
                     schools.add(record);
                 }
             }
