@@ -110,7 +110,7 @@
          "description":"Manage developers within your sandbox",
          "url":"${bootstrap.app.admin.url}/users",
          "rights":[
-            "CRUD_SANDBOX_SLC_OPERATOR"
+            "CRUD_SANDBOX_ADMIN"
             ]
       }
    ]

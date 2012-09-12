@@ -69,7 +69,7 @@ public final class WadlExpert {
             if (elementNames.containsKey(typeName.getLocalPart())) {
                 final QName elementName = elementNames.get(typeName.getLocalPart());
                 if (elementName != null) {
-                    if (elementName.getLocalPart().equals("custom")) {
+                    if (elementName.getLocalPart().equals("custom") || elementName.getLocalPart().equals("home")) {
                         return elementName;
                     } else {
                         return new QName(elementName.getNamespaceURI(), elementName.getLocalPart().concat("List"));
@@ -91,10 +91,8 @@ public final class WadlExpert {
         for (final String step : steps) {
             stepIndex = stepIndex + 1;
             if (stepIndex == 1) {
-                if ("v1".equals(step)) {
-                    // Expected
-                } else {
-                    System.err.println("1st step is not the version specifier.");
+                if (!"v1".equals(step)) {
+                	System.err.println("1st step is not the version specifier.");
                 }
             } else if (stepIndex == 2) {
                 if ("home".equals(step)) {
@@ -124,30 +122,14 @@ public final class WadlExpert {
                     } else if ("studentWithGrade".equals(step)) {
                         return new QName(config.getNamespaceURI(), "Unknown", config.getPrefix());
                     } else {
-                        boolean found = false;
                         for (final AssociationEnd end : ends) {
                             if (end.getName().equals(step)) {
                                 final Identifier endTypeId = end.getType();
                                 final Type endType = model.getType(endTypeId);
                                 types.push(endType);
-                                found = true;
-                            } else {
-                                // Try the next association end.
-                            }
-                        }
-                        if (found) {
-                            // Keep on going.
-                        } else {
-                            System.err.println("---------------------------------------");
-                            System.err.println("step      : \"" + step + "\"");
-                            System.err.println("type      : \"" + type.getName() + "\"");
-                            System.err.println(step + " is not a valid association end name in steps " + steps
-                                    + " for type " + type.getName());
-                            System.err.println("ends  : " + getNames(ends));
-                            System.err.println("types : " + getNames(types));
+                            } 
                         }
                     }
-                } else {
                 }
             }
         }
@@ -155,7 +137,7 @@ public final class WadlExpert {
         return new QName(config.getNamespaceURI(), type.getName(), config.getPrefix());
     }
 
-    private static final List<String> getNames(final List<? extends HasName> namedElements) {
+    protected static final List<String> getNames(final List<? extends HasName> namedElements) {
         if (namedElements == null) {
             throw new NullPointerException("namedElements");
         }
@@ -168,11 +150,11 @@ public final class WadlExpert {
 
     }
 
-    private static final boolean isTemplateParam(final String step) {
+    protected static final boolean isTemplateParam(final String step) {
         return step.startsWith("{") && step.endsWith("}");
     }
 
-    private static final List<String> splitBasedOnFwdSlash(final String path) {
+    protected static final List<String> splitBasedOnFwdSlash(final String path) {
         final List<String> result = new LinkedList<String>();
         for (final String s : path.split("/")) {
             result.add(s);
@@ -180,7 +162,7 @@ public final class WadlExpert {
         return result;
     }
 
-    private static final List<String> toSteps(final Resource resource, final Stack<Resource> ancestors) {
+    protected static final List<String> toSteps(final Resource resource, final Stack<Resource> ancestors) {
         final List<String> result = new LinkedList<String>();
         for (final Resource ancestor : ancestors) {
             result.addAll(splitBasedOnFwdSlash(ancestor.getPath()));
@@ -189,7 +171,7 @@ public final class WadlExpert {
         return result;
     }
 
-    private WadlExpert() {
+    protected WadlExpert() {
         throw new RuntimeException();
     }
 

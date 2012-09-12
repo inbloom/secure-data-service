@@ -106,8 +106,8 @@ public final class WadlWriter {
             xsw.writeNamespace("xsi", SCHEMA_INSTANCE_NS);
             xsw.writeAttribute("xsi", SCHEMA_INSTANCE_NS, "schemaLocation", SCHEMA_LOCATION_VALUE);
             xsw.writeNamespace("xs", SCHEMA_NS);
-            for (final String prefix : prefixMappings.keySet()) {
-                xsw.writeNamespace(prefix, prefixMappings.get(prefix));
+            for (final Map.Entry<String, String> prefix : prefixMappings.entrySet()) {
+                xsw.writeNamespace(prefix.getKey(), prefix.getValue());
             }
             writeDocumentation(app, xsw);
             writeGrammars(app.getGrammars(), xsw);

@@ -2356,9 +2356,9 @@
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntry_gradebookReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/GradebookEntryType" />
-    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/DateAssigned" />
-    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
+    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
+    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <!-- Start StudentProgramAssociation mapping -->

@@ -48,6 +48,7 @@ import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.slc.sli.ingestion.validation.IndexValidator;
 
 /**
  * Ingestion route builder.
@@ -107,6 +108,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private NodeInfo nodeInfo;
+
+    @Autowired
+    private IndexValidator indexValidator;
 
     @Value("${sli.ingestion.processor.edfi}")
     private String edfiProcessorMode;
@@ -168,6 +172,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
+
+        boolean indexValidated = indexValidator.isValid(null, null);
+        if (!indexValidated) {
+            LOG.error("Indexes could not be verified, check the index file configurations are set");
+        }
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
