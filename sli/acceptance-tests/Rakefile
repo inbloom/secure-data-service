@@ -947,7 +947,6 @@ end
 
 def addSecurityData()
   sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
-  sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
 desc "Help information for this Rakefile"

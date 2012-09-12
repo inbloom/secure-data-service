@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId", "body.gradebookEntryType", "body.sectionId"],
+    "keyFields" : ["body.dateAssigned", "body.gradebookEntryType", "body.sectionId"],
     "references" : 
     [{ 
          "fieldPath":"body.sectionId",

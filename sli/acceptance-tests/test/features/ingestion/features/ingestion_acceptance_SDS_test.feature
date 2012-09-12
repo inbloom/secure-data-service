@@ -1694,7 +1694,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                   | 7     |
      | staffProgramAssociation              | 7     |
      | studentCohortAssociation             | 6     |
-     | gradebookEntry                       | 12    |
+     | gradebookEntry                       | 13    |
      | staffCohortAssociation               | 5     |
      | studentDisciplineIncidentAssociation | 9     |
      | studentTranscriptAssociation         | 200   |
@@ -1745,8 +1745,8 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCohortAssociation    | 1                   | body.endDate                | 2011-12-31              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
      | gradebookEntry              | 4                   | body.dateAssigned           | 2011-10-13              | string               |
-     | gradebookEntry              | 1                   | body.dateAssigned           | 2011-10-27              | string               |
-     | gradebookEntry              | 3                   | body.gradebookEntryType     | Quiz                    | string               |
+     | gradebookEntry              | 2                   | body.dateAssigned           | 2011-10-27              | string               |
+     | gradebookEntry              | 4                   | body.gradebookEntryType     | Quiz                    | string               |
      | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
      | disciplineIncident          | 2                   | body.incidentIdentifier     | Disruption              | string               |
      | disciplineIncident          | 2                   | body.incidentIdentifier     | Tardiness               | string               |
@@ -2559,8 +2559,8 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
 	And a batch job log has been created
 	Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | gradebookEntry              | 12    |
-        | studentGradebookEntry       | 315   |
+        | gradebookEntry              | 13    |
+        | studentGradebookEntry       | 316   |
         | studentCompetency           | 59    |
         | grade                       | 4     |
         | reportCard                  | 2     |
