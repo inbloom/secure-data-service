@@ -4,7 +4,7 @@
     [
         {
             "keyFieldName" : "studentUniqueStateId",
-            "valueSource" : "studentIdentity.studentUniqueStateId"
+            "valueSource" : "StudentIdentity.StudentUniqueStateId"
         }
     ]
 }
