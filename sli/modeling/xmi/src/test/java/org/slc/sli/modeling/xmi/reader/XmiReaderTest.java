@@ -1,11 +1,18 @@
 package org.slc.sli.modeling.xmi.reader;
 
+import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -14,6 +21,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
@@ -280,6 +288,58 @@ public class XmiReaderTest {
 
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
         assertEquals(defaultString, XmiReader.getName(mockReader, defaultString, sampleAttribute));
+    }
+    
+    private Model readModelByFile(String filename) throws FileNotFoundException {
+
+    	return XmiReader.readModel(new File(filename));
+    }
+    
+    private Model readModelByStream(String filename) throws IOException {
+    	final InputStream inputStream = new BufferedInputStream(new FileInputStream(filename));
+        Model model = XmiReader.readModel(inputStream);
+        inputStream.close();
+        return model;
+    }
+
+    @SuppressWarnings("unused")
+	private Model readModelByXmlStream(String filename) throws XMLStreamException, FileNotFoundException {
+    	
+    	XMLInputFactory factory = XMLInputFactory.newInstance();
+
+    	XMLStreamReader xmlStreamReader = factory.createXMLStreamReader(new FileReader(filename));
+    	
+    	Model model = XmiReader.readModel(xmlStreamReader);
+    	
+    	xmlStreamReader.close();
+    	
+    	return model;
+    }
+
+    private Model readModelByName(String filename) throws FileNotFoundException {
+    	
+    	return XmiReader.readModel(filename);
+    }
+    
+    @Test
+    public void testAllPublicMethods() throws XMLStreamException, IOException {
+    	
+    	String filename = "src/test/resources/SLI.xmi";
+    	
+    	Model model1 = this.readModelByFile(filename);
+    	Model model2 = this.readModelByStream(filename);
+    	//Model model3 = this.readModelByXmlStream(filename);
+    	Model model4 = this.readModelByName(filename);
+
+
+    	assertNotNull(model1);
+    	assertNotNull(model2);
+    	//assertNotNull(model3);
+    	assertNotNull(model4);
+    	
+    	assertEquals(model1, model2);
+    	//assertEquals(model1, model3);
+    	assertEquals(model1, model4);
     }
 
 }
