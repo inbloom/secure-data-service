@@ -139,6 +139,7 @@
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
     <property name="entityConfigurations" ref="entityConfigurationsFactory" />
     <property name="idNormalizer" ref="idNormalizer" />
+    <property name ="didResolver" ref ="deterministicIdResolver" />
     <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
 

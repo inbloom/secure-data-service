@@ -60,6 +60,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected static final String METADATA_BLOCK = "metaData";
 
     private IdNormalizer idNormalizer;
+
     private DeterministicIdResolver didResolver;
 
     private EntityConfigFactory entityConfigurations;
@@ -136,6 +137,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
+ //       didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
 
@@ -259,6 +261,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void setIdNormalizer(IdNormalizer idNormalizer) {
         this.idNormalizer = idNormalizer;
+    }
+
+    public DeterministicIdResolver getDidResolver() {
+        return didResolver;
+    }
+
+    public void setDidResolver(DeterministicIdResolver didResolver) {
+        this.didResolver = didResolver;
     }
 
     public EntityConfigFactory getEntityConfigurations() {
