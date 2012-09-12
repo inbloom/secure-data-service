@@ -194,6 +194,11 @@ task :ingestionOrderAgnosticListTest do
   runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
 end
 
+desc "Run Partial Ingestion of StudentAssessment data Test"
+task :partialIngestionStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_PartialIngestion_StudentAssessment.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
