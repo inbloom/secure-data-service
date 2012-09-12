@@ -13,7 +13,7 @@
   )
 )
 
-(defn gen-student [districtName schoolName id]
+(defn gen-student [schoolName id]
   (element :Student {}
     (element :StudentUniqueStateId {} (join "-" [schoolName id]))
     (element :Name {}
@@ -29,23 +29,15 @@
   )
 )
 
-(defn gen-students [districtName schoolName ids output-file]
+(defn gen-students [schoolName ids output-file]
   (gen-edfi :InterchangeStudentParent output-file
     (into ()
       [
         (for [id ids
-          :let [tmp (gen-student districtName schoolName id)]]
+          :let [tmp (gen-student schoolName id)]]
           tmp
         )
       ]
-    )
-  )
-)
-
-(defn student-ref [districtName schoolName student]
-  (element :StudentReference {}
-    (element :StudentIdentity {}
-      (element :StudentUniqueStateId {} (join "-" [schoolName student]))
     )
   )
 )
@@ -169,33 +161,6 @@
   )
 )
 
-(defn gen-enroll
-  [districtName schoolName student]
-  (element :StudentSchoolAssociation {}
-    (student-ref districtName schoolName student)
-    (element :SchoolReference {}
-      (element :EducationalOrgIdentity {}
-        (element :StateOrganizationId {} districtName)
-      )
-    )
-    (element :EntryDate {} "2011-09-01")
-    (element :EntryGradeLevel {} "Seventh grade")
-  )
-)
-
-(defn gen-section-assoc
-  [districtName schoolName studentName sectionName]
-  (element :StudentSectionAssociation {}
-    (student-ref districtName schoolName studentName)
-    (element :SectionReference {}
-      (element :SectionIdentity {}
-        (element :StateOrganizationId {} districtName)
-        (element :UniqueSectionCode {} sectionName)
-      )
-    )
-  )
-)
-
 (defn create-assessment [assessmentName]
   (let [tmp (element :Assessment {:id "Grade_7_2011_State_Math"}
       (element :AssessmentTitle {} assessmentName)
@@ -259,16 +224,26 @@
     (> 33 score) "E")
 )
 
-(defn gen-saa [districtName schoolName student assessment date]
+(defn student-ref [schoolName student]
+  (element :StudentReference {}
+    (element :StudentIdentity {}
+      (element :StudentUniqueStateId {} (join "-" [schoolName student]))
+    )
+  )
+)
+
+(defn gen-saa [schoolName student assessment date]
   (let [score (rand-nth (range 6 33))]
     (element :StudentAssessment {}
       (element :AdministrationDate {} date)
+      (element :AdministrationEndDate {} date)
+      (element :SerialNumber {} "2")
       (element :ScoreResults {:AssessmentReportingMethod "Scale score"}
         (element :Result {} (str score)))
         (element :PerformanceLevels {}
           (element :CodeValue {} (get-perf-level score))
         )
-        (student-ref districtName schoolName student)
+        (student-ref schoolName student)
         (element :AssessmentReference {}
           (element :AssessmentIdentity {}
             (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
@@ -281,16 +256,43 @@
 )
 
 (defn gen-saas
-  [districtName schoolName students assessment n output-file]
+  [schoolName students assessment n output-file]
   (gen-edfi :InterchangeStudentAssessment output-file
     (for [studentName students, i (range 1 n)]
-      (gen-saa districtName schoolName studentName assessment (str "2011-10-" (format "%02d" i)))
+      (gen-saa schoolName studentName assessment (str "2011-10-" (format "%02d" i)))
+    )
+  )
+)
+
+(defn gen-enroll
+  [schoolName student]
+  (element :StudentSchoolAssociation {}
+    (student-ref schoolName student)
+    (element :SchoolReference {}
+      (element :EducationalOrgIdentity {}
+        (element :StateOrganizationId {} schoolName)
+      )
+    )
+    (element :EntryDate {} "2011-09-01")
+    (element :EntryGradeLevel {} "Seventh grade")
+  )
+)
+
+(defn gen-section-assoc
+  [districtName schoolName studentName sectionName]
+  (element :StudentSectionAssociation {}
+    (student-ref schoolName studentName)
+    (element :SectionReference {}
+      (element :SectionIdentity {}
+        (element :StateOrganizationId {} districtName)
+        (element :UniqueSectionCode {} sectionName)
+      )
     )
   )
 )
 
 (defn enroll [districtName schoolName studentName]
-  (gen-enroll districtName schoolName studentName)
+  (gen-enroll schoolName studentName)
   (gen-section-assoc districtName schoolName studentName "Math-7-2011-Sec2")
 )
 
@@ -344,7 +346,7 @@
   (gen-edfi :InterchangeEducationOrgCalendar output-file (reverse (create-session districtName)))
 )
 
-(defn create-section [districtName schoolName]
+(defn create-section [districtName]
   (into () [
     (element :CourseOffering {}
       (element :LocalCourseCode {} "Math-7")
@@ -397,57 +399,57 @@
   )
 )
 
-(defn gen-sections [districtName schoolName output-file]
-  (gen-edfi :InterchangeMasterSchedule output-file (reverse (create-section districtName schoolName)))
+(defn gen-sections [districtName output-file]
+  (gen-edfi :InterchangeMasterSchedule output-file (reverse (create-section districtName)))
 )
 
 
 (def districts
-    ["Abbott","Addison","Adirondack","Afton","Akron","Albany City","Albion","Alden","Alexander","Alexandria","Alfred-Almond",
-     "Allegany-Limestone","Altmar Parish-Williamstown","Amagansett","Amherst","Amityville","Amsterdam City","Andes","Andover",
-     "Ardsley","Argyle","Arkport","Arlington","Attica","Auburn City","Ausable Valley","Averill Park","Avoca","Avon","Babylon",
-     "Bainbridge-Guilford","Baldwin","Baldwinsville","Ballston Spa","Barker","Batavia City","Bath","Bay Shore","Bayport-Blue Point",
-     "Beacon City","Beaver River","Bedford","Beekmantown","Belfast","Belleville Henderson","Bellmore","Bellmore-Merrick Central",
-     "Bemus Point","Berkshire","Berlin","Berne-Knox-Westerlo","Bethlehem","Bethpage","Binghamton City","Blind Brook-Rye",
-     "Bolivar-Richburg","Bolton","Bradford","Brasher Falls","Brentwood","Brewster","Briarcliff Manor","Bridgehampton","Brighton",
-     "Broadalbin-Perth","Brockport","Brocton","Bronxville","Brookfield","Brookhaven-Comsewogue","Broome-Delaware-Tioga Boces",
-     "Brunswic","Brushton-Moira","Buffalo City","Burnt Hills-Ballston Lake","Byram Hills","Byron-Bergen","Cairo-Durham",
-     "Caledonia-Mumford","Cambridge","Camden","Campbell-Savona","Canajoharie","Canandaigua City","Canaseraga","Canastota",
-     "Candor","Canisteo-Greenwood","Canton","Capital Region Boces","Carle Place","Carmel","Carthage","Cassadaga Valley",
-     "Cato-Meridian","Catskill","Cattar-Allegany-Erie-Wyoming Boces","Cattaraugus-Little Valley","Cayuga-Onondaga Boces",
-     "Cazenovia","Center Moriches","Central Islip","Central Square","Chappaqua","Charlotte Valley","Chateaugay","Chatham",
-     "Chautauqua Lake","Chazy","Cheektowaga","Cheektowaga-Maryvale","Cheektowaga-Sloan","Chenango Forks","Chenango Valley",
-     "Cherry Valley-Springfield","Chester","Chittenango","Churchville-Chili","Cincinnatus","Clarence","Clarkstown","Cleveland Hill",
-     "Clifton-Fin","Clinton","Clinton-Essex-Warren-Washing Boces","Clyde-Savannah","Clymer","Cobleskill-Richmondville","Cohoes City",
-     "Cold Spring Harbor","Colton-Pierrepont","Commack","Connetquot","Cooperstown","Copenhagen","Copiague","Corinth","Corning City",
-     "Cornwall","Cortland City","Coxsackie-Athens","Croton-Harmon","Crown Point","Cuba-Rushford","Dalton-Nunda (Keshequa)",
-     "Dansville","Deer Park","Delaware Academy At Delhi","Delaw-Chenango-Madison-Otsego Boces","Depew","Deposit","Deruyter",
-     "Dobbs Ferry","Dolgeville","Dover","Downsville","Dryden","Duanesburg","Dundee","Dunkirk City","Dutchess Boces","East Aurora",
-     "East Bloomfield","East Greenbush","East Hampton","East Irondequoit","East Islip","East Meadow","East Moriches",
-     "East Quogue","East Ramapo  (Spring Valley)","East Rochester","East Rockaway","East Syracuse-Minoa","East Williston",
-     "Eastchester","Eastern Suffolk Boces","Eastport-South Manor","Eden","Edgemont","Edinburg Common","Edmeston","Edwards-Knox",
-     "Elba","Eldred","Elizabethtown-Lewis","Ellenville","Ellicottville","Elmira City","Elmira Heights","Elmont","Elmsford",
-     "Elwood","Erie 1 Boces","Erie 2-Chautauqua-Cattaraugus Boces","Evans-Brant  (Lake Shore)","Fabius-Pompey","Fairport",
-     "Falconer","Fallsburg","Farmingdale","Fayetteville-Manlius","Fillmore","Fire Island","Fishers Island","Floral Park-Bellerose",
-     "Florida","Fonda-Fultonville","Forestville","Fort Ann","Fort Edward","Fort Plain","Frankfort-Schuyler","Franklin",
-     "Garden City","Garrison","Gates-Chili","General Brown","Genesee Valley Boces","Genesee Valley","Geneseo","Geneva City",
-     "Hadley-Luzerne","Haldane","Half Hollow Hills","Hamburg","Hamilton","Hamilton-Fulton-Montgomery Boces","Hammond",
-     "Homer","Honeoye","Honeoye Falls-Lima","Hoosic Valley","Hoosick Falls","Hopevale  At Hamburg","Hornell City",
-     "Inlet Comn","Iroquois","Irvington","Island Park","Island Trees","Islip","Ithaca City","Jamestown City","Jamesville-Dewitt",
-     "Keene","Kendall","Kenmore-Tonawanda","Kinderhook","Kings Park","Kingston City","Kiryas Joel Village","La Fargeville",
-     "Livonia","Lockport City","Locust Valley","Long Beach City","Long Lake","Longwood","Lowville Academy","Lyme",
-     "Middletown City","NYC Geog Dist # 1 - Manhattan","NYC Geog Dist # 2 - Manhattan","NYC Geog Dist # 3 - Manhattan",
-     "NYC Geog Dist # 4 - Manhattan","NYC Geog Dist # 5 - Manhattan","NYC Geog Dist # 6 - Manhattan","NYC Geog Dist # 7 - Bronx",
-     "NYC Geog Dist # 8 - Bronx","NYC Geog Dist # 9 - Bronx","NYC Geog Dist #10 - Bronx","NYC Geog Dist #11 - Bronx",
-     "NYC Geog Dist #12 - Bronx","NYC Geog Dist #13 - Brooklyn","NYC Geog Dist #14 - Brooklyn","NYC Geog Dist #15 - Brooklyn",
-     "NYC Geog Dist #16 - Brooklyn","NYC Geog Dist #17 - Brooklyn","NYC Geog Dist #18 - Brooklyn","NYC Geog Dist #19 - Brooklyn",
-     "NYC Geog Dist #20 - Brooklyn","NYC Geog Dist #21 - Brooklyn","NYC Geog Dist #22 - Brooklyn","NYC Geog Dist #23 - Brooklyn",
-     "NYC Geog Dist #24 - Queens","NYC Geog Dist #25 - Queens","NYC Geog Dist #26 - Queens","NYC Geog Dist #27 - Queens",
-     "NYC Geog Dist #31 - Staten Island","NYC Geog Dist #32 - Brooklyn","NYC Spec Schools - Dist 75","Oakfield-Alabama",
-     "Ossining","Oswego Boces","Oswego City","Otego-Unadilla","Otsego-Delaw-Schoharie-Greene Boces","Owego-Apalachin",
-     "Panama","Parishville-Hopkinton","Patchogue-Medford","Pavilion","Pawling","Pearl River","Peekskill City","Poland",
-     "Randolph","Raquette Lake","Ravena-Coeymans-Selkirk","Red Creek","Red Hook","Remsen","Remsenburg-Speonk",
-     "Salem","Salmon River","Sandy Creek","Saranac","Saranac Lake","Saratoga Springs City","Saugerties","Sauquoit Valley" ] )
+    ["Abbott","Addison","Adirondack","Afton","Akron","Albany-City","Albion","Alden","Alexander","Alexandria","Alfred",
+     "Allegany","Altmar-Parish","Amagansett","Amherst","Amityville","Amsterdam","Andes","Andover",
+     "Ardsley","Argyle","Arkport","Arlington","Attica","Auburn-City","Ausable-Valley","Averill-Park","Avoca","Avon","Babylon",
+     "Bainbridge","Baldwin","Baldwinsville","Ballston","Barker","Batavia","Bath","Bay-Shore","Bayport-Blue",
+     "Beacon-City","Beaver-River","Bedford","Beekmantown","Belfast","Belleville","Bellmore","Bellmore-Merrick",
+     "Bemus","Berkshire","Berlin","Berne-Knox","Bethlehem","Bethpage","Binghamton","Brook-Rye",
+     "Bolivar","Bolton","Bradford","Brasher","Brentwood","Brewster","Briarcliff","Bridgehampton","Brighton",
+     "Broadalbin","Brockport","Brocton","Bronxville","Brookfield","Brookhaven","Broome",
+     "Brunswic","Brushton","Buffalo","Burnt-Hills","Byram Hills","Byron-Bergen","Cairo-Durham",
+     "Caledonia","Cambridge","Camden","Campbell","Canajoharie","Canandaigua","Canaseraga","Canastota",
+     "Candor","Canisteo","Canton","Capital","Carle-Place","Carmel","Carthage","Cassadaga",
+     "Cato-Meridian","Catskill","Cattar-Allegany","Cattaraugus","Cayuga",
+     "Cazenovia","Center","Central-Islip","Central-Square","Chappaqua","Charlotte","Chateaugay","Chatham",
+     "Chautauqua","Chazy","Cheektowaga","Maryvale","Sloan","Chenango-Forks","Chenango",
+     "Cherry-Valley","Chester","Chittenango","Churchville","Cincinnatus","Clarence","Clarkstown","Cleveland",
+     "Clifton-Fin","Clinton","Clinton-Essex","Clyde","Clymer","Cobleskill","Cohoes-City",
+     "Cold-Spring","Colton","Commack","Connetquot","Cooperstown","Copenhagen","Copiague","Corinth","Corning-City",
+     "Cornwall","Cortland-City","Coxsackie","Croton-Harmon","Crown-Point","Cuba-Rushford","Dalton-Nunda",
+     "Dansville","Deer-Park","Delaware","Delaw-","Depew","Deposit","Deruyter",
+     "Dobbs-Ferry","Dolgeville","Dover","Downsville","Dryden","Duanesburg","Dundee","Dunkirk-City","Dutchess","East-Aurora",
+     "East-Bloomfield","East-Greenbush","East-Hampton","East-Irondequoit","East-Islip","East-Meadow","East-Moriches",
+     "East-Quogue","East-Ramapo","East-Rochester","East-Rockaway","East-Syracuse","East-Williston",
+     "Eastchester","Eastern-Suffolk","Eastport-South","Eden","Edgemont","Edinburg-Common","Edmeston","Edwards-Knox",
+     "Elba","Eldred","Elizabethtown","Ellenville","Ellicottville","Elmira-City","Elmira-Heights","Elmont","Elmsford",
+     "Elwood","Erie","Erie-2","Evans-Brant","Fabius-Pompey","Fairport",
+     "Falconer","Fallsburg","Farmingdale","Fayetteville","Fillmore","Fire-Island","Fishers-Island","Floral-Park",
+     "Florida","Fonda","Forestville","Fort-Ann","Fort-Edward","Fort-Plain","Frankfort","Franklin",
+     "Garden-City","Garrison","Gates-Chili","General-Brown","Genesee-Valley","Geneseo","Geneva-City",
+     "Hadley-Luzerne","Haldane","Half-Hollow","Hamburg","Hamilton","Hamilton","Hammond",
+     "Homer","Honeoye","Honeoye","Hoosic-Valley","Hoosick-Falls","Hopevale","Hornell-City",
+     "Inlet-Comn","Iroquois","Irvington","Island-Park","Island-Trees","Islip","Ithaca-City","Jamestown-City","Jamesville",
+     "Keene","Kendall","Kenmore","Kinderhook","Kings-Park","Kingston-City","Kiryas","La-Fargeville",
+     "Livonia","Lockport-City","Locust-Valley","Long-Beach","Long-Lake","Longwood","Lowville-Academy","Lyme",
+     "Middletown","1 - Manhattan","2- Manhattan","3 - Manhattan",
+     "4 - Manhattan","5 - Manhattan","6 - Manhattan","7 - Bronx",
+     "8 - Bronx","9 - Bronx","10 - Bronx","11 - Bronx",
+     "12 - Bronx","13 - Brooklyn","14 - Brooklyn","15 - Brooklyn",
+     "16 - Brooklyn","17 - Brooklyn","18 - Brooklyn","19 - Brooklyn",
+     "20 - Brooklyn","21 - Brooklyn","22 - Brooklyn","23 - Brooklyn",
+     "24 - Queens","25 - Queens","26 - Queens","27 - Queens",
+     "31 - Staten Island","32 - Brooklyn","NYC Spec Schools","Oakfield",
+     "Ossining","Oswego","Oswego-City","Otego-Unadilla","Otsego-Delaw","Owego-Apalachin",
+     "Panama","Parishville","Patchogue","Pavilion","Pawling","Pearl-River","Peekskill","Poland",
+     "Randolph","Raquette","Ravena","Red-Creek","Red-Hook","Remsen","Remsenburg",
+     "Salem","Salmon","Sandy-Creek","Saranac","Saranac-Lake","Saratoga-Springs","Saugerties","Sauquoit-Valley" ] )
 
 (defn gen-district-schools
   [districtCount schoolsPerDistrict studentsPerSchool]
@@ -473,26 +475,26 @@
   (def filename (.getName file))
   (def formatString (str "edfi-xml,%s,%s,%s"))
   (let [rval (str
-      (if (substring? "student.xml" filename)
-        (format formatString "StudentParent" filename, md5string)
+      (if (substring? "-assessment.xml" filename)
+        (format formatString "AssessmentMetadata" filename md5string)
       )
       (if (substring? "-schools.xml" filename)
         (format formatString "EducationOrganization" filename md5string)
       )
-      (if (substring? "-assessment.xml" filename)
-        (format formatString "AssessmentMetadata" filename md5string)
+      (if (substring? "-calendar.xml" filename)
+        (format formatString "EducationOrgCalendar" filename md5string)
+      )
+      (if (substring? "-master-schedule.xml" filename)
+        (format formatString "MasterSchedule" filename md5string)
+      )
+      (if (substring? "student.xml" filename)
+        (format formatString "StudentParent" filename, md5string)
       )
       (if (substring? "-enrollment.xml" filename)
         (format formatString "StudentEnrollment" filename md5string)
       )
-      (if (substring? "-sections.xml" filename)
-        (format formatString "MasterSchedule" filename md5string)
-      )
       (if (substring? "-assessment-results.xml" filename)
         (format formatString "StudentAssessment" filename md5string)
-      )
-      (if (substring? "-calendar.xml" filename)
-        (format formatString "EducationOrgCalendar" filename md5string)
       )
       ; need
       ; edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,c5efbe159ac926629a3b494460243aba
@@ -514,17 +516,20 @@
 
 (defn gen-big-data
   [districtCount schoolCount studentCount]
-  (gen-assessment "Grade 7 State Math" "/tmp/test/A-assessment.xml")
+  (def sectionName "7th Grade Math -Sec 2")
+  (def assessmentName "Grade 7 State Math")
+
+  (gen-assessment assessmentName "/tmp/test/A-assessment.xml")
   (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
     (doseq [ [districtName schools] district]
       (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))
       (gen-session districtName (format "/tmp/test/C-%s-calendar.xml" districtName))
+      (gen-sections districtName (format "/tmp/test/D-%s-master-schedule.xml" districtName))
       (doseq [ schoolName schools ]
         (def rng (range 1 (+ 1 studentCount)))
-        (gen-students districtName schoolName rng (format "/tmp/test/D-%s-student.xml" schoolName))
-        (gen-sections districtName schoolName (format "/tmp/test/E-%s-sections.xml" schoolName))
+        (gen-students schoolName rng (format "/tmp/test/E-%s-student.xml" schoolName))
         (gen-enrollments districtName schoolName rng "7th Grade Math - Sec 2" (format "/tmp/test/F-%s-enrollment.xml" schoolName))
-        (gen-saas districtName schoolName rng "Grade 7 State Math" 6 (format "/tmp/test/G-%s-assessment-results.xml" schoolName))
+        (gen-saas schoolName rng assessmentName 6 (format "/tmp/test/G-%s-assessment-results.xml" schoolName))
       )
     )
   )
