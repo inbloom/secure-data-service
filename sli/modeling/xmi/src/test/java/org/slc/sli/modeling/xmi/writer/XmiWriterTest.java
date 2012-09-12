@@ -65,7 +65,6 @@ public class XmiWriterTest {
     private static final String DATATYPE_NAME = "unitTestDataTypeName";
     private static final Multiplicity MULTIPLICITY_ZEROTOONE = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
     private static final List<TaggedValue> EMPTY_TAGGEDVALUES = new ArrayList<TaggedValue>(0);
-    private static final List<Attribute> EMPTY_ATTRIBUTES = new ArrayList<Attribute>(0);
     private static final Identifier ATTRIBUTE_ID = Identifier.random();
     private static final String ATTRIBUTE_NAME = "unitTestAttributeName";
     private static final Identifier CLASSTYPE_ID = Identifier.random();
