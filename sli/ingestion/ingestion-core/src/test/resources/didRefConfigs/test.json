@@ -4,7 +4,7 @@
     [
         {
             "keyFieldName" : "testUniqueStateId",
-            "valueSources" : ["testIdentity.testUniqueStateId"]
+            "valueSource" : "testIdentity.testUniqueStateId"
         }
     ]
 }

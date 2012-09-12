@@ -4,7 +4,7 @@
     [
         {
             "keyFieldName" : "dummyUniqueStateId",
-            "valueSources" : ["dummyIdentity.dummyUniqueStateId"]
+            "valueSource" : "dummyIdentity.dummyUniqueStateId"
         }
     ]
 }

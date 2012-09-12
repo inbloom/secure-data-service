@@ -25,7 +25,7 @@ public class DidRefConfigFactoryTest {
         Assert.assertEquals(1, ec.getKeyFields().size());
         Assert.assertEquals("dummy", ec.getEntityType());
         Assert.assertEquals("dummyUniqueStateId", ec.getKeyFields().get(0).getKeyFieldName());
-        Assert.assertEquals("dummyIdentity.dummyUniqueStateId", ec.getKeyFields().get(0).getValueSources().get(0));
+        Assert.assertEquals("dummyIdentity.dummyUniqueStateId", ec.getKeyFields().get(0).getValueSource());
 
         DidRefConfig ec2 = factory.getDidRefConfiguration("dummy");
 
