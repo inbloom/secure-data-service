@@ -143,7 +143,6 @@ public class XmiWriterTest {
         XmiWriter.writeDocument(model, modelIndex, mockOutputStream);
 
         String output = mockOutputStream.toString();
-        System.out.println("output = " + output);
 
         //check for model name and id
         assertTrue(output.contains(MODEL_ID.toString()));
