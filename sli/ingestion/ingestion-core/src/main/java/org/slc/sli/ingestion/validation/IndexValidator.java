@@ -214,6 +214,9 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                         break;
                     }
 
+                    //UN: The value in DB is either saved as a double or integer (nondeterministic), so I
+                    //    need to compare it with both double as well as integer and verify that the index
+                    //    does not match.
                     double indexMapDoubleValue = Double.valueOf(indexMap.get(indexKey).toString());
                     if (!indexHashMap.get(indexKey).equals(indexMapDoubleValue)
                             && !indexHashMap.get(indexKey).equals(indexMap.get(indexKey))) {
