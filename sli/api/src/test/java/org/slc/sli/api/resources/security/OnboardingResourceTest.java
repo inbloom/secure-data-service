@@ -137,7 +137,7 @@ public class OnboardingResourceTest {
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);
         try {
-            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.anyBoolean())).thenReturn(landingZone);
+            when(mockTenantResource.createLandingZone(Mockito.anyString(), Mockito.eq("TestOrg"), Mockito.anyBoolean())).thenReturn(landingZone);
         } catch (TenantResourceCreationException e) {
             Assert.fail(e.getMessage());
         }
