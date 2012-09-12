@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package org.slc.sli.common.util.uuid;
-
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
+package org.slc.sli.ingestion.transformation.normalization.did;
 
 /**
- * Generates a UUID, provides a consistent strategy for _id fields in Mongo
- * 
- * @author smelody
- * 
+ * Resolver for deterministic Id resolution.
+ *
+ * @author jtully
+ *
  */
-public interface UUIDGeneratorStrategy {
-    
-    public String generateId();
-    
-    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor);
+public class DeterministicIdResolver {
+
 }

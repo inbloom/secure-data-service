@@ -2321,7 +2321,7 @@
 			<xs:appinfo>
 				<sli:CollectionType>student</sli:CollectionType>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
