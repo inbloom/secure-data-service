@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     
     @Autowired
-    NaturalKeyExtractor naturalKeyExtractor;
+    INaturalKeyExtractor naturalKeyExtractor;
     
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {

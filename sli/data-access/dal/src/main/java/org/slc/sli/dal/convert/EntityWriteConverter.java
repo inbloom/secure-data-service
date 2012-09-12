@@ -22,7 +22,7 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
@@ -43,7 +43,7 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
     UUIDGeneratorStrategy uuidGeneratorStrategy;
     
     @Autowired
-    NaturalKeyExtractor naturalKeyExtractor;
+    INaturalKeyExtractor naturalKeyExtractor;
     
     @Override
     public DBObject convert(Entity e) {

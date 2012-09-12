@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
@@ -152,7 +152,7 @@ public class MongoEntity implements Entity, Serializable {
         return toDBObject(uuidGeneratorStrategy, null);
     }
 
-    public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, NaturalKeyExtractor naturalKeyExtractor) {
+    public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
 
