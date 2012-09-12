@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+import junitx.util.PrivateAccessor;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -282,6 +285,57 @@ public class AttendanceTransformerTest
 
     }
 
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetSession() throws Throwable {
+
+        //Mock the query in is for session
+        Query q1 = new Query().limit(0);
+        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        q1.addCriteria(Criteria.where("body.schoolId").is("schoolId1"));
+        when(repository.findAllByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(q1))))
+            .thenReturn(new ArrayList<NeutralRecord>());
+
+        //Mock the query in sli for sessions
+        List<Entity> sessions = buildSessionEntity();
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where("body.schoolId").is("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff"));
+        when(entityRepository.findByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(query)), Mockito.eq(0),Mockito.eq(0)))
+            .thenReturn(buildSessionEntity());
+
+        //Mock the query in sli for schools
+        Query sliSchoolQuery = new Query().limit(0);
+        sliSchoolQuery.addCriteria(Criteria.where("body.nameOfInstitution").is("schoolId1"));
+        when(entityRepository.findByQuery( Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectQuery(sliSchoolQuery)), Mockito.eq(0),Mockito.eq(0)))
+            .thenReturn(buildSessionEntity());
+
+        q1 = new Query().limit(0);
+        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        q1.addCriteria(Criteria.where("body.stateOrganizationId").is("schoolId1"));
+        when(repository.findAllByQuery(Mockito.eq("school"), Mockito.argThat(new IsCorrectQuery(q1))))
+            .thenReturn(new ArrayList<NeutralRecord>());
+
+
+        String[] args = new String[1];
+        args[0] = "schoolId1";
+        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{"schoolId1"});
+
+        Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
+    }
+
+
+    private List<Entity> buildSessionEntity() {
+        Map<String, Object> b = new HashMap<String, Object>();
+        SimpleEntity r = new SimpleEntity();
+        r.setType("session");
+        r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff");
+        r.setBody(b);
+        b.put("body.schoolId", "schoolId2");
+        Entity e = r;
+        return Arrays.asList(e);
+    }
+
     private List<NeutralRecord> buildSchoolRecords() {
         NeutralRecord r = new NeutralRecord();
         r.setRecordType("school");
@@ -297,6 +351,7 @@ public class AttendanceTransformerTest
         r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff");
         r.setBody(b);
         b.put("stateOrganizationId", "schoolId2");
+        b.put("nameOfInstitution", "schoolId2");
         Entity e = r;
         return Arrays.asList(e);
     }
