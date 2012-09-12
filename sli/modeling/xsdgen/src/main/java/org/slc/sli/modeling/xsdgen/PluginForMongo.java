@@ -43,11 +43,6 @@ public final class PluginForMongo implements Uml2XsdPlugin {
      */
     private static final String MONGO_REFERENCE_TYPE = "Reference";
     
-    @SuppressWarnings("unused")
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
-    }
-    
     /**
      * Not all association ends have names so we synthesize a name based upon the type.
      */
@@ -75,13 +70,8 @@ public final class PluginForMongo implements Uml2XsdPlugin {
         return new QName(type.getName());
     }
     
-    private static final boolean isUnbounded(final Occurs occurs) {
+    public static final boolean isUnbounded(final Occurs occurs) {
         return occurs.equals(Occurs.UNBOUNDED);
-    }
-    
-    @SuppressWarnings("unused")
-    private static final String titleCase(final String text) {
-        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
     
     @Override

@@ -29,15 +29,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -46,9 +37,11 @@ import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
@@ -59,6 +52,14 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -81,7 +82,7 @@ public class BasicService implements EntityService {
 
     private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COHORT, EntityNames.COURSE, EntityNames.COURSE_OFFERING, EntityNames.DISCIPLINE_ACTION,
             EntityNames.DISCIPLINE_INCIDENT, EntityNames.GRADE, EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADING_PERIOD, EntityNames.PARENT, EntityNames.PROGRAM, EntityNames.REPORT_CARD, EntityNames.SCHOOL, EntityNames.SECTION,
-            EntityNames.SECTION_ASSESSMENT_ASSOCIATION, EntityNames.SESSION, EntityNames.STAFF, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STUDENT,
+            EntityNames.SECTION_ASSESSMENT_ASSOCIATION, EntityNames.SESSION, EntityNames.STAFF, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY,
             EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, EntityNames.TEACHER, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
@@ -114,6 +115,12 @@ public class BasicService implements EntityService {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
+    
+    @Autowired
+    private SecurityCriteria securityCriteria;
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -630,6 +637,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
+        //TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, defn.getType())) {
@@ -690,10 +698,10 @@ public class BasicService implements EntityService {
     }
 
     private SecurityCriteria findAccessible(String toType) {
-        SecurityCriteria securityCriteria = new SecurityCriteria();
         String securityField = "_id";
         String blackListedEdOrgs = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        securityCriteria.setCollectionName(toType);
 
         if (principal == null) {
             throw new AccessDeniedException("Principal cannot be found");
@@ -709,20 +717,26 @@ public class BasicService implements EntityService {
             return securityCriteria;
         }
 
-        if (EntityNames.TEACHER.equals(type) && TEACHER_STAMPED_ENTITIES.contains(toType)) {
-            securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
-            return securityCriteria;
+        List<String> allowed = null;
+        EntityContextResolver resolver = new DenyAllContextResolver();
+        if(!securityCachingStrategy.contains(toType)) {
+            resolver = contextResolverStore.findResolver(type, toType);
+
+            allowed = resolver.findAccessible(principal.getEntity());
+            
+        } else {
+            allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
-
-        EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
-
-        List<String> allowed = resolver.findAccessible(principal.getEntity());
 
         if (type != null && type.equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
 
             Set<String> blacklist = edOrgNodeFilter.getBlacklist();
             blackListedEdOrgs = StringUtils.join(blacklist, ',');
+            if (!blacklist.isEmpty()) {
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs,
+                        false));
+            }
         }
 
         if (resolver instanceof AllowAllEntityContextResolver) {
@@ -731,20 +745,14 @@ public class BasicService implements EntityService {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false));
         }
 
-        if (blackListedEdOrgs != null && !blackListedEdOrgs.isEmpty()) {
-            securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs, false));
-        }
-
         return securityCriteria;
     }
 
     private boolean isPublic() {
-        if (getAuths().contains(Right.FULL_ACCESS)) {
-            return getAuths().contains(Right.FULL_ACCESS);
-        } else {
-            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE) || defn.getType().equals(EntityNames.LEARNING_STANDARD) || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
+        return getAuths().contains(Right.FULL_ACCESS) || defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
+                || defn.getType().equals(EntityNames.LEARNING_STANDARD)
+                || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
-        }
     }
 
     /**

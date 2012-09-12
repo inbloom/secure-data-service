@@ -17,6 +17,11 @@ task :ingestionAcceptanceSdsTest do
   addSecurityData()
 end
 
+desc "Run Ingestion LearningObjective Tests"
+task :ingestionLearningObjectiveTest do
+  runTests("test/features/ingestion/features/ingestion_learningObjective.feature")
+end
+
 desc "Run Ingestion Tenant Test"
 task :ingestionTenantTest do
   runTests("test/features/ingestion/features/ingestion_tenant.feature")
@@ -189,6 +194,11 @@ task :ingestionOrderAgnosticListTest do
   ]
   setMultipleFixtureFiles(testHash)
   runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
+end
+
+desc "Run Partial Ingestion of StudentAssessment data Test"
+task :partialIngestionStudentAssessmentTest do
+  runTests("test/features/ingestion/features/ingestion_PartialIngestion_StudentAssessment.feature")
 end
 
 ############################################################

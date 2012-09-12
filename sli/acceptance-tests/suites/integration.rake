@@ -24,7 +24,11 @@ require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
 task :rcIngestionTests do
-  runTests("test/features/ingestion/rc_test/rc_integration_ingestion.feature")
+  if RUN_ON_RC
+    runTests("test/features/ingestion/rc_test/rc_integration_ingestion.feature")
+  else
+    runTests("test/features/ingestion/rc_test/rc_integration_ingestion_ci.feature")
+  end
 end
 
 desc "Run Provision LZ Test"

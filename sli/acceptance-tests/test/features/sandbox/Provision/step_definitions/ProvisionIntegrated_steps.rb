@@ -36,6 +36,13 @@ Before do
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
 end
 
+After do
+begin
+initializeLandingZone(@lz)
+rescue
+end
+end
+
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @email                                       if human_readable_id == "USERID"
@@ -195,6 +202,7 @@ Then /^the directory structure for the landing zone is stored for tenant in mong
       if check_lz_path(landing_zone['path'], @tenantId, @edorgName)
         found=true
         puts landing_zone['path']
+        @lz = landing_zone['path']
       end
     end
   end
