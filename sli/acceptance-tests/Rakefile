@@ -948,15 +948,7 @@ task :importUnifiedData => [:realmInit] do
 end
 
 def addSecurityData()
-  addEdOrgSecurityData()
-  addTeacherSecurityData()
-end
-
-def addEdOrgSecurityData()
   sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
-end
-
-def addTeacherSecurityData()
   sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
