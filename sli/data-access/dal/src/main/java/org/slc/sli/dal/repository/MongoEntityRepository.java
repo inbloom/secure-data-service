@@ -160,10 +160,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         //List<Entity> returnEntities = new ArrayList<Entity>();
 
         if (visitables != null) {
+            List<Entity> results = new ArrayList<Entity>();
             for (SchemaVisitable visitable : visitables) {
-                List<Entity> results = new ArrayList<Entity>();
                 results = visitable.acceptRead(collectionName, results, neutralQuery, this);
             }
+
+            return results;
         }
 
         return super.findAll(collectionName, neutralQuery);
