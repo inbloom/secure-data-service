@@ -49,6 +49,7 @@ public void before() throws Exception {
     packageElements.add(dataType);
     UmlPackage umlPackage = new UmlPackage(UMLPACKAGE_NAME, packageElements);
     modelElements.add(umlPackage);
+    modelElements.add(classType);
     Model model = new Model(CLASSTYPE_ID, "modelName", new ArrayList<TaggedValue>(0), modelElements);
     indexModel = new DefaultModelIndex(model);
     visitor = new Xsd2UmlTweakerVisitor(indexModel);

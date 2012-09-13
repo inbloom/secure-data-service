@@ -1,12 +1,17 @@
 package org.slc.sli.modeling.xmigen;
 
-import org.junit.Test; 
+import org.apache.ws.commons.schema.XmlSchemaAppInfo;
+import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
 import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.uml.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,9 +157,49 @@ public void testNameFromSchemaTypeName() throws Exception {
 * 
 */ 
 @Test
-public void testTagsFromAppInfo() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testTagsFromAppInfo() throws Exception {
+    XmlSchemaAppInfo xmlSchemaAppInfo = mock(XmlSchemaAppInfo.class);
+    Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
+    NodeList nodeList = mock(NodeList.class);
+    Element node = mock(Element.class);
+
+    when(host.ensureTagDefinitionId(Mockito.anyString())).thenReturn(Identifier.random());
+    when(xmlSchemaAppInfo.getMarkup()).thenReturn(nodeList);
+    when(nodeList.item(anyInt())).thenReturn(node);
+    when(nodeList.getLength()).thenReturn(1);
+    when(node.getNodeType()).thenReturn(Node.ELEMENT_NODE);
+    when(node.getNamespaceURI()).thenReturn(SliMongoConstants.NAMESPACE_SLI);
+    when(node.getLocalName()).thenReturn("CollectionType");
+    when(node.getChildNodes()).thenReturn(nodeList);
+
+
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("naturalKey");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("applyNaturalKeys");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("PersonallyIdentifiableInfo");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("ReferenceType");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("ReadEnforcement");
+    when(node.getTextContent()).thenReturn("READ_RESTRICTED");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("SecuritySphere");
+    when(node.getTextContent()).thenReturn("Public");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("RelaxedBlacklist");
+    when(node.getTextContent()).thenReturn("true");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("RestrictedForLogging");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("WriteEnforcement");
+    when(node.getTextContent()).thenReturn("WRITE_RESTRICTED");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    when(node.getLocalName()).thenReturn("schemaVersion");
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+
+}
 
 
 /** 
