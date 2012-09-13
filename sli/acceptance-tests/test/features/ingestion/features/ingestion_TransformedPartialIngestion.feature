@@ -51,7 +51,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post Attendance without required parent records in database
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And I post "AttendancePartialUnhappy.zip" file as the payload of the ingestion job
+  And I post "AttendancePartialUnHappy.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
      | attendance                                |
