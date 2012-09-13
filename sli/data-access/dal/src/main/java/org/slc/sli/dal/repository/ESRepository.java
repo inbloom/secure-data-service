@@ -43,13 +43,19 @@ import org.slc.sli.domain.NeutralQuery;
  *
  */
 public class ESRepository extends SimpleEntityRepository {
+
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
+
+    private String esHost = "localhost";
+    private int esPort = 9200;
+    private int esTransportPort = 9300;
+
     private Client getClient() {
         // TODO: can't use transport client anymore
         Settings settings = ImmutableSettings.settingsBuilder()
                 .put("client.transport.sniff", true)
                 .put("client.transport.ignore_cluster_name", true).build();
-        return new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
+        return new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(esHost, esTransportPort));
     }
 
     @Override
@@ -71,7 +77,7 @@ public class ESRepository extends SimpleEntityRepository {
     private HttpEntity<String> sendRESTQuery(String query) {
 
         RestTemplate templateIn = new RestTemplate();
-        String url = "http://localhost:9200/" + TenantContext.getTenantId().toLowerCase() + "/_search";
+        String url = "http://" + esHost + ":" + esPort + "/" + TenantContext.getTenantId().toLowerCase() + "/_search";
         HttpMethod method = HttpMethod.POST;
         HttpHeaders headers = new HttpHeaders();
         HttpEntity entity = new HttpEntity(query, headers);
@@ -150,6 +156,7 @@ public class ESRepository extends SimpleEntityRepository {
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             BoolFilterBuilder bfb = FilterBuilders.boolFilter(), inFilter;
 
+            // set query criteria
             for (NeutralCriteria s : query.getCriteria()) {
                 if ("query".equals(s.getKey())) {
                   queryString = ((String) s.getValue()).trim();
@@ -159,6 +166,8 @@ public class ESRepository extends SimpleEntityRepository {
                     bfb.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
                 }
             }
+            
+            // set context metadata filter
             if (!query.getOrQueries().isEmpty()) {
                 for (NeutralQuery q : query.getOrQueries()) {
                     if (q.getCriteria().size() == 1) {
