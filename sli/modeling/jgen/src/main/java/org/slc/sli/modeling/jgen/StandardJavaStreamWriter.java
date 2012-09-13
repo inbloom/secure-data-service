@@ -139,7 +139,14 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(name);
         if (!implementations.isEmpty()) {
             writer.write(" implements ");
+            boolean first = true;
             for (final String implementation : implementations) {
+                if (first) {
+                    first = false;
+                } else {
+                    writer.write(COMMA);
+                    writer.write(SPACE);
+                }
                 writer.write(implementation);
             }
         }
