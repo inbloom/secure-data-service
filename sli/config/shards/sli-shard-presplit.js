@@ -14,23 +14,22 @@
 // limitations under the License.
 //
 
-var sli_collections = ["assessment","attendance","calendarDate","cohort","competencyLevelDescriptor","course","courseOffering","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganization","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","gradingPeriod","graduationPlan","learningObjective","learningStandard","parent","program","reportCard","section","sectionAssessmentAssociation","sectionSchoolAssociation","session","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","student","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
-
-function sli_shards() {
-    return ["kelvin", "constellation", "hood", "stargazer"];
-}
+//var collections_docId = ["assessment","attendance","calendarDate","cohort","competencyLevelDescriptor","course","courseOffering","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganization","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","gradingPeriod","graduationPlan","learningObjective","learningStandard","parent","program","reportCard","section","sectionAssessmentAssociation","sectionSchoolAssociation","session","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
+var collections_docId = ["assessment"];
+var collections_hashId = ["student"];
 
 function discoverShards() {
     var shards = [];
     var available_shards = db.runCommand( { listShards : 1 } );
     var shard_list = available_shards["shards"];
     for (var shard in shard_list) {
+    	print("Shard: " + shard);
         shards.push(shard_list[shard]["_id"]);
     }
     return shards;
 }
 
-function preSplit(shard_list, database_name, tenantId){
+function preSplit_docId(shard_list, database_name, tenantId, num_years){
     //make sure the database is sharded
     print("Enabling sharding on database:" + database_name);
     db.runCommand( { enablesharding : database_name } );
@@ -38,30 +37,97 @@ function preSplit(shard_list, database_name, tenantId){
     var a_code = "a".charCodeAt(0);
     var char_offset = Math.floor(26 / shard_list.length);
 
-    for (var col_num in sli_collections) {
+    for (var col_num in collections_docId) {
         //calculate strings
-        var collection = database_name + "." + sli_collections[col_num];
-        var year = new Date().getFullYear();
-        var move_strings = [];
+        var collection = database_name + "." + collections_docId[col_num];
+        var this_year = new Date().getFullYear();
+//        var num_years = 1;
 
         //enable sharding on the collection
         print("Sharding collecion:" + collection);
         db.runCommand({shardcollection:collection,
                        key:{"metaData.tenantId":1, "_id":1} });
 
-        //calculate splits and add to the moves array
-        move_strings.push(year + "a");
-        for (var shard_num = 1; shard_num < shard_list.length; shard_num++) {
-            var split_letter = String.fromCharCode(a_code + (char_offset * shard_num));
-            var split_string = year + split_letter;
-            move_strings.push(split_string);
+        for (var year_num = this_year; year_num < this_year+num_years; year_num++) {
+        	
+            var move_strings = [];
+        	year = year_num;
+            //calculate splits and add to the moves array
+            move_strings.push(year + "a");
+            for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
+                if (shard_num == shard_list.length) {
+                	var split_letter = "|";
+                	var split_string = year + split_letter;
+                } else {
+                    var split_letter = String.fromCharCode(a_code + (char_offset * shard_num));
+                    var split_string = year + split_letter;              	
+                }
+                move_strings.push(split_string);
 
+                //execute db command
+                db.adminCommand({split:collection,
+                                 middle:{"metaData.tenantId":tenantId, "_id":split_string}
+                                });
+            }
+
+            //explicitly move chunks to each shard
+            for (var i in move_strings) {
+                //execute db command
+                db.adminCommand({moveChunk:collection,
+                                 find:{"metaData.tenantId":tenantId, "_id":move_strings[i]},
+                                 to:shard_list[i]
+                                });
+            }
+        }
+        //explicitly add end point at beginning of range
+        var split_string = this_year + " ";
+        db.adminCommand({split:collection,
+            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+           });        
+        
+        //explicitly add an end split at 'last_year + "|"'
+        this_year = this_year + num_years - 1;
+        var split_string = this_year + "|";
+        db.adminCommand({split:collection,
+            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+           });        
+    	
+
+    }
+}
+
+function preSplit_hashId(shard_list, database_name, tenantId, num_years){
+    //make sure the database is sharded
+    print("Enabling sharding on database:" + database_name);
+    db.runCommand( { enablesharding : database_name } );
+	
+    var char_offset = Math.floor(256 / shard_list.length);
+
+    for (var col_num in collections_hashId) {
+        //calculate strings
+        var collection = database_name + "." + collections_hashId[col_num];
+
+        //enable sharding on the collection
+        print("Sharding collecion:" + collection);
+        db.runCommand({shardcollection:collection,
+                       key:{"metaData.tenantId":1, "_id":1} });
+        	
+        //calculate splits and add to the moves array
+        var move_strings = [];
+        move_strings.push("00");
+        for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
+            if (shard_num == shard_list.length) {
+            	var split_string = "  ";
+            } else {
+            	var split_string = (char_offset * shard_num).toString(16);
+            }
+            move_strings.push(split_string);
+            
             //execute db command
             db.adminCommand({split:collection,
                              middle:{"metaData.tenantId":tenantId, "_id":split_string}
                             });
         }
-
         //explicitly move chunks to each shard
         for (var i in move_strings) {
             //execute db command
@@ -70,7 +136,23 @@ function preSplit(shard_list, database_name, tenantId){
                              to:shard_list[i]
                             });
         }
+        
+        //explicitly add end point at beginning of range
+        var split_string = "  ";
+        db.adminCommand({split:collection,
+            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+           });        
+        
+        //explicitly add an end split at 'year + 1 + "a"'
+        //since 'year + "z"' potentially cuts off some records
+        var split_string = "||";
+        db.adminCommand({split:collection,
+            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+           });        
+    	
     }
 }
 
-preSplit(discoverShards(), "sli", "Midgar");
+
+preSplit_docId(discoverShards(), "sli", tenant, num_years);
+preSplit_hashId(discoverShards(), "sli", tenant, num_years);
