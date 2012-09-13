@@ -29,6 +29,7 @@ import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
+import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
@@ -91,13 +92,18 @@ public class SectionGenerator {
 
          // construct and add the course reference
          CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
-         courseOfferingIdentity.setLocalCourseCode(courseId);
+         String lcc = schoolId + "-l" + sessionId.substring(sessionId.lastIndexOf('-'))  + courseId.substring(courseId.lastIndexOf('-'));
+         courseOfferingIdentity.setLocalCourseCode(lcc);
          CourseCode courseCode = new CourseCode();
          courseCode.setID(courseId);
          courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
          courseOfferingIdentity.getCourseCode().add(courseCode);
          courseOfferingIdentity.setTerm(TermType.SPRING_SEMESTER);
          courseOfferingIdentity.setSchoolYear("2011-2012");
+         
+         ObjectFactory of = new ObjectFactory();
+         
+         courseOfferingIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
 
          CourseOfferingReferenceType courseRef = new CourseOfferingReferenceType();
          courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
@@ -113,6 +119,10 @@ public class SectionGenerator {
 
          section.setSessionReference(sessionRef);
 
+         
+         
+
+         
          return section;
     }
 

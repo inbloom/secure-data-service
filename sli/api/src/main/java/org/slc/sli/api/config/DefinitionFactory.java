@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +47,7 @@ import org.slc.sli.domain.enums.Right;
 public class DefinitionFactory {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> defaultRepo;
 
     @Autowired

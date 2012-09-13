@@ -130,7 +130,7 @@ public class JobReportingProcessor implements Processor {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
                 batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
-                //broadcastFlushStats(exchange, workNote);
+                broadcastFlushStats(exchange, workNote);
             }
             cleanUpLZ(job);
         }
@@ -277,11 +277,6 @@ public class JobReportingProcessor implements Processor {
                     } else {
                         LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                     }
-                }
-
-                if (countErrors > 1000 || countWarnings > 1000) {
-                    LOG.info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
-                    break;
                 }
 
             }

@@ -16,9 +16,12 @@
 
 package org.slc.sli.sif.agent;
 
+import java.util.Properties;
+
 import junit.framework.Assert;
 import openadk.library.Agent;
 import openadk.library.AgentProperties;
+import openadk.library.SIFVersion;
 import openadk.library.TransportManager;
 import openadk.library.TransportProperties;
 import openadk.library.Zone;
@@ -42,20 +45,35 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
 @ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class SifAgentTest
 {
+    private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {
+        Properties agentProperties = new Properties();
+        agentProperties.put("adk.messaging.mode", "Push");
+        agentProperties.put("adk.messaging.transport", "http");
+        agentProperties.put("adk.messaging.pullFrequency", "30000");
+        agentProperties.put("adk.messaging.maxBufferSize", "32000");
+
+        Properties httpProperties = new Properties();
+        httpProperties.put("port", "25101");
+
+        Properties httpsProperties = new Properties();
+
+        return new SifAgent("test.publisher.agent", zoneConfig, agentProperties,
+                httpProperties, httpsProperties, "TestZone",
+                "http://10.163.6.73:50002/TestZone", SIFVersion.SIF23);
+    }
 
     @Test
     public void shouldExtendAgent() {
-        SifAgent agent = new SifAgent();
+        ZoneConfigurator mockZoneConfigurator = Mockito.mock(ZoneConfigurator.class);
+        SifAgent agent = createSifAgent(mockZoneConfigurator);
         Assert.assertTrue("SifAgent should extend agent", agent instanceof Agent);
     }
 
     @Test
     public void shouldCreateAndConfigureAgent() throws Exception {
-        ZoneConfigurator mockZoneConfigurator = Mockito.mock(ZoneConfigurator.class);
 
-        SifAgent agent = new SifAgent("agent-Id",
-                "src/test/resources/sif/agent-test-config.xml",
-                mockZoneConfigurator);
+        ZoneConfigurator mockZoneConfigurator = Mockito.mock(ZoneConfigurator.class);
+        SifAgent agent = createSifAgent(mockZoneConfigurator);
 
         agent.startAgent();
 

@@ -27,6 +27,7 @@ import openadk.library.Publisher;
 import openadk.library.PublishingOptions;
 import openadk.library.Query;
 import openadk.library.SIFDataObject;
+import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 
@@ -61,9 +62,7 @@ public class EventReporter implements Publisher {
         ADK.debug = ADK.DBG_ALL;
 
         try {
-            SifAgent agent = new SifAgent("PublisherAgent",
-                    "src/main/resources/sif/agent-publish-config.xml",
-                    new PublishZoneConfigurator());
+            SifAgent agent = createReporterAgent();
 
             agent.startAgent();
 
@@ -84,6 +83,24 @@ public class EventReporter implements Publisher {
             logger.error("Exception trying to report event", e);
         }
     }
+
+    private static SifAgent createReporterAgent() {
+        Properties agentProperties = new Properties();
+        agentProperties.put("adk.messaging.mode", "Push");
+        agentProperties.put("adk.messaging.transport", "http");
+        agentProperties.put("adk.messaging.pullFrequency", "30000");
+        agentProperties.put("adk.messaging.maxBufferSize", "32000");
+
+        Properties httpProperties = new Properties();
+        httpProperties.put("port", "25102");
+
+        Properties httpsProperties = new Properties();
+
+        return new SifAgent("test.publisher.agent", new PublishZoneConfigurator(),
+                agentProperties, httpProperties, httpsProperties, "TestZone",
+                "http://10.163.6.73:50002/TestZone", SIFVersion.SIF23);
+    }
+
 
     public static final int ZONE_ID = 0;
     public static final int MESSAGE_FILE = 1;

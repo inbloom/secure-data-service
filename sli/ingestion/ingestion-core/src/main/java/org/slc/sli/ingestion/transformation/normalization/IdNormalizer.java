@@ -19,7 +19,8 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -456,6 +457,9 @@ public class IdNormalizer {
 
             cache(ids, collection, tenantId, filter);
         }
+
+        // sort because the $or query can produce different results every time
+        Collections.sort(ids);
         return ids;
     }
 
@@ -516,7 +520,7 @@ public class IdNormalizer {
             query.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
             // execute query and record results
-            Set<String> foundIds = new HashSet<String>();
+            Set<String> foundIds = new LinkedHashSet<String>();
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
 
@@ -606,7 +610,7 @@ public class IdNormalizer {
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
-            Set<String> valueSet = new HashSet<String>();
+            Set<String> valueSet = new LinkedHashSet<String>();
             for (Object entry : refValues) {
                 valueSet.add(entry.toString());
             }

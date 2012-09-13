@@ -32,6 +32,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -81,6 +89,7 @@ public class ApprovedApplicationResource {
     private ApplicationAuthorizationValidator appValidator;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     private EntityService service;
@@ -164,15 +173,8 @@ public class ApprovedApplicationResource {
 
         //make sure hosted SLI users can only see admin and portal
         if (SecurityUtil.isHostedUser(repo, (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            String name = (String) result.get("name");
-            String dev = (String) result.get("created_by");
-            if (dev != null && dev.equals("slcdeveloper")) {
-                if (!name.startsWith("Admin") && !name.startsWith("Portal")) {
-                    //somewhat quick and dirty way of checking for admin/portal
-                    //maybe we should add special flag to the app instead
-                    return true;
-                }
-            } else {
+            Boolean adminVisible = (Boolean) result.get("admin_visible");
+            if (adminVisible == null || !adminVisible) {
                 return true;
             }
         }

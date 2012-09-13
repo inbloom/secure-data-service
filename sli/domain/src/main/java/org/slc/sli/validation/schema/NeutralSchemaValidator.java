@@ -23,6 +23,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -54,6 +55,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     protected Repository<Entity> validationRepo;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> simpleValidationRepo;
 
     // Constructors

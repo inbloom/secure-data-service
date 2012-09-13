@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
@@ -63,6 +64,7 @@ public class AdminDelegationResource {
     private EntityDefinitionStore store;
 
     @Autowired
+    @Qualifier("validationRepo")
     Repository<Entity> repo;
 
     @Autowired

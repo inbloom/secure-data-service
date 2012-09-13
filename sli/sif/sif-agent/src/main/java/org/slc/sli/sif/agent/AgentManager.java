@@ -58,7 +58,6 @@ public class AgentManager {
 
     @PostConstruct
     public void setup() throws Exception {
-
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
 

@@ -83,6 +83,15 @@ public class SecuritySessionResourceTest {
         buildWithEmailType(Arrays.asList("Organization", "Other"));
         response = (Map<String, Object>) resource.sessionCheck();
         assert ("Organization@Organization.com".equals(response.get("email")));
+        
+        EntityBody body = new EntityBody();
+        body.put("name", new ArrayList<String>());
+        Entity e = Mockito.mock(Entity.class);
+        Mockito.when(e.getBody()).thenReturn(body);
+        injector.setCustomContext("MerpTest", "Merp Test", "IL", Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR), e,
+                "merpmerpmerp");
+        response = (Map<String, Object>) resource.sessionCheck();
+        assert ("".equals(response.get("email")));
 
     }
     
