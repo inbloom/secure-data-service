@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "educationOrganization",
+            "didFieldPath" : "body.educationOrganizationReference",
+            "sourceRefPath" : "body.EducationOrganizationReference"
+        }
+    ]
+}
