@@ -36,8 +36,11 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
     
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
      */
     @Override
     public Map<String, String> getNaturalKeys(Entity entity) {
@@ -55,8 +58,12 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         return map;
     }
     
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain.Entity)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain
+     * .Entity)
      */
     @Override
     public List<String> getNaturalKeyFields(Entity entity) {
@@ -89,8 +96,12 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         return naturalKeyFields;
     }
     
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyDescriptor(org.slc.sli.domain.Entity)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyDescriptor(org.slc.sli.domain
+     * .Entity)
      */
     @Override
     public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
@@ -103,7 +114,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         
         String entityType = entity.getType();
         String tenantId = (String) entity.getMetaData().get("tenantId");
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, entityType, tenantId);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType);
         return naturalKeyDescriptor;
     }
 }
