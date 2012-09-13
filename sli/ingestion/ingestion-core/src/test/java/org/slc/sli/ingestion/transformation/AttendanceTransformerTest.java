@@ -232,7 +232,7 @@ public class AttendanceTransformerTest
         Entity schoolEntity = buildSchoolEntity(stateOrganizationId);
         NeutralQuery schoolQuery = new NeutralQuery(0);
         schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
-        when(entityRepository.findOne(Mockito.eq("school"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
+        when(entityRepository.findOne(Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
             .thenReturn(schoolEntity);
         String schoolEntityId = schoolEntity.getEntityId();
 
