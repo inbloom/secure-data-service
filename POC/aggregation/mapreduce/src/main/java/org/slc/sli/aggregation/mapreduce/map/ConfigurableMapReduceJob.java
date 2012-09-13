@@ -60,7 +60,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
     static Logger log = Logger.getLogger("ConfigurableMapReduceJob");
 
     static ObjectMapper om = new ObjectMapper();
-    static final String MONGO_HOST = "localhost:27018";
+    static final String MONGO_HOST = "localhost:27017";
 
     private static String mapCollection;
     private static Map<String, Object> mapFields;
