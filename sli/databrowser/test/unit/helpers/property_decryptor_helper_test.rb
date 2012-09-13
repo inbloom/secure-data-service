@@ -35,6 +35,34 @@ class PropertyDecryptorHelperTest < ActionView::TestCase
         
         assert_equal unencryptedString, decryptedResult
     
+        puts "encrypting stuff"
+    
+        puts "development"
+        puts "client_id: " + PropertyDecryptorHelper.encrypt("2zhRrEXh8r")
+        puts "client_secret: " + 
+        PropertyDecryptorHelper.encrypt( "uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk")
+   
+        puts "team"
+        puts "client_id: " + PropertyDecryptorHelper.encrypt("G9tjgDx1aL")
+        puts "client_secret: " + 
+        PropertyDecryptorHelper.encrypt( "GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3")
+    
+        puts "test"
+        puts "client_id: " + PropertyDecryptorHelper.encrypt("OY6Nnukmn6")
+        puts "client_secret: " + 
+        PropertyDecryptorHelper.encrypt( "UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg")
+    
+        puts "production"
+        puts "client_id: " + PropertyDecryptorHelper.encrypt("G9tjgDx1aL")
+        puts "client_secret: " + 
+        PropertyDecryptorHelper.encrypt( "GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3")
+   
+   		puts "local acceptance tests"
+        puts "client_id: " + PropertyDecryptorHelper.encrypt("2zhRrEXh8r")
+        puts "client_secret: " + 
+        PropertyDecryptorHelper.encrypt( "uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk")
+    
+    
     end
 
 end
