@@ -1,0 +1,10 @@
+{
+    "entityType" : "educationOrganization",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "stateOrganizationId",
+            "valueSource" : "EducationalOrgIdentity.StateOrganizationId"
+        }
+    ]
+}
