@@ -23,13 +23,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.adapter.AttributeMapper;
+import org.slc.sli.dal.adapter.GenericMapper;
 import org.slc.sli.dal.adapter.LocationMapper;
 import org.slc.sli.dal.adapter.Mappable;
 import org.slc.sli.dal.adapter.SchemaVisitable;
 import org.slc.sli.dal.adapter.SchemaVisitor;
+import org.slc.sli.dal.adapter.transform.TransformWorkItem;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -76,7 +79,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private String writeConcern;
 
     @Resource(name = "schemaMappings")
-    private Map<String, Mappable> schemaMappings;
+    private Map<String, List<SchemaVisitable>> schemaMappings;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -136,9 +142,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
 
-        SchemaVisitable visitable = schemaMappings.get(collectionName);
-        if (visitable != null) {
-            return visitable.acceptWrite(type, entity, this);
+        List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
+        if (visitables != null) {
+            for (SchemaVisitable visitable : visitables) {
+                return visitable.acceptWrite(type, entity, this);
+            }
         }
 
         validator.validate(entity);
@@ -148,10 +156,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        SchemaVisitable visitable = schemaMappings.get(collectionName);
+        List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
+        //List<Entity> returnEntities = new ArrayList<Entity>();
 
-        if (visitable != null) {
-            return visitable.acceptRead(collectionName, neutralQuery, this);
+        if (visitables != null) {
+            for (SchemaVisitable visitable : visitables) {
+                List<Entity> results = new ArrayList<Entity>();
+                results = visitable.acceptRead(collectionName, results, neutralQuery, this);
+            }
         }
 
         return super.findAll(collectionName, neutralQuery);
@@ -232,25 +244,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, AttributeMapper mapper) {
-        Iterable<Entity> list = super.findAll(type, neutralQuery);
-
-        return mapper.readAll(null, list);
-    }
-
-    @Override
-    public Entity visitWrite(String type, Entity entity, AttributeMapper mapper) {
-        entity = mapper.write(entity);
-
-        validator.validate(entity);
-        this.addTimestamps(entity);
-
-        return super.create(entity, type);
-    }
-
-    @Override
-    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, LocationMapper mapper) {
+    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, LocationMapper mapper) {
         List<String> ids = new ArrayList<String>();
+        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
 
         for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
             if (criteria.getKey().equals("_id")) {
@@ -259,12 +255,44 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        return mapper.readAll(ids, null);
+        for (String id : ids) {
+            toTransform.add(new TransformWorkItem(1, 1, id, null));
+        }
+
+        return mapper.readAll(toTransform);
     }
 
     @Override
     public Entity visitWrite(String type, Entity entity, LocationMapper mapper) {
         return mapper.write(entity);
+    }
+
+    @Override
+    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, GenericMapper mapper) {
+        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
+
+        Iterable<Entity> list = super.findAll(type, neutralQuery);
+
+        NeutralSchema schema = schemaRepository.getSchema(type);
+        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
+        //TODO
+        int schemaVersion = 2;
+
+        for (Entity entity : list) {
+            String version = (String) entity.getMetaData().get("version");
+            int docVersion = Integer.parseInt((version == null) ? "1" : version);
+
+            if (docVersion < schemaVersion) {
+                toTransform.add(new TransformWorkItem(docVersion, schemaVersion,
+                        entity.getEntityId(), entity));
+            }
+        }
+
+        if (!toTransform.isEmpty()) {
+            return mapper.readAll(toTransform);
+        }
+
+        return (List<Entity>) list;
     }
 
 }

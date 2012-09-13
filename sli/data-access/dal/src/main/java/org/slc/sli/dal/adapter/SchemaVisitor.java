@@ -3,6 +3,8 @@ package org.slc.sli.dal.adapter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
+import java.util.List;
+
 /**
  * Handles schema mappings and adaptations
  *
@@ -12,12 +14,10 @@ import org.slc.sli.domain.NeutralQuery;
 
 public interface SchemaVisitor {
 
-    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, AttributeMapper mapper);
-
-    public Entity visitWrite(String type, Entity entity, AttributeMapper mapper);
-
-    public Iterable<Entity> visitRead(String type, NeutralQuery neutralQuery, LocationMapper mapper);
+    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, LocationMapper mapper);
 
     public Entity visitWrite(String type, Entity entity, LocationMapper mapper);
+
+    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, GenericMapper mapper);
 
 }

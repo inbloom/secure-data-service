@@ -3,6 +3,8 @@ package org.slc.sli.dal.adapter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
+import java.util.List;
+
 /**
  * Visitable interface for schema mappings
  *
@@ -11,7 +13,7 @@ import org.slc.sli.domain.NeutralQuery;
  */
 public interface SchemaVisitable {
 
-    public Iterable<Entity> acceptRead(String type, NeutralQuery neutralQuery, SchemaVisitor visitor);
+    public List<Entity> acceptRead(String type, List<Entity> entities, NeutralQuery neutralQuery, SchemaVisitor visitor);
 
     public Entity acceptWrite(String type, Entity entity, SchemaVisitor visitor);
 }

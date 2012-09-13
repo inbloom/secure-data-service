@@ -1,5 +1,6 @@
 package org.slc.sli.dal.adapter;
 
+import org.slc.sli.dal.adapter.transform.TransformWorkItem;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -123,20 +124,21 @@ public class LocationMapper implements Mappable {
 
 
     @Override
-    public Iterable<Entity> readAll(List<String> ids, Iterable<Entity> entities) {
+    public List<Entity> readAll(List<TransformWorkItem> toTransform) {
         List<String> parentIds = new ArrayList<String>();
         List<Entity> returnEntities = new ArrayList<Entity>();
 
-        for (String id : ids) {
-            parentIds.add(getParentEntityId(id));
+        for (TransformWorkItem workItem : toTransform) {
+            parentIds.add(getParentEntityId(workItem.getEntityId()));
         }
 
         Iterable<Map> results = template.find(Query.query(Criteria.where("_id").in(parentIds)), Map.class, collection);
 
         for (Map entity : results) {
-            for (String id : ids) {
-                if (((Map<String, Object>) entity.get(subCollection)).containsKey(id)) {
-                    returnEntities.add(new MongoEntity(type, id, (Map<String, Object>) ((Map<String, Object>) entity.get(subCollection)).get(id), null));
+            for (TransformWorkItem workItem : toTransform) {
+                if (((Map<String, Object>) entity.get(subCollection)).containsKey(workItem.getEntityId())) {
+                    returnEntities.add(new MongoEntity(type, workItem.getEntityId(),
+                            (Map<String, Object>) ((Map<String, Object>) entity.get(subCollection)).get(workItem.getEntityId()), null));
                 }
             }
         }
@@ -158,8 +160,8 @@ public class LocationMapper implements Mappable {
     }
 
     @Override
-    public Iterable<Entity> acceptRead(String type, NeutralQuery neutralQuery, SchemaVisitor visitor) {
-        return visitor.visitRead(type, neutralQuery, this);
+    public List<Entity> acceptRead(String type, List<Entity> entities, NeutralQuery neutralQuery, SchemaVisitor visitor) {
+        return visitor.visitRead(type, entities, neutralQuery, this);
     }
 
     @Override

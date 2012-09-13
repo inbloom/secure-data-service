@@ -1,5 +1,6 @@
 package org.slc.sli.dal.adapter;
 
+import org.slc.sli.dal.adapter.transform.TransformWorkItem;
 import org.slc.sli.domain.Entity;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface Mappable extends SchemaVisitable {
 
-    public Iterable<Entity> readAll(List<String> ids, Iterable<Entity> entities);
+    public List<Entity> readAll(List<TransformWorkItem> toTransform);
 
     public Entity read(Entity entity);
 
