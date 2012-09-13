@@ -1,0 +1,24 @@
+{
+    "entityType" : "section",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "uniqueSectionCode",
+            "valueSource" : "sectionIdentity.uniqueSectionCode"
+        },
+        {
+            "keyFieldName" : "schoolId",
+            "refConfig" :
+            {
+                "entityType" : "school",
+                "keyFields" :
+                [
+                    {
+                        "keyFieldName" : "stateOrganizationId",
+                        "valueSource" : "sectionIdentity.stateOrganizationId"
+                    }
+                ]
+            }
+        }
+    ]
+}
