@@ -6,7 +6,7 @@ development:
     client_id: 9fb99cfb979f23c04a488d20293f4f44
     client_secret: a4b6223763a0de9a87a602f3a23c8e755cbf6b8dd35697e80aa0660f13e16decd4fcc6afe3e9c7bd454c2be31d5bfabc16eb39a7b5479163ab6f110b834926a2
     redirect_uri: http://local.slidev.org:3000/callback
-    encryption_keyfile: config/localRailsKey
+    encryption_keyfile: ../data-access/dal/keystore/localRailsKey
     encryption_iv: \x10LD\xFB\f\x91\xD5\xCDQo\bZ\xC1\xF6\x1C\xBC
     
 team:
@@ -15,7 +15,7 @@ team:
     client_id: 526ab9be020978e3d2ba47efdb5cd7f4
     client_secret: cf0ae8baa18b1872d3706860b3536dba687a86a2ace8236dd0e355d4d7f041a83557167e3b7c9652415efe702e8b87ba237c68510418ec7a08a645505b659446
     redirect_uri: https://ci.slidev.org:2000/callback
-    encryption_keyfile: config/localRailsKey
+    encryption_keyfile: ../data-access/dal/keystore/localRailsKey
     encryption_iv: \x10LD\xFB\f\x91\xD5\xCDQo\bZ\xC1\xF6\x1C\xBC
     
 production:
@@ -24,13 +24,13 @@ production:
     client_id: 526ab9be020978e3d2ba47efdb5cd7f4
     client_secret: cf0ae8baa18b1872d3706860b3536dba687a86a2ace8236dd0e355d4d7f041a83557167e3b7c9652415efe702e8b87ba237c68510418ec7a08a645505b659446
     redirect_uri: https://ci.slidev.org:2000/callback
-    encryption_keyfile: config/localRailsKey
+    encryption_keyfile: ../data-access/dal/keystore/localRailsKey
     encryption_iv: \x10LD\xFB\f\x91\xD5\xCDQo\bZ\xC1\xF6\x1C\xBC
     
 test:
     portal_url: https://nxportal.slidev.org/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: https://devapp1.slidev.org/api/rest/v1
-    encryption_keyfile: config/localRailsKey
+    encryption_keyfile: ../data-access/dal/keystore/localRailsKey
     encryption_iv: \x10LD\xFB\f\x91\xD5\xCDQo\bZ\xC1\xF6\x1C\xBC
     
 local-acceptance-tests:
@@ -39,6 +39,6 @@ local-acceptance-tests:
     client_id: 9fb99cfb979f23c04a488d20293f4f44
     client_secret: a4b6223763a0de9a87a602f3a23c8e755cbf6b8dd35697e80aa0660f13e16decd4fcc6afe3e9c7bd454c2be31d5bfabc16eb39a7b5479163ab6f110b834926a2
     redirect_uri: http://local.slidev.org:2001/callback
-    encryption_keyfile: config/localRailsKey
+    encryption_keyfile: ../data-access/dal/keystore/localRailsKey
     encryption_iv: \x10LD\xFB\f\x91\xD5\xCDQo\bZ\xC1\xF6\x1C\xBC
  
