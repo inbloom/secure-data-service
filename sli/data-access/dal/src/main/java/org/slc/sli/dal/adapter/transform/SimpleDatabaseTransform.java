@@ -1,6 +1,9 @@
 package org.slc.sli.dal.adapter.transform;
 
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +18,10 @@ public class SimpleDatabaseTransform implements DatabaseTransform {
 
     private static final String KEY = "populationServed";
     private static final String NEW_KEY = "newAttribute";
+
+    @Autowired
+    @Qualifier("mongoTemplate")
+    private MongoTemplate template;
 
     @Override
     public Entity transformWrite(Entity toTransform) {
