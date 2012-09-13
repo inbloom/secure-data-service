@@ -84,10 +84,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
      * @param request
      */
     private void validate(ContainerRequest request) {
+        request.getProperties().put("logIntoDb", true );
 
         for (URLValidator validator : urlValidators) {
             if (!validator.validate(request.getRequestUri())) {
-                request.getProperties().put("invalidaRequest", true );
+                request.getProperties().put("logIntoDb", false );
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
