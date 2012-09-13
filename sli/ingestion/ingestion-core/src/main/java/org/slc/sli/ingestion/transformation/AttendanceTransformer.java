@@ -589,7 +589,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         NeutralQuery schoolQuery = new NeutralQuery(0);
         schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
-        Entity schoolEntity = getMongoEntityRepository().findOne(EntityNames.SCHOOL, schoolQuery);
+        Entity schoolEntity = getMongoEntityRepository().findOne(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
         String schoolEntityId = null;
         if(schoolEntity != null) {
             schoolEntityId = schoolEntity.getEntityId();
