@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -119,13 +118,17 @@ public class NeutralRecord {
     private long creationTime;
 
     /**
+     * stores a mapping that captures contextual information regarding the record.
+     */
+    private Map<String, Object> metaData;
+
+    /**
      * Default constructor
      */
     public NeutralRecord() {
-        // initialize the two Maps as a convenience
         this.localParentIds = new HashMap<String, Object>();
         this.attributes = new HashMap<String, Object>();
-
+        this.metaData = new HashMap<String, Object>();
         this.recordId = null;
     }
 
@@ -304,6 +307,14 @@ public class NeutralRecord {
 
     public void setCreationTime(long creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public Map<String, Object> getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(Map<String, Object> metaData) {
+        this.metaData = metaData;
     }
 
     @Override

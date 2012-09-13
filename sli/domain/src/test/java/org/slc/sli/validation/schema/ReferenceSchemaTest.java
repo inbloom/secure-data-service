@@ -30,6 +30,7 @@ import java.util.Map;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -312,10 +313,20 @@ public class ReferenceSchemaTest {
         }
 
         @Override
+        public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+                String collectionName, int noOfRetries) {
+            return null;
+        }
+
+        @Override
         public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
-            // TODO Auto-generated method stub
             return false;
         }
 
+        @Override
+        public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 }
