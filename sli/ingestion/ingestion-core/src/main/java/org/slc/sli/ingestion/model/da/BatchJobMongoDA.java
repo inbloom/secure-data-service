@@ -46,6 +46,7 @@ import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -629,4 +630,21 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.sliMongo = sliMongo;
     }
 
+    @Override
+    public boolean findAndUpsertRecordHash(String recordId) {
+        RecordHash rh = this.batchJobMongoTemplate.findById(recordId, RecordHash.class, "recordHash");
+
+        if (rh == null) {
+            //record was not found
+            rh = new RecordHash();
+            rh._id = recordId;
+            rh.timestamp = "" + System.currentTimeMillis();
+            this.batchJobMongoTemplate.save(rh, "recordHash");
+            return false;
+        } else {
+            rh.timestamp = "" + System.currentTimeMillis();
+            this.batchJobMongoTemplate.save(rh, "recordHash");
+            return true;
+        }
+    }
 }

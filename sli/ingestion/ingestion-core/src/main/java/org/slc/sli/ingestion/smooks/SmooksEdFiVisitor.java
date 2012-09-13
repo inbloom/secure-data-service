@@ -18,7 +18,11 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +44,7 @@ import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -70,6 +75,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
+
+    private BatchJobDAO batchJobDAO;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -103,7 +110,16 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            queueNeutralRecordForWriting(neutralRecord);
+
+            LOG.info("CHECKING RECORD for DELTA");
+
+            System.out.println(neutralRecord.toString());
+            if (!isPreviouslyIngested(neutralRecord)) {
+                LOG.info("RECORD IS NOT INGESTED BEFORE");
+                queueNeutralRecordForWriting(neutralRecord);
+            } else {
+                LOG.info("RECORD IS INGESTED BEFORE");
+            }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
                 writeAndClearQueuedNeutralRecords();
@@ -117,6 +133,38 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
         }
+    }
+
+    private boolean isPreviouslyIngested(NeutralRecord n) {
+
+        try {
+            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"));
+
+            LOG.info("RECORD HASH = " + recordId);
+
+            return batchJobDAO.findAndUpsertRecordHash(recordId);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    public static String createRecordHash(byte[] input) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        return byteArray2Hex(md.digest(input));
+    }
+
+    private static String byteArray2Hex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        return formatter.toString();
     }
 
     /**
@@ -186,6 +234,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = nrMongoStagingWriter;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 
     /* we are not using the below visitor hooks */

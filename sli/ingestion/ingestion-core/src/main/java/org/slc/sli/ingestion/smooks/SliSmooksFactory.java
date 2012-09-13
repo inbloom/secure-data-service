@@ -23,13 +23,16 @@ import java.util.Map;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.xml.sax.SAXException;
 
 /**
  * Factory class for Smooks
@@ -43,7 +46,10 @@ public class SliSmooksFactory {
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) 
+    @Autowired
+    public BatchJobDAO batchJobDAO;
+
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport)
             throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
@@ -73,6 +79,8 @@ public class SliSmooksFactory {
                     fe);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
+
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
             }
@@ -90,5 +98,9 @@ public class SliSmooksFactory {
 
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = (NeutralRecordMongoAccess) nrMongoStagingWriter;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 }

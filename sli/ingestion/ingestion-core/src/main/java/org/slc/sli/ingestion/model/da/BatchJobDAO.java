@@ -117,4 +117,6 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
+    boolean findAndUpsertRecordHash(String recordId);
+
 }

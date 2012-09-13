@@ -193,6 +193,7 @@
     </property>
     <property name="beanId" value="${smooks.config.bean.id}" />
     <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
   </bean>
 
 </beans>
