@@ -60,4 +60,39 @@ public class FileUtils {
         dest.delete();
         return source.renameTo(dest);
     }
+
+    /**
+     * Returns when a file stops changing in size or timeout
+     *
+     * @param changingFile
+     * @param pollInterval
+     * @param timeout
+     * @return boolean value whether the file has stopped changing in size.
+     */
+    public static boolean isFileDoneChanging(File changingFile, long interval, long timeout)
+            throws InterruptedException {
+        // timeout is in secs
+        long clockTimeout = System.currentTimeMillis() + timeout;
+
+        long prevLastModified = Long.MIN_VALUE;
+        long prevLength = Long.MIN_VALUE;
+
+        while (System.currentTimeMillis() < clockTimeout) {
+            long newLastModified = changingFile.lastModified();
+            long newLength = changingFile.length();
+
+            Thread.sleep(interval);
+
+            if (prevLastModified == newLastModified && prevLength == newLength) {
+                return true;
+            }
+
+            prevLastModified = newLastModified;
+            prevLength = newLength;
+
+        }
+
+        return false;
+    }
+
 }
