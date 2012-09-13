@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,10 +143,31 @@ public class XmiReaderTest {
     public void testCloseQuiet() throws IOException {
 
         Closeable mockCloseable = mock(Closeable.class);
-
+        
+        final StringBuffer stringBuffer = new StringBuffer();
+        
+        PrintStream stdErr = System.err;
+        PrintStream myErr = new PrintStream(new OutputStream(){
+			@Override
+			public void write(int b) throws IOException {
+				stringBuffer.append((char) b);
+			}
+        });
+        
+        //push
+        System.setErr(myErr);
+        
+        //test successful close
         XmiReader.closeQuiet(mockCloseable);
+        assertTrue(stringBuffer.toString().equals(""));
+        
+        //test unsuccessful close
         doThrow(new IOException()).when(mockCloseable).close();
         XmiReader.closeQuiet(mockCloseable);
+        assertFalse(stringBuffer.toString().equals(""));
+        
+        //pop
+        System.setErr(stdErr);
     }
 
     @Test
