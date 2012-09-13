@@ -2,7 +2,6 @@
     "keyFields" : ["body.gradingPeriodId", "body.studentSectionAssociationId"],
     "references" :
     [
-        
         {
            "fieldPath" : "body.gradingPeriodId",
             "ref" :

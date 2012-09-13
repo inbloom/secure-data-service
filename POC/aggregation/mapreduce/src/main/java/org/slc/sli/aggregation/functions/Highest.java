@@ -1,12 +1,10 @@
 package org.slc.sli.aggregation.functions;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.TreeSet;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.bson.BSONObject;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -31,18 +29,13 @@ public class Highest extends Reducer<TenantAndIdEmittableKey, BSONWritable, Tena
 
         BoundedTreeSet nthHighest = null;
 
-        Configuration conf = context.getConfiguration();
-        InputStream s = conf.getConfResourceAsInputStream(conf.get(JobConfiguration.CONFIGURATION_PROPERTY));
-        if (s == null) {
-            throw new IOException("Configuration is misssing section: " + JobConfiguration.CONFIGURATION_PROPERTY);
-        }
-        JobConfiguration.ConfigSections sections = JobConfiguration.readStream(s);
+        JobConfiguration.ConfigSections sections = JobConfiguration.readFromConfiguration(context.getConfiguration());
 
         JobConfiguration.ParametersConfig params = sections.getMetadata().getParameters();
         int n = params.getN();
         nthHighest = new BoundedTreeSet(n);
 
-        // We express this as an array, but really we expect only one for 'highest'.
+        // Fields is expressed as an array, but in this situation we only expect one. Pull off the first one.
         String field = sections.getMapper().getFields().keySet().toArray(new String[0])[0];
         String updateField = sections.getReduce().getField();
 
@@ -60,18 +53,17 @@ public class Highest extends Reducer<TenantAndIdEmittableKey, BSONWritable, Tena
         }
 
         int i = 0;
-        Double value = Double.MAX_VALUE;
+        Double value = Double.MIN_VALUE;
 
         // Get the nth highest value if we have n values, or the closes value we can find.
         while (i < n && !nthHighest.isEmpty()) {
             value = nthHighest.pollLast();
+            i++;
         }
 
         BSONObject obj = BSONUtilities.setValue(updateField,  value);
         BSONWritable result = new BSONWritable(obj);
         context.write(id, result);
-
-        System.err.println("" + callCount++);
     }
 
 
@@ -85,9 +77,9 @@ public class Highest extends Reducer<TenantAndIdEmittableKey, BSONWritable, Tena
         private static final long serialVersionUID = 2795956513757734802L;
         protected int maxElements;
 
-        BoundedTreeSet(int maxElements) {
+        BoundedTreeSet(int max) {
             super();
-            this.maxElements = maxElements;
+            this.maxElements = max;
         }
 
         @Override

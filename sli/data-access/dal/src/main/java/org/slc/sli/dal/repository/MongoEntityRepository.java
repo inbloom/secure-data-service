@@ -16,13 +16,12 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,9 +50,6 @@ import org.slc.sli.validation.EntityValidator;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
-    protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
-
-    private static final int PADDING = 300;
 
     @Autowired
     private EntityValidator validator;
@@ -103,11 +99,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
+    public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return create(type, id, body, metaData, collectionName);
+            }
+        };
+        return (Entity) rc.executeOperation(noOfRetries);
+    }
+
+    @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
-        Entity entity = new MongoEntity(type, null, newValues, null, PADDING);
-
+        Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
-
         return super.patch(type, collectionName, id, newValues);
     }
 
@@ -125,7 +132,41 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        MongoEntity entity = new MongoEntity(type, null, body, metaData, PADDING);
+        MongoEntity entity = new MongoEntity(type, null, body, metaData);
+        validator.validate(entity);
+
+        this.addTimestamps(entity);
+        return super.create(entity, collectionName);
+    }
+
+    public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
+        Assert.notNull(body, "The given entity must not be null!");
+        if (metaData == null) {
+            metaData = new HashMap<String, Object>();
+        }
+
+        String tenantId = TenantContext.getTenantId();
+        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+            if (metaData.get("tenantId") == null) {
+                metaData.put("tenantId", tenantId);
+            }
+        }
+
+        if (collectionName.equals("educationOrganization")) {
+            if (metaData.containsKey("edOrgs")) {
+                @SuppressWarnings("unchecked")
+                List<String> edOrgs = (List<String>) metaData.get("edOrgs");
+                edOrgs.add(id);
+                metaData.put("edOrgs", edOrgs);
+            } else {
+                List<String> edOrgs = new ArrayList<String>();
+                edOrgs.add(id);
+                metaData.put("edOrgs", edOrgs);
+            }
+        }
+
+        MongoEntity entity = new MongoEntity(type, id, body, metaData);
         validator.validate(entity);
 
         this.addTimestamps(entity);
@@ -143,8 +184,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             subDocs.subDoc(collectionName).insert(records);
             return records;
         } else {
-            return super.insert(records, collectionName);
-        }
+            List<Entity> persist = new ArrayList<Entity>();
+
+            for (Entity record : records) {
+                Entity entity = new MongoEntity(record.getType(), record.getStagedEntityId(), record.getBody(),
+                        record.getMetaData());
+                persist.add(entity);
+            }
+
+            return super.insert(persist, collectionName);        }
     }
 
     @Override
@@ -191,19 +239,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
-
         this.updateTimestamp(entity);
-
-        // Map<String, Object> body = entity.getBody();
-        // if (encrypt != null) {
-        // body = encrypt.encrypt(entity.getType(), entity.getBody());
-        // }
         return update(collection, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
-        // String now = DateTimeUtil.getNowInUTC();
         Date now = DateTimeUtil.getNowInUTC();
 
         Map<String, Object> metaData = entity.getMetaData();

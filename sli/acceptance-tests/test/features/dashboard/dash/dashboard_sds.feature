@@ -13,7 +13,7 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page
 And I see a footer on the page
-And the title of the page is "SLC - Section Profile"
+And the title of the page is "SLC Dashboard"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I click on the go button
