@@ -25,7 +25,11 @@ public class SimpleDatabaseTransform implements DatabaseTransform {
 
     @Override
     public Entity transformWrite(Entity toTransform) {
-        return null;
+        String value = (String) toTransform.getBody().get(NEW_KEY);
+        toTransform.getBody().remove(NEW_KEY);
+        toTransform.getBody().put(KEY, value);
+
+        return toTransform;
     }
 
     @Override

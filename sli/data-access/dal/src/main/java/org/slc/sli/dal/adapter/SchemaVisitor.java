@@ -20,4 +20,6 @@ public interface SchemaVisitor {
 
     public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, GenericMapper mapper);
 
+    public Entity visitWrite(String type, Entity entity, GenericMapper mapper);
+
 }

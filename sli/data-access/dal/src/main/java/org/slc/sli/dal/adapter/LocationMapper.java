@@ -152,11 +152,13 @@ public class LocationMapper implements Mappable {
     }
 
     @Override
-    public Entity write(Entity entity) {
-        String id = makeEntityId(entity.getBody());
-        create(id, entity);
+    public Entity write(TransformWorkItem toTransform) {
+        String id = makeEntityId(toTransform.getToTransform().getBody());
+        create(id, toTransform.getToTransform());
 
-        return new MongoEntity(type, id, entity.getBody(), entity.getMetaData(), entity.getCalculatedValues(), entity.getAggregates());
+        return new MongoEntity(type, id, toTransform.getToTransform().getBody(),
+                toTransform.getToTransform().getMetaData(), toTransform.getToTransform().getCalculatedValues(),
+                toTransform.getToTransform().getAggregates());
     }
 
     @Override

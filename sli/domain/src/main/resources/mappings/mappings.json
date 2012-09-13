@@ -1,0 +1,27 @@
+[
+    {
+        "type":"studentSectionAssociation",
+        "transforms":[
+            {
+                "type":"Location",
+                "attributes" : {
+                    "type":"studentSectionAssociation",
+                    "collection":"student",
+                    "key":"studentId",
+                    "subCollection":"sections"
+                }
+            }
+        ]
+    },
+    {
+        "type":"section",
+        "transforms":[
+            {
+                "type":"Generic",
+                "attributes" : {
+                    "type":"section"
+                }
+            }
+        ]
+    }
+]

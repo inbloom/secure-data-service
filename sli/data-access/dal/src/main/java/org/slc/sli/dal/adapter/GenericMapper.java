@@ -36,9 +36,14 @@ public class GenericMapper implements Mappable {
 
             //TODO - need to sort these transforms by versions before applying them.
 
+            Entity entity = null;
             for (Transform transform : transforms) {
-                results.add(transform.transformRead(workItem.getToTransform()));
+                entity = transform.transformRead(workItem.getToTransform());
+                workItem.setToTransform(entity);
+                workItem.setEntityId(entity.getEntityId());
             }
+
+            results.add(entity);
         }
 
         return results;
@@ -50,8 +55,24 @@ public class GenericMapper implements Mappable {
     }
 
     @Override
-    public Entity write(Entity entity) {
-        return null;
+    public Entity write(TransformWorkItem toTransform) {
+        Entity entity = null;
+        List<Transform> transforms = databaseTransformStore.getTransform(toTransform.getToTransform().getType(),
+                toTransform.getCurrentVersion(), toTransform.getSchemaVersion());
+
+        //TODO - need to sort these transforms by versions before applying them.
+
+        for (Transform transform : transforms) {
+            entity = transform.transformWrite(toTransform.getToTransform());
+            toTransform.setToTransform(entity);
+            toTransform.setEntityId(entity.getEntityId());
+        }
+
+        if (entity != null) {
+            return entity;
+        }
+
+        return toTransform.getToTransform();
     }
 
     @Override
@@ -61,6 +82,6 @@ public class GenericMapper implements Mappable {
 
     @Override
     public Entity acceptWrite(String type, Entity entity, SchemaVisitor visitor) {
-        return null;
+        return visitor.visitWrite(type, entity, this);
     }
 }

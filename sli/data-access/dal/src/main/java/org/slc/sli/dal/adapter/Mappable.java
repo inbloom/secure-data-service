@@ -17,5 +17,5 @@ public interface Mappable extends SchemaVisitable {
 
     public Entity read(Entity entity);
 
-    public Entity write(Entity entity);
+    public Entity write(TransformWorkItem toTransform);
 }

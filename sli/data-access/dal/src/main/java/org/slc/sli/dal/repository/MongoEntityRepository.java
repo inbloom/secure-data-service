@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.slc.sli.dal.adapter.GenericMapper;
 import org.slc.sli.dal.adapter.LocationMapper;
-import org.slc.sli.dal.adapter.Mappable;
 import org.slc.sli.dal.adapter.SchemaVisitable;
 import org.slc.sli.dal.adapter.SchemaVisitor;
 import org.slc.sli.dal.adapter.transform.TransformWorkItem;
@@ -145,8 +144,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
         if (visitables != null) {
             for (SchemaVisitable visitable : visitables) {
-                return visitable.acceptWrite(type, entity, this);
+                entity = visitable.acceptWrite(type, entity, this);
             }
+
+            return entity;
         }
 
         validator.validate(entity);
@@ -157,7 +158,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
-        //List<Entity> returnEntities = new ArrayList<Entity>();
 
         if (visitables != null) {
             List<Entity> results = new ArrayList<Entity>();
@@ -266,7 +266,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity visitWrite(String type, Entity entity, LocationMapper mapper) {
-        return mapper.write(entity);
+        TransformWorkItem toTransform = new TransformWorkItem(1, 1, entity.getEntityId(), entity);
+        return mapper.write(toTransform);
     }
 
     @Override
@@ -295,6 +296,32 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         return (List<Entity>) list;
+    }
+
+    @Override
+    public Entity visitWrite(String type, Entity entity, GenericMapper mapper) {
+        TransformWorkItem toTransform = null;
+        NeutralSchema schema = schemaRepository.getSchema(type);
+        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
+        //TODO
+        int schemaVersion = 2;
+
+        String version = (String) entity.getMetaData().get("version");
+        int docVersion = Integer.parseInt((version == null) ? "1" : version);
+
+        if (docVersion < schemaVersion) {
+            toTransform = new TransformWorkItem(docVersion, schemaVersion,
+                    entity.getEntityId(), entity);
+        }
+
+        if (toTransform != null) {
+            entity = mapper.write(toTransform);
+        }
+
+        validator.validate(entity);
+        this.addTimestamps(entity);
+
+        return super.create(entity, type);
     }
 
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 
 /**
@@ -32,33 +33,40 @@ public class TransformConfiguration {
     @Autowired
     private DatabaseTransformStore databaseTransformStore;
 
-    private Map<String, List<Mappable>> schemaMappings = new ConcurrentHashMap<String, List<Mappable>>();
+    private ConcurrentMap<String, List<Mappable>> schemaMappings = new ConcurrentHashMap<String, List<Mappable>>();
 
     @Bean (name = "schemaMappings")
     public Map<String, List<Mappable>> getSchemaMappings() throws IOException {
 
         loadMappings();
 
-        //TODO - this is temporary, should come up with a better way to define mappings
-        List<Mappable> ssaMaps = new ArrayList<Mappable>();
-        ssaMaps.add(new LocationMapper(template, "studentSectionAssociation",
-                "student", "studentId", "sections"));
-        schemaMappings.put("studentSectionAssociation", ssaMaps);
-
-        List<Mappable> sectionMaps = new ArrayList<Mappable>();
-        sectionMaps.add(new GenericMapper(databaseTransformStore, "section"));
-        schemaMappings.put("section", sectionMaps);
-
         return  schemaMappings;
     }
 
     protected void loadMappings() throws IOException {
         InputStream fileStream = getClass().getResourceAsStream("/mappings/mappings.json");
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, List<Mappable>> objects = mapper.readValue(fileStream, Map.class);
+        SchemaTransform[] transforms = objectMapper.readValue(fileStream, SchemaTransform[].class);
 
-        System.out.print(objects);
+        for (SchemaTransform schemaTransform : transforms) {
+            String elemType = schemaTransform.getType();
+            List<SchemaMapping> mappings = schemaTransform.getTransforms();
+
+            schemaMappings.putIfAbsent(elemType, new ArrayList<Mappable>());
+
+            for (SchemaMapping mapping : mappings) {
+                if (mapping.getType().equals("Location")) {
+                    schemaMappings.get(elemType).add(new LocationMapper(template, mapping.getAttributes().get("type"),
+                            mapping.getAttributes().get("collection"), mapping.getAttributes().get("key"),
+                            mapping.getAttributes().get("subCollection")));
+                } else if (mapping.getType().equals("Generic")) {
+                    schemaMappings.get(elemType).add(new GenericMapper(databaseTransformStore, mapping.getAttributes().get("type")));
+                }
+            }
+
+        }
+
     }
 
 
