@@ -62,7 +62,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                               |                  0|
     And I should see "Processed 0 records." in the resulting batch job file
 
-@wip
+
 Scenario: Post Attendance records with required parent records previously ingested
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
