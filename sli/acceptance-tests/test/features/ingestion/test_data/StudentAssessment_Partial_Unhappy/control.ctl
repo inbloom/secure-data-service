@@ -1,0 +1,2 @@
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,c2fcdd18303f25a1ad2d3189de6d10d8
+edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,a3a6358c15d9613617b497ab4ba43e5a
