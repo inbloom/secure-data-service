@@ -4,7 +4,7 @@
         {
             "entityType" : "student",
             "didFieldPath" : "body.studentId",
-            "sourceRefPath" : "body.studentId"
+            "sourceRefPath" : "body.StudentReference"
         }
     ]
 }
