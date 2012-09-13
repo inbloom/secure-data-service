@@ -31,17 +31,18 @@ import org.springframework.stereotype.Component;
  * @author sashton
  */
 @Component
-public class NaturalKeyExtractor {
+public class NaturalKeyExtractor implements INaturalKeyExtractor {
     
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
     
-    /**
-     * Returns a map of natural key field -> value for the given entity
+    /*
+     * (non-Javadoc)
      * 
-     * @param entity
-     * @return
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
      */
+    @Override
     public Map<String, String> getNaturalKeys(Entity entity) {
         Map<String, String> map = new HashMap<String, String>();
         
@@ -57,13 +58,14 @@ public class NaturalKeyExtractor {
         return map;
     }
     
-    /**
-     * Returns a list of natural keys from the schema for the given entity
+    /*
+     * (non-Javadoc)
      * 
-     * @param entity
-     *            Entity to inspect
-     * @return
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain
+     * .Entity)
      */
+    @Override
     public List<String> getNaturalKeyFields(Entity entity) {
         
         List<String> naturalKeyFields = new ArrayList<String>();
@@ -94,19 +96,25 @@ public class NaturalKeyExtractor {
         return naturalKeyFields;
     }
     
-    /**
-     * Returns a natural key descriptor for the given entity
+    /*
+     * (non-Javadoc)
      * 
-     * @param entity
-     * @return
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyDescriptor(org.slc.sli.domain
+     * .Entity)
      */
+    @Override
     public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
         
         Map<String, String> map = getNaturalKeys(entity);
+        if (map.isEmpty()) {
+            // no natural keys were found, don't return a descriptor
+            return null;
+        }
         
         String entityType = entity.getType();
         String tenantId = (String) entity.getMetaData().get("tenantId");
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, entityType, tenantId);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType);
         return naturalKeyDescriptor;
     }
 }

@@ -470,19 +470,62 @@ public class IdNormalizer {
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
-        List<String> ids = checkInCache(collection, tenantId, filter);
+        List<String> ids = new ArrayList<String>();
 
-        if (CollectionUtils.isEmpty(ids)) {
+        List<String> takesContext = refConfig.getTakesContext();
+        if (takesContext != null) {
+            // if takes context is set, once records are queried for, peel off metaData.[Takes] and
+            // store on current record
+            // cannot check in cache --> need whole records for metaData propagation
+            // update cache with query results
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
             if (foundRecords != null && foundRecords.iterator().hasNext()) {
-                for (Entity record : foundRecords) {
-                    ids.add(record.getEntityId());
+                // for each string in takesContext array
+                // -> metaData.get(takesField) --> get context in metaData
+                // -> add context to local record
+                // -> add entity id to ids array (normal part of id normalization)
+                for (String takesField : takesContext) {
+                    for (Entity record : foundRecords) {
+                        if (record.getMetaData().containsKey(takesField)) {
+                            BasicDBList addToContext = (BasicDBList) record.getMetaData().get(takesField);
+
+                            if (entity.getMetaData().containsKey(takesField)) {
+                                BasicDBList original = (BasicDBList) entity.getMetaData().get(takesField);
+                                for (int i = 0; i < addToContext.size(); i++) {
+                                    String context = (String) addToContext.get(i);
+                                    if (!original.contains(context)) {
+                                        original.add(context);
+                                    }
+                                }
+                                entity.getMetaData().put(takesField, original);
+                            } else {
+                                entity.getMetaData().put(takesField, addToContext);
+                            }
+                        }
+                        ids.add(record.getEntityId());
+                    }
                 }
             }
-
             cache(ids, collection, tenantId, filter);
+        } else {
+            // if takes context is null, query for records normally (check cache first), store on
+            // record
+            // update cache with query results
+            ids.addAll(checkInCache(collection, tenantId, filter));
+
+            if (CollectionUtils.isEmpty(ids)) {
+                @SuppressWarnings("deprecation")
+                Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+
+                if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                    for (Entity record : foundRecords) {
+                        ids.add(record.getEntityId());
+                    }
+                }
+                cache(ids, collection, tenantId, filter);
+            }
         }
 
         // sort because the $or query can produce different results every time
@@ -605,7 +648,6 @@ public class IdNormalizer {
 
         if (val == null) {
             ids = new ArrayList<String>();
-
         } else {
             ids = (List<String>) val;
         }

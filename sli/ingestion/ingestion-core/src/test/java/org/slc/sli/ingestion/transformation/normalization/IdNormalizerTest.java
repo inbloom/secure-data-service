@@ -136,8 +136,8 @@ public class IdNormalizerTest {
 
     private List<Entity> createTargetEntities(String targetId) {
         NeutralRecord nr = new NeutralRecord();
+        nr.setRecordId(targetId);
         NeutralRecordEntity entity = new NeutralRecordEntity(nr);
-        entity.setEntityId(targetId);
         List<Entity> entities = new ArrayList<Entity>();
         entities.add(entity);
 

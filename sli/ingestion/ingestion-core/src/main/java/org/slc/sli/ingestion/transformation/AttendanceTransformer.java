@@ -345,7 +345,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
         Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
-        String studentEntityId = studentEntity.getEntityId();
+        String studentEntityId = "";
+        if(studentEntity != null) {
+            studentEntityId = studentEntity.getEntityId();
+        }
 
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
@@ -490,16 +493,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get("beginDate"));
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
 
-            List<Map<String, Object>> events = null;
-
-            //It is possible that there are multiple sessions with the same school year,
-            // from input data and SLI db.
-            if(!schoolYears.containsKey(schoolYear)) {
-                events = new ArrayList<Map<String, Object>>();
-                schoolYears.put(schoolYear, events);
-            } else {
-                events = schoolYears.get(schoolYear);
-            }
+            List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
             for (int i = 0; i < attendance.size(); i++) {
                 Map<String, Object> event = attendance.get(i);
@@ -510,6 +504,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     events.add(event);
                 }
             }
+            schoolYears.put(schoolYear, events);
         }
         return schoolYears;
     }
