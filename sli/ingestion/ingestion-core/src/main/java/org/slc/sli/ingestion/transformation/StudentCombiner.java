@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 import org.slf4j.Logger;
@@ -87,20 +86,29 @@ public class StudentCombiner extends AbstractTransformationStrategy {
             Iterable<NeutralRecord> assessmentAssociationRecords = getNeutralRecordMongoAccess().getRecordRepository()
                     .findAllByQuery("studentAssessmentAssociation", assessmentAssociationQuery);
 
+
             for (NeutralRecord studentAssessmentAssociationRecord : assessmentAssociationRecords) {
-                Query assessmentQuery = new Query();
-                assessmentQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-                BasicDBList idList = (BasicDBList) ((BasicDBObject) ((BasicDBObject) studentAssessmentAssociationRecord.getAttributes().get("assessmentId")).get("AssessmentIdentity")).get("AssessmentIdentificationCode");
-                BasicDBObject assessmentIdDbObject = (BasicDBObject) idList.get(0);
-                String assessmentId = assessmentIdDbObject.get("ID").toString();
-                assessmentQuery.addCriteria(Criteria.where("body.assessmentIdentificationCode.ID").is(assessmentId));
-                Iterable<NeutralRecord> assessmentRecords = getNeutralRecordMongoAccess().getRecordRepository()
-                        .findAllByQuery("assessment", assessmentQuery);
-                for (NeutralRecord assessmentRecord : assessmentRecords) {
-                    Map<String, Object> assessmentAttributes = transform(assessmentRecord).getAttributes();
-                    assessmentAttributes.remove("objectiveAssessmentRefs");
-                    assessments.add(assessmentAttributes);
-                }
+                Map<String, Object> assessmentAttributes = transform(studentAssessmentAssociationRecord).getAttributes();
+                assessmentAttributes.remove("objectiveAssessmentRefs");
+                assessmentAttributes.remove("studentId");
+                assessmentAttributes.remove("assessmentId");
+//                BasicDBList idList = (BasicDBList) ((BasicDBObject) ((BasicDBObject) studentAssessmentAssociationRecord.getAttributes().get("assessmentId")).get("AssessmentIdentity")).get("AssessmentIdentificationCode");
+//                BasicDBObject assessmentIdDbObject = (BasicDBObject) idList.get(0);
+//                assessmentAttributes.put("assessmentId", assessmentIdDbObject.toString());
+                assessments.add(assessmentAttributes);
+//                Query assessmentQuery = new Query();
+//                assessmentQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+//                BasicDBList idList = (BasicDBList) ((BasicDBObject) ((BasicDBObject) studentAssessmentAssociationRecord.getAttributes().get("assessmentId")).get("AssessmentIdentity")).get("AssessmentIdentificationCode");
+//                BasicDBObject assessmentIdDbObject = (BasicDBObject) idList.get(0);
+//                String assessmentId = assessmentIdDbObject.get("ID").toString();
+//                assessmentQuery.addCriteria(Criteria.where("body.assessmentIdentificationCode.ID").is(assessmentId));
+//                Iterable<NeutralRecord> assessmentRecords = getNeutralRecordMongoAccess().getRecordRepository()
+//                        .findAllByQuery("assessment", assessmentQuery);
+//                for (NeutralRecord assessmentRecord : assessmentRecords) {
+//                    Map<String, Object> assessmentAttributes = transform(assessmentRecord).getAttributes();
+//                    assessmentAttributes.remove("objectiveAssessmentRefs");
+//                    assessments.add(assessmentAttributes);
+//                }
             }
 
             transformedStudents.add(studentRecord);

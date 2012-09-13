@@ -56,7 +56,6 @@
     <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
-    <value>studentSectionAssociation</value>
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
@@ -82,6 +81,7 @@
     <value>objectiveAssessment</value>
     <value>studentAssessmentAssociation</value>
     <value>studentAssessmentItem</value>
+    <value>studentSectionAssociation</value>
     <value>studentObjectiveAssessment</value>
   </util:set>
 

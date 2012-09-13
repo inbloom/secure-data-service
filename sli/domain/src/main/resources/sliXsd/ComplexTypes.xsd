@@ -2655,7 +2655,7 @@
                     <xs:documentation>Current sections</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="assessments" type="assessment" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="assessments" type="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Current sections</xs:documentation>
                 </xs:annotation>
@@ -3011,7 +3011,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-             -->
 			<xs:element name="assessmentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the assessment taken by the
@@ -3023,6 +3022,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+             -->
 		</xs:sequence>
 	</xs:complexType>
 
