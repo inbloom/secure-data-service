@@ -345,7 +345,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
         Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
-        String studentEntityId = studentEntity.getEntityId();
+        String studentEntityId = "";
+        if(studentEntity != null) {
+            studentEntityId = studentEntity.getEntityId();
+        }
 
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
