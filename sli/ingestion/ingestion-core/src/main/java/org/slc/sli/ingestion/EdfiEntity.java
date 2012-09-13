@@ -117,7 +117,11 @@ public enum EdfiEntity {
 
     STUDENT_SECTION_ASSOCIATION("studentSectionAssociation", Arrays.asList(SECTION)),
 
-    STUDENT("student", Arrays.asList(STUDENT_SECTION_ASSOCIATION)),
+    ASSESSMENT("assessment", Arrays.asList(ASSESSMENT_ITEM, OBJECTIVE_ASSESSMENT, ASSESSMENT_FAMILY, SECTION)),
+
+    STUDENT_ASSESSMENT("studentAssessment", Arrays.asList(ASSESSMENT)),
+
+    STUDENT("student", Arrays.asList(STUDENT_SECTION_ASSOCIATION, STUDENT_ASSESSMENT)),
 
     STUDENT_PARENT_ASSOCIATION("studentParentAssociation", Arrays.asList(STUDENT, PARENT)),
 
@@ -135,8 +139,6 @@ public enum EdfiEntity {
     STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION("studentDisciplineIncidentAssociation", Arrays.asList(STUDENT,
             DISCIPLINE_INCIDENT)),
 
-    ASSESSMENT("assessment", Arrays.asList(ASSESSMENT_ITEM, OBJECTIVE_ASSESSMENT, ASSESSMENT_FAMILY, SECTION)),
-
     ATTENDANCE_EVENT("attendanceEvent", Arrays.asList(STUDENT, SECTION, SCHOOL, EDUCATION_ORGANIZATION)),
 
     TEACHER_SECTION_ASSOCIATION("teacherSectionAssociation", Arrays.asList(TEACHER, SECTION)),
@@ -147,8 +149,6 @@ public enum EdfiEntity {
     GRADE("grade", Arrays.asList(GRADING_PERIOD, STUDENT_SECTION_ASSOCIATION)),
 
     REPORT_CARD("reportCard", Arrays.asList(GRADE, STUDENT_COMPETENCY, STUDENT, GRADING_PERIOD)),
-
-    STUDENT_ASSESSMENT("studentAssessment", Arrays.asList(STUDENT, ASSESSMENT)),
 
     STUDENT_ACADEMIC_RECORD("studentAcademicRecord", Arrays.asList(STUDENT, SESSION, REPORT_CARD, DIPLOMA)),
 

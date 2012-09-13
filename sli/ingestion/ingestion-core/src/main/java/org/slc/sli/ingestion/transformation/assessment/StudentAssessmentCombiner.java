@@ -26,10 +26,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
@@ -40,8 +38,8 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
  * @author nbrown
  * @author shalka
  */
-@Scope("prototype")
-@Component("studentAssessmentAssociationTransformationStrategy")
+//@Scope("prototype")
+//@Component("studentAssessmentAssociationTransformationStrategy")
 public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
@@ -74,8 +72,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     @Override
     public void performTransformation() {
-        loadData();
-        transform();
+        loadStudentAssessmentData();
+        transformStudentAssessment();
         insertRecords(transformedStudentAssessments, STUDENT_ASSESSMENT_ASSOCIATION_TRANSFORMED);
     }
 
@@ -83,7 +81,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      * Pre-requisite interchanges for student assessment data to be successfully transformed:
      * student, assessment metadata
      */
-    public void loadData() {
+    public void loadStudentAssessmentData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
         studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
         LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
@@ -93,7 +91,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Transforms student assessments from Ed-Fi model into SLI model.
      */
-    public void transform() {
+    public void transformStudentAssessment() {
         LOG.info("Transforming student assessment data");
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
