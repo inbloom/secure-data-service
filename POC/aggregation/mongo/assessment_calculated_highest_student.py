@@ -3,7 +3,7 @@ from aggregatedriver import run_pipeline, write_result
 import pymongo
 import sys 
 
-def do_work(assessment_id, target_collection, db): 
+def do_work(assessment_id, db): 
     PIPELINE = [
       {
         "$match" : { 
@@ -40,6 +40,7 @@ def do_work(assessment_id, target_collection, db):
          return entry
 
     # run the pipeline and write the result 
+    target_collection = "student"
     results = run_pipeline(PIPELINE, input_collection, db, post_processor)
     write_result(target_query, target_var, src_field, target_collection, db, results)
 
@@ -50,15 +51,13 @@ def do_work(assessment_id, target_collection, db):
                             { "_id" : True, target_var : True })
     found_count = written_docs.count()
     print "%s of %s records in %s contain values" % (found_count, total_count, target_collection)
-    for entry in written_docs:
-        print entry
 
 def main():
     hostname = "localhost" if len(sys.argv) < 2 else sys.argv[1]
     con = pymongo.Connection(hostname, 27017)
     db = con.sli
 
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         result = set()
         result = set((x["body"]["assessmentId"] for x in db["studentAssessmentAssociation"].find({}, ["body.assessmentId"])))
         print "Available Assessment IDs:"
@@ -66,8 +65,7 @@ def main():
           print e
     else:
         assessment_id = sys.argv[2]
-        target_collection = sys.argv[3]
-        do_work(assessment_id, target_collection, db)
+        do_work(assessment_id, db)
 
     # close the connection 
     con.close()

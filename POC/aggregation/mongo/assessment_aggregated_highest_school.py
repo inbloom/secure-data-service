@@ -62,6 +62,7 @@ def main():
     db = con.sli
 
     if len(sys.argv) < 3:
+      print "Available Assessment IDs:"
       result = set()
       result = set((x["body"]["assessmentId"] for x in db["studentAssessmentAssociation"].find({}, ["body.assessmentId"])))
       for e in result:
