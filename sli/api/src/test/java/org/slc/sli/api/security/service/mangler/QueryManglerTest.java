@@ -22,12 +22,12 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentQueryManglerTest {
+public class QueryManglerTest {
 
     
     @Test
     public void testMangleListQuery() {
-        StudentQueryMangler mangler = new StudentQueryMangler();
+        DefaultQueryMangler mangler = new DefaultQueryMangler();
         NeutralQuery query = new NeutralQuery();
         NeutralCriteria baseCriteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(new String[] {"1", "2", "3"}));
         SecurityCriteria securityCriteria = new SecurityCriteria();
@@ -42,7 +42,7 @@ public class StudentQueryManglerTest {
     
     @Test
     public void testMangleSpecificQuery() {
-        StudentQueryMangler mangler = new StudentQueryMangler();
+        DefaultQueryMangler mangler = new DefaultQueryMangler();
         NeutralQuery query = new NeutralQuery();
         NeutralCriteria baseCriteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(new String[] {"1", "2", "3"}));
         query.addCriteria(baseCriteria);
@@ -59,7 +59,7 @@ public class StudentQueryManglerTest {
     
     @Test
     public void testMangleSpecificFailedQuery() {
-        StudentQueryMangler mangler = new StudentQueryMangler();
+        DefaultQueryMangler mangler = new DefaultQueryMangler();
         NeutralQuery query = new NeutralQuery();
         NeutralCriteria baseCriteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(new String[] {"1", "2", "3"}));
         query.addCriteria(baseCriteria);
@@ -72,11 +72,5 @@ public class StudentQueryManglerTest {
         assertEquals(finalQuery.getOrQueries().size(), 0);
     }
     
-    @Test
-    public void testRespondsTo() {
-        StudentQueryMangler mangler = new StudentQueryMangler();
-        assertTrue(mangler.respondsTo("student"));
-        assertTrue(mangler.respondsTo("Waffles"));
-    }
     
 }

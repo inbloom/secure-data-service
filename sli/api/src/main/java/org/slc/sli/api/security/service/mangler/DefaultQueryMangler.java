@@ -22,12 +22,9 @@ import java.util.Set;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
-@Component
-public class StudentQueryMangler extends Mangler {
+public class DefaultQueryMangler extends Mangler {
     
-    @Override
     public NeutralQuery mangleQuery(NeutralQuery query, NeutralCriteria securityCriteria) {
         setTheQuery(query);
         setSecurityCriteria(securityCriteria);
@@ -57,13 +54,6 @@ public class StudentQueryMangler extends Mangler {
             }
             return query;
         }
-    }
-    
-    @Override
-    public boolean respondsTo(String type) {
-        //FIXME get rid of this until we know we need to split by type.
-       return true;
-        // return (type.equals("student") || type.equals("section"));
     }
     
 }
