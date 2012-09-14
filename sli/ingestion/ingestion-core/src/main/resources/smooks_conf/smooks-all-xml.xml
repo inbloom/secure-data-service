@@ -1682,8 +1682,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:value property="studentId"
-      data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentAssessment_StudentReference" />
     <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
@@ -1698,6 +1697,18 @@
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
     <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
+  </jb:bean>
+
+  <!-- StudentAssessment support object: StudentAssessment_StudentReference  -->
+  <jb:bean beanId="StudentAssessment_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentAssessment_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentAssessment_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
