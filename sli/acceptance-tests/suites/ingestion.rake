@@ -14,7 +14,6 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
-  addSecurityData()
 end
 
 desc "Run Ingestion LearningObjective Tests"
@@ -94,7 +93,6 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-  addSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
@@ -194,6 +192,16 @@ task :ingestionOrderAgnosticListTest do
   ]
   setMultipleFixtureFiles(testHash)
   runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
+end
+
+desc "Run Partial Ingestion of transformed Test"
+task :partialTransformedIngestionTest do
+  runTests("test/features/ingestion/features/ingestion_TransformedPartialIngestion.feature")
+end
+
+desc "Run Partial Ingestion Test"
+task :partialIngestionTest do
+  runTests("test/features/ingestion/features/ingestion_partial_test.feature")
 end
 
 ############################################################

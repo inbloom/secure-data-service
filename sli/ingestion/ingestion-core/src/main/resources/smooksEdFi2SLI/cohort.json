@@ -7,6 +7,7 @@
             "ref" :
             {
                 "entityType" : "educationOrganization",
+                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
@@ -21,7 +22,6 @@
                 ]
             }
           },
-
           {
             "fieldPath" : "body.programId",
             "ref" :
@@ -43,7 +43,5 @@
                 ]
             }
           }
-
       ]
-
 }

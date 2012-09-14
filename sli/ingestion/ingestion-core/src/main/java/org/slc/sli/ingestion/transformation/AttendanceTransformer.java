@@ -19,9 +19,11 @@ package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
@@ -59,6 +61,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String SESSION = "session";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
+    private static final String EDUCATIONORGANIZATION = "educationOrganization";
 
     private Map<Object, NeutralRecord> attendances;
 
@@ -222,7 +225,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             LOG.warn("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
         }
 
-        Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions);
+        Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions, studentId, schoolId);
 
         int numAttendances = 0;
         if (schoolYears.entrySet().size() > 0) {
@@ -338,12 +341,19 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return schools;
     }
 
-    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentId) {
+    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentUniqueStateId) {
         List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
 
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+        NeutralQuery studentQuery = new NeutralQuery(0);
+        studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
+        Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
+        String studentEntityId = "";
+        if(studentEntity != null) {
+            studentEntityId = studentEntity.getEntityId();
+        }
 
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
         Iterable<Entity> associations = getMongoEntityRepository().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, query);
 
         if (associations != null) {
@@ -355,8 +365,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
 
             NeutralQuery schoolQuery = new NeutralQuery(0);
-            schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.CRITERIA_IN, schoolIds));
-
+            schoolQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, schoolIds));
             Iterable<Entity> queriedSchools = getMongoEntityRepository().findAll(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
 
             if (queriedSchools != null) {
@@ -392,6 +401,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SESSION, query);
+
+        //get sessions of the school from SLI db
+        Iterable<NeutralRecord> sliSessions = getSliSessions(schoolId);
+
+        queriedSessions = concat((List<NeutralRecord>)queriedSessions, (List<NeutralRecord>)sliSessions);
 
         if (queriedSessions != null) {
             Iterator<NeutralRecord> itr = queriedSessions.iterator();
@@ -429,6 +443,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         if (queriedSchool.iterator().hasNext()) {
             NeutralRecord record = queriedSchool.iterator().next();
             parentEducationAgency = (String) record.getAttributes().get("parentEducationAgencyReference");
+        } else {
+            Entity school = getSliSchool(schoolId);
+            if(school != null) {
+                parentEducationAgency = (String) school.getBody().get("parentEducationAgencyReference");
+            }
         }
 
         return parentEducationAgency;
@@ -464,11 +483,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      *            Set of student attendance events.
      * @param sessions
      *            Set of sessions that correspond to the school the student attends.
+     * @param studentId
+     *            studentUniqueStateId of the student.
+     * @param schoolId
+     *            stateOrganizationId of the school the student attends.
      * @return Map containing transformed attendance information.
      */
-    private Map<String, List<Map<String, Object>>> mapAttendanceIntoSchoolYears(List<Map<String, Object>> attendance,
-            Map<Object, NeutralRecord> sessions) {
-        Map<String, List<Map<String, Object>>> schoolYears = new HashMap<String, List<Map<String, Object>>>();
+    protected Map<String, List<Map<String, Object>>> mapAttendanceIntoSchoolYears(List<Map<String, Object>> attendance,
+            Map<Object, NeutralRecord> sessions, String studentId, String schoolId) {
+        // Step 1: prepare stageing SchoolYearAttendances
+        Set<SchoolYearAttendance> stageSchoolYearAttendances = new HashSet<SchoolYearAttendance>();
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
@@ -487,8 +511,224 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     events.add(event);
                 }
             }
-            schoolYears.put(schoolYear, events);
+            
+            if (events.size() > 0 ) {
+                stageSchoolYearAttendances.add(new SchoolYearAttendance(schoolYear, events));
+            }
+        }
+        // Step 2: retrieve sli SchoolYearAttendances
+        Set<SchoolYearAttendance> sliSchoolYearAttendances = getSliSchoolYearAttendances(studentId, schoolId);        
+        // Step 3: merge sli and staging SchoolYearAttendances
+        Set<SchoolYearAttendance> mergedAttendances = mergeSchoolYearAttendance(sliSchoolYearAttendances, stageSchoolYearAttendances);
+        Map<String, List<Map<String, Object>>> schoolYears = new HashMap<String, List<Map<String, Object>>>();
+        for (SchoolYearAttendance schoolYearAttendance : mergedAttendances) {
+            schoolYears.put(schoolYearAttendance.getSchoolYear(), schoolYearAttendance.getAttendanceEvent());
         }
         return schoolYears;
     }
+    
+    /**
+     * Merge the sets of SchoolYearAttendance from SLI and stage.
+     *
+     * @param sliSchoolYearAttendances
+     *            Set containing SchoolYearAttendance from sli.
+     * @param stageSchoolYearAttendances
+     *            Set containing SchoolYearAttendance from stage.
+     * @return Set containing SchoolYearAttendance merged from both.
+     */
+    private Set<SchoolYearAttendance> mergeSchoolYearAttendance(Set<SchoolYearAttendance> sliSchoolYearAttendances, 
+                                                                Set<SchoolYearAttendance> stageSchoolYearAttendances) {
+        if (sliSchoolYearAttendances.size() == 0) 
+            return stageSchoolYearAttendances;
+        if (stageSchoolYearAttendances.size() == 0) 
+            return sliSchoolYearAttendances;
+        
+        Set<SchoolYearAttendance> newSchoolYearAttendances = new HashSet<SchoolYearAttendance>();
+        for (SchoolYearAttendance stageSchoolYearAttendance : stageSchoolYearAttendances) {
+            boolean merged = false;
+            for (SchoolYearAttendance sliSchoolYearAttendance : sliSchoolYearAttendances) {
+                //check and merge
+                if (sliSchoolYearAttendance.sameSchoolYear(stageSchoolYearAttendance)) {
+                    //find same school year
+                    //merge stageSchoolYearAttendance into sliSchoolYearAttendance
+                    sliSchoolYearAttendance.mergeAndUpdateAttendanceEvent(stageSchoolYearAttendance);
+                    merged = true;
+                    break;
+                }
+            }
+            if (!merged) {
+                //Add new school year
+                newSchoolYearAttendances.add(stageSchoolYearAttendance);
+            }
+        }
+        newSchoolYearAttendances.addAll(sliSchoolYearAttendances);
+        return newSchoolYearAttendances;
+    }
+    /**
+     * Retrieve the set of student attendance events from SLI.
+     *
+     * @param studentUniqueStateId
+     *            studentUniqueStateId of the student.
+     * @param stateOrganizationId
+     *            stateOrganizationId of the school the student attends.
+     * @return Set containing SchoolYearAttendance retrieved from SLI.
+     */
+    @SuppressWarnings("unchecked")
+    private Set<SchoolYearAttendance> getSliSchoolYearAttendances(String studentUniqueStateId, String stateOrganizationId) { 
+        Set<SchoolYearAttendance> attendances = new HashSet<SchoolYearAttendance>();
+        
+        NeutralQuery studentQuery = new NeutralQuery(0);
+        studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
+        Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
+        String studentEntityId = null;
+        if(studentEntity != null) {
+            studentEntityId = studentEntity.getEntityId();
+        } else {
+            return attendances;            
+        }
+
+        NeutralQuery schoolQuery = new NeutralQuery(0);
+        schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
+        Entity schoolEntity = getMongoEntityRepository().findOne(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
+        String schoolEntityId = null;
+        if(schoolEntity != null) {
+            schoolEntityId = schoolEntity.getEntityId();
+        } else {
+            return attendances;            
+        }
+
+        NeutralQuery attendanceQuery = new NeutralQuery(0);
+        attendanceQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
+        attendanceQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
+        Entity attendanceEntity = getMongoEntityRepository().findOne(EntityNames.ATTENDANCE, attendanceQuery);
+        if(attendanceEntity == null) {
+            return attendances;            
+        }        
+        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)attendanceEntity.getBody().get("schoolYearAttendance");       
+        if (schoolYearAttendance == null || schoolYearAttendance.size() == 0) {
+            return attendances;            
+        }
+        
+        for (Map<String,Object> yearAttendance : schoolYearAttendance) {
+            String schoolYear = (String)yearAttendance.get("schoolYear");
+            List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>)yearAttendance.get("attendanceEvent");
+            if (attendanceEvent.size() > 0) {
+                attendances.add(new SchoolYearAttendance(schoolYear, attendanceEvent));
+            }
+        }        
+        return attendances;            
+    }
+
+    @SuppressWarnings("deprecation")
+    private Entity getSliSchool(String schoolName) {
+        Query sliEdorgQuery = new Query().limit(0);
+        sliEdorgQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolName));
+
+        Iterable<Entity> sliSchool = getMongoEntityRepository().findByQuery(EDUCATIONORGANIZATION, sliEdorgQuery, 0, 0);
+        Iterator<Entity> it = sliSchool.iterator();
+        //At most one school is returned from the previous query
+        if(it.hasNext()) {
+            return it.next();
+        }
+        return null;
+    }
+
+    /**
+     * Get the sessions from SLI db
+     * @param schoolName:
+     * @return: List of sessions of the school from SLI
+     */
+    @SuppressWarnings("deprecation")
+    private Iterable<NeutralRecord> getSliSessions(String schoolName) {
+        //Get schoolId within SLI db
+        //TODO: we may not need this query when deterministic ID is implemented.
+        Entity school = getSliSchool(schoolName);
+        String sliSchoolId = "";
+
+        if(school != null){
+            sliSchoolId = school.getEntityId();
+        }
+
+        Query sliSessionQuery = new Query().limit(0);
+        sliSessionQuery.addCriteria(Criteria.where("body.schoolId").is(sliSchoolId));
+
+        Iterable<NeutralRecord> sliSessions = transformIntoNeutralRecord(getMongoEntityRepository().findByQuery(SESSION, sliSessionQuery, 0, 0));
+
+        return sliSessions;
+    }
+
+    private Iterable<NeutralRecord> transformIntoNeutralRecord(Iterable<Entity> entities) {
+        Iterator<Entity> entityItr = entities.iterator();
+        List<NeutralRecord> sessionRecords = new ArrayList<NeutralRecord>();
+
+        //Trasnforming SLI entity back to neutralRecord
+        Entity sliSession = null;
+        while (entityItr.hasNext()) {
+            sliSession = entityItr.next();
+            NeutralRecord session = new NeutralRecord();
+            session.setRecordId(sliSession.getEntityId());
+            session.setRecordType(sliSession.getType());
+            session.setBatchJobId(getBatchJobId());
+            session.setAttributes(sliSession.getBody());
+
+            sessionRecords.add(session);
+        }
+        return sessionRecords;
+    }
+
+    private Iterable<NeutralRecord> concat(List<NeutralRecord> first, List<NeutralRecord> second) {
+        List<NeutralRecord> res = new ArrayList<NeutralRecord>();
+        res.addAll(first);
+        res.addAll(second);
+        return res;
+    }
+
+    class SchoolYearAttendance {
+        private String schoolYear;
+        private List<Map<String, Object>> attendanceEvent;
+        
+        public SchoolYearAttendance(String schoolYear, List<Map<String, Object>> attendanceEvent) {
+            this.schoolYear = schoolYear;
+            this.attendanceEvent = attendanceEvent;
+        }
+        
+        public void mergeAndUpdateAttendanceEvent(SchoolYearAttendance obj) {
+            if (!sameSchoolYear(obj)) 
+                return;
+            for (Map<String, Object> stageAttendance : obj.attendanceEvent) {
+                for (Map<String, Object> sliAttendance : this.attendanceEvent) {
+                    Object sliEvent =sliAttendance.get("event");
+                    Object stageEvent =stageAttendance.get("event");
+                    Object sliDate =sliAttendance.get("date");
+                    Object stageDate =stageAttendance.get("date");
+                    boolean eventMatch = sliEvent!=null && stageEvent!=null && sliEvent.equals(stageEvent);
+                    boolean dateMatch = sliDate!=null && stageDate!=null && sliDate.equals(stageDate);
+                    if (eventMatch && dateMatch) {
+                        //remove matched to prevent duplicated
+                        this.attendanceEvent.remove(sliAttendance);
+                        break;
+                    }                    
+                }
+            }
+            List<Map<String, Object>> mergedAttendanceEvent = new ArrayList<Map<String, Object>>();
+            mergedAttendanceEvent.addAll(this.attendanceEvent);
+            mergedAttendanceEvent.addAll(obj.attendanceEvent);
+            this.attendanceEvent = mergedAttendanceEvent;
+        }
+        
+        public boolean sameSchoolYear(SchoolYearAttendance obj) {
+            return obj.schoolYear!=null && obj.schoolYear.equals(this.schoolYear);            
+        }
+        
+        public String getSchoolYear() {
+            return this.schoolYear;
+        }
+        public List<Map<String, Object>> getAttendanceEvent() {
+            return this.attendanceEvent;
+        }
+        public String toString() {
+            return "schoolYear:"+schoolYear+",attendanceEvent:"+attendanceEvent;
+        }
+        
+     }
 }
