@@ -567,27 +567,6 @@
         };
       }
 
-      function clearJobSpecificDivs() {
-        $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
-        $('#job_summary').empty();
-        $('#progressbar').hide();
-        $('#stage_breakdown_piechart_div').empty();
-        $('#stage_breakdown_linechart_div').empty();
-        $('#PersistenceProcessor_entity_div').empty();
-        $('#TransformationProcessor_entity_div').empty();
-        $('#PersistenceProcessor_entity_jobcompare_div').empty();
-        $('#TransformationProcessor_entity_jobcompare_div').empty();
-        $('#job_dist_linechart_div').empty();
-      }
-
-      function toggleJobChooser() {
-        if($('#mongo_status').is(':visible')) {
-          $('#mongo_status').hide('fast');
-        } else {
-          $('#mongo_status').show('fast');
-        }
-      }
-
       function summarizeExecutionStats(jobId) {
         var job = getJob(jobId);
         var executionStats = job.executionStats;
@@ -807,6 +786,27 @@
           .add(envision.actions.selection);
 
       };
+
+      function clearJobSpecificDivs() {
+        $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
+        $('#job_summary').empty();
+        $('#progressbar').hide();
+        $('#stage_breakdown_piechart_div').empty();
+        $('#stage_breakdown_linechart_div').empty();
+        $('#PersistenceProcessor_entity_div').empty();
+        $('#TransformationProcessor_entity_div').empty();
+        $('#PersistenceProcessor_entity_jobcompare_div').empty();
+        $('#TransformationProcessor_entity_jobcompare_div').empty();
+        $('#job_dist_linechart_div').empty();
+      }
+
+      function toggleJobChooser() {
+        if($('#mongo_status').is(':visible')) {
+          $('#mongo_status').hide('fast');
+        } else {
+          $('#mongo_status').show('fast');
+        }
+      }
 
     </script>
     </head>
