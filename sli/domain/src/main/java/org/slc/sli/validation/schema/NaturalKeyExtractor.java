@@ -23,7 +23,10 @@ import java.util.Map;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.SchemaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +35,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class NaturalKeyExtractor implements INaturalKeyExtractor {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(NaturalKeyExtractor.class);
     
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
@@ -46,13 +51,23 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     public Map<String, String> getNaturalKeys(Entity entity) {
         Map<String, String> map = new HashMap<String, String>();
         
+        List<String> missingKeys = new ArrayList<String>();
+        
         List<String> naturalKeyFields = getNaturalKeyFields(entity);
         for (String keyField : naturalKeyFields) {
             Object value = entity.getBody().get(keyField);
+            if (value == null) {
+                // if the key field is not found, there's a problem
+                // TODO: when optional fields are added, handle that case separately
+                missingKeys.add(keyField);
+            }
             if (value instanceof String) {
                 String strValue = (String) value;
                 map.put(keyField, strValue);
             }
+        }
+        if (!missingKeys.isEmpty()) {
+            throw new NaturalKeyValidationException(entity.getType(), missingKeys);
         }
         
         return map;

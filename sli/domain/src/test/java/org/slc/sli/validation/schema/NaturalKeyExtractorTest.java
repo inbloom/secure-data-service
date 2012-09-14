@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
@@ -77,6 +78,20 @@ public class NaturalKeyExtractorTest {
     public void testGetNaturalKeys() {
         
         Entity e = setup();
+        
+        Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
+        
+        Assert.assertEquals(1, naturalKeys.size());
+        Assert.assertEquals("someValue", naturalKeys.get("someField"));
+        Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
+    }
+    
+    @Test(expected = NaturalKeyValidationException.class)
+    public void testGetNaturalKeysException() {
+        
+        Entity e = setup();
+        // remove field so that exception is thrown
+        e.getBody().remove("someField");
         
         Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
         

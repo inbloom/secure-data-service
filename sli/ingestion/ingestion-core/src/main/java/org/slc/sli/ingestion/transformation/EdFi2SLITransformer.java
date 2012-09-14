@@ -44,6 +44,7 @@ import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
@@ -475,7 +476,19 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
         query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
         
-        NaturalKeyDescriptor naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        } catch (NaturalKeyValidationException e1) {
+            String message = "An entity is missing one or more required natural key fields" + "\n"
+                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
+            
+            for (String fieldName : e1.getNaturalKeys()) {
+                message += "\n" + "       Field      " + fieldName;
+            }
+            errorReport.error(message, this);
+            return null;
+        }
         
         if (naturalKeyDescriptor == null) {
             // look the entity up the old way -> key fields
