@@ -17,7 +17,9 @@
 package org.slc.sli.ingestion.transformation.normalization.did;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -100,20 +102,43 @@ public class DeterministicIdResolver {
                     }
                 }
 
-                @SuppressWarnings("unchecked")
-                Map<String, Object> reference = (Map<String, Object>) PropertyUtils.getProperty(entity, sourceRefPath);
-
-                if (reference == null) {
+                Object referenceObject = PropertyUtils.getProperty(entity, sourceRefPath);
+                if (referenceObject == null) {
                     throw new IdResolutionException("Entity missing key", sourceRefPath, null);
                 }
 
-                String uuid = getId(reference, tenantId, didRefConfig);
-                if (uuid != null && !uuid.isEmpty()) {
-                    PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                    LOG.error("SET A DID FOR ENTITY " + entity + ": " + uuid);
-                } else {
-                    // TODO key and value below aren't what we want
-                    throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                if (referenceObject instanceof List) {
+                    //handle a lists of reference object
+                    @SuppressWarnings("unchecked")
+                    List<Object> refList = (List<Object>) referenceObject;
+                    List<String> uuidList = new ArrayList<String>();
+
+                    for (Object reference :  refList) {
+                        @SuppressWarnings("unchecked")
+                        String uuid = getId( (Map<String, Object>) reference, tenantId, didRefConfig);
+                        if (uuid != null && !uuid.isEmpty()) {
+                            uuidList.add(uuid);
+                            LOG.error("SET A DID IN A LIST FOR ENTITY " + entity + ": " + uuid);
+                        } else {
+                            // TODO key and value below aren't what we want
+                            throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                        }
+                    }
+                    PropertyUtils.setProperty(entity, didFieldPath, uuidList);
+                }
+                else {
+                    //handle a single reference object
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> reference = (Map<String, Object>) referenceObject;
+
+                    String uuid = getId(reference, tenantId, didRefConfig);
+                    if (uuid != null && !uuid.isEmpty()) {
+                        PropertyUtils.setProperty(entity, didFieldPath, uuid);
+                        LOG.error("SET A DID FOR ENTITY " + entity + ": " + uuid);
+                    } else {
+                        // TODO key and value below aren't what we want
+                        throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                    }
                 }
             } catch (IllegalAccessException e) {
                 handleException(sourceRefPath, entityType, collectionName, e, errorReport);
