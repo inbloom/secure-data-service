@@ -293,7 +293,6 @@ public class BasicService implements EntityService {
         if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
             return new ArrayList<EntityBody>();
         } else {
-            info("CRAP!");
             throw new AccessDeniedException("Access to resource denied.");
         }
     }
@@ -375,13 +374,7 @@ public class BasicService implements EntityService {
         }
 
         if (results.isEmpty()) {
-            try {
             return noEntitiesFound(neutralQuery);
-            } catch (AccessDeniedException ex) {
-                info("1" + neutralQuery.toString() + "," + neutralQuery.getClass());
-                info("2" + localNeutralQuery.toString() + "," + neutralQuery.getClass());
-                throw ex;
-            }
         }
 
         return results;
