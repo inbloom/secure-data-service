@@ -12,6 +12,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 @Component
 public class PagingRepositoryDelegate<T> implements Repository<T> {
@@ -29,7 +31,33 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     private Repository<T> repo;
     
     // The size of queries we page around.
-    public final int COUNT = 100000;
+    @Value("${sli.api.security.context.paging}")
+    private int COUNT;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.slc.sli.domain.Repository#createWithRetries(java.lang.String, java.lang.String,
+     * java.util.Map, java.util.Map, java.lang.String, int)
+     */
+    @Override
+    public T createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return repo.createWithRetries(type, id, body, metaData, collectionName, noOfRetries);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.slc.sli.domain.Repository#updateMulti(org.slc.sli.domain.NeutralQuery,
+     * java.util.Map, java.lang.String)
+     */
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return repo.updateMulti(query, update, entityReferenced);
+    }
 
     private Set<String> getQueriedIds(NeutralQuery query) {
         Set<String> startingIds = new HashSet<String>();
