@@ -7,7 +7,7 @@
 
 (defn gen-edfi
   [interchange output-file contents]
-  (prn output-file)
+  ; (prn output-file)
   (with-open [out (java.io.OutputStreamWriter. (java.io.FileOutputStream. output-file) "UTF-8")]
     (emit (element interchange {:xmlns "http://ed-fi.org/0100"} contents) out)
   )
@@ -291,8 +291,10 @@
 )
 
 (defn enroll [schoolName studentId]
-  (gen-enroll schoolName studentId)
-  (gen-section-assoc schoolName studentId)
+  (into () [
+    (gen-enroll schoolName studentId)
+    (gen-section-assoc schoolName studentId) ]
+  )
 )
 
 (defn gen-enrollments [schools rng output-file]
@@ -307,12 +309,12 @@
 
 (defn create-session [districtName schoolName]
   (into () [
-    (element :CalendarDate {:id (format "%s_day" districtName) }
+    (element :CalendarDate {:id (format "%s-%s-day" districtName schoolName) }
       (element :Date {} "2011-09-22")
       (element :CalendarEvent {} "Instructional day")
     )
 
-    (element :GradingPeriod {:id (format "%s-GP1" districtName)}
+    (element :GradingPeriod {:id (format "%s-%s-GP1" districtName schoolName)}
       (element :GradingPeriodIdentity {}
         (element :GradingPeriod {} "End of Year")
         (element :SchoolYear {} "2011-2012")
@@ -322,11 +324,11 @@
       (element :BeginDate {} "2011-09-01")
       (element :EndDate {} "2011-12-01")
       (element :TotalInstructionalDays {} "90")
-      (element :CalendarDateReference {:ref (format "%s_day" districtName)})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     )
 
     (element :Session {}
-      (element :SessionName {} (format "%s-Fall-2011" schoolName))
+      (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
       (element :SchoolYear {} "2011-2012")
       (element :Term {} "Fall Semester")
       (element :BeginDate {} "2011-09-06")
@@ -337,8 +339,8 @@
           (element :StateOrganizationId {} schoolName)
         )
       )
-      (element :GradingPeriodReference {:ref (format "%s-GP1" districtName)})
-      (element :CalendarDateReference {:ref (format "%s_day" districtName)})
+      (element :GradingPeriodReference {:ref (format "%s-%s-GP1" districtName schoolName)})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     ) ]
   )
 )
@@ -354,7 +356,7 @@
 (defn create-section [districtName schoolName]
   (into () [
     (element :CourseOffering {}
-      (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
+      (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
       (element :LocalCourseTitle {} "7th Grade Math")
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
@@ -363,7 +365,7 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-Fall-2011" schoolName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
       (element :CourseReference {}
@@ -376,13 +378,13 @@
     )
 
     (element :Section {}
-      (element :UniqueSectionCode {} (format "%s-Math-7-2011-Sec2" schoolName))
+      (element :UniqueSectionCode {} (format "%s-%s-Math-7-2011-Sec2" districtName schoolName))
       (element :SequenceOfCourse {} "1")
       (element :CourseOfferingReference {}
         (element :CourseOfferingIdentity {}
-          (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
+          (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} (format "Math007-%s" districtName))
+            (element :ID {} (format "Math-7-%s" districtName))
           )
           (element :Term {} "Fall Semester")
           (element :SchoolYear {} "2011-2012")
@@ -396,7 +398,7 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-Fall-2011" schoolName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
     ) ]
@@ -521,14 +523,33 @@
   )
 )
 
+(defn no-op [v]
+  v
+)
+
+(defn make-counter [init-val]
+  (let [c (atom init-val)]
+    {:next #(swap! c inc)
+     :reset #(reset! c init-val)
+     :curr #(swap! c no-op)}
+  )
+)
+
 (defn gen-big-data
   [districtCount schoolCount studentCount]
   (def sectionName "7th Grade Math - Sec 2")
   (def assessmentName "Grade 7 State Math")
-
+  (def i (make-counter 0))
+  ;(def i (atom 0))
+  (println
+    (format "Starting assessment data generation: [%d districts %d schools %d students/school]"
+    districtCount schoolCount studentCount)
+  )
+  (println (format "[0/%d districts]" districtCount))
   (gen-assessment assessmentName "/tmp/test/F-assessment.xml")
   (def rng (range 1 (+ 1 studentCount)))
   (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
+    (def startTime (System/currentTimeMillis))
     (doseq [ [districtName schools] district]
       (gen-schools districtName schools (format "/tmp/test/A-%s-schools.xml" districtName))
       (gen-sessions districtName schools (format "/tmp/test/B-%s-calendar.xml" districtName))
@@ -537,8 +558,13 @@
       (gen-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))
       (gen-saas districtName schools rng assessmentName 10 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
     )
+    (def endTime (System/currentTimeMillis))
+    (def elapsed (/ (-  endTime startTime) 1000.0))
+    (def remain (* elapsed (- (- districtCount 1) ((i :next)))))
+    (println (format "[%d/%d districts] (%f seconds : %f remaining)"  ((i :curr)) districtCount elapsed (max 0.0 remain)))
   )
   (create-control-file)
+  (println "Assessment data generation complete")
 )
 
 ; 100 students
