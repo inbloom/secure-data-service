@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.common.util.uuid;
 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 
 /**
  * Generates Type 4 (random) UUIDs.
@@ -36,8 +37,13 @@ public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 4 random UUID.
      */
     @Override
-    public String randomUUID() {
+    public String generateId() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
+        return generateId();
     }
 
 }

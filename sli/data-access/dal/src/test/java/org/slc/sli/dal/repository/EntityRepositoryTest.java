@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import static org.junit.Assert.assertEquals;
@@ -28,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -232,6 +232,7 @@ public class EntityRepositoryTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
+        body.put("studentUniqueStateId", UUID.randomUUID().toString());
         // Date birthDate = new Timestamp(23234000);
         body.put("birthDate", "2000-01-01");
         body.put("cityOfBirth", "Chicago");
@@ -326,10 +327,16 @@ public class EntityRepositoryTest {
         repository.deleteAll("student");
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
+        this.repository.create("student", student);
 
+        student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
+
+        student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
-        this.repository.create("student", student);
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
@@ -366,7 +373,7 @@ public class EntityRepositoryTest {
         Map<String, Object> studentBody = entity.getBody();
         studentBody.put("cityOfBirth", "ABC");
 
-        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData(), 300);
+        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData());
         repository.updateWithRetries("student", studentEntity, 5);
 
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -401,7 +408,7 @@ public class EntityRepositoryTest {
         Repository<Entity> mockRepo = Mockito.spy(repository);
         Map<String, Object> studentBody = buildTestStudentEntity();
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
-        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData, 300);
+        Entity entity = new MongoEntity("student", null, studentBody, studentMetaData);
         int noOfRetries = 3;
 
         Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo)

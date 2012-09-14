@@ -188,16 +188,39 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
 
+            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+
             for (NeutralRecord neutralRecord : records) {
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
                 if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
                         || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
-                    SimpleEntity transformed = transformNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
-                    if (transformed != null) {
-                        recordStore.add(neutralRecord);
-                        persist.add(transformed);
+
+                    SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
+                            errorReportForCollection);
+
+                    if (xformedEntity != null) {
+
+                        if ("learningObjective".equals(xformedEntity.getType())) {
+                            // persist immediately because this entity can have references to
+                            // entities of the same type. otherwise, id normalization could be
+                            // attempted while the dependent entity is waiting for insertion in
+                            // queue.
+                            // FIXME: remove once deterministic ids are in place.
+                            try {
+                                entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+                            } catch (DataAccessResourceFailureException darfe) {
+                                LOG.error("Exception processing record with entityPersistentHandler", darfe);
+                                currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                            }
+                        } else {
+                            recordStore.add(neutralRecord);
+
+                            // queue up for bulk insert
+                            persist.add(xformedEntity);
+
+                        }
                     } else {
                         currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
                     }
@@ -205,8 +228,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 }
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
-
-            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             try {
                 if (persist.size() > 0) {
@@ -243,8 +264,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
-                    record.getRecordType()), this);
+            errorReport
+                    .error(MessageSourceHelper
+                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                            this);
             return null;
         }
         return transformed.get(0);

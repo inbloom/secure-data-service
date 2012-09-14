@@ -17,36 +17,30 @@
 
 package org.slc.sli.api.security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.service.mangler.DefaultQueryMangler;
+import org.slc.sli.api.security.service.mangler.Mangler;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.service.mangler.Mangler;
-import org.slc.sli.api.security.service.mangler.QueryManglerFactory;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-
-/**
- * Encapsulates security criteria used by queries
- *
- * @author srupasinghe
- */
-@Component
 public class SecurityCriteria {
     //The collection this query pertains to
     private String collectionName;
-    
-    @Autowired
-    private QueryManglerFactory factory;
 
     //main security criteria
     private NeutralCriteria securityCriteria;
     //black list criteria
     private NeutralCriteria blacklistCriteria;
+    
+    private Mangler queryMangler;
+    
+    public SecurityCriteria() {
+        this.queryMangler = new DefaultQueryMangler();
+    }
 
     public String getCollectionName() {
         return collectionName;
@@ -94,12 +88,7 @@ public class SecurityCriteria {
             
             //Check the type of who we are and if we're a teacher, handle it differently.
             if (EntityNames.TEACHER.equals(user.getEntity().getType())) {
-                Mangler queryMangler = factory.getMangler(query, this);
-                if(queryMangler == null) {
-                    //Unsupported problem.
-                    //TODO Find the correct exception and way to throw it.
-                    throw new UnsupportedOperationException("We are unable to handle this request");
-                }
+
                 query = queryMangler.mangleQuery(query, securityCriteria);
                 if (query == null) {
                     // 403
