@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -139,7 +140,14 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(name);
         if (!implementations.isEmpty()) {
             writer.write(" implements ");
+            boolean first = true;
             for (final String implementation : implementations) {
+                if (first) {
+                    first = false;
+                } else {
+                    writer.write(COMMA);
+                    writer.write(SPACE);
+                }
                 writer.write(implementation);
             }
         }
@@ -343,16 +351,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void writeArgs(final String... args) throws IOException {
-        boolean first = true;
-        for (final String arg : args) {
-            if (first) {
-                first = false;
-            } else {
-                writer.write(COMMA);
-                writer.write(SPACE);
-            }
-            writer.write(arg);
-        }
+        writeArgs(Arrays.asList(args));
     }
 
     @Override
@@ -510,22 +509,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void writeParams(final JavaParam... params) throws IOException {
-        boolean first = true;
-        for (final JavaParam param : params) {
-            if (first) {
-                first = false;
-            } else {
-                writer.write(COMMA);
-                writer.write(SPACE);
-            }
-            if (!insideInterface && param.isFinal()) {
-                writer.write("final");
-                writer.write(SPACE);
-            }
-            writeType(param.getType());
-            writer.write(SPACE);
-            writer.write(param.getName());
-        }
+        writeParams(Arrays.asList(params));
     }
 
     @Override

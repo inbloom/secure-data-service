@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
-import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -47,14 +44,25 @@ public final class EdFiSLICmdLine {
     private static final Set<String> investigate = investigate().keySet();
     private static final Map<String, String> classRenames = classRenames();
 
-    private static final Set<QName> attributeNames(final Iterable<ClassType> classTypes) {
-        final Set<QName> names = new HashSet<QName>();
-        for (final ClassType classType : classTypes) {
-            for (final Attribute attribute : classType.getAttributes()) {
-                names.add(new QName(classType.getName(), attribute.getName()));
-            }
+    public final static String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
+    public final static String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
+    
+
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
+
+    	String sliInputFilename = (args.length == 2) ? args[0] : DEFAULT_SLI_INPUT_FILENAME;
+    	String edfiInputFilename = (args.length == 2) ? args[1] : DEFAULT_EDFI_INPUT_FILENAME;
+    	
+    	try {
+            final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel(sliInputFilename));
+            final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel(edfiInputFilename));
+            compareClasses(slim, edfi);
+        } catch (final FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        return names;
     }
 
     private static final Set<String> classNames(final Iterable<ClassType> classTypes) {
@@ -72,24 +80,6 @@ public final class EdFiSLICmdLine {
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(renames);
-    }
-
-    @SuppressWarnings("unused")
-    private static final void compareAttributes(final ModelIndex slim, final ModelIndex edfi) {
-
-        final Set<QName> slimNames = attributeNames(slim.getClassTypes().values());
-        System.out.println("slimNames.size=" + slimNames.size());
-        System.out.println("slimNames:" + slimNames);
-
-        final Set<QName> edfiNames = attributeNames(edfi.getClassTypes().values());
-        System.out.println("edfiNames.size=" + edfiNames.size());
-        System.out.println("edfiNames:" + edfiNames);
-
-        edfiNames.removeAll(slimNames);
-        System.out.println("edfiNames.size=" + edfiNames.size());
-        for (final QName name : edfiNames) {
-            System.out.println("" + name);
-        }
     }
 
     private static final void compareClasses(final ModelIndex slimModel, final ModelIndex edfiModel) {
@@ -219,22 +209,7 @@ public final class EdFiSLICmdLine {
         }
         return Collections.unmodifiableMap(inversion);
     }
-
-    /**
-     * @param args
-     */
-    public static void main(final String[] args) {
-        try {
-            final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel("SLI.xmi")); // was
-            // ../data/SLI.xmi
-            final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel("ED-Fi-Core.xmi"));
-            compareClasses(slim, edfi);
-            // compareAttributes(slim, edfi);
-        } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    
     private static final Set<String> outsideScope() {
         final Set<String> outsideScope = new HashSet<String>();
         outsideScope.add("Account");
@@ -316,8 +291,8 @@ public final class EdFiSLICmdLine {
         return Collections.unmodifiableSet(result);
     }
 
-    private EdFiSLICmdLine() {
+    public EdFiSLICmdLine() {
         // Prevent instantiation, even through reflection.
-        throw new RuntimeException();
+        throw new UnsupportedOperationException();
     }
 }
