@@ -61,7 +61,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String SESSION = "session";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
-    private static final String EDUCATIONORGANIZATION = "educationOrganization";
 
     private Map<Object, NeutralRecord> attendances;
 
@@ -516,6 +515,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 stageSchoolYearAttendances.add(new SchoolYearAttendance(schoolYear, events));
             }
         }
+        if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
+            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
+                .warning("No session found to handle attendance for student: {"+studentId+"} in school: {"+schoolId+"}", this);
+        }
+
         // Step 2: retrieve sli SchoolYearAttendances
         Set<SchoolYearAttendance> sliSchoolYearAttendances = getSliSchoolYearAttendances(studentId, schoolId);        
         // Step 3: merge sli and staging SchoolYearAttendances
@@ -619,18 +623,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return attendances;            
     }
 
-    @SuppressWarnings("deprecation")
-    private Entity getSliSchool(String schoolName) {
-        Query sliEdorgQuery = new Query().limit(0);
-        sliEdorgQuery.addCriteria(Criteria.where("body.nameOfInstitution").is(schoolName));
-
-        Iterable<Entity> sliSchool = getMongoEntityRepository().findByQuery(EDUCATIONORGANIZATION, sliEdorgQuery, 0, 0);
-        Iterator<Entity> it = sliSchool.iterator();
-        //At most one school is returned from the previous query
-        if(it.hasNext()) {
-            return it.next();
-        }
-        return null;
+    private Entity getSliSchool(String stateOrganizationId) {
+        NeutralQuery schoolQuery = new NeutralQuery(0);
+        schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
+        return getMongoEntityRepository().findOne(EntityNames.EDUCATION_ORGANIZATION, schoolQuery);
     }
 
     /**
@@ -638,21 +634,21 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * @param schoolName:
      * @return: List of sessions of the school from SLI
      */
-    @SuppressWarnings("deprecation")
-    private Iterable<NeutralRecord> getSliSessions(String schoolName) {
+    private Iterable<NeutralRecord> getSliSessions(String stateOrganizationId) {
         //Get schoolId within SLI db
         //TODO: we may not need this query when deterministic ID is implemented.
-        Entity school = getSliSchool(schoolName);
+        Entity school = getSliSchool(stateOrganizationId);
         String sliSchoolId = "";
 
         if(school != null){
             sliSchoolId = school.getEntityId();
+        } else {
+            return new ArrayList<NeutralRecord>();
         }
 
-        Query sliSessionQuery = new Query().limit(0);
-        sliSessionQuery.addCriteria(Criteria.where("body.schoolId").is(sliSchoolId));
-
-        Iterable<NeutralRecord> sliSessions = transformIntoNeutralRecord(getMongoEntityRepository().findByQuery(SESSION, sliSessionQuery, 0, 0));
+        NeutralQuery sessionQuery = new NeutralQuery(0);
+        sessionQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, sliSchoolId));
+        Iterable<NeutralRecord> sliSessions = transformIntoNeutralRecord(getMongoEntityRepository().findAll(EntityNames.SESSION, sessionQuery));
 
         return sliSessions;
     }
