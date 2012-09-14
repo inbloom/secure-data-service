@@ -257,6 +257,11 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         MongoConfigUtil.setReducer(jobConf, reducerClass);
         jobConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
 
+        // Set this relatively high to keep the total map execution time low.
+        // Formula:  1.75 * (# nodes * max tasks)
+        // TODO : replace this hardcoded value with one calculated from configuration information.
+        jobConf.setNumReduceTasks(52);
+
         // Add the configuration itself to the JobConf.
         JobConfiguration.toHadoopConfiguration(s, jobConf);
 
