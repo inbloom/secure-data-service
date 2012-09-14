@@ -11,16 +11,15 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * Utility class for constructing ed-org hierarchies for use in test classes.
@@ -39,7 +38,7 @@ public class EdOrgHelperTest {
     EdOrgHelper helper;
 
     @Autowired
-    private Repository<Entity> repo;
+    private PagingRepositoryDelegate<Entity> repo;
 
     /*
      *  Create an EdOrg Hierarchy that looks like
