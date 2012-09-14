@@ -313,7 +313,7 @@
 
   <jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="studentId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentSchoolAssociation_StudentReference" />
     <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:value property="schoolYear" data="StudentSchoolAssociation/SchoolYear" />
     <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
@@ -325,6 +325,18 @@
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
     <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
+  </jb:bean>
+
+  <!-- StudentSchoolAssociation support object: StudentSchoolAssociation_StudentReference  -->
+  <jb:bean beanId="StudentSchoolAssociation_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentSchoolAssociation_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentSchoolAssociation_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <!-- EducationalPlanItemType -->
@@ -609,7 +621,7 @@
   </jb:bean>
 
   <jb:bean beanId="staffEdOrgAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
-    <jb:wiring property="educationOrganizationReference" beanIdRef="staffEdOrgAssoc_EdOrgReference" />
+    <jb:wiring property="EducationOrganizationReference" beanIdRef="staffEdOrgAssoc_EdOrgReference" />
     <jb:wiring property="staffReference" beanIdRef="staffEdOrgAssoc_staffReference" />
     <jb:value property="staffClassification" data="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffClassification" />
     <jb:value property="positionTitle" data="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/PositionTitle" />
@@ -618,11 +630,11 @@
   </jb:bean>
 
   <jb:bean beanId="staffEdOrgAssoc_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/EducationOrganizationReference">
-    <jb:wiring property="educationalOrgIdentity" beanIdRef="staffEdOrgAssoc_EdOrgReferenc_EdOrgIdentity" />
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="staffEdOrgAssoc_EdOrgReferenc_EdOrgIdentity" />
   </jb:bean>
 
   <jb:bean beanId="staffEdOrgAssoc_EdOrgReferenc_EdOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity">
-    <jb:value property="stateOrganizationId" data="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="StateOrganizationId" data="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="staffEdOrgAssoc_staffReference" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference">
@@ -1670,8 +1682,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:value property="studentId"
-      data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentAssessment_StudentReference" />
     <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
@@ -1686,6 +1697,18 @@
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
     <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
+  </jb:bean>
+
+  <!-- StudentAssessment support object: StudentAssessment_StudentReference  -->
+  <jb:bean beanId="StudentAssessment_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentAssessment_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentAssessment_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
@@ -1844,10 +1867,21 @@
     <jb:value property="attendanceEventCategory" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventCategory" />
     <jb:value property="attendanceEventReason" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventReason" />
     <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
-    <jb:value property="studentId"
-      data="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="AttendanceEvent_StudentReference" />
     <jb:value property="schoolId"
       data="InterchangeStudentAttendance/AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
+  <!-- AttendanceEvent support object: AttendanceEvent_StudentReference  -->
+  <jb:bean beanId="AttendanceEvent_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAttendance/AttendanceEvent/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="AttendanceEvent_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="AttendanceEvent_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <!-- Start GraduationPlan mapping  -->
@@ -1939,8 +1973,20 @@
     <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Double" />
     <jb:value property="cumulativeGradePointAverage" data="StudentAcademicRecord/CumulativeGradePointAverage" decoder="Double" />
     <jb:wiring property="classRanking" beanIdRef="studentAcademicRecordClassRanking" />
-    <jb:value property="studentId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentAcademicRecord_StudentReference" />
     <jb:value property="sessionId" data="StudentAcademicRecord/SessionReference/SessionIdentity/SessionName" />
+  </jb:bean>
+
+ <!-- StudentSchoolAssociation support object: StudentSchoolAssociation_StudentReference  -->
+  <jb:bean beanId="StudentAcademicRecord_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentAcademicRecord_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentAcademicRecord_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordClassRanking" class="java.util.HashMap"
@@ -3124,7 +3170,7 @@
     <!-- DisciplineActionLengthDifferenceReason - simple type -->
     <jb:value property="disciplineActionLengthDifferenceReason" data="DisciplineAction/DisciplineActionLengthDifferenceReason" />
     <!-- StudentReference - array of reference type -->
-    <jb:wiring property="studentReference" beanIdRef="DA_studentReferenceArray" />
+    <jb:wiring property="StudentReference" beanIdRef="DA_studentReferenceArray" />
     <jb:wiring property="studentId" beanIdRef="DA_studentIdArray" />
     <!-- DisciplineIncidentReference - array of reference type -->
     <jb:wiring property="disciplineIncidentReference" beanIdRef="DA_disciplineIncidentReferenceArray" />
@@ -3175,12 +3221,12 @@
 
   <jb:bean beanId="DA_studentReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference">
-    <jb:wiring property="studentIdentity" beanIdRef="DA_studentReference_studentIdentity" />
+    <jb:wiring property="StudentIdentity" beanIdRef="DA_studentReference_studentIdentity" />
   </jb:bean>
 
   <jb:bean beanId="DA_studentReference_studentIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference/StudentIdentity">
-    <jb:value property="studentUniqueStateId" data="DisciplineAction/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="StudentUniqueStateId" data="DisciplineAction/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="DA_studentIdArray" class="java.util.ArrayList"
@@ -3603,7 +3649,7 @@
 
     <jb:bean beanId="ReportCardAttributes" class="java.util.HashMap"
              createOnElement="InterchangeStudentGrade/ReportCard">
-        <jb:value property="studentId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
+        <jb:wiring property="StudentReference" beanIdRef="ReportCard_StudentReference" />
         <jb:wiring property="gradingPeriodReference" beanIdRef="ReportCard_GradingPeriodReferenceArray" />
         <jb:value property="reportCardId" data="ReportCard/@id" />
         <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
@@ -3614,6 +3660,18 @@
         <jb:wiring property="studentCompetencyReference" beanIdRef="ReportCard_StudentCompetencyReferenceArray" />
         <jb:wiring property="gradeReference" beanIdRef="reportCard_gradeReferenceArray"/>
         <jb:wiring property="grades" beanIdRef="reportCard_gradesArray" />
+    </jb:bean>
+    
+      <!-- ReportCard support object: ReportCard_StudentReference  -->
+    <jb:bean beanId="ReportCard_StudentReference"
+      class="java.util.HashMap"
+      createOnElement="InterchangeStudentGrade/ReportCard/StudentReference">
+      <jb:wiring property="StudentIdentity" beanIdRef="ReportCard_StudentReference_StudentIdentity" />
+    </jb:bean>
+    <jb:bean beanId="ReportCard_StudentReference_StudentIdentity"
+      class="java.util.HashMap"
+      createOnElement="InterchangeStudentGrade/ReportCard/StudentReference/StudentIdentity">
+      <jb:value property="StudentUniqueStateId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
     </jb:bean>
 
     <jb:bean beanId="ReportCard_StudentCompetencyReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">

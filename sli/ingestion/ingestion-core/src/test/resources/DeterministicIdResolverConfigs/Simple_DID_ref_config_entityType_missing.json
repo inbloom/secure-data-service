@@ -1,0 +1,9 @@
+{
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "key_field",
+            "valueSource" : "key_field"
+        }
+    ]
+}

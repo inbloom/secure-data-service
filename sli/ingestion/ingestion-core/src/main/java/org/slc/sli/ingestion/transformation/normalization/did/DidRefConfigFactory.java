@@ -1,23 +1,16 @@
 package org.slc.sli.ingestion.transformation.normalization.did;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ResourceUtils;
 
 import org.slc.sli.ingestion.util.LogUtil;
 
@@ -81,19 +74,4 @@ public class DidRefConfigFactory implements ResourceLoaderAware {
         this.resourceLoader = resourceLoader;
     }
 
-    @PostConstruct
-
-    public void setup() {
-        try {
-            File directory = ResourceUtils.getFile(getSearchPath());
-            Iterator<File> it = FileUtils.iterateFiles(directory, new String[] { "json" }, false);
-            while (it.hasNext()) {
-                String fileName = it.next().getName();
-                fileName = fileName.substring(0, fileName.indexOf(CONFIG_EXT));
-                getDidRefConfiguration(fileName);
-            }
-        } catch (FileNotFoundException e) {
-            LogUtil.error(LOG, "Error getting files from " + getSearchPath(), e);
-        }
-    }
 }

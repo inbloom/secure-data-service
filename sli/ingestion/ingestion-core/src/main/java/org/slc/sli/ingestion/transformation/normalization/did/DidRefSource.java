@@ -33,6 +33,17 @@ public class DidRefSource {
     //Ed-Fi x-path defining the location of ReferenceType in the source data
     private String sourceRefPath;
 
+    //is the reference optional?
+    private boolean optional = false;
+
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
     public String getEntityType() {
         return entityType;
     }
