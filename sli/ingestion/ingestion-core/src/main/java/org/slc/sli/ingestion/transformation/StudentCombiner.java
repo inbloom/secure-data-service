@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,8 @@ public class StudentCombiner extends AbstractTransformationStrategy {
 
             for (NeutralRecord studentSectionAssociationRecord : associationRecords) {
                 Map<String, Object> sectionAttributes = studentSectionAssociationRecord.getAttributes();
+                String sectionId = ((BasicDBObject) ((BasicDBObject) studentSectionAssociationRecord.getAttributes().get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode").toString();
+                sectionAttributes.put("sectionId", sectionId);
                 sectionAttributes.remove("studentReference");
                 sectionAttributes.remove("sectionReference");
                 sections.add(sectionAttributes);
