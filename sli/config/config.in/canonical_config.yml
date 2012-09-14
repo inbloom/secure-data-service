@@ -62,6 +62,9 @@ default:
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
         sli.api.performance.tracking: false
+        
+        #Used for security context resultion's internal paging threshold
+        sli.api.security.context.paging: 100000
 
 
     data-access: &DATA-ACCESS-DEFAULT

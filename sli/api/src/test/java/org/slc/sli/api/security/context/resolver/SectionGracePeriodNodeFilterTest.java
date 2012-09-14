@@ -42,17 +42,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests
@@ -72,7 +71,7 @@ public class SectionGracePeriodNodeFilterTest {
     private AssociativeContextHelper mockHelper;
 
     @Mock
-    private Repository<Entity> mockRepo;
+    private PagingRepositoryDelegate<Entity> mockRepo;
 
     @Before
     public void setup() {

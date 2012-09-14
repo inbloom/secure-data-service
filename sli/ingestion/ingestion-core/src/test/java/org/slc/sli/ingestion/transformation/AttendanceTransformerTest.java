@@ -29,23 +29,18 @@ import java.util.Map;
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mvel2.ast.AssertNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -79,7 +74,7 @@ public class AttendanceTransformerTest
 
     @Mock
     private NeutralRecordMongoAccess neutralRecordMongoAccess = Mockito.mock(NeutralRecordMongoAccess.class);
-    
+
 
     @Mock
     private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
@@ -90,7 +85,7 @@ public class AttendanceTransformerTest
     @Before
     public void setup() throws IOException {
         MockitoAnnotations.initMocks(this);
-        
+
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
         neutralRecordMongoAccess.setNeutralRecordRepository(repository);
         transformer.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
@@ -182,36 +177,39 @@ public class AttendanceTransformerTest
     @Test
     public void testGetSession() throws Throwable {
 
-        //Mock the query in is for session
+        String stateOrganizationId = "schoolId1";        
+        //Mock the query in staging for session
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-        q1.addCriteria(Criteria.where("body.schoolId").is("schoolId1"));
+        q1.addCriteria(Criteria.where("body.schoolId").is(stateOrganizationId));
         when(repository.findAllByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(q1))))
             .thenReturn(new ArrayList<NeutralRecord>());
 
-        //Mock the query in sli for sessions
-        List<Entity> sessions = buildSessionEntity();
-        Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where("body.schoolId").is("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff"));
-        when(entityRepository.findByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(query)), Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(buildSessionEntity());
-
-        //Mock the query in sli for schools
-        Query sliSchoolQuery = new Query().limit(0);
-        sliSchoolQuery.addCriteria(Criteria.where("body.nameOfInstitution").is("schoolId1"));
-        when(entityRepository.findByQuery( Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectQuery(sliSchoolQuery)), Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(buildSessionEntity());
-
+        //Mock the query in staging for parentEducationAgency
         q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
         q1.addCriteria(Criteria.where("body.stateOrganizationId").is("schoolId1"));
         when(repository.findAllByQuery(Mockito.eq("school"), Mockito.argThat(new IsCorrectQuery(q1))))
             .thenReturn(new ArrayList<NeutralRecord>());
-
-
+        
+        //Mock the query in SLI for session
+        Entity schoolEntity = buildSchoolEntity(stateOrganizationId);
+        NeutralQuery schoolQuery = new NeutralQuery(0);
+        schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
+        when(entityRepository.findOne(Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
+            .thenReturn(schoolEntity);
+        String schoolEntityId = schoolEntity.getEntityId();
+        
+        //Mock the query in sli for sessions
+        List<Entity> sessions = buildSessionEntity();
+        NeutralQuery sessionQuery = new NeutralQuery(0);
+        sessionQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
+        when(entityRepository.findAll(Mockito.eq("session"), Mockito.argThat(new IsCorrectNeutralQuery(sessionQuery))))
+            .thenReturn(sessions);
+        
         String[] args = new String[1];
         args[0] = "schoolId1";
-        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{"schoolId1"});
+        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{stateOrganizationId});
 
         Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
     }
@@ -228,7 +226,7 @@ public class AttendanceTransformerTest
         when(entityRepository.findOne(Mockito.eq("student"), Mockito.argThat(new IsCorrectNeutralQuery(studentQuery))))
             .thenReturn(studentEntity);
         String studentEntityId = studentEntity.getEntityId();
-        
+
         Entity schoolEntity = buildSchoolEntity(stateOrganizationId);
         NeutralQuery schoolQuery = new NeutralQuery(0);
         schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
@@ -242,13 +240,13 @@ public class AttendanceTransformerTest
         attendanceQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
         when(entityRepository.findOne(Mockito.eq("attendance"), Mockito.argThat(new IsCorrectNeutralQuery(attendanceQuery))))
             .thenReturn(attendanceEntity);
-        
-        //prepare for satging SchoolYearAttendances        
+
+        //prepare for satging SchoolYearAttendances
         List<Map<String, Object>> attendance = buildAttendanceEvents();
         Map<Object, NeutralRecord> sessions = buildSchoolSessions(schoolEntityId);
-        
+
         Map<String, List<Map<String, Object>>> schoolYears = transformer.mapAttendanceIntoSchoolYears(attendance, sessions, studentUniqueStateId, stateOrganizationId);
-        
+
         Assert.assertNotNull(schoolYears);
         Assert.assertNotNull(schoolYears.entrySet());
         Assert.assertEquals(3, schoolYears.entrySet().size());
@@ -256,18 +254,18 @@ public class AttendanceTransformerTest
             String schoolYear = attendanceEntry.getKey();
             List<Map<String, Object>> events = attendanceEntry.getValue();
             if (schoolYear.equals("2006-2007")) {
-                Assert.assertEquals(1, events.size());                
+                Assert.assertEquals(1, events.size());
             }
             if (schoolYear.equals("2007-2008")) {
-                Assert.assertEquals(4, events.size());                
+                Assert.assertEquals(4, events.size());
             }
             if (schoolYear.equals("2008-2009")) {
-                Assert.assertEquals(1, events.size());                
+                Assert.assertEquals(1, events.size());
             }
         }
     }
-    
-    
+
+
     @SuppressWarnings("unchecked")
     @Test
     public void testPerformTransformation() throws IOException {
@@ -322,13 +320,6 @@ public class AttendanceTransformerTest
         when(repository.findAllByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(sessionQuery2))))
             .thenReturn(buildSessionRecords());
 
-        //generate educationOrganization query
-        when(entityRepository.findByQuery(Mockito.eq("educationOrganization"), Mockito.any(Query.class),Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(new ArrayList<Entity>());
-        //generate session query
-        when(entityRepository.findByQuery(Mockito.eq("session"), Mockito.any(Query.class),Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(new ArrayList<Entity>());
-                        
         transformer.performTransformation();
 
         //verify attendance for studentId1
@@ -470,7 +461,7 @@ public class AttendanceTransformerTest
         attendEvents.add(attendanceEvent23);
         return attendEvents;
     }
-    
+
     private Map<Object, NeutralRecord> buildSchoolSessions(String schoolEntityId) {
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
         NeutralRecord s1 = new NeutralRecord();
