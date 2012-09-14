@@ -622,7 +622,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     @SuppressWarnings("deprecation")
     private Entity getSliSchool(String schoolName) {
         Query sliEdorgQuery = new Query().limit(0);
-        sliEdorgQuery.addCriteria(Criteria.where("body.nameOfInstitution").is(schoolName));
+        sliEdorgQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolName));
 
         Iterable<Entity> sliSchool = getMongoEntityRepository().findByQuery(EDUCATIONORGANIZATION, sliEdorgQuery, 0, 0);
         Iterator<Entity> it = sliSchool.iterator();
