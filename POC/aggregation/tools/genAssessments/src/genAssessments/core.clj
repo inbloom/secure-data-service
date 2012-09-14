@@ -346,14 +346,14 @@
   (gen-edfi :InterchangeEducationOrgCalendar output-file (reverse (create-session districtName)))
 )
 
-(defn create-section [districtName]
+(defn create-section [districtName schoolName]
   (into () [
     (element :CourseOffering {}
-      (element :LocalCourseCode {} "Math-7")
+      (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
       (element :LocalCourseTitle {} "7th Grade Math")
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SessionReference {}
@@ -372,22 +372,22 @@
     )
 
     (element :Section {}
-      (element :UniqueSectionCode {} "Math-7-2011-Sec2")
+      (element :UniqueSectionCode {} (format "%s-Math-7-2011-Sec2", schoolName))
       (element :SequenceOfCourse {} "1")
       (element :CourseOfferingReference {}
         (element :CourseOfferingIdentity {}
-          (element :LocalCourseCode {} "Math-7")
+          (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
             (element :ID {} "Math007")
           )
           (element :Term {} "Fall Semester")
           (element :SchoolYear {} "2011-2012")
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SessionReference {}
@@ -399,8 +399,14 @@
   )
 )
 
-(defn gen-sections [districtName output-file]
-  (gen-edfi :InterchangeMasterSchedule output-file (reverse (create-section districtName)))
+(defn gen-sections [districtName schools output-file]
+  (gen-edfi :InterchangeMasterSchedule output-file
+    (reverse
+      (doseq [schoolName schools]
+        (create-section districtName schoolName)
+      )
+    )
+  )
 )
 
 
@@ -524,7 +530,7 @@
     (doseq [ [districtName schools] district]
       (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))
       (gen-session districtName (format "/tmp/test/C-%s-calendar.xml" districtName))
-      (gen-sections districtName (format "/tmp/test/D-%s-master-schedule.xml" districtName))
+      (gen-sections districtName schools (format "/tmp/test/D-%s-master-schedule.xml" districtName))
       (doseq [ schoolName schools ]
         (def rng (range 1 (+ 1 studentCount)))
         (gen-students schoolName rng (format "/tmp/test/E-%s-student.xml" schoolName))
