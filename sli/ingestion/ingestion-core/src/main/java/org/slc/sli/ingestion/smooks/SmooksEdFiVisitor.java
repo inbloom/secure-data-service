@@ -78,6 +78,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private BatchJobDAO batchJobDAO;
 
+    private int duplicateCount;
+
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
      * queue by writing to data store before returning final count.
@@ -89,6 +91,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
+    /**
+     * Get the number of records not ingested because they were already present.
+     *
+     * @return Final number of duplicates skipped
+     */
+    public int getDuplicateCount() {
+        return duplicateCount;
+    }
+
     private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
@@ -97,6 +108,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
+        this.duplicateCount = 0;
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
@@ -112,13 +124,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
 
             LOG.info("CHECKING RECORD for DELTA");
-
-            System.out.println(neutralRecord.toString());
             if (!isPreviouslyIngested(neutralRecord)) {
                 LOG.info("RECORD IS NOT INGESTED BEFORE");
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
                 LOG.info("RECORD IS INGESTED BEFORE");
+                duplicateCount += 1;
             }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {

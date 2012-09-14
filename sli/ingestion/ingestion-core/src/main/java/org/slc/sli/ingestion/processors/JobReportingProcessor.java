@@ -204,6 +204,8 @@ public class JobReportingProcessor implements Processor {
 
             writeBatchJobProperties(job, jobReportWriter);
 
+            writeDuplicateLine(job, jobReportWriter);
+
             if (!hasErrors) {
                 writeInfoLine(jobReportWriter, "All records processed successfully.");
                 job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
@@ -226,6 +228,14 @@ public class JobReportingProcessor implements Processor {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
             cleanupWriterAndLocks(jobReportWriter, lock, channel);
+        }
+    }
+
+    private void writeDuplicateLine(NewBatchJob job, PrintWriter jobReportWriter) {
+        if (job.getDuplicateCountMap() != null) {
+            for (Entry<String, Integer> entry : job.getDuplicateCountMap().entrySet()) {
+                writeInfoLine(jobReportWriter, "[duplicates] " + entry.getKey().replace('|', '.') + ": " + entry.getValue());
+            }
         }
     }
 

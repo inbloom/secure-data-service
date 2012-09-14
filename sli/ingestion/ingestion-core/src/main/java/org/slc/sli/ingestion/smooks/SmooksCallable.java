@@ -173,6 +173,9 @@ public class SmooksCallable implements Callable<Boolean> {
 
             LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
+
+            newBatchJob.setDuplicateCount(ingestionFileEntry.getFileName().replace('.', '|'), visitAfter.getDuplicateCount());
+
         } catch (Exception e) {
             LOG.error("Error accessing visitor list in smooks", e);
         }
