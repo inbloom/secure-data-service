@@ -23,15 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.adapter.GenericMapper;
-import org.slc.sli.dal.adapter.LocationMapper;
-import org.slc.sli.dal.adapter.SchemaVisitable;
-import org.slc.sli.dal.adapter.SchemaVisitor;
+import org.slc.sli.dal.adapter.transform.DatabaseTransform;
+import org.slc.sli.dal.adapter.transform.LocationTransform;
+import org.slc.sli.dal.adapter.transform.Transform;
+import org.slc.sli.dal.adapter.transform.TransformStore;
 import org.slc.sli.dal.adapter.transform.TransformWorkItem;
-import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.dal.adapter.transform.visitor.TransformVisitor;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -62,7 +61,7 @@ import javax.annotation.Resource;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean, SchemaVisitor {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     private static final int PADDING = 300;
@@ -77,11 +76,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
-    @Resource(name = "schemaMappings")
-    private Map<String, List<SchemaVisitable>> schemaMappings;
+    @Autowired
+    @Qualifier("locationTransformStore")
+    private TransformStore<LocationTransform> locationTransformStore;
 
     @Autowired
-    private SchemaRepository schemaRepository;
+    @Qualifier("databaseTransformStore")
+    private TransformStore<DatabaseTransform> databaseTransformStore;
+
+    @Autowired
+    private TransformVisitor transformVisitor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -141,10 +145,20 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
 
-        List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
-        if (visitables != null) {
-            for (SchemaVisitable visitable : visitables) {
-                entity = visitable.acceptWrite(type, entity, this);
+        return transformWrite(collectionName, entity);
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+        return transformRead(collectionName, neutralQuery);
+    }
+
+    private Entity transformWrite(String type, Entity entity) {
+        List<Transform> locationTransforms = locationTransformStore.getTransform(type, 1, 1);
+
+        if (!locationTransforms.isEmpty()) {
+            for (Transform transform : locationTransforms) {
+                entity = transform.acceptWrite(type, new TransformWorkItem(entity.getEntityId(), entity), transformVisitor);
             }
 
             return entity;
@@ -152,23 +166,34 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         validator.validate(entity);
         this.addTimestamps(entity);
-        return super.create(entity, collectionName);
+
+        return super.create(entity, type);
     }
 
-    @Override
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        List<SchemaVisitable> visitables = schemaMappings.get(collectionName);
+    private List<TransformWorkItem> getWorkItems(List<Entity> entities, NeutralQuery query) {
+        List<TransformWorkItem> workItems = new ArrayList<TransformWorkItem>();
 
-        if (visitables != null) {
-            List<Entity> results = new ArrayList<Entity>();
-            for (SchemaVisitable visitable : visitables) {
-                results = visitable.acceptRead(collectionName, results, neutralQuery, this);
-            }
-
-            return results;
+        for (Entity entity : entities) {
+            workItems.add(new TransformWorkItem(entity.getEntityId(), entity, query));
         }
 
-        return super.findAll(collectionName, neutralQuery);
+        return workItems;
+    }
+
+    private List<Entity> transformRead(String type, NeutralQuery neutralQuery) {
+        List<Transform> transforms = locationTransformStore.getTransform(type, 1, 1);
+
+        //try to get the entities
+        List<Entity> results = (List<Entity>) super.findAll(type, neutralQuery);
+
+        List<Transform> databaseTransforms = databaseTransformStore.getTransform(type);
+        transforms.addAll(databaseTransforms);
+
+        for (Transform transform : transforms) {
+            results = transform.acceptReadAll(type, getWorkItems(results, neutralQuery), transformVisitor);
+        }
+
+        return results;
     }
 
     @Override
@@ -245,83 +270,83 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         this.validator = validator;
     }
 
-    @Override
-    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, LocationMapper mapper) {
-        List<String> ids = new ArrayList<String>();
-        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
-
-        for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
-            if (criteria.getKey().equals("_id")) {
-                ids = (List<String>) criteria.getValue();
-                break;
-            }
-        }
-
-        for (String id : ids) {
-            toTransform.add(new TransformWorkItem(1, 1, id, null));
-        }
-
-        return mapper.readAll(toTransform);
-    }
-
-    @Override
-    public Entity visitWrite(String type, Entity entity, LocationMapper mapper) {
-        TransformWorkItem toTransform = new TransformWorkItem(1, 1, entity.getEntityId(), entity);
-        return mapper.write(toTransform);
-    }
-
-    @Override
-    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, GenericMapper mapper) {
-        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
-
-        Iterable<Entity> list = super.findAll(type, neutralQuery);
-
-        NeutralSchema schema = schemaRepository.getSchema(type);
-        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
-        //TODO
-        int schemaVersion = 2;
-
-        for (Entity entity : list) {
-            String version = (String) entity.getMetaData().get("version");
-            int docVersion = Integer.parseInt((version == null) ? "1" : version);
-
-            if (docVersion < schemaVersion) {
-                toTransform.add(new TransformWorkItem(docVersion, schemaVersion,
-                        entity.getEntityId(), entity));
-            }
-        }
-
-        if (!toTransform.isEmpty()) {
-            return mapper.readAll(toTransform);
-        }
-
-        return (List<Entity>) list;
-    }
-
-    @Override
-    public Entity visitWrite(String type, Entity entity, GenericMapper mapper) {
-        TransformWorkItem toTransform = null;
-        NeutralSchema schema = schemaRepository.getSchema(type);
-        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
-        //TODO
-        int schemaVersion = 2;
-
-        String version = (String) entity.getMetaData().get("version");
-        int docVersion = Integer.parseInt((version == null) ? "1" : version);
-
-        if (docVersion < schemaVersion) {
-            toTransform = new TransformWorkItem(docVersion, schemaVersion,
-                    entity.getEntityId(), entity);
-        }
-
-        if (toTransform != null) {
-            entity = mapper.write(toTransform);
-        }
-
-        validator.validate(entity);
-        this.addTimestamps(entity);
-
-        return super.create(entity, type);
-    }
+//    @Override
+//    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, LocationMapper mapper) {
+//        List<String> ids = new ArrayList<String>();
+//        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
+//
+//        for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
+//            if (criteria.getKey().equals("_id")) {
+//                ids = (List<String>) criteria.getValue();
+//                break;
+//            }
+//        }
+//
+//        for (String id : ids) {
+//            toTransform.add(new TransformWorkItem(1, 1, id, null));
+//        }
+//
+//        return mapper.readAll(toTransform);
+//    }
+//
+//    @Override
+//    public Entity visitWrite(String type, Entity entity, LocationMapper mapper) {
+//        TransformWorkItem toTransform = new TransformWorkItem(1, 1, entity.getEntityId(), entity);
+//        return mapper.write(toTransform);
+//    }
+//
+//    @Override
+//    public List<Entity> visitRead(String type, List<Entity> entities, NeutralQuery neutralQuery, GenericMapper mapper) {
+//        List<TransformWorkItem> toTransform = new ArrayList<TransformWorkItem>();
+//
+//        Iterable<Entity> list = super.findAll(type, neutralQuery);
+//
+//        NeutralSchema schema = schemaRepository.getSchema(type);
+//        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
+//        //TODO
+//        int schemaVersion = 2;
+//
+//        for (Entity entity : list) {
+//            String version = (String) entity.getMetaData().get("version");
+//            int docVersion = Integer.parseInt((version == null) ? "1" : version);
+//
+//            if (docVersion < schemaVersion) {
+//                toTransform.add(new TransformWorkItem(docVersion, schemaVersion,
+//                        entity.getEntityId(), entity));
+//            }
+//        }
+//
+//        if (!toTransform.isEmpty()) {
+//            return mapper.readAll(toTransform);
+//        }
+//
+//        return (List<Entity>) list;
+//    }
+//
+//    @Override
+//    public Entity visitWrite(String type, Entity entity, GenericMapper mapper) {
+//        TransformWorkItem toTransform = null;
+//        NeutralSchema schema = schemaRepository.getSchema(type);
+//        //int schemaVersion = schema.getAppInfo().getSchemaVersion();
+//        //TODO
+//        int schemaVersion = 2;
+//
+//        String version = (String) entity.getMetaData().get("version");
+//        int docVersion = Integer.parseInt((version == null) ? "1" : version);
+//
+//        if (docVersion < schemaVersion) {
+//            toTransform = new TransformWorkItem(docVersion, schemaVersion,
+//                    entity.getEntityId(), entity);
+//        }
+//
+//        if (toTransform != null) {
+//            entity = mapper.write(toTransform);
+//        }
+//
+//        validator.validate(entity);
+//        this.addTimestamps(entity);
+//
+//        return super.create(entity, type);
+//    }
 
 }

@@ -1,11 +1,13 @@
-package org.slc.sli.dal.adapter;
-
-import org.slc.sli.dal.adapter.transform.TransformWorkItem;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
+package org.slc.sli.dal.adapter.transform.impl;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slc.sli.dal.adapter.transform.LocationTransform;
+import org.slc.sli.dal.adapter.transform.TransformWorkItem;
+import org.slc.sli.dal.adapter.transform.visitor.TransformVisitor;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,26 +21,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Utility for accessing subdocuments that have been collapsed into a super-doc
- *
- * @author nbrown
- *
+ * Created with IntelliJ IDEA.
+ * User: srupasinghe
+ * Date: 9/13/12
+ * Time: 3:46 PM
+ * To change this template use File | Settings | File Templates.
  */
-public class LocationMapper implements Mappable {
+public abstract class SuperDocumentTransform implements LocationTransform {
+
     private static final String ID_SEPERATOR = "_";
+
     private String type;
     private String collection;
     private String key;
     private String subCollection;
 
+    @Autowired
+    @Qualifier("mongoTemplate")
     private MongoTemplate template;
 
-    public LocationMapper(MongoTemplate template, String type, String collection, String key, String subCollection) {
+    public SuperDocumentTransform(String type, String collection, String key, String subCollection) {
         this.type = type;
         this.collection = collection;
         this.key = key;
         this.subCollection = subCollection;
-        this.template = template;
     }
 
     private String getKey() {
@@ -122,9 +128,22 @@ public class LocationMapper implements Mappable {
         return subCollection + "." + id;
     }
 
+    @Override
+    public Entity transformWrite(TransformWorkItem toTransform) {
+        String id = makeEntityId(toTransform.getToTransform().getBody());
+        create(id, toTransform.getToTransform());
+
+        return new MongoEntity(type, id, toTransform.getToTransform().getBody(), toTransform.getToTransform().getMetaData(),
+                toTransform.getToTransform().getCalculatedValues(), toTransform.getToTransform().getAggregates());
+    }
 
     @Override
-    public List<Entity> readAll(List<TransformWorkItem> toTransform) {
+    public Entity transformRead(TransformWorkItem toTransform) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> transformReadAll(List<TransformWorkItem> toTransform) {
         List<String> parentIds = new ArrayList<String>();
         List<Entity> returnEntities = new ArrayList<Entity>();
 
@@ -147,27 +166,17 @@ public class LocationMapper implements Mappable {
     }
 
     @Override
-    public Entity read(Entity entity) {
-        return null;
+    public Entity acceptRead(String type, TransformWorkItem toTransform, TransformVisitor visitor) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Entity write(TransformWorkItem toTransform) {
-        String id = makeEntityId(toTransform.getToTransform().getBody());
-        create(id, toTransform.getToTransform());
-
-        return new MongoEntity(type, id, toTransform.getToTransform().getBody(),
-                toTransform.getToTransform().getMetaData(), toTransform.getToTransform().getCalculatedValues(),
-                toTransform.getToTransform().getAggregates());
+    public List<Entity> acceptReadAll(String type, List<TransformWorkItem> toTransform, TransformVisitor visitor) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<Entity> acceptRead(String type, List<Entity> entities, NeutralQuery neutralQuery, SchemaVisitor visitor) {
-        return visitor.visitRead(type, entities, neutralQuery, this);
-    }
-
-    @Override
-    public Entity acceptWrite(String type, Entity entity, SchemaVisitor visitor) {
-        return visitor.visitWrite(type, entity, this);
+    public Entity acceptWrite(String type, TransformWorkItem toTransform, TransformVisitor visitor) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

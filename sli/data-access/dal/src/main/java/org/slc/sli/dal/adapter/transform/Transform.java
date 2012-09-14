@@ -1,21 +1,25 @@
 package org.slc.sli.dal.adapter.transform;
 
+import org.slc.sli.dal.adapter.transform.visitor.TransformVisitable;
 import org.slc.sli.domain.Entity;
 
 import java.util.List;
 
+
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 9/12/12
- * Time: 3:11 PM
- * To change this template use File | Settings | File Templates.
+ * Identifies a transform.
+ *
+ * @author srupasinghe
  */
-public interface Transform {
+public interface Transform extends TransformVisitable {
 
-    public Entity transformWrite(Entity toTransform);
+    public Entity transformWrite(TransformWorkItem toTransform);
 
-    public Entity transformRead(Entity toTransform);
+    public Entity transformRead(TransformWorkItem toTransform);
+
+    public List<Entity> transformReadAll(List<TransformWorkItem> toTransform);
 
     public boolean isTransformable(String type, int fromVersion, int toVersion);
+
+    public boolean isTransformable(String type);
 }
