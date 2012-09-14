@@ -313,7 +313,7 @@
 
   <jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="studentId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentSchoolAssociation_StudentReference" />
     <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:value property="schoolYear" data="StudentSchoolAssociation/SchoolYear" />
     <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
@@ -325,6 +325,18 @@
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
     <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
+  </jb:bean>
+
+  <!-- StudentSchoolAssociation support object: StudentSchoolAssociation_StudentReference  -->
+  <jb:bean beanId="StudentSchoolAssociation_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentSchoolAssociation_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentSchoolAssociation_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <!-- EducationalPlanItemType -->
@@ -1844,10 +1856,21 @@
     <jb:value property="attendanceEventCategory" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventCategory" />
     <jb:value property="attendanceEventReason" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventReason" />
     <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
-    <jb:value property="studentId"
-      data="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentReference" beanIdRef="AttendanceEvent_StudentReference" />
     <jb:value property="schoolId"
       data="InterchangeStudentAttendance/AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
+  <!-- AttendanceEvent support object: AttendanceEvent_StudentReference  -->
+  <jb:bean beanId="AttendanceEvent_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAttendance/AttendanceEvent/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="AttendanceEvent_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="AttendanceEvent_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <!-- Start GraduationPlan mapping  -->
