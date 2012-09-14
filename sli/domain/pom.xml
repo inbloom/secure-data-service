@@ -101,7 +101,7 @@
                         <goals>
                             <goal>java</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <mainClass>org.slc.sli.modeling.xmigen.XmiGen</mainClass>
                             <arguments>
