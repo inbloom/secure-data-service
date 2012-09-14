@@ -4,9 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.annotation.PostConstruct;
 
@@ -84,15 +89,33 @@ public class DidEntityConfigFactory implements ResourceLoaderAware {
     @PostConstruct
     public void setup() {
         try {
-            File directory = ResourceUtils.getFile(getSearchPath());
-            Iterator<File> it = FileUtils.iterateFiles(directory, new String[] { "json" }, false);
-            while (it.hasNext()) {
-                String fileName = it.next().getName();
-                fileName = fileName.substring(0, fileName.indexOf(CONFIG_EXT));
-                getDidEntityConfiguration(fileName);
+            URL baseURL = ResourceUtils.getURL(getSearchPath());
+            String protocol = baseURL.getProtocol();
+            if (protocol.equals("jar")) {
+                String jarPath = baseURL.getPath().substring(5, baseURL.getPath().indexOf("!"));
+                JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+                Enumeration<JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    String name = entries.nextElement().getName();
+                    if (name.matches(getSearchPath().split(":")[1] + "/\\w+\\.json")) {
+                        String fileName = name.substring(name.lastIndexOf("/") + 1);
+                        fileName = fileName.substring(0, fileName.indexOf(CONFIG_EXT));
+                        getDidEntityConfiguration(fileName);
+                    }
+                }
+            } else if (protocol.equals("file")) {
+                File directory = FileUtils.toFile(baseURL);
+                Iterator<File> it = FileUtils.iterateFiles(directory, new String[] { "json" }, false);
+                while (it.hasNext()) {
+                    String fileName = it.next().getName();
+                    fileName = fileName.substring(0, fileName.indexOf(CONFIG_EXT));
+                    getDidEntityConfiguration(fileName);
+                }
             }
-        } catch (FileNotFoundException e) {
-            LogUtil.error(LOG, "Error getting files from " + getSearchPath(), e);
+        } catch (FileNotFoundException fnfe) {
+            LogUtil.error(LOG, "Error getting files from " + getSearchPath(), fnfe);
+        } catch (IOException ioe) {
+            LogUtil.error(LOG, "Error getting files from " + getSearchPath(), ioe);
         }
     }
 }

@@ -17,7 +17,6 @@ public class DidRefConfigFactoryTest {
         DidRefConfigFactory factory = new DidRefConfigFactory();
         factory.setResourceLoader(new DefaultResourceLoader());
         factory.setSearchPath("classpath:didRefConfigs/");
-        factory.setup();
         DidRefConfig ec = factory.getDidRefConfiguration("dummy");
 
         Assert.assertNotNull(ec);
