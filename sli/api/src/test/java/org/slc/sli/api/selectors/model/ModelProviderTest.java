@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.api.model.TestModelProvider;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
@@ -47,10 +48,7 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ModelProviderTest {
 
-    @Autowired
     private ModelProvider provider; // class under test
-
-    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {
@@ -58,7 +56,7 @@ public class ModelProviderTest {
 
     @Test
     public void testReadModel() {
-        provider = new ModelProvider(TEST_XMI_LOC);
+        provider = new TestModelProvider();
         assertNotNull(provider);
     }
 
@@ -93,7 +91,7 @@ public class ModelProviderTest {
 
     @Test
     public void testIsAttribute() {
-        provider = new ModelProvider(TEST_XMI_LOC);
+        provider = new TestModelProvider();
         final ClassType student = provider.getClassType("Student");
         assertTrue(provider.isAttribute(student, "name"));
         assertTrue(!provider.isAttribute(student, "studentSectionAssociations"));
@@ -101,7 +99,7 @@ public class ModelProviderTest {
 
     @Test
     public void testIsAssociation() {
-        provider = new ModelProvider(TEST_XMI_LOC);
+        provider = new TestModelProvider();
         final ClassType student = provider.getClassType("Student");
         assertTrue(provider.isAssociation(student, "studentSectionAssociations"));
         assertTrue(!provider.isAssociation(student, "name"));
@@ -109,7 +107,7 @@ public class ModelProviderTest {
 
     @Test
     public void testGetType() {
-        provider = new ModelProvider(TEST_XMI_LOC);
+        provider = new TestModelProvider();
         final ClassType student = provider.getClassType("Student");
 
         final ClassType name = provider.getClassType(student, "name");
@@ -125,7 +123,7 @@ public class ModelProviderTest {
 
     @Test
     public void testGetAttribute() {
-        provider = new ModelProvider(TEST_XMI_LOC);
+        provider = new TestModelProvider();
         final ClassType student = provider.getClassType("Student");
 
         final Attribute studentStateId = provider.getAttributeType(student, "studentUniqueStateId");

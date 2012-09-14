@@ -36,7 +36,7 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  * Filters the sections by a given date (grace period)
@@ -54,8 +54,8 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
     private String gracePeriod;
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
     private AssociativeContextHelper helper;

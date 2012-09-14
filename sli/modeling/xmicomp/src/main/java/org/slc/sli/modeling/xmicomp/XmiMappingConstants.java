@@ -75,4 +75,8 @@ public final class XmiMappingConstants {
      * The version.
      */
     public static final QName VERSION = new QName(NAMESPACE_URI, "version");
+    
+    public XmiMappingConstants() {
+    	throw new UnsupportedOperationException();
+    }
 }
