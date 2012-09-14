@@ -2650,7 +2650,7 @@
 					<xs:documentation>Current school</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="sections" type="section" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="sections" type="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Current sections</xs:documentation>
                 </xs:annotation>

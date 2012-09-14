@@ -5,7 +5,7 @@ dashboard_api_server_uri: "http://local.slidev.org:8080"
 realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 browser: "firefox"
 
-admintools_server_url: "http://local.slidev.org:3001"
+admintools_server_url: "https://picard-admin.slidev.org"
 api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 
@@ -62,7 +62,7 @@ email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
-portal_server_address: http://local.slidev.org:7000
+portal_server_address: https://picard-portal.slidev.org
 portal_app_suffix: "/portal"
 
 

@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,19 +59,21 @@ public class StudentCombiner extends AbstractTransformationStrategy {
                 .findAllByQuery("studentSectionAssociation", sectionAssociationQuery);
 
             for (NeutralRecord studentSectionAssociationRecord : associationRecords) {
-                Query sectionQuery = new Query();
-                sectionQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-                String sectionId = ((BasicDBObject) ((BasicDBObject) studentSectionAssociationRecord.getAttributes().get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode").toString();
-                sectionQuery.addCriteria(Criteria.where("body.uniqueSectionCode").is(sectionId));
-                Iterable<NeutralRecord> sectionRecords = getNeutralRecordMongoAccess().getRecordRepository()
-                        .findAllByQuery("section", sectionQuery);
-                for (NeutralRecord sectionRecord : sectionRecords) {
-                    Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
-                    sectionAttributes.remove("schoolReference");
-                    sectionAttributes.remove("courseOfferingReference");
-                    sectionAttributes.remove("sessionReference");
-                    sections.add(sectionRecord.getAttributes());
-                }
+                Map<String, Object> sectionAttributes = studentSectionAssociationRecord.getAttributes();
+                sections.add(sectionAttributes);
+//                Query sectionQuery = new Query();
+//                sectionQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+//                String sectionId = ((BasicDBObject) ((BasicDBObject) studentSectionAssociationRecord.getAttributes().get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode").toString();
+//                sectionQuery.addCriteria(Criteria.where("body.uniqueSectionCode").is(sectionId));
+//                Iterable<NeutralRecord> sectionRecords = getNeutralRecordMongoAccess().getRecordRepository()
+//                        .findAllByQuery("section", sectionQuery);
+//                for (NeutralRecord sectionRecord : sectionRecords) {
+//                    Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
+//                    sectionAttributes.remove("schoolReference");
+//                    sectionAttributes.remove("courseOfferingReference");
+//                    sectionAttributes.remove("sessionReference");
+//                    sections.add(sectionRecord.getAttributes());
+//                }
             }
 
             // collapse assessments into student
