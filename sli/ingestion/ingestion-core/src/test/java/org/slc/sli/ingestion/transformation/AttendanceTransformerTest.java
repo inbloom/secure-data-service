@@ -29,6 +29,7 @@ import java.util.Map;
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -36,12 +37,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mvel2.ast.AssertNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -137,7 +141,7 @@ public class AttendanceTransformerTest
     public void testGetSchoolsForStudentFromSLI() throws Throwable {
 
         //query SLI DB for student
-        Entity studentEntity = buildStudentEntity();
+        Entity studentEntity = buildStudentEntity("studentId2");
         String studentUniqueStateId = (String)studentEntity.getBody().get("studentUniqueStateId");
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
@@ -174,6 +178,96 @@ public class AttendanceTransformerTest
 
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetSession() throws Throwable {
+
+        //Mock the query in is for session
+        Query q1 = new Query().limit(0);
+        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        q1.addCriteria(Criteria.where("body.schoolId").is("schoolId1"));
+        when(repository.findAllByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(q1))))
+            .thenReturn(new ArrayList<NeutralRecord>());
+
+        //Mock the query in sli for sessions
+        List<Entity> sessions = buildSessionEntity();
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where("body.schoolId").is("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff"));
+        when(entityRepository.findByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(query)), Mockito.eq(0),Mockito.eq(0)))
+            .thenReturn(buildSessionEntity());
+
+        //Mock the query in sli for schools
+        Query sliSchoolQuery = new Query().limit(0);
+        sliSchoolQuery.addCriteria(Criteria.where("body.nameOfInstitution").is("schoolId1"));
+        when(entityRepository.findByQuery( Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectQuery(sliSchoolQuery)), Mockito.eq(0),Mockito.eq(0)))
+            .thenReturn(buildSessionEntity());
+
+        q1 = new Query().limit(0);
+        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        q1.addCriteria(Criteria.where("body.stateOrganizationId").is("schoolId1"));
+        when(repository.findAllByQuery(Mockito.eq("school"), Mockito.argThat(new IsCorrectQuery(q1))))
+            .thenReturn(new ArrayList<NeutralRecord>());
+
+
+        String[] args = new String[1];
+        args[0] = "schoolId1";
+        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{"schoolId1"});
+
+        Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testMapAttendanceIntoSchoolYears() throws IOException {
+        String studentUniqueStateId = "studentId1";
+        String stateOrganizationId = "schoolId1";
+        //prepare for Sli SchoolYearAttendances
+        Entity studentEntity = buildStudentEntity(studentUniqueStateId);
+        NeutralQuery studentQuery = new NeutralQuery(0);
+        studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
+        when(entityRepository.findOne(Mockito.eq("student"), Mockito.argThat(new IsCorrectNeutralQuery(studentQuery))))
+            .thenReturn(studentEntity);
+        String studentEntityId = studentEntity.getEntityId();
+        
+        Entity schoolEntity = buildSchoolEntity(stateOrganizationId);
+        NeutralQuery schoolQuery = new NeutralQuery(0);
+        schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrganizationId));
+        when(entityRepository.findOne(Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
+            .thenReturn(schoolEntity);
+        String schoolEntityId = schoolEntity.getEntityId();
+
+        Entity attendanceEntity = buildAttendanceEntity(studentEntityId, schoolEntityId);
+        NeutralQuery attendanceQuery = new NeutralQuery(0);
+        attendanceQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
+        attendanceQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
+        when(entityRepository.findOne(Mockito.eq("attendance"), Mockito.argThat(new IsCorrectNeutralQuery(attendanceQuery))))
+            .thenReturn(attendanceEntity);
+        
+        //prepare for satging SchoolYearAttendances        
+        List<Map<String, Object>> attendance = buildAttendanceEvents();
+        Map<Object, NeutralRecord> sessions = buildSchoolSessions(schoolEntityId);
+        
+        Map<String, List<Map<String, Object>>> schoolYears = transformer.mapAttendanceIntoSchoolYears(attendance, sessions, studentUniqueStateId, stateOrganizationId);
+        
+        Assert.assertNotNull(schoolYears);
+        Assert.assertNotNull(schoolYears.entrySet());
+        Assert.assertEquals(3, schoolYears.entrySet().size());
+        for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
+            String schoolYear = attendanceEntry.getKey();
+            List<Map<String, Object>> events = attendanceEntry.getValue();
+            if (schoolYear.equals("2006-2007")) {
+                Assert.assertEquals(1, events.size());                
+            }
+            if (schoolYear.equals("2007-2008")) {
+                Assert.assertEquals(4, events.size());                
+            }
+            if (schoolYear.equals("2008-2009")) {
+                Assert.assertEquals(1, events.size());                
+            }
+        }
+    }
+    
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testPerformTransformation() throws IOException {
@@ -270,44 +364,6 @@ public class AttendanceTransformerTest
     }
 
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testGetSession() throws Throwable {
-
-        //Mock the query in is for session
-        Query q1 = new Query().limit(0);
-        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-        q1.addCriteria(Criteria.where("body.schoolId").is("schoolId1"));
-        when(repository.findAllByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(q1))))
-            .thenReturn(new ArrayList<NeutralRecord>());
-
-        //Mock the query in sli for sessions
-        List<Entity> sessions = buildSessionEntity();
-        Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where("body.schoolId").is("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff"));
-        when(entityRepository.findByQuery(Mockito.eq("session"), Mockito.argThat(new IsCorrectQuery(query)), Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(buildSessionEntity());
-
-        //Mock the query in sli for schools
-        Query sliSchoolQuery = new Query().limit(0);
-        sliSchoolQuery.addCriteria(Criteria.where("body.nameOfInstitution").is("schoolId1"));
-        when(entityRepository.findByQuery( Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectQuery(sliSchoolQuery)), Mockito.eq(0),Mockito.eq(0)))
-            .thenReturn(buildSessionEntity());
-
-        q1 = new Query().limit(0);
-        q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-        q1.addCriteria(Criteria.where("body.stateOrganizationId").is("schoolId1"));
-        when(repository.findAllByQuery(Mockito.eq("school"), Mockito.argThat(new IsCorrectQuery(q1))))
-            .thenReturn(new ArrayList<NeutralRecord>());
-
-
-        String[] args = new String[1];
-        args[0] = "schoolId1";
-        Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{"schoolId1"});
-
-        Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
-    }
-
 
     private List<Entity> buildSessionEntity() {
         Map<String, Object> b = new HashMap<String, Object>();
@@ -340,13 +396,115 @@ public class AttendanceTransformerTest
         return Arrays.asList(e);
     }
 
-    private Entity buildStudentEntity() {
+    private Entity buildSchoolEntity(String schoolId) {
+        Map<String, Object> b = new HashMap<String, Object>();
+        SimpleEntity r = new SimpleEntity();
+        r.setType("school");
+        r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff");
+        r.setBody(b);
+        b.put("stateOrganizationId", schoolId);
+        b.put("nameOfInstitution", schoolId);
+        Entity e = r;
+        return e;
+    }
+
+    private Entity buildAttendanceEntity(String studentEntityId, String schoolEntityId) {
+        List<Map<String,Object>> schoolYearAttendance = new ArrayList<Map<String,Object>>();
+        Map<String, Object> b = new HashMap<String, Object>();
+        SimpleEntity r = new SimpleEntity();
+        r.setType("attendance");
+        r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc8dff");
+        r.setBody(b);
+        b.put("studentId", studentEntityId);
+        b.put("schoolId", schoolEntityId);
+        b.put("schoolYearAttendance", schoolYearAttendance);
+        Map<String,Object> year1 = new HashMap<String,Object>();
+        Map<String,Object> year2 = new HashMap<String,Object>();
+        List<Map<String,Object>> attend1 = new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> attend2 = new ArrayList<Map<String,Object>>();
+        schoolYearAttendance.add(year1);
+        schoolYearAttendance.add(year2);
+        year1.put("schoolYear", "2006-2007");
+        year1.put("attendanceEvent", attend1);
+        year2.put("schoolYear", "2007-2008");
+        year2.put("attendanceEvent", attend2);
+        Map<String,Object> attendanceEvent11 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent21 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent22 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent23 = new HashMap<String,Object>();
+        attend1.add(attendanceEvent11);
+        attend2.add(attendanceEvent21);
+        attend2.add(attendanceEvent22);
+        attend2.add(attendanceEvent23);
+        attendanceEvent11.put("event", "In Attendance");
+        attendanceEvent11.put("date", "2006-12-01");
+        attendanceEvent21.put("event", "In Attendance");
+        attendanceEvent21.put("date", "2007-12-01");
+        attendanceEvent22.put("event", "In Attendance");
+        attendanceEvent22.put("date", "2007-12-02");
+        attendanceEvent22.put("reason", "absent");
+        attendanceEvent23.put("event", "In Attendance");
+        attendanceEvent23.put("date", "2007-12-03");
+        Entity e = r;
+        return e;
+    }
+
+    private List<Map<String,Object>> buildAttendanceEvents() {
+        List<Map<String,Object>> attendEvents = new ArrayList<Map<String,Object>>();
+        Map<String,Object> attendanceEvent11 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent21 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent22 = new HashMap<String,Object>();
+        Map<String,Object> attendanceEvent23 = new HashMap<String,Object>();
+        attendanceEvent11.put("event", "In Attendance");
+        attendanceEvent11.put("date", "2008-12-01");
+        attendanceEvent21.put("event", "In Attendance");
+        attendanceEvent21.put("date", "2007-12-04");
+        attendanceEvent22.put("event", "In Attendance");
+        attendanceEvent22.put("date", "2007-12-02");
+        attendanceEvent22.put("reason", "Sick");
+        attendanceEvent23.put("event", "In Attendance");
+        attendanceEvent23.put("date", "2007-12-03");
+        attendEvents.add(attendanceEvent11);
+        attendEvents.add(attendanceEvent21);
+        attendEvents.add(attendanceEvent22);
+        attendEvents.add(attendanceEvent23);
+        return attendEvents;
+    }
+    
+    private Map<Object, NeutralRecord> buildSchoolSessions(String schoolEntityId) {
+        Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
+        NeutralRecord s1 = new NeutralRecord();
+        s1.setRecordType("session");
+        s1.setRecordId("recordId1");
+        s1.setAttributeField("schoolId", schoolEntityId);
+        s1.setAttributeField("schoolYear", "2006-2007");
+        s1.setAttributeField("beginDate", "2006-08-06");
+        s1.setAttributeField("endDate", "2007-06-30");
+        NeutralRecord s2 = new NeutralRecord();
+        s2.setRecordType("session");
+        s2.setRecordId("recordId2");
+        s2.setAttributeField("schoolYear", "2007-2008");
+        s2.setAttributeField("beginDate", "2007-08-06");
+        s2.setAttributeField("endDate", "2008-06-30");
+        NeutralRecord s3 = new NeutralRecord();
+        s3.setRecordType("session");
+        s3.setRecordId("recordId2");
+        s3.setAttributeField("schoolYear", "2008-2009");
+        s3.setAttributeField("beginDate", "2008-08-06");
+        s3.setAttributeField("endDate", "2009-06-30");
+        sessions.put("year1", s1);
+        sessions.put("year2", s2);
+        sessions.put("year3", s3);
+        return sessions;
+    }
+
+    private Entity buildStudentEntity(String studentId) {
         Map<String, Object> b = new HashMap<String, Object>();
         SimpleEntity r2 = new SimpleEntity();
         r2.setType("student");
         r2.setEntityId("2012th-26af1dd8-fc4c-11e1-97f4-ec9a74fc9dff");
         r2.setBody(b);
-        b.put("studentUniqueStateId", "studentId2");
+        b.put("studentUniqueStateId", studentId);
         return r2;
     }
 
