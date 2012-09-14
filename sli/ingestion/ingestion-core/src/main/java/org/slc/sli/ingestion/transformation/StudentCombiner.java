@@ -61,6 +61,7 @@ public class StudentCombiner extends AbstractTransformationStrategy {
             for (NeutralRecord studentSectionAssociationRecord : associationRecords) {
                 Map<String, Object> sectionAttributes = studentSectionAssociationRecord.getAttributes();
                 sectionAttributes.remove("studentReference");
+                sectionAttributes.remove("sectionReference");
                 sections.add(sectionAttributes);
 //                Query sectionQuery = new Query();
 //                sectionQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
