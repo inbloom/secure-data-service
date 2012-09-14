@@ -588,6 +588,60 @@
         }
       }
 
+      function summarizeExecutionStats(jobId) {
+        var job = getJob(jobId);
+        var executionStats = job.executionStats;
+        //counts = {"is" : {insert:#, count:#}, "sli" : {insert:#}}
+        var counts = {}
+        counts["is"] = {};
+        counts["sli"] = {};
+
+        $.each(executionStats, function(host, ns){
+          $.each(ns, function(_ns, rec){
+            var db = _ns.split("#")[0];
+            var op = _ns.split("#")[1];
+            if(!counts[db].hasOwnProperty(op)) {
+              counts[db][op] = 0;
+            }
+            counts[db][op] += rec.left;
+          });
+        });
+
+        //populate the data into DataTable
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Database');
+        data.addColumn('string', 'Operation');
+        data.addColumn('number', 'Count');
+
+        $.each(counts, function(db, val){
+          $.each(val, function(op, val){
+            row = [];
+            row.push(db);
+            row.push(op);
+            row.push(val);
+            data.addRow(row);
+          });
+        });
+
+        drawTable(data);
+        return counts;
+      }
+
+
+      function drawTable(data) {
+
+        var chartOptions = {
+          width : 600,
+          height: 400,
+          backgroundColor: 'white',
+          showRowNumber: true
+        };
+
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, chartOptions);
+      }
+
       function getExecutionStats (jobId) {
         var job = getJob(jobId);
         var executionStats = job.executionStats;
