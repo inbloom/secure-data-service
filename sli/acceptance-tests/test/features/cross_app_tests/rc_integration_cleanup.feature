@@ -6,7 +6,7 @@ Given I have an open web browser
 
 Scenario: App developer deletes installed app
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
+When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page     
 Then I should be on Portal home page
@@ -29,7 +29,7 @@ Then the application named "Schlemiel" is removed from the SLI
 
 Scenario:  LEA deletes realm
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
+When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
