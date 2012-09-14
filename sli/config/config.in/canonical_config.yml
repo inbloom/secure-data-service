@@ -28,7 +28,7 @@ default:
 
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
-        
+
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false
@@ -108,6 +108,7 @@ default:
         sli.ingestion.healthcheck.pass: admin
 
         sli.mongo.tracking: false
+        sli.mongo.tracking.interval.seconds: 5
 
   # Write concerns
 
@@ -185,13 +186,13 @@ default:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-        
-                
+
+
         #Used to limit the total number of errors or warnings being printed
-        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature  
+        #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
         sli.ingestion.errorsCountPerInterchange: 15
         sli.ingestion.warningsCountPerInterchange: 15
-        
+
         # Number of retries for mongo operations in ingestion
         sli.ingestion.totalRetries: 5
 
@@ -926,7 +927,7 @@ local:
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
-        
+
         bootstrap.app.portal.url: http://local.slidev.org:7000/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
@@ -1206,7 +1207,7 @@ team:
         sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
         sli.sample.clientId: AT1k3PdHzX
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
-        
+
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
 
 perf:
