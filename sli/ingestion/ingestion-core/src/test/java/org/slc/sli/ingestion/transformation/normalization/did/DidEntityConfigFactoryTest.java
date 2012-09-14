@@ -17,7 +17,6 @@ public class DidEntityConfigFactoryTest {
         DidEntityConfigFactory factory = new DidEntityConfigFactory();
         factory.setResourceLoader(new DefaultResourceLoader());
         factory.setSearchPath("classpath:didEntityConfigs/");
-        factory.setup();
         DidEntityConfig ec = factory.getDidEntityConfiguration("dummyTestAssociation");
 
         Assert.assertNotNull(ec);

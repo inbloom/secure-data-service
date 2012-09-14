@@ -1,0 +1,20 @@
+{
+    "entityType" : "entity_type",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "key_field",
+            "refConfig" :
+            {
+                "entityType" : "nested_entity_type",
+                "keyFields" :
+                [
+                    {
+                        "keyFieldName" : "nested_key_field",
+                        "valueSource" : "nested_key_value"
+                    }
+                ]
+            }
+        }
+    ]
+}
