@@ -1,17 +1,7 @@
+from aggregatedriver import run_pipeline, write_result
+
 import pymongo
 import sys 
-
-
-def run_pipeline(pipeline, input_collection, db, post_processor = lambda x: x):
-    for entry in db.command("aggregate", input_collection, pipeline=pipeline)["result"]: 
-        yield post_processor(entry)
-
-def write_result(target_query, target_var, src_field, collection, db, results): 
-    col = db[collection]
-    for entry in results: 
-        q = dict((k % entry, v % entry) for k,v in target_query.iteritems())
-        col.update(q, {"$set" : { target_var : entry[src_field] } } )
-        print entry 
 
 def do_work(assessment_id, target_collection, db): 
     PIPELINE = [
@@ -64,18 +54,19 @@ def do_work(assessment_id, target_collection, db):
         print entry
 
 def main():
-    con = pymongo.Connection()
+    hostname = "localhost" if len(sys.argv) < 2 else sys.argv[1]
+    con = pymongo.Connection(hostname, 27017)
     db = con.sli
 
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 4:
         result = set()
         result = set((x["body"]["assessmentId"] for x in db["studentAssessmentAssociation"].find({}, ["body.assessmentId"])))
         print "Available Assessment IDs:"
         for e in result:
           print e
     else:
-        assessment_id = sys.argv[1]
-        target_collection = sys.argv[2]
+        assessment_id = sys.argv[2]
+        target_collection = sys.argv[3]
         do_work(assessment_id, target_collection, db)
 
     # close the connection 
