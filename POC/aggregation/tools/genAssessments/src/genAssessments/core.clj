@@ -309,12 +309,12 @@
 
 (defn create-session [districtName schoolName]
   (into () [
-    (element :CalendarDate {:id (format "%s_day" districtName) }
+    (element :CalendarDate {:id (format "%s-%s-day" districtName schoolName) }
       (element :Date {} "2011-09-22")
       (element :CalendarEvent {} "Instructional day")
     )
 
-    (element :GradingPeriod {:id (format "%s-GP1" districtName)}
+    (element :GradingPeriod {:id (format "%s-%s-GP1" districtName schoolName)}
       (element :GradingPeriodIdentity {}
         (element :GradingPeriod {} "End of Year")
         (element :SchoolYear {} "2011-2012")
@@ -324,11 +324,11 @@
       (element :BeginDate {} "2011-09-01")
       (element :EndDate {} "2011-12-01")
       (element :TotalInstructionalDays {} "90")
-      (element :CalendarDateReference {:ref (format "%s_day" districtName)})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     )
 
     (element :Session {}
-      (element :SessionName {} (format "%s-Fall-2011" schoolName))
+      (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
       (element :SchoolYear {} "2011-2012")
       (element :Term {} "Fall Semester")
       (element :BeginDate {} "2011-09-06")
@@ -339,8 +339,8 @@
           (element :StateOrganizationId {} schoolName)
         )
       )
-      (element :GradingPeriodReference {:ref (format "%s-GP1" districtName)})
-      (element :CalendarDateReference {:ref (format "%s_day" districtName)})
+      (element :GradingPeriodReference {:ref (format "%s-%s-GP1" districtName schoolName)})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     ) ]
   )
 )
@@ -356,7 +356,7 @@
 (defn create-section [districtName schoolName]
   (into () [
     (element :CourseOffering {}
-      (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
+      (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
       (element :LocalCourseTitle {} "7th Grade Math")
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
@@ -365,7 +365,7 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-Fall-2011" schoolName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
       (element :CourseReference {}
@@ -378,13 +378,13 @@
     )
 
     (element :Section {}
-      (element :UniqueSectionCode {} (format "%s-Math-7-2011-Sec2" schoolName))
+      (element :UniqueSectionCode {} (format "%s-%s-Math-7-2011-Sec2" districtName schoolName))
       (element :SequenceOfCourse {} "1")
       (element :CourseOfferingReference {}
         (element :CourseOfferingIdentity {}
-          (element :LocalCourseCode {} (format "%s-Math-7" schoolName))
+          (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} (format "Math007-%s" districtName))
+            (element :ID {} (format "Math-7-%s" districtName))
           )
           (element :Term {} "Fall Semester")
           (element :SchoolYear {} "2011-2012")
@@ -398,7 +398,7 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-Fall-2011" schoolName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
     ) ]
