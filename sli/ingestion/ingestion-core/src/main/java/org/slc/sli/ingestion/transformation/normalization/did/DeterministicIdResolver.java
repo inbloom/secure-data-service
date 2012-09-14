@@ -104,7 +104,12 @@ public class DeterministicIdResolver {
 
                 Object referenceObject = PropertyUtils.getProperty(entity, sourceRefPath);
                 if (referenceObject == null) {
-                    throw new IdResolutionException("Entity missing key", sourceRefPath, null);
+                    //ignore an empty reference if it is optional
+                    if(didRefSource.isOptional()) {
+                        continue;
+                    } else {
+                        throw new IdResolutionException("Entity missing key", sourceRefPath, null);
+                    }
                 }
 
                 if (referenceObject instanceof List) {

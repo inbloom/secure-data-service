@@ -85,6 +85,10 @@ public class DeterministicIdResolverTest {
     private static final String DID_VALUE_1 = "did_value_1";
     private static final String DID_VALUE_2 = "did_value_2";
 
+    private static final String OPTIONAL_ENTITY_TYPE = "optional_entity_type";
+    private static final String OPTIONAL_SRC_REF_FIELD = "optional_ref_field";
+    private static final String OPTIONAL_DID_TARGET_FIELD = "optional_id_field";
+
     @Before
     public void setup() {
         didResolver = new DeterministicIdResolver();
@@ -115,6 +119,34 @@ public class DeterministicIdResolverTest {
 
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
 
+        Assert.assertEquals(DID_VALUE, entity.getBody().get(DID_TARGET_FIELD));
+        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+    }
+
+    @Test
+    public void shouldIgnoreOptionalEmptyRefs() throws IOException {
+        Entity entity = createSourceEntity();
+
+        DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
+        DidEntityConfig entityConfig = createEntityConfig("optional_DID_entity_config.json");
+
+        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
+        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
+        String entityType = ENTITY_TYPE;
+        String tenantId = TENANT;
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+
+        Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
+
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+
+        //assert that the other reference is resolved and that no errors are reported
         Assert.assertEquals(DID_VALUE, entity.getBody().get(DID_TARGET_FIELD));
         Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
     }
