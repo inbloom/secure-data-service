@@ -146,7 +146,7 @@ class IndexingVisitor implements Visitor {
         return Collections.unmodifiableMap(new HashMap<QName, TagDefinition>(tagDefinitionsByName));
     }
     
-    public final Map<Identifier, Set<ModelElement>> getWhereUsed() {
+    public Map<Identifier, Set<ModelElement>> getWhereUsed() {
         return Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(whereUsed));
     }
     

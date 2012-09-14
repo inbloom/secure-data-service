@@ -121,7 +121,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         UriTemplate twoPartUri = new UriTemplate(serverUrl + "{resource}/{id}");
         UriTemplate readAllUri = new UriTemplate(serverUrl + "{resource}");
         HashMap<String, String> uri = new HashMap<String, String>();
-        Boolean logIntoDb = (Boolean) request.getProperties().get("invalidaRequest");
+        boolean logIntoDb = ((Boolean) request.getProperties().get("logIntoDb")).booleanValue();
         if (!fourPartUri.match(requestURL , uri)) {
             if (!threePartUri.match(requestURL , uri)) {
                 if (!twoPartUri.match(requestURL , uri)) {
