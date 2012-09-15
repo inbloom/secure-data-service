@@ -150,17 +150,14 @@ public class MongoTrackingAspect {
             }
 
             // Init map for intervals.
-            long endInt = startInt + trackingInt;
-            String currJobInterval = String.format("%ss - %ss", String.valueOf(startInt), String.valueOf(endInt));
-            stats.get(jobId).getRight()
-                .putIfAbsent(currJobInterval, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
+            String currJobInterval = null;
             long newInt = ((start - stats.get(jobId).getLeft().get()) / (trackingInt * 1000)) * trackingInt;
-            while (newInt > startInt) {
-                startInt += trackingInt;
-                endInt = startInt + trackingInt;
+            while (newInt >= startInt) {
+                long endInt = startInt + trackingInt;
                 currJobInterval = String.format("%ss - %ss", String.valueOf(startInt), String.valueOf(endInt));
                 stats.get(jobId).getRight()
                         .putIfAbsent(currJobInterval, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
+                startInt += trackingInt;
             }
 
             // Init map for stats.
