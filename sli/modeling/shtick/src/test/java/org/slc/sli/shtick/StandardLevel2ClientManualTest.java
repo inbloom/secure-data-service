@@ -16,7 +16,6 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -34,7 +33,6 @@ public class StandardLevel2ClientManualTest {
     }
 
     @Test
-    @Ignore("testing changing a natural key!")
     public void testCRUD() {
         try {
             // POST
@@ -50,7 +48,7 @@ public class StandardLevel2ClientManualTest {
             putStudent(studentId);
             final List<Entity> updatedStudent = getStudent(studentId);
             assertEquals(1, updatedStudent.size());
-            assertEquals("900000012", updatedStudent.get(0).getData().get("studentUniqueStateId"));
+            assertEquals("Male", updatedStudent.get(0).getData().get("sex"));
 
             // DELETE
             client.deleteStudentsById(TestingConstants.ROGERS_TOKEN, studentId);
