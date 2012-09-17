@@ -25,7 +25,7 @@ import org.junit.Test;
 public class StandardLevel2ClientManualTest {
     private Level2ClientManual client; // class under test
 
-    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private static final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     @Before
