@@ -1178,6 +1178,27 @@ def scpFileToLandingZone(filename)
   assert(true, "File Not Uploaded")
 end
 
+def scpFileToLandingZoneWithNewName(filename, dest_file_name)
+  @source_path = @local_file_store_path + filename
+  @destination_path = @landing_zone_path + dest_file_name
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  @source_file_name=dest_file_name; #this var is used to deternine Job Report file name.
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  if (INGESTION_MODE == 'remote')
+    remoteLzCopy(@source_path, @destination_path)
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp @source_path, @destination_path
+  end
+
+  assert(true, "File Not Uploaded")
+end
+
 def scpFileToParallelLandingZone(lz, filename)
   @source_path = @local_file_store_path + filename
   @destination_path = lz + filename
@@ -1196,6 +1217,10 @@ def scpFileToParallelLandingZone(lz, filename)
   end
 
   assert(true, "File Not Uploaded")
+end
+
+When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_file_name|
+  scpFileToLandingZoneWithNewName @source_file_name, dest_file_name
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
@@ -1527,7 +1552,6 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
     aFile = File.new(@landing_zone_path + @job_status_filename, "r")
     puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
     assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
-
     if aFile
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents

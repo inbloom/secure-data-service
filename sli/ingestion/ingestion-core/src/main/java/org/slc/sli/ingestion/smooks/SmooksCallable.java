@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.xml.transform.stream.StreamSource;
@@ -95,6 +96,7 @@ public class SmooksCallable implements Callable<Boolean> {
         // actually do the processing
         processFileEntry(fe, errorReport, fileProcessStatus);
 
+        metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
@@ -169,12 +171,13 @@ public class SmooksCallable implements Callable<Boolean> {
             SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
 
             int recordsPersisted = visitAfter.getRecordsPerisisted();
+            Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
+            fileProcessStatus.setDuplicateCounts(duplicateCounts);
 
             LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
-
-            newBatchJob.setDuplicateCount(ingestionFileEntry.getFileName().replace('.', '|'), visitAfter.getDuplicateCount());
 
         } catch (Exception e) {
             LOG.error("Error accessing visitor list in smooks", e);

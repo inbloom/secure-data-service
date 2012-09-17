@@ -17,6 +17,8 @@
 
 package org.slc.sli.ingestion;
 
+import java.util.Map;
+
 /**
  *
  */
@@ -24,6 +26,7 @@ public class FileProcessStatus {
     private String jobId;
 
     private long totalRecordCount;
+    private Map<String, Long> duplicateCounts;
 
     private String outputFilePath;
     private String outputFileName;
@@ -59,4 +62,16 @@ public class FileProcessStatus {
     public void setOutputFilePath(String outputFile) {
         this.outputFilePath = outputFile;
     }
+
+	public Map<String, Long> getDuplicateCounts() {
+		return duplicateCounts;
+	}
+
+	public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+		this.duplicateCounts = duplicateCounts;
+	}
+
+
+    
+    
 }
