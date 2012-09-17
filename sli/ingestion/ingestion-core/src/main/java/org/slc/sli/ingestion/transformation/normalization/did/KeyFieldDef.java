@@ -16,7 +16,6 @@ package org.slc.sli.ingestion.transformation.normalization.did;
  * limitations under the License.
  */
 
-import java.util.List;
 
 /**
  * Configures how a referenceType objects maps to keyFields for
@@ -27,13 +26,13 @@ import java.util.List;
  */
 public class KeyFieldDef {
     //SLI name of the key field
-    String keyFieldName;
+    private String keyFieldName;
 
     //source x-path (relative to the referenceType object) to the keyfield values
-    List<String> valueSources;
+    private String valueSource;
 
     //optional nested deterministic Id reference configuration
-    DidRefConfig refConfig;
+    private DidRefConfig refConfig;
 
     public String getKeyFieldName() {
         return keyFieldName;
@@ -41,11 +40,11 @@ public class KeyFieldDef {
     public void setKeyFieldName(String keyFieldName) {
         this.keyFieldName = keyFieldName;
     }
-    public List<String> getValueSources() {
-        return valueSources;
+    public String getValueSource() {
+        return valueSource;
     }
-    public void setValueSource(List<String> valueSources) {
-        this.valueSources = valueSources;
+    public void setValueSource(String valueSource) {
+        this.valueSource = valueSource;
     }
     public DidRefConfig getRefConfig() {
         return refConfig;

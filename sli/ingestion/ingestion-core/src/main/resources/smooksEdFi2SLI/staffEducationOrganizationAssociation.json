@@ -1,44 +1,44 @@
 {
     "keyFields" : ["body.staffReference","body.educationOrganizationReference", "body.beginDate"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.educationOrganizationReference",
         "ref" :
         {
-	        "entityType" : "school",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.stateOrganizationId",
-		                "values" :
-		                [
-		                	{"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
-		                ]
-		            }
-	            ]
-	        ]
+            "entityType" : "school",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.staffReference",
         "ref" :
         {
-	        "entityType" : "staff",
-	        "givesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.staffUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "staff",
+            "givesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

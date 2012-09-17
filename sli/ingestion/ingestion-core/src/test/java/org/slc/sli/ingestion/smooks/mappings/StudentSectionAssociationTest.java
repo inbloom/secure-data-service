@@ -99,7 +99,7 @@ public class StudentSectionAssociationTest {
     @SuppressWarnings("unchecked")
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals("111220001", ((Map<String, Object>) ((Map<String, Object>) entity.get("studentReference")).get("studentIdentity")).get("studentUniqueStateId"));
+        Assert.assertEquals("111220001", ((Map<String, Object>) ((Map<String, Object>) entity.get("StudentReference")).get("StudentIdentity")).get("StudentUniqueStateId"));
         Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
@@ -110,7 +110,7 @@ public class StudentSectionAssociationTest {
     @SuppressWarnings("unchecked")
     private void checkInValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals(null, entity.get("studentReference"));
+        Assert.assertEquals(null, entity.get("StudentReference"));
         Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals(null, entity.get("endDate"));

@@ -1,0 +1,10 @@
+{
+    "entityType" : "dummy",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "dummyUniqueStateId",
+            "valueSource" : "dummyIdentity.dummyUniqueStateId"
+        }
+    ]
+}

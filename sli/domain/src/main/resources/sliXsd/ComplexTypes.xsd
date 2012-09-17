@@ -4180,7 +4180,7 @@
 							<xs:appinfo>
 								<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 								<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-								<sli:naturalKey>true</sli:naturalKey>
+								<sli:naturalKey>false</sli:naturalKey>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>

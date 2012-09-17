@@ -1,0 +1,10 @@
+{
+    "entityType" : "student",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "studentUniqueStateId",
+            "valueSource" : "StudentIdentity.StudentUniqueStateId"
+        }
+    ]
+}

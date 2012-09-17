@@ -25,13 +25,24 @@ package org.slc.sli.ingestion.transformation.normalization.did;
  */
 public class DidRefSource {
     //the mapped entity type
-    String entityType;
+    private String entityType;
 
     //SLI x-path into which the deterministic Id is mapped
-    String didFieldPath;
+    private String didFieldPath;
 
     //Ed-Fi x-path defining the location of ReferenceType in the source data
-    String sourceRefPath;
+    private String sourceRefPath;
+
+    //is the reference optional?
+    private boolean optional = false;
+
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
 
     public String getEntityType() {
         return entityType;

@@ -207,7 +207,7 @@ public class IdNormalizationTest {
         List<RefDef> refDefs = new ArrayList<RefDef>();
         RefDef refDef = new RefDef();
         refDef.setRef(myCollectionId);
-        refDef.setFieldPath("body.field");
+        refDef.setFieldPath("body.idField");
         refDefs.add(refDef);
         EntityConfig entityConfig = new EntityConfig();
         entityConfig.setReferences(refDefs);
@@ -215,7 +215,7 @@ public class IdNormalizationTest {
         entityConfig2.setReferences(null);
 
         FieldValue columnValue = new FieldValue();
-        columnValue.setValueSource("body.field");
+        columnValue.setValueSource("body.sourceField");
         columnField.setValues(Arrays.asList(columnValue));
 
         List<Field> fields = Arrays.asList(columnField);
@@ -226,7 +226,7 @@ public class IdNormalizationTest {
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("field", 5);
+        body.put("sourceField", 5);
 
         MongoEntity entity = new MongoEntity("test", body);
 
@@ -240,11 +240,11 @@ public class IdNormalizationTest {
 
         idNorm.resolveInternalIds(entity, "someNamespace", entityConfig, new DummyErrorReport());
 
-        Assert.assertEquals("123", entity.getBody().get("field"));
+        Assert.assertEquals("123", entity.getBody().get("idField"));
 
         // Testing entityConfig.getReference == null
         idNorm.resolveInternalIds(entity, "someNamespace", entityConfig2, new DummyErrorReport());
-        Assert.assertEquals("123", entity.getBody().get("field"));
+        Assert.assertEquals("123", entity.getBody().get("idField"));
     }
 
     @SuppressWarnings({ "unchecked", "deprecation" })

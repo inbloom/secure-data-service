@@ -27,6 +27,8 @@ import org.joda.time.DateTime;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.springframework.beans.factory.annotation.Value;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -42,8 +44,10 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
@@ -71,6 +75,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     
     private IdNormalizer idNormalizer;
     
+    private DeterministicIdResolver didResolver;
+
     private EntityConfigFactory entityConfigurations;
     
     private Repository<Entity> entityRepository;
@@ -152,6 +158,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
+        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
         // propagate context according to configuration
@@ -322,8 +329,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 if (cohortsToUpdate.size() > 0) {
-                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(),
-                            cohortsToUpdate);
+                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(), cohortsToUpdate);
                     updateContext("cohort", "edOrgs", entity.getEntityId(), cohortsToUpdate);
                 } else {
                     LOG.info("found no cohorts to update for ed org: {}", entity.getEntityId());
@@ -473,12 +479,24 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
         query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
-        
-        NaturalKeyDescriptor naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-        
+
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        } catch (NaturalKeyValidationException e1) {
+            String message = "An entity is missing one or more required natural key fields" + "\n"
+                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
+            
+            for (String fieldName : e1.getNaturalKeys()) {
+                message += "\n" + "       Field      " + fieldName;
+            }
+            errorReport.error(message, this);
+            return null;
+        }
+
         if (naturalKeyDescriptor == null) {
             // look the entity up the old way -> key fields
-            
+
             String errorMessage = "ERROR: Invalid key fields for an entity\n";
             if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
                 errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
@@ -530,7 +548,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 errorReport.error(errorMessage, this);
             }
             LOG.info("OLD WAY: " + entity.getType() + " " + query.toString());
-            
+
         } else {
             // look the entity up the new way -> natural keys
             String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
@@ -549,6 +567,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     
     public void setIdNormalizer(IdNormalizer idNormalizer) {
         this.idNormalizer = idNormalizer;
+    }
+
+    public DeterministicIdResolver getDidResolver() {
+        return didResolver;
+    }
+
+    public void setDidResolver(DeterministicIdResolver didResolver) {
+        this.didResolver = didResolver;
     }
     
     public EntityConfigFactory getEntityConfigurations() {
