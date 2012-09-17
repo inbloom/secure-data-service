@@ -70,7 +70,6 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 					});
 				});
 			}});
-
 		}
 
 		function closeModal(modalId) {

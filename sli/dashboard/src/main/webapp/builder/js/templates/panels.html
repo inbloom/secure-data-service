@@ -1,0 +1,10 @@
+<h3>Customize panels: {{profileTitle}}</h3>
+
+<div>
+    <ul class="panelList unstyled">
+        <li ng-repeat="panel in allListPanels" class="well well-small">
+            <span title="{{panel.id}}"><strong>Panel Name:</strong> {{panel.name || panel.id}}</span>
+            <span class="span2 pull-right ui-ellipsis" title="{{panel.educationAgencyName}}">Origin: {{panel.educationAgencyName}}</span>
+        </li>
+    </ul>
+</div>

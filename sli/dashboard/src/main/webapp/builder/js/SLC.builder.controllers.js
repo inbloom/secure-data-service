@@ -40,6 +40,7 @@ function profileListCtrl($scope, Profiles, dbSharedService) {
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
 	});
+
 }
 
 profileListCtrl.$inject = ['$scope', 'Profiles', 'dbSharedService'];
@@ -325,3 +326,24 @@ function allPanelListCtrl($scope, dbSharedService) {
 }
 
 allPanelListCtrl.$inject = ['$scope', 'dbSharedService'];
+
+
+
+
+/* panelsCtrl Controller
+ * @param $scope - scope object for controller
+ * @param $routeParams - route parameter passed from the URL
+ * @param AllPanels - Service to get all available panels for the profile
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+
+function panelsCtrl($scope, $routeParams, AllPanels, dbSharedService) {
+
+	$scope.allListPanels = AllPanels.query({profileId: $routeParams.profileId}, function() {}, function(error) {
+		dbSharedService.showError(error.status, null);
+	});
+
+	$scope.profileTitle = $routeParams.profileId;
+}
+
+panelsCtrl.$inject = ['$scope', '$routeParams', 'AllPanels', 'dbSharedService'];

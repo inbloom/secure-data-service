@@ -1,4 +1,4 @@
-<h3>Modify: {{profile.name}}</h3>
+<h3>Customize: {{profile.name}}</h3>
 
 <tabs>
     <pane title="{{page.name}}" ng-repeat="page in pages">
@@ -14,7 +14,7 @@
             <ul class="unstyled" ng-sortable="pagePanels">
                 <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" ng-sortable-index="{{$index}}"  ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
                     <span class="span2" ng-hide="!deletePanel" ng-show="deletePanel"><i class="icon-move"></i></span>
-                    <span class="span2" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.id}}</strong></span>
+                    <span class="span8" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.name || panel.id}}</strong></span>
                     <span class="span1 pull-right" ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>
                 </li>
             </ul>
@@ -47,7 +47,7 @@
         </ul>
         <ul id="panelSelectable" class="unstyled">
             <li ng-repeat="panel in allPanels" class="well well-small">
-                <span title="{{panel.id}}">{{panel.id}}</span>
+                <span title="{{panel.id}}">{{panel.name || panel.id}}</span>
                 <span class="span2 pull-right ui-ellipsis" title="{{panel.educationAgencyName}}">{{panel.educationAgencyName}}</span>
             </li>
         </ul>
