@@ -65,6 +65,6 @@ public class TenantAwareCallAspect {
             }
         }
 
-        return null;
+        throw new IllegalStateException("Expected method parameter [" + tenantParam.param() + "] was not found");
     }
 }
