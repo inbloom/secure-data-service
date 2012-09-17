@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author okrook
  *
  */
-public class CurrentTenantHolderTests {
+public class CurrentTenantHolderTest {
 
     @Test
     public void testTenant() {
