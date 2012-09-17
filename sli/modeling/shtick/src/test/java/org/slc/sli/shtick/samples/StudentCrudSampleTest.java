@@ -30,7 +30,7 @@ import java.util.Map;
 * @author chung
 */
 public class StudentCrudSampleTest {
-    private final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     @Test
