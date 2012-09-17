@@ -1,7 +1,6 @@
 @RALLY_US3478
 Feature: Ingestion Index Validation Test
 
-@wip
 Scenario: Verify if Indexes are present
 
 Given the log directory contains "ingestion.log" file
