@@ -198,17 +198,24 @@ When /^then click on the "(.*?)" link$/ do |arg1|
 end
 
 Then /^I see a "(.*?)" alert box$/ do |arg1|
-  flash = @driver.find_element(:css, 'div#flash')
+  flash = @driver.find_element(:css, 'div#alert')
   assert(!flash.nil?, "We should see an alert box")
 end
 
 Then /^I click the X$/ do
-  @driver.find_element(:css, 'div#flash').find_element(:link_text, "X").click
+  @driver.find_element(:css, 'div#alert').find_element(:css, "button").click
   
 end
 
 Then /^the error is dismissed$/ do
-  assertWithWait("The error should be dismissed") {@driver.find_element(:css, 'div#flash').displayed? == false}
+  begin 
+    @driver.find_element(:css, 'div#alert')
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    assert(true)
+  else
+    assert(false, "The error should be dismissed")
+  end
+
 end
 
 

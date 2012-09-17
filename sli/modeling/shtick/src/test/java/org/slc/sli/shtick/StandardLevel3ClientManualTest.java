@@ -93,6 +93,7 @@ public class StandardLevel3ClientManualTest {
         Map<String, Object> custom = client.getCustomForStudentsById(TestingConstants.ROGERS_TOKEN,
                 Arrays.asList(studentId), new HashMap<String, Object>());
 
+        doDeleteStudent(client, doGetStudentById(client, studentId));
         assertEquals("testCustom1V", custom.get("testCustom1K"));
         assertEquals("testCustom2V", custom.get("testCustom2K"));
         assertTrue(custom.get("testCustom3K") instanceof Map);
