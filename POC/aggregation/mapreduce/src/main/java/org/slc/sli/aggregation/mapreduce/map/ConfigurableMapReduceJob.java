@@ -215,7 +215,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         // TODO - this probably should be configurable
         MongoConfigUtil.setReadSplitsFromSecondary(jobConf, true);
 
-        MongoConfigUtil.setSplitSize(jobConf, 1);
+        MongoConfigUtil.setSplitSize(jobConf, 32);
 
         jobConf.setClass("mapred.input.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
         jobConf.setClass("mapred.input.value.class", BSONWritable.class, Object.class);
