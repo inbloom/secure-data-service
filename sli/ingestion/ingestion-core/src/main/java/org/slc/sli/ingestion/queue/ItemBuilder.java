@@ -43,7 +43,7 @@ public class ItemBuilder {
     public Map<String, Object> buildNewItem() {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        map.put("_id", uuidGeneratorStrategy.randomUUID());
+        map.put("_id", uuidGeneratorStrategy.deterministicUUID());
         map.put(ItemKeys.STATE, ItemValues.UNCLAIMED);
 
         return map;

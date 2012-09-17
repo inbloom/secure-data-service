@@ -29,7 +29,7 @@ public class ShardType1UUIDGeneratorStrategyTest {
     @Test
     public void testShardType1UUIDGenerator() {
         ShardType1UUIDGeneratorStrategy uuidGen = new ShardType1UUIDGeneratorStrategy();
-        String uuid = uuidGen.randomUUID();
+        String uuid = uuidGen.deterministicUUID();
         assertNotNull(uuid);
         assertEquals('1', uuid.charAt(22)); //make sure we generated a type1 uuid
         assertEquals(43, uuid.length()); // 7 chars for 'yyyyrr-', 36 chars for type 1 uuid
