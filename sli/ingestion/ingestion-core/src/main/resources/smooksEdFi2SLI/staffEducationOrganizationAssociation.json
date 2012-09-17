@@ -14,7 +14,7 @@
                            "path" : "body.stateOrganizationId",
                         "values" :
                         [
-                            {"valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"}
+                            {"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
                         ]
                     }
                 ]
