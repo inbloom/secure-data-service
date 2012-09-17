@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.common.util.uuid;
 
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,14 +24,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * Generates Type 4 (random) UUIDs.
- * 
+ *
  * @author smelody
- * 
+ *
  */
 @Component
 @Qualifier("type4UUIDGeneratorStrategy")
 public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
-    
+
     /**
      * Generate a type 4 random UUID.
      */
@@ -39,10 +39,5 @@ public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     public String randomUUID() {
         return UUID.randomUUID().toString();
     }
-    
-    @Override
-    public String randomUUID(Map<String, String> naturalKeys) {
-        return randomUUID();
-    }
-    
+
 }
