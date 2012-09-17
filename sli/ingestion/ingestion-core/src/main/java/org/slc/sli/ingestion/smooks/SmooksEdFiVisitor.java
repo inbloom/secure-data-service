@@ -78,7 +78,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private BatchJobDAO batchJobDAO;
 
+
     private int duplicateCount;
+
+
+    private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -130,6 +134,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             } else {
                 LOG.info("RECORD IS INGESTED BEFORE");
                 duplicateCount += 1;
+                String type = neutralRecord.getRecordType();
+                Long count = duplicateCounts.containsKey(type)?duplicateCounts.get(type):new Long(0);                
+                duplicateCounts.put(type, new Long(count.longValue() + 1) );               
             }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
@@ -268,4 +275,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         // nothing
 
     }
+
+	public Map<String, Long> getDuplicateCounts() {
+		return duplicateCounts;
+	}
+
+	public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+		this.duplicateCounts = duplicateCounts;
+	}
+    
+    
 }

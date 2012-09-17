@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.xml.transform.stream.StreamSource;
@@ -88,13 +89,14 @@ public class SmooksCallable implements Callable<Boolean> {
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
-
+                
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
         ErrorReport errorReport = fe.getErrorReport();
 
         // actually do the processing
         processFileEntry(fe, errorReport, fileProcessStatus);
-
+        
+        metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
@@ -169,7 +171,10 @@ public class SmooksCallable implements Callable<Boolean> {
             SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
 
             int recordsPersisted = visitAfter.getRecordsPerisisted();
+            Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+                                    
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
+            fileProcessStatus.setDuplicateCounts(duplicateCounts);                       
 
             LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
