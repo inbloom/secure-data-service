@@ -24,17 +24,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Resolves Context based permissions.
@@ -44,8 +41,7 @@ import org.slc.sli.domain.Repository;
 public class AssociativeContextHelper {
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repository;
+    private PagingRepositoryDelegate<Entity> repository;
 
     @Autowired
     private EntityDefinitionStore definitions;
