@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository.tenancy.apsect;
 
 import junit.framework.Assert;
@@ -29,7 +28,7 @@ import org.slc.sli.dal.repository.tenancy.TenantCall;
  * @author okrook
  *
  */
-public class TenantAwareCallAspectTests {
+public class TenantAwareCallAspectTest {
 
     @Test
     public void testTenantCall() {

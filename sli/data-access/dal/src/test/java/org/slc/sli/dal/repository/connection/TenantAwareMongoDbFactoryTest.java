@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository.connection;
 
 import com.mongodb.BasicDBObject;
@@ -32,7 +31,7 @@ import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
  * @author okrook
  *
  */
-public class TenantAwareMongoDbFactoryTests {
+public class TenantAwareMongoDbFactoryTest {
 
     @Test
     public void testGetSystemConnection() {
