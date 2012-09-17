@@ -16,34 +16,33 @@
 
 package org.slc.sli.common.util.uuid;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-
 /**
  * Generates Type 4 (random) UUIDs.
- *
+ * 
  * @author smelody
- *
+ * 
  */
 @Component
 @Qualifier("type4UUIDGeneratorStrategy")
 public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
-
+    
     /**
      * Generate a type 4 random UUID.
      */
     @Override
-    public String deterministicUUID() {
+    public String randomUUID() {
         return UUID.randomUUID().toString();
     }
-
+    
     @Override
-    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return deterministicUUID();
+    public String randomUUID(Map<String, String> naturalKeys) {
+        return randomUUID();
     }
-
+    
 }

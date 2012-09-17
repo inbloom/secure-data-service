@@ -16,6 +16,8 @@
 
 package org.slc.sli.common.util.uuid;
 
+import java.util.Map;
+
 import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
@@ -23,30 +25,28 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-
 /**
  * Generates Type 1 (time-based) UUIDs.
- *
+ * 
  * @author smelody
- *
+ * 
  */
 @Component
 @Qualifier("type1UUIDGeneratorStrategy")
 public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
-
+    
     private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
-
+    
     /**
      * Generate a type 1 random UUID.
      */
     @Override
-    public String deterministicUUID() {
+    public String randomUUID() {
         return generator.generate().toString();
     }
-
+    
     @Override
-    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return deterministicUUID();
+    public String randomUUID(Map<String, String> naturalKeys) {
+        return randomUUID();
     }
 }

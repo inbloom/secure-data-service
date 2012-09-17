@@ -21,31 +21,29 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author sashton
  */
 @Component
 public class NaturalKeyExtractor {
-
+    
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
-
+    
     /**
      * Returns a map of natural key field -> value for the given entity
-     *
+     * 
      * @param entity
      * @return
      */
     public Map<String, String> getNaturalKeys(Entity entity) {
         Map<String, String> map = new HashMap<String, String>();
-
+        
         List<String> naturalKeyFields = getNaturalKeyFields(entity);
         for (String keyField : naturalKeyFields) {
             Object value = entity.getBody().get(keyField);
@@ -54,24 +52,24 @@ public class NaturalKeyExtractor {
                 map.put(keyField, strValue);
             }
         }
-
+        
         return map;
     }
-
+    
     /**
      * Returns a list of natural keys from the schema for the given entity
-     *
+     * 
      * @param entity
      *            Entity to inspect
      * @return
      */
     public List<String> getNaturalKeyFields(Entity entity) {
-
+        
         List<String> naturalKeyFields = new ArrayList<String>();
-
+        
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema != null) {
-
+            
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
                 if (appInfo.applyNaturalKeys()) {
@@ -80,7 +78,7 @@ public class NaturalKeyExtractor {
                         Map.Entry entry = i.next();
                         String field = (String) entry.getKey();
                         NeutralSchema fieldSchema = (NeutralSchema) entry.getValue();
-
+                        
                         AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
                         if (fieldsAppInfo != null) {
                             if (fieldsAppInfo.isNaturalKey()) {
@@ -91,32 +89,7 @@ public class NaturalKeyExtractor {
                 }
             }
         }
-
+        
         return naturalKeyFields;
-    }
-
-    /**
-     * Returns a natural key descriptor for the given entity
-     *
-     * @param entity
-     * @return
-     */
-    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
-
-        Map<String, String> map = new HashMap<String, String>();
-
-        List<String> naturalKeyFields = getNaturalKeyFields(entity);
-        for (String keyField : naturalKeyFields) {
-            Object value = entity.getBody().get(keyField);
-            if (value instanceof String) {
-                String strValue = (String) value;
-                map.put(keyField, strValue);
-            }
-        }
-
-        String entityType = entity.getType();
-        String tenantId = (String) entity.getMetaData().get("tenantId");
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, entityType, tenantId);
-        return naturalKeyDescriptor;
     }
 }
