@@ -71,7 +71,8 @@ module Eventbus
     end
 
     class JobScheduler
-        def initialize(config)
+        def initialize(config,logger = nil)
+            @logger = logger if logger
             # connect to mongo and wrap the lister
             @event_subscriber    = config[:event_subscriber]
             @jobrunner           = config[:jobrunner]
@@ -87,7 +88,8 @@ module Eventbus
               job_reader = Eventbus::JobReader.new(config)
               loop do
                 jobs, event_job_map = job_reader.get_jobs
-                puts "publishing #{jobs}"
+               # puts "publishing #{jobs}"
+                @logger.info "publishing #{jobs}" if @logger
                 @event_subscriber.observe_events(jobs)
                 event_job_mapper.set_event_job_map(event_job_map)
                 sleep @poll_interval
@@ -99,7 +101,8 @@ module Eventbus
             @threads << Thread.new do
               @event_subscriber.handle_event do |event_ids|
                 event_ids.each do |event_id|
-                  puts "received event #{event_id}"
+                 # puts "received event #{event_id}"
+                 @logger.info "received event #{event_id}" if @logger
                   event_id_with_timestamp_queue << {:event_id => event_id, :time_received => Time.now.to_i}
                 end
               end
@@ -112,13 +115,15 @@ module Eventbus
                 event_id_with_timestamp = event_id_with_timestamp_queue.deq
                 last_job_execution = event_id_last_job_execution[event_id_with_timestamp[:event_id]]
                 if(last_job_execution && last_job_execution > event_id_with_timestamp[:time_received])
-                  puts "job #{event_id_with_timestamp} already ran"
+                  #puts "job #{event_id_with_timestamp} already ran"
+                  @logger.info "job #{event_id_with_timestamp} already ran" if @logger
                   next
                 else
                   event_id_last_job_execution[event_id_with_timestamp[:event_id]] = Time.now.to_i
                 end
                 event_job_mapper.handle_job(event_id_with_timestamp[:event_id]) do |job|
-                  puts "running job #{job}"
+                 #puts "running job #{job}"
+                 @logger.info "running job #{job}" if @logger
                   @jobrunner.execute_job(job)
                 end
               end
@@ -128,7 +133,8 @@ module Eventbus
               loop do
                 sleep 10
                 jobs = @jobrunner.list_jobs
-                puts "hadoop jobs size = #{jobs.size}"
+                #puts "hadoop jobs size = #{jobs.size}"
+                @logger.info "hadoop jobs size = #{jobs.size}" if @logger
               end
             end
         end

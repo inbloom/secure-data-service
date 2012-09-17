@@ -1095,7 +1095,7 @@
 
   <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="LearningObjective/LearningObjectiveId">
     <jb:value property="identificationCode" data="LearningObjective/LearningObjectiveId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
+    <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/@ContentStandardName" />
   </jb:bean>
 
   <jb:bean beanId="learningStandardReference" class="java.util.HashMap" createOnElement="LearningStandardReference">

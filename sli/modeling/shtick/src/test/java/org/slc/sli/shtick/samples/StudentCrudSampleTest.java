@@ -30,10 +30,10 @@ import java.util.Map;
 * @author chung
 */
 public class StudentCrudSampleTest {
-    private final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
-//    @Test
+    @Test
     public void testCrud() {
         final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
         final Level3Client client = new StandardLevel3Client(inner);
@@ -76,6 +76,8 @@ public class StudentCrudSampleTest {
         name.setLastSurname("Guy");
         student.setName(name);
 
+        student.setStudentUniqueStateId("1234567");
+
         List<Address> addresses = new ArrayList<Address>();
         Address address = new Address();
         address.setStreetNumberName("1234 Testing St");
@@ -115,12 +117,14 @@ public class StudentCrudSampleTest {
         Assert.assertEquals(name.getMiddleName(), "Student");
         Assert.assertEquals(name.getLastSurname(), "Guy");
 
+        Assert.assertEquals(student.getStudentUniqueStateId(), "1234567");
+
         List<Address> addresses = student.getAddress();
         Assert.assertEquals(addresses.size(), 1);
         Address address = addresses.get(0);
         Assert.assertEquals(address.getStreetNumberName(), "1234 Testing St");
         Assert.assertEquals(address.getCity(), "City");
-        Assert.assertEquals(address.getPostalCode(), 12345);
+        Assert.assertEquals(address.getPostalCode(), "12345");
         Assert.assertEquals(address.getStateAbbreviation(), StateAbbreviationType.NY);
 
         BirthData birthData = student.getBirthData();

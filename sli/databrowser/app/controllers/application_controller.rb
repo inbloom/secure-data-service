@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
-    flash[:error] = "You do not have access to view this."
+    flash[:error] = "Sorry, you don't have access to this page. If you feel like you are getting this page in error, please contact your administrator."
 
     # If 403 happened during login, we don't have a valid :back, so render 403 page.
     # Otherwise redirect back with the flash set

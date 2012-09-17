@@ -17,8 +17,19 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | learningObjective           | 5     |
      | learningStandard            | 3     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue             |
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective1"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective2" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective2"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective3" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective3"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective4" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective4"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective5" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective5"
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective1" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective2" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective3" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective4" and its field "body.parentLearningObjective" references this document
 
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created

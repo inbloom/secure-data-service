@@ -23,6 +23,7 @@ localdir = File.dirname(__FILE__)
 $LOAD_PATH << localdir + "/../lib"
 require 'eventbus'
 require 'yaml'
+require 'logger'
 
 if __FILE__ == $0
     unless ARGV.length == 2
@@ -31,14 +32,18 @@ if __FILE__ == $0
     end
 
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
-
+    
     # make the config symbol based
     config.keys().each { |k| config[k.to_sym] = config.delete(k) }
+    
+    # setup the logger
+    logger = Logger.new(Logger.const_get(config[:logger_output]))
+    logger.level = Logger.const_get(config[:logger_level])
 
     # set up the oplog agent and keep waiting indefinitely until the threads terminate
-    agent = Eventbus::EventPublisher.new(config[:node_id], 'oplog')
+    agent = Eventbus::EventPublisher.new(config[:node_id], 'oplog',{},logger)
     config.update(:event_subscriber => agent)
-    oplog_agent = Eventbus::OpLogAgent.new(config)
+    oplog_agent = Eventbus::OpLogAgent.new(config,logger)
     threads = oplog_agent.threads 
     threads.each { |aThread| aThread.join }
 end

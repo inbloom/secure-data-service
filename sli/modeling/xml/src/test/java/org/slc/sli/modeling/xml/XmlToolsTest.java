@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.transformation.normalization.did;
+package org.slc.sli.modeling.xml;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
- * Resolver for deterministic Id resolution.
- *
- * @author jtully
- *
+ * @author chung
  */
-public class DeterministicIdResolver {
+public class XmlToolsTest {
+
+    @Test
+    public void testCollapseWhitespace() {
+        String str = XmlTools.collapseWhitespace(" this\ris\na\ttest  string ");
+        assertTrue(str.equals("this is a test string"));
+    }
+
+    @Test
+    public void testCreateObject() {
+        @SuppressWarnings("unused")
+        XmlTools xmlTools = new XmlTools();
+    }
 
 }

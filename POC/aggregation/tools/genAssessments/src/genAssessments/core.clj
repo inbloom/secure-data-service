@@ -556,7 +556,7 @@
       (gen-sections districtName schools (format "/tmp/test/C-%s-master-schedule.xml" districtName))
       (gen-students schools rng (format "/tmp/test/D-%s-student.xml" districtName))
       (gen-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))
-      (gen-saas districtName schools rng assessmentName 10 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
+      (gen-saas districtName schools rng assessmentName 4 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
     )
     (def endTime (System/currentTimeMillis))
     (def elapsed (/ (-  endTime startTime) 1000.0))

@@ -121,20 +121,87 @@
 
         } else {
           // completed job
-          var jobTimeInSeconds = (new Date(job.jobStopTimestamp).getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          var stopTime = new Date(job.jobStopTimestamp);
+          var startTime = new Date(job.jobStartTimestamp);
+
+          var jobTimeInSeconds = (stopTime.getTime() - startTime.getTime()) / 1000;
           
           var jobTimeDisplay = getReadableTime(jobTimeInSeconds);
 
           $('#job_summary')
             .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
-            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>');
+            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>')
+            .append('Start Time: ' + startTime + '<br/>Stop Time: ' + stopTime);
         }
+     
+        drawJobNotes(job); 
 
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
 
         drawStagePerfChart(job);
+        timeBasedSingleJob(jobId);
+        summarizeExecutionStats(jobId);
+      }
+
+      function drawJobNotes(job) {
+        if(job.hasOwnProperty("notes")){
+          var comments = processNoteString(job.notes.comments);
+          var errorSummary = processNoteString(job.notes.errorSummary);
+          var env = processNoteString(job.notes.environment);
+          var codeTag = processNoteString(job.notes.codeTag);
+          var sharded = processNoteCheckbox(job.notes.isSharded);
+          var preSplit = processNoteCheckbox(job.notes.isPreSplit);
+          var balancer = processNoteCheckbox(job.notes.isBalancerOn);
+          var clustered = processNoteCheckbox(job.notes.isClustered);
+        }
+
+        $('#job_notes').append('<form id=\'job_note_form\'onsubmit=\'submitNotes(this.form);return false\'>' + 
+          'Environment: <input id=\'job_env\' type=\'text\' name=\'job_env\' required="required" value=\'' + env + '\'/>' +
+          '   Code Tag: <input id=\'job_codeTag\' type=\'text\' name=\'job_codeTag\' value=\'' + codeTag + '\'/><br/>' +
+          '<input id=\'job_isSharded\' type=\'checkbox\' name=\'job_isSharded\' ' + sharded +'/>' + 'SLI Sharded   ' +
+          '<input id=\'job_isPreSplit\' type=\'checkbox\' name=\'job_isPreSplit\' ' + preSplit +'/>' + 'Pre-Split   ' +
+          '<input id=\'job_isBalancerOn\' type=\'checkbox\' name=\'job_isBalancerOn\' ' + balancer +'/>' + 'Balancer On   ' +
+          '<input id=\'job_isClustered\' type=\'checkbox\' name=\'job_isClustered\' ' + clustered +'/>' + 'Is Clustered<br/>' +
+          'Error Summary:<br/><textarea id=\'job_errorSummary\' name= \'job_errorSummary\' cols=\'85\' rows=\'7\'>' + errorSummary + '</textarea><br/>' +
+          'Comments:<br/><textarea id=\'job_comments\' name= \'job_comments\' cols=\'85\' rows=\'7\'>' + comments + '</textarea><br/>' +
+          '<input type=\'submit\' value=\'Save\'/></form>');
+
+
+      }
+
+      function processNoteString(value) {
+        if (value == null) {
+          value= "";
+        }
+        value = value.replace(/%20/g, " ");
+        return value;
+      }
+
+      function processNoteCheckbox(isChecked) {
+        var value;
+        if (isChecked == 'true') {
+          value = 'checked';
+        } else {
+          value = '';
+        }
+        return value;
+      }
+
+      function submitNotes(form) {
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.comments/' + document.getElementById('job_comments').value);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.errorSummary/' + document.getElementById('job_errorSummary').value);
+
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.environment/' + $('#job_env').val());
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.codeTag/' + $('#job_codeTag').val());
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isSharded/' + document.getElementById('job_isSharded').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isPreSplit/' + document.getElementById('job_isPreSplit').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isBalancerOn/' + document.getElementById('job_isBalancerOn').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isClustered/' + document.getElementById('job_isClustered').checked);
+        jobSummary(DEFAULT_JOB_ID);
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -285,6 +352,8 @@
         drawJobCompareStageChart(['EdFiProcessor', 'TransformationProcessor', 'PersistenceProcessor']); // chart that compares the jobs' stages with one another
 
         drawJobCompareEntityCharts(['PersistenceProcessor', 'TransformationProcessor']); // charts that compare the jobs' entities with one another
+
+        timeBasedCompareJobs();
       }
 
       function drawJobCompareStageChart(stagesToCompare) {
@@ -521,6 +590,16 @@
         return jQuery.parseJSON(jsonData);
       }
 
+     function postApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'POST',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+      }
+
       function releaseTenantJobLock(tenantId) {
         var jsonData = $.ajax({
           url: API_URL + '/tenantjoblock/' + tenantId,
@@ -571,18 +650,20 @@
         var job = getJob(jobId);
         var executionStats = job.executionStats;
         //counts = {"is" : {insert:#, count:#}, "sli" : {insert:#}}
-        var counts = {}
+        var counts = {};
         counts["is"] = {};
         counts["sli"] = {};
 
-        $.each(executionStats, function(host, ns){
-          $.each(ns, function(_ns, rec){
-            var db = _ns.split("#")[0];
-            var op = _ns.split("#")[1];
-            if(!counts[db].hasOwnProperty(op)) {
-              counts[db][op] = 0;
-            }
-            counts[db][op] += rec.left;
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            $.each(ns, function(_ns, rec){
+              var db = _ns.split("#")[0];
+              var op = _ns.split("#")[1];
+              if(!counts[db].hasOwnProperty(op)) {
+                counts[db][op] = 0;
+              }
+              counts[db][op] += rec.left;
+            });
           });
         });
 
@@ -603,9 +684,7 @@
         });
 
         drawTable(data);
-        return counts;
       }
-
 
       function drawTable(data) {
 
@@ -615,81 +694,106 @@
           backgroundColor: 'white',
           showRowNumber: true
         };
-
-
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, chartOptions);
+      }
+
+      function convertTime(time) {
+        //May change.It is dependent on the actual format in newBatchJob collection
+        var res = time.split('-')[1].split('s')[0];
+        return parseInt(res);
       }
 
       function getExecutionStats (jobId) {
         var job = getJob(jobId);
         var executionStats = job.executionStats;
-        var time = [],
-            y = [];
+        var isTime = [],
+            isY = [],
+            sliTime = [],
+            sliY = [];
+        //{time:count}
+        var isTimeExec = {}, sliTimeExec = {}
 
         var count = 0;
-        $.each(executionStats, function(host, ns){
-          $.each(ns, function(_ns, rec){
-            time.push(count);
-            count += 5;
-            y.push(rec.left);
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            var cTime = convertTime(_time);
+            sliTime.push(cTime);
+            isTime.push(cTime);
+            if(!isTimeExec.hasOwnProperty(cTime)) {
+              isTimeExec[cTime] = 0;
+            }
+            if(!sliTimeExec.hasOwnProperty(cTime)) {
+              sliTimeExec[cTime] = 0;
+            }
+
+            $.each(ns, function(_ns, rec){
+              //time.push(convertTime(time));
+              //y.push(rec.left);
+
+              var db = _ns.split("#")[0];
+              if(db == "is"){
+                isTimeExec[cTime] += rec.left;
+              } else {
+                sliTimeExec[cTime] += rec.left;
+              }
+            });
           });
         });
 
+        isTime.sort(function(a,b){return a-b});
+        sliTime.sort(function(a,b){return a-b});
+
+        $.each(isTime, function(index, time){
+          isY.push(isTimeExec[time]);
+        });
+        $.each(sliTime, function(index, time){
+          sliY.push(sliTimeExec[time]);
+        }); 
+
         var data = [
-          [time, y]
+          [isTime, isY],
+          [sliTime, sliY]
         ];
 
         return data;
       }
 
-      function testEnvision(jobId){
-        var testData = getExecutionStats(jobId);
-        var
-          container = document.getElementById('graph'),
-          x = [],
-          y1 = [],
-          y2 = [],
-          data, options, i;
+      //This is call to populate time based graph for cross-job comparison 
+      function timeBasedCompareJobs() {
 
-        // Data Format:
-        data = [
-          [x, y1], // First Series
-          [x, y2]  // Second Series
-        ];
-
-        opData = [
-          [x, y1], // First Series
-        ];
-
-        // Sample the sine function for data
-        var range = 1000;
-        for (i = 0; i < range; i += 1) {
-          x.push(i);
-          y1.push(Math.random()*13%100);
-          y2.push(Math.random()*13%100);
-        }
-          x.push(range);
-          y1.push(Math.random()*13%100);
-          y2.push(Math.random()*13%100);
-        // TimeSeries Template Options
-        options = {
-          // Container to render inside of
-          container : container,
-          // Data for detail (top chart) and summary (bottom chart)
-          data : {
-            detail : data,
-            summary : data
+        var jobData = [];
+        // prepare the data into the stageNames and comparedJobsStageStats data structures
+        $('.job_checkbox').each(function(key, jobCheckbox) {
+          if (jobCheckbox.checked) {
+            var data = getExecutionStats(jobCheckbox.name);
+            $.each(data, function(index, array){
+              jobData.push(array);
+            });
           }
-        };
+        });
+
+        timeBased(jobData);
+      }
+
+      function timeBasedSingleJob(jobId){
+        var jobData = getExecutionStats(jobId);
+        timeBased(jobData);
+      }
+
+      function timeBased(jobData){
+        var container = document.getElementById('graph');
 
         // Configuration for detail:
         detailOptions = {
           name : 'detail',
-          data : data,
+          data : jobData,
           height : 400,
           // Flotr Configuration
           config : {
+            legend: {
+              position: "nw"
+            },
             yaxis : {
               min : 0,
               max : 20,
@@ -702,20 +806,18 @@
             xaxis : {
               autoscale:!0,
               autoscaleMargin:.05,
-              noTicks:4,
               showLabels:!0
             },
             "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
             mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
           },
-
         };
 
         // Configuration for opcount:
         opCountOptions = {
           name : 'detail',
-          data : testData,
-          height : 100,
+          data : jobData,
+          height : 400,
           // Flotr Configuration
           config : {
             yaxis : {
@@ -730,19 +832,17 @@
             xaxis : {
               autoscale:!0,
               autoscaleMargin:.05,
-              noTicks:4,
               showLabels:!0
             },
             "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
             mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
           },
-
         };
 
         // Configuration for summary:
         summaryOptions = {
           name : 'summary',
-          data : testData,
+          data : jobData,
           height : 100,
           // Flotr Configuration
           config : {
@@ -754,7 +854,6 @@
               title : 'Time',
               autoscale:!0,
               autoscaleMargin:.05,
-              noTicks:4,
               showLabels:!0
             },
             // Enable selection in the x-axis
@@ -773,7 +872,7 @@
 
         // Render Visualization
         vis
-          .add(detail)
+          //.add(detail)
           .add(opCount)
           .add(summary)
           .render(container);
@@ -782,15 +881,19 @@
         interaction
           .leader(summary)
           .follower(opCount)
-          .follower(detail)
+          //.follower(detail)
           .add(envision.actions.selection);
 
       };
+
+
+
 
       function clearJobSpecificDivs() {
         $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
         $('#progressbar').hide();
+        $('#job_notes').empty();
         $('#stage_breakdown_piechart_div').empty();
         $('#stage_breakdown_linechart_div').empty();
         $('#PersistenceProcessor_entity_div').empty();
@@ -827,6 +930,7 @@
         </table>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
+        <div id="job_notes"></div>
         <div id="progressbar"></div>
         <div id="stage_breakdown_piechart_div"></div>
         <div id="PersistenceProcessor_entity_div"></div>
@@ -834,7 +938,8 @@
         <div id="PersistenceProcessor_entity_jobcompare_div"></div>
         <div id="TransformationProcessor_entity_jobcompare_div"></div>
         <div id="job_dist_linechart_div"></div>
-        <div id="table_div"></div>
-        <div id="graph"></dib>
+        <div id="graph" style="width:1000px; margin:0 auto;"></dib>
+        <div id="table_div" style="width:1000px; margin:0 auto;"></div>
+        <div id="container"></div>
     </body>
 </html>
