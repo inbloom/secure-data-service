@@ -126,6 +126,7 @@ module Eventbus
 
         def fire_event(event)
             @events_channel.publish(event)
+            @logger.info "sending event: #{event}" if @logger
         end 
 
         private
