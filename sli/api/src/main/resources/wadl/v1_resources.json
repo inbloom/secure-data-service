@@ -334,6 +334,11 @@
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
         { "path": "/{id}/studentCohortAssociations/cohorts" }
       ]
+    },
+    {
+      "path": "/search",
+      "doc": "Provides search functionality for students, sections, and other entities.",
+      "resourceClass": "org.slc.sli.api.search.resource.SearchResource"
     }
   ]
 }

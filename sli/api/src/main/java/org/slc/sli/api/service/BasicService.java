@@ -29,6 +29,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -52,14 +61,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -85,7 +86,7 @@ public class BasicService implements EntityService {
             EntityNames.SECTION_ASSESSMENT_ASSOCIATION, EntityNames.SESSION, EntityNames.STAFF, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, EntityNames.TEACHER, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
+            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, EntityNames.TEACHER, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.SEARCH));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -94,9 +95,11 @@ public class BasicService implements EntityService {
     private Right readRight;
     private Right writeRight; // this is possibly the worst named variable ever
 
+    private Repository<Entity> repo;
+
     @Autowired
     @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    private Repository<Entity> securityRepo;
 
     @Autowired
     private ContextResolverStore contextResolverStore;
@@ -115,22 +118,26 @@ public class BasicService implements EntityService {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
-    
+
     @Autowired
     private SecurityCriteria securityCriteria;
-    
+
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
 
-    public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
+    public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight, Repository<Entity> repo) {
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.readRight = readRight;
         this.writeRight = writeRight;
+        this.repo = repo;
+        if (repo == null) {
+            throw new IllegalArgumentException("Please provide repo");
+        }
     }
 
-    public BasicService(String collectionName, List<Treatment> treatments) {
-        this(collectionName, treatments, Right.READ_GENERAL, Right.WRITE_GENERAL);
+    public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
+        this(collectionName, treatments, Right.READ_GENERAL, Right.WRITE_GENERAL, repo);
     }
 
     @Override
@@ -141,7 +148,7 @@ public class BasicService implements EntityService {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
         localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
-        return repo.count(collectionName, localNeutralQuery);
+        return getRepo().count(collectionName, localNeutralQuery);
     }
 
     /**
@@ -157,7 +164,7 @@ public class BasicService implements EntityService {
 
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
         neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
-        Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+        Iterable<Entity> entities = getRepo().findAll(collectionName, neutralQuery);
 
         List<String> results = new ArrayList<String>();
         for (Entity entity : entities) {
@@ -180,7 +187,7 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
         }
@@ -201,7 +208,7 @@ public class BasicService implements EntityService {
             debug(re.toString());
         }
 
-        if (!repo.delete(collectionName, id)) {
+        if (!getRepo().delete(collectionName, id)) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
@@ -218,7 +225,7 @@ public class BasicService implements EntityService {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
-        Entity entity = repo.findOne(collectionName, query);
+        Entity entity = getRepo().findOne(collectionName, query);
         // Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             info("Could not find {}", id);
@@ -355,7 +362,7 @@ public class BasicService implements EntityService {
             // add the ids requested
             neutralQuery.addCriteria(new NeutralCriteria("_id", "in", idList));
 
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+            Iterable<Entity> entities = getRepo().findAll(collectionName, neutralQuery);
 
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -632,7 +639,7 @@ public class BasicService implements EntityService {
         checkRights(right);
 
         // Check that target entity actually exists
-        if (repo.findById(collectionName, entityId) == null) {
+        if (securityRepo.findById(collectionName, entityId) == null) {
             warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
@@ -657,7 +664,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
-        Entity found = repo.findOne(collectionName, query);
+        Entity found = getRepo().findOne(collectionName, query);
         return found != null;
     }
 
@@ -723,9 +730,13 @@ public class BasicService implements EntityService {
             resolver = contextResolverStore.findResolver(type, toType);
 
             allowed = resolver.findAccessible(principal.getEntity());
-            
+
         } else {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
+        }
+
+        if (toType != null && toType.equals(EntityNames.SEARCH)) {
+            securityField = "metaData.edOrgs";
         }
 
         if (type != null && type.equals(EntityNames.STAFF)) {

@@ -86,6 +86,10 @@
        factory-method="aspectOf">
   </bean>
 
+  <alias alias="securityRepo" name="validationRepo" />
+
+  <bean id="esRepository" name="searchRepo" class="org.slc.sli.dal.repository.ESRepository"/>
+
   <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
     
   <bean id="mongoEntityRepository" name="validationRepo"
