@@ -37,13 +37,13 @@ public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 4 random UUID.
      */
     @Override
-    public String deterministicUUID() {
+    public String generateId() {
         return UUID.randomUUID().toString();
     }
 
     @Override
-    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return deterministicUUID();
+    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
+        return generateId();
     }
 
 }

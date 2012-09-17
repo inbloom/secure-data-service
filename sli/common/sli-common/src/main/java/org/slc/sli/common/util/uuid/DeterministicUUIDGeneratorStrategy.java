@@ -24,74 +24,78 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-
 @Component
 @Qualifier("deterministicUUIDGeneratorStrategy")
-public class DeterministicUUIDGeneratorStrategy implements
-        UUIDGeneratorStrategy {
-
+public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy {
+    
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicUUIDGeneratorStrategy.class);
-
+    
     public static final String DIGEST_ALGORITHM = "SHA-256";
     private String deliminator = "||";
-
+    
     @Autowired
     @Qualifier("shardType1UUIDGeneratorStrategy")
     ShardType1UUIDGeneratorStrategy oldStrategy = new ShardType1UUIDGeneratorStrategy();
-
+    
     @Override
-    public String deterministicUUID() {
-        return oldStrategy.deterministicUUID();
+    public String generateId() {
+        return oldStrategy.generateId();
     }
-
+    
     @Override
-    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
+    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
+        
+        // if no natural keys exist, can't generate deterministic id
+        if (naturalKeyDescriptor.getNaturalKeys() == null || naturalKeyDescriptor.getNaturalKeys().isEmpty()) {
+            return generateId();
+        }
+        
         UUID uuid = null;
-
+        
         try {
-            //Get values in alphabetical order
+            // Get values in alphabetical order
             Map<String, String> naturalKeys = naturalKeyDescriptor.getNaturalKeys();
             List<String> keyList = new ArrayList<String>(naturalKeys.keySet());
             Collections.sort(keyList);
-
-            //Concatenate values together into one string
+            
+            // Concatenate values together into one string
             StringBuffer keyValues = new StringBuffer();
             keyValues.append(naturalKeyDescriptor.getEntityType()).append(deliminator);
             keyValues.append(naturalKeyDescriptor.getTenantId()).append(deliminator);
             for (String key : keyList) {
                 keyValues.append(naturalKeys.get(key)).append(deliminator);
             }
-            //Digest keyValue string into hash
+            // Digest keyValue string into hash
             MessageDigest messageDigest = MessageDigest.getInstance(DIGEST_ALGORITHM);
             byte[] keyValueBytes = keyValues.toString().getBytes();
             messageDigest.update(keyValueBytes);
             byte[] digestBytes = messageDigest.digest();
             messageDigest.reset();
             uuid = generateUuid(digestBytes);
-
+            
         } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
             LOG.error(noSuchAlgorithmException.getMessage());
         }
         return uuid.toString();
     }
-
+    
     protected static UUID generateUuid(byte[] data) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-
+        
         long msb = byteBuffer.getLong(0);
         long lsb = byteBuffer.getLong(8);
-
+        
         UUID uuid = new UUID(msb, lsb);
-
+        
         return uuid;
     }
-
+    
 }

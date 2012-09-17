@@ -165,7 +165,7 @@ public class MongoEntity implements Entity, Serializable {
             }
 
             if (uuidGeneratorStrategy != null) {
-                uid = uuidGeneratorStrategy.deterministicUUID(naturalKeyDescriptor);
+                uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
             } else {
                 LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
                 uid = UUID.randomUUID().toString();

@@ -70,7 +70,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
 
         String uid = null;
         if (neutralRecord.getRecordId() == null) {
-            uid = uuidGeneratorStrategy.deterministicUUID();
+            uid = uuidGeneratorStrategy.generateId();
             neutralRecord.setRecordId(uid);
         } else {
             uid = neutralRecord.getRecordId();
