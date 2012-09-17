@@ -109,22 +109,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
     private static class Converter {
 
         /**
-         * Converts elasticsearch search hits to collection of entities
-         *
-         * @param hits
-         * @return
-         */
-        /*
-         * static Collection<Entity> toEntityCol(SearchHits hits) {
-         * Collection<Entity> col = new ArrayList<Entity>();
-         * for (SearchHit hit : hits) {
-         * col.add(new SearchHitEntity(hit));
-         * }
-         * return col;
-         * }
-         */
-
-        /**
          * Converts elasticsearch http response to collection of entities
          *
          * @param response
@@ -138,25 +122,37 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
             try {
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
-                String id, type;
-                JsonNode hitNode, bodyNode, metaDataNode;
-                Map<String, Object> body, metaData;
                 for (int i = 0; i < hitsNode.size(); i++) {
-                    hitNode = hitsNode.get(i);
-                    id = hitNode.get("_id").getTextValue();
-                    type = hitNode.get("_type").getTextValue();
-                    bodyNode = hitNode.get("fields").get("body");
-                    body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {
-                    });
-                    metaDataNode = hitNode.get("fields").get("metaData");
-                    metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {
-                    });
-                    hits.add(new SearchHitEntity(id, type, body, metaData));
+                    SearchHitEntity hit = convertJsonToSearchHitEntity(hitsNode.get(i));
+                    if (hit != null) {
+                        hits.add(hit);
+                    }
                 }
             } catch (Exception e) {
                 LOG.error("Error converting search response to entities", e);
             }
             return hits;
+        }
+
+        /**
+         * Converts a json response to a search hit entity
+         */
+        static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
+
+            ObjectMapper mapper = new ObjectMapper();
+            String id = hitNode.get("_id").getTextValue();
+            String type = hitNode.get("_type").getTextValue();
+            JsonNode bodyNode = hitNode.get("fields").get("body");
+            try {
+                Map<String, Object>body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
+                JsonNode metaDataNode = hitNode.get("fields").get("metaData");
+                Map<String, Object>metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
+                return new SearchHitEntity(id, type, body, metaData);
+
+            } catch (Exception e) {
+                LOG.error("Error converting search json response to search hit entity", e);
+                return null;
+            }
         }
 
         /**
