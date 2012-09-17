@@ -17,9 +17,18 @@
 
 package org.slc.sli.dal.repository.connection;
 
+import javax.annotation.Resource;
+
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
@@ -28,6 +37,9 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
  *
  */
 public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
+    
+    private static final String tenantCollectionName = "tenant";
+    private static final String tenantDatabaseName = "databaseName";
 
     /**
      * Create an instance of {@link TenantAwareMongoDbFactory} given the {@link Mongo} instance and database name.
@@ -44,6 +56,16 @@ public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
      */
     @Override
     public DB getDb() throws DataAccessException {
-        return super.getDb();
+        String tenantId = CurrentTenantHolder.getCurrentTenant();
+        if (tenantId == null) {
+            return super.getDb();
+        } else {
+            BasicDBObject query = new BasicDBObject();
+            query.put("tenantId", tenantId);
+            DB systemDb = super.getDb();
+            DBObject dbObject = systemDb.getCollection(tenantCollectionName).findOne(query);
+            return super.getDb((String) dbObject.get(tenantDatabaseName));            
+        }
     }
+    
 }
