@@ -34,7 +34,7 @@
       <ref bean="xsdValidator"/>
   </util:list>
 
-  <bean id="complexValidator" class="org.slc.sli.ingestion.validation.ComplexValidator">
+  <bean id="complexValidator" class="org.slc.sli.dal.validation.ComplexValidator">
       <property name="validators" ref="validatorsList" />
   </bean>
 

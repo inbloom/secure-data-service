@@ -39,5 +39,7 @@
             expression=".*AggregationLoader" />
     </context:component-scan>
 
+    <bean id="indexValidator" class="org.slc.sli.dal.validation.IndexValidator" />
+
 </beans>
 
