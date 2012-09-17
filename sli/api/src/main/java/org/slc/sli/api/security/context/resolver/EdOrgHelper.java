@@ -9,12 +9,11 @@ import java.util.Set;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,8 +35,7 @@ import org.springframework.stereotype.Component;
 public class EdOrgHelper {
     
     @Autowired
-    @Qualifier("validationRepo")
-    protected Repository<Entity> repo;
+    protected PagingRepositoryDelegate<Entity> repo;
     
     @Autowired
     private AssociativeContextHelper helper;

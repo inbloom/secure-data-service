@@ -96,7 +96,7 @@ public class CommandProcessor {
     }
 
     private void dumpMongoTrackingStats(String batchId) throws UnknownHostException {
-        Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
+        Map<String, ? extends Map<String, Pair<AtomicLong, AtomicLong>>> stats = Aspects.aspectOf(MongoTrackingAspect.class).getStats();
 
         if (stats != null) {
             String hostName = InetAddress.getLocalHost().getHostName();
@@ -109,7 +109,7 @@ public class CommandProcessor {
 
             // TODO: move to BatchJobDAO
             mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-            MongoTrackingAspect.aspectOf().reset();
+            Aspects.aspectOf(MongoTrackingAspect.class).reset();
         }
     }
 

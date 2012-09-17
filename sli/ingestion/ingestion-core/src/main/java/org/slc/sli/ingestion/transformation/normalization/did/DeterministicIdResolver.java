@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
@@ -62,7 +61,7 @@ public class DeterministicIdResolver {
     @Autowired
     private SchemaRepository schemaRepository;
 
-    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
 
@@ -123,7 +122,7 @@ public class DeterministicIdResolver {
                         String uuid = getId( (Map<String, Object>) reference, tenantId, didRefConfig);
                         if (uuid != null && !uuid.isEmpty()) {
                             uuidList.add(uuid);
-                            LOG.error("SET A DID IN A LIST FOR ENTITY " + entity + ": " + uuid);
+                            LOG.info("Set a DID for an entity in a list " + entity + ": " + uuid);
                         } else {
                             // TODO key and value below aren't what we want
                             throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
@@ -139,7 +138,7 @@ public class DeterministicIdResolver {
                     String uuid = getId(reference, tenantId, didRefConfig);
                     if (uuid != null && !uuid.isEmpty()) {
                         PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                        LOG.error("SET A DID FOR ENTITY " + entity + ": " + uuid);
+                        LOG.info("Sed a DID for entity " + entity + ": " + uuid);
                     } else {
                         // TODO key and value below aren't what we want
                         throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
