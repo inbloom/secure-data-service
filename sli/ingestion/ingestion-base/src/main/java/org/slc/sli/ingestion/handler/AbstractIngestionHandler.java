@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReportSupport;
+import org.slc.sli.dal.validation.Validator;
 
 /**
  * Abstract class for all handlers.

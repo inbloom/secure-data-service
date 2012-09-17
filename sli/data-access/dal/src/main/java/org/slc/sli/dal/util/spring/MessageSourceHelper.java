@@ -15,29 +15,20 @@
  */
 
 
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.util.spring;
+
+import org.springframework.context.MessageSource;
 
 /**
- * Abstract validator.
+ * Helper for Spring's MessageSource.
  *
  * @author okrook
  *
  */
-public abstract class SimpleValidator<T> implements Validator<T> {
+public final class MessageSourceHelper {
 
-    @Override
-    public abstract boolean isValid(T object, ErrorReport callback);
-
-    /**
-     * Helper to report a validation failure.
-     *
-     * @param report Validation report callback
-     * @param message Validation message
-     */
-    protected void fail(ErrorReport report, String message) {
-        if (report != null) {
-            report.error(message, this);
-        }
+    public static final String getMessage(MessageSource messageSource, String code, Object... args) {
+        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
     }
 
 }

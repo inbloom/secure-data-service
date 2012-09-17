@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.validation;
 
 import java.util.List;
 

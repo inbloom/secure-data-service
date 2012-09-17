@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.validation;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
-import junitx.framework.Assert;
+import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

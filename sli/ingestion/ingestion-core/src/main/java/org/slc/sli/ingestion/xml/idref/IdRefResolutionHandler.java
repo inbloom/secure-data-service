@@ -59,8 +59,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * @author okrook

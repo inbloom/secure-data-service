@@ -48,7 +48,7 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;

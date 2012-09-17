@@ -27,8 +27,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReportSupport;
 
 /**
  * Batch Job class.

@@ -17,6 +17,8 @@
 
 package org.slc.sli.ingestion.validation;
 
+import org.slc.sli.dal.validation.ErrorReport;
+
 /**
  * Dummy ValidationReport. Does nothing on failures.
  *

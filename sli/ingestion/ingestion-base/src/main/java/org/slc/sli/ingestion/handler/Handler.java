@@ -18,7 +18,7 @@ package org.slc.sli.ingestion.handler;
 
 import java.util.List;
 
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * Generic interface for handlers that requires handle methods with and without error support.

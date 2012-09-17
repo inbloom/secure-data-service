@@ -41,7 +41,8 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  *Validates the xml file against an xsd. Returns false if there is any error else it will always return true. The error messages would be reported by the error handler.

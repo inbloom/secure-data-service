@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.validation;
 
 import org.xml.sax.ErrorHandler;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * Forgiving XSD validation error handler.

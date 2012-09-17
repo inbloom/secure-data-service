@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.validation;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.spring.SimpleValidatorSpring;
 
 
 /**

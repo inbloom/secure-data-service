@@ -48,7 +48,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;

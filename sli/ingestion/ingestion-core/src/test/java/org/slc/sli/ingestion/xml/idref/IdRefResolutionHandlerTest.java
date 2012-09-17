@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  *

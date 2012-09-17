@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
