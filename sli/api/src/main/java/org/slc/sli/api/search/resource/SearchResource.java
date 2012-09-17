@@ -34,8 +34,6 @@ import org.slc.sli.api.search.service.SearchResourceService;
 /**
  * Resource for handling search requests
  *
- * @author dwu
- *
  */
 
 @Component
@@ -52,7 +50,7 @@ public class SearchResource extends GenericResource {
             @Override
             public ServiceResponse run(Resource resource) {
 
-                return resourceService.getSearchHits(resource, uriInfo.getRequestUri());
+                return resourceService.list(resource, uriInfo.getRequestUri());
             }
         });
 
