@@ -17,10 +17,17 @@
 
 package org.slc.sli.dal.repository.tenancy;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @author okrook
  *
  */
-public @interface Tenant {
-    public String tenantParam();
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD })
+public @interface SystemCall {
+
 }

@@ -15,15 +15,19 @@
  */
 
 
-package org.slc.sli.dal.repository.tenancy.apsect;
+package org.slc.sli.dal.repository.tenancy;
 
-import org.aspectj.lang.annotation.Aspect;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author okrook
  *
  */
-@Aspect
-public class TenantCallAspect {
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD })
+public @interface TenantCall {
+    public String param();
 }
