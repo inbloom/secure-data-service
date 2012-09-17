@@ -27,8 +27,8 @@ import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.spring.SimpleValidatorSpring;
 
 /**
  * Zip file validator.

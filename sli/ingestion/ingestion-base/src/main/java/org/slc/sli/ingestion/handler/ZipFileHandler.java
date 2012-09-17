@@ -30,8 +30,8 @@ import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * @author ablum

@@ -25,6 +25,8 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
+import org.slc.sli.dal.validation.ErrorReport;
+
 /**
  *
  * @author bsuzuki

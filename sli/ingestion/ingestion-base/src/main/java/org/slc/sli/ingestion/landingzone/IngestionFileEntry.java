@@ -23,8 +23,8 @@ import java.io.Serializable;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReportSupport;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its

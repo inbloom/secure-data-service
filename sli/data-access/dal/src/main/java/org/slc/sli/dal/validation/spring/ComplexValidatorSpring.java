@@ -15,22 +15,21 @@
  */
 
 
-package org.slc.sli.ingestion.validation.spring;
+package org.slc.sli.dal.validation.spring;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.dal.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.CollectionValidator;
+import org.slc.sli.dal.validation.ComplexValidator;
 
 /**
- * Abstract validator with Spring MessageSource support.
+ * Abstract validator.
  *
  * @author okrook
  *
  */
-public abstract class CollectionValidatorSpring<T> extends CollectionValidator<T> implements MessageSourceAware {
-
+public class ComplexValidatorSpring<T> extends ComplexValidator<T> implements MessageSourceAware {
     private MessageSource messageSource;
 
     @Override
@@ -41,5 +40,4 @@ public abstract class CollectionValidatorSpring<T> extends CollectionValidator<T
     protected String getFailureMessage(String code, Object... args) {
         return MessageSourceHelper.getMessage(messageSource, code, args);
     }
-
 }

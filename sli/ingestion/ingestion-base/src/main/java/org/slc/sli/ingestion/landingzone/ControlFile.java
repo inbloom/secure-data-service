@@ -35,7 +35,7 @@ import org.springframework.context.MessageSource;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
 
 /**
  * Represents control file information.

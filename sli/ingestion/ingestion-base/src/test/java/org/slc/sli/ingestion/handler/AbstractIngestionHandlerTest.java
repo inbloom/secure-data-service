@@ -28,8 +28,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.Validator;
 
 /**
  * A Junit test to test AbstractIngestionHandler

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * Validates file's checksum using MD5 algorithm.

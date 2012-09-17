@@ -15,12 +15,12 @@
  */
 
 
-package org.slc.sli.ingestion.validation.spring;
+package org.slc.sli.dal.validation.spring;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
 
 /**
  * Abstract validator with Spring MessageSource support.
@@ -28,7 +28,7 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  * @author okrook
  *
  */
-public abstract class SimpleValidatorSpring<T> extends org.slc.sli.ingestion.validation.SimpleValidator<T> implements MessageSourceAware {
+public abstract class SimpleValidatorSpring<T> extends org.slc.sli.dal.validation.SimpleValidator<T> implements MessageSourceAware {
 
     private MessageSource messageSource;
 

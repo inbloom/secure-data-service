@@ -32,7 +32,7 @@ import org.milyn.payload.StringSource;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * EdFi to SLI transformer based on Smooks

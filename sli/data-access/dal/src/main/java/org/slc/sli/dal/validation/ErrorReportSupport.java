@@ -15,23 +15,21 @@
  */
 
 
-package org.slc.sli.ingestion.validation;
+package org.slc.sli.dal.validation;
 
 /**
- * Validator Interface.
+ * Type's errors are reportable.
  *
- * @author okrook
+ * @author dduran
  *
  */
-public interface Validator<T> {
+public interface ErrorReportSupport {
 
     /**
-     * Validates the object.
+     * Provides the ErrorReport for this type.
      *
-     * @param object Object to validate
-     * @param callback validation report callback
-     * @return true if valid; false otherwise
+     * @return ErrorReport instance.
      */
-    boolean isValid(T object, ErrorReport callback);
+    ErrorReport getErrorReport();
 
 }

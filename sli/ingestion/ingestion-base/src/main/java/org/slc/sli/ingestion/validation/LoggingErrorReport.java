@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.validation;
 
 import org.slf4j.Logger;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * ErrorReport implementation that is constructed with a logger and uses that logger to act on

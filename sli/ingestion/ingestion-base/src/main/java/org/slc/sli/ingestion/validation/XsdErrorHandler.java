@@ -23,7 +23,8 @@ import org.springframework.context.MessageSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  *

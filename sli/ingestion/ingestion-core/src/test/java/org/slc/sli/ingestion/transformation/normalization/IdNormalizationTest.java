@@ -50,7 +50,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.cache.NullCacheProvider;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * ID Normalizer unit tests.

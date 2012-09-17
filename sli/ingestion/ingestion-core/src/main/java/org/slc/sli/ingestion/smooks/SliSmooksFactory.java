@@ -28,8 +28,9 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.xml.sax.SAXException;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * Factory class for Smooks

@@ -48,7 +48,7 @@ import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.validation.IndexValidator;
+import org.slc.sli.dal.validation.IndexValidator;
 
 /**
  * Ingestion route builder.

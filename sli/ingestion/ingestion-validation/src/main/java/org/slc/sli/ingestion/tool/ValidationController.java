@@ -31,8 +31,8 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
-import org.slc.sli.ingestion.validation.ComplexValidator;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.dal.validation.ComplexValidator;
+import org.slc.sli.dal.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 
 /**

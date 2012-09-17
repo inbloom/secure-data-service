@@ -24,8 +24,8 @@ import java.io.IOException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.spring.SimpleValidatorSpring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -17,6 +17,8 @@
 
 package org.slc.sli.ingestion.validation;
 
+import org.slc.sli.dal.validation.ErrorReport;
+
 /**
  * Proxy ErrorReport. Plays as a proxy. Keeps local hasError flag.
  *

@@ -15,7 +15,7 @@
  */
 
 
-package org.slc.sli.ingestion.util.spring;
+package org.slc.sli.dal.util.spring;
 
 import java.util.Locale;
 

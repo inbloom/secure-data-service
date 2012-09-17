@@ -20,6 +20,10 @@ package org.slc.sli.ingestion.validation;
 import java.util.Collection;
 import java.util.List;
 
+import org.slc.sli.dal.validation.SimpleValidator;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.Validator;
+
 /**
  * Collection Validator, can iterate through collections to validate individual items.
  *

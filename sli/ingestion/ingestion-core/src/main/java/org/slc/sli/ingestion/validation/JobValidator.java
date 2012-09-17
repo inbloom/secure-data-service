@@ -21,7 +21,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.dal.validation.spring.SimpleValidatorSpring;
+
+import org.slc.sli.dal.validation.ErrorReport;
 
 /**
  * Validator for Job interface.

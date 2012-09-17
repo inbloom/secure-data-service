@@ -15,13 +15,7 @@
  */
 
 
-package org.slc.sli.ingestion.validation.spring;
-
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ComplexValidator;
+package org.slc.sli.dal.validation;
 
 /**
  * Abstract validator.
@@ -29,15 +23,21 @@ import org.slc.sli.ingestion.validation.ComplexValidator;
  * @author okrook
  *
  */
-public class ComplexValidatorSpring<T> extends ComplexValidator<T> implements MessageSourceAware {
-    private MessageSource messageSource;
+public abstract class SimpleValidator<T> implements Validator<T> {
 
     @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    public abstract boolean isValid(T object, ErrorReport callback);
+
+    /**
+     * Helper to report a validation failure.
+     *
+     * @param report Validation report callback
+     * @param message Validation message
+     */
+    protected void fail(ErrorReport report, String message) {
+        if (report != null) {
+            report.error(message, this);
+        }
     }
 
-    protected String getFailureMessage(String code, Object... args) {
-        return MessageSourceHelper.getMessage(messageSource, code, args);
-    }
 }

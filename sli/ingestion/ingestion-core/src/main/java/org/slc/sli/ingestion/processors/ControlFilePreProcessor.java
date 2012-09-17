@@ -60,9 +60,9 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.dal.util.spring.MessageSourceHelper;
+import org.slc.sli.dal.validation.ErrorReport;
+import org.slc.sli.dal.validation.Validator;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.

@@ -15,20 +15,23 @@
  */
 
 
-package org.slc.sli.ingestion.util.spring;
-
-import org.springframework.context.MessageSource;
+package org.slc.sli.dal.validation;
 
 /**
- * Helper for Spring's MessageSource.
+ * Validator Interface.
  *
  * @author okrook
  *
  */
-public final class MessageSourceHelper {
+public interface Validator<T> {
 
-    public static final String getMessage(MessageSource messageSource, String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
-    }
+    /**
+     * Validates the object.
+     *
+     * @param object Object to validate
+     * @param callback validation report callback
+     * @return true if valid; false otherwise
+     */
+    boolean isValid(T object, ErrorReport callback);
 
 }
