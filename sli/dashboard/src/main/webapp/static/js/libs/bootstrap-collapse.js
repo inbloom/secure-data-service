@@ -142,7 +142,7 @@
 
 	/* COLLAPSIBLE DATA-API
 	 * ==================== */
-hgit
+
 	$(function () {
 		$('body').on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
 			var $this = $(this), href
