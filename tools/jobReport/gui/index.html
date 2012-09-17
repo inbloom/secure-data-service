@@ -146,15 +146,23 @@
       }
 
       function drawJobNotes(job) {
+          var comments = '';
+          var errorSummary = '';
+          var env = '';
+          var codeTag = '';
+          var sharded = '';
+          var preSplit = '';
+          var balancer = '';
+          var clustered = '';
         if(job.hasOwnProperty("notes")){
-          var comments = processNoteString(job.notes.comments);
-          var errorSummary = processNoteString(job.notes.errorSummary);
-          var env = processNoteString(job.notes.environment);
-          var codeTag = processNoteString(job.notes.codeTag);
-          var sharded = processNoteCheckbox(job.notes.isSharded);
-          var preSplit = processNoteCheckbox(job.notes.isPreSplit);
-          var balancer = processNoteCheckbox(job.notes.isBalancerOn);
-          var clustered = processNoteCheckbox(job.notes.isClustered);
+          comments = processNoteString(job.notes.comments);
+          errorSummary = processNoteString(job.notes.errorSummary);
+          env = processNoteString(job.notes.environment);
+          codeTag = processNoteString(job.notes.codeTag);
+          sharded = processNoteCheckbox(job.notes.isSharded);
+          preSplit = processNoteCheckbox(job.notes.isPreSplit);
+          balancer = processNoteCheckbox(job.notes.isBalancerOn);
+          clustered = processNoteCheckbox(job.notes.isClustered);
         }
 
         $('#job_notes').append('<form id=\'job_note_form\'onsubmit=\'submitNotes(this.form);return false\'>' + 
@@ -819,7 +827,7 @@
           data : jobData,
           height : 400,
           // Flotr Configuration
-          config : {
+          config : {            
             yaxis : {
               min : 0,
               max : 1000,
@@ -835,7 +843,10 @@
               showLabels:!0
             },
             "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
-            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
+            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"},
+            legend: {
+              position: "sw"
+            }
           },
         };
 
