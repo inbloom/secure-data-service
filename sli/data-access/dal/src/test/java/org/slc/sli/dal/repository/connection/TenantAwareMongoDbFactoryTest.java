@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository.connection;
 
 import com.mongodb.DB;
@@ -28,7 +27,7 @@ import org.mockito.Mockito;
  * @author okrook
  *
  */
-public class TenantAwareMongoDbFactoryTests {
+public class TenantAwareMongoDbFactoryTest {
 
     @Test
     public void testGetTenantConnection() {
