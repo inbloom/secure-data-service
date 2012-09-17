@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository.tenancy;
 
 import java.util.EmptyStackException;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -30,11 +31,14 @@ public class CurrentTenantHolderTests {
     @Test
     public void testTenant() {
         CurrentTenantHolder.push("MyTenant");
+
+        Assert.assertEquals("MyTenant", CurrentTenantHolder.getCurrentTenant());
+        Assert.assertEquals("MyTenant", CurrentTenantHolder.getCurrentTenant());
+        Assert.assertEquals("MyTenant", CurrentTenantHolder.pop());
     }
 
     @Test(expected = EmptyStackException.class)
     public void testEmptyHolderPop() {
-
         CurrentTenantHolder.pop();
     }
 
