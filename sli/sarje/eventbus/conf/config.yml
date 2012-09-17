@@ -1,4 +1,10 @@
+common: &common
+   # logging configurations
+   logger_output: STDOUT
+   logger_level: INFO
+
 listener: 
+    <<: *common
     # host and port of the mongodb used to store scheduled jobs
     mongo_host: 127.0.0.1
     mongo_port: 27017
@@ -19,6 +25,7 @@ listener:
     subscribe_queue_name: /queue/listener
      
 agent:
+    <<: *common
     node_id: agent
     mongo_host: localhost
     mongo_port: 27017
