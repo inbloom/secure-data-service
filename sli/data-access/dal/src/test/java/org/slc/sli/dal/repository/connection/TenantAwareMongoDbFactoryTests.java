@@ -50,32 +50,18 @@ public class TenantAwareMongoDbFactoryTests {
         Assert.assertSame("System", cm.getDb().getName());
     }
     
-//    @Test
+    @Test
     public void testGetTenantConnection() {
         String tenantId = "testTenantId";
-        BasicDBObject query = new BasicDBObject();
-        query.put("tenantId", tenantId);
-
-        
-        CurrentTenantHolder.push(tenantId);
-        
+        CurrentTenantHolder.push(tenantId);        
         
         Mongo mongo = Mockito.mock(Mongo.class);
         DB db = Mockito.mock(DB.class);
 
         Mockito.when(db.getMongo()).thenReturn(mongo);
         Mockito.when(db.getName()).thenReturn("tenant");
-        Mockito.when(mongo.getDB(Mockito.anyString())).thenReturn(db);
+        Mockito.when(mongo.getDB(TenantAwareMongoDbFactory.getTenantDatabaseName(tenantId))).thenReturn(db);        
         
-        
-        DBCollection dbCollection = null; 
-        BasicDBObject dbObject = new BasicDBObject();
-        Mockito.when(db.getCollection(Mockito.anyString())).thenReturn(dbCollection);
-        Mockito.when(dbCollection.findOne(Mockito.any(BasicDBObject.class))).thenReturn(dbObject);
-        
-        
-
-
         TenantAwareMongoDbFactory cm = new TenantAwareMongoDbFactory(mongo, "System");
 
         Assert.assertNotNull(cm.getDb());

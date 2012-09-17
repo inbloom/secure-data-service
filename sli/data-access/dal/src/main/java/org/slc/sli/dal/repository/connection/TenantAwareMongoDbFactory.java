@@ -26,6 +26,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+import org.apache.commons.codec.binary.Hex;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -57,15 +58,11 @@ public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
     @Override
     public DB getDb() throws DataAccessException {
         String tenantId = CurrentTenantHolder.getCurrentTenant();
-        if (tenantId == null) {
-            return super.getDb();
-        } else {
-            BasicDBObject query = new BasicDBObject();
-            query.put("tenantId", tenantId);
-            DB systemDb = super.getDb();
-            DBObject dbObject = systemDb.getCollection(tenantCollectionName).findOne(query);
-            return super.getDb((String) dbObject.get(tenantDatabaseName));            
-        }
+        return tenantId == null ? super.getDb() : super.getDb(getTenantDatabaseName(tenantId));            
+    }
+    
+    public static String getTenantDatabaseName(String tenantId) {
+        return Hex.encodeHexString(tenantId.getBytes());        
     }
     
 }
