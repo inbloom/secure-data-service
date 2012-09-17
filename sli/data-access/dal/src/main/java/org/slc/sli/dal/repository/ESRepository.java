@@ -2,7 +2,6 @@ package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +19,14 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
-import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.dal.TenantContext;
@@ -36,86 +36,80 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * 
- * @author agrebneva
- * 
+ * elasticsearch connector
+ *
  */
 public class ESRepository extends SimpleEntityRepository {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
-    
-    @Value("${sli.search.host}")
-    private String esHost;
-    
-    @Value("${sli.search.port}")
-    private int esPort;
-    
-    @Value("${sli.search.username}")
+
+    private String esUri;
+
+    private RestTemplate searchTemplate;
+
     private String esUsername;
-    
-    @Value("${sli.search.password}")
+
     private String esPassword;
-    
+
+    // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
-    
-    public ESRepository() {
+
+    @Autowired
+    public ESRepository(@Value("${sli.search.url}") String esUrl) {
         esClient = new TransportClient();
     }
-    
+
     private Client getClient() {
         return esClient;
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        
+
         // send an elasticsearch REST query
         String query = Converter.getQuery(getClient(), neutralQuery).toString();
         HttpEntity<String> response = sendRESTQuery(query);
-        
+
         // convert the response to search hits
         return Converter.toEntityCol(response);
     }
-    
+
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
     private HttpEntity<String> sendRESTQuery(String query) {
-        
-        RestTemplate templateIn = new RestTemplate();
-        String url = "http://" + esHost + ":" + esPort + "/" + TenantContext.getTenantId().toLowerCase() + "/_search";
+
         HttpMethod method = HttpMethod.POST;
         HttpHeaders headers = new HttpHeaders();
-        
+
         //Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
-            headers.set("Authorization",
-                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
+            headers.set("Authorization", "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
-        HttpEntity entity = new HttpEntity(query, headers);
+        HttpEntity<String> entity = new HttpEntity<String>(query, headers);
         HttpEntity<String> response = null;
         try {
-            response = templateIn.exchange(url, method, entity, String.class);
-        } catch (Exception e) {
-            LOG.error("Error sending elastic search request!", e);
+            response = searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
+        } catch (RestClientException rce) {
+            LOG.error("Error sending elastic search request!", rce);
         }
         return response;
     }
-    
+
     /**
      * Converter SLI to/from ES
-     * 
+     *
      * @author agrebneva
-     * 
+     *
      */
     private static class Converter {
-        
+
         /**
          * Converts elasticsearch search hits to collection of entities
-         * 
+         *
          * @param hits
          * @return
          */
@@ -128,15 +122,15 @@ public class ESRepository extends SimpleEntityRepository {
          * return col;
          * }
          */
-        
+
         /**
          * Converts elasticsearch http response to collection of entities
-         * 
+         *
          * @param response
          * @return
          */
         static Collection<Entity> toEntityCol(HttpEntity<String> response) {
-            
+
             ObjectMapper mapper = new ObjectMapper();
             Collection<Entity> hits = new ArrayList<Entity>();
             JsonNode node = null;
@@ -163,22 +157,22 @@ public class ESRepository extends SimpleEntityRepository {
             }
             return hits;
         }
-        
+
         /**
          * Build elasticsearch query
-         * 
+         *
          * @param client
          * @param query
          * @return
          */
         static SearchRequestBuilder getQuery(Client client, NeutralQuery query) {
-            
+
             SearchRequestBuilder srb = client.prepareSearch(TenantContext.getTenantId().toLowerCase()).setSearchType(
                     SearchType.DFS_QUERY_THEN_FETCH);
             String queryString = null;
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             BoolFilterBuilder bfb = FilterBuilders.boolFilter(), inFilter;
-            
+
             // set query criteria
             for (NeutralCriteria s : query.getCriteria()) {
                 if ("query".equals(s.getKey())) {
@@ -189,7 +183,7 @@ public class ESRepository extends SimpleEntityRepository {
                     bfb.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
                 }
             }
-            
+
             // set context metadata filter
             if (!query.getOrQueries().isEmpty()) {
                 for (NeutralQuery q : query.getOrQueries()) {
@@ -210,35 +204,34 @@ public class ESRepository extends SimpleEntityRepository {
             LOG.info(srb.toString());
             return srb;
         }
-        
+
         @SuppressWarnings("unchecked")
         private static String[] getTermTokens(Object value) {
             return (value instanceof List) ? ((List<String>) value).toArray(new String[0]) : ((String) value)
                     .split(",");
         }
     }
-    
+
+    @Autowired
+    public void setSearchUrl(@Value("${sli.search.url}") String esUrl) {
+        this.esUri = esUrl + "/{tenantId}/_search";
+    }
+
+    @Autowired
+    public void setSearchTemplate(RestTemplate searchTemplate) {
+        this.searchTemplate = searchTemplate;
+    }
+
     /**
      * Simple adapter for SearchHits to Entity
-     * 
-     * @author agrebneva
-     * 
+     *
      */
     private static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
         private Map<String, Object> metaData;
         private String type;
         private String id;
-        
-        @SuppressWarnings("unchecked")
-        SearchHitEntity(SearchHit hit) {
-            this.body = new HashMap<String, Object>((Map<String, Object>) hit.getFields().get("body").getValue());
-            body.put("type", hit.getType());
-            this.type = hit.getType();
-            this.id = hit.getId();
-            this.metaData = hit.getFields().get("metaData").getValue();
-        }
-        
+
         SearchHitEntity(String id, String type, Map<String, Object> body, Map<String, Object> metaData) {
             this.id = id;
             this.type = type;
@@ -246,33 +239,33 @@ public class ESRepository extends SimpleEntityRepository {
             this.body.put("type", type);
             this.metaData = metaData;
         }
-        
+
         @Override
         public String getType() {
             return this.type;
         }
-        
+
         @Override
         public String getEntityId() {
             return this.id;
         }
-        
+
         @Override
         public Map<String, Object> getBody() {
             return this.body;
         }
-        
+
         @Override
         public Map<String, Object> getMetaData() {
             return metaData;
         }
-        
+
         @Override
         public CalculatedData<Map<String, Integer>> getAggregates() {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
         @Override
         public CalculatedData<String> getCalculatedValues() {
             // TODO Auto-generated method stub
