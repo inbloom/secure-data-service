@@ -22,10 +22,13 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -46,16 +49,26 @@ public class ESRepository extends SimpleEntityRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
 
-    private String esHost = "localhost";
-    private int esPort = 9200;
-    private int esTransportPort = 9300;
-
+    @Value("${sli.search.host}")
+    private String esHost;
+    
+    @Value("${sli.search.port}")
+    private int esPort;
+    
+    private static Client esClient;
+    
+    static {
+        //NodeBuilder nodeBuilder = new NodeBuilder();
+        //Node node = nodeBuilder.client(true).node();
+        //esClient = node.client();
+        
+        // transport client is used to help build the search request,
+        // but http is used to actually make the call
+        esClient = new TransportClient();
+    }
+    
     private Client getClient() {
-        // TODO: can't use transport client anymore
-        Settings settings = ImmutableSettings.settingsBuilder()
-                .put("client.transport.sniff", true)
-                .put("client.transport.ignore_cluster_name", true).build();
-        return new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(esHost, esTransportPort));
+        return esClient;
     }
 
     @Override
@@ -85,7 +98,7 @@ public class ESRepository extends SimpleEntityRepository {
         try {
             response = templateIn.exchange(url, method, entity, String.class);
         } catch(Exception e) {
-            System.out.println("ERROR");
+            LOG.error("Error sending elastic search request!", e);
         }
         return response;
     }
@@ -102,6 +115,7 @@ public class ESRepository extends SimpleEntityRepository {
          * @param hits
          * @return
          */
+        /*
         static Collection<Entity> toEntityCol(SearchHits hits) {
             Collection<Entity> col = new ArrayList<Entity>();
             for (SearchHit hit : hits) {
@@ -109,6 +123,7 @@ public class ESRepository extends SimpleEntityRepository {
             }
             return col;
         }
+        */
 
         /**
          * Converts elasticsearch http response to collection of entities
@@ -136,7 +151,7 @@ public class ESRepository extends SimpleEntityRepository {
                     hits.add(hit);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("Error converting search response to entities", e);
             }
 
             Collection<Entity> ret = new ArrayList<Entity>(hits);

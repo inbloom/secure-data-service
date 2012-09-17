@@ -80,6 +80,10 @@ default:
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
 
+        # Elasticsearch config
+        sli.search.host: localhost
+        sli.search.port: 9200
+
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
