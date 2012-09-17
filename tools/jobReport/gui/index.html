@@ -107,20 +107,83 @@
 
         } else {
           // completed job
-          var jobTimeInSeconds = (new Date(job.jobStopTimestamp).getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          var stopTime = new Date(job.jobStopTimestamp);
+          var startTime = new Date(job.jobStartTimestamp);
+
+          var jobTimeInSeconds = (stopTime.getTime() - startTime.getTime()) / 1000;
           
           var jobTimeDisplay = getReadableTime(jobTimeInSeconds);
 
           $('#job_summary')
             .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
-            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>');
+            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>')
+            .append('Start Time: ' + startTime + '<br/>Stop Time: ' + stopTime);
         }
+     
+        drawJobNotes(job); 
 
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
 
         drawStagePerfChart(job);
+      }
+
+      function drawJobNotes(job) {
+        var comments = processNoteString(job.notes.comments);
+        var errorSummary = processNoteString(job.notes.errorSummary);
+        var env = processNoteString(job.notes.environment);
+        var codeTag = processNoteString(job.notes.codeTag);
+        var sharded = processNoteCheckbox(job.notes.isSharded);
+        var preSplit = processNoteCheckbox(job.notes.isPreSplit);
+        var balancer = processNoteCheckbox(job.notes.isBalancerOn);
+        var clustered = processNoteCheckbox(job.notes.isClustered);
+
+        $('#job_notes').append('<form id=\'job_note_form\'onsubmit=\'submitNotes(this.form);return false\'>' + 
+          'Environment: <input id=\'job_env\' type=\'text\' name=\'job_env\' required="required" value=\'' + env + '\'/>' +
+          '   Code Tag: <input id=\'job_codeTag\' type=\'text\' name=\'job_codeTag\' value=\'' + codeTag + '\'/><br/>' +
+          '<input id=\'job_isSharded\' type=\'checkbox\' name=\'job_isSharded\' ' + sharded +'/>' + 'SLI Sharded   ' +
+          '<input id=\'job_isPreSplit\' type=\'checkbox\' name=\'job_isPreSplit\' ' + preSplit +'/>' + 'Pre-Split   ' +
+          '<input id=\'job_isBalancerOn\' type=\'checkbox\' name=\'job_isBalancerOn\' ' + balancer +'/>' + 'Balancer On   ' +
+          '<input id=\'job_isClustered\' type=\'checkbox\' name=\'job_isClustered\' ' + clustered +'/>' + 'Is Clustered<br/>' +
+          'Error Summary:<br/><textarea id=\'job_errorSummary\' name= \'job_errorSummary\' cols=\'85\' rows=\'7\'>' + errorSummary + '</textarea><br/>' +
+          'Comments:<br/><textarea id=\'job_comments\' name= \'job_comments\' cols=\'85\' rows=\'7\'>' + comments + '</textarea><br/>' +
+          '<input type=\'submit\' value=\'Save\'/></form>');
+
+
+      }
+
+      function processNoteString(value) {
+        if (value == null) {
+          value= "";
+        }
+        value = value.replace(/%20/g, " ");
+        return value;
+      }
+
+      function processNoteCheckbox(isChecked) {
+        var value;
+        if (isChecked == 'true') {
+          value = 'checked';
+        } else {
+          value = '';
+        }
+        return value;
+      }
+
+      function submitNotes(form) {
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.comments/' + document.getElementById('job_comments').value);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.errorSummary/' + document.getElementById('job_errorSummary').value);
+
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.environment/' + $('#job_env').val());
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.codeTag/' + $('#job_codeTag').val());
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isSharded/' + document.getElementById('job_isSharded').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isPreSplit/' + document.getElementById('job_isPreSplit').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isBalancerOn/' + document.getElementById('job_isBalancerOn').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isClustered/' + document.getElementById('job_isClustered').checked);
+        jobSummary(DEFAULT_JOB_ID);
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -507,6 +570,16 @@
         return jQuery.parseJSON(jsonData);
       }
 
+     function postApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'POST',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+      }
+
       function releaseTenantJobLock(tenantId) {
         var jsonData = $.ajax({
           url: API_URL + '/tenantjoblock/' + tenantId,
@@ -557,6 +630,7 @@
         $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
         $('#progressbar').hide();
+        $('#job_notes').empty();
         $('#stage_breakdown_piechart_div').empty();
         $('#stage_breakdown_linechart_div').empty();
         $('#PersistenceProcessor_entity_div').empty();
@@ -593,6 +667,7 @@
         </table>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
+        <div id="job_notes"></div>
         <div id="progressbar"></div>
         <div id="stage_breakdown_piechart_div"></div>
         <div id="PersistenceProcessor_entity_div"></div>
