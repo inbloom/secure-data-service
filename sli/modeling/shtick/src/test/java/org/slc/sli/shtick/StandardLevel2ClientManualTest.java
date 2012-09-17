@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -33,6 +34,7 @@ public class StandardLevel2ClientManualTest {
     }
 
     @Test
+    @Ignore("testing changing a natural key!")
     public void testCRUD() {
         try {
             // POST
