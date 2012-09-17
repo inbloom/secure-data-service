@@ -525,8 +525,8 @@ module DataProvider
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
     }
   end
-  
-  def self.getValidCustomRoleData() 
+
+  def self.getValidCustomRoleData()
     return {
       "realmId" => "",
       "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
@@ -582,6 +582,18 @@ module CreateEntityHash
           ]
        ]
 
+    return data
+  end
+
+  def CreateEntityHash.createBaseStudentRandomId()
+    data = CreateEntityHash.createBaseStudent
+    data['studentUniqueStateId'] = (0...8).map{65.+(rand(25)).chr}.join
+    return data
+  end
+
+  def CreateEntityHash.createBaseStudentDefinedId(id)
+    data = CreateEntityHash.createBaseStudent
+    data['studentUniqueStateId'] = id
     return data
   end
 
