@@ -13,13 +13,13 @@
         "collection" : "sli.studentAssessmentAssociation",
         "map_id_fields" : { "id":"body.studentId", "tenantId":"metaData.tenantId" },
         "query" : { "metaData.tenantId" : "Hyrule",
-                    "body.assessmentId" : "2012hf-e5f07af5-fbaa-11e1-9d88-68a86d20acc2",
+                    "body.assessmentId" : "2012tz-47abdc65-fe8b-11e1-83b9-406c8f1b0512",
                     "body.scoreResults.assessmentReportingMethod" : "Scale score" },
         "fields" : { "body.scoreResults.result" : 1 }
     },
     "reduce" : {
         "collection" : "sli.student",
-        "field" : "calculatedValues.assessments.2012hf-e5f07af5-fbaa-11e1-9d88-68a86d20acc2.Highest"
+        "field" : "calculatedValues.assessments.2012tz-47abdc65-fe8b-11e1-83b9-406c8f1b0512.Highest"
     },
     "schedule" : {
         "event" : "create student | create studentAssessmentAssociation",
