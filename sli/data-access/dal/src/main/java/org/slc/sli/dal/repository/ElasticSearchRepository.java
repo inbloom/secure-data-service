@@ -39,7 +39,7 @@ import org.slc.sli.domain.NeutralQuery;
  * elasticsearch connector
  *
  */
-public class ESRepository extends SimpleEntityRepository {
+public class ElasticSearchRepository extends SimpleEntityRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
 
@@ -55,7 +55,7 @@ public class ESRepository extends SimpleEntityRepository {
     private Client esClient;
 
     @Autowired
-    public ESRepository(@Value("${sli.search.url}") String esUrl) {
+    public ElasticSearchRepository(@Value("${sli.search.url}") String esUrl) {
         esClient = new TransportClient();
     }
 
@@ -98,7 +98,7 @@ public class ESRepository extends SimpleEntityRepository {
         }
         return response;
     }
-    
+
 
     /**
      * Converter SLI to/from ES
@@ -213,23 +213,19 @@ public class ESRepository extends SimpleEntityRepository {
         }
     }
 
-    @Autowired
-    public void setSearchUrl(@Value("${sli.search.url}") String esUrl) {
+    public void setSearchUrl(String esUrl) {
         this.esUri = esUrl + "/{tenantId}/_search";
     }
 
-    @Autowired
     public void setSearchTemplate(RestTemplate searchTemplate) {
         this.searchTemplate = searchTemplate;
     }
 
-    @Autowired
-    public void setEsUsername(String esUsername) {
+    public void setSearchUsername(String esUsername) {
         this.esUsername = esUsername;
     }
 
-    @Autowired
-    public void setEsPassword(String esPassword) {
+    public void setSearchPassword(String esPassword) {
         this.esPassword = esPassword;
     }
 
