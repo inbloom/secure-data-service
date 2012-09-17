@@ -67,14 +67,11 @@ public class NewBatchJob implements Job {
 
     private Date jobStopTimestamp;
 
-    private Map<String, Integer> duplicateCount;
-
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
-        this.duplicateCount = new HashMap<String, Integer>();
         initStartTime();
     }
 
@@ -188,14 +185,6 @@ public class NewBatchJob implements Job {
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
         this.topLevelSourceId = deriveTopLevelSourceId(sourceId);
-    }
-
-    public Map<String, Integer> getDuplicateCountMap() {
-        return duplicateCount;
-    }
-
-    public void setDuplicateCount(String name, int value) {
-        this.duplicateCount.put(name, value);
     }
 
     private String deriveTopLevelSourceId(String sourceId) {

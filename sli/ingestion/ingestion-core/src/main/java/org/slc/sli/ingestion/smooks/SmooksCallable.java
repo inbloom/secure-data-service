@@ -89,13 +89,13 @@ public class SmooksCallable implements Callable<Boolean> {
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
-                
+
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
         ErrorReport errorReport = fe.getErrorReport();
 
         // actually do the processing
         processFileEntry(fe, errorReport, fileProcessStatus);
-        
+
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
@@ -172,14 +172,12 @@ public class SmooksCallable implements Callable<Boolean> {
 
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
-                                    
+
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
-            fileProcessStatus.setDuplicateCounts(duplicateCounts);                       
+            fileProcessStatus.setDuplicateCounts(duplicateCounts);
 
             LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
-
-            newBatchJob.setDuplicateCount(ingestionFileEntry.getFileName().replace('.', '|'), visitAfter.getDuplicateCount());
 
         } catch (Exception e) {
             LOG.error("Error accessing visitor list in smooks", e);

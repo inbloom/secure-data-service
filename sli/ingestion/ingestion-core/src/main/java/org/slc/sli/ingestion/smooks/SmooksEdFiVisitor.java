@@ -78,10 +78,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private BatchJobDAO batchJobDAO;
 
-
-    private int duplicateCount;
-
-
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     /**
@@ -95,15 +91,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    /**
-     * Get the number of records not ingested because they were already present.
-     *
-     * @return Final number of duplicates skipped
-     */
-    public int getDuplicateCount() {
-        return duplicateCount;
-    }
-
     private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
@@ -112,7 +99,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
-        this.duplicateCount = 0;
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
@@ -133,10 +119,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
                 LOG.info("RECORD IS INGESTED BEFORE");
-                duplicateCount += 1;
                 String type = neutralRecord.getRecordType();
-                Long count = duplicateCounts.containsKey(type)?duplicateCounts.get(type):new Long(0);                
-                duplicateCounts.put(type, new Long(count.longValue() + 1) );               
+                Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
+                duplicateCounts.put(type, new Long(count.longValue() + 1));
             }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
@@ -276,13 +261,13 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     }
 
-	public Map<String, Long> getDuplicateCounts() {
-		return duplicateCounts;
-	}
+    public Map<String, Long> getDuplicateCounts() {
+        return duplicateCounts;
+    }
 
-	public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
-		this.duplicateCounts = duplicateCounts;
-	}
-    
-    
+    public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+        this.duplicateCounts = duplicateCounts;
+    }
+
+
 }

@@ -204,8 +204,6 @@ public class JobReportingProcessor implements Processor {
 
             writeBatchJobProperties(job, jobReportWriter);
 
-            writeDuplicateLine(job, jobReportWriter);
-
             writeDuplicates(job, jobReportWriter);
             if (!hasErrors) {
                 writeInfoLine(jobReportWriter, "All records processed successfully.");
@@ -229,14 +227,6 @@ public class JobReportingProcessor implements Processor {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
             cleanupWriterAndLocks(jobReportWriter, lock, channel);
-        }
-    }
-
-    private void writeDuplicateLine(NewBatchJob job, PrintWriter jobReportWriter) {
-        if (job.getDuplicateCountMap() != null) {
-            for (Entry<String, Integer> entry : job.getDuplicateCountMap().entrySet()) {
-                writeInfoLine(jobReportWriter, "[duplicates] " + entry.getKey().replace('|', '.') + ": " + entry.getValue());
-            }
         }
     }
 
@@ -363,21 +353,21 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-    	List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);        
-    	if(edfiMetrics != null){
-    		for(Metrics metric:edfiMetrics) {
-    			Map<String, Long> duplicates = metric.getDuplicateCounts();
-    			String resource = metric.getResourceId();
-    			for(String entity: duplicates.keySet()) {
-    				Long count = duplicates.get(entity);
-    						if(count > 0) {
-    							writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
-    						}
-    			}
-    		}
-    	}
+        List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
+        if(edfiMetrics != null){
+            for(Metrics metric:edfiMetrics) {
+                Map<String, Long> duplicates = metric.getDuplicateCounts();
+                String resource = metric.getResourceId();
+                for(String entity: duplicates.keySet()) {
+                    Long count = duplicates.get(entity);
+                            if(count > 0) {
+                                writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                            }
+                }
+            }
+        }
     }
-        
+
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
