@@ -83,6 +83,8 @@ default:
         # Elasticsearch config
         sli.search.host: localhost
         sli.search.port: 9200
+        sli.search.username: search
+        sli.search.password: search1234
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
