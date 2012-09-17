@@ -69,7 +69,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "An entity is missing one or more required natural keys" in the resulting error log file
+  And I should see "An entity is missing one or more required natural key fields" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   2" in the resulting error log file
   And I should see "     Field      studentUniqueStateId" in the resulting error log file
