@@ -36,6 +36,13 @@ public class TenantAwareCallAspectTests {
         tenantCall("MyTenant");
 
         systemCall();
+
+        tenantCall2(null, "MyTenant");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testBadTenantCall() {
+        badTenantCall("MyTenant");
     }
 
     @TenantCall(param = "tenantId")
@@ -44,6 +51,16 @@ public class TenantAwareCallAspectTests {
 
         systemCall();
 
+        Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
+    }
+
+    @TenantCall(param = "tenantId")
+    private void tenantCall2(Object someValue, String tenantId) {
+        Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
+    }
+
+    @TenantCall(param = "myTenant")
+    private void badTenantCall(String tenantId) {
         Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
     }
 
