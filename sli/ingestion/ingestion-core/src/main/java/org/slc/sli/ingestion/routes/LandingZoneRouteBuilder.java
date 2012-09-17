@@ -88,7 +88,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
             + "&delete=true"
-            + "&readLock=changed&readLockCheckInterval=1000")
+            + "&readLock=changed&readLockCheckInterval=2000")
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
@@ -100,10 +100,11 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             // routeId: zipFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension()
-            + "$&exclude=\\.in\\.*&preMove="
-                            + inboundDir + "/.done&moveFailed=" + inboundDir
-                            + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=1000&readLockTimeout=360000" + "&delete=true")
+            + "$&exclude=\\.in\\.*"
+//            + "&preMove="
+//                            + inboundDir + "/.done&moveFailed=" + inboundDir
+//                            + "/.error"
+                            + "&readLock=changed&readLockCheckInterval=2000&readLockTimeout=600000" + "&delete=true")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                     .process(zipFileProcessor)

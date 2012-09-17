@@ -19,6 +19,8 @@ package org.slc.sli.ingestion.util;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,6 +31,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FileUtils {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      * Get or create a sub-directory withing the provided parent directory
@@ -77,15 +81,21 @@ public class FileUtils {
         long prevLastModified = Long.MIN_VALUE;
         long prevLength = Long.MIN_VALUE;
 
+        LOG.info("File monitored for change is " + changingFile.getAbsolutePath());
+
         while (System.currentTimeMillis() < clockTimeout) {
             long newLastModified = changingFile.lastModified();
             long newLength = changingFile.length();
 
             Thread.sleep(interval);
 
+            LOG.info("prevLength " + prevLength + ", newLength " + newLength);
+
             if (prevLastModified == newLastModified && prevLength == newLength) {
                 return true;
             }
+
+            LOG.info(changingFile.getName() + " modification detected - waiting to process...");
 
             prevLastModified = newLastModified;
             prevLength = newLength;

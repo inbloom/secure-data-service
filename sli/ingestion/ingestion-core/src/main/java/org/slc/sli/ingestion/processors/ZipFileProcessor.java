@@ -74,7 +74,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
     @Value("${sli.ingestion.zipfile.timeout:3600000}")
     private int zipfileCompletionTimeout;
 
-    // 1 sec
+    // 2 sec
     @Value("${sli.ingestion.zipfile.pollinterval:2000}")
     private int zipfileCompletionPollInterval;
 
@@ -113,7 +113,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             FaultsReport errorReport = new FaultsReport();
 
-            waitForZipfile(zipFile);  // DE1618 gluster does not atomic move so we need to check for file size changes
+//            waitForZipfile(zipFile);  // DE1618 gluster does not atomic move so we need to check for file size changes
 
             File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 

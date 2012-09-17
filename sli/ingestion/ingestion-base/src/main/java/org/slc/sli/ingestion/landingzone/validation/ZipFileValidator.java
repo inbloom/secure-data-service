@@ -26,6 +26,9 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
@@ -38,6 +41,16 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  */
 public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ZipFileValidator.class);
+
+    // 10 min default
+    @Value("${sli.ingestion.zipfile.timeout:600000}")
+    private int zipfileCompletionTimeout;
+
+    // 2 sec default
+    @Value("${sli.ingestion.zipfile.retryinterval:2000}")
+    private int zipfileCompletionPollInterval;
+
     @Override
     public boolean isValid(File zipFile, ErrorReport callback) {
 
@@ -46,41 +59,70 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
         boolean isValid = false;
 
-        try {
-            fis = new FileInputStream(zipFile);
-            zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
+        boolean done = false;
+        long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
 
-            ArchiveEntry ze;
+        LOG.info("Validating " + zipFile.getAbsolutePath());
 
-            while ((ze = zis.getNextEntry()) != null) {
+        while (!done) {
 
-                if (isDirectory(ze)) {
-                    fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
+            try {
+                fis = new FileInputStream(zipFile);
+                zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
+                LOG.info("Checking " + zipFile.getAbsolutePath() + " entries.");
+
+                ArchiveEntry ze;
+
+                while ((ze = zis.getNextEntry()) != null) {
+                    LOG.info("Examining " + ze.getName());
+
+                    if (isDirectory(ze)) {
+                        fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
+                        return false;
+                    }
+
+                    if (ze.getName().endsWith(".ctl")) {
+                        isValid = true;
+                    }
+                }
+
+                // no manifest (.ctl file) found in the zip file
+                if (!isValid) {
+                    fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
+                }
+
+                done = true;
+                LOG.info("Done validating " + zipFile.getAbsolutePath());
+
+            } catch (UnsupportedZipFeatureException ex) {
+                // Unsupported compression method
+                fail(callback, getFailureMessage("SL_ERR_MSG18", zipFile.getName()));
+                done = true;
+                return false;
+
+            } catch (IOException ex) {
+                LOG.info("Caught IO exception processing " + zipFile.getAbsolutePath());
+                ex.printStackTrace();
+                if (System.currentTimeMillis() >= clockTimeout) {
+                    // error reading zip file
+                    fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                    done = true;
                     return false;
+                } else {
+                    try {
+                        LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move.");
+                        Thread.sleep(zipfileCompletionPollInterval);
+                    } catch (InterruptedException e) {
+                        // Restore the interrupted status
+                        Thread.currentThread().interrupt();
+                    }
                 }
-
-                if (ze.getName().endsWith(".ctl")) {
-                    isValid = true;
-                }
+            } finally {
+               IOUtils.closeQuietly(zis);
+                IOUtils.closeQuietly(fis);
             }
-
-            // no manifest (.ctl file) found in the zip file
-            if (!isValid) {
-                fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
-            }
-        } catch (UnsupportedZipFeatureException ex) {
-            // Unsupported compression method
-            fail(callback, getFailureMessage("SL_ERR_MSG18", zipFile.getName()));
-            return false;
-
-        } catch (IOException ex) {
-            // error reading zip file
-            fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
-            return false;
-        } finally {
-            IOUtils.closeQuietly(zis);
-            IOUtils.closeQuietly(fis);
         }
+
         return isValid;
     }
 
