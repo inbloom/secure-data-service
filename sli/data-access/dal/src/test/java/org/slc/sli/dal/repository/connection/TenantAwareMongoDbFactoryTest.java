@@ -16,16 +16,13 @@
 
 package org.slc.sli.dal.repository.connection;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
+
+import com.mongodb.DB;
+import com.mongodb.Mongo;
 
 /**
  * @author okrook
