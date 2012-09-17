@@ -27,8 +27,6 @@ import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -65,7 +63,6 @@ import org.springframework.dao.DuplicateKeyException;
  * 
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
-    private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
     
     public static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
     
@@ -232,8 +229,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, field));
                     } catch (Exception e) {
-                    String errorMessage = "Issue finding key field: " + field + " for entity of type: "
-                            + entity.getType() + "\n";
+                        String errorMessage = "Issue finding key field: " + field + " for entity of type: "
+                                + entity.getType() + "\n";
                         errorReport.error(errorMessage, this);
                     }
                     
