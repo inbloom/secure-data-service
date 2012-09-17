@@ -21,7 +21,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -50,7 +52,15 @@ public class StandardJavaStreamWriterTest {
         jsw.beginClass("TestClass", new ArrayList<String>() {{ add("Interface1"); add("Interface2"); }});
         jsw.endClass();
         String str = jsw.read();
-        assertTrue(str.equals("public final class TestClass implements Interface1, Interface2{}"));
+        assertTrue(str.equals("public class TestClass implements Interface1, Interface2{}"));
+    }
+
+    @Test
+    public void testClassWithExtendsAndImplements() throws IOException {
+        jsw.beginClass("TestClass", Arrays.asList("Interface1", "Interface2"), "BaseClass");
+        jsw.endClass();
+        String str = jsw.read();
+        assertEquals(str, "public class TestClass extends BaseClass implements Interface1, Interface2{}");
     }
 
     @Test
@@ -58,7 +68,7 @@ public class StandardJavaStreamWriterTest {
         jsw.beginClass("TestClass", "ParentClass");
         jsw.endClass();
         String str = jsw.read();
-        assertTrue(str.equals("public final class TestClass extends ParentClass{}"));
+        assertTrue(str.equals("public class TestClass extends ParentClass{}"));
     }
 
     @Test

@@ -331,7 +331,18 @@ public final class Level3ClientPojoGenerator {
                 JavadocHelper.writeJavadoc(classType, model, jsw);
                 final List<String> implementations = new ArrayList<String>(1);
                 implementations.add("Mappable");
-                jsw.beginClass(classType.getName(), implementations);
+                final List<Generalization> generalizations = model.getGeneralizationBase(classType.getId());
+                if (generalizations != null) {
+                    if (generalizations.size() == 1) {
+                        jsw.beginClass(classType.getName(), implementations,
+                                model.getType(generalizations.get(0).getParent()).getName());
+                    } else if (generalizations.size() == 0) {
+                        jsw.beginClass(classType.getName(), implementations);
+                    } else {
+                        throw new AssertionError("Multiple inheritance for entity : " + classType.getName());
+                    }
+                }
+
                 try {
                     // Fields
                     jsw.writeAttribute(FIELD_UNDERLYING);
