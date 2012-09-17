@@ -23,7 +23,7 @@
     </div>
     <div class="controls">
       <% if is_password_field %>
-          <%= f.password_field password_field, :tabindex => tab_index %>
+          <%= f.password_field password_field, :tabindex => tab_index, :autocomplete => 'off' %>
       <% else %>
           <% if required %>
               <%= f.text_field field, :tabindex => tab_index %>

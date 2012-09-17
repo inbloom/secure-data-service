@@ -29,7 +29,7 @@ import org.slc.sli.shtick.pojo.Student;
 
 public class StandardLevel3ClientManualTest {
 
-    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private static final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
 

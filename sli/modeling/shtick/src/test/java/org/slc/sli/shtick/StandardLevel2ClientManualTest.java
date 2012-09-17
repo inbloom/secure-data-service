@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -24,7 +25,7 @@ import org.junit.Test;
 public class StandardLevel2ClientManualTest {
     private Level2ClientManual client; // class under test
 
-    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private static final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     @Before
@@ -33,6 +34,7 @@ public class StandardLevel2ClientManualTest {
     }
 
     @Test
+    @Ignore("testing changing a natural key!")
     public void testCRUD() {
         try {
             // POST
