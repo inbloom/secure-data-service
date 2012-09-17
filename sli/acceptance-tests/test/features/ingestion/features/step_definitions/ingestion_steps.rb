@@ -47,6 +47,8 @@ INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
+INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -650,7 +652,6 @@ end
 
 
 Given /^I should see the number of errors in error log is no more than the error count limitation (\d+)$/ do |count|
-   puts "shan"
    verifyErrorCount(count)
 end
 
@@ -914,6 +915,12 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+end
+
+Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + logfile
+    fileExist = File.exist? completeFileName
+    assert(fileExist == true, logfile + 'missing')
 end
 
 ############################################################
@@ -1853,6 +1860,20 @@ Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
   @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
   @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
   @tenantColl.save(@newTenant)
+end
+
+Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|
+    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
+    found = false
+    File.open(completeFileName, "r") do |infile|
+        while (line = infile.gets)
+            if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
+                found = true
+                break
+            end
+        end
+    end
+    assert(found == true, "content not found")
 end
 
 ############################################################
