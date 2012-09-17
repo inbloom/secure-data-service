@@ -264,7 +264,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private NeutralRecord createAttendanceRecordPlaceholder(String studentId, String schoolId,
             Map<Object, NeutralRecord> sessions) {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
+        record.setRecordId(type1UUIDGeneratorStrategy.deterministicUUID().toString());
         record.setRecordType(ATTENDANCE_TRANSFORMED);
         record.setBatchJobId(getBatchJobId());
 

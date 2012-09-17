@@ -16,17 +16,18 @@
 
 package org.slc.sli.common.util.uuid;
 
+import java.util.Map;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 
 /**
  * Generates a UUID, provides a consistent strategy for _id fields in Mongo
- * 
+ *
  * @author smelody
- * 
+ *
  */
 public interface UUIDGeneratorStrategy {
-    
-    public String generateId();
-    
-    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor);
+
+    public String deterministicUUID();
+
+    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor);
 }

@@ -41,12 +41,12 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 1 random UUID.
      */
     @Override
-    public String generateId() {
+    public String deterministicUUID() {
         return generator.generate().toString();
     }
 
     @Override
-    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return generateId();
+    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
+        return deterministicUUID();
     }
 }

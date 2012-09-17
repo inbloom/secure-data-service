@@ -21,7 +21,7 @@ public class DeterministicUUIDGeneratorStrategyTest {
 	@Test
 	public void testDeterministicUUID() {
 		DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy = new DeterministicUUIDGeneratorStrategy();
-        String uuid = deterministicUUIDGeneratorStrategy.generateId();
+        String uuid = deterministicUUIDGeneratorStrategy.deterministicUUID();
         assertNotNull(uuid);
         assertEquals('1', uuid.charAt(22)); //make sure we generated a type1 uuid
         assertEquals(43, uuid.length()); // 7 chars for 'yyyyrr-', 36 chars for type 1 uuid
@@ -38,7 +38,7 @@ public class DeterministicUUIDGeneratorStrategyTest {
     	naturalKeyDescriptor.setNaturalKeys(hashMap);
     	naturalKeyDescriptor.setEntityType("testEntityType");
     	naturalKeyDescriptor.setTenantId("testTenantId");
-    	String deterministicId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+    	String deterministicId = deterministicUUIDGeneratorStrategy.deterministicUUID(naturalKeyDescriptor);
 
     	assertEquals("deterministicId should be of length 36", 36, deterministicId.length());
     	assertEquals("deterministicId should be a hashId of f00d8b97-cf30-613a-d853-cbf981acf978", "f00d8b97-cf30-613a-d853-cbf981acf978", deterministicId);

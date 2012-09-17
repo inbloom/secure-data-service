@@ -44,7 +44,7 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a shardable type 1 random UUID .
      */
     @Override
-    public String generateId() {
+    public String deterministicUUID() {
         StringBuilder builder = new StringBuilder();
         char c1 = (char) (r.nextInt(26) + 'a');
         char c2 = (char) (r.nextInt(26) + 'a');
@@ -58,7 +58,7 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     }
 
     @Override
-    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return generateId();
+    public String deterministicUUID(NaturalKeyDescriptor naturalKeyDescriptor) {
+        return deterministicUUID();
     }
 }
