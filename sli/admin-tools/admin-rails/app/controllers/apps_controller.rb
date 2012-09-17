@@ -120,15 +120,15 @@ class AppsController < ApplicationController
     params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
-    # Want to read the created_by on the @app, which is stamped during the created.
-    # Tried @app.reload and it didn't work
-    creator_email = session[:email]
-    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
-    params[:app][:vendor] = dev_info[:vendor] || "Unknown"
 
     logger.debug {params[:app].inspect}
 
     @app = App.new(params[:app])
+    # Want to read the created_by on the @app, which is stamped during the created.
+    # Tried @app.reload and it didn't work
+    creator_email = session[:email]
+    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
     logger.debug{"Application is valid? #{@app.valid?}"}
