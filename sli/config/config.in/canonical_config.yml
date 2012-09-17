@@ -81,8 +81,7 @@ default:
         sli.batchjobmongodb.connections: 20
 
         # Elasticsearch config
-        sli.search.host: localhost
-        sli.search.port: 9200
+        sli.search.url : localhost:9200
         sli.search.username: user
         sli.search.password: searchme
 

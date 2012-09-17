@@ -98,6 +98,7 @@ public class ESRepository extends SimpleEntityRepository {
         }
         return response;
     }
+    
 
     /**
      * Converter SLI to/from ES
@@ -221,6 +222,17 @@ public class ESRepository extends SimpleEntityRepository {
     public void setSearchTemplate(RestTemplate searchTemplate) {
         this.searchTemplate = searchTemplate;
     }
+
+    @Autowired
+    public void setEsUsername(String esUsername) {
+        this.esUsername = esUsername;
+    }
+
+    @Autowired
+    public void setEsPassword(String esPassword) {
+        this.esPassword = esPassword;
+    }
+
 
     /**
      * Simple adapter for SearchHits to Entity
