@@ -60,7 +60,7 @@ public class StudentAssessmentEntityTest {
         checkValidStudentAssessmentNeutralRecord(neutralRecord);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("rawtypes")
     private void checkValidStudentAssessmentNeutralRecord(
             NeutralRecord studentAssessmentNeutralRecord) {
 
@@ -106,8 +106,8 @@ public class StudentAssessmentEntityTest {
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevelDescriptorTypeList.get(0), "codeValue", "KYn6axx9pJEX");
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevelDescriptorTypeList.get(1), "description", "bn");
 
-        Assert.assertEquals("Yjmyw", ((Map<String, Object>) ((Map<String, Object>) studentAssessmentNeutralRecord
-                .getAttributes().get("StudentReference")).get("StudentIdentity")).get("StudentUniqueStateId"));
+        assertEquals("Yjmyw", studentAssessmentNeutralRecord
+                .getAttributes().get("studentId"));
 
     }
 }
