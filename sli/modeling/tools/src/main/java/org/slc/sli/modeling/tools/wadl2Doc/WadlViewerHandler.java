@@ -7,7 +7,6 @@ import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
-import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.Representation;
 import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
@@ -70,7 +69,8 @@ public final class WadlViewerHandler implements WadlHandler {
         // Perhaps modify this method to generate a different naming scheme?
         final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
 
-        final Request request = method.getRequest();
+        @SuppressWarnings("unused")
+		final Request request = method.getRequest();
 //        for (@SuppressWarnings("unused")
 //        final Param param : request.getParams()) {
 //

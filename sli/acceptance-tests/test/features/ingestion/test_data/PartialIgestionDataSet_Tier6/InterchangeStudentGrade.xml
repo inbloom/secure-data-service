@@ -1,0 +1,1566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+	<!-- learning objectives for kindergartners -->
+	<!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
+	<StudentCompetency id="SC-GR3-800000025-1">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-1</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
+		<!--StudentCompetencyObjectiveReference>
+		<StudentCompetencyObjectiveIdentity>
+		  <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+		</StudentCompetencyObjectiveIdentity>
+	  </StudentCompetencyObjectiveReference-->
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-2">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-2</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
+		<!-- StudentCompetencyObjectiveReference>
+		<StudentCompetencyObjectiveIdentity>
+		  <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
+		</StudentCompetencyObjectiveIdentity>
+	  </StudentCompetencyObjectiveReference-->
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-3">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-3</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-4">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-4</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-5">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-5</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-6">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-6</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-7">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-7</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-8">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-8</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-9">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-9</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-10">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-10</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-11">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-11</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-12">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-12</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-13">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-13</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-14">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-14</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-15">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-15</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-16">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-16</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-17">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-17</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-18">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-18</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-19">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-19</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-20">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-20</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-21">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-21</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-22">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-22</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-23">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-23</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-24">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-24</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-25">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-25</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-26">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-26</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-GR3-800000025-27">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-G3-27</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<Grade id="GR-GR3-800000025-1">
+		<LetterGradeEarned>B</LetterGradeEarned>
+		<GradeType>Mid-Term Grade</GradeType>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Grade>
+	<Grade id="GR-GR3-800000025-2">
+		<LetterGradeEarned>B+</LetterGradeEarned>
+		<GradeType>Final</GradeType>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>800000025</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Grade>
+	<ReportCard>
+		<GradeReference ref="GR-GR3-800000025-1"/>
+		<GradeReference ref="GR-GR3-800000025-2"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-1"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-2"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-3"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-4"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-5"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-6"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-7"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-8"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-9"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-10"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-11"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-12"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-13"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-14"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-15"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-16"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-17"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-18"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-19"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-20"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-21"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-22"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-23"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-24"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-25"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-26"/>
+		<StudentCompetencyReference ref="SC-GR3-800000025-27"/>
+		<GPAGivenGradingPeriod>2.8</GPAGivenGradingPeriod>
+		<GPACumulative>2.7</GPACumulative>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>800000025</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<!-- id does not exist in this file-->
+		<!-- GradingPeriodReference ref="GRDP_20070527"/-->
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>End of Year</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</ReportCard>
+	<!-- grading history for Mi-Ha Tran. Refers to grades already earned in kindergarten. -->
+	<StudentCompetency id="SC-100000017-1">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-1</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-2">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-2</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-3">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-3</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-4">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-4</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-5">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-5</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-6">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-6</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-7">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-7</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-8">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-8</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-9">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-9</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-10">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-10</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-11">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-11</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-12">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-12</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-13">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-13</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-14">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-14</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-15">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-15</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-16">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-16</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-17">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-17</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-18">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-18</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-19">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-19</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-20">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-20</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-21">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-21</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-22">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-22</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-23">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-23</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-24">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-24</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-25">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-25</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-26">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-26</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-27">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-27</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-28">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-28</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>4</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-29">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-29</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-30">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-30</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-31">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-31</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>3</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<StudentCompetency id="SC-100000017-32">
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>LO-GK-32</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<CompetencyLevel>
+			<CodeValue>2</CodeValue>
+		</CompetencyLevel>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+	</StudentCompetency>
+	<Grade id="GR-GRK-100000017-1">
+		<LetterGradeEarned>B-</LetterGradeEarned>
+		<GradeType>Mid-Term Grade</GradeType>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Grade>
+	<Grade id="GR-GRK-100000017-2">
+		<LetterGradeEarned>B</LetterGradeEarned>
+		<GradeType>Final</GradeType>
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentIdentity>
+					<StudentUniqueStateId>100000017</StudentUniqueStateId>
+				</StudentIdentity>
+				<SectionIdentity>
+					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</SectionIdentity>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Grade>
+	<ReportCard id="RC-GK-100000017-1">
+		<GradeReference ref="GR-GRK-100000017-1"/>
+		<GradeReference ref="GR-GRK-100000017-2"/>
+		<StudentCompetencyReference ref="SC-100000017-1"/>
+		<StudentCompetencyReference ref="SC-100000017-2"/>
+		<StudentCompetencyReference ref="SC-100000017-3"/>
+		<StudentCompetencyReference ref="SC-100000017-4"/>
+		<StudentCompetencyReference ref="SC-100000017-5"/>
+		<StudentCompetencyReference ref="SC-100000017-6"/>
+		<StudentCompetencyReference ref="SC-100000017-7"/>
+		<StudentCompetencyReference ref="SC-100000017-8"/>
+		<StudentCompetencyReference ref="SC-100000017-9"/>
+		<StudentCompetencyReference ref="SC-100000017-10"/>
+		<StudentCompetencyReference ref="SC-100000017-11"/>
+		<StudentCompetencyReference ref="SC-100000017-12"/>
+		<StudentCompetencyReference ref="SC-100000017-13"/>
+		<StudentCompetencyReference ref="SC-100000017-14"/>
+		<StudentCompetencyReference ref="SC-100000017-15"/>
+		<StudentCompetencyReference ref="SC-100000017-16"/>
+		<StudentCompetencyReference ref="SC-100000017-17"/>
+		<StudentCompetencyReference ref="SC-100000017-18"/>
+		<StudentCompetencyReference ref="SC-100000017-19"/>
+		<StudentCompetencyReference ref="SC-100000017-20"/>
+		<StudentCompetencyReference ref="SC-100000017-21"/>
+		<StudentCompetencyReference ref="SC-100000017-22"/>
+		<StudentCompetencyReference ref="SC-100000017-23"/>
+		<StudentCompetencyReference ref="SC-100000017-24"/>
+		<StudentCompetencyReference ref="SC-100000017-25"/>
+		<StudentCompetencyReference ref="SC-100000017-26"/>
+		<StudentCompetencyReference ref="SC-100000017-27"/>
+		<StudentCompetencyReference ref="SC-100000017-28"/>
+		<StudentCompetencyReference ref="SC-100000017-29"/>
+		<StudentCompetencyReference ref="SC-100000017-30"/>
+		<StudentCompetencyReference ref="SC-100000017-31"/>
+		<StudentCompetencyReference ref="SC-100000017-32"/>
+		<GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
+		<GPACumulative>2.6</GPACumulative>
+		<NumberOfDaysAbsent>2</NumberOfDaysAbsent>
+		<NumberOfDaysInAttendance>183</NumberOfDaysInAttendance>
+		<NumberOfDaysTardy>2</NumberOfDaysTardy>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000017</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<!-- id does not exist in this file -->
+		<!-- GradingPeriodReference ref="GRDP_20070527"/-->
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>End of Year</GradingPeriod>
+				<SchoolYear>2010-2011</SchoolYear>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</ReportCard>
+</InterchangeStudentGrade>

@@ -7,6 +7,19 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="js/envision.min.js"></script>
+            <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        width : 1200px;
+        height: 1000px;
+        margin: 8px auto;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/envision.min.css" />
     <script type="text/javascript">
 
       var API_URL = 'http://localhost:8080';
@@ -15,6 +28,7 @@
       var DEFAULT_JOB_ID = null;
       
       google.load('visualization', '1', {'packages':['corechart']});
+      google.load('visualization', '1', {packages:['table']});
 
       google.setOnLoadCallback(onLoadCallback);
 
@@ -553,6 +567,226 @@
         };
       }
 
+      function summarizeExecutionStats(jobId) {
+        var job = getJob(jobId);
+        var executionStats = job.executionStats;
+        //counts = {"is" : {insert:#, count:#}, "sli" : {insert:#}}
+        var counts = {}
+        counts["is"] = {};
+        counts["sli"] = {};
+
+        $.each(executionStats, function(host, ns){
+          $.each(ns, function(_ns, rec){
+            var db = _ns.split("#")[0];
+            var op = _ns.split("#")[1];
+            if(!counts[db].hasOwnProperty(op)) {
+              counts[db][op] = 0;
+            }
+            counts[db][op] += rec.left;
+          });
+        });
+
+        //populate the data into DataTable
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Database');
+        data.addColumn('string', 'Operation');
+        data.addColumn('number', 'Count');
+
+        $.each(counts, function(db, val){
+          $.each(val, function(op, val){
+            row = [];
+            row.push(db);
+            row.push(op);
+            row.push(val);
+            data.addRow(row);
+          });
+        });
+
+        drawTable(data);
+        return counts;
+      }
+
+
+      function drawTable(data) {
+
+        var chartOptions = {
+          width : 600,
+          height: 400,
+          backgroundColor: 'white',
+          showRowNumber: true
+        };
+
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, chartOptions);
+      }
+
+      function getExecutionStats (jobId) {
+        var job = getJob(jobId);
+        var executionStats = job.executionStats;
+        var time = [],
+            y = [];
+
+        var count = 0;
+        $.each(executionStats, function(host, ns){
+          $.each(ns, function(_ns, rec){
+            time.push(count);
+            count += 5;
+            y.push(rec.left);
+          });
+        });
+
+        var data = [
+          [time, y]
+        ];
+
+        return data;
+      }
+
+      function testEnvision(jobId){
+        var testData = getExecutionStats(jobId);
+        var
+          container = document.getElementById('graph'),
+          x = [],
+          y1 = [],
+          y2 = [],
+          data, options, i;
+
+        // Data Format:
+        data = [
+          [x, y1], // First Series
+          [x, y2]  // Second Series
+        ];
+
+        opData = [
+          [x, y1], // First Series
+        ];
+
+        // Sample the sine function for data
+        var range = 1000;
+        for (i = 0; i < range; i += 1) {
+          x.push(i);
+          y1.push(Math.random()*13%100);
+          y2.push(Math.random()*13%100);
+        }
+          x.push(range);
+          y1.push(Math.random()*13%100);
+          y2.push(Math.random()*13%100);
+        // TimeSeries Template Options
+        options = {
+          // Container to render inside of
+          container : container,
+          // Data for detail (top chart) and summary (bottom chart)
+          data : {
+            detail : data,
+            summary : data
+          }
+        };
+
+        // Configuration for detail:
+        detailOptions = {
+          name : 'detail',
+          data : data,
+          height : 400,
+          // Flotr Configuration
+          config : {
+            yaxis : {
+              min : 0,
+              max : 20,
+              title : 'RPS',
+              autoscale:!0,
+              autoscaleMargin:.05,
+              noTicks:4,
+              showLabels:!0
+            },
+            xaxis : {
+              autoscale:!0,
+              autoscaleMargin:.05,
+              noTicks:4,
+              showLabels:!0
+            },
+            "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
+            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
+          },
+
+        };
+
+        // Configuration for opcount:
+        opCountOptions = {
+          name : 'detail',
+          data : testData,
+          height : 100,
+          // Flotr Configuration
+          config : {
+            yaxis : {
+              min : 0,
+              max : 1000,
+              title : 'OpCounts',
+              autoscale:!0,
+              autoscaleMargin:.05,
+              noTicks:4,
+              showLabels:!0
+            },
+            xaxis : {
+              autoscale:!0,
+              autoscaleMargin:.05,
+              noTicks:4,
+              showLabels:!0
+            },
+            "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
+            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
+          },
+
+        };
+
+        // Configuration for summary:
+        summaryOptions = {
+          name : 'summary',
+          data : testData,
+          height : 100,
+          // Flotr Configuration
+          config : {
+            yaxis : {
+              min : 0,
+              max : 1000
+            },
+            xaxis : {
+              title : 'Time',
+              autoscale:!0,
+              autoscaleMargin:.05,
+              noTicks:4,
+              showLabels:!0
+            },
+            // Enable selection in the x-axis
+            selection : {
+              mode : 'x'
+            }
+          }
+        };
+
+        // Building a custom vis:
+        vis = new envision.Visualization();
+        detail = new envision.Component(detailOptions);
+        opCount = new envision.Component(opCountOptions);
+        summary = new envision.Component(summaryOptions);
+        interaction = new envision.Interaction();
+
+        // Render Visualization
+        vis
+          .add(detail)
+          .add(opCount)
+          .add(summary)
+          .render(container);
+
+        // Wireup Interaction
+        interaction
+          .leader(summary)
+          .follower(opCount)
+          .follower(detail)
+          .add(envision.actions.selection);
+
+      };
+
       function clearJobSpecificDivs() {
         $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
@@ -600,5 +834,7 @@
         <div id="PersistenceProcessor_entity_jobcompare_div"></div>
         <div id="TransformationProcessor_entity_jobcompare_div"></div>
         <div id="job_dist_linechart_div"></div>
+        <div id="table_div"></div>
+        <div id="graph"></dib>
     </body>
 </html>

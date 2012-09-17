@@ -7,15 +7,15 @@
 
 (defn gen-edfi
   [interchange output-file contents]
-  (prn output-file)
+  ; (prn output-file)
   (with-open [out (java.io.OutputStreamWriter. (java.io.FileOutputStream. output-file) "UTF-8")]
     (emit (element interchange {:xmlns "http://ed-fi.org/0100"} contents) out)
   )
 )
 
-(defn gen-student [schoolName id]
-  (element :Student {}
-    (element :StudentUniqueStateId {} (join "-" [schoolName id]))
+(defn gen-student [schoolName studentId]
+  (element :Student {:id (format "%s-%s" schoolName (str studentId))}
+    (element :StudentUniqueStateId {} (format "%s-%s" schoolName (str studentId)))
     (element :Name {}
       (element :FirstName {} (rand-nth ["Nathan" "Gina" "Alan" "Morena" "Adam" "Jewel" "Sean" "Summer" "Ron"]))
       (element :LastSurname {} (rand-nth ["Fillion" "Torres" "Tudyk" "Baccarin" "Baldwin" "Staite" "Maher" "Glau" "Glass"]))
@@ -29,21 +29,62 @@
   )
 )
 
-(defn gen-students [schoolName ids output-file]
+(defn gen-students [schools rng output-file]
   (gen-edfi :InterchangeStudentParent output-file
     (into ()
       [
-        (for [id ids
-          :let [tmp (gen-student schoolName id)]]
-          tmp
+        (for [schoolName schools]
+          (for [id rng
+            :let [tmp (gen-student schoolName id)]
+            ]
+            tmp
+          )
         )
       ]
     )
   )
 )
 
+(defn create-state []
+  (let [tmp (element :StateEducationAgency {:id "NY"}
+    (element :StateOrganizationId {} "NY")
+    (element :NameOfInstitution {} "New York State Board of Education")
+    (element :OrganizationCategories {}
+      (element :OrganizationCategory {} "State Education Agency")
+    )
+    (element :Address {}
+      (element :StreetNumberName {} "123 Street")
+      (element :City {} "Albany")
+      (element :StateAbbreviation {} "NY")
+      (element :PostalCode {} "11011")
+    )
+  )]
+  tmp
+  )
+)
+
+(defn create-district [districtName]
+  (let [tmp (element :LocalEducationAgency {:id districtName}
+    (element :StateOrganizationId {} districtName)
+    (element :NameOfInstitution {} districtName)
+    (element :OrganizationCategories {}
+      (element :OrganizationCategory {} "Local Education Agency")
+    )
+    (element :Address {}
+      (element :StreetNumberName {} "123 Street")
+      (element :City {}  districtName)
+      (element :StateAbbreviation {} "NY")
+      (element :PostalCode {} "11011")
+    )
+    (element :LEACategory {} "Independent")
+    (element :StateEducationAgencyReference {:ref "NY"})
+    )]
+    tmp
+  )
+)
+
 (defn create-school [districtName, schoolName]
-  (let [tmp (element :School {}
+  (let [tmp (element :School {:id schoolName}
     (element :StateOrganizationId {} schoolName)
     (element :EducationOrgIdentificationCode {:IdentificationSystem "School"}
       (element :ID {} schoolName)
@@ -73,64 +114,18 @@
     (element :SchoolCategories {}
       (element :SchoolCategory {} "Elementary School")
     )
-    (element :LocalEducationAgencyReference {}
-      (element :EducationalOrgIdentity {}
-        (element :StateOrganizationId {} districtName)
-      )
-    )
+    (element :LocalEducationAgencyReference {:ref districtName})
   )]
   tmp
-  )
-)
-
-(defn create-state []
-  (let [tmp (element :StateEducationAgency {}
-    (element :StateOrganizationId {} "NY")
-    (element :NameOfInstitution {} "New York State Board of Education")
-    (element :OrganizationCategories {}
-      (element :OrganizationCategory {} "State Education Agency")
-    )
-    (element :Address {}
-      (element :StreetNumberName {} "123 Street")
-      (element :City {} "Albany")
-      (element :StateAbbreviation {} "NY")
-      (element :PostalCode {} "11011")
-    )
-  )]
-  tmp
-  )
-)
-
-(defn create-district [districtName]
-  (let [tmp (element :LocalEducationAgency {}
-    (element :StateOrganizationId {} districtName)
-    (element :NameOfInstitution {} districtName)
-    (element :OrganizationCategories {}
-      (element :OrganizationCategory {} "Local Education Agency")
-    )
-    (element :Address {}
-      (element :StreetNumberName {} "123 Street")
-      (element :City {}  districtName)
-      (element :StateAbbreviation {} "NY")
-      (element :PostalCode {} "11011")
-    )
-    (element :LEACategory {} "Independent")
-    (element :StateEducationAgencyReference {}
-      (element :EducationalOrgIdentity {}
-        (element :StateOrganizationId {} "NY")
-      )
-    )
-    )]
-    tmp
   )
 )
 
 (defn create-courses [districtName]
-  (let [tmp (element :Course {}
+  (let [tmp (element :Course {:id (format "Math007-%s" districtName)}
     (element :CourseTitle {} "Math007")
     (element :NumberOfParts {} "1")
     (element :CourseCode {:IdentificationSystem "CSSC course code"}
-        (element :ID {} "Math007")
+        (element :ID {} (format "Math007-%s" districtName))
     )
     (element :CourseDescription {} "7th grade math")
     (element :EducationOrganizationReference {}
@@ -215,8 +210,7 @@
   (gen-edfi :InterchangeAssessmentMetadata output-file (create-assessment assessmentName))
 )
 
-(defn get-perf-level
-  [score]
+(defn get-perf-level [score]
   (cond
     (> 14 score) "W"
     (> 20 score) "B"
@@ -224,30 +218,31 @@
     (> 33 score) "E")
 )
 
-(defn student-ref [schoolName student]
+(defn student-ref [schoolName studentId]
   (element :StudentReference {}
     (element :StudentIdentity {}
-      (element :StudentUniqueStateId {} (join "-" [schoolName student]))
+      (element :StudentUniqueStateId {} (format "%s-%s" schoolName (str studentId)))
     )
   )
 )
 
-(defn gen-saa [schoolName student assessment date]
+(defn gen-saa [schoolName studentId assessmentName date]
   (let [score (rand-nth (range 6 33))]
-    (element :StudentAssessment {}
+    (element :StudentAssessment {:id (format "SAA-%s-%s-%s" schoolName (str studentId) date)}
       (element :AdministrationDate {} date)
       (element :AdministrationEndDate {} date)
       (element :SerialNumber {} "2")
       (element :ScoreResults {:AssessmentReportingMethod "Scale score"}
-        (element :Result {} (str score)))
-        (element :PerformanceLevels {}
-          (element :CodeValue {} (get-perf-level score))
-        )
-        (student-ref schoolName student)
-        (element :AssessmentReference {}
-          (element :AssessmentIdentity {}
-            (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
-            (element :ID {} assessment)
+        (element :Result {} (str score))
+      )
+      (element :PerformanceLevels {}
+        (element :CodeValue {} (get-perf-level score))
+      )
+      (student-ref schoolName studentId)
+      (element :AssessmentReference {}
+        (element :AssessmentIdentity {}
+          (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
+            (element :ID {} assessmentName)
           )
         )
       )
@@ -256,18 +251,20 @@
 )
 
 (defn gen-saas
-  [schoolName students assessment n output-file]
+  [districtName schools students assessment n output-file]
   (gen-edfi :InterchangeStudentAssessment output-file
-    (for [studentName students, i (range 1 n)]
-      (gen-saa schoolName studentName assessment (str "2011-10-" (format "%02d" i)))
+    (for [schoolName schools]
+      (for [studentId students, i (range 1 n)]
+        (gen-saa schoolName studentId assessment (str "2011-10-" (format "%02d" i)))
+      )
     )
   )
 )
 
 (defn gen-enroll
-  [schoolName student]
+  [schoolName studentId]
   (element :StudentSchoolAssociation {}
-    (student-ref schoolName student)
+    (student-ref schoolName studentId)
     (element :SchoolReference {}
       (element :EducationalOrgIdentity {}
         (element :StateOrganizationId {} schoolName)
@@ -279,40 +276,45 @@
 )
 
 (defn gen-section-assoc
-  [districtName schoolName studentName sectionName]
+  [schoolName studentId]
   (element :StudentSectionAssociation {}
-    (student-ref schoolName studentName)
+    (student-ref schoolName studentId)
     (element :SectionReference {}
       (element :SectionIdentity {}
-        (element :StateOrganizationId {} districtName)
-        (element :UniqueSectionCode {} sectionName)
+        (element :StateOrganizationId {} schoolName)
+        (element :UniqueSectionCode {}  (format "%s-Math-7-2011-Sec2" schoolName))
+      )
+    )
+    (element :BeginDate {} "2011-09-06")
+    (element :EndDate {} "2011-12-16")
+  )
+)
+
+(defn enroll [schoolName studentId]
+  (into () [
+    (gen-enroll schoolName studentId)
+    (gen-section-assoc schoolName studentId) ]
+  )
+)
+
+(defn gen-enrollments [schools rng output-file]
+  (gen-edfi :InterchangeStudentEnrollment output-file
+    (for [schoolName schools]
+      (for [id rng]
+        (enroll schoolName id)
       )
     )
   )
 )
 
-(defn enroll [districtName schoolName studentName]
-  (gen-enroll schoolName studentName)
-  (gen-section-assoc districtName schoolName studentName "Math-7-2011-Sec2")
-)
-
-(defn gen-enrollments
-  [districtName schoolName students section output-file]
-  (gen-edfi :InterchangeStudentEnrollment output-file
-    (for [studentName students]
-      (enroll districtName schoolName studentName)
-    )
-  )
-)
-
-(defn create-session [districtName]
+(defn create-session [districtName schoolName]
   (into () [
-    (element :CalendarDate {:id "tmp_day" }
+    (element :CalendarDate {:id (format "%s-%s-day" districtName schoolName) }
       (element :Date {} "2011-09-22")
       (element :CalendarEvent {} "Instructional day")
     )
 
-    (element :GradingPeriod {:id "GP1"}
+    (element :GradingPeriod {:id (format "%s-%s-GP1" districtName schoolName)}
       (element :GradingPeriodIdentity {}
         (element :GradingPeriod {} "End of Year")
         (element :SchoolYear {} "2011-2012")
@@ -322,11 +324,11 @@
       (element :BeginDate {} "2011-09-01")
       (element :EndDate {} "2011-12-01")
       (element :TotalInstructionalDays {} "90")
-      (element :CalendarDateReference {:ref "tmp_day"})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     )
 
     (element :Session {}
-      (element :SessionName {} (format "%s-Fall-2011" districtName))
+      (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
       (element :SchoolYear {} "2011-2012")
       (element :Term {} "Fall Semester")
       (element :BeginDate {} "2011-09-06")
@@ -334,73 +336,81 @@
       (element :TotalInstructionalDays {} "75")
       (element :EducationOrganizationReference {}
         (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
-      (element :GradingPeriodReference {:ref "GP1"})
+      (element :GradingPeriodReference {:ref (format "%s-%s-GP1" districtName schoolName)})
+      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
     ) ]
   )
 )
 
-(defn gen-session [districtName output-file]
-  (gen-edfi :InterchangeEducationOrgCalendar output-file (reverse (create-session districtName)))
+(defn gen-sessions [districtName schools output-file]
+  (gen-edfi :InterchangeEducationOrgCalendar output-file
+    (for [schoolName schools]
+      (reverse (create-session districtName schoolName))
+    )
+  )
 )
 
-(defn create-section [districtName]
+(defn create-section [districtName schoolName]
   (into () [
     (element :CourseOffering {}
-      (element :LocalCourseCode {} "Math-7")
+      (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
       (element :LocalCourseTitle {} "7th Grade Math")
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :StateOrganizationId {} districtName)
-          (element :SessionName {} (format "%s-Fall-2011" districtName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
       (element :CourseReference {}
         (element :CourseIdentity {}
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} "Math007")
+            (element :ID {} (format "Math007-%s" districtName))
           )
         )
       )
     )
 
     (element :Section {}
-      (element :UniqueSectionCode {} "Math-7-2011-Sec2")
+      (element :UniqueSectionCode {} (format "%s-%s-Math-7-2011-Sec2" districtName schoolName))
       (element :SequenceOfCourse {} "1")
       (element :CourseOfferingReference {}
         (element :CourseOfferingIdentity {}
-          (element :LocalCourseCode {} "Math-7")
+          (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} "Math007")
+            (element :ID {} (format "Math-7-%s" districtName))
           )
           (element :Term {} "Fall Semester")
           (element :SchoolYear {} "2011-2012")
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} districtName)
+          (element :StateOrganizationId {} schoolName)
         )
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-Fall-2011" districtName))
+          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
         )
       )
     ) ]
   )
 )
 
-(defn gen-sections [districtName output-file]
-  (gen-edfi :InterchangeMasterSchedule output-file (reverse (create-section districtName)))
+(defn gen-sections [districtName schools output-file]
+  (gen-edfi :InterchangeMasterSchedule output-file
+    (for [schoolName schools]
+      (reverse (create-section districtName schoolName))
+    )
+  )
 )
 
 
@@ -451,13 +461,12 @@
      "Randolph","Raquette","Ravena","Red-Creek","Red-Hook","Remsen","Remsenburg",
      "Salem","Salmon","Sandy-Creek","Saranac","Saranac-Lake","Saratoga-Springs","Saugerties","Sauquoit-Valley" ] )
 
-(defn gen-district-schools
-  [districtCount schoolsPerDistrict studentsPerSchool]
+(defn gen-district-schools [districtCount schoolsPerDistrict studentsPerSchool]
   ; should distribute this in a more normal distribution
   (for [i (range 1 (+ districtCount 1))
     :let [r (assoc (hash-map) (districts i)
       (for [j (range 1 (+ 1 schoolsPerDistrict))]
-        (format "%s-PS-%s" (districts i) (str j))))]]
+        (format "PS-%s" (str (+ i j)))))]]
    r)
 )
 
@@ -514,26 +523,48 @@
   )
 )
 
+(defn no-op [v]
+  v
+)
+
+(defn make-counter [init-val]
+  (let [c (atom init-val)]
+    {:next #(swap! c inc)
+     :reset #(reset! c init-val)
+     :curr #(swap! c no-op)}
+  )
+)
+
 (defn gen-big-data
   [districtCount schoolCount studentCount]
   (def sectionName "7th Grade Math - Sec 2")
   (def assessmentName "Grade 7 State Math")
-
-  (gen-assessment assessmentName "/tmp/test/A-assessment.xml")
+  (def i (make-counter 0))
+  ;(def i (atom 0))
+  (println
+    (format "Starting assessment data generation: [%d districts %d schools %d students/school]"
+    districtCount schoolCount studentCount)
+  )
+  (println (format "[0/%d districts]" districtCount))
+  (gen-assessment assessmentName "/tmp/test/F-assessment.xml")
+  (def rng (range 1 (+ 1 studentCount)))
   (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
+    (def startTime (System/currentTimeMillis))
     (doseq [ [districtName schools] district]
-      (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))
-      (gen-session districtName (format "/tmp/test/C-%s-calendar.xml" districtName))
-      (gen-sections districtName (format "/tmp/test/D-%s-master-schedule.xml" districtName))
-      (doseq [ schoolName schools ]
-        (def rng (range 1 (+ 1 studentCount)))
-        (gen-students schoolName rng (format "/tmp/test/E-%s-student.xml" schoolName))
-        (gen-enrollments districtName schoolName rng "7th Grade Math - Sec 2" (format "/tmp/test/F-%s-enrollment.xml" schoolName))
-        (gen-saas schoolName rng assessmentName 6 (format "/tmp/test/G-%s-assessment-results.xml" schoolName))
-      )
+      (gen-schools districtName schools (format "/tmp/test/A-%s-schools.xml" districtName))
+      (gen-sessions districtName schools (format "/tmp/test/B-%s-calendar.xml" districtName))
+      (gen-sections districtName schools (format "/tmp/test/C-%s-master-schedule.xml" districtName))
+      (gen-students schools rng (format "/tmp/test/D-%s-student.xml" districtName))
+      (gen-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))
+      (gen-saas districtName schools rng assessmentName 10 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
     )
+    (def endTime (System/currentTimeMillis))
+    (def elapsed (/ (-  endTime startTime) 1000.0))
+    (def remain (* elapsed (- (- districtCount 1) ((i :next)))))
+    (println (format "[%d/%d districts] (%f seconds : %f remaining)"  ((i :curr)) districtCount elapsed (max 0.0 remain)))
   )
   (create-control-file)
+  (println "Assessment data generation complete")
 )
 
 ; 100 students
