@@ -30,6 +30,7 @@ import java.util.UUID;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.bson.BasicBSONObject;
 import org.springframework.context.annotation.Primary;
@@ -436,6 +437,12 @@ public class MockRepo implements Repository<Entity> {
             public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
+
+            @Override
+            public String getStagedEntityId() {
+                // TODO Auto-generated method stub
+                return null;
+            }
         };
 
         update(collectionName, newEntity);
@@ -517,6 +524,12 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public String getStagedEntityId() {
+                // TODO Auto-generated method stub
                 return null;
             }
         };
@@ -624,9 +637,20 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        return null;
+    }
+
+    @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         this.findById(type, id).getBody().putAll(newValues);
-
         return true;
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

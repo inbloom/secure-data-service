@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
@@ -67,15 +70,18 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
 
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = prepareLearningObjectiveLookupMap(learningObjectives);
+        List<NeutralRecord> transformedLearningObjectives = new ArrayList<NeutralRecord>();
 
         for (NeutralRecord parentLO : learningObjectives.values()) {
+            // add to working set for persistence
+            transformedLearningObjectives.add(parentLO);
 
-            flipLearningObjectiveRelDirection(learningObjectiveIdMap, parentLO);
+            flipLearningObjectiveRelDirection(parentLO, learningObjectiveIdMap, transformedLearningObjectives);
 
             moveLearningStdRefsToParentIds(parentLO);
         }
 
-        insertTransformedLearningObjectives(learningObjectives);
+        insertTransformedLearningObjectives(transformedLearningObjectives);
     }
 
     private Map<LearningObjectiveId, NeutralRecord> prepareLearningObjectiveLookupMap(
@@ -102,43 +108,72 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     }
 
     @SuppressWarnings("unchecked")
-    private void flipLearningObjectiveRelDirection(Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap,
-            NeutralRecord parentLO) {
-        String parentObjectiveId = getByPath(LO_ID_CODE_PATH, parentLO.getAttributes());
+    private void flipLearningObjectiveRelDirection(NeutralRecord parentLO,
+            Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap,
+            List<NeutralRecord> transformedLearningObjectives) {
+        String parentObjId = getByPath(LO_ID_CODE_PATH, parentLO.getAttributes());
 
         String parentContentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, parentLO.getAttributes());
-        String parentObjective = getByPath("objective", parentLO.getAttributes());
+        String parentObj = getByPath("objective", parentLO.getAttributes());
         List<Map<String, Object>> childLearningObjRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                 LEARNING_OBJ_REFS);
 
         if (childLearningObjRefs != null) {
             for (Map<String, Object> loRef : childLearningObjRefs) {
-                String objectiveId = getByPath(LO_ID_CODE_PATH, loRef);
+                String objId = getByPath(LO_ID_CODE_PATH, loRef);
                 String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, loRef);
-                LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
-                NeutralRecord childLo = learningObjectiveIdMap.get(loId);
-                if (childLo != null) {
-                    if (childLo.getLocalParentIds() == null) {
-                        childLo.setLocalParentIds(new HashMap<String, Object>());
-                    }
-                    if (!childLo.getLocalParentIds().containsKey(LOCAL_ID_OBJECTIVE_ID)) {
-                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
-                        childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
-                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
-                    } else {
-                        super.getErrorReport(childLo.getSourceFile()).error(
-                                "LearningObjective cannot have multiple parents. IdentificationCode: "
-                                        + loId.objectiveId, this);
-                    }
+
+                LearningObjectiveId loId = new LearningObjectiveId(objId, contentStandard);
+                NeutralRecord childNR = learningObjectiveIdMap.get(loId);
+                if (childNR != null) {
+
+                    setParentObjectiveRef(childNR, parentObjId, parentContentStandard, parentObj, objId);
+
                 } else {
-                    super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve LearningObjectiveReference with IdentificationCode " + objectiveId
-                                    + ", ContentStandardName " + contentStandard, this);
+
+                    // try sli db
+                    NeutralQuery query = new NeutralQuery();
+                    query.addCriteria(new NeutralCriteria("learningObjectiveId.contentStandardName",
+                            NeutralCriteria.OPERATOR_EQUAL, contentStandard));
+                    query.addCriteria(new NeutralCriteria("learningObjectiveId.identificationCode",
+                            NeutralCriteria.OPERATOR_EQUAL, objId));
+
+                    Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
+
+                    if (childEntity != null) {
+                        NeutralRecord childEntityNR = new NeutralRecord();
+                        childEntityNR.setAttributes(childEntity.getBody());
+                        childEntityNR.setRecordType(childEntity.getType());
+                        childEntityNR.setBatchJobId(parentLO.getBatchJobId());
+                        setParentObjectiveRef(childEntityNR, parentObjId, parentContentStandard, parentObj, objId);
+
+                        // add this entity to our NR working set
+                        transformedLearningObjectives.add(childEntityNR);
+                    } else {
+                        super.getErrorReport(parentLO.getSourceFile()).error(
+                                "Could not resolve LearningObjectiveReference with IdentificationCode " + objId
+                                        + ", ContentStandardName " + contentStandard, this);
+                    }
                 }
             }
         }
 
         parentLO.getAttributes().remove(LEARNING_OBJ_REFS);
+    }
+
+    private void setParentObjectiveRef(NeutralRecord childLo, String parentObjectiveId, String parentContentStandard,
+            String parentObjective, String objectiveId) {
+        if (childLo.getLocalParentIds() == null) {
+            childLo.setLocalParentIds(new HashMap<String, Object>());
+        }
+        if (!childLo.getLocalParentIds().containsKey(LOCAL_ID_OBJECTIVE_ID)) {
+            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
+            childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
+            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+        } else {
+            super.getErrorReport(childLo.getSourceFile()).error(
+                    "LearningObjective cannot have multiple parents. IdentificationCode: " + objectiveId, this);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -176,12 +211,10 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         parentLO.getAttributes().put("learningStandards", uuidRefs);
     }
 
-    private void insertTransformedLearningObjectives(Map<Object, NeutralRecord> learningObjectives) {
-        List<NeutralRecord> transformedLearningObjectives = new ArrayList<NeutralRecord>();
-        for (NeutralRecord nr : learningObjectives.values()) {
+    private void insertTransformedLearningObjectives(List<NeutralRecord> transformedLearningObjectives) {
+        for (NeutralRecord nr : transformedLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
             nr.setCreationTime(getWorkNote().getRangeMinimum());
-            transformedLearningObjectives.add(nr);
         }
         insertRecords(transformedLearningObjectives, LEARNING_OBJECTIVE_TRANSFORMED);
     }

@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.wadl;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.slc.sli.modeling.rest.ParamStyle;
 
-public class WadlSyntaxTestCase extends TestCase {
+/**
+ * JUnit test for WadlSyntax class.
+ * 
+ * @author dholmes
+ * 
+ */
+public class WadlSyntaxTestCase {
 
+    @Test(expected = IllegalArgumentException.class)
     public void testDecodeParamStyle() {
 
         assertEquals(5, ParamStyle.values().length);
@@ -40,14 +48,10 @@ public class WadlSyntaxTestCase extends TestCase {
 
         assertNull(WadlSyntax.decodeParamStyle(null));
 
-        try {
-            assertEquals(ParamStyle.TEMPLATE, WadlSyntax.decodeParamStyle("foo"));
-            fail();
-        } catch (final IllegalArgumentException e) {
-            // Expected
-        }
+        assertEquals(ParamStyle.TEMPLATE, WadlSyntax.decodeParamStyle("foo"));
     }
 
+    @Test
     public void testEncodeParamStyle() {
 
         assertEquals(5, ParamStyle.values().length);
@@ -61,6 +65,7 @@ public class WadlSyntaxTestCase extends TestCase {
         assertNull(WadlSyntax.encodeParamStyle(null));
     }
 
+    @Test
     public void testEncodeStringList() {
         final ArrayList<String> mutableList = new ArrayList<String>();
         final List<String> immutableList = Collections.unmodifiableList(mutableList);
@@ -82,6 +87,7 @@ public class WadlSyntaxTestCase extends TestCase {
         assertNull(WadlSyntax.encodeStringList(null));
     }
 
+    @Test
     public void testPrivateConstructor() throws Throwable {
         Constructor<?> constructor = WadlSyntax.class.getDeclaredConstructor((Class<?>[]) null);
         constructor.setAccessible(true);

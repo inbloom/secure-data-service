@@ -17,7 +17,7 @@
 
 package org.slc.sli.modeling.psm;
 
-public final class PsmDocument<TYPE> {
+public class PsmDocument<TYPE> {
     private final TYPE type;
     private final PsmResource graphResourceName;
     private final PsmCollection singularResourceName;

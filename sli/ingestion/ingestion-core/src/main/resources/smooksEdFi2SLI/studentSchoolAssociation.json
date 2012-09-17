@@ -2,29 +2,11 @@
     "keyFields" : ["body.studentId", "body.schoolId", "body.entryDate", "body.entryGradeLevel"],
     "references" :
     [{
-        "fieldPath" : "body.studentId",
-        "ref" :
-        {
-            "entityType" : "student",
-            "choiceOfFields" :
-            [
-                [
-                    {
-                        "path" : "body.studentUniqueStateId",
-                        "values" :
-                        [{
-                            "valueSource" : "body.studentId"
-                        }]
-                    }
-                ]
-            ]
-        }
-    },
-    {
         "fieldPath" : "body.schoolId",
         "ref" :
         {
             "entityType" : "school",
+            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -34,6 +16,26 @@
                         [
                             {"valueSource" : "body.schoolId"}
                         ]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+            "entityType" : "student",
+            "givesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.studentId"
+                        }]
                     }
                 ]
             ]

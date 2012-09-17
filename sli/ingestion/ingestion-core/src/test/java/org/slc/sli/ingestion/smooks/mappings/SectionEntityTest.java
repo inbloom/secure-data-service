@@ -90,6 +90,11 @@ public class SectionEntityTest {
             public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
+
+            @Override
+            public String getStagedEntityId() {
+                return null;
+            }
         };
     }
 

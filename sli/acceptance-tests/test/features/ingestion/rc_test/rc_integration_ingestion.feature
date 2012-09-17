@@ -11,5 +11,5 @@ Given I use the landingzone user name "testuser0.wgen@gmail.com" and password "t
 And I drop the file "SmallSampleDataSet.zip" into the landingzone
 # Should take about 4 minutes 
 And I check for the file "job*.log" every "30" seconds for "300" seconds
-Then the landing zone should contain a file with the message "Processed 4160 records"
-
+Then the landing zone should contain a file with the message "Processed 4148 records"
+And the landing zone should contain a file with the message "All records processed successfully."

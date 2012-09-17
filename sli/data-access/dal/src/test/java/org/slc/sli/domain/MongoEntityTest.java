@@ -33,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 
 /** Tests the Mongo Entity. */
@@ -48,7 +49,8 @@ public class MongoEntityTest {
 
         mockGeneratorStrategy = Mockito.mock(UUIDGeneratorStrategy.class);
 
-        when(mockGeneratorStrategy.randomUUID()).thenReturn(FIXED_UUID);
+        when(mockGeneratorStrategy.generateId()).thenReturn(FIXED_UUID);
+        when(mockGeneratorStrategy.generateId(new NaturalKeyDescriptor(Mockito.anyMap()))).thenReturn(FIXED_UUID);
     }
 
     @Test
