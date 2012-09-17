@@ -17,21 +17,13 @@
 
 package org.slc.sli.dal.repository.connection;
 
-import javax.annotation.Resource;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-
 import org.apache.commons.codec.binary.Hex;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+
+import com.mongodb.DB;
+import com.mongodb.Mongo;
 
 /**
  * @author okrook
@@ -39,9 +31,6 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
  */
 public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
     
-    private static final String tenantCollectionName = "tenant";
-    private static final String tenantDatabaseName = "databaseName";
-
     /**
      * Create an instance of {@link TenantAwareMongoDbFactory} given the {@link Mongo} instance and database name.
      *
