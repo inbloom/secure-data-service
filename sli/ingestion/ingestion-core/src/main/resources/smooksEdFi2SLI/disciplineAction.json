@@ -39,7 +39,7 @@
                         "path" : "body.studentUniqueStateId",
                         "values" :
                         [
-                            {"valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"}
+                            {"valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"}
                         ]
                     }
                 ]
