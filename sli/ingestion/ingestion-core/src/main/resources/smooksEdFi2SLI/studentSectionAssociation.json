@@ -6,6 +6,7 @@
         "ref" :
         {
 	        "entityType" : "section",
+	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [

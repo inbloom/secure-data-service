@@ -1,6 +1,6 @@
 package org.slc.sli.modeling.jgen;
 
-public final class JavaParam {
+public class JavaParam {
 
     private final String name;
     private final JavaType type;

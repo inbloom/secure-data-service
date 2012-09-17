@@ -18,6 +18,7 @@ package org.slc.sli.aggregation.mapreduce.map;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -59,6 +60,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
     static Logger log = Logger.getLogger("ConfigurableMapReduceJob");
 
     static ObjectMapper om = new ObjectMapper();
+    static final String MONGO_HOST = "localhost:27017";
 
     private static String mapCollection;
     private static Map<String, Object> mapFields;
@@ -80,17 +82,16 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
 
     public static JobConf parse(Configuration conf, ConfigSections s) throws IOException {
         JobConf rval = new JobConf(conf);
-
         reduceFunction = s.getMetadata().getFunction();
 
-        parseMapper(rval, s);
-        parseReducer(rval, s);
+        parseMapper(s);
+        parseReducer(s);
         finalizeConfig(rval, s);
 
         return rval;
     }
 
-    protected static void parseMapper(JobConf conf, ConfigSections s) {
+    protected static void parseMapper(ConfigSections s) {
         MapConfig mapConf = s.getMapper();
         if (mapConf != null) {
             mapCollection = mapConf.getCollection();
@@ -100,7 +101,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         }
     }
 
-    public static void parseReducer(JobConf conf, ConfigSections s) {
+    public static void parseReducer(ConfigSections s) {
         ReduceConfig reduceConfig = s.getReduce();
         if (reduceConfig != null) {
             reduceCollection = reduceConfig.getCollection();
@@ -111,12 +112,11 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
 
 
     @SuppressWarnings("rawtypes")
-    protected static JobConf finalizeConfig(JobConf conf, ConfigSections s) throws IOException {
+    protected static JobConf finalizeConfig(JobConf jobConf, ConfigSections s) throws IOException {
 
         Class<? extends Mapper> mapperClass = JobConfiguration.mapper.getMapClass(mapper);
         Class<? extends Reducer> reducerClass = JobConfiguration.function.getReduceClass(reduceFunction);
-        String idField = s.getMapper().getMapIdField();
-
+        Map<String, String> idFields = s.getMapper().getMapIdFields();
 
         // validate we have enough to continue
         boolean valid = true;
@@ -124,8 +124,9 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
             log.severe("Invalid map/reduce configuration detected : no mapper class specified.");
             valid = false;
         }
-        if (idField == null) {
-            log.severe("Invalid map/reduce configuration detected : no map id field specified.");
+        if (idFields == null) {
+            idFields = new HashMap<String, String>();
+            log.severe("Invalid map/reduce configuration detected : no map id fields specified.");
             valid = false;
         }
         if (mapCollection == null) {
@@ -157,12 +158,16 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
             throw new IllegalArgumentException("Invalid mapper specified. Check log for details.");
         }
 
-        JobConf mapperConf = new JobConf(conf);
+        jobConf.set("mapred.output.dir",
+                String.format("%s-%s-%d", s.getMapper().getMapper(), s.getMetadata().getFunction(), System.currentTimeMillis()));
+
+        jobConf.setJobName(s.getMetadata().getDescription() == null ? "M/R Job" : s.getMetadata().getDescription());
+
         // enable speculative execution. Multiple mapper tasks are created for the same split.
         // First one to finish wins; the remaining tasks are terminated.
-        mapperConf.setSpeculativeExecution(true);
-        mapperConf.setUseNewMapper(true);
-        mapperConf.setUseNewReducer(true);
+        jobConf.setSpeculativeExecution(true);
+        jobConf.setUseNewMapper(true);
+        jobConf.setUseNewReducer(true);
 
         /**
          * TODO -- decide if this is required.
@@ -191,28 +196,37 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         }
         */
 
-        MongoConfigUtil.setQuery(mapperConf, new BasicDBObject(mapQuery));
-        MongoConfigUtil.setFields(mapperConf, new BasicDBObject(mapFields));
-        MongoConfigUtil.setInputKey(mapperConf, idField);
-        MongoConfigUtil.setInputURI(mapperConf, "mongodb://localhost:27017/" + mapCollection);
-        MongoConfigUtil.setMapperOutputKey(mapperConf, TenantAndIdEmittableKey.class);
-        MongoConfigUtil.setMapperOutputValue(mapperConf, BSONWritable.class);
-        MongoConfigUtil.setOutputKey(mapperConf, TenantAndIdEmittableKey.class);
-        MongoConfigUtil.setOutputValue(mapperConf, BSONWritable.class);
+        MongoConfigUtil.setQuery(jobConf, new BasicDBObject(mapQuery));
+
+        Map<String, Object> fullFields = new HashMap<String, Object>();
+        for (String f : idFields.values()) {
+            fullFields.put(f, 1);
+        }
+        fullFields.putAll(mapFields);
+
+        MongoConfigUtil.setFields(jobConf, new BasicDBObject(fullFields));
+        MongoConfigUtil.setInputKey(jobConf, idFields.get("id"));
+        MongoConfigUtil.setInputURI(jobConf, "mongodb://" + MONGO_HOST + "/" + mapCollection);
+        MongoConfigUtil.setMapperOutputKey(jobConf, TenantAndIdEmittableKey.class);
+        MongoConfigUtil.setMapperOutputValue(jobConf, BSONWritable.class);
+        MongoConfigUtil.setOutputKey(jobConf, TenantAndIdEmittableKey.class);
+        MongoConfigUtil.setOutputValue(jobConf, BSONWritable.class);
 
         // TODO - this probably should be configurable
-        MongoConfigUtil.setReadSplitsFromSecondary(mapperConf, true);
+        MongoConfigUtil.setReadSplitsFromSecondary(jobConf, true);
 
-        mapperConf.setClass("mapred.input.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
-        mapperConf.setClass("mapred.input.value.class", BSONWritable.class, Object.class);
+        MongoConfigUtil.setSplitSize(jobConf, 1);
 
-        mapperConf.setClass("mapred.output.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
-        mapperConf.setClass("mapred.output.value.class", BSONWritable.class, Object.class);
+        jobConf.setClass("mapred.input.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
+        jobConf.setClass("mapred.input.value.class", BSONWritable.class, Object.class);
 
-        mapperConf.setClass("mapreduce.inputformat.class", MongoTenantAndIdInputFormat.class, MongoInputFormat.class);
-        mapperConf.setClass("mapreduce.outputformat.class", MongoAggFormatter.class, MongoOutputFormat.class);
-        MongoConfigUtil.setInputFormat(mapperConf,  MongoTenantAndIdInputFormat.class);
-        MongoConfigUtil.setOutputFormat(mapperConf, MongoAggFormatter.class);
+        jobConf.setClass("mapred.output.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
+        jobConf.setClass("mapred.output.value.class", BSONWritable.class, Object.class);
+
+        jobConf.setClass("mapreduce.inputformat.class", MongoTenantAndIdInputFormat.class, MongoInputFormat.class);
+        jobConf.setClass("mapreduce.outputformat.class", MongoAggFormatter.class, MongoOutputFormat.class);
+        MongoConfigUtil.setInputFormat(jobConf,  MongoTenantAndIdInputFormat.class);
+        MongoConfigUtil.setOutputFormat(jobConf, MongoAggFormatter.class);
 
         /**
          * Configure how hadoop calculates splits.
@@ -229,24 +243,29 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
          * on how well data is distributed by _id. Setting the key pattern gives finer grained
          * control over how splits are calculated.
          */
-        MongoConfigUtil.setCreateInputSplits(mapperConf, true);
-        MongoConfigUtil.setShardChunkSplittingEnabled(mapperConf, true);
-        MongoConfigUtil.setReadSplitsFromShards(mapperConf, false);
+        MongoConfigUtil.setCreateInputSplits(jobConf, true);
+        MongoConfigUtil.setShardChunkSplittingEnabled(jobConf, true);
+        MongoConfigUtil.setReadSplitsFromShards(jobConf, false);
 
-        MongoConfigUtil.setOutputURI(mapperConf, "mongodb://localhost:27017/" + reduceCollection);
+        MongoConfigUtil.setOutputURI(jobConf, "mongodb://" + MONGO_HOST + "/" + reduceCollection);
 
-        mapperConf.setJarByClass(mapperClass);
+        jobConf.setJarByClass(JobConfiguration.class);
 
-        MongoConfigUtil.setMapper(mapperConf,  mapperClass);
-        mapperConf.setClass(JobContext.MAP_CLASS_ATTR, mapperClass, Mapper.class);
+        MongoConfigUtil.setMapper(jobConf,  mapperClass);
+        jobConf.setClass(JobContext.MAP_CLASS_ATTR, mapperClass, Mapper.class);
 
-        MongoConfigUtil.setReducer(mapperConf, reducerClass);
-        mapperConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
+        MongoConfigUtil.setReducer(jobConf, reducerClass);
+        jobConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
+
+        // Set this relatively high to keep the total map execution time low.
+        // Formula:  1.75 * (# nodes * max tasks)
+        // TODO : replace this hardcoded value with one calculated from configuration information.
+        jobConf.setNumReduceTasks(52);
 
         // Add the configuration itself to the JobConf.
-        JobConfiguration.toHadoopConfiguration(s, mapperConf);
+        JobConfiguration.toHadoopConfiguration(s, jobConf);
 
-        return mapperConf;
+        return jobConf;
     }
 
 
