@@ -55,15 +55,9 @@ public class ESRepository extends SimpleEntityRepository {
     @Value("${sli.search.port}")
     private int esPort;
     
-    private static Client esClient;
+    private Client esClient;
     
-    static {
-        //NodeBuilder nodeBuilder = new NodeBuilder();
-        //Node node = nodeBuilder.client(true).node();
-        //esClient = node.client();
-        
-        // transport client is used to help build the search request,
-        // but http is used to actually make the call
+    public ESRepository() {
         esClient = new TransportClient();
     }
     
@@ -133,29 +127,28 @@ public class ESRepository extends SimpleEntityRepository {
         static Collection<Entity> toEntityCol(HttpEntity<String> response) {
 
             ObjectMapper mapper = new ObjectMapper();
-            Collection<SearchHitEntity> hits = new ArrayList<SearchHitEntity>();
+            Collection<Entity> hits = new ArrayList<Entity>();
             JsonNode node = null;
             try {
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
-
+                String id, type;
+                JsonNode hitNode, bodyNode, metaDataNode;
+                Map<String, Object> body, metaData;
                 for(int i=0; i<hitsNode.size(); i++) {
-                    JsonNode hitNode = hitsNode.get(i);
-                    String id = hitNode.get("_id").getTextValue();
-                    String type = hitNode.get("_type").getTextValue();
-                    JsonNode bodyNode = hitNode.get("fields").get("body");
-                    Map<String, Object> body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
-                    JsonNode metaDataNode = hitNode.get("fields").get("metaData");
-                    Map<String, Object> metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
-                    SearchHitEntity hit = new SearchHitEntity(id, type, body, metaData);
-                    hits.add(hit);
+                    hitNode = hitsNode.get(i);
+                    id = hitNode.get("_id").getTextValue();
+                    type = hitNode.get("_type").getTextValue();
+                    bodyNode = hitNode.get("fields").get("body");
+                    body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
+                    metaDataNode = hitNode.get("fields").get("metaData");
+                    metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
+                    hits.add(new SearchHitEntity(id, type, body, metaData));
                 }
             } catch (Exception e) {
                 LOG.error("Error converting search response to entities", e);
             }
-
-            Collection<Entity> ret = new ArrayList<Entity>(hits);
-            return ret;
+            return hits;
         }
 
         /**
