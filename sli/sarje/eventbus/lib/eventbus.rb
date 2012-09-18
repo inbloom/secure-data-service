@@ -121,7 +121,11 @@ module Eventbus
     end
 
     def fire_event(event)
-      @events_channel.publish(event)
+      begin
+        @events_channel.publish(event)
+      rescue Exception => e
+        @logger.warn("problem occurred publishing event: #{e}")
+      end
     end
 
     private

@@ -69,23 +69,25 @@ module Eventbus
   end
 
   class Publisher
-    def initialize(queue_name, config)
+    def initialize(queue_name, config, logger = nil)
       @queue_name = queue_name
       @config = config
-      @client = Stomp::Client.new(@config)
+      @logger = logger
     end
 
     def publish(message)
       begin
+        @client = Stomp::Client.new(@config) if @client.nil?
         @client.publish(@queue_name, message.to_json)
       rescue Exception => e
-        @logger.warn("problem publishing to queue #{@queue_name}: #{e}")if @logger
+        @client = nil
+        @logger.warn("problem publishing to queue #{@queue_name}: #{e}") unless @logger.nil?
       end
     end
   end
 
   class Subscriber
-    def initialize(queue_name, config)
+    def initialize(queue_name, config, logger = nil)
       # NOTE: Topics are considered realtime notifications that will be repeated over
       # time, while as queues are durable and follow the producer/consumer model. 
       # We will not include the client id in the header of the message queue but 
@@ -95,23 +97,34 @@ module Eventbus
           # @client.subscribe @queue_name, @header
 
       @queue_name = queue_name
+      @config = config
+      @logger = logger
       # @is_topic = @queue_name.start_with?('/topic/')
-      @client = Stomp::Client.new(config)
+      #@client = Stomp::Client.new(config)
     end
 
     def handle_message
-      @client.subscribe(@queue_name) do |msg| 
-        yield JSON.parse msg.body
+      begin
+        @client = Stomp::Client.new(@config) if @client.nil?
+        @client.subscribe(@queue_name) do |msg|
+          yield JSON.parse msg.body
+        end
+      rescue Exception => e
+        @logger.warn("problem occurred with subscribing: #{e}")
+        close()
       end
     end
 
     def close
-      if @client.is_a?(Stomp::Client)
-        @client.unsubscribe @queue_name
-        @client.close
-      else
-        @client.unsubscribe @queue_name, @header
-        @client.disconnect
+      unless @client.nil?
+        if @client.is_a?(Stomp::Client)
+          @client.unsubscribe @queue_name
+          @client.close
+        else
+          @client.unsubscribe @queue_name, @header
+          @client.disconnect
+        end
+        @client = nil
       end
     end
   end

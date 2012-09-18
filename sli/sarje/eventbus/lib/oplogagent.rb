@@ -114,7 +114,7 @@ module Eventbus
           end
           if(!event_ids.empty?)
             #puts "events to send to listener: #{event_ids}"
-            @logger.info "events to send to listener: #{event_ids}" if @logger
+            @logger.info "events to send to listener: #{event_ids}" unless @logger.nil?
             yield event_ids
           end
         end
