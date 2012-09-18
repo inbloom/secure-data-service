@@ -25,12 +25,9 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -60,13 +57,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * &lt;/complexType>
  * </pre>
  * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GradingPeriodIdentityType", propOrder = {
     "gradingPeriod",
     "schoolYear",
-    "stateOrganizationIdOrEducationOrgIdentificationCode"
+    "stateOrganizationId"
 })
 public class GradingPeriodIdentityType {
 
@@ -75,11 +71,8 @@ public class GradingPeriodIdentityType {
     @XmlElement(name = "SchoolYear", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String schoolYear;
-    @XmlElements({
-        @XmlElement(name = "StateOrganizationId", type = String.class),
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    @XmlElement(name = "StateOrganizationId", required = true)
+    protected String stateOrganizationId;
 
     /**
      * Gets the value of the gradingPeriod property.
@@ -128,35 +121,28 @@ public class GradingPeriodIdentityType {
     public void setSchoolYear(String value) {
         this.schoolYear = value;
     }
-
+    
     /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
+     * Gets the value of the stateOrganizationId property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link EducationOrgIdentificationCode }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public String getStateOrganizationId() {
+    	return stateOrganizationId;
     }
-
+    
+    /**
+     * Sets the value of the stateOrganizationId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStateOrganizationId(String value) {
+    	this.stateOrganizationId = value;
+    }
 }

@@ -34,7 +34,7 @@ import static org.junit.Assert.fail;
  *
 **/
 public class StudentCrudSampleTest {
-    private final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     private static final String UNIQUE_STATE_ID = "9998";
@@ -123,6 +123,8 @@ public class StudentCrudSampleTest {
         Assert.assertEquals("Testing", name.getFirstName());
         Assert.assertEquals("Student", name.getMiddleName());
         Assert.assertEquals("Guy", name.getLastSurname());
+
+        Assert.assertEquals(student.getStudentUniqueStateId(), "1234567");
 
         List<Address> addresses = student.getAddress();
         Assert.assertEquals(addresses.size(), 1);
