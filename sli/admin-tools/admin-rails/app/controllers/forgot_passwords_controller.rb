@@ -24,8 +24,7 @@ require 'time'
 require 'date'
 
 class ForgotPasswordsController < ApplicationController
-  include ReCaptcha::AppHelper
-
+  
   skip_filter :handle_oauth
   before_filter :get_user, :only => [:new_account, :update]
   before_filter :token_still_valid, :only => [:new_account, :update]
@@ -41,8 +40,6 @@ class ForgotPasswordsController < ApplicationController
   # GET /forgot_passwords
   # GET /forgot_passwords.json
   def index
-    @forgot_password = ForgotPassword.new
-    @forgot_password.errors.clear
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @forgot_passwords }
@@ -99,15 +96,9 @@ class ForgotPasswordsController < ApplicationController
   def reset
     @forgot_password = ForgotPassword.new
     user_id = params[:user_id]
-    captcha_valid = validate_recap(params, @forgot_password.errors)
     
     respond_to do |format|
-      if captcha_valid == false
-        @forgot_password.errors.clear
-        @forgot_password.errors.add :base, "Invalid Captcha Response" 
-        format.html { render action: "reset" }
-        format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
-      elsif ApplicationHelper.user_exists?(user_id)
+      if ApplicationHelper.user_exists?(user_id)
         begin
           currentTimestamp = DateTime.current.utc.to_i.to_s
           key = Digest::MD5.hexdigest(SecureRandom.base64(10) + currentTimestamp + user_id)
