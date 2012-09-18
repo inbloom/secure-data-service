@@ -22,6 +22,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -38,7 +39,6 @@ import org.slc.sli.domain.NeutralQuery;
 
 /**
  * elasticsearch connector
- *
  */
 public class ElasticSearchRepository extends SimpleEntityRepository {
 
@@ -52,15 +52,37 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     private String esPassword;
 
+    private boolean embeddedEnabled = false;
+
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
 
-    public ElasticSearchRepository() {
-        esClient = new TransportClient();
+    private Client createNodeClient() {
+        return nodeBuilder().node().client();
     }
 
     private Client getClient() {
         return esClient;
+    }
+
+    /**
+     * called by init-method
+     * 
+     * @throws Exception
+     */
+    public void init() throws Exception {
+        esClient = embeddedEnabled ? createNodeClient() : new TransportClient();
+    }
+
+    /**
+     * called by destroy-method
+     * 
+     * @throws Exception
+     */
+    public void destroy() throws Exception {
+        if (embeddedEnabled && esClient != null) {
+            esClient.close();
+        }
     }
 
     @Override
@@ -76,7 +98,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     /**
      * Send REST query to elasticsearch server
-     *
+     * 
      * @param query
      * @return
      */
@@ -87,14 +109,16 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
-            headers.set("Authorization", "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
+            headers.set("Authorization",
+                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
         HttpEntity<String> response = null;
 
         // make the REST call
         try {
-            response = searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
+            response = searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId()
+                    .toLowerCase());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
         }
@@ -103,15 +127,14 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     /**
      * Converter SLI to/from ES
-     *
+     * 
      * @author agrebneva
-     *
      */
     public static class Converter {
 
         /**
          * Converts elasticsearch http response to collection of entities
-         *
+         * 
          * @param response
          * @return
          */
@@ -168,7 +191,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
         /**
          * Build elasticsearch query
-         *
+         * 
          * @param client
          * @param query
          * @return
@@ -236,9 +259,13 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         this.esPassword = esPassword;
     }
 
+    public void setEmbeddedEnabled(boolean embeddedEnabled) {
+        this.embeddedEnabled = embeddedEnabled;
+    }
+
     /**
      * Simple adapter for SearchHits to Entity
-     *
+     * 
      */
     private static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
