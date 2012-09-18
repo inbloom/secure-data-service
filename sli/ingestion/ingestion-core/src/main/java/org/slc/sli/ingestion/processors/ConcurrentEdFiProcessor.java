@@ -61,6 +61,8 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
+
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentEdFiProcessor.class);
 
     @Autowired
@@ -80,7 +82,7 @@ public class ConcurrentEdFiProcessor implements Processor {
     }
 
     private void processEdFi(Exchange exchange, String batchJobId) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         NewBatchJob newJob = null;
         try {

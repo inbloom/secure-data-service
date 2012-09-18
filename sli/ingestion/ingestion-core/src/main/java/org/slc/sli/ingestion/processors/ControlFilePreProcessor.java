@@ -77,6 +77,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Parses the control file";
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
@@ -101,7 +103,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
 
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         String controlFileName = "control_file";
