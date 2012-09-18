@@ -84,7 +84,7 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
-	sli.search.embedded: true
+        sli.search.embedded: true
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
