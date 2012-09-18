@@ -325,6 +325,23 @@
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
     <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
+    <jb:wiring property="graduationPlanId" beanIdRef="studentSchoolAssociation_graduationPlan" />
+  </jb:bean>
+
+  <jb:bean beanId="studentSchoolAssociation_graduationPlan" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+    <jb:value property="graduationPlanType" data="GraduationPlanReference/GraduationPlanIdentity/GraduationPlanType" />
+    <jb:value property="individualPlan" data="GraduationPlanReference/GraduationPlanIdentity/individualPlan" />
+    <jb:wiring property="totalCreditsRequired" beanIdRef="StudentSchoolAssociation_TotalCreditsRequiredValue" />
+    <jb:value property="creditsBySubject" data="GraduationPlanReference/GraduationPlanIdentity/CreditsBySubject/Credit" />
+    <jb:value property="creditsByCourse" data="GraduationPlanReference/GraduationPlanIdentity/CreditsByCourse/Credit" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentSchoolAssociation_TotalCreditsRequiredValue" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+      <jb:value property="credit" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/Credit" decoder="Double" />
+      <jb:value property="creditType" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/@CreditType" />
+      <jb:value property="creditConversion" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/@CreditConversion"
+                decoder="Double" />
   </jb:bean>
 
   <!-- EducationalPlanItemType -->
