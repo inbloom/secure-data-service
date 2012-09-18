@@ -47,9 +47,7 @@ class Oauth
     apiUrl = "#{APP_CONFIG['api_base']}"
     uri = URI.parse(apiUrl)
     apiUrl = "#{uri.scheme}://#{uri.host}:#{uri.port}"
-    clientId = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_id'])
-    clientSecret = PropertyDecryptorHelper.decrypt(APP_CONFIG['client_secret'])
-    return OAuth2::Client.new(clientId, clientSecret, {:site => apiUrl, :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
+    return OAuth2::Client.new(APP_CONFIG['client_id'], APP_CONFIG['client_secret'], {:site => apiUrl, :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
   end 
 
   # The final step in this process is to get the acutal OAuth token which is
