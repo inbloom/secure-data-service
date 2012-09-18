@@ -35,8 +35,7 @@ public class GradingPeriodGenerator {
         
         gpit.setGradingPeriod(getGradingPeriodType(gradePeriodType));
         gpit.setSchoolYear("2011-2012");
-//        String orgId = new String("Test");
-        gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) orgId);
+        gpit.setStateOrganizationId(orgId);
         GradingPeriod gp = new GradingPeriod();
 //        gp.setGradingPeriod(getGradingPeriodType());
         //gp.setId(orgId);

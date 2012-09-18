@@ -22,7 +22,7 @@ require 'thread'
 
 module Eventbus
 
-  class MessagingService
+  class MessagingServiceOld
     def initialize(config = {})
       @config = {
           :node_name => Socket.gethostname,

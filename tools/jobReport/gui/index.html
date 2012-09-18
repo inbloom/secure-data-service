@@ -121,20 +121,97 @@
 
         } else {
           // completed job
-          var jobTimeInSeconds = (new Date(job.jobStopTimestamp).getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          var stopTime = new Date(job.jobStopTimestamp);
+          var startTime = new Date(job.jobStartTimestamp);
+
+          var jobTimeInSeconds = (stopTime.getTime() - startTime.getTime()) / 1000;
           
           var jobTimeDisplay = getReadableTime(jobTimeInSeconds);
 
           $('#job_summary')
             .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
-            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>');
+            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>')
+            .append('Start Time: ' + startTime + '<br/>Stop Time: ' + stopTime);
         }
+     
+        drawJobNotes(job); 
 
         drawStageBreakdownPieChart(job);
 
         drawEntityPerformanceCharts(job);
 
         drawStagePerfChart(job);
+
+        summarizeExecutionStats(jobId);
+
+        timeBasedSingleJob(jobId);
+      }
+
+      function drawJobNotes(job) {
+          var comments = '';
+          var errorSummary = '';
+          var env = '';
+          var codeTag = '';
+          var sharded = '';
+          var preSplit = '';
+          var balancer = '';
+          var clustered = '';
+        if(job.hasOwnProperty("notes")){
+          comments = processNoteString(job.notes.comments);
+          errorSummary = processNoteString(job.notes.errorSummary);
+          env = processNoteString(job.notes.environment);
+          codeTag = processNoteString(job.notes.codeTag);
+          sharded = processNoteCheckbox(job.notes.isSharded);
+          preSplit = processNoteCheckbox(job.notes.isPreSplit);
+          balancer = processNoteCheckbox(job.notes.isBalancerOn);
+          clustered = processNoteCheckbox(job.notes.isClustered);
+        }
+
+        $('#job_notes').append('<form id=\'job_note_form\'onsubmit=\'submitNotes(this.form);return false\'>' + 
+          'Environment: <input id=\'job_env\' type=\'text\' name=\'job_env\' required="required" value=\'' + env + '\'/>' +
+          '   Code Tag: <input id=\'job_codeTag\' type=\'text\' name=\'job_codeTag\' value=\'' + codeTag + '\'/><br/>' +
+          '<input id=\'job_isSharded\' type=\'checkbox\' name=\'job_isSharded\' ' + sharded +'/>' + 'SLI Sharded   ' +
+          '<input id=\'job_isPreSplit\' type=\'checkbox\' name=\'job_isPreSplit\' ' + preSplit +'/>' + 'Pre-Split   ' +
+          '<input id=\'job_isBalancerOn\' type=\'checkbox\' name=\'job_isBalancerOn\' ' + balancer +'/>' + 'Balancer On   ' +
+          '<input id=\'job_isClustered\' type=\'checkbox\' name=\'job_isClustered\' ' + clustered +'/>' + 'Is Clustered<br/>' +
+          'Error Summary:<br/><textarea id=\'job_errorSummary\' name= \'job_errorSummary\' cols=\'85\' rows=\'7\'>' + errorSummary + '</textarea><br/>' +
+          'Comments:<br/><textarea id=\'job_comments\' name= \'job_comments\' cols=\'85\' rows=\'7\'>' + comments + '</textarea><br/>' +
+          '<input type=\'submit\' value=\'Save\'/></form>');
+
+
+      }
+
+      function processNoteString(value) {
+        if (value == null) {
+          value= "";
+        }
+        value = value.replace(/%20/g, " ");
+        return value;
+      }
+
+      function processNoteCheckbox(isChecked) {
+        var value;
+        if (isChecked == 'true') {
+          value = 'checked';
+        } else {
+          value = '';
+        }
+        return value;
+      }
+
+      function submitNotes(form) {
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.comments/' + document.getElementById('job_comments').value);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.errorSummary/' + document.getElementById('job_errorSummary').value);
+
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.environment/' + $('#job_env').val());
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.codeTag/' + $('#job_codeTag').val());
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isSharded/' + document.getElementById('job_isSharded').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isPreSplit/' + document.getElementById('job_isPreSplit').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isBalancerOn/' + document.getElementById('job_isBalancerOn').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isClustered/' + document.getElementById('job_isClustered').checked);
+        jobSummary(DEFAULT_JOB_ID);
       }
 
       function drawStageBreakdownPieChart(job) {
@@ -144,8 +221,7 @@
 
         $.each(job.stages, function(key, stage) {
           var elapsedSeconds = stage.elapsedTime/1000;
-          var stageSummary = stage.stageName + ' ' + elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
-
+          var stageSummary = stage.stageName + ' (' + stage.stageDesc + ') '+ elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
           dataTable.addRow([stageSummary, stage.elapsedTime]);
         });
         
@@ -285,6 +361,8 @@
         drawJobCompareStageChart(['EdFiProcessor', 'TransformationProcessor', 'PersistenceProcessor']); // chart that compares the jobs' stages with one another
 
         drawJobCompareEntityCharts(['PersistenceProcessor', 'TransformationProcessor']); // charts that compare the jobs' entities with one another
+
+        timeBasedCompareJobs();
       }
 
       function drawJobCompareStageChart(stagesToCompare) {
@@ -521,6 +599,16 @@
         return jQuery.parseJSON(jsonData);
       }
 
+     function postApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'POST',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+      }
+
       function releaseTenantJobLock(tenantId) {
         var jsonData = $.ajax({
           url: API_URL + '/tenantjoblock/' + tenantId,
@@ -571,18 +659,20 @@
         var job = getJob(jobId);
         var executionStats = job.executionStats;
         //counts = {"is" : {insert:#, count:#}, "sli" : {insert:#}}
-        var counts = {}
+        var counts = {};
         counts["is"] = {};
         counts["sli"] = {};
 
-        $.each(executionStats, function(host, ns){
-          $.each(ns, function(_ns, rec){
-            var db = _ns.split("#")[0];
-            var op = _ns.split("#")[1];
-            if(!counts[db].hasOwnProperty(op)) {
-              counts[db][op] = 0;
-            }
-            counts[db][op] += rec.left;
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            $.each(ns, function(_ns, rec){
+              var db = _ns.split("#")[0];
+              var op = _ns.split("#")[1];
+              if(!counts[db].hasOwnProperty(op)) {
+                counts[db][op] = 0;
+              }
+              counts[db][op] += rec.left;
+            });
           });
         });
 
@@ -603,9 +693,7 @@
         });
 
         drawTable(data);
-        return counts;
       }
-
 
       function drawTable(data) {
 
@@ -615,182 +703,303 @@
           backgroundColor: 'white',
           showRowNumber: true
         };
-
-
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, chartOptions);
+      }
+
+      function convertTime(time) {
+        //May change.It is dependent on the actual format in newBatchJob collection
+        var res = time.split('-')[0];
+        return new Date(res);
       }
 
       function getExecutionStats (jobId) {
         var job = getJob(jobId);
         var executionStats = job.executionStats;
-        var time = [],
-            y = [];
+        var isTime = [],
+            isY = [],
+            sliTime = [],
+            sliY = [];
+        //{time:count}
+        var isTimeExec = {}, sliTimeExec = {}
 
         var count = 0;
-        $.each(executionStats, function(host, ns){
-          $.each(ns, function(_ns, rec){
-            time.push(count);
-            count += 5;
-            y.push(rec.left);
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            var cTime = convertTime(_time);
+            sliTime.push(cTime);
+            isTime.push(cTime);
+            if(!isTimeExec.hasOwnProperty(cTime)) {
+              isTimeExec[cTime] = 0;
+            }
+            if(!sliTimeExec.hasOwnProperty(cTime)) {
+              sliTimeExec[cTime] = 0;
+            }
+
+            $.each(ns, function(_ns, rec){
+              //time.push(convertTime(time));
+              //y.push(rec.left);
+
+              var db = _ns.split("#")[0];
+              if(db == "is"){
+                isTimeExec[cTime] += rec.left;
+              } else {
+                sliTimeExec[cTime] += rec.left;
+              }
+            });
           });
         });
 
-        var data = [
-          [time, y]
-        ];
+        isTime.sort(function(a,b){return a-b});
+        sliTime.sort(function(a,b){return a-b});
+
+        $.each(isTime, function(index, time){
+          isY.push(isTimeExec[time]);
+        });
+        $.each(sliTime, function(index, time){
+          sliY.push(sliTimeExec[time]);
+        }); 
+
+        var isKey = "[is]-"+jobId,
+            sliKey = "[sli]"+jobId;
+        var data = {};
+        data[isKey] = [isTime, isY];
+        data[sliKey] = [sliTime, sliY];
 
         return data;
       }
 
-      function testEnvision(jobId){
-        var testData = getExecutionStats(jobId);
-        var
-          container = document.getElementById('graph'),
-          x = [],
-          y1 = [],
-          y2 = [],
-          data, options, i;
+      //This is call to populate time based graph for cross-job comparison 
+      function timeBasedCompareJobs() {
 
-        // Data Format:
-        data = [
-          [x, y1], // First Series
-          [x, y2]  // Second Series
-        ];
+        var jobData = {};
+        var interval = -1;
+        var ok = 1;
+        // prepare the data into the stageNames and comparedJobsStageStats data structures
+        $('.job_checkbox').each(function(key, jobCheckbox) {
+          if (jobCheckbox.checked) {
+            var data = getExecutionStats(jobCheckbox.name);
+            $.each(data, function(index, array){
+              //make sure the job compare is based on the same time interval
+              //Otherwise it does not make sense to populate the normalized graph
+              
+              if(interval == -1 ){
+                if(array[0].length >=4){
+                  interval = Math.round((array[0][3] - array[0][2])/1000);
+                }
+              } else if(interval != Math.round((array[0][3] - array[0][2])/1000) && ok == 1) {
+                  alert("Warning: We are not generating normalized graph for batch jobs with different intervals.");
+                  ok = 0;
+              }
+              
+              jobData[index] = array;
+            });
+          }
+        });
 
-        opData = [
-          [x, y1], // First Series
-        ];
+        timeBased(jobData, 0);
 
-        // Sample the sine function for data
-        var range = 1000;
-        for (i = 0; i < range; i += 1) {
-          x.push(i);
-          y1.push(Math.random()*13%100);
-          y2.push(Math.random()*13%100);
+        var normalizedJobData = {};
+        if(ok) {
+          $.each(jobData, function(index, data){
+            var nor = [], count = 0;;
+            $.each(data[0], function(index, date){
+              nor.push(count);
+              count += interval;
+            });
+            var nData = [];
+            nData.push(nor);
+            nData.push(data[1]);
+
+            normalizedJobData[index] = nData;
+          });
+          timeBased(normalizedJobData, 1);
         }
-          x.push(range);
-          y1.push(Math.random()*13%100);
-          y2.push(Math.random()*13%100);
-        // TimeSeries Template Options
-        options = {
-          // Container to render inside of
-          container : container,
-          // Data for detail (top chart) and summary (bottom chart)
-          data : {
-            detail : data,
-            summary : data
-          }
+      }
+
+      function timeBasedSingleJob(jobId){
+        var jobData = getExecutionStats(jobId);
+        timeBased(jobData, 0);
+      }
+
+    //jobData is in this format: {legend:[x, y]}
+    //if nor == 1, it will populate the relative time, otherwise, absolute time
+    function timeBased(jobData, nor) {
+        var container = document.getElementById('container'),
+            strTitle = "Time-based DB operations";
+
+
+        var aryYAxisTitles = ['Operations'];
+
+        var aryData = [];
+        $.each(jobData, function(legend, data){
+          aryData.push({
+              data: data,
+              label: legend,
+              lines: {
+                  show: true
+              },
+              points: {
+                  show: false
+              }
+          });
+        });
+
+        var cbXAxisTickFormatter = function(n) {
+            if(nor == 0) {
+              var objDate = new Date(Number(n)),
+                  value = objDate.getDate() + " " + Flotr.Date.monthNames[objDate.getMonth()] + " " + objDate.getFullYear() + " " + objDate.getHours() + ":" + objDate.getMinutes() + ":" + objDate.getSeconds();
+              return value;
+            } else return Number(n);
         };
-
-        // Configuration for detail:
-        detailOptions = {
-          name : 'detail',
-          data : data,
-          height : 400,
-          // Flotr Configuration
-          config : {
-            yaxis : {
-              min : 0,
-              max : 20,
-              title : 'RPS',
-              autoscale:!0,
-              autoscaleMargin:.05,
-              noTicks:4,
-              showLabels:!0
-            },
-            xaxis : {
-              autoscale:!0,
-              autoscaleMargin:.05,
-              noTicks:4,
-              showLabels:!0
-            },
-            "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
-            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
-          },
-
-        };
-
-        // Configuration for opcount:
-        opCountOptions = {
-          name : 'detail',
-          data : testData,
-          height : 100,
-          // Flotr Configuration
-          config : {
-            yaxis : {
-              min : 0,
-              max : 1000,
-              title : 'OpCounts',
-              autoscale:!0,
-              autoscaleMargin:.05,
-              noTicks:4,
-              showLabels:!0
-            },
-            xaxis : {
-              autoscale:!0,
-              autoscaleMargin:.05,
-              noTicks:4,
-              showLabels:!0
-            },
-            "lite-lines":{lineWidth:1,show:!0,fillOpacity:.2},
-            mouse:{track:!0,trackY:!1,trackAll:!0,sensibility:1,trackDecimals:4,position:"ne"}
-          },
-
-        };
-
-        // Configuration for summary:
-        summaryOptions = {
-          name : 'summary',
-          data : testData,
-          height : 100,
-          // Flotr Configuration
-          config : {
-            yaxis : {
-              min : 0,
-              max : 1000
-            },
-            xaxis : {
-              title : 'Time',
-              autoscale:!0,
-              autoscaleMargin:.05,
-              noTicks:4,
-              showLabels:!0
-            },
-            // Enable selection in the x-axis
-            selection : {
-              mode : 'x'
+        
+        var cbYAxisTicks = function(o) {
+            var aryTicks = [],
+                fltTick, fltInc;
+            fltInc = (o.max - o.min) / 10;
+            for (fltTick = o.min; fltTick < o.max; fltTick += fltInc) {
+                aryTicks.push(fltTick);
             }
-          }
+            return aryTicks;
         };
+        
+        var cbYAxisTickFormatter = function(n) {
+            return Number(n).toPrecision(4);
+        };
+        // TimeSeries Template Options
+        objChartOptions = {
+            container: container,
+            data: {
+                detail: aryData,
+                summary: aryData
+            },
+            defaults: {
+                detail: {
+                    height: 400,
+                    config: {
+                        title: null,
+                        subtitle: null,
+                        shadowSize: 4,
+                        fontColor: '#545454',
+                        fontSize: 10,
+                        legend: {
+                            position: "nw"
+                        },
+                        HtmlText: false,
+                        parseFloat: true,
+                        'lite-lines': {lineWidth:1,show:!0,fillOpacity:.2},
+                        xaxis: {
+                            autoscale: true,
+                            base: Math.E,
+                            margin: true,
+                            min: null,
+                            minorTicks: null,
+                            max: null,
+                            mode: 'time',
+                            showLabels: true,
+                            ticks: null,
+                            tickFormatter: cbXAxisTickFormatter,
+                            tickUnit: "second",
+                            timeMode: "local",
+                            title: "Time"
+                        },
+                        yaxis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            base: Math.E,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[0],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        y2axis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            base: Math.E,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[1],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        grid: {
+                            show: true,
+                            circular: false,
+                            color: '#545454',
+                            horizontalLines: true,
+                            labelMargin: 12,
+                            outline: 'nsew',
+                            outlineWidth: 1,
+                            tickColor: '#545454',
+                            verticalLines: true
+                        },
+                        mouse: {
+                            track: true,
+                            trackY: true,
+                            trackAll: true,
+                            sensibility: 1,
+                            trackDecimals: 4,
+                            position: 'ne',
+                            trackFormatter: function(o) { // formats the values in the value box
+                                var objDate = new Date(Number(o.x));
+                                var strTip = "<center>" + o.series.label + "</center>" + objDate.toLocaleString() + "." + objDate.getMilliseconds() + "<br />" + aryYAxisTitles[0] + ": " + Number(o.y);
+                                return strTip;
+                            }
+                        }
+                    }
+                },
+                summary: {
+                    config: {
+                        'lite-lines': {lineWidth:1,show:!0,fillOpacity:.2},
+                        legend: {
+                            show: false
+                        },
+                        y2axis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[1],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        // Enable selection in the x-axis
+                        selection: {
+                            mode: 'x'
+                        },
+                        handles: {
+                            show: true
+                        }
+                    }
+                }
+            }
+        };
+        objChart = new envision.templates.TimeSeries(objChartOptions);
+      }; 
 
-        // Building a custom vis:
-        vis = new envision.Visualization();
-        detail = new envision.Component(detailOptions);
-        opCount = new envision.Component(opCountOptions);
-        summary = new envision.Component(summaryOptions);
-        interaction = new envision.Interaction();
 
-        // Render Visualization
-        vis
-          .add(detail)
-          .add(opCount)
-          .add(summary)
-          .render(container);
-
-        // Wireup Interaction
-        interaction
-          .leader(summary)
-          .follower(opCount)
-          .follower(detail)
-          .add(envision.actions.selection);
-
-      };
 
       function clearJobSpecificDivs() {
         $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
         $('#job_summary').empty();
         $('#progressbar').hide();
+        $('#job_notes').empty();
         $('#stage_breakdown_piechart_div').empty();
         $('#stage_breakdown_linechart_div').empty();
         $('#PersistenceProcessor_entity_div').empty();
@@ -798,6 +1007,7 @@
         $('#PersistenceProcessor_entity_jobcompare_div').empty();
         $('#TransformationProcessor_entity_jobcompare_div').empty();
         $('#job_dist_linechart_div').empty();
+        $('#container').empty();
       }
 
       function toggleJobChooser() {
@@ -827,6 +1037,7 @@
         </table>
         <div id="stage_breakdown_linechart_div"></div>
         <div id="job_summary"></div>
+        <div id="job_notes"></div>
         <div id="progressbar"></div>
         <div id="stage_breakdown_piechart_div"></div>
         <div id="PersistenceProcessor_entity_div"></div>
@@ -834,7 +1045,8 @@
         <div id="PersistenceProcessor_entity_jobcompare_div"></div>
         <div id="TransformationProcessor_entity_jobcompare_div"></div>
         <div id="job_dist_linechart_div"></div>
-        <div id="table_div"></div>
-        <div id="graph"></dib>
+        <div id="graph" style="width:1000px; margin:0 auto;"></dib>
+        <div id="table_div" style="width:1000px; margin:0 auto;"></div>
+        <div id="container" style="width:1000px, height=800px; margin:0 auto;"></div>
     </body>
 </html>

@@ -16,7 +16,7 @@
         <tr class="field">
             <td class="form-inline"><%= f.label :new_pass ,"New Password"%><span style="color:red"> *</span><br />
                 <%= f.hidden_field :token, :value => @forgot_password.token %>
-                <%= f.password_field :new_pass %>
+                <%= f.password_field :new_pass, :autocomplete => 'off' %>
             </td>
             <% if @forgot_password.errors[:new_pass].any? %>
                 <td id="error_explanation">
@@ -30,7 +30,7 @@
         </tr>
         <tr class="field">
             <td class="form-inline"><%= f.label :confirmation, "Confirm New Password" %><span style="color:red"> *</span><br/>
-                <%= f.password_field :confirmation %>
+                <%= f.password_field :confirmation, :autocomplete => 'off' %>
              </td>
              <% if @forgot_password.errors[:confirmation].any? %>
                 <td id="error_explanation">
