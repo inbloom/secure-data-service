@@ -5327,6 +5327,9 @@
 				the electronic
 				version of its physical document counterpart.
 			</xs:documentation>
+			<xs:appinfo>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="diplomaAwardDate" type="xs:date">
@@ -5337,6 +5340,9 @@
 						graduation requirements and was
 						awarded a diploma.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="diplomaLevel" type="diplomaLevelType"
@@ -5366,6 +5372,9 @@
 						curricular
 						requirements.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CTECompleter" type="xs:boolean"
@@ -5403,6 +5412,9 @@
 				<xs:annotation>
 					<xs:documentation>The school that offers the diploma.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
