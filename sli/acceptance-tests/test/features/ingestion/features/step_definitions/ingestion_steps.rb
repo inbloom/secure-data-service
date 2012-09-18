@@ -47,6 +47,8 @@ INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
+INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -557,7 +559,7 @@ end
 #def getMaxErrorWarnCount
 #    maxError = 0
 #    maxWarning = 0
-#    file=File.open(INGESTION_PROPERTIES_FILE,"r") 
+#    file=File.open(INGESTION_PROPERTIES_FILE,"r")
 #    file.each_line do |line|
 #       if (line.rindex('sli.ingestion.errorsCountPerInterchange'))
 #          maxError = line[line.rindex('=')+1,line.length-1]
@@ -576,7 +578,7 @@ def getErrorCount
     resourceToErrorCount = Hash.new(0)
     Dir.foreach(@landing_zone_path) do |entry|
       if(entry.rindex('error'))
-        @error_filename = entry 
+        @error_filename = entry
         @resource = entry[entry.rindex('Interchange'), entry.rindex('.xml')]
         file = File.open(@landing_zone_path+entry, "r")
         file.each_line do |line|
@@ -610,7 +612,7 @@ def getWarnCount
   end
     return resourceToWarnCount
 end
-    
+
 #check if the actually error count is less than the max error count
 def verifyErrorCount(count)
    maxError = Integer(count)
@@ -650,7 +652,6 @@ end
 
 
 Given /^I should see the number of errors in error log is no more than the error count limitation (\d+)$/ do |count|
-   puts "shan"
    verifyErrorCount(count)
 end
 
@@ -914,6 +915,12 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+end
+
+Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + logfile
+    fileExist = File.exist? completeFileName
+    assert(fileExist == true, logfile + 'missing')
 end
 
 ############################################################
@@ -1321,12 +1328,14 @@ Then /^I check to find if record is in collection:$/ do |table|
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     elsif row["searchType"] == "double"
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
- elsif row["searchType"] == "boolean"
+    elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         end
+    elsif row["searchType"] == "nil"
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     else
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
@@ -1339,6 +1348,29 @@ Then /^I check to find if record is in collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+end
+
+Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+  @result = "true"
+  
+  @db = @conn[INGESTION_DB_NAME]
+  @edOrgCollection = @db.collection("educationOrganization")
+  @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
+  @stateOrganizationId = @edOrgEntity['_id']
+  
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+  end
+  assert(@result == "true", "Some records do not have the correct education organization context.")
 end
 
 Then /^I check to find if complex record is in batch job collection:$/ do |table|
@@ -1426,6 +1458,15 @@ Then /^verify the following data in that document:$/ do |table|
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
       end
     end
+  end
+end
+
+Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
+  @entity.each do |ent|
+    @db = @conn[INGESTION_DB_NAME]
+    @entity_collection = @db.collection(collection)
+    @refEntity = @entity_collection.find({key => value, refField => ent['_id']})
+    assert(@refEntity.count == count.to_i, "Expected #{count} documents but found #{@refEntity.count}")
   end
 end
 
@@ -1813,14 +1854,14 @@ end
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
   @db = @conn[INGESTION_DB_NAME]
   appColl = @db.collection("application")
-  
+
   application = appColl.find({"_id" => arg1})
-  
+
   application.each do |app|
     numEdorg = app['body']['authorized_ed_orgs'].size
     assert(arg2.to_i == numEdorg, "there should be #{arg2} authorized edorgs, but found #{numEdorg}")
   end
-  
+
 end
 
 Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
@@ -1828,6 +1869,20 @@ Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
   @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
   @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
   @tenantColl.save(@newTenant)
+end
+
+Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|
+    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
+    found = false
+    File.open(completeFileName, "r") do |infile|
+        while (line = infile.gets)
+            if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
+                found = true
+                break
+            end
+        end
+    end
+    assert(found == true, "content not found")
 end
 
 ############################################################

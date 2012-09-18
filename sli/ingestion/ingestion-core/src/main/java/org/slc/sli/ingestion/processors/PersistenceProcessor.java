@@ -16,8 +16,11 @@
 
 package org.slc.sli.ingestion.processors;
 
+import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
+
+    private static final String BATCH_JOB_STAGE_DESC = "Persists records to sli database";
+
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
@@ -154,7 +160,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @return current (started) stage.
      */
     private Stage initializeStage(WorkNote workNote) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
         stage.setProcessingInformation("stagedEntity="
                 + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
                 + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="
@@ -184,41 +190,57 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-            List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
-            List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
-            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
-
-            for (NeutralRecord neutralRecord : records) {
-                errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-                Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
-
-                if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
-                        || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
-                    SimpleEntity transformed = transformNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
-                    if (transformed != null) {
-                        recordStore.add(neutralRecord);
-                        persist.add(transformed);
-                    } else {
-                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
-                    }
-                    currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
-                }
-                perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
-            }
-
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
-            try {
-                if (persist.size() > 0) {
-                    List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
-                    for (Entity entity : failed) {
-                        NeutralRecord record = recordStore.get(persist.indexOf(entity));
-                        Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
-                        currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+
+            // TODO: make this generic for all self-referencing entities
+            if ("learningObjective".equals(collectionNameAsStaged)) {
+
+                errorReportForCollection = persistLearningObjective(workNote, job, perFileMetrics,
+                        errorReportForCollection, errorReportForNrEntity, records);
+
+            } else {
+
+                List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
+                List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
+                for (NeutralRecord neutralRecord : records) {
+                    errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
+                    Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
+
+                    if (entityPipelineType.equals(EntityPipelineType.PASSTHROUGH)
+                            || entityPipelineType.equals(EntityPipelineType.TRANSFORMED)) {
+
+                        SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
+                                errorReportForCollection);
+
+                        if (xformedEntity != null) {
+
+                            recordStore.add(neutralRecord);
+
+                            // queue up for bulk insert
+                            persist.add(xformedEntity);
+
+                        } else {
+                            currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                        }
+                        currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
                     }
+                    perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
                 }
-            } catch (DataAccessResourceFailureException darfe) {
-                LOG.error("Exception processing record with entityPersistentHandler", darfe);
+
+                try {
+                    if (persist.size() > 0) {
+                        List<Entity> failed = entityPersistHandler.handle(persist, errorReportForNrEntity);
+                        for (Entity entity : failed) {
+                            NeutralRecord record = recordStore.get(persist.indexOf(entity));
+                            Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
+                            currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                        }
+                    }
+                } catch (DataAccessResourceFailureException darfe) {
+                    LOG.error("Exception processing record with entityPersistentHandler", darfe);
+                }
             }
         } catch (Exception e) {
             String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
@@ -234,6 +256,116 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         }
     }
 
+    /*
+     * persist learningObjective immediately, rather than bulk (and sort in dependency-honoring
+     * order) because this
+     * entity can have references to entities of the same type.
+     * otherwise, id normalization could be attempted while the dependent entity is waiting for
+     * insertion in queue.
+     */
+    // FIXME: remove once deterministic ids are in place.
+    private ErrorReport persistLearningObjective(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
+            ErrorReport errorReportForCollection, ErrorReport errorReportForNrEntity, Iterable<NeutralRecord> records) {
+
+        List<NeutralRecord> sortedNrList = iterableToList(records);
+        try {
+            sortedNrList = sortLearningObjectivesByDependency(sortedNrList);
+        } catch (IllegalStateException e) {
+            LOG.error("Illegal state encountered during dependency-sort of learningObjectives", e);
+        }
+
+        for (NeutralRecord neutralRecord : sortedNrList) {
+            LOG.info("transforming and persisting learningObjective: {}",
+                    getByPath("learningObjectiveId.identificationCode", neutralRecord.getAttributes()));
+
+            errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
+            Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
+
+            SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
+                    errorReportForCollection);
+
+            if (xformedEntity != null) {
+                try {
+                    entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+                } catch (DataAccessResourceFailureException darfe) {
+                    LOG.error("Exception processing record with entityPersistentHandler", darfe);
+                    currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+                }
+
+            } else {
+                currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+            }
+            currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+            perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
+        }
+        return errorReportForCollection;
+    }
+
+    /**
+     * Sort LearningObjective records in dependency-honoring order since they are self-referencing.
+     *
+     * @param records
+     * @return
+     */
+    // TODO: make this generic for all self-referencing entities
+    protected static List<NeutralRecord> sortLearningObjectivesByDependency(List<NeutralRecord> unsortedRecords)
+            throws IllegalStateException {
+
+        List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
+        for (NeutralRecord me : unsortedRecords) {
+            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>());
+        }
+        return sortedRecords;
+    }
+
+    private static List<NeutralRecord> iterableToList(Iterable<NeutralRecord> records) {
+        List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
+        for (NeutralRecord neutralRecord : records) {
+            unsortedRecords.add(neutralRecord);
+        }
+        return unsortedRecords;
+    }
+
+    // FIXME: make this algo iterative rather than recursive
+    private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
+            List<NeutralRecord> sortedRecords, Set<String> objectiveIdsInStack) throws IllegalStateException {
+        if (me != null && !sortedRecords.contains(me)) {
+
+            String myObjectiveId = getByPath("learningObjectiveId.identificationCode", me.getAttributes());
+            objectiveIdsInStack.add(myObjectiveId);
+
+            // detect cycles
+            String parentObjectiveId = (String) me.getLocalParentIds().get("parentObjectiveId");
+            if (objectiveIdsInStack.contains(parentObjectiveId)) {
+                LOG.error(
+                        "cycle detected in learningObjective reference hierarchy. {} references a learningObjective already a part of this dependency hierarchy {}",
+                        myObjectiveId, objectiveIdsInStack);
+                throw new IllegalStateException("cycle detected in learningObjective reference hierarchy.");
+            } else {
+
+                // insert my parent
+                NeutralRecord parent = findNeutralRecordByObjectiveId(parentObjectiveId, unsortedRecords);
+                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, objectiveIdsInStack);
+            }
+
+            // insert me
+            sortedRecords.add(me);
+
+            objectiveIdsInStack.remove(myObjectiveId);
+        }
+    }
+
+    private static NeutralRecord findNeutralRecordByObjectiveId(String objectiveId, List<NeutralRecord> records) {
+        if (objectiveId != null) {
+            for (NeutralRecord sortedNr : records) {
+                if (objectiveId.equals(getByPath("learningObjectiveId.identificationCode", sortedNr.getAttributes()))) {
+                    return sortedNr;
+                }
+            }
+        }
+        return null;
+    }
+
     private SimpleEntity transformNeutralRecord(NeutralRecord record, String tenantId, ErrorReport errorReport) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
@@ -243,8 +375,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
-                    record.getRecordType()), this);
+            errorReport
+                    .error(MessageSourceHelper
+                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                            this);
             return null;
         }
         return transformed.get(0);
