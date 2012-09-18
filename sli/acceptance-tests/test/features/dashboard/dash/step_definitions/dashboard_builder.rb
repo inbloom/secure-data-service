@@ -21,12 +21,7 @@ When /^I navigate to the Dashboard Builder page$/ do
 end
 
 When /^I click on "(.*?)" Profile Builder$/ do |profileName|
-  @currentProfile = profileName.downcase
-  name = "SLC - " + profileName + " Profile"
-  profile_list = @explicitWait.until{@driver.find_element(:class, "profile_list").find_element(:link_text, name)}
-  profile_list.click
-  
-  @explicitWait.until{@driver.find_element(:class,"profilePageWrapper").text.downcase.include? profileName.downcase}
+  clickOnBuilderMenu(0, profileName)
 end
 
 When /^I delete Page "(.*?)"$/ do |pageName|
@@ -51,7 +46,7 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   @currentPage.find_element(:css, "button[class*='btn-block']").click
   # Identify the pop up panel for 'Add a Panel'
   popupPanel = @driver.find_element(:id, "allPanelsModal")
-  #
+  
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
@@ -123,7 +118,26 @@ When /^I see the following page order "(.*?)" in the builder$/ do |pages|
     pageText = page.find_element(:tag_name,"a").text
     assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
   end
+end
 
+When /^I click on "(.*?)" Panels$/ do |panelName|
+  clickOnBuilderMenu(1, panelName)
+end
+
+When /^I see the following available panels "(.*?)"$/ do |listOfPanels|
+  expectedPanels = listOfPanels.split(';')
+  actualPanels = @driver.find_element(:class, "profilePageWrapper").find_elements(:tag_name,"li")
+  assert(expectedPanels.count == actualPanels.count, "Expected Panels: #{expectedPanels.count} Actual Panels: #{actualPanels.count}")
+  
+  expectedPanels.each do |expected|
+    found = false
+    actualPanels.each do |actual|
+      if (actual.attribute('innerHTML').include? expected)
+        found = true
+      end
+    end
+    assert(found, "#{expected} Panel was not found")
+  end
 end
 
 def getPageByName(pageName)
@@ -225,4 +239,13 @@ def ensurePopupUnloaded()
    @driver.manage.timeouts.implicit_wait = 2
    @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
    @driver.manage.timeouts.implicit_wait = 10
+end
+
+def clickOnBuilderMenu(index, itemName)
+  @currentProfile = itemName.downcase
+  name = "SLC - " + itemName + " Profile"
+  menuItem = @explicitWait.until{@driver.find_elements(:class, "profile_list")[index].find_element(:link_text, name)}
+  menuItem.click
+  
+  @explicitWait.until{@driver.find_element(:class,"profilePageWrapper").text.downcase.include? itemName.downcase}
 end

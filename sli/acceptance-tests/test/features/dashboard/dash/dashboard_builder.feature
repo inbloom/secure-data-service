@@ -107,4 +107,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 And I click on "School" Profile Builder
 And I see the following page order "Subjects and Courses;Teachers;State Tab" in the builder
 And I delete Page "State Tab"
- And I logout
+And I click on "School" Panels
+And I see the following available panels "populationWidget;schoolInfo;sectionList;teacherList"
+And I click on "Section" Panels
+And I see the following available panels "Section Info;populationWidget;listOfStudents"
