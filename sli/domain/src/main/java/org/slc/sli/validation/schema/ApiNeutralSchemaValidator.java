@@ -27,7 +27,12 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {
-        validateNaturalKeys(entity);
+        try {
+            validateNaturalKeys(entity);
+        } catch (NaturalKeyValidationException e) {
+            // if natural key fields are missing, entity is not valid
+            return false;
+        }
         return super.validate(entity);
     }
     
