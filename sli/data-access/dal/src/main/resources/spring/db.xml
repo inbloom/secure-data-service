@@ -113,11 +113,11 @@
   <context:component-scan base-package="org.slc.sli.dal" />
   
   <bean id="searchTemplate" class = "org.springframework.web.client.RestTemplate">
-	    <!-- <constructor-arg>
-	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
-		    <property name="readTimeout" value="${search.service.timeout:3000}" />
-	    </bean>
-	    </constructor-arg> -->
+<!-- 	  <constructor-arg> -->
+<!-- 	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory"> -->
+<!-- 		    <property name="readTimeout" value="${search.service.timeout:3000}" /> -->
+<!-- 	    </bean> -->
+<!-- 	  </constructor-arg> -->
   </bean>
   
   <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository" init-method="init" destroy-method="destroy">

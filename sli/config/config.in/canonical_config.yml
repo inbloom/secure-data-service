@@ -85,6 +85,7 @@ default:
         sli.search.username: user
         sli.search.password: searchme
         sli.search.embedded: true
+        sli.search.service.timeout: 3000
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is

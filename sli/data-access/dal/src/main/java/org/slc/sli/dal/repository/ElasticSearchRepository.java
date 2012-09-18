@@ -103,6 +103,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      * @param query
      * @return
      */
+    @SuppressWarnings("unchecked")
     private HttpEntity<String> sendRESTQuery(String query) {
 
         HttpMethod method = HttpMethod.POST;
@@ -114,16 +115,16 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
                     "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-        HttpEntity<String> response = null;
 
         // make the REST call
         try {
-            response = searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId()
-                    .toLowerCase());
+            return searchTemplate.exchange(
+                    esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
+
         }
-        return response;
+        return HttpEntity.EMPTY;
     }
 
     /**
