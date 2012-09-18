@@ -783,15 +783,16 @@
             $.each(data, function(index, array){
               //make sure the job compare is based on the same time interval
               //Otherwise it does not make sense to populate the normalized graph
+              
               if(interval == -1 ){
-                if(array[0].length >=2){
-                  interval = Math.round((array[0][1] - array[0][0])/1000);
+                if(array[0].length >=4){
+                  interval = Math.round((array[0][3] - array[0][2])/1000);
                 }
-              } else if(interval != Math.round((array[0][1] - array[0][0])/1000) && ok == 1) {
+              } else if(interval != Math.round((array[0][3] - array[0][2])/1000) && ok == 1) {
                   alert("Warning: We are not generating normalized graph for batch jobs with different intervals.");
                   ok = 0;
               }
-
+              
               jobData[index] = array;
             });
           }
@@ -825,12 +826,9 @@
     //jobData is in this format: {legend:[x, y]}
     //if nor == 1, it will populate the relative time, otherwise, absolute time
     function timeBased(jobData, nor) {
-        var intClientHeight = 10,
-            intDetailHeight, intSummaryHeight, container = document.getElementById('container'),
-            i, strTitle = "Time-based DB operations";
-        // Work out the size of the charts, 15% for the summary the rest for the detail         
-        intSummaryHeight = ((intClientHeight / 100) * 15);
-        intDetailHeight = (intClientHeight - intSummaryHeight) - 40;
+        var container = document.getElementById('container'),
+            strTitle = "Time-based DB operations";
+
 
         var aryYAxisTitles = ['Operations'];
 
@@ -878,12 +876,13 @@
             },
             defaults: {
                 detail: {
+                    height: 400,
                     config: {
                         title: null,
                         subtitle: null,
                         shadowSize: 4,
                         fontColor: '#545454',
-                        fontSize: 7.5,
+                        fontSize: 10,
                         legend: {
                             position: "nw"
                         },
@@ -1049,6 +1048,6 @@
         <div id="job_dist_linechart_div"></div>
         <div id="graph" style="width:1000px; margin:0 auto;"></dib>
         <div id="table_div" style="width:1000px; margin:0 auto;"></div>
-        <div id="container"></div>
+        <div id="container" style="width:1000px, height=800px; margin:0 auto;"></div>
     </body>
 </html>
