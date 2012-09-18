@@ -77,6 +77,8 @@ public class JobReportingProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.JOB_REPORTING_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Writes out a job report and any errors/warnings associated with the job";
+
     public static final String JOB_STAGE_RESOURCE_ID = "job";
 
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
@@ -113,7 +115,7 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void processJobReporting(Exchange exchange, WorkNote workNote) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
@@ -163,7 +165,7 @@ public class JobReportingProcessor implements Processor {
 
                 } else {
 
-                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStatus(),
+                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
                             stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
