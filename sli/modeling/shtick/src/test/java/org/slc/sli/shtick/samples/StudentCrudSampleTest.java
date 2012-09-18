@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -40,13 +41,14 @@ public class StudentCrudSampleTest {
     private static final String UNIQUE_STATE_ID = "9998";
 
     @Test
-    public void testCrud() {
+    public void testCrud() throws IOException, StatusCodeException {
         final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
         final Level3Client client = new StandardLevel3Client(inner);
+        String studentId = null;
 
         try {
             // CREATE
-            final String studentId = doPostStudents(client);
+            studentId = doPostStudents(client);
             Assert.assertNotNull(studentId);
 
             // READ
@@ -66,11 +68,30 @@ public class StudentCrudSampleTest {
                 Assert.assertEquals(e.getStatusCode(), 404);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             Assert.fail(e.getMessage());
         } catch (StatusCodeException e) {
-            e.printStackTrace();
             Assert.fail(e.getMessage() + " - " + e.getStatusCode());
+        }
+    }
+
+    @Test
+    public void testNaturalKeys() throws IOException, StatusCodeException {
+        final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
+        final Level3Client client = new StandardLevel3Client(inner);
+        String studentId = null;
+
+        try {
+            studentId = doPostStudents(client);
+
+            doPostStudents(client);
+        } catch (StatusCodeException e) {
+            assertEquals("Should match", 409, e.getStatusCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        } finally {
+            if (studentId != null) {
+                doDeleteStudentsById(client, studentId);
+            }
         }
     }
 
@@ -124,7 +145,7 @@ public class StudentCrudSampleTest {
         Assert.assertEquals("Student", name.getMiddleName());
         Assert.assertEquals("Guy", name.getLastSurname());
 
-        Assert.assertEquals(student.getStudentUniqueStateId(), "1234567");
+        Assert.assertEquals(student.getStudentUniqueStateId(), UNIQUE_STATE_ID);
 
         List<Address> addresses = student.getAddress();
         Assert.assertEquals(addresses.size(), 1);
