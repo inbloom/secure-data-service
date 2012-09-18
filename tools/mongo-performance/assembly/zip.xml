@@ -29,7 +29,13 @@
       <includes>
         <include>/*.jar</include>
         <include>/lib/*.*</include>
-        <include>JsonFiles/*.*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/src/main/resources</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>/JsonFiles/*.*</include>
       </includes>
     </fileSet>
   </fileSets>
