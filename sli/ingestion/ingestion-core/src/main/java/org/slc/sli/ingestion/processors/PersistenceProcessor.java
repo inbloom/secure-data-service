@@ -79,6 +79,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
+
+    private static final String BATCH_JOB_STAGE_DESC = "Persists records to sli database";
+
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
@@ -157,7 +160,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @return current (started) stage.
      */
     private Stage initializeStage(WorkNote workNote) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
         stage.setProcessingInformation("stagedEntity="
                 + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
                 + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="

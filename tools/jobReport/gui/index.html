@@ -221,8 +221,7 @@
 
         $.each(job.stages, function(key, stage) {
           var elapsedSeconds = stage.elapsedTime/1000;
-          var stageSummary = stage.stageName + ' ' + elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
-
+          var stageSummary = stage.stageName + ' (' + stage.stageDesc + ') '+ elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
           dataTable.addRow([stageSummary, stage.elapsedTime]);
         });
         
@@ -663,6 +662,7 @@
         var counts = {};
         counts["is"] = {};
         counts["sli"] = {};
+        var totalDBOpTime = 0;
 
         $.each(executionStats, function(host, time){
           $.each(time, function(_time, ns){
@@ -670,9 +670,13 @@
               var db = _ns.split("#")[0];
               var op = _ns.split("#")[1];
               if(!counts[db].hasOwnProperty(op)) {
-                counts[db][op] = 0;
+                counts[db][op] = {};
+                counts[db][op]['count'] = 0;
+                counts[db][op]['tTime'] = 0;
               }
-              counts[db][op] += rec.left;
+              counts[db][op]['count'] += rec.left;
+              counts[db][op]['tTime'] += rec.right;
+              totalDBOpTime += rec.right;
             });
           });
         });
@@ -682,18 +686,32 @@
         data.addColumn('string', 'Database');
         data.addColumn('string', 'Operation');
         data.addColumn('number', 'Count');
+        data.addColumn('number', 'Total Time(in Microseconds)');
+        data.addColumn('number', 'Average(in Microseconds)');
 
-        $.each(counts, function(db, val){
-          $.each(val, function(op, val){
+        $.each(counts, function(db, _val){
+          $.each(_val, function(op, val){
             row = [];
             row.push(db);
             row.push(op);
-            row.push(val);
+            row.push(val['count']);
+            row.push(Math.round(val['tTime'] * 1000));
+            row.push(Math.round(val['tTime'] / val['count'] * 1000));
             data.addRow(row);
           });
         });
 
         drawTable(data);
+
+        //get the totla time for transformation and persistence processor
+        var totalTime = getXFandPersTime(job);
+
+
+        $('#table_div')
+          .append('Total Mongo Operation Time: ' + totalDBOpTime + 'ms <br/>')
+          .append('Total Time for TransformationProcessor and PersistenceProcessor:' + totalTime  + 'ms <br/>')
+          .append('Pecentage:' + Math.round(totalDBOpTime / totalTime * 100) + '% <br/>');
+
       }
 
       function drawTable(data) {
@@ -798,7 +816,7 @@
           }
         });
 
-        timeBased(jobData, 0);
+        timeBased(jobData, 0, 'Obsolute Time Comparison', 'container');
 
         var normalizedJobData = {};
         if(ok) {
@@ -814,19 +832,19 @@
 
             normalizedJobData[index] = nData;
           });
-          timeBased(normalizedJobData, 1);
+          timeBased(normalizedJobData, 1, 'Normalized Time Comparison', 'graph' );
         }
       }
 
       function timeBasedSingleJob(jobId){
         var jobData = getExecutionStats(jobId);
-        timeBased(jobData, 0);
+        timeBased(jobData, 0, 'Obsolute Time', 'container');
       }
 
     //jobData is in this format: {legend:[x, y]}
     //if nor == 1, it will populate the relative time, otherwise, absolute time
-    function timeBased(jobData, nor) {
-        var container = document.getElementById('container'),
+    function timeBased(jobData, nor, graphTitle, container) {
+        var container = document.getElementById(container),
             strTitle = "Time-based DB operations";
 
 
@@ -876,15 +894,15 @@
             },
             defaults: {
                 detail: {
-                    height: 400,
+                    height: 800,
                     config: {
-                        title: null,
+                        title: graphTitle,
                         subtitle: null,
                         shadowSize: 4,
                         fontColor: '#545454',
                         fontSize: 10,
                         legend: {
-                            position: "nw"
+                            position: 'nw'
                         },
                         HtmlText: false,
                         parseFloat: true,
@@ -994,7 +1012,19 @@
         objChart = new envision.templates.TimeSeries(objChartOptions);
       }; 
 
+      function getXFandPersTime(job) {
+        var totalTime = 0
 
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, stage) {
+            if(stage.stageName == 'TransformationProcessor' || stage.stageName == 'PersistenceProcessor') {
+              totalTime += stage.elapsedTime;
+            }
+          });
+
+        return totalTime;
+      }
 
       function clearJobSpecificDivs() {
         $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
@@ -1009,6 +1039,8 @@
         $('#TransformationProcessor_entity_jobcompare_div').empty();
         $('#job_dist_linechart_div').empty();
         $('#container').empty();
+        $('#table_div').empty();
+        $('#graph').empty();
       }
 
       function toggleJobChooser() {
@@ -1046,8 +1078,8 @@
         <div id="PersistenceProcessor_entity_jobcompare_div"></div>
         <div id="TransformationProcessor_entity_jobcompare_div"></div>
         <div id="job_dist_linechart_div"></div>
-        <div id="graph" style="width:1000px; margin:0 auto;"></dib>
         <div id="table_div" style="width:1000px; margin:0 auto;"></div>
-        <div id="container" style="width:1000px, height=800px; margin:0 auto;"></div>
+        <div id="container" style="width:1000px; margin:0 auto;"></div>
+        <div id="graph" style="width:1000px; margin:0 auto;"></dib>
     </body>
 </html>
