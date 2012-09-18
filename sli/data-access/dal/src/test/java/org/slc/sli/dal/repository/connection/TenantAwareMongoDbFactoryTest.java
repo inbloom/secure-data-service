@@ -20,6 +20,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
+import org.slc.sli.dal.repository.tenancy.SystemCall;
+import org.slc.sli.dal.repository.tenancy.TenantCall;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -31,8 +33,8 @@ import com.mongodb.Mongo;
 public class TenantAwareMongoDbFactoryTest {
 
     @Test
+    @SystemCall
     public void testGetSystemConnection() {
-        CurrentTenantHolder.push(null);
         Mongo mongo = Mockito.mock(Mongo.class);
         DB db = Mockito.mock(DB.class);
 
@@ -48,9 +50,11 @@ public class TenantAwareMongoDbFactoryTest {
     
     @Test
     public void testGetTenantConnection() {
-        String tenantId = "testTenantId";
-        CurrentTenantHolder.push(tenantId);        
-        
+        testGetTenantConnection("testTenantId");
+    }
+    
+    @TenantCall(param = "tenantId")
+    public void testGetTenantConnection(String tenantId) {        
         Mongo mongo = Mockito.mock(Mongo.class);
         DB db = Mockito.mock(DB.class);
 
