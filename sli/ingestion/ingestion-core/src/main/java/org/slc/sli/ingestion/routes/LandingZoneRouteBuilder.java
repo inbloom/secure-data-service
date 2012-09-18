@@ -100,10 +100,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             // routeId: zipFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension()
-            + "$&exclude=\\.in\\.*&preMove="
-                            + inboundDir + "/.done&moveFailed=" + inboundDir
-                            + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
+            + "$&exclude=\\.in\\.*" + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                     .process(zipFileProcessor)
