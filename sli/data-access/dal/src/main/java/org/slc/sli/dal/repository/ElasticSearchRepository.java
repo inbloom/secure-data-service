@@ -1,5 +1,6 @@
 package org.slc.sli.dal.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -21,8 +24,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -54,8 +55,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
 
-    @Autowired
-    public ElasticSearchRepository(@Value("${sli.search.url}") String esUrl) {
+    public ElasticSearchRepository() {
         esClient = new TransportClient();
     }
 
@@ -85,7 +85,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         HttpMethod method = HttpMethod.POST;
         HttpHeaders headers = new HttpHeaders();
 
-        //Basic Authentication when username and password are provided
+        // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
             headers.set("Authorization", "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
@@ -100,7 +100,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         }
         return response;
     }
-
 
     /**
      * Converter SLI to/from ES
@@ -126,15 +125,16 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
                 // get the hits from the response
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
-
-                // create a search hit entity object for each hit
+                SearchHitEntity hit;
                 for (int i = 0; i < hitsNode.size(); i++) {
-                    SearchHitEntity hit = convertJsonToSearchHitEntity(hitsNode.get(i));
+                    hit = convertJsonToSearchHitEntity(hitsNode.get(i));
                     if (hit != null) {
                         hits.add(hit);
                     }
                 }
-            } catch (Exception e) {
+            } catch (JsonProcessingException e) {
+                LOG.error("Error converting search response to entities", e);
+            } catch (IOException e) {
                 LOG.error("Error converting search response to entities", e);
             }
             return hits;
@@ -144,25 +144,26 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
          * Converts a json response to a search hit entity
          */
         static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
-
             try {
-
+                TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
+                };
                 // read the values from the json
                 ObjectMapper mapper = new ObjectMapper();
                 String id = hitNode.get("_id").getTextValue();
                 String type = hitNode.get("_type").getTextValue();
                 JsonNode bodyNode = hitNode.get("fields").get("body");
-                Map<String, Object>body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> body = mapper.readValue(bodyNode, tr);
                 JsonNode metaDataNode = hitNode.get("fields").get("metaData");
-                Map<String, Object>metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> metaData = mapper.readValue(metaDataNode, tr);
 
                 // create a return the search hit entity
                 return new SearchHitEntity(id, type, body, metaData);
-
-            } catch (Exception e) {
+            } catch (JsonMappingException e) {
                 LOG.error("Error converting search json response to search hit entity", e);
-                return null;
+            } catch (IOException e) {
+                LOG.error("Error converting search json response to search hit entity", e);
             }
+            return null;
         }
 
         /**
@@ -235,7 +236,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         this.esPassword = esPassword;
     }
 
-
     /**
      * Simple adapter for SearchHits to Entity
      *
@@ -276,13 +276,11 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
         @Override
         public CalculatedData<Map<String, Integer>> getAggregates() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public CalculatedData<String> getCalculatedValues() {
-            // TODO Auto-generated method stub
             return null;
         }
     }
