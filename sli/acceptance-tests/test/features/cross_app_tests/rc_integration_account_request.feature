@@ -28,7 +28,8 @@ Scenario: As an app developer I want to verify my registration email
 Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
   And I navigate to the Portal home page
-  When I select the "Shared Learning Collaborative" realm
+  #When I select the "Shared Learning Collaborative" realm 
+  When I select the "Shared Learning Infrastructure" realm
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page

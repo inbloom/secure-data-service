@@ -40,5 +40,32 @@
                 ]
             ]
         }
+    },
+    {
+        "fieldPath" : "body.graduationPlanId",
+        "ref" :
+        {
+            "entityType" : "graduationPlan",
+            "optional" : true,
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.graduationPlanType",
+                        "values" :
+                        [{
+                            "valueSource" : "body.graduationPlanId.graduationPlanType"
+                        }]
+                    },
+                    {
+                        "path" : "body.totalCreditsRequired.credit",
+                        "values" :
+                        [{
+                            "valueSource" : "body.graduationPlanId.totalCreditsRequired.credit"
+                        }]
+                    }
+                ]
+            ]
+        }
     }]
 }
