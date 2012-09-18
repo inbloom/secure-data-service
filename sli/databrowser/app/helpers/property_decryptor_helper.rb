@@ -15,7 +15,7 @@
  limitations under the License.
 =end
 
-require 'openssl'
+require 'OpenSSL'
 
 module PropertyDecryptorHelper
     
