@@ -15,17 +15,20 @@
  */
 package org.slc.sli.api.resources.generic.representation;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ResourceConstants;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
+import java.util.List;
+
+import javax.ws.rs.core.UriInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.core.UriInfo;
-import java.util.List;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
  * Helper class for adding hateoas links to entities
@@ -45,8 +48,14 @@ public class HateoasLink {
 
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
 
+        // for search, entities can have different types. need to look up definition for each.
+        boolean isSearch = resource.equals(ResourceNames.SEARCH);
+
         for (EntityBody entity : entities) {
-            List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
+
+            List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore,
+                    isSearch ? entityDefinitionStore.lookupByResourceName((String) entity.get("type")) : definition,
+                    entity, uriInfo);
 
             if (!links.isEmpty()) {
                 entity.put(ResourceConstants.LINKS, links);

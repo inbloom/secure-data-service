@@ -19,14 +19,19 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.domain.Entity;
 
 /**
  * Search service
@@ -41,13 +46,33 @@ public class SearchResourceService {
 
     public ServiceResponse list(Resource resource, URI queryUri) {
 
+        List<EntityBody> entityBodies = null;
+
+        // Temporary until teacher security is in place
+        // If teacher, return unauthorized error
+        if (isTeacher()) {
+            throw new AccessDeniedException("Search currently available only for staff.");
+        }
+
         // Call BasicService to query the elastic search repo
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        Iterable<EntityBody> entityBodies = definition.getService().list(apiQuery);
+        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
 
         // return results
-        List<EntityBody> retList = (List<EntityBody>) entityBodies;
-        return new ServiceResponse(retList, retList.size());
+        return new ServiceResponse(entityBodies, entityBodies.size());
     }
+
+
+    private boolean isTeacher() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Entity entity = principal.getEntity();
+        String type = entity != null ? entity.getType() : null;
+        if (type != null && type.equals(EntityNames.TEACHER)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
