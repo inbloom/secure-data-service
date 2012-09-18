@@ -23,7 +23,8 @@ require 'thread'
 module Eventbus
 
   class MessagingService
-    def initialize(config = {})
+    def initialize(config = {}, logger = nil)
+      @logger = logger
       @config = {
           :messaging_host => "localhost",
           :messaging_port => 61613,
@@ -75,7 +76,11 @@ module Eventbus
     end
 
     def publish(message)
-      @client.publish(@queue_name, message.to_json)
+      begin
+        @client.publish(@queue_name, message.to_json)
+      rescue Exception => e
+        @logger.warn("problem publishing to queue #{@queue_name}: #{e}")if @logger
+      end
     end
   end
 
