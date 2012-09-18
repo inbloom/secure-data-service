@@ -20,17 +20,23 @@ module Eventbus
   require 'systemu'
 
   class HadoopJobRunner
-    def initialize(config = {})
+    def initialize(config = {}, logger = nil)
       @hadoop_jars = config[:hadoop_jars]
+      @logger = logger if logger
       @hadoop_home = config[:hadoop_home]
       @hadoop_exec = "#{@hadoop_home}/bin/hadoop"
     end
 
     def execute_job(job)
-      command = "#{@hadoop_exec} jar #{@hadoop_jars}#{job['jar']}"
-      puts "running '#{command}'"
+      if job['test'] 
+         command = "#{job['test']}"
+      else
+         command = "#{@hadoop_exec} jar #{@hadoop_jars}#{job['jar']}"
+      end
+      @logger.info "running '#{command}'" if @logger
       status, stdout, stderr = systemu command
-      puts "finished '#{command}', status = #{status}"
+      #puts "finished '#{command}', status = #{status}"
+      @logger.info "finished '#{command}', status = #{status}" if @logger
     end
 
     def list_jobs
@@ -60,7 +66,8 @@ module Eventbus
     end
 
     def print_job(job)
-      puts "Job ID = #{job[:job_id]}, State = #{job[:state]}, Start Time = #{job[:start_time]}, User Name = #{job[:user_name]}, Priority = #{job[:priority]}, SchedulingInfo = #{job[:scheduling_info]}"
+      #puts "Job ID = #{job[:job_id]}, State = #{job[:state]}, Start Time = #{job[:start_time]}, User Name = #{job[:user_name]}, Priority = #{job[:priority]}, SchedulingInfo = #{job[:scheduling_info]}"
+      @logger.info "Job ID = #{job[:job_id]}, State = #{job[:state]}, Start Time = #{job[:start_time]}, User Name = #{job[:user_name]}, Priority = #{job[:priority]}, SchedulingInfo = #{job[:scheduling_info]}" if @logger
     end
   end
 end
