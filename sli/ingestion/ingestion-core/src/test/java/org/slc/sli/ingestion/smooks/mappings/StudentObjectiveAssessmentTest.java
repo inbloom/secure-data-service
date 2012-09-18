@@ -50,7 +50,7 @@ public class StudentObjectiveAssessmentTest {
             + "<StudentAssessmentReference ref=\"STA-TAKS-Reading-8-2011-604844\"></StudentAssessmentReference>"
             + "<ObjectiveAssessmentReference>"
             + "<ObjectiveAssessmentIdentity>"
-            + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
+            + "<IdentificationCode>TAKSReading8-1</IdentificationCode>"
             + "</ObjectiveAssessmentIdentity>"
             + "</ObjectiveAssessmentReference>"
             + "</StudentObjectiveAssessment>"

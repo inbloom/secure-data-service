@@ -2,6 +2,51 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
+    <ObjectiveAssessment id="SatMathArithmetic">
+        <IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
+    </ObjectiveAssessment>
+
+    <ObjectiveAssessment id="SatMathAlgebra">
+        <IdentificationCode>SAT-Math-Algebra</IdentificationCode>
+    </ObjectiveAssessment>
+
+    <ObjectiveAssessment id="SatMathGeometry">
+        <IdentificationCode>SAT-Math-Geometry</IdentificationCode>
+    </ObjectiveAssessment>
+
+    <ObjectiveAssessment id="SatCritRead">
+        <IdentificationCode>SAT-Critical Reading</IdentificationCode>
+        <MaxRawScore>800</MaxRawScore>
+        <PercentOfAssessment>33</PercentOfAssessment>
+    </ObjectiveAssessment>
+
+    <ObjectiveAssessment id="SatWriting">
+        <IdentificationCode>SAT-Writing</IdentificationCode>
+        <MaxRawScore>800</MaxRawScore>
+        <PercentOfAssessment>33</PercentOfAssessment>
+    </ObjectiveAssessment>
+
+    <ObjectiveAssessment id="SatMath">
+        <IdentificationCode>SAT-Math</IdentificationCode>
+        <MaxRawScore>800</MaxRawScore>
+        <PercentOfAssessment>33</PercentOfAssessment>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </ObjectiveAssessment>
+
     <Assessment id="AP-1">
         <AssessmentTitle>English Literature and Composition</AssessmentTitle>
         <AssessmentIdentificationCode
@@ -177,9 +222,21 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>2400</MaxRawScore>
-		<ObjectiveAssessmentReference ref="SatWriting"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatMath"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatCritRead"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
@@ -189,40 +246,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
-	
-	<ObjectiveAssessment id="SatWriting">
-		<IdentificationCode>SAT-Writing</IdentificationCode>
-		<MaxRawScore>800</MaxRawScore>
-		<PercentOfAssessment>33</PercentOfAssessment>
-	</ObjectiveAssessment>
 
-	<ObjectiveAssessment id="SatMath">
-		<IdentificationCode>SAT-Math</IdentificationCode>
-		<MaxRawScore>800</MaxRawScore>
-		<PercentOfAssessment>33</PercentOfAssessment>
-		<ObjectiveAssessmentReference ref="SatMathArithmetic"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatMathAlgebra"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatMathGeometry"></ObjectiveAssessmentReference>
-	</ObjectiveAssessment>
-
-	<ObjectiveAssessment id="SatMathArithmetic">
-		<IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
-	</ObjectiveAssessment>
-
-	<ObjectiveAssessment id="SatMathAlgebra">
-		<IdentificationCode>SAT-Math-Algebra</IdentificationCode>
-	</ObjectiveAssessment>
-
-	<ObjectiveAssessment id="SatMathGeometry">
-		<IdentificationCode>SAT-Math-Geometry</IdentificationCode>
-	</ObjectiveAssessment>
-
-	<ObjectiveAssessment id="SatCritRead">
-		<IdentificationCode>SAT-Critical Reading</IdentificationCode>
-		<MaxRawScore>800</MaxRawScore>
-		<PercentOfAssessment>33</PercentOfAssessment>
-	</ObjectiveAssessment>
-	
 	<AssessmentFamily id="SAT-Family">
 		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
