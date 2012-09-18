@@ -161,6 +161,11 @@ class AppsController < ApplicationController
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     @app.load(params[:app])
+    # Want to read the created_by on the @app, which is stamped during the created.
+    # Tried @app.reload and it didn't work
+    creator_email = session[:email]
+    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
     @app.attributes.delete :image_url unless params[:app].include? :image_url
     @app.attributes.delete :administration_url unless params[:app].include? :administration_url
     @app.attributes.delete :application_url unless params[:app].include? :application_url
