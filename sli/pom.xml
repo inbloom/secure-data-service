@@ -56,6 +56,9 @@
 		<xerces.version>2.4.0</xerces.version>
 		<avro.version>1.6.1</avro.version>
 		<commons.schema.version>1.4.7</commons.schema.version>
+
+		<!-- ElasticSearch Versions -->
+		<elasticsearch.version>0.19.9</elasticsearch.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.collections.version>3.2.1</commons.collections.version>
 

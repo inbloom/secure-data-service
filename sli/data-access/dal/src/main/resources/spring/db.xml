@@ -120,11 +120,12 @@
 	    </constructor-arg> -->
   </bean>
   
-  <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository">
+  <bean id="searchRepository" name="searchRepo" class="org.slc.sli.dal.repository.ElasticSearchRepository" init-method="init" destroy-method="destroy">
     <property name="searchTemplate" ref="searchTemplate" />
     <property name="searchUrl" value="${sli.search.url}" />
     <property name="searchUsername" value="${sli.search.username}" />
     <property name="searchPassword" value="${sli.search.password}" />
+    <property name="embeddedEnabled" value="${sli.search.embedded:true}" />
   </bean>
 
 </beans>

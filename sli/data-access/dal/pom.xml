@@ -85,7 +85,7 @@
 		<dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>0.19.9</version>
+            <version>${elasticsearch.version}</version>
         </dependency>
 		
 	</dependencies>
