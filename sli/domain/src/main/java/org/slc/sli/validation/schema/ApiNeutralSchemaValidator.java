@@ -27,12 +27,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {
-        try {
-            validateNaturalKeys(entity);
-        } catch (NaturalKeyValidationException e) {
-            // if natural key fields are missing, entity is not valid
-            return false;
-        }
+        validateNaturalKeys(entity);
         return super.validate(entity);
     }
     
@@ -51,7 +46,15 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         }
         
         boolean recordMatchingKeyFields = false;
-        List<String> naturalKeyList = naturalKeyExtractor.getNaturalKeyFields(entity);
+        
+        List<String> naturalKeyList = new ArrayList<String>();
+        try {
+            naturalKeyList = naturalKeyExtractor.getNaturalKeyFields(entity);
+        } catch (NaturalKeyValidationException e) {
+            // swallow exception. if there are missing keys fields,
+            // they will be validated in the validate method
+            return;
+        }
         
         if (naturalKeyList != null && naturalKeyList.size() != 0) {
             

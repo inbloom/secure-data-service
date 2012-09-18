@@ -64,7 +64,7 @@ public class ApiNeutralSchemaValidatorTest {
         boolean result = apiNeutralSchemaValidator.validate(mockEntity);
         
         // validate
-        Assert.assertEquals(false, result);
+        Assert.assertEquals(true, result);
         
     }
 }
