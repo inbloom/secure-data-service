@@ -5,6 +5,162 @@
   (:use [clojure.contrib.string :only (substring?)])
 )
 
+(def first-names
+  ["James","John","Robert","Michael","William","David","Richard","Charles","Joseph","Thomas","Christopher","Daniel","Paul","Mark",
+   "Donald","George","Kenneth","Steven","Edward","Brian","Ronald","Anthony","Kevin","Jason","Matthew","Gary","Timothy","Jose","Larry",
+   "Jeffrey","Frank","Scott","Eric","Stephen","Andrew","Raymond","Gregory","Joshua","Jerry","Dennis","Walter","Patrick","Peter",
+   "Harold","Douglas","Henry","Carl","Arthur","Ryan","Roger","Joe","Juan","Jack","Albert","Jonathan","Justin","Terry","Gerald","Keith",
+   "Samuel","Willie","Ralph","Lawrence","Nicholas","Roy","Benjamin","Bruce","Brandon","Adam","Harry","Fred","Wayne","Billy","Steve",
+   "Louis","Jeremy","Aaron","Randy","Howard","Eugene","Carlos","Russell","Bobby","Victor","Martin","Ernest","Phillip","Todd","Jesse",
+   "Craig","Alan","Shawn","Clarence","Sean","Philip","Chris","Johnny","Earl","Jimmy","Antonio","Danny","Bryan","Tony","Luis","Mike",
+   "Stanley","Leonard","Nathan","Dale","Manuel","Rodney","Curtis","Norman","Allen","Marvin","Vincent","Glenn","Jeffery","Travis",
+   "Jeff","Chad","Jacob","Lee","Melvin","Alfred","Kyle","Francis","Bradley","Jesus","Herbert","Frederick","Ray","Joel","Edwin","Don",
+   "Eddie","Ricky","Troy","Randall","Barry","Alexander","Bernard","Mario","Leroy","Francisco","Marcus","Micheal","Theodore",
+   "Clifford","Miguel","Oscar","Jay","Jim","Tom","Calvin","Alex","Jon","Ronnie","Bill","Lloyd","Tommy","Leon","Derek","Warren","Darrell",
+   "Jerome","Floyd","Leo","Alvin","Tim","Wesley","Gordon","Dean","Greg","Jorge","Dustin","Pedro","Derrick","Dan","Lewis","Zachary",
+   "Corey","Herman","Maurice","Vernon","Roberto","Clyde","Glen","Hector","Shane","Ricardo","Sam","Rick","Lester","Brent","Ramon",
+   "Charlie","Tyler","Gilbert","Gene","Marc","Reginald","Ruben","Brett","Angel","Nathaniel","Rafael","Leslie","Edgar","Milton","Raul",
+   "Ben","Chester","Cecil","Duane","Franklin","Andre","Elmer","Brad","Gabriel","Ron","Mitchell","Roland","Arnold","Harvey","Jared",
+   "Adrian","Karl","Cory","Claude","Erik","Darryl","Jamie","Neil","Jessie","Christian","Javier","Fernando","Clinton","Ted","Mathew",
+   "Tyrone","Darren","Lonnie","Lance","Cody","Julio","Kelly","Kurt","Allan","Nelson","Guy","Clayton","Hugh","Max","Dwayne","Dwight",
+   "Armando","Felix","Jimmie","Everett","Jordan","Ian","Wallace","Ken","Bob","Jaime","Casey","Alfredo","Alberto","Dave","Ivan",
+   "Johnnie","Sidney","Byron","Julian","Isaac","Morris","Clifton","Willard","Daryl","Ross","Virgil","Andy","Marshall","Salvador",
+   "Perry","Kirk","Sergio","Marion","Tracy","Seth","Kent","Terrance","Rene","Eduardo","Terrence","Enrique","Freddie","Wade"]
+)
+
+(def last-names
+  ["Sears","Mayo","Dunlap","Hayden","Wilder","Mckay","Coffey","Mccarty","Ewing","Cooley","Vaughan","Bonner","Cotton","Holder","Stark",
+   "Ferrell","Cantrell","Fulton","Lynn","Lott","Calderon","Rosa","Pollard","Hooper","Burch","Mullen","Fry","Riddle","Levy","David",
+   "Duke","Odonnell","Guy","Michael","Britt","Frederick","Daugherty","Berger","Dillard","Alston","Jarvis","Frye","Riggs","Chaney",
+   "Odom","Duffy","Fitzpatrick","Valenzuela","Merrill","Mayer","Alford","Mcpherson","Acevedo","Donovan","Barrera","Albert","Cote",
+   "Reilly","Compton","Raymond","Mooney","Mcgowan","Craft","Cleveland","Clemons","Wynn","Nielsen","Baird","Stanton","Snider",
+   "Rosales","Bright","Witt","Stuart","Hays","Holden","Rutledge","Kinney","Clements","Castaneda","Slater","Hahn","Emerson","Conrad",
+   "Burks","Delaney","Pate","Lancaster","Sweet","Justice","Tyson","Sharpe","Whitfield","Talley","Macias","Irwin","Burris","Ratliff",
+   "Mccray","Madden","Kaufman","Beach","Goff","Cash","Bolton","Mcfadden","Levine","Good","Byers","Kirkland","Kidd","Workman","Carney",
+   "Dale","Mcleod","Holcomb","England","Finch","Head","Burt","Hendrix","Sosa","Haney","Franks","Sargent","Nieves","Downs","Rasmussen",
+   "Bird","Hewitt","Lindsay","Le","Foreman","Valencia","Oneil","Delacruz","Vinson","Dejesus","Hyde","Forbes","Gilliam","Guthrie",
+   "Wooten","Huber","Barlow","Boyle","Mcmahon","Buckner","Rocha"]
+)
+
+(def districts
+    ["Abbott","Addison","Adirondack","Afton","Akron","Albany-City","Albion","Alden","Alexander","Alexandria","Alfred",
+     "Allegany","Altmar-Parish","Amagansett","Amherst","Amityville","Amsterdam","Andes","Andover",
+     "Ardsley","Argyle","Arkport","Arlington","Attica","Auburn-City","Ausable-Valley","Averill-Park","Avoca","Avon","Babylon",
+     "Bainbridge","Baldwin","Baldwinsville","Ballston","Barker","Batavia","Bath","Bay-Shore","Bayport-Blue",
+     "Beacon-City","Beaver-River","Bedford","Beekmantown","Belfast","Belleville","Bellmore","Bellmore-Merrick",
+     "Bemus","Berkshire","Berlin","Berne-Knox","Bethlehem","Bethpage","Binghamton","Brook-Rye",
+     "Bolivar","Bolton","Bradford","Brasher","Brentwood","Brewster","Briarcliff","Bridgehampton","Brighton",
+     "Broadalbin","Brockport","Brocton","Bronxville","Brookfield","Brookhaven","Broome",
+     "Brunswic","Brushton","Buffalo","Burnt-Hills","Byram Hills","Byron-Bergen","Cairo-Durham",
+     "Caledonia","Cambridge","Camden","Campbell","Canajoharie","Canandaigua","Canaseraga","Canastota",
+     "Candor","Canisteo","Canton","Capital","Carle-Place","Carmel","Carthage","Cassadaga",
+     "Cato-Meridian","Catskill","Cattar-Allegany","Cattaraugus","Cayuga",
+     "Cazenovia","Center","Central-Islip","Central-Square","Chappaqua","Charlotte","Chateaugay","Chatham",
+     "Chautauqua","Chazy","Cheektowaga","Maryvale","Sloan","Chenango-Forks","Chenango",
+     "Cherry-Valley","Chester","Chittenango","Churchville","Cincinnatus","Clarence","Clarkstown","Cleveland",
+     "Clifton-Fin","Clinton","Clinton-Essex","Clyde","Clymer","Cobleskill","Cohoes-City",
+     "Cold-Spring","Colton","Commack","Connetquot","Cooperstown","Copenhagen","Copiague","Corinth","Corning-City",
+     "Cornwall","Cortland-City","Coxsackie","Croton-Harmon","Crown-Point","Cuba-Rushford","Dalton-Nunda",
+     "Dansville","Deer-Park","Delaware","Delaw-","Depew","Deposit","Deruyter",
+     "Dobbs-Ferry","Dolgeville","Dover","Downsville","Dryden","Duanesburg","Dundee","Dunkirk-City","Dutchess","East-Aurora",
+     "East-Bloomfield","East-Greenbush","East-Hampton","East-Irondequoit","East-Islip","East-Meadow","East-Moriches",
+     "East-Quogue","East-Ramapo","East-Rochester","East-Rockaway","East-Syracuse","East-Williston",
+     "Eastchester","Eastern-Suffolk","Eastport-South","Eden","Edgemont","Edinburg-Common","Edmeston","Edwards-Knox",
+     "Elba","Eldred","Elizabethtown","Ellenville","Ellicottville","Elmira-City","Elmira-Heights","Elmont","Elmsford",
+     "Elwood","Erie","Erie-2","Evans-Brant","Fabius-Pompey","Fairport",
+     "Falconer","Fallsburg","Farmingdale","Fayetteville","Fillmore","Fire-Island","Fishers-Island","Floral-Park",
+     "Florida","Fonda","Forestville","Fort-Ann","Fort-Edward","Fort-Plain","Frankfort","Franklin",
+     "Garden-City","Garrison","Gates-Chili","General-Brown","Genesee-Valley","Geneseo","Geneva-City",
+     "Hadley-Luzerne","Haldane","Half-Hollow","Hamburg","Hamilton","Hamilton","Hammond",
+     "Homer","Honeoye","Honeoye","Hoosic-Valley","Hoosick-Falls","Hopevale","Hornell-City",
+     "Inlet-Comn","Iroquois","Irvington","Island-Park","Island-Trees","Islip","Ithaca-City","Jamestown-City","Jamesville",
+     "Keene","Kendall","Kenmore","Kinderhook","Kings-Park","Kingston-City","Kiryas","La-Fargeville",
+     "Livonia","Lockport-City","Locust-Valley","Long-Beach","Long-Lake","Longwood","Lowville-Academy","Lyme",
+     "Middletown","1 - Manhattan","2- Manhattan","3 - Manhattan",
+     "4 - Manhattan","5 - Manhattan","6 - Manhattan","7 - Bronx",
+     "8 - Bronx","9 - Bronx","10 - Bronx","11 - Bronx",
+     "12 - Bronx","13 - Brooklyn","14 - Brooklyn","15 - Brooklyn",
+     "16 - Brooklyn","17 - Brooklyn","18 - Brooklyn","19 - Brooklyn",
+     "20 - Brooklyn","21 - Brooklyn","22 - Brooklyn","23 - Brooklyn",
+     "24 - Queens","25 - Queens","26 - Queens","27 - Queens",
+     "31 - Staten Island","32 - Brooklyn","NYC Spec Schools","Oakfield",
+     "Ossining","Oswego","Oswego-City","Otego-Unadilla","Otsego-Delaw","Owego-Apalachin",
+     "Panama","Parishville","Patchogue","Pavilion","Pawling","Pearl-River","Peekskill","Poland",
+     "Randolph","Raquette","Ravena","Red-Creek","Red-Hook","Remsen","Remsenburg",
+     "Salem","Salmon","Sandy-Creek","Saranac","Saranac-Lake","Saratoga-Springs","Saugerties","Sauquoit-Valley" ]
+ )
+
+(defn school-id [i j]
+  (format "PS-%s" (str (+ i j)))
+)
+
+(defn student-id [schoolName studentId]
+  (format "%s-%s" schoolName (str studentId))
+)
+
+(defn course-id [districtName]
+  (format "Math007-%s" districtName)
+)
+
+(defn assessment-id [assessmentName]
+  (str "Grade_7_2011_State_Math")
+)
+
+(defn saa-id [schoolName studentId date]
+  (format "SAA-%s-%s-%s" schoolName (str studentId) date)
+)
+
+(defn section-id [schoolName]
+  (format "%s-Math007-S2" schoolName)
+)
+
+(defn calendar-date-id [schoolName]
+  (format "%s-day" schoolName)
+)
+
+(defn grading-period-id [schoolName]
+  (format "%s-GP1" schoolName)
+)
+
+(defn session-id [schoolName]
+  (format "%s-Fall-2011" schoolName)
+)
+
+(defn local-course-id [schoolName]
+  (format "%s-Math007" schoolName)
+)
+
+(defn student-ref [schoolName studentId]
+  (element :StudentReference {}
+    (element :StudentIdentity {}
+      (element :StudentUniqueStateId {} (student-id schoolName studentId))
+    )
+  )
+)
+
+(defn school-ref [schoolName]
+  (element :SchoolReference {}
+    (element :EducationalOrgIdentity {}
+      (element :StateOrganizationId {} schoolName)
+    )
+  )
+)
+
+(defn ed-org-ref [edOrgName]
+  (element :EducationalOrgIdentity {}
+    (element :StateOrganizationId {} edOrgName)
+  )
+)
+
+(defn section-ref [schoolName]
+  (element :SectionReference {}
+    (element :SectionIdentity {}
+      (element :StateOrganizationId {} schoolName)
+      (element :UniqueSectionCode {}  (section-id schoolName))
+    )
+  )
+)
+
 (defn gen-edfi
   [interchange output-file contents]
   ; (prn output-file)
@@ -14,11 +170,11 @@
 )
 
 (defn gen-student [schoolName studentId]
-  (element :Student {:id (format "%s-%s" schoolName (str studentId))}
-    (element :StudentUniqueStateId {} (format "%s-%s" schoolName (str studentId)))
+  (element :Student {:id (student-id schoolName studentId)}
+    (element :StudentUniqueStateId {} (student-id schoolName studentId))
     (element :Name {}
-      (element :FirstName {} (rand-nth ["Nathan" "Gina" "Alan" "Morena" "Adam" "Jewel" "Sean" "Summer" "Ron"]))
-      (element :LastSurname {} (rand-nth ["Fillion" "Torres" "Tudyk" "Baccarin" "Baldwin" "Staite" "Maher" "Glau" "Glass"]))
+      (element :FirstName {} (rand-nth first-names))
+      (element :LastSurname {} (rand-nth last-names))
     )
     (element :Sex {} (rand-nth ["Male" "Female"]))
     (element :BirthData {}
@@ -121,18 +277,14 @@
 )
 
 (defn create-courses [districtName]
-  (let [tmp (element :Course {:id (format "Math007-%s" districtName)}
-    (element :CourseTitle {} "Math007")
+  (let [tmp (element :Course {:id (course-id districtName)}
+    (element :CourseTitle {} "Math 7")
     (element :NumberOfParts {} "1")
     (element :CourseCode {:IdentificationSystem "CSSC course code"}
-        (element :ID {} (format "Math007-%s" districtName))
+        (element :ID {} (course-id districtName))
     )
     (element :CourseDescription {} "7th grade math")
-    (element :EducationOrganizationReference {}
-      (element :EducationalOrgIdentity {}
-        (element :StateOrganizationId {} districtName)
-      )
-    )
+    (element :EducationOrganizationReference {} (ed-org-ref districtName))
     )]
     tmp
   )
@@ -157,7 +309,7 @@
 )
 
 (defn create-assessment [assessmentName]
-  (let [tmp (element :Assessment {:id "Grade_7_2011_State_Math"}
+  (let [tmp (element :Assessment {:id (assessment-id assessmentName)}
       (element :AssessmentTitle {} assessmentName)
       (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
         (element :ID {} assessmentName)
@@ -218,17 +370,9 @@
     (> 33 score) "E")
 )
 
-(defn student-ref [schoolName studentId]
-  (element :StudentReference {}
-    (element :StudentIdentity {}
-      (element :StudentUniqueStateId {} (format "%s-%s" schoolName (str studentId)))
-    )
-  )
-)
-
 (defn gen-saa [schoolName studentId assessmentName date]
   (let [score (rand-nth (range 6 33))]
-    (element :StudentAssessment {:id (format "SAA-%s-%s-%s" schoolName (str studentId) date)}
+    (element :StudentAssessment {:id (saa-id schoolName studentId date)}
       (element :AdministrationDate {} date)
       (element :AdministrationEndDate {} date)
       (element :SerialNumber {} "2")
@@ -265,11 +409,7 @@
   [schoolName studentId]
   (element :StudentSchoolAssociation {}
     (student-ref schoolName studentId)
-    (element :SchoolReference {}
-      (element :EducationalOrgIdentity {}
-        (element :StateOrganizationId {} schoolName)
-      )
-    )
+    (school-ref schoolName)
     (element :EntryDate {} "2011-09-01")
     (element :EntryGradeLevel {} "Seventh grade")
   )
@@ -279,12 +419,7 @@
   [schoolName studentId]
   (element :StudentSectionAssociation {}
     (student-ref schoolName studentId)
-    (element :SectionReference {}
-      (element :SectionIdentity {}
-        (element :StateOrganizationId {} schoolName)
-        (element :UniqueSectionCode {}  (format "%s-Math-7-2011-Sec2" schoolName))
-      )
-    )
+    (section-ref schoolName)
     (element :BeginDate {} "2011-09-06")
     (element :EndDate {} "2011-12-16")
   )
@@ -307,14 +442,15 @@
   )
 )
 
+
 (defn create-session [districtName schoolName]
   (into () [
-    (element :CalendarDate {:id (format "%s-%s-day" districtName schoolName) }
+    (element :CalendarDate {:id (calendar-date-id schoolName) }
       (element :Date {} "2011-09-22")
       (element :CalendarEvent {} "Instructional day")
     )
 
-    (element :GradingPeriod {:id (format "%s-%s-GP1" districtName schoolName)}
+    (element :GradingPeriod {:id (grading-period-id schoolName)}
       (element :GradingPeriodIdentity {}
         (element :GradingPeriod {} "End of Year")
         (element :SchoolYear {} "2011-2012")
@@ -324,23 +460,19 @@
       (element :BeginDate {} "2011-09-01")
       (element :EndDate {} "2011-12-01")
       (element :TotalInstructionalDays {} "90")
-      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
+      (element :CalendarDateReference {:ref (calendar-date-id schoolName)})
     )
 
     (element :Session {}
-      (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
+      (element :SessionName {} (session-id schoolName))
       (element :SchoolYear {} "2011-2012")
       (element :Term {} "Fall Semester")
       (element :BeginDate {} "2011-09-06")
       (element :EndDate {} "2011-12-16")
       (element :TotalInstructionalDays {} "75")
-      (element :EducationOrganizationReference {}
-        (element :EducationalOrgIdentity {}
-          (element :StateOrganizationId {} schoolName)
-        )
-      )
-      (element :GradingPeriodReference {:ref (format "%s-%s-GP1" districtName schoolName)})
-      (element :CalendarDateReference {:ref (format "%s-%s-day" districtName schoolName)})
+      (element :EducationOrganizationReference {} (ed-org-ref schoolName))
+      (element :GradingPeriodReference {:ref (grading-period-id schoolName)})
+      (element :CalendarDateReference {:ref (calendar-date-id schoolName)})
     ) ]
   )
 )
@@ -356,7 +488,7 @@
 (defn create-section [districtName schoolName]
   (into () [
     (element :CourseOffering {}
-      (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
+      (element :LocalCourseCode {} (local-course-id schoolName))
       (element :LocalCourseTitle {} "7th Grade Math")
       (element :SchoolReference {}
         (element :EducationalOrgIdentity {}
@@ -365,26 +497,26 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
+          (element :SessionName {} (session-id schoolName))
         )
       )
       (element :CourseReference {}
         (element :CourseIdentity {}
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} (format "Math007-%s" districtName))
+            (element :ID {} (course-id districtName))
           )
         )
       )
     )
 
     (element :Section {}
-      (element :UniqueSectionCode {} (format "%s-%s-Math-7-2011-Sec2" districtName schoolName))
+      (element :UniqueSectionCode {} (section-id schoolName))
       (element :SequenceOfCourse {} "1")
       (element :CourseOfferingReference {}
         (element :CourseOfferingIdentity {}
-          (element :LocalCourseCode {} (format "%s-%s-Math-7" districtName schoolName))
+          (element :LocalCourseCode {} (local-course-id schoolName))
           (element :CourseCode {:IdentificationSystem "CSSC course code"}
-            (element :ID {} (format "Math-7-%s" districtName))
+            (element :ID {} (course-id districtName))
           )
           (element :Term {} "Fall Semester")
           (element :SchoolYear {} "2011-2012")
@@ -398,7 +530,7 @@
       )
       (element :SessionReference {}
         (element :SessionIdentity {}
-          (element :SessionName {} (format "%s-%s-Fall-2011" districtName schoolName))
+          (element :SessionName {} (session-id schoolName))
         )
       )
     ) ]
@@ -413,60 +545,12 @@
   )
 )
 
-
-(def districts
-    ["Abbott","Addison","Adirondack","Afton","Akron","Albany-City","Albion","Alden","Alexander","Alexandria","Alfred",
-     "Allegany","Altmar-Parish","Amagansett","Amherst","Amityville","Amsterdam","Andes","Andover",
-     "Ardsley","Argyle","Arkport","Arlington","Attica","Auburn-City","Ausable-Valley","Averill-Park","Avoca","Avon","Babylon",
-     "Bainbridge","Baldwin","Baldwinsville","Ballston","Barker","Batavia","Bath","Bay-Shore","Bayport-Blue",
-     "Beacon-City","Beaver-River","Bedford","Beekmantown","Belfast","Belleville","Bellmore","Bellmore-Merrick",
-     "Bemus","Berkshire","Berlin","Berne-Knox","Bethlehem","Bethpage","Binghamton","Brook-Rye",
-     "Bolivar","Bolton","Bradford","Brasher","Brentwood","Brewster","Briarcliff","Bridgehampton","Brighton",
-     "Broadalbin","Brockport","Brocton","Bronxville","Brookfield","Brookhaven","Broome",
-     "Brunswic","Brushton","Buffalo","Burnt-Hills","Byram Hills","Byron-Bergen","Cairo-Durham",
-     "Caledonia","Cambridge","Camden","Campbell","Canajoharie","Canandaigua","Canaseraga","Canastota",
-     "Candor","Canisteo","Canton","Capital","Carle-Place","Carmel","Carthage","Cassadaga",
-     "Cato-Meridian","Catskill","Cattar-Allegany","Cattaraugus","Cayuga",
-     "Cazenovia","Center","Central-Islip","Central-Square","Chappaqua","Charlotte","Chateaugay","Chatham",
-     "Chautauqua","Chazy","Cheektowaga","Maryvale","Sloan","Chenango-Forks","Chenango",
-     "Cherry-Valley","Chester","Chittenango","Churchville","Cincinnatus","Clarence","Clarkstown","Cleveland",
-     "Clifton-Fin","Clinton","Clinton-Essex","Clyde","Clymer","Cobleskill","Cohoes-City",
-     "Cold-Spring","Colton","Commack","Connetquot","Cooperstown","Copenhagen","Copiague","Corinth","Corning-City",
-     "Cornwall","Cortland-City","Coxsackie","Croton-Harmon","Crown-Point","Cuba-Rushford","Dalton-Nunda",
-     "Dansville","Deer-Park","Delaware","Delaw-","Depew","Deposit","Deruyter",
-     "Dobbs-Ferry","Dolgeville","Dover","Downsville","Dryden","Duanesburg","Dundee","Dunkirk-City","Dutchess","East-Aurora",
-     "East-Bloomfield","East-Greenbush","East-Hampton","East-Irondequoit","East-Islip","East-Meadow","East-Moriches",
-     "East-Quogue","East-Ramapo","East-Rochester","East-Rockaway","East-Syracuse","East-Williston",
-     "Eastchester","Eastern-Suffolk","Eastport-South","Eden","Edgemont","Edinburg-Common","Edmeston","Edwards-Knox",
-     "Elba","Eldred","Elizabethtown","Ellenville","Ellicottville","Elmira-City","Elmira-Heights","Elmont","Elmsford",
-     "Elwood","Erie","Erie-2","Evans-Brant","Fabius-Pompey","Fairport",
-     "Falconer","Fallsburg","Farmingdale","Fayetteville","Fillmore","Fire-Island","Fishers-Island","Floral-Park",
-     "Florida","Fonda","Forestville","Fort-Ann","Fort-Edward","Fort-Plain","Frankfort","Franklin",
-     "Garden-City","Garrison","Gates-Chili","General-Brown","Genesee-Valley","Geneseo","Geneva-City",
-     "Hadley-Luzerne","Haldane","Half-Hollow","Hamburg","Hamilton","Hamilton","Hammond",
-     "Homer","Honeoye","Honeoye","Hoosic-Valley","Hoosick-Falls","Hopevale","Hornell-City",
-     "Inlet-Comn","Iroquois","Irvington","Island-Park","Island-Trees","Islip","Ithaca-City","Jamestown-City","Jamesville",
-     "Keene","Kendall","Kenmore","Kinderhook","Kings-Park","Kingston-City","Kiryas","La-Fargeville",
-     "Livonia","Lockport-City","Locust-Valley","Long-Beach","Long-Lake","Longwood","Lowville-Academy","Lyme",
-     "Middletown","1 - Manhattan","2- Manhattan","3 - Manhattan",
-     "4 - Manhattan","5 - Manhattan","6 - Manhattan","7 - Bronx",
-     "8 - Bronx","9 - Bronx","10 - Bronx","11 - Bronx",
-     "12 - Bronx","13 - Brooklyn","14 - Brooklyn","15 - Brooklyn",
-     "16 - Brooklyn","17 - Brooklyn","18 - Brooklyn","19 - Brooklyn",
-     "20 - Brooklyn","21 - Brooklyn","22 - Brooklyn","23 - Brooklyn",
-     "24 - Queens","25 - Queens","26 - Queens","27 - Queens",
-     "31 - Staten Island","32 - Brooklyn","NYC Spec Schools","Oakfield",
-     "Ossining","Oswego","Oswego-City","Otego-Unadilla","Otsego-Delaw","Owego-Apalachin",
-     "Panama","Parishville","Patchogue","Pavilion","Pawling","Pearl-River","Peekskill","Poland",
-     "Randolph","Raquette","Ravena","Red-Creek","Red-Hook","Remsen","Remsenburg",
-     "Salem","Salmon","Sandy-Creek","Saranac","Saranac-Lake","Saratoga-Springs","Saugerties","Sauquoit-Valley" ] )
-
 (defn gen-district-schools [districtCount schoolsPerDistrict studentsPerSchool]
   ; should distribute this in a more normal distribution
   (for [i (range 1 (+ districtCount 1))
     :let [r (assoc (hash-map) (districts i)
       (for [j (range 1 (+ 1 schoolsPerDistrict))]
-        (format "PS-%s" (str (+ i j)))))]]
+        (school-id i j)))]]
    r)
 )
 
@@ -537,7 +621,7 @@
 
 (defn gen-big-data
   [districtCount schoolCount studentCount]
-  (def sectionName "7th Grade Math - Sec 2")
+  (def sectionName "Math007-S2")
   (def assessmentName "Grade 7 State Math")
   (def i (make-counter 0))
   ;(def i (atom 0))

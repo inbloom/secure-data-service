@@ -55,6 +55,8 @@ public class ZipFileProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Validates and unzips the zip file";
+
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
@@ -81,7 +83,7 @@ public class ZipFileProcessor implements Processor {
     }
 
     private void processZipFile(Exchange exchange) throws Exception {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = null;
 
