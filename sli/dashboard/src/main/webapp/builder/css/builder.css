@@ -1,3 +1,10 @@
+/* Twitter bootstrap collapse IE8 fix */
+.collapse {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+}
+
 [class^="icon-"],[class*=" icon-"] {
     background-image:url("../../static/images/glyphicons-halflings.png");
 }
@@ -127,3 +134,4 @@ ul.menu_n a {
 .show-false { display: none; }
 
 .profilePageWrapper ul.panelList { height: auto; }
+
