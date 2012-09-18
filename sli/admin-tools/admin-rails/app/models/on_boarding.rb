@@ -29,6 +29,7 @@ class OnBoarding < SessionResource
 
 
   self.collection_name = "provision"
+  self.timeout = 300
   schema do
     string  "tenantId"
     string  "stateOrganizationId"

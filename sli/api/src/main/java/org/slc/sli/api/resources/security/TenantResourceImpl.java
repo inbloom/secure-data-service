@@ -17,6 +17,11 @@
 package org.slc.sli.api.resources.security;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -30,6 +35,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -55,6 +63,7 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.StreamGobbler;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
@@ -122,6 +131,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
+    public static final String PRE_SPLITTING_SCRIPT = "../config/shards/sli-shard-presplit.js";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -216,6 +226,38 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             // the custom roles
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
+            }
+            
+            // Call the pre-splitting script for mongo
+            // WARNING: Shelling out to call a javascript occurs in this block
+            // of code.  This should be done extremely rarely and only with
+            // the explicit consent of security.  This particular block of code
+            // was permitted by Daniel Fiedler and requested by Daniel Shaw.
+            try {
+                Runtime rt = Runtime.getRuntime();
+                String varString = "var num_years=1, tenant='"+tenantId+"'";
+                Process p = rt.exec(new String[] {"mongo","admin","--eval",varString,PRE_SPLITTING_SCRIPT});
+                // any error message?
+                StreamGobbler errorGobbler = new
+                    StreamGobbler(p.getErrorStream(), "ERROR");
+
+                // any output?
+                StreamGobbler outputGobbler = new
+                    StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                // kick them off
+                errorGobbler.start();
+                outputGobbler.start();
+
+                try {
+                    p.waitFor();
+                } catch (InterruptedException ie) {
+                    // TODO Auto-generated catch block
+                    ie.printStackTrace();
+                }
+            } catch (IOException ioe) {
+                // TODO Auto-generated catch block
+                ioe.printStackTrace();
             }
             return tenantService.create(newTenant);
         }
