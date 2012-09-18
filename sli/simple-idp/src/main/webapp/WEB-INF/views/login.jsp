@@ -84,7 +84,7 @@
 					</div>
 					<div class="control-group">
 						<label for="password" class="control-label">Password:</label>
-						<input type="password" id="password" name="password" />
+						<input type="password" id="password" name="password" autocomplete="off"/>
 					</div>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">

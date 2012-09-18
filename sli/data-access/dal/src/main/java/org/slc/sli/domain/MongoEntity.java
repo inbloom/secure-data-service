@@ -27,10 +27,8 @@ import org.bson.BasicBSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
@@ -149,23 +147,14 @@ public class MongoEntity implements Entity, Serializable {
      * @return DBObject that converted from this MongoEntity
      */
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy) {
-        return toDBObject(uuidGeneratorStrategy, null);
-    }
-
-    public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, NaturalKeyExtractor naturalKeyExtractor) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
 
         final String uid;
 
         if (entityId == null) {
-            NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor();
-            if (naturalKeyExtractor != null) {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);
-            }
-
             if (uuidGeneratorStrategy != null) {
-                uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
+                uid = uuidGeneratorStrategy.randomUUID();
             } else {
                 LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
                 uid = UUID.randomUUID().toString();
@@ -209,8 +198,7 @@ public class MongoEntity implements Entity, Serializable {
         Map<String, Map<String, Map<String, Map<String, Integer>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Integer>>>>) dbObj
                 .get("aggregations");
 
-        return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
-                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"));
+        return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals), new CalculatedData<Map<String, Integer>>(aggs, "aggregate"));
     }
 
     /**
