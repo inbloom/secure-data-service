@@ -15,11 +15,6 @@
       <div class="controls">
         <%= get_captcha(:options => {:theme => 'white', :tabindex => increment_counter, :lang => 'en'}, :ssl => 'true').html_safe %>
       </div>
-      <% if @forgot_password.errors[:recaptcha].any? %>
-            <span class="help-inline">
-                <%= @forgot_password.errors[:recaptcha][0] %>
-            </span>
-      <% end %>
   </div>
   <%= submit_tag("Submit", :id => "submit") %>
 <% end %>
