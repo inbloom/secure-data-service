@@ -12,6 +12,24 @@
             [
                 [
                     {
+                        "isList" : true,
+                        "path" : "body.educationOrgIdentificationCode",
+
+                        "entityKey" : "educationOrgIdentificationCode",
+                        "queryList" :
+                        {
+                             "ID" : "body.educationOrgIdentificationCode.ID",
+                             "identificationSystem" : "body.educationOrgIdentificationCode.identificationSystem"
+                        },
+
+                        "values" :
+                        [
+                            { 
+                                "valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.educationOrgIdentificationCode"
+                            }
+                        ]
+                    },
+                    {
                         "path" : "body.stateOrganizationId",
                         "values" :
                         [{
