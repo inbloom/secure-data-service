@@ -41,9 +41,8 @@ module Eventbus
           :ssl => @config[:messaging_ssl]
       }
 
-      # if config[:subscribe_queue_name].start_with?('/topic/')
-      #   host[:headers] = {'client-id' => config[:node_name]}
-      # end
+      # XXX: hardcoded configuration for ActiveMQ/Stomp
+      # we might want to make this configurable eventually 
       @config[:stomp_config] = {
           :hosts => [@host],
           :initial_reconnect_delay => 0.01,

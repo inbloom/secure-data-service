@@ -146,7 +146,7 @@ module Eventbus
       @event_subscriber = config[:event_subscriber]
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config[:collect_events_interval])
       @oplog_reader = OpLogReader.new(config, logger)
 
       @threads << Thread.new do
