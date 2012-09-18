@@ -1796,6 +1796,9 @@
 						rank of
 						education staff.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="positionTitle" type="positionTitle"
@@ -1816,6 +1819,7 @@
                     <xs:appinfo>
                         <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
                         <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                        <sli:naturalKey>true</sli:naturalKey>
                     </xs:appinfo>
                 </xs:annotation>
 			</xs:element>
@@ -2664,7 +2668,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentAcademicRecord</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -4430,7 +4434,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>disciplineAction</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -4441,6 +4445,9 @@
 						to
 						the discipline action.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="disciplines" type="disciplineDescriptorType"
@@ -4497,7 +4504,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4511,7 +4517,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4524,7 +4529,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4547,7 +4551,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5735,7 +5738,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>grade</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -5779,9 +5782,6 @@
 					<xs:documentation>The type of grade reported (e.g., Exam, Final,
 						Grading Period).
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="performanceBaseConversion" type="performanceBaseType"
@@ -5834,7 +5834,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>gradebookEntry</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -6733,7 +6733,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>disciplineIncident</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -6865,7 +6865,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
