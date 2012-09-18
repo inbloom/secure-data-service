@@ -144,8 +144,7 @@
 
         $.each(job.stages, function(key, stage) {
           var elapsedSeconds = stage.elapsedTime/1000;
-          var stageSummary = stage.stageName + ' ' + elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
-
+          var stageSummary = stage.stageName + ' (' + stage.stageDesc + ') '+ elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
           dataTable.addRow([stageSummary, stage.elapsedTime]);
         });
         
