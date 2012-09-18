@@ -141,7 +141,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private boolean isPreviouslyIngested(NeutralRecord n) {
 
         try {
-            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"));
+            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");
+//                    + "-" + createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "MD5");
 
             LOG.info("RECORD HASH = " + recordId);
 
@@ -157,8 +158,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     }
 
 
-    public static String createRecordHash(byte[] input) throws NoSuchAlgorithmException{
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
+    public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance(algorithmName);
         return byteArray2Hex(md.digest(input));
     }
 
