@@ -50,6 +50,14 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -66,13 +74,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -110,7 +111,7 @@ public class SamlFederationResource {
 
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
-    
+
     @Autowired
     private RealmHelper realmHelper;
 
@@ -282,7 +283,7 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        
+
         boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
 
         if ("-133".equals(principal.getEntity().getEntityId()) && !isAdminRealm) {
@@ -290,7 +291,7 @@ public class SamlFederationResource {
             // have no valid user
             throw new AccessDeniedException("Invalid user.");
         }
-        
+
         if (!isAdminRealm && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
             throw new AccessDeniedException("User is not associated with realm.");
         }
@@ -320,7 +321,7 @@ public class SamlFederationResource {
         } else {
             debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
         }
-        
+
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
@@ -353,9 +354,10 @@ public class SamlFederationResource {
                 builder.queryParam("state", state);
             }
 
+            boolean runningSsl = uriInfo.getRequestUri().getScheme().equals("https");
             URI redirect = builder.build();
             return Response.status(Response.Status.FOUND)
-                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", -1, false))
+                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", -1, runningSsl))
                     .location(redirect).build();
         }
     }
