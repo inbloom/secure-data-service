@@ -6122,7 +6122,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>cohort</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
