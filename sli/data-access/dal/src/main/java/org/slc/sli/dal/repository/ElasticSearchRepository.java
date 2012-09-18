@@ -91,6 +91,8 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
         HttpEntity<String> response = null;
+
+        // make the REST call
         try {
             response = searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
         } catch (RestClientException rce) {
@@ -106,7 +108,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      * @author agrebneva
      *
      */
-    private static class Converter {
+    public static class Converter {
 
         /**
          * Converts elasticsearch http response to collection of entities
@@ -120,8 +122,12 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
             Collection<Entity> hits = new ArrayList<Entity>();
             JsonNode node = null;
             try {
+
+                // get the hits from the response
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
+
+                // create a search hit entity object for each hit
                 for (int i = 0; i < hitsNode.size(); i++) {
                     SearchHitEntity hit = convertJsonToSearchHitEntity(hitsNode.get(i));
                     if (hit != null) {
@@ -139,14 +145,18 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
          */
         static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
 
-            ObjectMapper mapper = new ObjectMapper();
-            String id = hitNode.get("_id").getTextValue();
-            String type = hitNode.get("_type").getTextValue();
-            JsonNode bodyNode = hitNode.get("fields").get("body");
             try {
+
+                // read the values from the json
+                ObjectMapper mapper = new ObjectMapper();
+                String id = hitNode.get("_id").getTextValue();
+                String type = hitNode.get("_type").getTextValue();
+                JsonNode bodyNode = hitNode.get("fields").get("body");
                 Map<String, Object>body = mapper.readValue(bodyNode, new TypeReference<Map<String, Object>>() {});
                 JsonNode metaDataNode = hitNode.get("fields").get("metaData");
                 Map<String, Object>metaData = mapper.readValue(metaDataNode, new TypeReference<Map<String, Object>>() {});
+
+                // create a return the search hit entity
                 return new SearchHitEntity(id, type, body, metaData);
 
             } catch (Exception e) {
