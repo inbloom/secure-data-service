@@ -325,6 +325,23 @@
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
     <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
+    <jb:wiring property="graduationPlanId" beanIdRef="studentSchoolAssociation_graduationPlan" />
+  </jb:bean>
+
+  <jb:bean beanId="studentSchoolAssociation_graduationPlan" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+    <jb:value property="graduationPlanType" data="GraduationPlanReference/GraduationPlanIdentity/GraduationPlanType" />
+    <jb:value property="individualPlan" data="GraduationPlanReference/GraduationPlanIdentity/individualPlan" />
+    <jb:wiring property="totalCreditsRequired" beanIdRef="StudentSchoolAssociation_TotalCreditsRequiredValue" />
+    <jb:value property="creditsBySubject" data="GraduationPlanReference/GraduationPlanIdentity/CreditsBySubject/Credit" />
+    <jb:value property="creditsByCourse" data="GraduationPlanReference/GraduationPlanIdentity/CreditsByCourse/Credit" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentSchoolAssociation_TotalCreditsRequiredValue" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+      <jb:value property="credit" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/Credit" decoder="Double" />
+      <jb:value property="creditType" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/@CreditType" />
+      <jb:value property="creditConversion" data="GraduationPlanReference/GraduationPlanIdentity/TotalCreditsRequired/@CreditConversion"
+                decoder="Double" />
   </jb:bean>
 
   <!-- EducationalPlanItemType -->
@@ -1095,7 +1112,7 @@
 
   <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="LearningObjective/LearningObjectiveId">
     <jb:value property="identificationCode" data="LearningObjective/LearningObjectiveId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
+    <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/@ContentStandardName" />
   </jb:bean>
 
   <jb:bean beanId="learningStandardReference" class="java.util.HashMap" createOnElement="LearningStandardReference">
@@ -2356,9 +2373,9 @@
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntry_gradebookReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/GradebookEntryType" />
-    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/DateAssigned" />
-    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
+    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
+    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <!-- Start StudentProgramAssociation mapping -->

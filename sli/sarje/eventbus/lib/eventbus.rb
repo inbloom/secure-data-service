@@ -53,8 +53,9 @@ module Eventbus
     class EventSubscriber
         include EventPubSubBase 
 
-        def initialize(event_type)
-            config = {
+        def initialize(event_type,logger = nil)
+           @logger = logger if logger
+           config = {
             :node_name => 'eventsubscriber'
             # :publish_queue_name => Topic_Subscribe,
             # :subscribe_queue_name => Topic_Heartbeat,
@@ -68,7 +69,8 @@ module Eventbus
             # set up the heartbeat listener 
             @current_publishers = {}
             @heartbeat_channel.handle_message do |message|
-              puts "received heartbeat from #{message[HB_NODE_ID]}"
+             # puts "received heartbeat from #{message[HB_NODE_ID]}"
+             @logger.info "received heartbeat from #{message[HB_NODE_ID]}" if @logger
                 @current_publishers[message[HB_NODE_ID]] = message[HB_EVENTS]
             end 
         end
@@ -90,7 +92,8 @@ module Eventbus
     class EventPublisher
         include EventPubSubBase 
 
-        def initialize(node_id, event_type, config = {})
+        def initialize(node_id, event_type, config = {},logger = nil)
+            @logger = logger if logger
             @config = {
                 :heartbeat_period => 5
             }.merge(config)
@@ -123,6 +126,7 @@ module Eventbus
 
         def fire_event(event)
             @events_channel.publish(event)
+            @logger.info "sending event: #{event}" if @logger
         end 
 
         private
@@ -139,7 +143,8 @@ module Eventbus
                         'timestamp' => Time.now.to_i.to_s,
                         'events'    => events_list 
                     }
-                    puts "publishing heartbeat"
+                   # puts "publishing heartbeat"
+                    @logger.info "publishing heartbeat" if @logger
                     @heartbeat_channel.publish(message)
                     sleep(heartbeat_period)
                 end 

@@ -17,7 +17,6 @@
 package org.slc.sli.domain;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /** Called entity id to avoid Spring Data using this as the ID field. */
     private String entityId;
-    private String padding;
+    private String stagedEntityId;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
     private final CalculatedData<String> calculatedData;
@@ -79,44 +78,20 @@ public class MongoEntity implements Entity, Serializable {
      *            Metadata of Mongo Entity.
      */
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
-        this(type, id, body, metaData, new CalculatedData<String>(), null, 0);
+        this(type, id, body, metaData, new CalculatedData<String>(), null);
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            CalculatedData<String> calculatedData) {
+        this(type, id, body, metaData, calculatedData, null);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates) {
-        this(type, id, body, metaData, calculatedData, aggregates, 0);
-    }
-
-    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData, int paddingLength) {
-        this(type, id, body, metaData, null, null, paddingLength);
-    }
-
-    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-            CalculatedData<String> calculatedData, int paddingLength) {
-        this(type, id, body, metaData, calculatedData, null, paddingLength);
-    }
-
-    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-            CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates, int paddingLength) {
         this.type = type;
         this.entityId = id;
-
-        if (paddingLength > 0) {
-            char[] charArray = new char[paddingLength];
-            Arrays.fill(charArray, ' ');
-            this.padding = String.copyValueOf(charArray);
-        }
-
-        if (body == null) {
-            this.body = new BasicBSONObject();
-        } else {
-            this.body = body;
-        }
-        if (metaData == null) {
-            this.metaData = new BasicBSONObject();
-        } else {
-            this.metaData = metaData;
-        }
+        this.body = body == null ? new BasicBSONObject() : body;
+        this.metaData = metaData == null ? new BasicBSONObject() : metaData;
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
     }
@@ -134,6 +109,11 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, Object> getBody() {
         return body;
+    }
+
+    @Override
+    public String getStagedEntityId() {
+        return stagedEntityId;
     }
 
     /**
@@ -169,7 +149,6 @@ public class MongoEntity implements Entity, Serializable {
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
-        dbObj.put("padding", padding);
 
         final String uid;
 
@@ -249,5 +228,4 @@ public class MongoEntity implements Entity, Serializable {
     public CalculatedData<Map<String, Integer>> getAggregates() {
         return aggregates;
     }
-
 }
