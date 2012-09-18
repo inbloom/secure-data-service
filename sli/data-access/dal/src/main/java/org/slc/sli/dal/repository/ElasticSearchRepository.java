@@ -67,7 +67,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
 
         // send an elasticsearch REST query
-        String query = Converter.getQuery(getClient(), neutralQuery).toString();
+        String query = Converter.getQuery(getClient(), neutralQuery, TenantContext.getTenantId()).toString();
         HttpEntity<String> response = sendRESTQuery(query);
 
         // convert the response to search hits
@@ -126,6 +126,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
                 // get the hits from the response
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
+                LOG.info("Hits returned from elasticsearch: " + hitsNode);
 
                 // create a search hit entity object for each hit
                 for (int i = 0; i < hitsNode.size(); i++) {
@@ -172,9 +173,9 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
          * @param query
          * @return
          */
-        static SearchRequestBuilder getQuery(Client client, NeutralQuery query) {
+        static SearchRequestBuilder getQuery(Client client, NeutralQuery query, String tenantId) {
 
-            SearchRequestBuilder srb = client.prepareSearch(TenantContext.getTenantId().toLowerCase()).setSearchType(
+            SearchRequestBuilder srb = client.prepareSearch(tenantId.toLowerCase()).setSearchType(
                     SearchType.DFS_QUERY_THEN_FETCH);
             String queryString = null;
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
@@ -208,7 +209,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
             }
             srb.setQuery(bqb).setFilter(bfb).addFields("id", "body", "metaData").setFrom(query.getOffset())
                     .setSize(query.getLimit());
-            LOG.info(srb.toString());
             return srb;
         }
 
