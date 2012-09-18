@@ -223,7 +223,7 @@ public class MongoTrackingAspect {
 
     public Map<String, ? extends Map<String, Pair<AtomicLong, AtomicLong>>> getStats() {
         String jobId = TenantContext.getJobId();
-        if (jobId != null) {
+        if ((jobId != null) && (this.stats.get(jobId) != null)) {
             return this.stats.get(jobId).getRight();
         }
         return null;
