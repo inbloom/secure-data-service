@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -84,6 +85,10 @@ public class JobReportingProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
     private static final int ERRORS_RESULT_LIMIT = 100;
+
+    private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor", "TransformationProcessor", "WorkNoteSplitter");
+
+    public static final String ORCHESTRATION_STAGES_NAME = "OrchestrationStages";
 
     @Value("${sli.ingestion.staging.clearOnCompletion}")
     private String clearOnCompletion;
@@ -150,8 +155,14 @@ public class JobReportingProcessor implements Processor {
             while (it.hasNext()) {
                 Stage stageChunk = it.next();
 
-                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
+                // Account for special case of orchestration stages.
+                String stageName = ORCHESTRATION_STAGES_NAME;
+                if (!ORCHESTRATION_STAGES_LIST.contains(stageChunk.getStageName())) {
+                    stageName = stageChunk.getStageName();
+                }
 
+//                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
+                Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
                             && stageBrief.getStartTimestamp().getTime() > stageChunk.getStartTimestamp().getTime()) {
@@ -161,17 +172,20 @@ public class JobReportingProcessor implements Processor {
                             && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
                         stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
                     }
-                    stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
+//                    stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
+                    stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime() - stageBrief.getStartTimestamp().getTime());
 
                 } else {
-
-                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
+//                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
+//                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
+                    stageBrief = new Stage(stageName, stageChunk.getStageDesc(), stageChunk.getStatus(),
                             stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
                     stageBrief.setProcessingInformation("");
 
-                    stageBriefMap.put(stageChunk.getStageName(), stageBrief);
+//                    stageBriefMap.put(stageChunk.getStageName(), stageBrief);
+                    stageBriefMap.put(stageName, stageBrief);
                 }
             }
 
