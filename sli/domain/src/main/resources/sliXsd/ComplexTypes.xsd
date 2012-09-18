@@ -3793,17 +3793,18 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <!-- 
-			<xs:element name="graduationPlan" type="graduationPlan"
+			<xs:element name="graduationPlanId" type="reference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The graduation plan associated with the student
 						enrolled in
 						the school.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>graduationPlan</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-             -->
 		</xs:sequence>
 	</xs:complexType>
 

@@ -7,7 +7,8 @@ Given I have an open web browser
 Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and ingestion_user roles.
   When I navigate to the user account management page
   Then I will be redirected to the realm selector web page
-  When I select the realm "Shared Learning Collaborative"
+  #When I select the realm "Shared Learning Collaborative"
+  When I select the realm "Shared Learning Infrastructure"
   Then I am redirected to "Simple" login page
   When I submit the credentials "testuser0.wgen@gmail.com" "test1234" for the "Simple" login page
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN" if exists

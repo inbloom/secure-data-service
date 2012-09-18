@@ -97,3 +97,7 @@ task :rcTests do
   end
 end
 
+desc "Run Sandbox Integration Test for Dev checklist"
+task :sandboxDevChecklistTest do
+  runTests("test/features/cross_app_tests/sandbox_integration_developer.feature")
+end
