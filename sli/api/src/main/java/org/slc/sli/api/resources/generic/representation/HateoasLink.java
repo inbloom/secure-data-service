@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.resources.generic.representation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
@@ -53,13 +54,28 @@ public class HateoasLink {
 
         for (EntityBody entity : entities) {
 
-            List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore,
-                    isSearch ? entityDefinitionStore.lookupByResourceName((String) entity.get("type")) : definition,
-                    entity, uriInfo);
+            List<EmbeddedLink> links = null;
+            if (!isSearch) {
 
-            if (!links.isEmpty()) {
-                entity.put(ResourceConstants.LINKS, links);
+                links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
+
+                if (!links.isEmpty()) {
+                    entity.put(ResourceConstants.LINKS, links);
+                }
+
+            } else {
+
+                // only include entity's self link for search results
+                EmbeddedLink link = ResourceUtil.getSelfLinkForEntity(uriInfo, (String) entity.get("id"),
+                        entityDefinitionStore.lookupByEntityType((String) entity.get("type")));
+
+                if (link != null) {
+                    links = new ArrayList<EmbeddedLink>();
+                    links.add(link);
+                    entity.put(ResourceConstants.LINKS, links);
+                }
             }
+
         }
 
         return entities;
