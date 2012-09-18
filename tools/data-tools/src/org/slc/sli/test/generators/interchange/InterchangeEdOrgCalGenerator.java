@@ -151,13 +151,13 @@ public class InterchangeEdOrgCalGenerator {
             	 calendar = null;
              } else {
 //            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
-            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount);
+            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount * 8);
              }
 
 	         iWriter.marshal(calendar);
 //             interchangeObjects.add(calendar);
+	         dateCount++;
          }
-         dateCount++;
 
          System.out.println("generated " + calendarMetas.size() + " Calendar objects in: "
                  + (System.currentTimeMillis() - startTime));

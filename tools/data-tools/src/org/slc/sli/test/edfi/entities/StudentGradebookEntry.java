@@ -26,6 +26,7 @@
 package org.slc.sli.test.edfi.entities;
 
 import java.math.BigInteger;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -100,7 +101,7 @@ public class StudentGradebookEntry
     @XmlElement(name = "StudentSectionAssociationReference", required = true)
     protected StudentSectionAssociationReferenceType studentSectionAssociationReference;
     @XmlElement(name = "GradebookEntryReference", required = true)
-    protected ReferenceType gradebookEntryReference;
+    protected GradebookEntryReferenceType gradebookEntryReference;
 
     /**
      * Gets the value of the dateFulfilled property.
@@ -266,7 +267,7 @@ public class StudentGradebookEntry
      *     {@link ReferenceType }
      *     
      */
-    public void setGradebookEntryReference(ReferenceType value) {
+    public void setGradebookEntryReference(GradebookEntryReferenceType value) {
         this.gradebookEntryReference = value;
     }
 

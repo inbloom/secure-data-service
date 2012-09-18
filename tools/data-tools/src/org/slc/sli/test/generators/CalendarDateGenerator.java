@@ -55,6 +55,7 @@ public class CalendarDateGenerator {
         
         String yearString = "" + year;
         
+        System.out.println("The string is " + yearString + "-" + monthString + "-" + dayString);
         cd.setDate(yearString+"-"+monthString+"-"+dayString);
         
 //        cd.setCalendarEvent(getCalendarEventType());
