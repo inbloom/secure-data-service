@@ -18,11 +18,7 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +110,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
 
             LOG.info("CHECKING RECORD for DELTA");
-            if (!isPreviouslyIngested(neutralRecord)) {
+            if (!SliDeltaManager.getInstance().isPreviouslyIngested(neutralRecord, batchJobDAO)) {
                 LOG.info("RECORD IS NOT INGESTED BEFORE");
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
@@ -136,39 +132,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
         }
-    }
-
-    private boolean isPreviouslyIngested(NeutralRecord n) {
-
-        try {
-            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");
-//                    + "-" + createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "MD5");
-
-            LOG.info("RECORD HASH = " + recordId);
-
-            return batchJobDAO.findAndUpsertRecordHash(recordId);
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-
-    public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance(algorithmName);
-        return byteArray2Hex(md.digest(input));
-    }
-
-    private static String byteArray2Hex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash) {
-            formatter.format("%02x", b);
-        }
-        return formatter.toString();
     }
 
     /**
