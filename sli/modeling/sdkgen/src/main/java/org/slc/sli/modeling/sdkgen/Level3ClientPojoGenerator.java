@@ -367,7 +367,7 @@ public final class Level3ClientPojoGenerator {
                     writeClassTypeGetIdMethod(jsw);
                     
                     writeClassTypeToMapMethod(jsw);
-                    
+
                     for (final JavaFeature feature : getJavaFeatures(classType, model)) {
                         if (feature.isAttribute()) {
                             final String name = feature.getName(config);
@@ -376,7 +376,12 @@ public final class Level3ClientPojoGenerator {
                             writeGetter(type, name, jsw);
                             writeSetter(type, name, jsw);
                         } else if (feature.isNavigable()) {
-                            final String name = feature.getName(config);
+                            final String name;
+                            if (feature.getFeature() instanceof AssociationEnd) {
+                                name = ((AssociationEnd) feature.getFeature()).getAssociatedAttributeName();
+                            } else {
+                                name = feature.getName(config);
+                            }
                             final JavaType type = feature.getNavigableType();
                             JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
                             writeGetter(type, name, jsw);
@@ -468,7 +473,7 @@ public final class Level3ClientPojoGenerator {
                 }
                 jsw.endStmt();
             }
-        } else if (baseType.getTypeKind() == JavaTypeKind.COMPLEX) {
+        } else if (baseType.getTypeKind() == JavaTypeKind.COMPLEX || baseType.getTypeKind() == JavaTypeKind.SIMPLE) {
             if (type.getCollectionKind() == JavaCollectionKind.LIST) {
                 JavaType javaType = new JavaType(baseType.getSimpleName(), baseType.getCollectionKind(),
                         baseType.getTypeKind(), baseType.getBase());
@@ -482,10 +487,16 @@ public final class Level3ClientPojoGenerator {
                 jsw.write(":");
                 jsw.write(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, javaType)).parenR();
                 jsw.beginBlock();
-                
-                jsw.write(
-                        new MethodCallExpr(new VarNameExpr(rList), "add", new NewInstanceExpr(javaType.primeType(),
-                                new VarNameExpr("Coercions.toMap(elem)")))).endStmt();
+
+                if (baseType.getTypeKind() == JavaTypeKind.COMPLEX) {
+                    jsw.write(
+                            new MethodCallExpr(new VarNameExpr(rList), "add", new NewInstanceExpr(javaType.primeType(),
+                                    new VarNameExpr("Coercions.toMap(elem)")))).endStmt();
+                } else {
+                    jsw.write(
+                            new MethodCallExpr(new VarNameExpr(rList), "add",
+                                    new VarNameExpr("Coercions.toString(elem)"))).endStmt();
+                }
                 jsw.endBlock();
                 
                 jsw.write(new ReturnStmt(new VarNameExpr(rList)));
