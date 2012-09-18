@@ -56,6 +56,10 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
 public final class DocumentationWriter {
 
+	public DocumentationWriter() {
+		throw new UnsupportedOperationException();
+	}
+	
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();

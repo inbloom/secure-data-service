@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -229,7 +228,7 @@ public class TestSDKServlet extends HttpServlet {
         Map<String, String> birthDate = new HashMap<String, String>();
         birthDate.put("birthDate", "1995-01-01");
         body.put("birthData", birthDate);
-        body.put("studentUniqueStateId", UUID.randomUUID().toString().substring(0, 8));
+        body.put("studentUniqueStateId", "123456");
         body.put("economicDisadvantaged", false);
         List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
         Map<String, String> address = new HashMap<String, String>();

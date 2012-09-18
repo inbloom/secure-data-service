@@ -3,9 +3,8 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 	
 	<LearningObjective>
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective21</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -20,17 +19,15 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective12</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
+                <LearningObjectiveId ContentStandardName="Common Core">
+                    <IdentificationCode>Objective112</IdentificationCode>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
 	</LearningObjective>
 	<LearningObjective>
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective22</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -45,17 +42,15 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective13</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
+                <LearningObjectiveId ContentStandardName="Common Core">
+                    <IdentificationCode>Objective113</IdentificationCode>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
 	</LearningObjective>
 	<LearningObjective>
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective23</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -70,17 +65,15 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective14</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
+                <LearningObjectiveId ContentStandardName="Common Core">
+                    <IdentificationCode>Objective114</IdentificationCode>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
 	</LearningObjective>
 	<LearningObjective>
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective24</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -95,17 +88,15 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective15</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
+                <LearningObjectiveId ContentStandardName="Common Core">
+                    <IdentificationCode>Objective115</IdentificationCode>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
 	</LearningObjective>
 	<LearningObjective>
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective25</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -120,9 +111,8 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective11</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
+                <LearningObjectiveId ContentStandardName="Common Core">
+                    <IdentificationCode>Objective111</IdentificationCode>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>

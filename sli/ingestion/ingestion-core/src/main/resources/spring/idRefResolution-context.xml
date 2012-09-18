@@ -139,6 +139,11 @@
            value="idRefResolution/InterchangeStudentGrade/StudentTranscriptAssociation/StudentAcademicRecordReference.ftl" />
     <!-- end of Interchange StudentGrade -->
 
+    <!-- Interchange StudentEnrollment -->
+    <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference"
+           value="idRefResolution/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference.ftl" />
+    <!-- end of Interchange StudentEnrollment -->
+
   </util:map>
 
   <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver" scope="prototype">

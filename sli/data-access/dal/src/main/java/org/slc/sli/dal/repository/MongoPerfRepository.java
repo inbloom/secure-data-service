@@ -25,6 +25,7 @@ import java.util.Map;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -81,7 +82,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
         @SuppressWarnings("unchecked")
-        Entity entity = (Entity) new MongoEntity(type, null, body, metaData, PADDING);
+        Entity entity = (Entity) new MongoEntity(type, null, body, metaData);
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }
@@ -229,7 +230,20 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         throw new UnsupportedOperationException("MongoPerfRepository.patch not implemented");
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

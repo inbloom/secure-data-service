@@ -22,6 +22,7 @@ localdir = File.dirname(__FILE__)
 $LOAD_PATH << localdir + "/../lib"
 require 'eventbus'
 require 'yaml'
+require 'logger'
 
 if __FILE__ == $0
   unless ARGV.length == 4
@@ -36,13 +37,17 @@ if __FILE__ == $0
   # make the config symbol based
   config.keys().each { |k| config[k.to_sym] = config.delete(k) }
 
+  #set up logger configuration
+  logger = Logger.new(Logger.const_get(config[:logger_output]))
+  logger.level = Logger.const_get(config[:logger_level])
+
   # create instances of the queue listener and the job runner and
   # and plug them into an Jobscheduler
-  listener = Eventbus::EventSubscriber.new("oplog")
-  jobrunner = Eventbus::HadoopJobRunner.new({:sli_home => sli_home, :hadoop_home => hadoop_home})
+  listener = Eventbus::EventSubscriber.new("oplog", logger)
+  jobrunner = Eventbus::HadoopJobRunner.new({:sli_home => sli_home, :hadoop_home => hadoop_home}, logger)
   active_config = config.update(:event_subscriber => listener,
                                 :jobrunner => jobrunner)
 
-  scheduler = Eventbus::JobScheduler.new(active_config)
+  scheduler = Eventbus::JobScheduler.new(active_config, logger)
   scheduler.join
 end
