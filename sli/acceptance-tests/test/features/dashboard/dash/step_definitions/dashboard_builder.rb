@@ -140,6 +140,10 @@ When /^I see the following available panels "(.*?)"$/ do |listOfPanels|
   end
 end
 
+When /^I click on Panels Menu$/ do
+  @driver.find_elements(:class, "accordion-heading")[1].find_element(:tag_name,"a").click
+end
+
 def getPageByName(pageName)
   pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
