@@ -43,11 +43,11 @@ if __FILE__ == $0
 
   # create instances of the queue listener and the job runner and
   # and plug them into an Jobscheduler
-  listener = Eventbus::EventSubscriber.new("oplog",logger)
+  listener = Eventbus::EventSubscriber.new("oplog", logger)
   jobrunner = Eventbus::HadoopJobRunner.new({:sli_home => sli_home, :hadoop_home => hadoop_home})
   active_config = config.update(:event_subscriber => listener,
                                 :jobrunner => jobrunner)
 
-  scheduler = Eventbus::JobScheduler.new(active_config,logger)
+  scheduler = Eventbus::JobScheduler.new(active_config, logger)
   scheduler.join
 end
