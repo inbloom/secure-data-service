@@ -23,7 +23,7 @@
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
                 <value>${smooks.targetselector.xml.program}</value>
-                <value>${smooks.targetselector.xml.competencyLevelDescriptor}</value>
+                <value>${smooks.targetselector.xml.edorg.competencyLevelDescriptor}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -131,8 +131,8 @@
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
-                 <value>InterchangeStudentGrade/LearningObjective</value>
-               
+                <value>${smooks.targetselector.xml.grade.competencyLevelDescriptor}</value>
+                <value>InterchangeStudentGrade/LearningObjective</value>
               </list>
             </constructor-arg>
           </bean>

@@ -2373,9 +2373,9 @@
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntry_gradebookReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
-    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
-    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/GradebookEntryType" />
+    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/DateAssigned" />
+    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <!-- Start StudentProgramAssociation mapping -->
@@ -3528,17 +3528,29 @@
 
   <!-- Start CompetencyLevelDescriptor mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
-    createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
+    createOnElement="InterchangeEducationOrganization/CompentencyLevelDescriptor">
     <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
-    <jb:value property="localId" data="CompetencyLevelDescriptor/@id" />
-    <jb:wiring property="attributes" beanIdRef="CompetencyLevelDescriptorAttributes" />
+    <jb:value property="localId" data="CompentencyLevelDescriptor/@id" />
+    <jb:wiring property="attributes" beanIdRef="EdOrg_CompetencyLevelDescriptorAttributes" />
   </jb:bean>
-
-  <jb:bean beanId="CompetencyLevelDescriptorAttributes" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
-    <jb:value property="codeValue" data="CompetencyLevelDescriptor/CodeValue" />
-    <jb:value property="description" data="CompetencyLevelDescriptor/Description" />
-    <jb:value property="performanceBaseConversion" data="CompetencyLevelDescriptor/PerformanceBaseConversion" />
+  <jb:bean beanId="EdOrg_CompetencyLevelDescriptorAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/CompentencyLevelDescriptor">
+    <jb:value property="codeValue" data="CompentencyLevelDescriptor/CodeValue" />
+    <jb:value property="description" data="CompentencyLevelDescriptor/Description" />
+    <jb:value property="performanceBaseConversion" data="CompentencyLevelDescriptor/PerformanceBaseConversion" />
+  </jb:bean>
+  
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeStudentGrade/CompentencyLevelDescriptor">
+    <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
+    <jb:value property="localId" data="CompentencyLevelDescriptor/@id" />
+    <jb:wiring property="attributes" beanIdRef="Grade_CompetencyLevelDescriptorAttributes" />
+  </jb:bean>
+  <jb:bean beanId="Grade_CompetencyLevelDescriptorAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CompentencyLevelDescriptor">
+    <jb:value property="codeValue" data="CompentencyLevelDescriptor/CodeValue" />
+    <jb:value property="description" data="CompentencyLevelDescriptor/Description" />
+    <jb:value property="performanceBaseConversion" data="CompentencyLevelDescriptor/PerformanceBaseConversion" />
   </jb:bean>
   <!-- End CompetencyLevelDescriptor mapping -->
 
