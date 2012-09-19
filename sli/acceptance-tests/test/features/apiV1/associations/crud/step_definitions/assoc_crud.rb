@@ -159,7 +159,7 @@ $entityData = {
     },
     "teacherSectionAssociation" => {
         "teacherId" => "edce823c-ee28-4840-ae3d-74d9e9976dc5",
-        "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7",
+        "sectionId" => "392d1835-f372-4690-b221-7065db1aed33",
         "classroomPosition" => "Teacher of Record"
     }
 }
