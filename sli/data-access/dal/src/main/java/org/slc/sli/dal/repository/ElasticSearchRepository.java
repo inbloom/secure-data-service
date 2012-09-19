@@ -329,5 +329,10 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         public CalculatedData<String> getCalculatedValues() {
             return null;
         }
+
+        @Override
+        public String getStagedEntityId() {
+            return null;
+        }
     }
 }

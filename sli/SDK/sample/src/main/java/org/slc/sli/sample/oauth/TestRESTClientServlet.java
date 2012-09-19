@@ -21,7 +21,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -61,32 +60,30 @@ public class TestRESTClientServlet extends HttpServlet {
     private static final String FAILED = "failed";
 
     // build the test student entity that can pass schema validation
-    private String getUniqueStudent() {
-        return
-                "{                                                                  "
-                + "    \"studentUniqueStateId\":\"" + UUID.randomUUID().toString().substring(0, 8) + "\","
-                + "    \"sex\":\"Female\",                                            "
-                + "    \"economicDisadvantaged\":false,                               "
-                + "    \"address\":                                                   "
-                + "        [ {                                                        "
-                + "            \"nameOfCounty\":\"Orange\",                           "
-                + "            \"apartmentRoomSuiteNumber\":\"200\",                  "
-                + "            \"postalCode\":\"45678\",                              "
-                + "            \"streetNumberName\":\"817 Oakridge Farm Lane\",       "
-                + "            \"stateAbbreviation\":\"CA\",                          "
-                + "            \"addressType\":\"Physical\",                          "
-                + "            \"city\":\"Los Angeles\"                               "
-                + "        } ],                                                       "
-                + "    \"name\":                                                      "
-                + "        {                                                          "
-                + "            \"middleName\":\"L\",                                  "
-                + "            \"lastSurname\":\"Christie\",                          "
-                + "            \"firstName\":\"Monique\"                              "
-                + "        },                                                         "
-                + "    \"birthData\":                                                 "
-                + "        {\"birthDate\":\"1993-12-31\"}                             "
-                + "}                                                                  ";
-    }
+    private static final String STUDENT_MONIQUE =
+                      "{                                                                  "
+                    + "    \"studentUniqueStateId\":\"123456\",                           "
+                    + "    \"sex\":\"Female\",                                            "
+                    + "    \"economicDisadvantaged\":false,                               "
+                    + "    \"address\":                                                   "
+                    + "        [ {                                                        "
+                    + "            \"nameOfCounty\":\"Orange\",                           "
+                    + "            \"apartmentRoomSuiteNumber\":\"200\",                  "
+                    + "            \"postalCode\":\"45678\",                              "
+                    + "            \"streetNumberName\":\"817 Oakridge Farm Lane\",       "
+                    + "            \"stateAbbreviation\":\"CA\",                          "
+                    + "            \"addressType\":\"Physical\",                          "
+                    + "            \"city\":\"Los Angeles\"                               "
+                    + "        } ],                                                       "
+                    + "    \"name\":                                                      "
+                    + "        {                                                          "
+                    + "            \"middleName\":\"L\",                                  "
+                    + "            \"lastSurname\":\"Christie\",                          "
+                    + "            \"firstName\":\"Monique\"                              "
+                    + "        },                                                         "
+                    + "    \"birthData\":                                                 "
+                    + "        {\"birthDate\":\"1993-12-31\"}                             "
+                    + "}                                                                  ";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -118,7 +115,7 @@ public class TestRESTClientServlet extends HttpServlet {
     // test the create for Java SDK
     private String testCreate(RESTClient client) {
 
-        String[] inDB = persistAndRead(getUniqueStudent(), client, ResourceNames.STUDENTS);
+        String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
         if (inDB == null) {
             return FAILED;
         }
@@ -144,7 +141,7 @@ public class TestRESTClientServlet extends HttpServlet {
     // test the update for Java SDK
     private String testUpdate(RESTClient client) {
 
-        String[] inDB = persistAndRead(getUniqueStudent(), client, ResourceNames.STUDENTS);
+        String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
         if (inDB == null) {
             return FAILED;
         }
@@ -214,7 +211,7 @@ public class TestRESTClientServlet extends HttpServlet {
     private String testDelete(RESTClient client) {
 
         try {
-            String resourceLocation = create(getUniqueStudent(), ResourceNames.STUDENTS, client);
+            String resourceLocation = create(STUDENT_MONIQUE, ResourceNames.STUDENTS, client);
             if (resourceLocation != null) {
                 URL resourceURL = new URL(resourceLocation);
 

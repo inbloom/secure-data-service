@@ -60,6 +60,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
     static Logger log = Logger.getLogger("ConfigurableMapReduceJob");
 
     static ObjectMapper om = new ObjectMapper();
+    static final String MONGO_HOST = "localhost:27017";
 
     private static String mapCollection;
     private static Map<String, Object> mapFields;
@@ -205,7 +206,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
 
         MongoConfigUtil.setFields(jobConf, new BasicDBObject(fullFields));
         MongoConfigUtil.setInputKey(jobConf, idFields.get("id"));
-        MongoConfigUtil.setInputURI(jobConf, "mongodb://localhost:27017/" + mapCollection);
+        MongoConfigUtil.setInputURI(jobConf, "mongodb://" + MONGO_HOST + "/" + mapCollection);
         MongoConfigUtil.setMapperOutputKey(jobConf, TenantAndIdEmittableKey.class);
         MongoConfigUtil.setMapperOutputValue(jobConf, BSONWritable.class);
         MongoConfigUtil.setOutputKey(jobConf, TenantAndIdEmittableKey.class);
@@ -214,7 +215,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         // TODO - this probably should be configurable
         MongoConfigUtil.setReadSplitsFromSecondary(jobConf, true);
 
-        MongoConfigUtil.setSplitSize(jobConf, 128);
+        MongoConfigUtil.setSplitSize(jobConf, 32);
 
         jobConf.setClass("mapred.input.key.class", TenantAndIdEmittableKey.class, EmittableKey.class);
         jobConf.setClass("mapred.input.value.class", BSONWritable.class, Object.class);
@@ -246,7 +247,7 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
         MongoConfigUtil.setShardChunkSplittingEnabled(jobConf, true);
         MongoConfigUtil.setReadSplitsFromShards(jobConf, false);
 
-        MongoConfigUtil.setOutputURI(jobConf, "mongodb://localhost:27017/" + reduceCollection);
+        MongoConfigUtil.setOutputURI(jobConf, "mongodb://" + MONGO_HOST + "/" + reduceCollection);
 
         jobConf.setJarByClass(JobConfiguration.class);
 
@@ -255,6 +256,11 @@ public class ConfigurableMapReduceJob extends Mapper<EmittableKey, BSONWritable,
 
         MongoConfigUtil.setReducer(jobConf, reducerClass);
         jobConf.setClass(JobContext.REDUCE_CLASS_ATTR, reducerClass, Reducer.class);
+
+        // Set this relatively high to keep the total map execution time low.
+        // Formula:  1.75 * (# nodes * max tasks)
+        // TODO : replace this hardcoded value with one calculated from configuration information.
+        jobConf.setNumReduceTasks(52);
 
         // Add the configuration itself to the JobConf.
         JobConfiguration.toHadoopConfiguration(s, jobConf);

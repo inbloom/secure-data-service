@@ -21,7 +21,6 @@ $LOAD_PATH << testdir + "/../lib"
 
 require 'eventbus'
 require 'test/unit'
-require 'eventbus'
 
 class TestMessagingService < Test::Unit::TestCase
     TEST_TOPIC = "/topic/test_topic"

@@ -156,6 +156,7 @@ class ApplicationController < ActionController::Base
     logger.debug { "Email #{email}"}
     session[:support_email] = email
     session[:full_name] ||= check["full_name"]   
+    session[:email] ||= check["email"]   
     session[:adminRealm] = check["adminRealm"]
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]

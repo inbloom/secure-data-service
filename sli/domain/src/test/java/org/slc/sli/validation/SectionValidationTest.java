@@ -116,6 +116,11 @@ public class SectionValidationTest {
             public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
+
+            @Override
+            public String getStagedEntityId() {
+                return null;
+            }
         };
     }
 
