@@ -19,20 +19,18 @@ limitations under the License.
 =end
 
 localdir = File.dirname(__FILE__)
-$LOAD_PATH << localdir + "/../lib"
+$LOAD_PATH << localdir + "./lib"
 require 'eventbus'
 require 'yaml'
 require 'logger'
 
 if __FILE__ == $0
-  unless ARGV.length == 4
-    puts "Usage: " + $0 + " config.yml profile sli_home hadoop_home"
+  unless ARGV.length == 1
+    puts "Usage: " + $0 + " config.yml"
     exit(1)
   end
 
-  config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
-  sli_home = ARGV[2]
-  hadoop_home = ARGV[3]
+  config = YAML::load(File.open(ARGV[0]))
 
   # make the config symbol based
   config.keys().each { |k| config[k.to_sym] = config.delete(k) }
@@ -43,11 +41,12 @@ if __FILE__ == $0
 
   # create instances of the queue listener and the job runner and
   # and plug them into an Jobscheduler
-  listener = Eventbus::EventSubscriber.new("oplog",logger)
-  jobrunner = Eventbus::HadoopJobRunner.new({:sli_home => sli_home, :hadoop_home => hadoop_home})
+  listener = Eventbus::EventSubscriber.new(config, "oplog", logger)
+  jobrunner = Eventbus::HadoopJobRunner.new({:hadoop_jars => config[:hadoop_jars], 
+                                             :hadoop_home => config[:hadoop_home]})
   active_config = config.update(:event_subscriber => listener,
                                 :jobrunner => jobrunner)
 
-  scheduler = Eventbus::JobScheduler.new(active_config,logger)
+  scheduler = Eventbus::JobScheduler.new(active_config, logger)
   scheduler.join
 end

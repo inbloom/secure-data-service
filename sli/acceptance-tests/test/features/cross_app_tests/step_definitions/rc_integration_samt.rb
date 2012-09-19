@@ -34,7 +34,6 @@ Before do
 end
 
 When /^I navigate to the user account management page$/ do
-  @do_not_run_after = true
   samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
 end

@@ -38,7 +38,8 @@ public class DefaultQueryMangler extends Mangler {
             }
         }
         if (isList) {
-            adjustSecurityForPaging();
+            //TODO: It's not safe to adjust for paging if we have any specific query criteria - disabling until we can fix
+            // adjustSecurityForPaging();
             query.addOrQuery(new NeutralQuery(securityCriteria));
             return query;
         }
