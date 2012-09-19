@@ -3120,7 +3120,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentCohortAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3165,9 +3165,6 @@
 						was
 						removed as part of the cohort.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3209,7 +3206,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentDisciplineIncidentAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3412,7 +3409,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentParentAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3658,7 +3655,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentSchoolAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3764,9 +3761,6 @@
 						officially that
 						an individual left school.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="exitWithdrawType" type="exitWithdrawType"
@@ -4015,7 +4009,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -4030,6 +4024,9 @@
 						Incomplete
 						Withdrawn
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="creditsAttempted" type="credits">
@@ -4138,6 +4135,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentAcademicRecord</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4278,7 +4276,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
