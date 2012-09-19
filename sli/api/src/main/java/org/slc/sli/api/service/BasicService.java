@@ -111,6 +111,7 @@ public class BasicService implements EntityService {
     @Autowired
     private BasicDefinitionStore definitionStore;
 
+    @Autowired
     private SessionSecurityCache securityCachingStrategy;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight, Repository<Entity> repo) {
