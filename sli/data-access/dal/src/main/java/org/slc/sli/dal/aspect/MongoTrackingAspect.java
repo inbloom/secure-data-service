@@ -16,7 +16,10 @@
 
 package org.slc.sli.dal.aspect;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -132,13 +135,17 @@ public class MongoTrackingAspect {
         if (jobId != null) {
 
             // Init map for job.
+//            long trackingInt = Long.valueOf(trackingInterval);
+            long trackingInt = Long.valueOf(trackingInterval) * 1000;
+            if (trackingInt <= 0) {
+//                trackingInt = 1;
+                trackingInt = 1000;
+            }
             Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>> jobStatsPair = stats
                     .get(jobId);
-            long startInt = 0;
-            long trackingInt = Long.valueOf(trackingInterval);
-            if (trackingInt <= 0) {
-                trackingInt = 1;
-            }
+            long jobBegin = start;
+//            long startInt = 0;
+            long startInt = start;
             if (jobStatsPair == null) {
                 ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> jobStats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
                 jobStatsPair = Pair.of(new AtomicLong(start), jobStats);
@@ -146,18 +153,30 @@ public class MongoTrackingAspect {
             } else if (stats.get(jobId).getLeft().get() == 0) {
                 stats.get(jobId).getLeft().set(start);
             } else {
-                startInt = (stats.get(jobId).getRight().size() - 1) * trackingInt;
+//                startInt = (stats.get(jobId).getRight().size() - 1) * trackingInt;
+                jobBegin = stats.get(jobId).getLeft().get();
+                startInt = ((stats.get(jobId).getRight().size() - 1) * trackingInt) + jobBegin;
             }
 
             // Init map for intervals.
             String currJobInterval = null;
-            long newInt = ((start - stats.get(jobId).getLeft().get()) / (trackingInt * 1000)) * trackingInt;
+//            long newInt = ((start - stats.get(jobId).getLeft().get()) / (trackingInt * 1000)) * trackingInt;
+            long newInt = (((start - jobBegin) / trackingInt) * trackingInt) + jobBegin;
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
             while (newInt >= startInt) {
                 long endInt = startInt + trackingInt;
-                currJobInterval = String.format("%ss - %ss", String.valueOf(startInt), String.valueOf(endInt));
+                calendar.setTimeInMillis(startInt);
+                String startTimeStamp = formatter.format(calendar.getTime());
+                calendar.setTimeInMillis(endInt);
+                String endTimeStamp = formatter.format(calendar.getTime());
+//                currJobInterval = String.format("%ss - %ss", String.valueOf(startInt), String.valueOf(endInt));
+                currJobInterval = String.format("%s - %s", startTimeStamp, endTimeStamp);
                 stats.get(jobId).getRight()
                         .putIfAbsent(currJobInterval, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
-                startInt += trackingInt;
+//                startInt += trackingInt;
+                startInt = endInt;
             }
 
             // Init map for stats.
@@ -204,7 +223,7 @@ public class MongoTrackingAspect {
 
     public Map<String, ? extends Map<String, Pair<AtomicLong, AtomicLong>>> getStats() {
         String jobId = TenantContext.getJobId();
-        if (jobId != null) {
+        if ((jobId != null) && (this.stats.get(jobId) != null)) {
             return this.stats.get(jobId).getRight();
         }
         return null;

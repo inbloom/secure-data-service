@@ -61,6 +61,8 @@ public class EdFiProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
+
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
 
     @Autowired
@@ -83,7 +85,7 @@ public class EdFiProcessor implements Processor {
     private void processEdFi(WorkNote workNote, Exchange exchange) {
         LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
 
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;

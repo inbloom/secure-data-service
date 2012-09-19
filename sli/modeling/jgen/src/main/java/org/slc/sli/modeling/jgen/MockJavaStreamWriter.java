@@ -63,6 +63,11 @@ public class MockJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void beginClass(String name, List<String> implementations, String extension) throws IOException {
+        jsw.beginClass(name, implementations, extension);
+    }
+
+    @Override
     public void beginClass(String name, String extension) throws IOException {
         jsw.beginClass(name, extension);
     }
