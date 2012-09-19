@@ -6,13 +6,12 @@ import java.util.List;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,8 +23,8 @@ public class TeacherStudentSectionAssociationResolver implements EntityContextRe
     private SessionSecurityCache securityCache;
     
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {

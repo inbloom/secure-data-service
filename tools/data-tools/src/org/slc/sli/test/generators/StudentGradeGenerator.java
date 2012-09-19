@@ -183,10 +183,8 @@ public class StudentGradeGenerator {
         grade.setPerformanceBaseConversion(PerformanceBaseType.BASIC);
         if (ssaRef != null)
             grade.setStudentSectionAssociationReference(ssaRef);
-        // TODO GradingPeriodRef not properly ingesting.  No defect assigned
-        // as of 6 June 2012.
-//        if (gradingPeriodRef != null)
-//            grade.setGradingPeriodReference(gradingPeriodRef);
+        if (gradingPeriodRef != null)
+            grade.setGradingPeriodReference(gradingPeriodRef);
         return grade;
     }
 
@@ -302,15 +300,10 @@ public class StudentGradeGenerator {
             EducationOrgIdentificationCode edOrg) {
         GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
         GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
-        ref.setGradingPeriodIdentity(identity);
-
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
-
-       // identity.setGradingPeriod(period.getGradingPeriod());
-
         identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
-        if (edOrg != null)
-            identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
+        //identity.setStateOrganizationId(edOrg);
+        ref.setGradingPeriodIdentity(identity);
         return ref;
     }
 

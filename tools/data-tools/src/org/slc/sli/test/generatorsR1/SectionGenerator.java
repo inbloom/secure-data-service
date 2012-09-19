@@ -99,7 +99,7 @@ public class SectionGenerator {
         	stu.setEndDate("2012-05-20");
         	stu.setHomeroomIndicator(true);
         	stu.setRepeatIdentifier(getRepeatIdentifierType());
-        	section.getStudentAssociations().add(stu);
+        	//section.getStudentAssociations().add(stu);
         	
         }
         
@@ -128,7 +128,7 @@ public class SectionGenerator {
             
             for(int k = 0; k < studentIds.size(); k++ ) {
             	StudentGradebookEntry sgbe = new StudentGradebookEntry();
-            	sgbe.setStudentId(studentIds.get(k));
+            	//sgbe.setStudentId(studentIds.get(k));
                 sgbe.setDateFulfilled(thisDay);
                 sgbe.setLetterGradeEarned(GRADES[generator.nextInt(GRADES.length)]);
                 sgbe.setNumericGradeEarned(BigInteger.ONE);

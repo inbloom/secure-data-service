@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-require 'stomp'
 require 'json'
 require 'thread'
 

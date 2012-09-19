@@ -2,10 +2,31 @@
     "keyFields" : ["body.studentId", "body.schoolId", "body.entryDate", "body.entryGradeLevel"],
     "references" :
     [{
+        "fieldPath" : "body.schoolId",
+        "ref" :
+        {
+            "entityType" : "school",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.schoolId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    {
         "fieldPath" : "body.studentId",
         "ref" :
         {
             "entityType" : "student",
+            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -21,19 +42,27 @@
         }
     },
     {
-        "fieldPath" : "body.schoolId",
+        "fieldPath" : "body.graduationPlanId",
         "ref" :
         {
-            "entityType" : "school",
+            "entityType" : "graduationPlan",
+            "optional" : true,
             "choiceOfFields" :
             [
                 [
                     {
-                        "path" : "body.stateOrganizationId",
+                        "path" : "body.graduationPlanType",
                         "values" :
-                        [
-                            {"valueSource" : "body.schoolId"}
-                        ]
+                        [{
+                            "valueSource" : "body.graduationPlanId.graduationPlanType"
+                        }]
+                    },
+                    {
+                        "path" : "body.totalCreditsRequired.credit",
+                        "values" :
+                        [{
+                            "valueSource" : "body.graduationPlanId.totalCreditsRequired.credit"
+                        }]
                     }
                 ]
             ]

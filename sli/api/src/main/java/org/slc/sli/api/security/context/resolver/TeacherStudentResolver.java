@@ -116,9 +116,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(sectionIds);
-        for (String id : returnIds) {
-            debug("program {}", id);
-        }
+
         return returnIds;
     }
 
@@ -154,9 +152,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(programIds);
-        for (String id : returnIds) {
-            debug("program {}", id);
-        }
+
         return returnIds;
     }
 
@@ -192,9 +188,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(cohortIds);
-        for (String id : returnIds) {
-            debug("cohort {}", id);
-        }
+ 
         return returnIds;
     }
 }

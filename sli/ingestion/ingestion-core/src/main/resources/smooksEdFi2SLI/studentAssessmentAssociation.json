@@ -60,6 +60,7 @@
         "fieldPath" : "body.studentId","ref" :
         {
             "entityType" : "student",
+            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

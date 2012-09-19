@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,6 +54,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 @Component
 public class CommandProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
+    private static final String BATCH_JOB_STAGE_DESC = "Processes commands issued via a command topic";
     private static final Object JOB_COMPLETED = "jobCompleted";
     private static final String BATCH_JOB_ID = "_id";
 
@@ -96,7 +98,7 @@ public class CommandProcessor {
     }
 
     private void dumpMongoTrackingStats(String batchId) throws UnknownHostException {
-        Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
+        Map<String, ? extends Map<String, Pair<AtomicLong, AtomicLong>>> stats = Aspects.aspectOf(MongoTrackingAspect.class).getStats();
 
         if (stats != null) {
             String hostName = InetAddress.getLocalHost().getHostName();
@@ -109,7 +111,7 @@ public class CommandProcessor {
 
             // TODO: move to BatchJobDAO
             mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-            MongoTrackingAspect.aspectOf().reset();
+            Aspects.aspectOf(MongoTrackingAspect.class).reset();
         }
     }
 
@@ -119,7 +121,7 @@ public class CommandProcessor {
         if (stats != null) {
 
             for (Entry<String, Pair<AtomicLong, AtomicLong>> statsEntry : stats.entrySet()) {
-                Stage stage = new Stage(statsEntry.getKey());
+                Stage stage = new Stage(statsEntry.getKey(), BATCH_JOB_STAGE_DESC);
                 stage.setElapsedTime(statsEntry.getValue().getRight().longValue());
                 stage.setProcessingInformation("Invocation count: " + statsEntry.getValue().getLeft().longValue());
 

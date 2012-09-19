@@ -14,7 +14,6 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
-  addSecurityData()
 end
 
 desc "Run Ingestion LearningObjective Tests"
@@ -94,7 +93,6 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-  addSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
@@ -196,9 +194,19 @@ task :ingestionOrderAgnosticListTest do
   runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
 end
 
-desc "Run Partial Ingestion of StudentAssessment data Test"
-task :partialIngestionStudentAssessmentTest do
-  runTests("test/features/ingestion/features/ingestion_PartialIngestion_StudentAssessment.feature")
+desc "Run Partial Ingestion of transformed Test"
+task :partialTransformedIngestionTest do
+  runTests("test/features/ingestion/features/ingestion_TransformedPartialIngestion.feature")
+end
+
+desc "Run Partial Ingestion Test"
+task :partialIngestionTest do
+  runTests("test/features/ingestion/features/ingestion_partial_test.feature")
+end
+
+desc "Ingestion Index Validation Test"
+task :IngestionIndexValidationTest do
+  runTests("test/features/ingestion/features/ingestion_indexValidation.feature")
 end
 
 ############################################################
