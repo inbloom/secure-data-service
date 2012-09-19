@@ -30,13 +30,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.dal.MongoStat;
-import org.slc.sli.dal.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import org.slc.sli.dal.MongoStat;
+import org.slc.sli.dal.TenantContext;
 
 /**
  * Tracks calls to mongo template and mongo driver
@@ -159,6 +160,9 @@ public class MongoTrackingAspect {
             // Can we just use epoch time from System.currentTimeMillis()
             String currJobInterval = null;
             long newInt = (((start - jobBegin) / trackingInt) * trackingInt) + jobBegin;
+            if (newInt < startInt) {
+                startInt = newInt;
+            }
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
             formatter.setTimeZone(TimeZone.getTimeZone("GMT"));

@@ -21,17 +21,17 @@ module Eventbus
 
   class HadoopJobRunner
     def initialize(config = {}, logger = nil)
+      @hadoop_jars = config[:hadoop_jars]
       @logger = logger if logger
-      @sli_home = config[:sli_home]
       @hadoop_home = config[:hadoop_home]
       @hadoop_exec = "#{@hadoop_home}/bin/hadoop"
     end
 
     def execute_job(job)
       if job['test'] 
-      command = "#{job['test']}"
+         command = "#{job['test']}"
       else
-      command = "#{@hadoop_exec} jar #{@sli_home}#{job['jar']}"
+         command = "#{@hadoop_exec} jar #{@hadoop_jars}#{job['jar']}"
       end
       @logger.info "running '#{command}'" if @logger
       status, stdout, stderr = systemu command

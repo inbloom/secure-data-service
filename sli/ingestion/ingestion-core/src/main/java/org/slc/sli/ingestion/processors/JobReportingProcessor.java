@@ -90,6 +90,8 @@ public class JobReportingProcessor implements Processor {
 
     public static final String ORCHESTRATION_STAGES_NAME = "OrchestrationStages";
 
+    public static final String ORCHESTRATION_STAGES_DESC = "Transforms and persists records to sli database";
+
     @Value("${sli.ingestion.staging.clearOnCompletion}")
     private String clearOnCompletion;
 
@@ -157,8 +159,10 @@ public class JobReportingProcessor implements Processor {
 
                 // Account for special case of orchestration stages.
                 String stageName = ORCHESTRATION_STAGES_NAME;
+                String stageDesc = ORCHESTRATION_STAGES_DESC;
                 if (!ORCHESTRATION_STAGES_LIST.contains(stageChunk.getStageName())) {
                     stageName = stageChunk.getStageName();
+                    stageDesc = stageChunk.getStageDesc();
                 }
 
 //                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
@@ -178,8 +182,8 @@ public class JobReportingProcessor implements Processor {
                 } else {
 //                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
 //                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
-                    stageBrief = new Stage(stageName, stageChunk.getStageDesc(), stageChunk.getStatus(),
-                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
+                    stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(), stageChunk.getStartTimestamp(),
+                            stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
                     stageBrief.setProcessingInformation("");
