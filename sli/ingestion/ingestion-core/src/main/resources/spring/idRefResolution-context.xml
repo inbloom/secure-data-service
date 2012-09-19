@@ -216,7 +216,7 @@
     <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
 
-    <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
