@@ -28,41 +28,41 @@ class TestOpLogAgent < Test::Unit::TestCase
   end
 
   # TODO: fix this test
-  #def test_oplog_reader
-  #  threads = []
-  #
-  #  oplog_reader = Eventbus::OpLogReader.new
-  #  oplog_queue = Queue.new
-  #
-  #  threads << Thread.new do
-  #    oplog_reader.handle_oplogs do |oplog|
-  #      puts oplog
-  #      oplog_queue << oplog
-  #    end
-  #  end
-  #
-  #  conn = Mongo::Connection.new
-  #  db   = conn['sample-db']
-  #  coll = db['test']
-  #  coll.remove
-  #
-  #  sleep 10 # wait for initial reading to clear
-  #
-  #  oplog_count = 5
-  #  threads << Thread.new do
-  #    oplog_count.times do |i|
-  #      puts "inserting #{i}"
-  #      coll.insert({'a' => i+1})
-  #    end
-  #  end
-  #  sleep 5 # wait for oplog to queue up
-  #
-  #  assert_equal(oplog_count, oplog_queue.size)
-  #
-  #  threads.each do |thread|
-  #    thread.kill
-  #  end
-  #end
+  def test_oplog_reader
+    threads = []
+
+    oplog_reader = Eventbus::OpLogReader.new
+    oplog_queue = Queue.new
+
+    threads << Thread.new do
+      oplog_reader.handle_oplogs do |oplog|
+        puts oplog
+        oplog_queue << oplog
+      end
+    end
+
+    conn = Mongo::Connection.new
+    db   = conn['sample-db']
+    coll = db['test']
+    coll.remove
+
+    sleep 10 # wait for initial reading to clear
+
+    oplog_count = 5
+    threads << Thread.new do
+      oplog_count.times do |i|
+        puts "inserting #{i}"
+        coll.insert({'a' => i+1})
+      end
+    end
+    sleep 5 # wait for oplog to queue up
+
+    assert_equal(oplog_count, oplog_queue.size)
+
+    threads.each do |thread|
+      thread.kill
+    end
+  end
 
   def test_oplog_throttler
     threads = []
