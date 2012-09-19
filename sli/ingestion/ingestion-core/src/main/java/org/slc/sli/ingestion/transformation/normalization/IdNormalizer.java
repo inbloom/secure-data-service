@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
@@ -122,11 +121,6 @@ public class IdNormalizer {
                                 if (fv.getRef() == null) {
                                     String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
                                             reference.getRef(), refIndex, refIndex, fv.getRef());
-                                    
-                                    if (valueSourcePath.equals("body.educationOrganizationReference.educationalOrgIdentity.educationOrgIdentificationCode")) {
-                                    	System.out.println();
-                                    }
-                                    
                                     try {
                                         Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                                         if (entityValue != null) {
@@ -324,24 +318,7 @@ public class IdNormalizer {
 
     protected List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances,
             Ref refConfig, String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
-    	
-    	try {
-    		if (entity != null) {
-        		String type = entity.getType();
-        		
-        		if (type != null) {
-        			if (type.equals("studentCompetencyObjective")) {
-        	    		System.out.println();
-        	    	}
-        		}
-        	}
-    	} catch (Exception e) {
-    		
-    	}
-    	
-    	
-    	
-    	
+
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         ArrayList<Query> queryOrList = new ArrayList<Query>();
@@ -395,16 +372,39 @@ public class IdNormalizer {
                                     Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
 
                                     if (entityValue != null) {
-                                        if (field.isList()) {
-                                            for (Object object : (BasicDBList) entityValue) {
-                                                if (object != null) {
-                                                	BasicDBObject dbObject = (BasicDBObject) object;
-                                                    
-                                                    for (Entry<String, String> queryParam : field.getQueryList().entrySet()) {
-                                                    	if (dbObject.containsKey((Object) queryParam.getKey())) {
-                                                    		choice.addCriteria(Criteria.where(queryParam.getValue()).is(dbObject.get(queryParam.getKey())));
-                                                    	    criteriaCount++;
-                                                    	}
+                                        if (field.getIsList()) {
+                                            BasicDBList entitySourceValueDBList = (BasicDBList) entityValue;
+                                            if (entitySourceValueDBList != null) {
+
+                                                for (Object object : entitySourceValueDBList) {
+                                                    BasicDBObject dbObject = (BasicDBObject) object;
+                                                    if (dbObject == null) {
+                                                        continue;
+                                                    }
+
+                                                    Object keyObject = dbObject.get(field.getEntityKey());
+                                                    if (keyObject == null) {
+                                                        continue;
+                                                    }
+                                                    BasicDBList keyList = (BasicDBList) keyObject;
+                                                    for (Object queryObject : keyList) {
+                                                        BasicDBObject queryDbObject = (BasicDBObject) queryObject;
+                                                        if (queryDbObject == null) {
+                                                            continue;
+                                                        }
+
+                                                        for (Object keyObj : queryDbObject.toMap().keySet()) {
+                                                            if (keyObj == null) {
+                                                                continue;
+                                                            }
+                                                            LOG.debug(keyObj.toString());
+                                                            if (field.getQueryList().containsKey(keyObj.toString())) {
+                                                                choice.addCriteria(Criteria.where(
+                                                                        field.getQueryList().get(keyObj.toString()))
+                                                                        .is(queryDbObject.toMap().get(keyObj)));
+                                                                criteriaCount++;
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }

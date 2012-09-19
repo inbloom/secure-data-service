@@ -54,7 +54,7 @@ public class Field {
         return "Field [path=" + path + ", values=" + values + "]";
     }
 
-    public boolean isList() {
+    public boolean getIsList() {
         return isList;
     }
 
