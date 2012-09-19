@@ -48,7 +48,7 @@ class TestEventPubSub < Test::Unit::TestCase
         # set up two agents and a subscriber 
         test_publisher_1 = TestAgent.new(FIRE_N_EVENTS, "agent_1", EVENT_TYPE, @logger)
         test_publisher_2 = TestAgent.new(FIRE_N_EVENTS, "agent_2", EVENT_TYPE, @logger)
-        event_subscriber = Eventbus::EventSubscriber.new(EVENT_TYPE, @logger)
+        event_subscriber = Eventbus::EventSubscriber.new({}, EVENT_TYPE, @logger)
 
         # set up the event handler 
         fired_events = {} 

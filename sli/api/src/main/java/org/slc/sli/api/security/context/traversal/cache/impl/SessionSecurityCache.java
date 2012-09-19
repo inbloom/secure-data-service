@@ -39,6 +39,8 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
 
     public static final String USER_SESSION = "userSession";
     
+    private boolean enabled = false;  //always disabled for now
+    
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -51,7 +53,8 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     
     @Override
     public void warm(String cacheId, Set<String> ids) {
-        
+        if (!enabled)
+            return;
         //Get my principal so I can access my session object
         Entity userSession = getUserSession();
         
@@ -74,6 +77,8 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     @SuppressWarnings("unchecked")
     @Override
     public Set<String> retrieve(String cacheId) {
+        if (!enabled)
+            return null;
         info("Using cached context for {}", cacheId);
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
         Map<String, Object> cache = (Map) body.get("cache");
@@ -89,6 +94,8 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     
     @Override
     public boolean contains(String cacheId) {
+        if (!enabled)
+            return false;
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
         if (!body.containsKey(CACHE))
             return false;
