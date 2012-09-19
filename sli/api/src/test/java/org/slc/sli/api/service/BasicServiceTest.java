@@ -22,21 +22,25 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.config.DefinitionFactory;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.config.DefinitionFactory;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  *
@@ -59,11 +63,14 @@ public class BasicServiceTest {
     @Autowired
     DefinitionFactory factory;
 
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> securityRepo;
 
     @Before
     public void setup() {
         service = (BasicService) context.getBean("basicService", "student", null,
-                Right.READ_GENERAL, Right.WRITE_GENERAL);
+                Right.READ_GENERAL, Right.WRITE_GENERAL, securityRepo);
 
         EntityDefinition student = factory.makeEntity("student")
                 .exposeAs("students").build();

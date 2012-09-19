@@ -63,6 +63,8 @@
     <bean id="EntityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 
+
+    <import resource="classpath:/spring/db-test.xml" />
     <import resource="classpath:/spring/validation.xml" />
     
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
