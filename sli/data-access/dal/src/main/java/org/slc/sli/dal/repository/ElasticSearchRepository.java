@@ -2,6 +2,7 @@ package org.slc.sli.dal.repository;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +25,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.node.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -45,6 +47,8 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
 
+    private static final String EMBEDDED_DATA_LOCK = "data/elasticsearch/nodes/0/node.lock";
+
     private String esUri;
 
     private RestTemplate searchTemplate;
@@ -57,9 +61,12 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
+    private Node node;
 
-    private Client createNodeClient() {
-        return nodeBuilder().node().client();
+    private Client createEmbeddedNodeClient() {
+        node = nodeBuilder().node();
+        esClient = node.client();
+        return esClient;
     }
 
     private Client getClient() {
@@ -72,7 +79,14 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      * @throws Exception
      */
     public void init() throws Exception {
-        esClient = embeddedEnabled ? createNodeClient() : new TransportClient();
+        if (embeddedEnabled) {
+            // delete lock file manually if failed on exit
+            File f = new File(EMBEDDED_DATA_LOCK);
+            if (f.exists() && !f.delete()) {
+                LOG.error("Unable to delete lock file for elastic search. Please remove manually at " + f.getAbsolutePath());
+            }
+        }
+        esClient = embeddedEnabled ? createEmbeddedNodeClient() : new TransportClient();
     }
 
     /**
@@ -81,8 +95,10 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      * @throws Exception
      */
     public void destroy() throws Exception {
-        if (embeddedEnabled && esClient != null) {
-            esClient.close();
+        esClient.close();
+        if (embeddedEnabled && node != null) {
+            node.close();
+            new File(EMBEDDED_DATA_LOCK).deleteOnExit();
         }
     }
 
@@ -91,10 +107,9 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
         // send an elasticsearch REST query
         String query = Converter.getQuery(getClient(), neutralQuery, TenantContext.getTenantId()).toString();
-        HttpEntity<String> response = sendRESTQuery(query);
 
         // convert the response to search hits
-        return Converter.toEntityCol(response);
+        return Converter.toEntityCol(sendRESTQuery(query));
     }
 
     /**
@@ -103,7 +118,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      * @param query
      * @return
      */
-    @SuppressWarnings("unchecked")
     private HttpEntity<String> sendRESTQuery(String query) {
 
         HttpMethod method = HttpMethod.POST;
@@ -122,9 +136,9 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
                     esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
+            throw rce;
 
         }
-        return HttpEntity.EMPTY;
     }
 
     /**
