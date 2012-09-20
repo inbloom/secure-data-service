@@ -43,7 +43,7 @@
 
    <!-- DB TO LOG API PERF CONFIG-->
     <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
-        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
+        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true"/>
     </mongo:mongo>
 
     <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
