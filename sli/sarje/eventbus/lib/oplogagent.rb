@@ -114,7 +114,7 @@ module Eventbus
           end
           if(!event_ids.empty?)
             #puts "events to send to listener: #{event_ids}"
-            @logger.info "events to send to listener: #{event_ids}" if @logger
+            @logger.info "events to send to listener: #{event_ids}" unless @logger.nil?
             yield event_ids
           end
         end
@@ -146,7 +146,7 @@ module Eventbus
       @event_subscriber = config[:event_subscriber]
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config[:collect_events_interval])
       @oplog_reader = OpLogReader.new(config, logger)
 
       @threads << Thread.new do
