@@ -1,6 +1,7 @@
 (ns genAssessments.core
   (:use genAssessments.defines)
-  (:use genAssessments.edfi_xml)
+  ; (:use genAssessments.edfi_xml)
+  (:use genAssessments.json)
   (:use clojure.data.xml)
   (:use clojure.contrib.math)
 )
@@ -37,17 +38,19 @@
     districtCount schoolCount studentCount)
   )
   (println (format "[0/%d districts]" districtCount))
+  
   (gen-assessment assessmentName "/tmp/test/F-assessment.xml")
   (def rng (range 1 (+ 1 studentCount)))
   (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
     (def startTime (System/currentTimeMillis))
     (doseq [ [districtName schools] district]
-      (gen-students schools rng (format "/tmp/test/A-%s-student.xml" districtName))
-      (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))
-      (gen-sessions schools (format "/tmp/test/C-%s-calendar.xml" districtName))
-      (gen-sections districtName schools (format "/tmp/test/D-%s-master-schedule.xml" districtName))
-      ; (gen-student-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))
-      ; (gen-student-assessment-associations districtName schools rng assessmentName 4 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
+      (def a (future (gen-students schools rng (format "/tmp/test/A-%s-student.xml" districtName))))
+      (def b (future (gen-schools districtName schools (format "/tmp/test/B-%s-schools.xml" districtName))))
+      (def c (future (gen-sessions schools (format "/tmp/test/C-%s-calendar.xml" districtName))))
+      (def d (future (gen-sections districtName schools (format "/tmp/test/D-%s-master-schedule.xml" districtName))))
+      (def e (future (gen-student-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))))
+      (def f (future (gen-student-assessment-associations districtName schools rng assessmentName 10 (format "/tmp/test/G-%s-assessment-results.xml" districtName))))
+      @f
     )
     (def endTime (System/currentTimeMillis))
     (def elapsed (/ (-  endTime startTime) 1000.0))
@@ -86,4 +89,9 @@
 ; 15 million students
 (defn gen-extra-large-set []
   (gen-big-data 125 50 2500)
+)
+
+; 45 million students
+(defn gen-giant-set []
+  (gen-big-data 250 75 2400)
 )

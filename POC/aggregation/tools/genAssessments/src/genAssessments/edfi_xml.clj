@@ -207,8 +207,7 @@
   )
 )
 
-(defn create-student-school-association
-  [schoolName studentId]
+(defn create-student-school-association [schoolName studentId]
   (element :StudentSchoolAssociation {}
     (student-ref schoolName studentId)
     (school-ref schoolName)
@@ -217,8 +216,7 @@
   )
 )
 
-(defn create-student-section-association
-  [schoolName studentId]
+(defn create-student-section-association [schoolName studentId]
   (element :StudentSectionAssociation {}
     (student-ref schoolName studentId)
     (section-ref schoolName)
@@ -325,7 +323,6 @@
     (element :UniqueSectionCode {} (section-id schoolName))
     (element :SequenceOfCourse {} "1")
     (element :CourseOfferingReference { :ref (local-course-id districtName schoolName) })
-    ; (course-offering-ref districtName schoolName)
     (school-ref schoolName)
     (session-ref schoolName)
   ) 
