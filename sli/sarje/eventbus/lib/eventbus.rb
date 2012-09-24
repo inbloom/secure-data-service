@@ -53,11 +53,8 @@ module Eventbus
   class EventSubscriber
     include EventPubSubBase
 
-    def initialize(event_type,logger = nil)
+    def initialize(config, event_type,logger = nil)
       @logger = logger if logger
-      config = {
-          :node_name => 'eventsubscriber'
-      }
       @messaging = MessagingService.new(config, logger)
       @subscription_channel = @messaging.get_publisher(subscription_address(event_type))
       @events_channel       = @messaging.get_subscriber(events_address(event_type))
@@ -121,7 +118,11 @@ module Eventbus
     end
 
     def fire_event(event)
-      @events_channel.publish(event)
+      begin
+        @events_channel.publish(event)
+      rescue Exception => e
+        @logger.warn("problem occurred publishing event: #{e}")
+      end
     end
 
     private

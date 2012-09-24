@@ -180,18 +180,7 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
-		<GradebookEntryReference>
-			<GradebookEntryIdentity>
-			  <GradebookEntryType>Assignment</GradebookEntryType>
-			  <DateAssigned>2011-09-29</DateAssigned>
-			  <SectionReference>
-				<SectionIdentity>
-				  <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				  <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-				</SectionIdentity>
-			  </SectionReference>
-			</GradebookEntryIdentity>
-		</GradebookEntryReference>
+		<GradebookEntryReference ref="GBE-8th_Grade_English-1"/>
 	</StudentGradebookEntry>
 	<StudentGradebookEntry>
 		<DateFulfilled>2011-10-13</DateFulfilled>
@@ -207,18 +196,7 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
-		<GradebookEntryReference>
-			<GradebookEntryIdentity>
-			  <GradebookEntryType>Unit test</GradebookEntryType>
-			  <DateAssigned>2011-10-13</DateAssigned>
-			  <SectionReference>
-				<SectionIdentity>
-				  <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				  <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-				</SectionIdentity>
-			  </SectionReference>
-			</GradebookEntryIdentity>
-		</GradebookEntryReference>
+		<GradebookEntryReference ref="GBE-8th_Grade_English-2"/>
 	</StudentGradebookEntry>
 	<StudentGradebookEntry>
 		<DateFulfilled>2011-10-27</DateFulfilled>
@@ -234,18 +212,7 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
-		<GradebookEntryReference>
-			<GradebookEntryIdentity>
-			  <GradebookEntryType>Quiz</GradebookEntryType>
-			  <DateAssigned>2011-10-27</DateAssigned>
-			  <SectionReference>
-				<SectionIdentity>
-				  <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				  <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-				</SectionIdentity>
-			  </SectionReference>
-			</GradebookEntryIdentity>
-		</GradebookEntryReference>
+		<GradebookEntryReference ref="GBE-8th_Grade_English-3"/>
 	</StudentGradebookEntry>
 	<StudentGradebookEntry>
 		<DateFulfilled>2011-11-12</DateFulfilled>
