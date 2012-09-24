@@ -132,7 +132,7 @@ end
 Given /^an entity with the text '(.*)' in the description field for a "([^"]*)"$/ do |word,arg1|
   @fields = {
     "academicSubject" => "Mathematics",
-    "objective" => "Math Test",
+    "objective" => "Math Test: #{rand}",
     "objectiveGradeLevel" => "Fifth grade",
     "description" => "Some stuff" + word
   }

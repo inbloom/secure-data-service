@@ -43,7 +43,7 @@ Examples:
 | "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
 | "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
 | "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-| "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
+| "learningObjective"            | "learningObjectives"      | "description"            | "Mathematics Objective"                      |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
 | "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
