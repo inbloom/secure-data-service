@@ -89,6 +89,7 @@
   <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
+    <property name="excludedCollections" ref="excludedCollections" />
   </bean>
   <bean id="mongoPerfEntityRepository" name="performanceRepo" class="org.slc.sli.dal.repository.MongoPerfRepository">
     <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
@@ -105,5 +106,17 @@
   </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
+
+  <util:set id="excludedCollections" value-type="java.lang.String">
+    <value>tenant</value>
+    <value>securityEvent</value>
+    <value>realm</value>
+    <value>application</value>
+    <value>roles</value>
+    <value>customRole</value>
+    <value>tenantJobLock</value>
+    <value>userSession</value>
+    <value>userAccount</value>
+  </util:set>
 
 </beans>

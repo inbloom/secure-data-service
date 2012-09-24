@@ -17,9 +17,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -66,10 +64,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Autowired
     private MongoQueryConverter queryConverter;
 
-    private static final String[] COLLECTIONS_EXCLUDED = { "tenant", "userSession", "userAccount", "roles",
-            "application", "tenantJobLock", "realm" };
-
-    protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONS_EXCLUDED));
+    private Set<String> excludedCollections;
 
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
@@ -704,6 +699,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return collections;
     }
 
+    public void setExcludedCollections(Set<String> excludedCollections) {
+        this.excludedCollections = excludedCollections;
+    }
+
     /**
      * Checks if this is a "system-level" collection (not tenant-specific).
      * Also sets this information in TenantContext.isSystemCall
@@ -711,8 +710,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @param collectionName
      * @return <code>true</code> if this is a "system-level" collection.
      */
-    protected static boolean checkIfSystemCall(String collectionName) {
-        boolean notByTenant = NOT_BY_TENANT.contains(collectionName);
+    protected boolean checkIfSystemCall(String collectionName) {
+        boolean notByTenant = excludedCollections.contains(collectionName);
         TenantContext.setIsSystemCall(notByTenant);
         return notByTenant;
     }
