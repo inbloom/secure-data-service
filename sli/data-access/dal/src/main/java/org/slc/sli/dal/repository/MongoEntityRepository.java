@@ -122,7 +122,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+        if (tenantId != null && !checkIfSystemCall(collectionName)) {
             if (metaData.get("tenantId") == null) {
                 metaData.put("tenantId", tenantId);
             }
@@ -143,7 +143,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+        if (tenantId != null && !checkIfSystemCall(collectionName)) {
             if (metaData.get("tenantId") == null) {
                 metaData.put("tenantId", tenantId);
             }
