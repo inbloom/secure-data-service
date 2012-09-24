@@ -56,9 +56,6 @@ public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
         boolean isSystemCall = TenantContext.isSystemCall();
 
         if (isSystemCall || tenantId == null) {
-            // set back to false so that the client doesn't have to do this.
-            TenantContext.setIsSystemCall(false);
-
             return super.getDb();
         } else {
             return super.getDb(getTenantDatabaseName(tenantId));

@@ -64,7 +64,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Autowired
     private MongoQueryConverter queryConverter;
 
-    private Set<String> excludedCollections;
+    private Set<String> tenantAgnosticCollections;
 
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
@@ -88,7 +88,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         // Add tenant ID
-        if (!checkIfSystemCall(collectionName)) {
+        if (!isTenantAgnostic(collectionName)) {
             String tenantId = TenantContext.getTenantId();
             // We decided that if tenantId is null then we will query on blank string.
             // This may need to be revisited.
@@ -126,7 +126,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *         tenant id.
      */
     protected Criteria createTenantCriteria(String collectionName) {
-        if (checkIfSystemCall(collectionName)) {
+        if (isTenantAgnostic(collectionName)) {
             return null;
         }
         String tenantId = TenantContext.getTenantId();
@@ -169,7 +169,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     // DE719 -- Not sure how to handle this, since it is using Generics. We
     // will not know until compileTime, what the object will be.
     public T create(T record, String collectionName) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         template.insert(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
@@ -185,7 +185,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public T insert(T record, String collectionName) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         template.insert(record, collectionName);
         LOG.debug("Insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
@@ -203,7 +203,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      */
     @Override
     public List<T> insert(List<T> records, String collectionName) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         template.insert(records, collectionName);
         LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
         return records;
@@ -224,7 +224,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         try {
-            checkIfSystemCall(collectionName);
+            guideIfTenantAgnostic(collectionName);
             return template.findOne(mongoQuery, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
@@ -243,7 +243,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             String tenantId = TenantContext.getTenantId();
             BasicDBObject obj = null;
 
-            if (tenantId != null && !checkIfSystemCall(collectionName)) {
+            if (tenantId != null && !isTenantAgnostic(collectionName)) {
 
                 obj = new BasicDBObject("metaData.tenantId", tenantId);
                 obj.append("_id", databaseId);
@@ -251,7 +251,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 obj = new BasicDBObject("_id", databaseId);
             }
 
-            checkIfSystemCall(collectionName);
+            guideIfTenantAgnostic(collectionName);
             return template.getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
@@ -270,14 +270,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an entity
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.findOne(mongoQuery, getRecordClass(), collectionName);
     }
 
     public T findOne(String collectionName, Query query) {
 
         // find and return an entity
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.findOne(query, getRecordClass(), collectionName);
     }
 
@@ -302,7 +302,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an instance
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
@@ -337,13 +337,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         // find and return an entity
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         DBCollection collection = template.getCollection(collectionName);
         if (collection == null) {
             return 0;
@@ -354,7 +354,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public long count(String collectionName, Query query) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         DBCollection collection = template.getCollection(collectionName);
         if (collection == null) {
             return 0;
@@ -364,7 +364,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.getCollection(collectionName);
     }
 
@@ -399,12 +399,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Update update = getUpdateCommand(encryptedRecord);
 
         // attempt update
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         WriteResult result = template.updateFirst(query, update, collection);
         // if no records were updated, try insert
         // insert goes through the encryption pipeline, so use the unencrypted record
         if (result.getN() == 0) {
-            checkIfSystemCall(collection);
+            guideIfTenantAgnostic(collection);
             template.insert(record, collection);
         }
 
@@ -438,7 +438,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
@@ -469,19 +469,19 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.updateMulti(convertedQuery, convertedUpdate, collectionName);
     }
 
     @Override
     public boolean doUpdate(String collection, String id, Update update) {
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
     }
 
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         return template.updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
     }
 
@@ -515,7 +515,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new Query(idCrit);
         }
 
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
         LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
@@ -528,13 +528,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         String tenantId = TenantContext.getTenantId();
         BasicDBObject obj = null;
 
-        if (tenantId != null && !checkIfSystemCall(collectionName)) {
+        if (tenantId != null && !isTenantAgnostic(collectionName)) {
             obj = new BasicDBObject("metaData.tenantId", tenantId);
         } else {
             obj = new BasicDBObject();
         }
 
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
     }
@@ -567,7 +567,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         List<T> results = template.find(query, getRecordClass(), collectionName);
         logResults(collectionName, results);
         return results;
@@ -609,7 +609,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *
      */
     public boolean collectionExists(String collection) {
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         return template.collectionExists(collection);
     }
 
@@ -620,7 +620,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @author tke
      */
     public void createCollection(String collection) {
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         template.createCollection(collection);
     }
 
@@ -637,7 +637,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
         }
-        checkIfSystemCall(collection);
+        guideIfTenantAgnostic(collection);
         template.ensureIndex(index, collection);
 
         LOG.info("Success!  Index for {} has been created, details {} ", collection, index);
@@ -661,7 +661,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             update.set("body." + patch.getKey(), patch.getValue());
         }
 
-        checkIfSystemCall(collectionName);
+        guideIfTenantAgnostic(collectionName);
         WriteResult result = template.updateFirst(query, update, collectionName);
 
         return (result.getN() == 1);
@@ -699,20 +699,29 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return collections;
     }
 
-    public void setExcludedCollections(Set<String> excludedCollections) {
-        this.excludedCollections = excludedCollections;
+    public void setTenantAgnosticCollections(Set<String> tenantAgnosticCollections) {
+        this.tenantAgnosticCollections = tenantAgnosticCollections;
     }
 
     /**
-     * Checks if this is a "system-level" collection (not tenant-specific).
-     * Also sets this information in TenantContext.isSystemCall
+     * Checks if this is a tenant-specific collection based on a set provided in spring
+     * configuration.
      *
      * @param collectionName
-     * @return <code>true</code> if this is a "system-level" collection.
+     * @return <code>true</code> if the collection is in the non-tenant-specific set.
      */
-    protected boolean checkIfSystemCall(String collectionName) {
-        boolean notByTenant = excludedCollections.contains(collectionName);
-        TenantContext.setIsSystemCall(notByTenant);
-        return notByTenant;
+    protected boolean isTenantAgnostic(String collectionName) {
+        return tenantAgnosticCollections.contains(collectionName);
+    }
+
+    /**
+     * Set a boolean value in TenantContext threadlocal store which signals whether this collection
+     * is tenant-specific. The method should be used before MongoTemplate calls to ensure that the
+     * correct database is used.
+     *
+     * @param collectionName
+     */
+    protected void guideIfTenantAgnostic(String collectionName) {
+        TenantContext.setIsSystemCall(isTenantAgnostic(collectionName));
     }
 }
