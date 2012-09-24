@@ -3591,7 +3591,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
