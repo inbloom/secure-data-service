@@ -439,6 +439,8 @@ Scenario: Verify deterministic ids generated: Clean Database
 # uncomment when section has a deterministic id
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
+    | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
+    | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database

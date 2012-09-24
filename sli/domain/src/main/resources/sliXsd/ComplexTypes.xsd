@@ -6935,7 +6935,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>calendarDate</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -6960,9 +6960,6 @@
 						Student late arrival/early dismissal
 						...
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
