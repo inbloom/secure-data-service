@@ -39,7 +39,7 @@ import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
- * Resolver for deterministic Id resolution.
+ * Resolver for deterministic id resolution.
  *
  * @author jtully
  * @author vmcglaughlin
@@ -104,7 +104,7 @@ public class DeterministicIdResolver {
                 Object referenceObject = PropertyUtils.getProperty(entity, sourceRefPath);
                 if (referenceObject == null) {
                     //ignore an empty reference if it is optional
-                    if(didRefSource.isOptional()) {
+                    if (didRefSource.isOptional()) {
                         continue;
                     } else {
                         throw new IdResolutionException("Entity missing key", sourceRefPath, null);
@@ -119,7 +119,7 @@ public class DeterministicIdResolver {
 
                     for (Object reference :  refList) {
                         @SuppressWarnings("unchecked")
-                        String uuid = getId( (Map<String, Object>) reference, tenantId, didRefConfig);
+                        String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                         if (uuid != null && !uuid.isEmpty()) {
                             uuidList.add(uuid);
                             LOG.info("Set a DID for an entity in a list " + entity + ": " + uuid);
@@ -129,8 +129,7 @@ public class DeterministicIdResolver {
                         }
                     }
                     PropertyUtils.setProperty(entity, didFieldPath, uuidList);
-                }
-                else {
+                } else {
                     //handle a single reference object
                     @SuppressWarnings("unchecked")
                     Map<String, Object> reference = (Map<String, Object>) referenceObject;
