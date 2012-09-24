@@ -236,11 +236,11 @@ class AppsController < ApplicationController
   end
 
   def sort_column
-    $column_names.include?(params[:sort]) ? params[:sort] : "name"
+    $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "desc"
   end
 
   def sort(app_array)
