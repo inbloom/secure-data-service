@@ -19,10 +19,11 @@ limitations under the License.
 =end
 
 localdir = File.dirname(__FILE__)
-$LOAD_PATH << localdir + "./lib"
+$LOAD_PATH << localdir + "/lib"
 require 'eventbus'
 require 'yaml'
 require 'logger'
+require 'socket'
 
 if __FILE__ == $0
     unless ARGV.length == 1
@@ -40,7 +41,7 @@ if __FILE__ == $0
     logger.level = Logger.const_get(config[:logger_level])
 
     # set up the oplog agent and keep waiting indefinitely until the threads terminate
-    node_id = config.fetch(:node_id, "") + host_name 
+    node_id = config.fetch(:node_id, "") + Socket.gethostname 
     agent = Eventbus::EventPublisher.new(node_id, 'oplog', config, logger)
     config.update(:event_subscriber => agent)
     oplog_agent = Eventbus::OpLogAgent.new(config, logger)

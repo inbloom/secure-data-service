@@ -19,7 +19,8 @@ limitations under the License.
 =end
 
 localdir = File.dirname(__FILE__)
-$LOAD_PATH << localdir + "./lib"
+$LOAD_PATH << localdir + "/lib"
+
 require 'eventbus'
 require 'yaml'
 require 'logger'
