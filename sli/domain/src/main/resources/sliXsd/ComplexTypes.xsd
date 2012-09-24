@@ -7026,12 +7026,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>program</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element minOccurs="0" name="programId" type="programId">
+			<xs:element name="programId" type="programId">
 				<xs:annotation>
 					<xs:documentation>
 						A unique number or alphanumeric code assigned to
