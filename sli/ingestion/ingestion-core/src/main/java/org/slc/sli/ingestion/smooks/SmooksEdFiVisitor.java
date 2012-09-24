@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.MongoException;
 
@@ -73,6 +74,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private int recordsPerisisted;
 
     private BatchJobDAO batchJobDAO;
+    private Set<String> recordLevelDeltaEnabledEntities;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -110,7 +112,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
 
             LOG.info("CHECKING RECORD for DELTA");
-            if (!SliDeltaManager.getInstance().isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType()) ||
+                !SliDeltaManager.getInstance().isPreviouslyIngested(neutralRecord, batchJobDAO)) {
                 LOG.info("RECORD IS NOT INGESTED BEFORE");
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
@@ -205,6 +208,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
+        this.recordLevelDeltaEnabledEntities = entities;
     }
 
     /* we are not using the below visitor hooks */
