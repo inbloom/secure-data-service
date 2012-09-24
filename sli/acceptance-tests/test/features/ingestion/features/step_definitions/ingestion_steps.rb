@@ -1352,12 +1352,12 @@ end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
-  
+
   @db = @conn[INGESTION_DB_NAME]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
   @stateOrganizationId = @edOrgEntity['_id']
-  
+
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
     @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
@@ -1883,6 +1883,21 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
         end
     end
     assert(found == true, "content not found")
+end
+
+Then /^I check that ids were generated properly:$/ do |table|
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    collection = row['collectionName']
+    did = row['deterministicId']
+    field = row['field']
+    value = row['value']
+
+    @entity_collection = @db.collection(collection)
+    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+
+    assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
+  end
 end
 
 ############################################################
