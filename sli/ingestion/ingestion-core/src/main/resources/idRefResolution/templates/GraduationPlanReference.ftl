@@ -6,7 +6,7 @@
         <TotalCreditsRequired>
             <Credit>
                 ${GraduationPlan.TotalCreditsRequired.Credit}
-            <Credit>
+            </Credit>
         </TotalCreditsRequired>
     </GraduationPlanIdentity>
 </GraduationPlanReference>
