@@ -113,7 +113,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
             LOG.info("CHECKING RECORD for DELTA");
             if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType()) ||
-                !SliDeltaManager.getInstance().isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+                !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
                 LOG.info("RECORD IS NOT INGESTED BEFORE");
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
