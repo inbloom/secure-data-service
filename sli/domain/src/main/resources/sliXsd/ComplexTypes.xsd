@@ -6165,9 +6165,6 @@
 						The type of cohort (e.g., academic intervention,
 						classroom breakout)
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="cohortScope" type="cohortScopeType">
@@ -6176,9 +6173,6 @@
 						The scope of cohort (e.g., school, district,
 						classroom, etc.)
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
