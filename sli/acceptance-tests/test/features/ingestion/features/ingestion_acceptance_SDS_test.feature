@@ -17,6 +17,7 @@
 @RALLY_US3122
 @RALLY_US3202
 @RALLY_US3200
+@RALLY_US4162
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -59,7 +60,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | learningObjective                   |
         | disciplineIncident                  |
         | disciplineAction                    |
-	    | studentDisciplineIncidentAssociation|
+        | studentDisciplineIncidentAssociation|
         | grade                               |
         | gradingPeriod                       |
         | calendarDate                        |
@@ -217,7 +218,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records considered: 4" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records failed: 0" in the resulting batch job file
-	And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml records considered: 2" in the resulting batch job file
@@ -325,13 +326,13 @@ And I check to find if record is in collection:
      | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Witness              | string               |
      | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Victim               | string               |
  And I check to find if record is in collection:
-	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
-	   | studentTranscriptAssociation  | 196                 | body.courseAttemptResult              | Pass                    | string               |
-	   | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-	   | studentTranscriptAssociation  | 4                   | body.finalNumericGradeEarned          | 87                      | integer              |
-	   | studentTranscriptAssociation  | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
-	   | studentTranscriptAssociation  | 33                  | body.finalLetterGradeEarned           | B                       | string               |
-	   | studentTranscriptAssociation  | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+       | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
+       | studentTranscriptAssociation  | 196                 | body.courseAttemptResult              | Pass                    | string               |
+       | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+       | studentTranscriptAssociation  | 4                   | body.finalNumericGradeEarned          | 87                      | integer              |
+       | studentTranscriptAssociation  | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
+       | studentTranscriptAssociation  | 33                  | body.finalLetterGradeEarned           | B                       | string               |
+       | studentTranscriptAssociation  | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
        | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
@@ -389,6 +390,15 @@ And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
+
+@smoke
+Scenario: Verify deterministic ids generated: Clean Database
+  And I check that ids were generated properly:
+    | collectionName | deterministicId                      | field                     | value      |
+    | student        | 415924a0-3174-a2f3-af05-64f09d3e3d3e | body.studentUniqueStateId | 800000025  |
+    | staff          | 90f4ba0f-9fd0-1be0-3f83-dd8cb519ecc2 | body.staffUniqueStateId   | jstevenson |
+    | staff          | 98b905f7-5b5d-c695-9a61-5656fdb93482 | body.staffUniqueStateId   | linda.kim  |
+#    | cohort         | cohortDid | body.cohortIdentifier     | ACC-TEST-COH-1 |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
@@ -648,7 +658,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 6     |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
-	    | studentDisciplineIncidentAssociation| 4|
+        | studentDisciplineIncidentAssociation| 4|
         | grade                       | 4     |
         | reportCard                  | 2     |
         | courseOffering              | 96    |
@@ -1026,7 +1036,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 6     |
         | disciplineIncident          | 4     |
         | disciplineAction            | 3     |
-		| studentDisciplineIncidentAssociation| 8|
+        | studentDisciplineIncidentAssociation| 8|
         | grade                       | 4     |
         | reportCard                  | 2     |
         | courseOffering              | 104   |
@@ -1698,12 +1708,12 @@ Then I should see following map of entry counts in the corresponding collections
      | staffCohortAssociation               | 5     |
      | studentDisciplineIncidentAssociation | 9     |
      | studentTranscriptAssociation         | 200   |
-	 | studentAcademicRecord                | 121   |
-	 | courseOffering                       | 105   |
-	 | attendance                           | 75    |
-	 | assessment                           | 23    |
-	 | studentAssessmentAssociation         | 204   |
-	 | student                              | 193   |
+     | studentAcademicRecord                | 121   |
+     | courseOffering                       | 105   |
+     | attendance                           | 75    |
+     | assessment                           | 23    |
+     | studentAssessmentAssociation         | 204   |
+     | student                              | 193   |
      | parent                               | 12    |
      | studentParentAssociation             | 11    |
   And I check to find if record is in collection:
@@ -1764,11 +1774,11 @@ Then I should see following map of entry counts in the corresponding collections
      | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Witness              | string               |
      | studentDisciplineIncidentAssociation    | 3                   | body.studentParticipationCode       | Victim               | string               |
      | studentTranscriptAssociation  | 200                 | body.courseAttemptResult              | Pass                    | string               |
-	| studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-	| studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
-	| studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
-	| studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
-	| studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+    | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+    | studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
+    | studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
+    | studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
+    | studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | courseOffering              | 1                   | body.localCourseTitle       | Government-4A             | string               |
      | courseOffering              | 2                   | body.localCourseTitle       | Government-4              | string               |
@@ -1794,7 +1804,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
-	 | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
@@ -1943,7 +1953,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
-		| studentDisciplineIncidentAssociation|
+        | studentDisciplineIncidentAssociation|
         | grade                       |
         | gradingPeriod               |
         | calendarDate                |
@@ -1989,7 +1999,7 @@ Then I should see following map of entry counts in the corresponding collections
         | learningObjective           | 135   |
         | disciplineIncident          | 4     |
         | disciplineAction            | 3     |
-	| studentDisciplineIncidentAssociation| 8 |
+    | studentDisciplineIncidentAssociation| 8 |
         | grade                       | 4     |
         | gradingPeriod               | 23    |
         | calendarDate                | 1112  |
@@ -2529,7 +2539,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
 
 @IL-Daybreak
 Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
-	Given I should see following map of entry counts in the corresponding collections:
+    Given I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | gradebookEntry              | 12    |
         | studentGradebookEntry       | 315   |
@@ -2538,7 +2548,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
         | staffProgramAssociation     | 3     |
-	And I check to find if record is in collection:
+    And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
         | studentGradebookEntry       | 0                   | body.letterGradeEarned         | Q                       | string               |
@@ -2553,11 +2563,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
         | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
         | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
-	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
-	And zip file is scp to ingestion landing zone
-	And a batch job log has been created
-	Then I should see following map of entry counts in the corresponding collections:
+    When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
+    And a batch job log has been created
+    Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | gradebookEntry              | 13    |
         | studentGradebookEntry       | 316   |
@@ -2566,7 +2576,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
         | staffProgramAssociation     | 4     |
-	And I check to find if record is in collection:
+    And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
         | studentGradebookEntry       | 1                   | body.letterGradeEarned         | Q                       | string               |
