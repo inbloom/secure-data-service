@@ -55,9 +55,7 @@ public class SliDeltaManager {
     public boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
 
         try {
-            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1")
-                    + "-" + createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "MD5");
-
+            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");
             LOG.info("RECORD HASH = " + recordId);
 
             return batchJobDAO.findAndUpsertRecordHash(recordId);
