@@ -6,7 +6,7 @@ require 'SecureRandom'
 options = {}
 
 ARGV.options do |opts|
-  opts.banner = "Usage: generator -t Tenant -u User -a Application -m localhost:27017"
+  opts.banner = "Usage: generator -t Tenant -u User -a Application [options]"
   options[:roles] = ['Educator']
   options[:mongo] = 'localhost:27017'
   options[:realm] = "The Sandbox Realm"
