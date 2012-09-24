@@ -8,6 +8,13 @@ Rake::TestTask.new do |t|
    t.verbose = true
 end
 
+Rake::TestTask.new do |t|
+   t.libs << "test"
+   t.name = "integrationTest"
+   t.test_files = FileList['test/integration_test.rb']
+   t.verbose = true
+end
+
 task :default =>  'test'
 
 namespace :test do

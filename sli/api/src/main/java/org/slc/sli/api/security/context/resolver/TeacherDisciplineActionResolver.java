@@ -58,7 +58,7 @@ public class TeacherDisciplineActionResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
         List<String> studentIds = new ArrayList<String>();
         if (!securityCache.contains(EntityNames.STUDENT)) {
-            studentResolver.findAccessible(principal);
+            studentIds = studentResolver.findAccessible(principal);
         } else {
             studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT));
         }

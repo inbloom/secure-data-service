@@ -187,12 +187,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
-    "objective" => "Math Test",
+    "objective" => "Learn Mathematics",
     "objectiveGradeLevel" => "Fifth grade"
   },
   "learningStandard" => {
     "learningStandardId" => {
-     "identificationCode" => "G.SRT.1"},
+     "identificationCode" => "apiTestLearningStandard"},
     "description" => "a description",
     "gradeLevel" => "Ninth grade",
     "contentStandard"=>"State Standard",

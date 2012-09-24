@@ -5429,7 +5429,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>learningObjective</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -5440,9 +5440,6 @@
 					<xs:documentation>The Identifier for the specific learning
 						objective in the context of a standard (e.g., 111.15.3.1.A)
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="objective" type="objective">
@@ -5450,9 +5447,9 @@
 					<xs:documentation>The designated title of the learning
 						objective.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -5471,6 +5468,9 @@
 						(e.g., arts, mathematics, reading, stenography, or a foreign
 						language) of an assessment.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="objectiveGradeLevel" type="gradeLevelType">
@@ -5479,6 +5479,9 @@
 						objective
 						is targeted,
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="learningStandards" type="reference"
@@ -5540,7 +5543,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>learningStandard</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
