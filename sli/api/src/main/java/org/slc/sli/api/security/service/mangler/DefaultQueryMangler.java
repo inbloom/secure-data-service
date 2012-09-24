@@ -30,16 +30,20 @@ public class DefaultQueryMangler extends Mangler {
         setSecurityCriteria(securityCriteria);
         // Is this a  list query or a specific one?
         boolean isList = true;
+        boolean isQueried = false;
         NeutralCriteria idCriteria = null;
         for (NeutralCriteria criteria : query.getCriteria()) {
             if (criteria.getKey().equals("_id")) {
                 idCriteria = criteria;
                 isList = false;
+            } else if (!criteria.getKey().equals("metaData.tenantId")) {
+                isQueried = true;
             }
         }
         if (isList) {
-            //TODO: It's not safe to adjust for paging if we have any specific query criteria - disabling until we can fix
-            // adjustSecurityForPaging();
+            if (!isQueried) {
+                adjustSecurityForPaging();
+            }
             query.addOrQuery(new NeutralQuery(securityCriteria));
             return query;
         }
