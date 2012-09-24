@@ -256,6 +256,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 obj = new BasicDBObject("_id", databaseId);
             }
 
+            checkIfSystemCall(collectionName);
             return template.getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
@@ -408,6 +409,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // if no records were updated, try insert
         // insert goes through the encryption pipeline, so use the unencrypted record
         if (result.getN() == 0) {
+            checkIfSystemCall(collection);
             template.insert(record, collection);
         }
 
@@ -518,6 +520,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new Query(idCrit);
         }
 
+        checkIfSystemCall(collectionName);
         T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
         LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
@@ -569,6 +572,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
+        checkIfSystemCall(collectionName);
         List<T> results = template.find(query, getRecordClass(), collectionName);
         logResults(collectionName, results);
         return results;
