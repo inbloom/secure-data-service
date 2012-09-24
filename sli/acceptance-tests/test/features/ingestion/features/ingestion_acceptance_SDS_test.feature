@@ -439,6 +439,7 @@ Scenario: Verify deterministic ids generated: Clean Database
 # uncomment when section has a deterministic id
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
+    | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
 
