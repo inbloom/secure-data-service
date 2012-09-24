@@ -25,6 +25,13 @@ public class TenantContext {
 
     private static ThreadLocal<String> threadLocalJobId = new ThreadLocal<String>();
 
+    private static ThreadLocal<Boolean> threadLocalIsSystemCall = new ThreadLocal<Boolean>() {
+        @Override
+        protected Boolean initialValue() {
+            return false;
+        }
+    };
+
     /**
      * Get the tenant id local to this thread.
      *
@@ -59,6 +66,14 @@ public class TenantContext {
      */
     public static String getJobId() {
         return threadLocalJobId.get();
+    }
+
+    public static boolean isSystemCall() {
+        return threadLocalIsSystemCall.get();
+    }
+
+    public static void setIsSystemCall(boolean isSystemCall) {
+        threadLocalIsSystemCall.set(isSystemCall);
     }
 
 }

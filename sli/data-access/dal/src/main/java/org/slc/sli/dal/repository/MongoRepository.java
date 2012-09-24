@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
@@ -35,6 +34,11 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +48,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
-
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -69,7 +67,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private MongoQueryConverter queryConverter;
 
     private static final String[] COLLECTIONS_EXCLUDED = { "tenant", "userSession", "userAccount", "roles",
-            "application", "tenantJobLock" };
+            "application", "tenantJobLock", "realm" };
+
     protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONS_EXCLUDED));
 
     /**
@@ -87,11 +86,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new NeutralQuery();
         }
 
-        if (!template.getDb().getName().equalsIgnoreCase("SLI")) {
+        // TODO: this is assuming that the staging db is the only non-sli db. remove all of this
+        // eventually.
+        if (template.getDb().getName().equalsIgnoreCase("is")) {
             return query;
         }
+
         // Add tenant ID
-        if (!NOT_BY_TENANT.contains(collectionName)) {
+        if (!checkIfSystemCall(collectionName)) {
             String tenantId = TenantContext.getTenantId();
             // We decided that if tenantId is null then we will query on blank string.
             // This may need to be revisited.
@@ -129,7 +131,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *         tenant id.
      */
     protected Criteria createTenantCriteria(String collectionName) {
-        if (NOT_BY_TENANT.contains(collectionName)) {
+        if (checkIfSystemCall(collectionName)) {
             return null;
         }
         String tenantId = TenantContext.getTenantId();
@@ -172,6 +174,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     // DE719 -- Not sure how to handle this, since it is using Generics. We
     // will not know until compileTime, what the object will be.
     public T create(T record, String collectionName) {
+        checkIfSystemCall(collectionName);
         template.insert(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
@@ -187,6 +190,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public T insert(T record, String collectionName) {
+        checkIfSystemCall(collectionName);
         template.insert(record, collectionName);
         LOG.debug("Insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
@@ -196,14 +200,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      * Leverages batch insert functionality.
      *
-     * @param records Database records to be inserted.
-     * @param collectionName Name of collection to insert record in.
+     * @param records
+     *            Database records to be inserted.
+     * @param collectionName
+     *            Name of collection to insert record in.
      * @return Successfully inserted record.
      */
     @Override
     public List<T> insert(List<T> records, String collectionName) {
+        checkIfSystemCall(collectionName);
         template.insert(records, collectionName);
-        LOG.debug("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
         return records;
     }
 
@@ -222,6 +229,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         try {
+            checkIfSystemCall(collectionName);
             return template.findOne(mongoQuery, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
@@ -240,7 +248,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             String tenantId = TenantContext.getTenantId();
             BasicDBObject obj = null;
 
-            if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+            if (tenantId != null && !checkIfSystemCall(collectionName)) {
 
                 obj = new BasicDBObject("metaData.tenantId", tenantId);
                 obj.append("_id", databaseId);
@@ -266,12 +274,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an entity
+        checkIfSystemCall(collectionName);
         return template.findOne(mongoQuery, getRecordClass(), collectionName);
     }
 
     public T findOne(String collectionName, Query query) {
 
         // find and return an entity
+        checkIfSystemCall(collectionName);
         return template.findOne(query, getRecordClass(), collectionName);
     }
 
@@ -296,6 +306,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an instance
+        checkIfSystemCall(collectionName);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
@@ -330,11 +341,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         // find and return an entity
+        checkIfSystemCall(collectionName);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
+        checkIfSystemCall(collectionName);
         DBCollection collection = template.getCollection(collectionName);
         if (collection == null) {
             return 0;
@@ -345,6 +358,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public long count(String collectionName, Query query) {
+        checkIfSystemCall(collectionName);
         DBCollection collection = template.getCollection(collectionName);
         if (collection == null) {
             return 0;
@@ -354,6 +368,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public DBCollection getCollection(String collectionName) {
+        checkIfSystemCall(collectionName);
         return template.getCollection(collectionName);
     }
 
@@ -388,6 +403,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Update update = getUpdateCommand(encryptedRecord);
 
         // attempt update
+        checkIfSystemCall(collection);
         WriteResult result = template.updateFirst(query, update, collection);
         // if no records were updated, try insert
         // insert goes through the encryption pipeline, so use the unencrypted record
@@ -425,6 +441,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
+        checkIfSystemCall(collectionName);
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
@@ -455,16 +472,19 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
+        checkIfSystemCall(collectionName);
         return template.updateMulti(convertedQuery, convertedUpdate, collectionName);
     }
 
     @Override
     public boolean doUpdate(String collection, String id, Update update) {
+        checkIfSystemCall(collection);
         return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
     }
 
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        checkIfSystemCall(collection);
         return template.updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
     }
 
@@ -510,12 +530,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         String tenantId = TenantContext.getTenantId();
         BasicDBObject obj = null;
 
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+        if (tenantId != null && !checkIfSystemCall(collectionName)) {
             obj = new BasicDBObject("metaData.tenantId", tenantId);
         } else {
             obj = new BasicDBObject();
         }
 
+        checkIfSystemCall(collectionName);
         template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
     }
@@ -589,7 +610,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *
      */
     public boolean collectionExists(String collection) {
-
+        checkIfSystemCall(collection);
         return template.collectionExists(collection);
     }
 
@@ -600,6 +621,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @author tke
      */
     public void createCollection(String collection) {
+        checkIfSystemCall(collection);
         template.createCollection(collection);
     }
 
@@ -616,6 +638,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
         }
+        checkIfSystemCall(collection);
         template.ensureIndex(index, collection);
 
         LOG.info("Success!  Index for {} has been created, details {} ", collection, index);
@@ -633,12 +656,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
         query.addCriteria(createTenantCriteria(collectionName));
 
-        //prepare update operation for record to be patched
+        // prepare update operation for record to be patched
         Update update = new Update();
         for (Entry<String, Object> patch : newValues.entrySet()) {
             update.set("body." + patch.getKey(), patch.getValue());
         }
 
+        checkIfSystemCall(collectionName);
         WriteResult result = template.updateFirst(query, update, collectionName);
 
         return (result.getN() == 1);
@@ -674,5 +698,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
             collections.add(getTemplate().getCollection(name));
         }
         return collections;
+    }
+
+    /**
+     * Checks if this is a "system-level" collection (not tenant-specific).
+     * Also sets this information in TenantContext.isSystemCall
+     *
+     * @param collectionName
+     * @return <code>true</code> if this is a "system-level" collection.
+     */
+    protected static boolean checkIfSystemCall(String collectionName) {
+        boolean notByTenant = NOT_BY_TENANT.contains(collectionName);
+        TenantContext.setIsSystemCall(notByTenant);
+        return notByTenant;
     }
 }
