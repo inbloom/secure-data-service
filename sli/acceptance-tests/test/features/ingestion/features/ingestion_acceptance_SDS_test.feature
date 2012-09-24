@@ -394,10 +394,11 @@ And I check to find if record is in collection:
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
-    | collectionName                       | deterministicId                      | field                     | value                                |
-    | student                              | 415924a0-3174-a2f3-af05-64f09d3e3d3e | body.studentUniqueStateId | 800000025                            |
-    | staff                                | 90f4ba0f-9fd0-1be0-3f83-dd8cb519ecc2 | body.staffUniqueStateId   | jstevenson                           |
-    | staff                                | 98b905f7-5b5d-c695-9a61-5656fdb93482 | body.staffUniqueStateId   | linda.kim                            |
+    | collectionName                       | deterministicId                      | field                             | value                                |
+    | student                              | 415924a0-3174-a2f3-af05-64f09d3e3d3e | body.studentUniqueStateId         | 800000025                            |
+    | staff                                | 90f4ba0f-9fd0-1be0-3f83-dd8cb519ecc2 | body.staffUniqueStateId           | jstevenson                           |
+    | staff                                | 98b905f7-5b5d-c695-9a61-5656fdb93482 | body.staffUniqueStateId           | linda.kim                            |
+    | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
 # uncomment when edorg has a deterministic id
 #   | cohort                               | ???????????????????????????????????? | body.cohortIdentifier     | ACC-TEST-COH-1                       |
 #   | cohort                               | ???????????????????????????????????? | body.educationOrgId       | ????                                 |
