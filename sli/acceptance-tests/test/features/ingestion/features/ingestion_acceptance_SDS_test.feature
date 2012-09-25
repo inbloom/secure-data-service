@@ -446,6 +446,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.programId            | 3648e86a-ed1b-70a5-72f9-76a366e98093 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.educationOrganizationId | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.beginDate            | 2011-03-01                           |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
