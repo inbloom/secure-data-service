@@ -85,6 +85,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_REST_RESOURCE, Occurs.ZERO, Occurs.UNBOUNDED, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_RESTRICTED_FOR_LOGGING, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SECURITY_SPHERE, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
 
@@ -215,6 +216,9 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     }
                 } else if (SliMongoConstants.SLI_SCHEMA_VERSION.equals(name)) {
                     // ignore
+                } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
+                    taggedValues.add(new TaggedValue("true", tagDefinition));
                 } else {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }
