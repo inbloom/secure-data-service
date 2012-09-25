@@ -9,7 +9,6 @@ def write_result(target_query, target_var, src_field, collection, db, results):
     for entry in results: 
         q = dict((k % entry, v % entry) for k,v in target_query.iteritems())
         col.update(q, {"$set" : { target_var : entry[src_field] } } )
-        print entry 
 
 
 def cond_from_bands(varname, bands):

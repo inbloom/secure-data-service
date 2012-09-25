@@ -36,7 +36,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
         final Occurs upper = range.getUpper();
         if (upper == Occurs.ONE && lower == Occurs.ONE) {
             // FIXME: Unfortunately, this disqualifies models that don't use this SLI annotation.
-            return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_NATURAL_KEY, end, model, false);
+            return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, end, model, false);
         } else {
             return false;
         }
