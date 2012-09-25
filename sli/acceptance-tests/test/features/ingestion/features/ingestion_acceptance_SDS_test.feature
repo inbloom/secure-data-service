@@ -441,6 +441,9 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
+   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
+   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.sectionId            | 2012cs-ba78f74d-073f-11e2-8842-68a86d320ddc |
+   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.beginDate            | 2011-09-01                              |
 # uncomment when section has a deterministic id
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
