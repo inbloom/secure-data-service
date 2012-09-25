@@ -6935,7 +6935,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>calendarDate</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -6960,9 +6960,6 @@
 						Student late arrival/early dismissal
 						...
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -7029,12 +7026,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>program</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element minOccurs="0" name="programId" type="programId">
+			<xs:element name="programId" type="programId">
 				<xs:annotation>
 					<xs:documentation>
 						A unique number or alphanumeric code assigned to
@@ -7522,13 +7519,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentCompetencyObjective</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="studentCompetencyObjectiveId" type="identificationCode"
-				minOccurs="0">
+			<xs:element name="studentCompetencyObjectiveId" type="identificationCode" >
 				<xs:annotation>
 					<xs:documentation>The Identifier for the student competency.
 					</xs:documentation>
@@ -7541,9 +7537,6 @@
 				<xs:annotation>
 					<xs:documentation>The designated title of the student competency
 						objective.</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"

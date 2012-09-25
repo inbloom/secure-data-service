@@ -1,0 +1,10 @@
+{
+    "entityType" : "calendarDate",
+    "keyFields" :
+        [
+            {
+                "keyFieldName" : "date",
+                "valueSource" : "attributes.date"
+            }
+        ]
+}
