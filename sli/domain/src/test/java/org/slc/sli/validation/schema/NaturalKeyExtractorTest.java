@@ -126,6 +126,42 @@ public class NaturalKeyExtractorTest {
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
 
+    @Test
+    public void shouldExtractNestedKeyField() {
+
+        Entity e = setup();
+        Map<String, String> parentValue = new HashMap<String, String>();
+        parentValue.put("childField", "someNestedValue");
+        e.getBody().put("parentField", parentValue);
+
+        //add another optional schema field that is not present
+        AppInfo mockAppInfo = Mockito.mock(AppInfo.class);
+        Mockito.when(mockAppInfo.applyNaturalKeys()).thenReturn(true);
+        Mockito.when(mockAppInfo.getType()).thenReturn(AnnotationType.APPINFO);
+        mockSchema.addAnnotation(mockAppInfo);
+
+        //create the parent field schema
+        ComplexSchema parentFieldSchema = new ComplexSchema();
+        mockSchema.addField("parentField", parentFieldSchema);
+
+        //create the child field schema
+        NeutralSchema mockChildFieldSchema = Mockito.mock(NeutralSchema.class);
+        AppInfo mockFieldAppInfo = Mockito.mock(AppInfo.class);
+        Mockito.when(mockChildFieldSchema.getAppInfo()).thenReturn(mockFieldAppInfo);
+        Mockito.when(mockFieldAppInfo.isNaturalKey()).thenReturn(true);
+        Mockito.when(mockFieldAppInfo.isRequired()).thenReturn(false);
+
+        //add the child schema to the parent
+        parentFieldSchema.addField("childField", mockChildFieldSchema);
+
+        Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
+
+        Assert.assertEquals(2, naturalKeys.size());
+        Assert.assertEquals("someValue", naturalKeys.get("someField"));
+        Assert.assertEquals("someNestedValue", naturalKeys.get("parentField.childField"));
+        Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
+    }
+
     private Entity setup() {
         String entityType = "entityType";
         Entity e = createEntity(entityType);
