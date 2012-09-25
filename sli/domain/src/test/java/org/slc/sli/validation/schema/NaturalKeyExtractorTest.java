@@ -16,7 +16,6 @@
 package org.slc.sli.validation.schema;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -55,10 +54,10 @@ public class NaturalKeyExtractorTest {
 
         Entity e = setup();
 
-        List<String> naturalKeyFields = naturalKeyExtractor.getNaturalKeyFields(e);
+        Map<String, Boolean> naturalKeyFields = naturalKeyExtractor.getNaturalKeyFields(e);
 
         Assert.assertEquals(1, naturalKeyFields.size());
-        Assert.assertEquals("someField", naturalKeyFields.get(0));
+        Assert.assertEquals("someField", naturalKeyFields.entrySet().iterator().next().getKey());
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
 
@@ -121,8 +120,9 @@ public class NaturalKeyExtractorTest {
 
         Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
 
-        Assert.assertEquals(1, naturalKeys.size());
+        Assert.assertEquals(2, naturalKeys.size());
         Assert.assertEquals("someValue", naturalKeys.get("someField"));
+        Assert.assertEquals("", naturalKeys.get("optionalField"));
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
 
