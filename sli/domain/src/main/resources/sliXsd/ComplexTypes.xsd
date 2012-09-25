@@ -1762,7 +1762,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -1781,7 +1781,7 @@
 			<xs:element name="educationOrganizationReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
-						memeber
+						member
 						provides services
 					</xs:documentation>
 					<xs:appinfo>
