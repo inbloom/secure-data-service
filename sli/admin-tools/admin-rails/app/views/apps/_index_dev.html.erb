@@ -5,11 +5,11 @@
 <table id="applications" class="table">
   <thead>
 	<tr>
-		<th>Name</th>
-		<th>Version</th>
-		<th>Vendor</th>
-		<th>Creation Date</th>
-		<th>Last Update</th>
+		<th><%= sortable "Name" %></th>
+		<th><%= sortable "Version" %></th>
+		<th><%= sortable "Vendor" %></th>
+		<th><%= sortable "Creation Date", "metaData.created" %></th>
+		<th><%= sortable "Last Update", "metaData.updated" %></th>
 		<th></th>
 	</tr>
 	</thead>
