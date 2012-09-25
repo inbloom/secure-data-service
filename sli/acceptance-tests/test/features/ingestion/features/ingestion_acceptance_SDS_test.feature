@@ -1689,21 +1689,21 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                       | count |
      | program                              | 4     |
      | cohort                               | 4     |
-     | disciplineAction                     | 4     |
+     | disciplineAction                     | 3     |
      | studentProgramAssociation            | 9     |
-     | disciplineIncident                   | 7     |
+     | disciplineIncident                   | 5     |
      | staffProgramAssociation              | 7     |
      | studentCohortAssociation             | 6     |
      | gradebookEntry                       | 13    |
      | staffCohortAssociation               | 5     |
-     | studentDisciplineIncidentAssociation | 9     |
+     | studentDisciplineIncidentAssociation | 5     |
      | studentTranscriptAssociation         | 200   |
-	 | studentAcademicRecord                | 121   |
-	 | courseOffering                       | 105   |
-	 | attendance                           | 75    |
-	 | assessment                           | 23    |
-	 | studentAssessmentAssociation         | 204   |
-	 | student                              | 193   |
+	   | studentAcademicRecord                | 121   |
+	   | courseOffering                       | 97    |
+	   | attendance                           | 75    |
+	   | assessment                           | 23    |
+  	 | studentAssessmentAssociation         | 204   |
+  	 | student                              | 185   |
      | parent                               | 12    |
      | studentParentAssociation             | 11    |
   And I check to find if record is in collection:
@@ -1748,27 +1748,27 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry              | 2                   | body.dateAssigned           | 2011-10-27              | string               |
      | gradebookEntry              | 4                   | body.gradebookEntryType     | Quiz                    | string               |
      | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
-     | disciplineIncident          | 2                   | body.incidentIdentifier     | Disruption              | string               |
-     | disciplineIncident          | 2                   | body.incidentIdentifier     | Tardiness               | string               |
+     | disciplineIncident          | 1                   | body.incidentIdentifier     | Disruption              | string               |
+     | disciplineIncident          | 1                   | body.incidentIdentifier     | Tardiness               | string               |
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Bullying                | string               |
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Hazing                  | string               |
-     | disciplineIncident          | 5                   | body.incidentLocation       | On School               | string               |
-     | disciplineIncident          | 3                   | body.incidentDate           | 2011-02-01              | string               |
+     | disciplineIncident          | 3                   | body.incidentLocation       | On School               | string               |
+     | disciplineIncident          | 2                   | body.incidentDate           | 2011-02-01              | string               |
      | disciplineIncident          | 2                   | body.weapons                | Non-Illegal Knife       | string               |
      | staffCohortAssociation      | 5                   | body.studentRecordAccess    | true                    | boolean              |
      | staffCohortAssociation      | 1                   | body.beginDate              | 2011-01-01              | string               |
      | staffCohortAssociation      | 2                   | body.beginDate              | 2011-07-01              | string               |
      | staffCohortAssociation      | 1                   | body.beginDate              | 2012-02-15              | string               |
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
-     | studentDisciplineIncidentAssociation    | 4                   | body.studentParticipationCode       | Perpetrator          | string               |
-     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Witness              | string               |
-     | studentDisciplineIncidentAssociation    | 3                   | body.studentParticipationCode       | Victim               | string               |
+     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Perpetrator          | string               |
+     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Witness              | string               |
+     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Victim               | string               |
      | studentTranscriptAssociation  | 200                 | body.courseAttemptResult              | Pass                    | string               |
-	| studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-	| studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
-	| studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
-	| studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
-	| studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+	   | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+     | studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
+	   | studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
+     | studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
+     | studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | courseOffering              | 1                   | body.localCourseTitle       | Government-4A             | string               |
      | courseOffering              | 2                   | body.localCourseTitle       | Government-4              | string               |
@@ -1794,7 +1794,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
-	 | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
+	   | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
@@ -1958,44 +1958,44 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 86    |
-        | studentSchoolAssociation    | 175   |
-        | course                      | 103   |
-        | educationOrganization       | 12    |
-        | section                     | 113   |
-        | studentSectionAssociation   | 305   |
-        | staff                       | 51    |
-        | staffEducationOrganizationAssociation| 31 |
-        | teacherSchoolAssociation    | 19    |
-        | teacherSectionAssociation   | 27    |
-        | session                     | 26    |
-        | assessment                  | 19    |
-        | studentAssessmentAssociation| 203   |
-        | studentTranscriptAssociation| 196   |
-        | parent                      | 9     |
-        | studentParentAssociation    | 9     |
-        | gradebookEntry              | 12    |
-        | studentGradebookEntry       | 315   |
-        | attendance                  | 75    |
-        | program                     | 2     |
-        | staffProgramAssociation     | 3     |
-        | studentProgramAssociation   | 6     |
-        | cohort                      | 3     |
-        | staffCohortAssociation      | 3     |
-        | studentCohortAssociation    | 6     |
-        | studentCompetency           | 59    |
-        | studentCompetencyObjective  | 4     |
-        | learningStandard            | 1463  |
-        | learningObjective           | 135   |
-        | disciplineIncident          | 4     |
-        | disciplineAction            | 3     |
-	| studentDisciplineIncidentAssociation| 8 |
-        | grade                       | 4     |
-        | gradingPeriod               | 23    |
-        | calendarDate                | 1112  |
-        | reportCard                  | 2     |
-        | courseOffering              | 103   |
-        | studentAcademicRecord       | 117   |
+        | student                     | 8     |
+        | studentSchoolAssociation    | 8     |
+        | course                      | 8     |
+        | educationOrganization       | 7     |
+        | section                     | 16    |
+        | studentSectionAssociation   | 8     |
+        | staff                       | 37    |
+        | staffEducationOrganizationAssociation| 21 |
+        | teacherSchoolAssociation    | 16    |
+        | teacherSectionAssociation   | 16    |
+        | session                     | 4     |
+        | assessment                  | 0     |
+        | studentAssessmentAssociation| 0     |
+        | studentTranscriptAssociation| 0     |
+        | parent                      | 0     |
+        | studentParentAssociation    | 0     |
+        | gradebookEntry              | 0     |
+        | studentGradebookEntry       | 0     |
+        | attendance                  | 0     |
+        | program                     | 0     |
+        | staffProgramAssociation     | 0     |
+        | studentProgramAssociation   | 0     |
+        | cohort                      | 0     |
+        | staffCohortAssociation      | 0     |
+        | studentCohortAssociation    | 0     |
+        | studentCompetency           | 0     |
+        | studentCompetencyObjective  | 0     |
+        | learningStandard            | 0     |
+        | learningObjective           | 0     |
+        | disciplineIncident          | 2     |
+        | disciplineAction            | 1     |
+	      | studentDisciplineIncidentAssociation| 4 |
+        | grade                       | 0     |
+        | gradingPeriod               | 6     |
+        | calendarDate                | 556   |
+        | reportCard                  | 0     |
+        | courseOffering              | 8     |
+        | studentAcademicRecord       | 0     |
 
 Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyrule: Populated Database
    And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
