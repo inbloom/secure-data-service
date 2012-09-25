@@ -38,30 +38,10 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
-<<<<<<< HEAD
-   <!-- DB TO LOG API PERF CONFIG-->
-    <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
-        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true" slave-ok="false"/>
-    </mongo:mongo>
-
-    <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
-    <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
-
-    <mongo:mapping-converter id="mappingPerfDbConverter" base-package="org.slc.sli" db-factory-ref="mongoPerfDbFactory">
-        <mongo:custom-converters>
-            <mongo:converter>
-                <bean class="org.slc.sli.dal.convert.EntityReadConverter" />
-            </mongo:converter>
-            <mongo:converter>
-                <bean class="org.slc.sli.dal.convert.EntityWriteConverter" />
-            </mongo:converter>
-        </mongo:custom-converters>
-    </mongo:mapping-converter>
-=======
   <!-- DB TO LOG API PERF CONFIG -->
   <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
     <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true"
-      socket-timeout="60000" socket-keep-alive="true" />
+      socket-timeout="60000" socket-keep-alive="true"  slave-ok="false"/>
   </mongo:mongo>
 
   <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
@@ -78,7 +58,6 @@
       </mongo:converter>
     </mongo:custom-converters>
   </mongo:mapping-converter>
->>>>>>> master
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
@@ -87,28 +66,15 @@
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
-<<<<<<< HEAD
-    <!--  <property name="writeConcern">
-      <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
-    </property>
-    -->
-  </bean>
-
-    <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-        <constructor-arg ref="mongoPerfDbFactory" />
-        <constructor-arg ref="mappingPerfDbConverter" />
-    </bean>
-=======
-    <property name="slaveOk" value="false" />
+    <!-- property name="slaveOk" value="false" / -->
     <!-- <property name="writeConcern"> <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant> </property> -->
   </bean>
 
   <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="mongoPerfDbFactory" />
     <constructor-arg ref="mappingPerfDbConverter" />
-    <property name="slaveOk" value="false" />
+    <!-- property name="slaveOk" value="false" / -->
   </bean>
->>>>>>> master
 
   <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
 
