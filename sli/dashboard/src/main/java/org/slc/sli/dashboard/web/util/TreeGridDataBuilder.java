@@ -74,7 +74,7 @@ public class TreeGridDataBuilder {
         // add entity to tree grid
         entity.put(LEVEL, level);
         if (parentId == null) {
-            entity.put(PARENT, "");
+            entity.put(PARENT, "null");
         } else {
             entity.put(PARENT, parentId);
         }

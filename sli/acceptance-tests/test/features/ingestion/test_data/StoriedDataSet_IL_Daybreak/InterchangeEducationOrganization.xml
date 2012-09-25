@@ -14,6 +14,11 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
   </StateEducationAgency>
 
   <LocalEducationAgency>
@@ -28,6 +33,11 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <LEACategory>Independent</LEACategory>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>

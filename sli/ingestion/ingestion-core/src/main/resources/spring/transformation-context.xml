@@ -136,7 +136,7 @@
     </entry>
   </util:map>
 
-  <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
+  <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true" depends-on="stageTrackingAspect">
     <property name="entityConfigurations" ref="entityConfigurationsFactory" />
     <property name="idNormalizer" ref="idNormalizer" />
     <property name="entityRepository" ref="mongoEntityRepository" />

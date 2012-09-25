@@ -70,7 +70,7 @@ class LandingZone
     elsif APP_CONFIG['is_sandbox'] == false
       isDuplicate = user_info[:homedir] != "/dev/null"
     end
-    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    result = OnBoarding.create(:stateOrganizationId => edorg_id)
 
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"

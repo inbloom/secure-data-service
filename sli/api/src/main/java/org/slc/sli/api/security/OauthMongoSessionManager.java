@@ -30,18 +30,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -54,6 +42,17 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -284,6 +283,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                             System.currentTimeMillis() + this.sessionLength);
                                     repo.update(SESSION_COLLECTION, sessionEntity);
                                 }
+                                // Purge expired sessions
+                                purgeExpiredSessions();
 
                                 break;
                             }

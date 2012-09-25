@@ -23,7 +23,7 @@ public final class SdkGenTypeWrapper implements SdkGenType {
         }
         this.xsdType = xsdType;
         // What's going on here?
-        foo(xsdType, 0);
+        sdkGenDive(xsdType, 0);
     }
 
     @Override
@@ -36,12 +36,12 @@ public final class SdkGenTypeWrapper implements SdkGenType {
     }
 
     @SuppressWarnings("unused")
-    public static SdkGenType foo(final XmlSchemaObjectCollection items, final int depth) {
+    public static SdkGenType sdkGenDive(final XmlSchemaObjectCollection items, final int depth) {
         for (int i = 0; i < items.getCount(); i++) {
             final XmlSchemaObject item = items.getItem(i);
             if (item instanceof XmlSchemaElement) {
                 final XmlSchemaElement element = (XmlSchemaElement) item;
-                foo(element.getSchemaType(), depth + 1);
+                sdkGenDive(element.getSchemaType(), depth + 1);
                 return new SdkGenElementTypeWrapper();
             } else if (item instanceof XmlSchemaChoice) {
                 final XmlSchemaChoice choice = (XmlSchemaChoice) item;
@@ -53,7 +53,7 @@ public final class SdkGenTypeWrapper implements SdkGenType {
         throw new AssertionError();
     }
 
-    public static SdkGenType foo(final XmlSchemaType xmlSchemaType, final int depth) {
+    public static SdkGenType sdkGenDive(final XmlSchemaType xmlSchemaType, final int depth) {
         if (depth > 5) {
             return null;
         }
@@ -64,7 +64,7 @@ public final class SdkGenTypeWrapper implements SdkGenType {
                 if (particle instanceof XmlSchemaSequence) {
                     final XmlSchemaSequence sequence = (XmlSchemaSequence) particle;
                     final XmlSchemaObjectCollection items = sequence.getItems();
-                    return foo(items, depth + 1);
+                    return sdkGenDive(items, depth + 1);
                 } else {
                     throw new AssertionError();
                 }

@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentGrade.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 	<StudentGradebookEntry>
-        <DateFulfilled>2013-1-1</DateFulfilled>
-        <LetterGradeEarned>D</LetterGradeEarned>
-        <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_3" />
-        <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_1" />
-        <GradebookEntryReference ref="GE_3" />
-    </StudentGradebookEntry>
+		<DateFulfilled>2013-1-1</DateFulfilled>
+		<LetterGradeEarned>D</LetterGradeEarned>
+		<NumericGradeEarned>65</NumericGradeEarned>
+		<CompetencyLevelReference>
+			<CompetencyLevelIdentity>
+				<CodeValue>Barely Competent 3</CodeValue>
+			</CompetencyLevelIdentity>
+		</CompetencyLevelReference>
+		<DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
+		<StudentSectionAssociationReference ref="SSA_1" />
+		<GradebookEntryReference ref="GE_3" />
+	</StudentGradebookEntry>
 	<StudentGradebookEntry>
-        <DateFulfilled>2013-2-2</DateFulfilled>
-        <LetterGradeEarned>D</LetterGradeEarned>
-        <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_1" />
-        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_1" />
-        <GradebookEntryReference ref="GE_1" />
-    </StudentGradebookEntry>
+		<DateFulfilled>2013-2-2</DateFulfilled>
+		<LetterGradeEarned>D</LetterGradeEarned>
+		<NumericGradeEarned>65</NumericGradeEarned>
+		<CompetencyLevelReference>
+			<CompetencyLevelIdentity>
+				<CodeValue>Barely Competent 1</CodeValue>
+			</CompetencyLevelIdentity>
+		</CompetencyLevelReference>
+		<DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+		<StudentSectionAssociationReference ref="SSA_1" />
+		<GradebookEntryReference ref="GE_1" />
+	</StudentGradebookEntry>
 	<GradebookEntry id="GE_2">
 		<GradebookEntryType>funeral homework</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
@@ -60,13 +68,13 @@
 		<LearningStandardReference ref="LS_2" />
 		<LearningObjectiveReference ref="LO_3" />
 	</LearningObjective>
-	<CompetencyLevelDescriptor id="CL_3">
-		<CodeValue>Barely Competent</CodeValue>
+	<CompetencyLevelDescriptor id="CL_1">
+		<CodeValue>Barely Competent 1</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
 	</CompetencyLevelDescriptor>
 	<CompetencyLevelDescriptor id="CL_3">
-		<CodeValue>Barely Competent</CodeValue>
+		<CodeValue>Barely Competent 3</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
 	</CompetencyLevelDescriptor>

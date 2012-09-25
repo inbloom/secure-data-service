@@ -15,7 +15,8 @@
             "ref" :
             {
                 "entityType" : "studentAcademicRecord",
-                "choiceOfFields" :
+                "takesContext" : ["edOrgs"],
+	            "choiceOfFields" :
                 [
                     [
                         {

@@ -92,7 +92,7 @@ public class TreeGridDataBuilderTest {
         Assert.assertEquals(5, treeGrid.size());
         GenericEntity t0 = treeGrid.get(0);
         Assert.assertEquals("subject1", t0.getId());
-        Assert.assertEquals("", t0.get("parent"));
+        Assert.assertEquals("null", t0.get("parent"));
         Assert.assertEquals(0, t0.get("level"));
         Assert.assertEquals(false, t0.get("isLeaf"));
 

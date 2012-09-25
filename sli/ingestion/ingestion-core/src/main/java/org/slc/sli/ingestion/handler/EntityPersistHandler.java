@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
 
 import java.util.ArrayList;
@@ -27,6 +26,8 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,6 +61,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
  *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
+    private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
@@ -103,7 +105,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     @Override
-    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
         return persist(entities, errorReport);
     }
 
@@ -136,7 +139,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             return entity;
         } else {
-            return entityRepository.createWithRetries(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName, totalRetries);
+            return entityRepository.createWithRetries(entity.getType(), entity.getStagedEntityId(), entity.getBody(),
+                    entity.getMetaData(), collectionName, totalRetries);
         }
     }
 
@@ -166,7 +170,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, errorReport);
             } else {
-              preMatchEntity(memory, entityConfig, errorReport, entity);
+                preMatchEntity(memory, entityConfig, errorReport, entity);
             }
         }
 
@@ -183,12 +187,16 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         try {
+            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[] { queued.size(),
+                    collectionName });
             entityRepository.insert(queued, collectionName);
         } catch (Exception e) {
-            //Assuming there would NOT be DuplicateKeyException at this point.
-            //Because "queued" only contains new records(with no Id), and we don't have unique indexes
+            // Assuming there would NOT be DuplicateKeyException at this point.
+            // Because "queued" only contains new records(with no Id), and we don't have unique
+            // indexes
+            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
 
-            //Try to do individual upsert again for other exceptions
+            // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
             }
@@ -197,7 +205,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return failed;
     }
 
-    private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig, ErrorReport errorReport, SimpleEntity entity) {
+    private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
+            ErrorReport errorReport, SimpleEntity entity) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         if (keyFields.size() > 0) {
@@ -206,7 +215,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    String errorMessage = "Issue finding key field: " + field + " for entity of type: " + entity.getType() + "\n";
+                    String errorMessage = "Issue finding key field: " + field + " for entity of type: "
+                            + entity.getType() + "\n";
                     errorReport.error(errorMessage, this);
                 }
 
@@ -243,10 +253,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
                     + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
-                    + "\n"  + "       Instance   " + entity.getRecordNumber()
-                    + "\n" + "       Field      " + err.getFieldName() + "\n" + "       Value      "
-                    + err.getFieldValue() + "\n" + "       Expected   " + Arrays.toString(err.getExpectedTypes())
-                    + "\n";
+                    + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
+                    + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
+                    + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
             errorReport.error(message, this);
         }
     }

@@ -25,6 +25,10 @@ public class WadlComparator {
     private static PrintStream pathToReportFile;
 
     final static PrintStream stdout = System.out;
+    
+    public WadlComparator() {
+    	throw new UnsupportedOperationException();
+    }
 
     public static void main(String[] args) throws IOException {
         if (args.length < 3 || args[0].toLowerCase().equals("h") || args[0].equals("?")) {
@@ -63,7 +67,7 @@ public class WadlComparator {
                 uniqueGenerated.add(s);
             }
         }
-        List<String> uniqueGolden = new ArrayList(uniqueGoldenMap.keySet());
+        List<String> uniqueGolden = new ArrayList<String>(uniqueGoldenMap.keySet());
         Collections.sort(uniqueGolden);
         Collections.sort(uniqueGenerated);
 

@@ -40,19 +40,25 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  */
 public final class PsmCreator {
 
+	public static final String DEFAULT_INPUT_XMI_FILENAME = "SLI.xmi";
+	public static final String DEFAULT_OUTPUT_XML_FILENAME = "documents.xml";
+	
+	public PsmCreator() {
+		throw new UnsupportedOperationException();
+	}
+	
     public static void main(final String[] args) {
-        try {
-            final Model model = XmiReader.readModel("SLI.xmi");
+        
+    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_XMI_FILENAME;
+    	String outputFilename = (args.length == 2) ? args[1] : DEFAULT_OUTPUT_XML_FILENAME;
+    	
+    	try {
+            final Model model = XmiReader.readModel(inputFilename);
             final PsmConfig<Type> psm = convert(model);
-            PsmConfigWriter.writeConfig(psm, model, "documents.xml");
+            PsmConfigWriter.writeConfig(psm, model, outputFilename);
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    private PsmCreator() {
-        // Prevent instantiation, even through reflection.
-        throw new RuntimeException();
     }
 
     private static final PsmConfig<Type> convert(final Model model) {

@@ -10,7 +10,7 @@ public abstract class Mangler {
     private NeutralQuery theQuery;
     public abstract NeutralQuery mangleQuery(NeutralQuery query, NeutralCriteria securityCriteria);
     public NeutralQuery mangleQuery() {return mangleQuery(theQuery, securityCriteria);}
-    public abstract boolean respondsTo(String type);
+
     public void setSecurityCriteria(NeutralCriteria securityCriteria) {
         this.securityCriteria = securityCriteria;
     }

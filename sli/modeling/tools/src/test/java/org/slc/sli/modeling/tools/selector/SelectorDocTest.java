@@ -25,6 +25,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.Writer;
@@ -53,7 +55,10 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 public class SelectorDocTest {
 
-	private final static String[] args = new String[]{"../../domain/src/main/resources/sliModel/SLI.xmi", "output.xml"};
+	private final static String INPUT_FILENAME = "src/test/resources/SLI.xmi";
+	private final static String OUTPUT_FILENAME = "output.xml";
+	
+	private final static String[] args = new String[]{INPUT_FILENAME, OUTPUT_FILENAME};
 	private SelectorDoc selectorDoc = new SelectorDoc(args[0], args[1]);
 	private final static Range range = new Range(Occurs.ONE, Occurs.ONE);
 	private final static Multiplicity multiplicity = new Multiplicity(range);
@@ -99,6 +104,15 @@ public class SelectorDocTest {
 	}
 	
 	private final StringBuffer stringBuffer = new StringBuffer();
+
+	@Test
+	public void testMain() throws IOException {
+		SelectorDoc.main(args);
+
+		File file = new File(OUTPUT_FILENAME);
+		assertTrue(file.exists());
+		file.delete();
+	}
 	
     @Test
     public void testWriteBuffer() throws IOException {

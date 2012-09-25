@@ -32,13 +32,23 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public final class WhereUsedCmdLine {
-
+	
+	public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
+	public static final String DEFAULT_NAME = "percent";
+	
+	public WhereUsedCmdLine() {
+		throw new UnsupportedOperationException();
+	}
+	
     public static void main(final String[] args) {
-        try {
-            final Model model = XmiReader.readModel("SLI.xmi");
+
+    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
+    	String name = (args.length == 2) ? args[1] : DEFAULT_NAME;
+    	
+    	try {
+            final Model model = XmiReader.readModel(inputFilename);
             final ModelIndex index = new DefaultModelIndex(model);
 
-            final String name = "percent";
             @SuppressWarnings("deprecation")
             final Set<ModelElement> matches = index.lookupByName(new QName(name));
             for (final ModelElement match : matches) {

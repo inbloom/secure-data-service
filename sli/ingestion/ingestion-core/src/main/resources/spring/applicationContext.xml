@@ -83,6 +83,10 @@
   <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
     <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
   </bean>
+  
+    <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect" 
+       factory-method="aspectOf">
+  </bean>
 
 </beans>
 

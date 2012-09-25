@@ -7,7 +7,7 @@ Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 
-@integration @RALLY_US2276
+@integration @RALLY_US2276 @RALLY_US3376
 Scenario: Add a Page
 # STATE IT admin logs in
 When I select "Illinois Daybreak School District 4529" and click go
@@ -19,7 +19,7 @@ And I click on "School" Profile Builder
 And I add a Page named "State Tab"
 And I upload custom json for it
 And in "Subjects and Courses" Page, it has the following panels: "sectionList"
- And I logout
+And I logout
  ## STATE IT admin logs out
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -30,10 +30,15 @@ When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
 And I add a Page named "School Tab"
 And I add an available panel named "sectionList"
+And I add an available panel named "teacherList"
+And in "School Tab" Page, it has the following panels: "sectionList;teacherList"
+And I delete an available panel named "teacherList"
+And in "School Tab" Page, it has the following panels: "sectionList"
 And I click on "Section" Profile Builder
 And I add a Page named "LOS 2"
 And I add an available panel named "listOfStudents"
 When I navigate to the Dashboard home page
+Then I should be redirected to the Dashboard landing page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I click on the go button

@@ -63,6 +63,7 @@ class AppsControllerTest < ActionController::TestCase
   end
   
    test "should update App" do
+     APP_LDAP_CLIENT.stubs(:read_user).returns({:vendor => "waffles"})
      put :update, id:@Apps[0].id, app: @app_fixtures["update"]
      assert_redirected_to apps_path
    end

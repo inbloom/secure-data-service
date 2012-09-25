@@ -1620,7 +1620,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1637,7 +1648,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1654,7 +1676,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1671,7 +1704,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1688,7 +1732,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1705,7 +1760,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1722,7 +1788,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1739,7 +1816,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1756,7 +1844,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1773,7 +1872,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1790,7 +1900,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1807,7 +1928,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1824,7 +1956,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1841,7 +1984,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1858,7 +2012,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1875,7 +2040,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1892,7 +2068,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1909,7 +2096,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1926,7 +2124,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
@@ -1943,7 +2152,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-15</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -1961,7 +2181,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -1978,7 +2209,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -1995,7 +2237,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2012,7 +2265,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2029,7 +2293,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2046,7 +2321,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2063,7 +2349,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2080,7 +2377,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2097,7 +2405,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2114,7 +2433,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2131,7 +2461,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2148,7 +2489,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2165,7 +2517,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2182,7 +2545,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2199,7 +2573,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2216,7 +2601,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2233,7 +2629,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2250,7 +2657,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2267,7 +2685,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
@@ -2284,7 +2713,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -2302,7 +2742,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2319,7 +2770,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2336,7 +2798,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2353,7 +2826,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2370,7 +2854,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2387,7 +2882,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2404,7 +2910,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2421,7 +2938,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2438,7 +2966,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2455,7 +2994,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2472,7 +3022,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2489,7 +3050,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2506,7 +3078,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2523,7 +3106,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2540,7 +3134,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2557,7 +3162,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2574,7 +3190,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2591,7 +3218,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2608,7 +3246,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -2625,7 +3274,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     
     
@@ -4468,7 +5128,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4485,7 +5156,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4502,7 +5184,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     
     <StudentGradebookEntry>
@@ -4520,7 +5213,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4537,7 +5241,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4554,7 +5269,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4572,7 +5298,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4589,7 +5326,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4606,7 +5354,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4624,7 +5383,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4641,7 +5411,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4658,7 +5439,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4676,7 +5468,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4693,7 +5496,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4710,7 +5524,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4728,7 +5553,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4745,7 +5581,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4762,7 +5609,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4780,7 +5638,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4797,7 +5666,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4814,7 +5694,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4832,7 +5723,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4849,7 +5751,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4866,7 +5779,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4884,7 +5808,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4901,7 +5836,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4918,7 +5864,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4936,7 +5893,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -4953,7 +5921,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -4970,7 +5949,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -4988,7 +5978,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5005,7 +6006,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5022,7 +6034,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5040,7 +6063,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5057,7 +6091,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5074,7 +6119,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5092,7 +6148,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5109,7 +6176,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5126,7 +6204,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5144,7 +6233,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5161,7 +6261,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5178,7 +6289,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5196,7 +6318,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5213,7 +6346,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5230,7 +6374,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5248,7 +6403,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5265,7 +6431,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5282,7 +6459,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5300,7 +6488,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5317,7 +6516,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5334,7 +6544,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5352,7 +6573,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5369,7 +6601,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5386,7 +6629,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5404,7 +6658,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5421,7 +6686,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5438,7 +6714,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5456,7 +6743,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5473,7 +6771,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5490,7 +6799,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5508,7 +6828,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5525,7 +6856,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5542,7 +6884,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5560,7 +6913,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5577,7 +6941,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5594,7 +6969,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5612,7 +6998,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5629,7 +7026,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5646,7 +7054,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
@@ -5664,7 +7083,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5681,7 +7111,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5698,7 +7139,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     
     <StudentGradebookEntry>
@@ -5716,7 +7168,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-09-29</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
@@ -5733,7 +7196,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-13</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
@@ -5750,7 +7224,18 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference>
+        <GradebookEntryIdentity>
+          <GradebookEntryType>Unit test</GradebookEntryType>
+          <DateAssigned>2011-10-27</DateAssigned>
+          <SectionReference>
+            <SectionIdentity>
+              <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+              <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+        </GradebookEntryIdentity>
+      </GradebookEntryReference>
     </StudentGradebookEntry>
     
 </InterchangeStudentGrade>

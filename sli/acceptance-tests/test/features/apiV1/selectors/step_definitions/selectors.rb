@@ -44,14 +44,12 @@ end
 ###############################################################################
 
 Then /^in the response body I should see the following fields only:$/ do |table|
-  remove_fields_from_body(@result, ["schoolId", "gradeLevel"])
   check_number_of_fields(@result, table)
   check_contains_fields(@result, table)
 end
 
 Then /^in the response body for all entities I should see the following fields only:$/ do |table|
   @result.each do |entity|
-    remove_fields_from_body(entity, ["schoolId", "gradeLevel"])
     check_number_of_fields(entity, table)
     check_contains_fields(entity, table)
   end

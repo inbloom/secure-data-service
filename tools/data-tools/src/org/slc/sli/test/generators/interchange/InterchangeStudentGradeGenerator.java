@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.stream.XMLStreamException;
+
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptor;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
@@ -96,7 +96,6 @@ public final class InterchangeStudentGradeGenerator {
     private static final String ID_PREFIX_LO = "LearningObjective_";
     private static final String ID_PREFIX_SCO = "SCO_";
     private static final String ID_PREFIX_CLD = "CLD_";
-    private static final Random randGenerator = new Random();
     
     private static Map<String, List<Grade>> gradeMap = new HashMap<String, List<Grade>>();
 
@@ -110,13 +109,12 @@ public final class InterchangeStudentGradeGenerator {
     }
 
     private static GradingPeriodReferenceType getGradingPeriodRef(String schoolId, GradingPeriodMeta gpMeta) {
-
         GradingPeriodReferenceType gradingPeriodRef = new GradingPeriodReferenceType();
         GradingPeriodIdentityType gradingPeriodItentity = new GradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
         gradingPeriodItentity.setSchoolYear(gpMeta.getBeginData() + "-" + gpMeta.getEndDate());
         gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-        gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        gradingPeriodItentity.setStateOrganizationId(schoolId);
         return gradingPeriodRef;
     }
 

@@ -21,7 +21,7 @@ public final class JavaGenConfig {
 
     private boolean useDataTypeBase;
 
-    JavaGenConfig(final boolean useDataTypeBase) {
+    public JavaGenConfig(final boolean useDataTypeBase) {
         this.useDataTypeBase = useDataTypeBase;
     }
 

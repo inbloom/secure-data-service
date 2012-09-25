@@ -19,6 +19,8 @@ package org.slc.sli.aggregation.util;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mongodb.hadoop.io.BSONWritable;
+
 import org.bson.BSONObject;
 import org.bson.BasicBSONObject;
 import org.bson.types.BasicBSONList;
@@ -109,7 +111,14 @@ public class BSONUtilities {
 
         if (node instanceof BasicBSONList) {
             for (Object e : ((BasicBSONList) node)) {
-                rval.add(e.toString());
+                if (e instanceof BSONObject) {
+                    BSONObject obj = (BSONObject) e;
+                    for (String k : obj.keySet()) {
+                        rval.add(obj.get(k).toString());
+                    }
+                } else {
+                    rval.add(e.toString());
+                }
             }
         } else {
             for (String key : node.keySet()) {
@@ -117,5 +126,26 @@ public class BSONUtilities {
             }
         }
         return rval.toArray(new String[0]);
+    }
+
+    /**
+     * @param entity
+     * @param field
+     */
+    public static BSONObject removeField(BSONWritable entity, String field) {
+        BSONObject node = entity;
+        String[] fieldPath = field.toString().split("\\.");
+        for (String path : fieldPath) {
+            if (node.containsField(path)) {
+                Object val = node.get(path);
+                if (val instanceof BSONObject) {
+                    node = (BSONObject) val;
+                } else {
+                    node.removeField(path);
+                    break;
+                }
+            }
+        }
+        return entity;
     }
 }

@@ -1,0 +1,3 @@
+edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,b79e0241b3a59a370fe17d365262feb3
+edfi-xml,StudentCohort,InterchangeStudentCohort.xml,b65be842d1139eb959b489a99a119f4d
+edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,9a0a349e5e9efb4abb35e1fe591aa5a5

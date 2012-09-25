@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.normalization;
+
 
 /**
  * Holds definition for external reference that needs to be resolved.
@@ -45,8 +45,10 @@ public class RefDef {
 
     @Override
     public String toString() {
-        return "RefDef [fieldPath=" + fieldPath + ", ref=" + ref + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("[RefDef = {fieldPath=").append(fieldPath).append(", ");
+        builder.append("ref=").append(ref.toString());
+        builder.append("}]");
+        return builder.toString();
     }
-
 }
-

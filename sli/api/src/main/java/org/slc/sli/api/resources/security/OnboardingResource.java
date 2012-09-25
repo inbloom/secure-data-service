@@ -29,6 +29,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -41,11 +47,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -90,12 +91,10 @@ public class OnboardingResource {
      * Provision a landing zone for the provide educational organization.
      *
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
-     * @QueryParam tenantId -- the tenant ID for this edorg.
      */
     @POST
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
-        String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
         if (!SecurityUtil.hasRight(Right.INGEST_DATA)) {
             EntityBody body = new EntityBody();
@@ -103,7 +102,7 @@ public class OnboardingResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        Response r = createEdOrg(orgId, tenantId);
+        Response r = createEdOrg(orgId);
         return r;
     }
 
@@ -112,11 +111,11 @@ public class OnboardingResource {
      *
      * @param orgId
      *            The State Educational Organization identifier.
-     * @param tenantId
-     *            The EdOrg tenant identifier.
      * @return Response of the request as an HTTP Response.
      */
-    public Response createEdOrg(final String orgId, final String tenantId) {
+    public Response createEdOrg(final String orgId) {
+
+        String tenantId = SecurityUtil.getTenantId();
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
@@ -169,7 +168,7 @@ public class OnboardingResource {
 
             NeutralQuery tenantQuery = new NeutralQuery();
             tenantQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
-            
+
             String tenantUuid = null;
             Entity tenantEntity = repo.findOne("tenant", tenantQuery);
             if (tenantEntity != null) {

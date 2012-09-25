@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
@@ -49,7 +48,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     @Override
     public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
-
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
@@ -61,17 +59,20 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             SimpleEntity entity = new SimpleEntity();
             entity.setType(type);
             entity.setBody(body);
+            entity.setStagedEntityId(item.getRecordId());
 
             Integer recordNumber = item.getLocationInSourceFile();
             if (recordNumber != null) {
                 entity.setRecordNumber(recordNumber.longValue());
             }
 
+            if (entity.getMetaData() == null) {
+                entity.setMetaData(new HashMap<String, Object>());
+            }
+
             String externalId = (String) item.getLocalId();
             if (externalId != null) {
-                Map<String, Object> meta = new HashMap<String, Object>();
-                meta.put("externalId", externalId);
-                entity.setMetaData(meta);
+                entity.getMetaData().put("externalId", externalId);
             }
 
             return Arrays.asList(entity);

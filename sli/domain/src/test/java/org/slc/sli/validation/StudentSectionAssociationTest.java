@@ -64,6 +64,7 @@ public class StudentSectionAssociationTest {
         goodSection.put("endDate", "1995-12-31");
         goodSection.put("homeroomIndicator", true);
         goodSection.put("repeatIdentifier", "Repeated, not counted in grade point average");
+
         return new Entity() {
 
             @Override
@@ -93,6 +94,11 @@ public class StudentSectionAssociationTest {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public String getStagedEntityId() {
                 return null;
             }
        };

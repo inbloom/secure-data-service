@@ -1,18 +1,20 @@
 package org.slc.sli.modeling.xmi.reader;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -21,15 +23,24 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests the XMI reading utility.
  *
  * @author kmyers
- *
  */
 public class XmiReaderTest {
 
@@ -82,7 +93,7 @@ public class XmiReaderTest {
         assertTrue(XmiReader.getOccurs(mockReader, sampleAttribute) == Occurs.UNBOUNDED);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testGetOccursSadPath() {
 
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn("123");
@@ -96,7 +107,7 @@ public class XmiReaderTest {
         assertTrue(XmiReader.getIdRef(mockReader).toString().equals(id));
     }
 
-    @Test (expected = XmiMissingAttributeException.class)
+    @Test(expected = XmiMissingAttributeException.class)
     public void testGetIdRefSadPath() {
         when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
         XmiReader.getIdRef(mockReader);
@@ -136,10 +147,31 @@ public class XmiReaderTest {
     public void testCloseQuiet() throws IOException {
 
         Closeable mockCloseable = mock(Closeable.class);
-
+        
+        final StringBuffer stringBuffer = new StringBuffer();
+        
+        PrintStream stdErr = System.err;
+        PrintStream myErr = new PrintStream(new OutputStream(){
+			@Override
+			public void write(int b) throws IOException {
+				stringBuffer.append((char) b);
+			}
+        });
+        
+        //push
+        System.setErr(myErr);
+        
+        //test successful close
         XmiReader.closeQuiet(mockCloseable);
+        assertTrue(stringBuffer.toString().equals(""));
+        
+        //test unsuccessful close
         doThrow(new IOException()).when(mockCloseable).close();
         XmiReader.closeQuiet(mockCloseable);
+        assertFalse(stringBuffer.toString().equals(""));
+        
+        //pop
+        System.setErr(stdErr);
     }
 
     @Test
@@ -153,7 +185,7 @@ public class XmiReaderTest {
 
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testAssertElementNameEqualsStreamReadNameSadPath() {
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
         String elementName = XmiElementName.ASSOCIATION_END.getLocalName();
@@ -177,7 +209,7 @@ public class XmiReaderTest {
 
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testAssertQNameEqualsStreamReadNameSadPath() {
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
         String elementName = xmiElementName.getLocalName();
@@ -227,7 +259,7 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath1TrueCheck() throws XMLStreamException {
 
         XmiElementName xmiElementName = XmiElementName.ASSOCIATION;
@@ -238,14 +270,14 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, true);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath2NoNext() throws XMLStreamException {
 
         when(mockReader.hasNext()).thenReturn(false);
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath3UnknownEventType() throws XMLStreamException {
 
         when(mockReader.hasNext()).thenReturn(true);
@@ -254,7 +286,7 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
-    @Test (expected = AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testSkipElementSadPath4LocalNamesDoNotMatch() throws XMLStreamException {
 
         final List<String> localNames = new ArrayList<String>();
@@ -274,25 +306,68 @@ public class XmiReaderTest {
         XmiReader.skipElement(mockReader, false);
     }
 
+    @Test
+    public void testGetName() {
+        String defaultString;
+
+        defaultString = "defString";
+        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn("specifiedString");
+        assertEquals("specifiedString", XmiReader.getName(mockReader, defaultString, sampleAttribute));
+
+        when(mockReader.getAttributeValue(any(String.class), any(String.class))).thenReturn(null);
+        assertEquals(defaultString, XmiReader.getName(mockReader, defaultString, sampleAttribute));
+    }
+    
+    private Model readModelByFile(String filename) throws FileNotFoundException {
+
+    	return XmiReader.readModel(new File(filename));
+    }
+    
+    private Model readModelByStream(String filename) throws IOException {
+    	final InputStream inputStream = new BufferedInputStream(new FileInputStream(filename));
+        Model model = XmiReader.readModel(inputStream);
+        inputStream.close();
+        return model;
+    }
+
+    @SuppressWarnings("unused")
+	private Model readModelByXmlStream(String filename) throws XMLStreamException, FileNotFoundException {
+    	
+    	XMLInputFactory factory = XMLInputFactory.newInstance();
+
+    	XMLStreamReader xmlStreamReader = factory.createXMLStreamReader(new FileReader(filename));
+    	
+    	Model model = XmiReader.readModel(xmlStreamReader);
+    	
+    	xmlStreamReader.close();
+    	
+    	return model;
+    }
+
+    private Model readModelByName(String filename) throws FileNotFoundException {
+    	
+    	return XmiReader.readModel(filename);
+    }
+    
+    @Test
+    public void testAllPublicMethods() throws XMLStreamException, IOException {
+    	
+    	String filename = "src/test/resources/SLI.xmi";
+    	
+    	Model model1 = this.readModelByFile(filename);
+    	Model model2 = this.readModelByStream(filename);
+    	//Model model3 = this.readModelByXmlStream(filename);
+    	Model model4 = this.readModelByName(filename);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    	assertNotNull(model1);
+    	assertNotNull(model2);
+    	//assertNotNull(model3);
+    	assertNotNull(model4);
+    	
+    	assertEquals(model1, model2);
+    	//assertEquals(model1, model3);
+    	assertEquals(model1, model4);
+    }
 
 }

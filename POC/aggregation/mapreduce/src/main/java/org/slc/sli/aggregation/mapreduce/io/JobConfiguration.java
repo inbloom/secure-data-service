@@ -29,6 +29,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hsqldb.lib.StringInputStream;
 
 import org.slc.sli.aggregation.mapreduce.map.IDMapper;
 import org.slc.sli.aggregation.mapreduce.map.key.TenantAndIdEmittableKey;
@@ -70,6 +71,21 @@ public class JobConfiguration {
             throw new IllegalArgumentException("Invalid map/reduce configuration detected : parsing failed. Check log for details.");
         }
         return sections;
+    }
+
+    /**
+     * Read the job configuration from an existing configuration.
+     *
+     * @param conf configuration to look at.
+     * @return ConfigSections if the context was valid, null if not.
+     * @throws IOException
+     */
+    public static ConfigSections readFromConfiguration(final Configuration conf) throws IOException {
+        String sliConf = conf.get(JobConfiguration.CONFIGURATION_PROPERTY);
+        if (sliConf == null) {
+            throw new IOException("Configuration is misssing section: " + JobConfiguration.CONFIGURATION_PROPERTY);
+        }
+        return readStream(new StringInputStream(sliConf));
     }
 
     /**
@@ -133,9 +149,9 @@ public class JobConfiguration {
         public final ParametersConfig getParameters() { return parameters; }
 
         @JsonProperty(WHAT_PROPERTY)
-        private String what;
-        public void setWhat(final String v) { what = v; }
-        public final String getWhat() { return what; }
+        private java.util.Map<String, Object> what;
+        public void setWhat(final Map<String, Object> v) { what = v; }
+        public final Map<String, Object> getWhat() { return what; }
 
         @JsonProperty(CUT_POINTS_PROPERTY)
         private ArrayList<CutPointConfig> cutPoints;
@@ -229,10 +245,10 @@ public class JobConfiguration {
         public void setFields(final Map<String, Object> v) { fields = v; }
         public final Map<String, Object> getFields() { return fields; }
 
-        @JsonProperty(MAP_ID_FIELD_PROPERTY)
-        private String mapIdField;
-        public void setMapIdField(final String v) { mapIdField = v; }
-        public final String getMapIdField() { return mapIdField; }
+        @JsonProperty(MAP_ID_FIELDS_PROPERTY)
+        private java.util.Map<String, String> mapIdFields;
+        public void setMapIdFields(final Map<String, String> v) { mapIdFields = v; }
+        public final Map<String, String> getMapIdFields() { return mapIdFields; }
     }
 
     /**
@@ -313,7 +329,7 @@ public class JobConfiguration {
     public static final String COLLECTION_PROPERTY = "collection";
     public static final String QUERY_PROPERTY = "query";
     public static final String FIELDS_PROPERTY = "fields";
-    public static final String MAP_ID_FIELD_PROPERTY = "map_id_field";
+    public static final String MAP_ID_FIELDS_PROPERTY = "map_id_fields";
     public static final String REDUCE_PROPERTY = "reduce";
     public static final String FIELD_PROPERTY = "field";
     public static final String SCHEDULE_PROPERTY = "schedule";
@@ -403,7 +419,7 @@ public class JobConfiguration {
         throws IOException {
         // Add the configuration itself to the JobConf.
         String seralized = om.writeValueAsString(s);
-        cfg.set("JOB_CONFIGURATION", seralized);
+        cfg.set(JobConfiguration.CONFIGURATION_PROPERTY, seralized);
     }
 
     /**

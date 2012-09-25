@@ -85,46 +85,5 @@ public final class CoerceToJsonTypeSnippet implements JavaSnippet {
             throw new AssertionError(collectionKind);
         }
         }
-
-        // if (type.primeType().kind() == JavaTypeKind.COMPLEX) {
-        // if (type.isList()) {
-        // jsw.write("CoerceToJson.toListOfMap").parenL().write(name).parenR();
-        // } else {
-        // jsw.write(name).write(".toMap").parenL().parenR();
-        // }
-        // } else if (type.isEnum()) {
-        // if (type.isList()) {
-        // jsw.write("null");
-        // } else {
-        // jsw.write(name).write(".getName").parenL().parenR();
-        // }
-        // } else {
-        // if (type.isList()) {
-        // if (JavaType.JT_STRING.equals(type.getBase())) {
-        // jsw.write(name);
-        // } else if (JavaType.JT_OBJECT.equals(type.getBase())) {
-        // jsw.write(name);
-        // } else {
-        // throw new AssertionError(type.getBase());
-        // }
-        // } else {
-        // if (JavaType.JT_BIG_INTEGER.equals(type)) {
-        // jsw.write(name).write(".toString").parenL().parenR();
-        // } else if (JavaType.JT_BOOLEAN.equals(type)) {
-        // jsw.write(name);
-        // } else if (JavaType.JT_DOUBLE.equals(type)) {
-        // jsw.write(name);
-        // } else if (JavaType.JT_STRING.equals(type)) {
-        // jsw.write(name);
-        // } else if (JavaType.JT_INTEGER.equals(type)) {
-        // jsw.write(name).write(".toString").parenL().parenR();
-        // } else if (MAP_STRING_TO_OBJECT.equals(type)) {
-        // throw new AssertionError(type);
-        // } else {
-        // jsw.write(name).write(".getValue").parenL().parenR();
-        // }
-        // }
-        // }
-
     }
 }

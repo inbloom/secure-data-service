@@ -10,7 +10,7 @@ import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCach
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -33,8 +33,8 @@ public class TeacherCourseResolver implements EntityContextResolver {
     private SessionSecurityCache securityCache;
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repository;
+    
+    private PagingRepositoryDelegate<Entity> repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {

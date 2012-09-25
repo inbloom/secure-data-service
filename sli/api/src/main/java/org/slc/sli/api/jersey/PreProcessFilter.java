@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.slc.sli.dal.MongoStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,9 +84,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
      * @param request
      */
     private void validate(ContainerRequest request) {
+        request.getProperties().put("logIntoDb", true );
 
         for (URLValidator validator : urlValidators) {
             if (!validator.validate(request.getRequestUri())) {
+                request.getProperties().put("logIntoDb", false );
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);

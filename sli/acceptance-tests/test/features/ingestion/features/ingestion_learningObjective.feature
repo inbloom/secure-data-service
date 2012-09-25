@@ -17,9 +17,60 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | learningObjective           | 5     |
      | learningStandard            | 3     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue             |
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective1"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective2" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective2"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective3" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective3"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective4" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective4"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective5" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective5"
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective1" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective2" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective3" and its field "body.parentLearningObjective" references this document
+  And verify 0 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective4" and its field "body.parentLearningObjective" references this document
 
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created
 
+
+Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
+Given I post "learningObjective_Partial_Happy.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName              | count |
+     | learningObjective           | 10    |
+     | learningStandard            | 5     |
+  
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective11"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective2" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective12"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective3" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective13"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective11" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective14"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective12" and its field "body.parentLearningObjective" references this document
+  And I find a(n) "learningObjective" record where "body.learningObjectiveId.identificationCode" is equal to "Objective15"
+  And verify 1 "learningObjective" record(s) where "body.learningObjectiveId.identificationCode" equals "Objective1" and its field "body.parentLearningObjective" references this document
+  
+  And I should see "Processed 7 records." in the resulting batch job file
+  And I should not see an error log file created
+
+
+Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
+Given I post "learningObjective_Partial_Unhappy.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName              | count |
+     | learningObjective           | 15    |
+     | learningStandard            | 5     |
+  
+  And I should see "Processed 8 records." in the resulting batch job file
+  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective111," in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective112," in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective113," in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective114," in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective115," in the resulting error log file

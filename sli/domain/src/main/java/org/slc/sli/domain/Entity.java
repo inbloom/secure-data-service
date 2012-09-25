@@ -49,6 +49,11 @@ public interface Entity {
     public Map<String, Object> getMetaData();
 
     /**
+     * Returns the uuid of the staged entity.
+     */
+    public String getStagedEntityId();
+
+    /**
      * Get the calculated values
      *
      * @return

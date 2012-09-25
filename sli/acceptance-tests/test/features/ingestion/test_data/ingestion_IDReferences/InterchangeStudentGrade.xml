@@ -6,7 +6,11 @@
         <DateFulfilled>2013-01-01</DateFulfilled>
         <LetterGradeEarned>A</LetterGradeEarned>
         <NumericGradeEarned>95</NumericGradeEarned>
-        <CompetencyLevel ref="CL_1" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 1</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_1" />
         <GradebookEntryReference>
@@ -26,7 +30,11 @@
         <DateFulfilled>2013-02-02</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
-        <CompetencyLevel ref="CL_101" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 1</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_2" />
         <GradebookEntryReference>
@@ -46,7 +54,11 @@
         <DateFulfilled>2013-03-03</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
-        <CompetencyLevel ref="CL_2" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 2</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_101" />
         <GradebookEntryReference>
@@ -67,7 +79,11 @@
         <DateFulfilled>2013-04-04</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_3" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 3</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_3" />
         <GradebookEntryReference>
@@ -88,7 +104,11 @@
         <DateFulfilled>2013-05-05</DateFulfilled>
         <LetterGradeEarned>F</LetterGradeEarned>
         <NumericGradeEarned>55</NumericGradeEarned>
-        <CompetencyLevel ref="CL_102" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 2</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_102" />
         <GradebookEntryReference>
@@ -109,7 +129,11 @@
         <DateFulfilled>2013-06-06</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
-        <CompetencyLevel ref="CL_103" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 3</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_4" />
         <GradebookEntryReference>
@@ -130,7 +154,11 @@
         <DateFulfilled>2013-07-07</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
-        <CompetencyLevel ref="CL_4" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 4</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_103" />
         <GradebookEntryReference>
@@ -151,7 +179,11 @@
         <DateFulfilled>2013-08-08</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
-        <CompetencyLevel ref="CL_104" />
+        <CompetencyLevelReference>
+            <CompetencyLevelIdentity>
+                <CodeValue>Barely Competent 4</CodeValue>
+            </CompetencyLevelIdentity>
+        </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
         <StudentSectionAssociationReference ref="SSA_104" />
         <GradebookEntryReference>
@@ -710,36 +742,36 @@
 		<GradingPeriodReference ref="GP_4" />
 	</GradebookEntry>
 
-	<CompentencyLevelDescriptor id="CL_1">
+	<CompetencyLevelDescriptor id="CL_1">
 		<CodeValue>Barely Competent 1</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_2">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_2">
 		<CodeValue>Barely Competent 2</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_3">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_3">
 		<CodeValue>Barely Competent 3</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_4">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_4">
 		<CodeValue>Barely Competent 4</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_1">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_1">
 		<CodeValue>Barely Competent 5</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
-	<CompentencyLevelDescriptor id="CL_2">
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_2">
 		<CodeValue>Barely Competent 6</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompentencyLevelDescriptor>
+	</CompetencyLevelDescriptor>
 
 	<StudentSectionAssociationReference id="SSA_1">
 		<StudentSectionAssociationIdentity>

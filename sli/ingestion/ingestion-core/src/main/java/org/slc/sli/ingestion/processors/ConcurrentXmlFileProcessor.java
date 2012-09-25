@@ -63,6 +63,8 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Processes XML files and performs Id-Ref resolution";
+
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
 
     private ApplicationContext context;
@@ -89,7 +91,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     }
 
     private void skipXmlFile(WorkNote workNote, Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -102,7 +104,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     }
 
     private void processXmlFile(WorkNote workNote, Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;

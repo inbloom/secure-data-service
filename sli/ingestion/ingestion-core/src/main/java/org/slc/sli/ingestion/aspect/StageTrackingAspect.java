@@ -27,6 +27,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.dal.TenantContext;
 
@@ -40,9 +41,19 @@ import org.slc.sli.dal.TenantContext;
 public class StageTrackingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(StageTrackingAspect.class);
+    private static boolean enabled = false;
 
     // Map<jobId, Map<stage, (opCount,totalElapsedMs)>>
     private ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> stats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
+
+    @SuppressWarnings("boxing")
+    private static void setEnabled(String enabledConfig) {
+        enabled = Boolean.valueOf(enabledConfig);
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
+    }
 
     @Around("call(public * org.slc.sli.ingestion.transformation.normalization.IdNormalizer.*(..)) && !within(org.slc.sli.ingestion.transformation.normalization.IdNormalizer) && !within(org..*Test)")
     public Object trackIdNormalizer(ProceedingJoinPoint pjp) throws Throwable {
@@ -80,11 +91,13 @@ public class StageTrackingAspect {
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
 
-        // class name (sans package) # method name. e.g. "IdNormalizer#resolveInternalIds"
-        String statsKey = pjp.getStaticPart().getSignature().getDeclaringType().getSimpleName() + "#"
-                + pjp.getStaticPart().getSignature().getName();
+        if(isEnabled()) {
+            // class name (sans package) # method name. e.g. "IdNormalizer#resolveInternalIds"
+            String statsKey = pjp.getStaticPart().getSignature().getDeclaringType().getSimpleName() + "#"
+                    + pjp.getStaticPart().getSignature().getName();
 
-        trackCallStatistics(statsKey, elapsed);
+            trackCallStatistics(statsKey, elapsed);
+        }
 
         return result;
     }
@@ -125,6 +138,11 @@ public class StageTrackingAspect {
             stats.put(jobId, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
         }
         LOG.info("Stage tracking stats are now cleared for job {}.", jobId);
+    }
+
+    @Value("${sli.mongo.tracking}")
+    public void setEnabledConfig(String enabledConfig) {
+        setEnabled(enabledConfig);
     }
 
 }

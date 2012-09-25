@@ -35,7 +35,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -50,8 +50,8 @@ public class SecurityEventContextResolver implements EntityContextResolver {
     static final List<String> ROLES_LEA_ADMIN          = Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR);
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repository;
+    
+    private PagingRepositoryDelegate<Entity> repository;
 
     private static final String       RESOURCE_NAME              = "securityEvent";
 

@@ -76,11 +76,11 @@ public class SamlHelper {
     public static final Namespace SAML_NS = Namespace.getNamespace("saml", "urn:oasis:names:tc:SAML:2.0:assertion");
     public static final Namespace SAMLP_NS = Namespace.getNamespace("samlp", "urn:oasis:names:tc:SAML:2.0:protocol");
     
-    // Jdom converters
+    // Jdom converters - not thread safe?
     private DOMBuilder builder = new DOMBuilder();
     private DOMOutputter domer = new DOMOutputter();
     
-    // W3c stuff
+    // W3c stuff - not thread safe
     private DocumentBuilder domBuilder;
     private Transformer transform;
     
@@ -186,14 +186,20 @@ public class SamlHelper {
         
         try {
             
-            org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
-            
-            // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
-            if (!validator.isDocumentTrustedAndValid(doc)) {
-                throw new IllegalArgumentException("Invalid SAML message");
+            org.w3c.dom.Document doc = null;
+            synchronized (domBuilder) {
+                doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
             }
-            
-            return builder.build(doc);
+            // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
+            synchronized (validator) {
+                if (!validator.isDocumentTrustedAndValid(doc)) {
+                    throw new IllegalArgumentException("Invalid SAML message");
+                }   
+            }
+
+            synchronized (builder) {
+                return builder.build(doc);
+            }
             
         } catch (Exception e) {
             error("Error unmarshalling saml post", e);
@@ -205,8 +211,14 @@ public class SamlHelper {
         try {
             String xml = encodedStringToXml(redirectData);
             debug(xml);
-            org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(xml)));
-            return builder.build(doc);
+            org.w3c.dom.Document doc = null;
+            synchronized (domBuilder) {
+                doc = domBuilder.parse(new InputSource(new StringReader(xml)));
+            }
+            
+            synchronized (builder) {
+                return builder.build(doc);
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to decode redirect payload");
         }
@@ -269,7 +281,12 @@ public class SamlHelper {
         
         // add signature and digest here
         try {
-            String xmlString = nodeToXmlString(domer.output(doc));
+            org.w3c.dom.Document w3Doc = null;
+            synchronized (domer) {
+                w3Doc = domer.output(doc);
+                
+            }
+            String xmlString = nodeToXmlString(w3Doc);
             debug(xmlString);
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
@@ -339,7 +356,11 @@ public class SamlHelper {
         
         // add signature and digest here
         try {
-            String xmlString = nodeToXmlString(domer.output(doc));
+            org.w3c.dom.Document w3Doc = null;
+            synchronized (domer) {
+                w3Doc = domer.output(doc);
+            }
+            String xmlString = nodeToXmlString(w3Doc);
             debug(xmlString);
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
@@ -399,7 +420,11 @@ public class SamlHelper {
         
         // add signature and digest here
         try {
-            org.w3c.dom.Document dom = domer.output(doc);
+            org.w3c.dom.Document dom = null;
+            synchronized (domer) {
+                dom = domer.output(doc);
+            }
+            
             dom = sign.signSamlAssertion(dom);
             String xmlString = nodeToXmlString(dom);
             debug(xmlString);
@@ -493,7 +518,10 @@ public class SamlHelper {
      */
     private String nodeToXmlString(Node node) throws TransformerException {
         StringWriter sw = new StringWriter();
-        transform.transform(new DOMSource(node), new StreamResult(sw));
+        synchronized (transform) {
+            transform.transform(new DOMSource(node), new StreamResult(sw));
+        }
+        
         return sw.toString();
     }
     

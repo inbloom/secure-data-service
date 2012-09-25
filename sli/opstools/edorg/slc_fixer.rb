@@ -23,7 +23,7 @@ require "benchmark"
 require "set"
 require 'date'
 require 'logger'
-include Process
+require 'thread'
 
 class SLCFixer
   attr_accessor :count, :db, :forever, :parent_ed_org_hash
@@ -32,10 +32,11 @@ class SLCFixer
     @forever = forever
     @tenant = tenant
     @basic_query = tenant.nil? ? {} : {"metaData.tenantId" => tenant} 
+    @mutex = Mutex.new
     @db = db
     @students = @db['student']
     @count = 0
-    @basic_options = {:timeout => false, :batch_size => 1000}
+    @basic_options = {:timeout => false, :batch_size => 100}
     @log = Logger.new($stdout)
     @log.level = Logger::INFO
   end
@@ -47,41 +48,42 @@ class SLCFixer
       @tenant_to_ed_orgs = {}
       @log.info "We are stamping #{@tenant}"
       time = Time.now
-      @pids = []
+      @threads = []
       fix {build_edorg_list}
       fix {fix_students}
       fix {fix_sections}
       fix {fix_staff}
-      @pids << fork {    fix {fix_attendance}}
-      @pids << fork {   fix {fix_assessments}}
-      @pids << fork {    fix {fix_disciplines}}
-      @pids << fork {       fix {fix_parents}}
-      @pids << fork {   fix {fix_report_card}}
-      @pids << fork {      fix {fix_programs}}
-      @pids << fork {       fix {fix_courses}}
-      @pids << fork { fix {fix_miscellany}}
-      @pids << fork {       fix {fix_cohorts}}
-      @pids << fork {        fix {fix_grades}}
-      @pids << fork {      fix {fix_sessions}}
-      Process.waitall
+      @threads << Thread.new {    fix {fix_attendance}}
+      @threads << Thread.new {   fix {fix_assessments}}
+      @threads << Thread.new {    fix {fix_disciplines}}
+      @threads << Thread.new {       fix {fix_parents}}
+      @threads << Thread.new {   fix {fix_report_card}}
+      @threads << Thread.new {      fix {fix_programs}}
+      @threads << Thread.new {       fix {fix_courses}}
+      @threads << Thread.new { fix {fix_miscellany}}
+      @threads << Thread.new {       fix {fix_cohorts}}
+      @threads << Thread.new {        fix {fix_grades}}
+      @threads << Thread.new {      fix {fix_sessions}}
 
+      @threads.each do |th|
+        th.join
+      end
       finalTime = Time.now - time
       @log.info "\t Final time is #{finalTime} secs"
       @log.info "\t Documents(#{@count}) per second #{@count/finalTime}"
-      @log.error "Finished stamping tenant \'#{@tenant}\'."
     end while(@forever)
   end
 
   def fix
     @log.debug "Clearing out caches"
-    @start_time = Time.now
-    @stamping = []
-    @cache = Set.new
+    Thread.current[:start_time] = Time.now
+    Thread.current[:stamping] = []
+    Thread.current[:cache] = Set.new
     yield
-    total_time = Time.now - @start_time
-    @log.error "Finished stamping: #{@stamping.join(", ")}"
+    total_time = Time.now - Thread.current[:start_time]
+    @log.error "Finished stamping: #{Thread.current[:stamping].join(", ")}"
     @log.error "\tTotal time: #{total_time} s"
-    @log.error "\tRPS: #{@cache.count/total_time}"
+    @log.error "\tRPS: #{Thread.current[:cache].count/total_time}"
   end
 
   def fix_students
@@ -396,7 +398,7 @@ class SLCFixer
 
   def fix_miscellany
     set_stamps(@db['studentTranscriptAssociation'])
-    set_stamps(@db['studentGradebookEntry'])
+    set_stamps(@db['studentSectionGradebookEntry'])
     set_stamps(@db['studentCompetency'])
     set_stamps(@db['studentAcademicRecord'])
     #StudentTranscriptAssociation
@@ -444,7 +446,7 @@ class SLCFixer
 
   private
   def set_stamps(collection)
-    @stamping.push collection.name
+    Thread.current[:stamping].push collection.name
   end
   def stamp_id(collection, id, edOrg, tenantid)
     if edOrg.nil? or edOrg.empty? or tenantid.nil?
@@ -471,10 +473,10 @@ class SLCFixer
         id.each do |array_id|
           collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         end
-        @cache.merge id if id.is_a? Array
+        Thread.current[:cache].merge id if id.is_a? Array
       else
         collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
-        @cache.add id unless id.is_a? Array
+        Thread.current[:cache].add id unless id.is_a? Array
       end
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
@@ -502,13 +504,13 @@ class SLCFixer
     #
     # If we are asking for old edorgs within that set, we refuse
     # to give it unless we have already started stamping it.
-    if @stamping.include? collection.name and !@cache.include? id and !id.is_a? Array
+    if Thread.current[:stamping].include? collection.name and !Thread.current[:cache].include? id and !id.is_a? Array
       @log.debug "We aren't stamping #{collection.name}##{id} because of additive concerns"
       return []
     end
     if id.is_a? Array
       id.each do |i|
-        if @cache.include? i and @stamping.include? collection.name
+        if Thread.current[:cache].include? i and Thread.current[:stamping].include? collection.name
 
           @log.debug "We aren't stamping #{collection.name}##{id} because of additive concerns"
         end

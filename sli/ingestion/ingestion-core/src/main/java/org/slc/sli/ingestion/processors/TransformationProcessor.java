@@ -52,6 +52,8 @@ public class TransformationProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.TRANSFORMATION_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Transforms ed-fi entities to sli data model";
+
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
 
     @Autowired
@@ -123,7 +125,7 @@ public class TransformationProcessor implements Processor {
     }
 
     private Stage initializeStage(WorkNote workNote) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
         stage.setProcessingInformation("stagedEntity="
                 + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
                 + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="

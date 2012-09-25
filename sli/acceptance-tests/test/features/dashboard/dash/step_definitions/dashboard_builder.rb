@@ -42,9 +42,16 @@ When /^I add a Page named "(.*?)"$/ do |pageName|
   setPageName(pageName) 
 end
 
+When /^I delete an available panel named "(.*?)"$/ do |panelName|
+  hoverOverPanel(panelName, "delete")
+end
+
 When /^I add an available panel named "(.*?)"$/ do |panelName|
+  # Click on the 'Add available panels' button
   @currentPage.find_element(:css, "button[class*='btn-block']").click
+  # Identify the pop up panel for 'Add a Panel'
   popupPanel = @driver.find_element(:id, "allPanelsModal")
+  #
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
@@ -122,7 +129,6 @@ end
 def getPageByName(pageName)
   pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
-    puts page.text
     if (page.text == pageName)
      return page
     end
@@ -161,6 +167,29 @@ def hoverOverPage(pageName, mode = nil)
   end  
 end
 
+def getPanelByName(panelName)
+  panels = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "[class*='active']").find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  panels.each do |panel|
+    if (panel.text == panelName)
+     return panel
+    end
+  end
+  return nil
+end
+
+def hoverOverPanel(panelName, mode = nil)
+  panel = getPanelByName(panelName)
+  assert(panel != nil, "Panel #{panelName} is not found")
+  @driver.action.move_to(panel).perform
+    if (mode == "delete")  
+    panel.find_element(:css, "[class*='span1']").find_element(:tag_name, "a").click
+    begin
+      @driver.switch_to.alert.accept
+    rescue
+    end
+  end  
+end
+
 def viewSourceCode()
   @currentPage.find_element(:class,"page-actions").find_element(:tag_name,"button").click
   ensurePopupLoaded()  
@@ -174,7 +203,6 @@ def uploadJson()
   inputBox = @driver.find_element(:id, "content_json")
   inputBox.clear
   inputBox.send_keys(uploadText)
-    
   saveDashboardBuilder()
 end
 
@@ -184,7 +212,7 @@ def saveDashboardBuilder()
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
   @driver.execute_script("window.scrollTo(#{xLocation}, #{yLocation});")
-  
+ 
   save.click 
   ensurePopupUnloaded()
 end

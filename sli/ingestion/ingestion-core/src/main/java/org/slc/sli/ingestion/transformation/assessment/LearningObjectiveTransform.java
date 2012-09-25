@@ -66,13 +66,14 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     protected void performTransformation() {
 
         LOG.info("Loading data for learning objective transformation.");
-        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(LEARNING_OBJECTIVE);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
+        Iterable<NeutralRecord> learningObjectives = getCollectionIterableFromDb(LEARNING_OBJECTIVE);
 
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = prepareLearningObjectiveLookupMap(learningObjectives);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE,
+                learningObjectiveIdMap.size());
         List<NeutralRecord> transformedLearningObjectives = new ArrayList<NeutralRecord>();
 
-        for (NeutralRecord parentLO : learningObjectives.values()) {
+        for (NeutralRecord parentLO : learningObjectives) {
             // add to working set for persistence
             transformedLearningObjectives.add(parentLO);
 
@@ -85,12 +86,11 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     }
 
     private Map<LearningObjectiveId, NeutralRecord> prepareLearningObjectiveLookupMap(
-            Map<Object, NeutralRecord> learningObjectives) {
+            Iterable<NeutralRecord> learningObjectives) {
 
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
 
-        for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
-            NeutralRecord lo = entry.getValue();
+        for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
             String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);

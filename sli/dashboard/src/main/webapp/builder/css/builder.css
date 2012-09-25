@@ -34,6 +34,7 @@ h4 {
     margin-bottom: -30px;
     min-height: 100%;
     width: 100%;
+    min-width: 920px;
 }
 #banner {
     border-bottom: 2px solid #000000;
@@ -78,7 +79,7 @@ ul.menu_n a {
 .ui-dialog-titlebar { font-size: 16px; border-bottom: solid 1px #c2ccd1; margin-bottom: 20px; }
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 120px; float: left; padding: 20px;}
-.profilePageWrapper { padding: 20px; margin-left: 140px; min-width: 920px; }
+.profilePageWrapper { padding: 20px; margin-left: 140px;}
 .profilePageWrapper ul { clear: none !important; height: 35px; }
 .profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }

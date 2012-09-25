@@ -203,7 +203,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public List<T> insert(List<T> records, String collectionName) {
         template.insert(records, collectionName);
-        LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        LOG.debug("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
         return records;
     }
 
@@ -419,10 +419,43 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
                     convertedUpdate.pushAll(fieldValues.getKey(), (Object[]) fieldValues.getValue());
                 }
+            } else if (operation.equals("addToSet")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.addToSet(fieldValues.getKey(), fieldValues.getValue());
+                }
             }
         }
-
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
+    }
+
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(query, collectionName);
+
+        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Update convertedUpdate = new Update();
+
+        for (Map.Entry<String, Object> entry : update.entrySet()) {
+            String operation = entry.getKey();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> operands = (Map<String, Object>) entry.getValue();
+
+            if (operation.equals("push")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
+                }
+            } else if (operation.equals("pushAll")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.pushAll(fieldValues.getKey(), (Object[]) fieldValues.getValue());
+                }
+            } else if (operation.equals("addToSet")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.addToSet(fieldValues.getKey(), fieldValues.getValue());
+                }
+            }
+        }
+        return template.updateMulti(convertedQuery, convertedUpdate, collectionName);
     }
 
     @Override

@@ -4,5 +4,8 @@
 	data: {
 		entity: "sedorgInfo",
 		cacheKey: "sedorgInfo"
-	}
+	},
+	params: {
+      layout: ["sedorg"]
+   }
 }

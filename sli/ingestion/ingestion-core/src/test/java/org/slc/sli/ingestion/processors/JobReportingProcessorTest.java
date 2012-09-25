@@ -137,7 +137,7 @@ public class JobReportingProcessorTest {
         List<Metrics> mockMetrics = new LinkedList<Metrics>();
 
         mockMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
-        mockStages.add(new Stage("PersistenceProcessor", "finished", new Date(), new Date(), mockMetrics));
+        mockStages.add(new Stage("PersistenceProcessor", "Persists records to the sli database","finished", new Date(), new Date(), mockMetrics));
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
@@ -231,7 +231,7 @@ public class JobReportingProcessorTest {
         fakeMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
 
         List<Stage> fakeStageList = new LinkedList<Stage>();
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "finished",
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli databse", "finished",
                 BatchJobUtils.getCurrentTimeStamp(), BatchJobUtils.getCurrentTimeStamp(), fakeMetrics);
         fakeStageList.add(s);
         return fakeStageList;

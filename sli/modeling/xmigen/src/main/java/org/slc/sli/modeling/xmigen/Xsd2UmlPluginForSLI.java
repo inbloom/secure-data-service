@@ -92,14 +92,16 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
         // Look for the reference tag.
+        String name = null;
         final List<TaggedValue> taggedValues = attribute.getTaggedValues();
         for (final TaggedValue taggedValue : taggedValues) {
             final TagDefinition tagDefinition = host.getTagDefinition(taggedValue.getTagDefinition());
             if (tagDefinition.getName().equals(SliUmlConstants.TAGDEF_REFERENCE)) {
-                return nameFromSchemaTypeName(new QName(taggedValue.getValue()));
+                name = nameFromSchemaTypeName(new QName(taggedValue.getValue()));
+                break;
             }
         }
-        return null;
+        return name;
     }
 
     @Override
