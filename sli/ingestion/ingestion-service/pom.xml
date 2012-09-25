@@ -87,7 +87,7 @@
               <outputDirectory>src/main/resources</outputDirectory>
               <resources>
                 <resource>
-                  <directory>/../../config/indexes</directory>
+                  <directory>../../config/indexes</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>
