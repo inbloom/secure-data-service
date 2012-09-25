@@ -395,7 +395,7 @@ And I check to find if record is in collection:
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
     | collectionName                       | deterministicId                      | field                             | value                                |
-    | assessment                           |  a60123e2-0cc0-4494-ffdb-1b94e0613811| body.assessmentIdentificationCode.ID  | ACT                              |
+    | assessment                           | 86605678-f9e6-5619-892c-8f7b16a1c6ea | body.assessmentIdentificationCode.ID  | ACT                              |
     | educationOrganization                | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 | body.stateOrganizationId  | IL                                   |
     | educationOrganization                | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | cdd544e9-dc55-0152-0f8e-3742499680b9 | body.stateOrganizationId  | Daybreak Central High                |
