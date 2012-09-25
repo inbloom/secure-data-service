@@ -1282,8 +1282,9 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-
+  @db   = @conn[@ingestion_db_name]
   @result = "true"
+  puts "db name #{@db.name}"
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
