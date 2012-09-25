@@ -9,7 +9,7 @@ ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -a Application [options]"
   options[:roles] = ['Educator']
   options[:mongo] = 'localhost:27017'
-  options[:realm] = "The Sandbox Realm"
+  options[:realm] = "Sandbox Realm"
   options[:expire] = 86400
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (localhost:27017)') do |mongo|
     options[:mongo] = mongo
@@ -40,7 +40,7 @@ ARGV.options do |opts|
   end
   begin 
     opts.parse!
-    unless options.include? :tenant and options.include? :user and options.include? :application
+    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :user
       throw Exception
     end
   rescue
