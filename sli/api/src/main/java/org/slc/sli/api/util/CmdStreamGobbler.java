@@ -48,7 +48,7 @@ public class CmdStreamGobbler extends Thread
             }
         } catch (IOException ioe)
         {
-            ioe.printStackTrace();
+            LOG.error(ioe.getMessage());
         }
     }
 }

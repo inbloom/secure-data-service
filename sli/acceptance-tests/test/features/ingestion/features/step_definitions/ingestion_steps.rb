@@ -1349,11 +1349,14 @@ Then /^I check to find if record is in collection:$/ do |table|
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
 
-    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
-
     if @entity_count.to_s != row["expectedRecordCount"].to_s
       @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
     end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+
   end
 
   assert(@result == "true", "Some records are not found in collection.")
@@ -1362,9 +1365,11 @@ end
 Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
   
-  @db = @conn[@ingestion_db_name]
+  @db = @conn[tenantId]
+  puts "db name: #{@db.name}"
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
+  puts "#{@edOrgEntity}"
   @stateOrganizationId = @edOrgEntity['_id']
   
   table.hashes.map do |row|

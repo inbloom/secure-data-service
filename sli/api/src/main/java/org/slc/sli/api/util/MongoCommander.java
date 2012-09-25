@@ -17,11 +17,16 @@ package org.slc.sli.api.util;
 
 import java.io.IOException;
 import java.net.URL;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * @author tke
  *
  */
 public class MongoCommander {
+    protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
+
     static public void exec(String cmd, CmdStreamGobbler outputGobber){
         try {
         Process p = Runtime.getRuntime().exec(cmd);
@@ -32,10 +37,10 @@ public class MongoCommander {
             try {
                 p.waitFor();
             } catch(InterruptedException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
         }catch(IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
     }
 
@@ -49,14 +54,14 @@ public class MongoCommander {
 
                 errorGobbler.start();
 
-                try {
-                    p.waitFor();
-                    } catch(InterruptedException e) {
-                          e.printStackTrace();
-                    }
-               }
+            try {
+                p.waitFor();
+            } catch(InterruptedException e) {
+                LOG.error(e.getMessage());
+            }
+            }
         }catch(IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
     }
 
