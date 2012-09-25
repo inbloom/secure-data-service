@@ -80,8 +80,8 @@ $entityData = {
         "localCourseTitle" => "German 101 - Intro"
     },
     "staffCohortAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "cohortId" => ["b408635d-8fd5-11e1-86ec-0021701f543f"],
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "cohortId" => "b408635d-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2010-01-15",
         "endDate" => "2012-03-29",
         "studentRecordAccess" => true

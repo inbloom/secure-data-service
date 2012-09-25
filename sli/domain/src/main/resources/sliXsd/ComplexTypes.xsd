@@ -1712,12 +1712,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of
 						students.
@@ -1728,7 +1728,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
+			<xs:element name="cohortId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the
 						staff.
@@ -1744,6 +1744,9 @@
 					<xs:documentation>Start date for the association of staff to this
 						cohort.
 					</xs:documentation>
+					<xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
