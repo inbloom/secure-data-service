@@ -69,7 +69,7 @@ abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
 parts = options[:user].split(' ')
 user = db[:staff].find_one({"metaData.tenantId" => options[:tenant], "body.name.firstName" => parts[0], "body.name.lastSurname" => parts[1]})
-abort "Unable to locate user: #{options[:user]}" if app.nil?
+abort "Unable to locate user: #{options[:user]}" if user.nil?
 
 #Create a userSession
 userSession = {}
