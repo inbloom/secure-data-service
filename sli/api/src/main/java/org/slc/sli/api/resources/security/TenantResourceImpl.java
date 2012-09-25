@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,7 +132,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
-    public static final String PRE_SPLITTING_SCRIPT = "../config/shards/sli-shard-presplit.js";
+    public static final String PRE_SPLITTING_SCRIPT = "./sli-shard-presplit.js";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -236,7 +237,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             try {
                 Runtime rt = Runtime.getRuntime();
                 String varString = "var num_years=1, tenant='"+tenantId+"'";
-                Process p = rt.exec(new String[] {"mongo","admin","--eval",varString,PRE_SPLITTING_SCRIPT});
+                URL resourceFile = Thread.currentThread().getContextClassLoader().getResource(PRE_SPLITTING_SCRIPT);
+                Process p = rt.exec(new String[] {"mongo","admin","--eval",varString,resourceFile.getPath()});
                 // any error message?
                 StreamGobbler errorGobbler = new
                     StreamGobbler(p.getErrorStream(), "ERROR");
