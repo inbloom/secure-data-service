@@ -47,6 +47,8 @@ INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
+TENANTS_FOR_LZ = {"Midgar-Daybreak" => "Midgar", "Midgar-Sunset" => "Midgar", "Hyrule-NYC"=> "Hyrule"}
+
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
 ############################################################
@@ -54,7 +56,7 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 ############################################################
 
 Before do
-
+  @ingestion_db_name = 'Midgar'
   @conn = Mongo::Connection.new(INGESTION_DB)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
@@ -353,12 +355,18 @@ end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
   initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
+  initializeTenantDatabase('Midgar-Daybreak')
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
+  initializeTenantDatabase(lz_key)
 end
+
+def initializeTenantDatabase(lz_key)
+   @ingestion_db_name = TENANTS_FOR_LZ[lz_key]
+end 
 
 def initializeLandingZone(lz)
   if lz.rindex('/') == (lz.length - 1)
@@ -690,7 +698,7 @@ end
 Given /^the following collections are empty in datastore:$/ do |table|
   @conn = Mongo::Connection.new(INGESTION_DB)
 
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
@@ -704,7 +712,7 @@ Given /^the following collections are empty in datastore:$/ do |table|
       @result = "false"
     end
   end
-  createIndexesOnDb(@conn,INGESTION_DB_NAME)
+  createIndexesOnDb(@conn,@ingestion_db_name)
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
@@ -1251,20 +1259,20 @@ end
 # STEPS: THEN
 ############################################################
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
     @indexcollection = @db.collection("system.indexes")
-    #puts "ns" + INGESTION_DB_NAME+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => INGESTION_DB_NAME + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
 
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + INGESTION_DB_NAME+ "." + row["collectionName"] + + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + + " with name = " + row["index"]
       @result = "false"
     end
   end
@@ -1274,8 +1282,9 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-
+  @db   = @conn[@ingestion_db_name]
   @result = "true"
+  puts "db name #{@db.name}"
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
@@ -1317,7 +1326,7 @@ Then /^I should say that we started processing$/ do
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
@@ -1353,7 +1362,7 @@ end
 Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
   
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
   @stateOrganizationId = @edOrgEntity['_id']
@@ -1419,7 +1428,7 @@ end
 
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
@@ -1463,7 +1472,7 @@ end
 
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
   @entity.each do |ent|
-    @db = @conn[INGESTION_DB_NAME]
+    @db = @conn[@ingestion_db_name]
     @entity_collection = @db.collection(collection)
     @refEntity = @entity_collection.find({key => value, refField => ent['_id']})
     assert(@refEntity.count == count.to_i, "Expected #{count} documents but found #{@refEntity.count}")
@@ -1695,7 +1704,7 @@ def checkForErrorLogFile(landing_zone)
 end
 
 Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  db = @conn[INGESTION_DB_NAME]
+  db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
 
   @record = collection.find_one({searchTerm => value})
@@ -1791,7 +1800,7 @@ Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
 end
 
 Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
-  db = @conn[INGESTION_DB_NAME]
+  db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
   referred = collection.find_one({searchTerm => value})
   referred.should_not == nil
@@ -1834,14 +1843,14 @@ end
 
 Given /^I have checked the counts of the following collections:$/ do |table|
   @excludedCollectionHash = {}
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
   end
 end
 
 Then /^the following collections counts are the same:$/ do |table|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     if row["collectionName"] == "securityEvent"
       assert(@excludedCollectionHash[row["collectionName"]] <= @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
@@ -1852,7 +1861,7 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})

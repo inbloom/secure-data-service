@@ -999,40 +999,40 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 191    |
-        | studentSchoolAssociation    | 280   |
-        | course                      | 104   |
-        | educationOrganization       | 14    |
-        | section                     | 116   |
-        | studentSectionAssociation   | 410   |
-        | staff                       | 58    |
-        | staffEducationOrganizationAssociation| 37 |
-        | teacherSchoolAssociation    | 20    |
-        | teacherSectionAssociation   | 30    |
-        | session                     | 27    |
-        | assessment                  | 19    |
-        | studentAssessmentAssociation| 203   |
-        | studentTranscriptAssociation| 196   |
-        | parent                      | 9     |
-        | studentParentAssociation    | 9     |
-        | gradebookEntry              | 12    |
-        | studentGradebookEntry       | 315   |
-        | attendance                  | 75    |
-        | program                     | 2     |
-        | staffProgramAssociation     | 3     |
-        | studentProgramAssociation   | 6     |
-        | cohort                      | 3     |
-        | staffCohortAssociation      | 3     |
-        | studentCohortAssociation    | 6     |
-        | disciplineIncident          | 4     |
-        | disciplineAction            | 3     |
-		| studentDisciplineIncidentAssociation| 8|
-        | grade                       | 4     |
-        | reportCard                  | 2     |
-        | courseOffering              | 104   |
+        | student                     | 8     |
+        | studentSchoolAssociation    | 8     |
+        | course                      | 8     |
+        | educationOrganization       | 7     |
+        | section                     | 16    |
+        | studentSectionAssociation   | 8     |
+        | staff                       | 37    |
+        | staffEducationOrganizationAssociation| 21 |
+        | teacherSchoolAssociation    | 16    |
+        | teacherSectionAssociation   | 16    |
+        | session                     | 4     |
+        | assessment                  | 0     |
+        | studentAssessmentAssociation| 0     |
+        | studentTranscriptAssociation| 0     |
+        | parent                      | 0     |
+        | studentParentAssociation    | 0     |
+        | gradebookEntry              | 0     |
+        | studentGradebookEntry       | 0     |
+        | attendance                  | 0     |
+        | program                     | 0     |
+        | staffProgramAssociation     | 0     |
+        | studentProgramAssociation   | 0     |
+        | cohort                      | 0     |
+        | staffCohortAssociation      | 0     |
+        | studentCohortAssociation    | 0     |
+        | disciplineIncident          | 2     |
+        | disciplineAction            | 1     |
+		    | studentDisciplineIncidentAssociation| 4|
+        | grade                       | 0     |
+        | reportCard                  | 0     |
+        | courseOffering              | 8     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | student                     | 2                   | body.studentUniqueStateId     | 100000006                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId| 100000006                  | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
        | section                     | 1                   | body.uniqueSectionCode   | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |

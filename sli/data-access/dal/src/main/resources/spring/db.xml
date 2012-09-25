@@ -25,10 +25,12 @@
       socket-timeout="60000" socket-keep-alive="true" />
   </mongo:mongo>
 
-  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
-  <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
+  <bean id="sliMongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
+    <constructor-arg ref="sliMongo" />
+    <constructor-arg value="${sli.mongodb.database}" />
+  </bean>
 
-  <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
+  <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="sliMongoDbFactory">
     <mongo:custom-converters>
       <mongo:converter>
         <bean class="org.slc.sli.dal.convert.EntityReadConverter" />
@@ -42,7 +44,7 @@
   <!-- DB TO LOG API PERF CONFIG -->
   <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
     <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true"
-      socket-timeout="60000" socket-keep-alive="true" />
+      socket-timeout="5000" socket-keep-alive="true" />
   </mongo:mongo>
 
   <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
@@ -65,7 +67,7 @@
   </bean>
 
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg ref="mongoDbFactory" />
+    <constructor-arg ref="sliMongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <property name="slaveOk" value="false" />
     <!-- <property name="writeConcern"> <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant> </property> -->
@@ -87,6 +89,7 @@
   <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
+    <property name="tenantAgnosticCollections" ref="tenantAgnosticCollections" />
   </bean>
   <bean id="mongoPerfEntityRepository" name="performanceRepo" class="org.slc.sli.dal.repository.MongoPerfRepository">
     <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
@@ -103,5 +106,17 @@
   </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
+
+  <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
+    <value>tenant</value>
+    <value>securityEvent</value>
+    <value>realm</value>
+    <value>application</value>
+    <value>roles</value>
+    <value>customRole</value>
+    <value>tenantJobLock</value>
+    <value>userSession</value>
+    <value>userAccount</value>
+  </util:set>
 
 </beans>
