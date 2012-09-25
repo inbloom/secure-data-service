@@ -32,7 +32,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 /**
  * @author unavani
  *
- * Singleton implementation of SliDeltaManager
+ * Static class implementation of SliDeltaManager
  *
  */
 public final class SliDeltaManager {
@@ -40,21 +40,7 @@ public final class SliDeltaManager {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
-    private static SliDeltaManager instance = null;
-
-    private SliDeltaManager() {
-          // Exists only to defeat instantiation.
-    }
-
-    public static SliDeltaManager getInstance() {
-        if (instance == null) {
-            instance = new SliDeltaManager();
-        }
-        return instance;
-    }
-
-
-    public boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
+    public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
 
         try {
             String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");

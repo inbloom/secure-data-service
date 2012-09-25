@@ -20,10 +20,13 @@ package org.slc.sli.ingestion.smooks;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileType;
@@ -33,6 +36,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.ErrorReport;
+
+import scala.actors.threadpool.Arrays;
 
 /**
  * Factory class for Smooks
@@ -48,6 +53,9 @@ public class SliSmooksFactory {
 
     @Autowired
     public BatchJobDAO batchJobDAO;
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport)
             throws IOException, SAXException {
@@ -80,6 +88,10 @@ public class SliSmooksFactory {
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
+
+            HashSet<String >recordLevelDeltaEnabledEntities = new HashSet<String>();
+            recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
 
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
