@@ -3708,7 +3708,7 @@ Vocational
 					<xs:documentation>The section the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+			<xs:element name="BeginDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
 </xs:documentation>

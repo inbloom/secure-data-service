@@ -5,6 +5,11 @@
             "entityType" : "student",
             "didFieldPath" : "body.studentId",
             "sourceRefPath" : "body.StudentReference"
+        },
+        {
+            "entityType" : "section",
+            "didFieldPath" : "body.sectionId",
+            "sourceRefPath" : "body.SectionReference"
         }
     ]
 }

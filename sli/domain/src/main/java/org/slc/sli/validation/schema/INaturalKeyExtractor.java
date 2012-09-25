@@ -15,7 +15,6 @@
  */
 package org.slc.sli.validation.schema;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -25,30 +24,31 @@ import org.slc.sli.domain.Entity;
  * @author sashton
  */
 public interface INaturalKeyExtractor {
-    
+
     /**
      * Returns a map of natural key field -> value for the given entity
-     * 
+     *
      * @param entity
      * @return
      */
     public abstract Map<String, String> getNaturalKeys(Entity entity);
-    
+
     /**
-     * Returns a list of natural keys from the schema for the given entity
-     * 
+     * Returns a map of natural keys from the schema for the given entity. The key is the field name
+     * and the value is a Boolean representing whether the field is optional.
+     *
      * @param entity
      *            Entity to inspect
      * @return
      */
-    public abstract List<String> getNaturalKeyFields(Entity entity);
-    
+    public abstract Map<String, Boolean> getNaturalKeyFields(Entity entity);
+
     /**
      * Returns a natural key descriptor for the given entity
-     * 
+     *
      * @param entity
      * @return
      */
     public abstract NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity);
-    
+
 }
