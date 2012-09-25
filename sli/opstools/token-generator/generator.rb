@@ -8,12 +8,12 @@ options = {}
 ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -a Application -r Roles -e expiration [options]"
   options[:mongo] = 'localhost:27017'
-  options[:realm] = "Sandbox Realm"
+  options[:realm] = "SandboxIDP"
   options[:roles] = []
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
     options[:mongo] = mongo
   end
-  opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm unique name (Default: Sandbox Realm)' ) do |realm|
+  opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm unique name (Default: SandboxIDP)' ) do |realm|
     options[:realm] = realm
   end
   opts.on(:REQUIRED,/\d+/, '-e', '--expire','The number of seconds that this session will expire in' ) do |expire|
