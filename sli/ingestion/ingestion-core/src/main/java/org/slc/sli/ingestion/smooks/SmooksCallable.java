@@ -85,6 +85,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
     public boolean runSmooksFuture() {
         TenantContext.setJobId(newBatchJob.getId());
+        TenantContext.setTenantId(newBatchJob.getTenantId());
 
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
@@ -102,6 +103,7 @@ public class SmooksCallable implements Callable<Boolean> {
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
 
         TenantContext.setJobId(null);
+        TenantContext.setTenantId(null);
         return (errorCount > 0);
     }
 

@@ -23,6 +23,7 @@ import java.util.Set;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 
 /**
@@ -117,6 +118,7 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    boolean findAndUpsertRecordHash(String recordId);
+    boolean findAndUpsertRecordHash(String tenantId, String recordId);
 
+    public RecordHash findRecordHash(String tenantId, String recordId);
 }

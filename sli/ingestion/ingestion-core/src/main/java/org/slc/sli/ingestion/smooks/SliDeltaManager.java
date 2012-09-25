@@ -24,7 +24,9 @@ import java.util.Formatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -33,7 +35,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  * Singleton implementation of SliDeltaManager
  *
  */
-public class SliDeltaManager {
+public final class SliDeltaManager {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -58,7 +60,14 @@ public class SliDeltaManager {
             String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");
             LOG.info("RECORD HASH = " + recordId);
 
-            return batchJobDAO.findAndUpsertRecordHash(recordId);
+            RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
+            if (record != null) {
+                //UN : Remove this from here and do something more sensible
+                LOG.info("Record found: " + record.tenantId +  "-" + record._id);
+            } else {
+                batchJobDAO.findAndUpsertRecordHash(TenantContext.getTenantId(), recordId);
+            }
+            return (record != null);
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

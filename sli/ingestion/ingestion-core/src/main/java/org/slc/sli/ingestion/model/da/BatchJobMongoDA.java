@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -631,20 +632,30 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean findAndUpsertRecordHash(String recordId) {
-        RecordHash rh = this.batchJobMongoTemplate.findById(recordId, RecordHash.class, "recordHash");
+    public boolean findAndUpsertRecordHash(String tenantId, String recordId) {
+        RecordHash rh = this.findRecordHash(tenantId, recordId);
 
         if (rh == null) {
             //record was not found
             rh = new RecordHash();
             rh._id = recordId;
+            rh.tenantId = tenantId;
             rh.timestamp = "" + System.currentTimeMillis();
             this.batchJobMongoTemplate.save(rh, "recordHash");
             return false;
         } else {
             rh.timestamp = "" + System.currentTimeMillis();
+            rh.tenantId = tenantId;
             this.batchJobMongoTemplate.save(rh, "recordHash");
             return true;
         }
+    }
+
+    @Override
+    public RecordHash findRecordHash(String tenantId, String recordId) {
+        Query query = new Query().limit(1);
+        query.addCriteria(Criteria.where("tenantId").is(tenantId));
+        query.addCriteria(Criteria.where("_id").is(recordId));
+        return this.batchJobMongoTemplate.findOne(query, RecordHash.class, "recordHash");
     }
 }
