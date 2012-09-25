@@ -148,14 +148,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             
             return entity;
         } else {
-            // TODO: Temporary workaround until we get deterministic id's and context stamping
-            // synced up
-            String entityId = null;
-            if ("educationOrganization".equals(collectionName)) {
-                entityId = entity.getStagedEntityId();
-            }
-            return entityRepository.createWithRetries(entity.getType(), entityId, entity.getBody(),
-                    entity.getMetaData(), collectionName, totalRetries);
+            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
+                    collectionName, totalRetries);
         }
     }
     
