@@ -444,6 +444,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.programId            | 3648e86a-ed1b-70a5-72f9-76a366e98093 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.educationOrganizationId | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.beginDate            | 2011-03-01                           |
     | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
     | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
     | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |

@@ -40,4 +40,5 @@ public final class SliMongoConstants {
     public static final QName SLI_RELAXEDBLACKLIST = new QName(NAMESPACE_SLI, "RelaxedBlacklist");
     public static final QName SLI_RESTRICTED_FOR_LOGGING = new QName(NAMESPACE_SLI, "RestrictedForLogging");
     public static final QName SLI_SCHEMA_VERSION = new QName(NAMESPACE_SLI, "schemaVersion");
+    public static final QName SLI_ASSOCIATION_KEY = new QName(NAMESPACE_SLI, "associationKey");
 }
