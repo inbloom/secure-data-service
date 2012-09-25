@@ -138,12 +138,13 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
     When I create a valid base level school object
+      And "stateOrganizationId" has a value of "2305238"
       And I navigate to PUT "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 204
     When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
       And "nameOfInstitution" should be "school name"
-      And "stateOrganizationId" should be "12345678"
+      And "stateOrganizationId" should be "2305238"
       And "gradesOffered" should contain "First_grade" and "Second_grade"
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links

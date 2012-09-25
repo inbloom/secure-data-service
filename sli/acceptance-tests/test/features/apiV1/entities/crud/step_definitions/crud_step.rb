@@ -170,7 +170,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
-    "stateOrganizationId" => "15",
+    "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
     "nameOfInstitution" => "Gotham City School District", 
     "address" => [
               "streetNumberName" => "111 Ave C",
@@ -270,7 +270,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "shortNameOfInstitution" => "SCTS",
     "nameOfInstitution" => "School Crud Test School",
     "webSite" => "www.scts.edu",
-    "stateOrganizationId" => "152901001",
+    "stateOrganizationId" => "SomeUniqueSchool-24242342",
     "organizationCategories" => ["School"],
     "address" => [
       "addressType" => "Physical",
