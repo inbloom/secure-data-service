@@ -9,7 +9,6 @@ ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -a Application -r Roles -e expiration [options]"
   options[:mongo] = 'localhost:27017'
   options[:realm] = "SandboxIDP"
-  options[:roles] = []
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
     options[:mongo] = mongo
   end
@@ -23,8 +22,8 @@ ARGV.options do |opts|
   opts.on(:REQUIRED, /.+/, '-c', '--client_id', 'The client_id of the application to generate a token for') do |app|
     options[:application] = app
   end
-  opts.on(:REQUIRED, Array, '-r', '--roles', 'The roles you want for this user to have') do |roles|
-    options[:roles] = roles
+  opts.on(:REQUIRED, '-r', '--role', 'The role you want for this user to have') do |roles|
+    options[:roles] = [roles]
   end
   opts.on(:REQUIRED, /.+/, '-u', '--user', 'The staff unique state id of the user to generate a token for for') do |user|
     options[:user] = user
@@ -39,7 +38,7 @@ ARGV.options do |opts|
   end
   begin 
     opts.parse!
-    unless options.include? :tenant and options.include? :user and options.include? :application and !options[:roles].empty? and options.include? :expire
+    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire
       throw Exception
     end
   rescue
