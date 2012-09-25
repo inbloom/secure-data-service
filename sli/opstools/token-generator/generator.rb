@@ -6,31 +6,29 @@ require 'SecureRandom'
 options = {}
 
 ARGV.options do |opts|
-  opts.banner = "Usage: generator -t Tenant -u User -a Application [options]"
-  options[:roles] = ['Educator']
+  opts.banner = "Usage: generator -t Tenant -u User -a Application -r Roles -e expiration [options]"
   options[:mongo] = 'localhost:27017'
-  options[:realm] = "The Sandbox Realm"
-  options[:expire] = 86400
-  opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (localhost:27017)') do |mongo|
+  options[:realm] = "SandboxIDP"
+  opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
     options[:mongo] = mongo
   end
-  opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm name (The Sandbox Realm)' ) do |realm|
+  opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm unique name (Default: SandboxIDP)' ) do |realm|
     options[:realm] = realm
   end
-  opts.on(:REQUIRED,/\d+/, '-e', '--expire','The number of seconds that this session will expire in (86400 [1 day])' ) do |expire|
+  opts.on(:REQUIRED,/\d+/, '-e', '--expire','The number of seconds that this session will expire in' ) do |expire|
     # Convert to milis
-    options[:expire] = expire * 1000
+    options[:expire] = expire.to_i * 1000
   end
-  opts.on(:REQUIRED, /.+/, '-a', '--application', 'The name of the application to generate a token for (Databrowser)') do |app|
+  opts.on(:REQUIRED, /.+/, '-c', '--client_id', 'The client_id of the application to generate a token for') do |app|
     options[:application] = app
   end
-  opts.on(:REQUIRED, ["Educator", "Leader", "IT Administrator"], Array, '-r', '--roles', 'The roles you want for this user to have') do |roles|
-    options[:roles] = roles
+  opts.on(:REQUIRED, '-r', '--role', 'The role you want for this user to have') do |roles|
+    options[:roles] = [roles]
   end
-  opts.on(:REQUIRED, /.+/, '-u', '--user', 'The first and last name of the user to generate a token for for (Linda Kim)') do |user|
+  opts.on(:REQUIRED, /.+/, '-u', '--user', 'The staff unique state id of the user to generate a token for for') do |user|
     options[:user] = user
   end
-  opts.on(:REQUIRED, /.+/, '-t', '--tenant', "The users's tenant (email address)") do |tenant|
+  opts.on(:REQUIRED, /.+/, '-t', '--tenant', "The users's tenant") do |tenant|
     options[:tenant] = tenant
   end
   
@@ -40,7 +38,7 @@ ARGV.options do |opts|
   end
   begin 
     opts.parse!
-    unless options.include? :tenant and options.include? :user and options.include? :application
+    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire
       throw Exception
     end
   rescue
@@ -61,15 +59,14 @@ db = Mongo::Connection.new(hp[0], hp[1])
 db = db.db('sli', :pk => PKFactory.new)
 
 #Get the realm
-realm = db[:realm].find_one({'body.name'=>options[:realm]})
+realm = db[:realm].find_one({'body.uniqueIdentifier'=>options[:realm]})
 abort "Unable to locate #{options[:realm]} realm" if realm.nil?
 #Get the app
-app = db['application'].find_one({'body.name' => options[:application]})
+app = db['application'].find_one({'body.client_id' => options[:application]})
 abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
-parts = options[:user].split(' ')
-user = db[:staff].find_one({"metaData.tenantId" => options[:tenant], "body.name.firstName" => parts[0], "body.name.lastSurname" => parts[1]})
-abort "Unable to locate user: #{options[:user]}" if app.nil?
+user = db[:staff].find_one({"metaData.tenantId" => options[:tenant], "body.staffUniqueStateId" => options[:user]})
+abort "Unable to locate user: #{options[:user]}" if user.nil?
 
 #Create a userSession
 userSession = {}
