@@ -346,6 +346,7 @@ public class MongoQueryConverter {
      */
     public Criteria convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
         Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
+        
         // other criteria
         for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
             String key = neutralCriteria.getKey();
@@ -383,12 +384,18 @@ public class MongoQueryConverter {
         // merge the criteria into one
         Criteria mongoCriteria = mergeCriteria(fields);
 
-        // now tag on the "orQueries"  
-        for (NeutralQuery orQuery : neutralQuery.getOrQueries()) {
-            Criteria orCriteria = convertToCriteria(entityName, orQuery, entitySchema);
+        // now tag on the "orQueries"
+        List<NeutralQuery> orQueries = neutralQuery.getOrQueries();
+        if (!orQueries.isEmpty()) {
+            Criteria[] orCriteria = new Criteria[orQueries.size()];
+            for (int i = 0; i < orCriteria.length; i++) {
+                NeutralQuery orQuery = orQueries.get(i);
+                Criteria orCriterion = convertToCriteria(entityName, orQuery, entitySchema);
+                orCriteria[i] = orCriterion; 
+            }
             mongoCriteria.orOperator(orCriteria);
         }
-        
+
         return mongoCriteria;
     }
 
@@ -399,6 +406,7 @@ public class MongoQueryConverter {
      */
     protected Criteria mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
 
+        // Gather the criteria from the chain. 
         List<Criteria> toMerge = new ArrayList<Criteria>();
         if (criteriaForFields != null) {
             for (Map.Entry<String, List<NeutralCriteria>> e : criteriaForFields.entrySet()) {
@@ -416,14 +424,19 @@ public class MongoQueryConverter {
             }
         }
 
+        // merge the criteria as needed.  
         if (toMerge.isEmpty()) {
             return new Criteria();
+        } else if (toMerge.size() == 1) {
+            return toMerge.get(0);
         } else {
-            Criteria c = toMerge.get(0);
+            Criteria criterion = toMerge.get(0);
+            Criteria[] otherCriteria = new Criteria[toMerge.size() - 1];
             for(int i = 1; i < toMerge.size(); i++) {
-                c = c.andOperator(toMerge.get(i));
+            	otherCriteria[i-1] = toMerge.get(i);
             }
-            return c;
+            criterion.andOperator(otherCriteria);
+            return criterion;
         }
     }
 
