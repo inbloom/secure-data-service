@@ -22,7 +22,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>assessment</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
 			</xs:appinfo>
 		</xs:annotation>
@@ -32,6 +32,9 @@
 					<xs:documentation>
 						The title or name of the assessment.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="assessmentFamilyHierarchyName"
@@ -54,9 +57,6 @@
 						school system, a state, or other
 						agency.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="assessmentCategory" type="assessmentCategoryType">
@@ -86,6 +86,9 @@
 						or a foreign
 						language.
 					</xs:documentation>
+			  		<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="gradeLevelAssessed" type="gradeLevelType">
@@ -108,6 +111,9 @@
 						Grade," "Second
 						Grade," and so on.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="lowestGradeLevelAssessed"
@@ -174,6 +180,9 @@
 					<xs:documentation>
 						The version identifier for the assessment.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="revisionDate" type="xs:date">
@@ -1764,7 +1773,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffEducationOrganizationAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -1783,7 +1792,7 @@
 			<xs:element name="educationOrganizationReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
-						memeber
+						member
 						provides services
 					</xs:documentation>
 					<xs:appinfo>
