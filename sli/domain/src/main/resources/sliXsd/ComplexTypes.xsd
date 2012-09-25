@@ -5905,7 +5905,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>gradingPeriod</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -5916,9 +5916,6 @@
 						The name of the period for which grades are
 						reported
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -5938,9 +5935,6 @@
 						Month, day, and year of the last day of the
 						grading period.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="totalInstructionalDays">
@@ -5978,6 +5972,9 @@
       <xs:element name="gradingPeriod" type="gradingPeriodType">
         <xs:annotation>
           <xs:documentation>The name of the period for which grades are reported</xs:documentation>
+          <xs:appinfo>
+            <sli:naturalKey>true</sli:naturalKey>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
       <xs:element name="schoolYear" type="schoolYearType">
@@ -5992,7 +5989,8 @@
                             Education Agency (SEA). Also known as the State LEA ID.
           </xs:documentation>
           <xs:appinfo>
-          <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+            <sli:naturalKey>true</sli:naturalKey>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

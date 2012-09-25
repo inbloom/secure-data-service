@@ -448,6 +448,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
     | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
     | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.beginDate                           | 2012-04-16                           |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.schoolId      | 7cde113b-35de-2b8a-0988-04cf364bd1ab |
 # uncomment when session has a deterministic id
 #    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
 #    | courseOffering | TODO | body.sessionId            | TODO |
