@@ -326,7 +326,7 @@
                                <directory>../config/indexes/</directory>
                                <filtering>true</filtering>
                                <includes>
-                                   <include>**/sli_indexes.js</include>
+                                   <include>**/tenantDB_indexes.js</include>
                                </includes>
                            </resource>
                            <resource>

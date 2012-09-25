@@ -125,7 +125,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
     public static final String SHARDING_SCRIPT = "sli_shards.js";
-    public static final String INDEX_SCRIPT = "sli_indexes";
+    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
     public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
@@ -223,7 +223,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
 
-            MongoCommander.exec(tenantId, INDEX_SCRIPT, "");
+            MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + tenantId + "\"");
+            //MongoCommander.exec(tenantId, INDEX_SCRIPT, "");
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
