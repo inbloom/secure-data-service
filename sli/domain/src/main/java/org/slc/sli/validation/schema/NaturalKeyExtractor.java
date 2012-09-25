@@ -15,12 +15,14 @@
  */
 package org.slc.sli.validation.schema;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,16 +53,32 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
 
         List<String> missingKeys = new ArrayList<String>();
 
-        List<String> naturalKeyFields = getNaturalKeyFields(entity);
-        for (String keyField : naturalKeyFields) {
-            Object value = entity.getBody().get(keyField);
+        Map<String, Boolean> naturalKeyFields = getNaturalKeyFields(entity);
+        for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
+            //instead use x-paths here?
+            //Object value = entity.getBody().get(keyField.getKey());
+            Object value = null;
+            try {
+                value = PropertyUtils.getProperty(entity.getBody(), keyField.getKey());
+            } catch (IllegalAccessException e) {
+                handleFieldAccessException(keyField.getKey(), entity);
+            } catch (InvocationTargetException e) {
+                handleFieldAccessException(keyField.getKey(), entity);
+            } catch (NoSuchMethodException e) {
+                handleFieldAccessException(keyField.getKey(), entity);
+            }
             if (value == null) {
-                // if the key field is not found, there's a problem
-                missingKeys.add(keyField);
+                if (keyField.getValue().booleanValue()) {
+                    map.put(keyField.getKey(), "");
+                }
+                else{
+                    // if the required key field is not found, there's a problem
+                    missingKeys.add(keyField.getKey());
+                }
             }
             if (value instanceof String) {
                 String strValue = (String) value;
-                map.put(keyField, strValue);
+                map.put(keyField.getKey(), strValue);
             }
         }
         if (!missingKeys.isEmpty()) {
@@ -74,11 +92,9 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain.Entity)
      */
     @Override
-    public List<String> getNaturalKeyFields(Entity entity) {
+    public Map<String, Boolean> getNaturalKeyFields(Entity entity) {
 
-        List<String> naturalKeyFields = new ArrayList<String>();
-
-        List<String> missingKeys = new ArrayList<String>();
+        Map<String, Boolean> naturalKeyFields = new HashMap<String, Boolean>();
 
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema != null) {
@@ -86,37 +102,41 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
                 if (appInfo.applyNaturalKeys()) {
-                    Map<String, NeutralSchema> fields = schema.getFields();
-                    for (Iterator<Map.Entry<String, NeutralSchema>> i = fields.entrySet().iterator(); i.hasNext();) {
-                        Map.Entry entry = i.next();
-                        String field = (String) entry.getKey();
-                        NeutralSchema fieldSchema = (NeutralSchema) entry.getValue();
-
-                        AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
-                        if (fieldsAppInfo != null) {
-                            if (fieldsAppInfo.isNaturalKey()) {
-                                Object value = entity.getBody().get(field);
-                                if (value == null) {
-                                    if (fieldsAppInfo.isRequired()) {
-                                        LOG.error(entity.getType() + " entity missing required key field: " + field);
-                                        missingKeys.add(field);
-                                    }
-                                } else {
-                                    naturalKeyFields.add(field);
-                                }
-                            }
-                        }
-                    }
+                    //recursive call to get natural fields
+                    getNaturalKeyFields(naturalKeyFields, schema, "");
                 }
             }
         }
 
-        //throw an exception if any required key fields are missing
-        if (!missingKeys.isEmpty()) {
-            throw new NaturalKeyValidationException(entity.getType(), missingKeys);
-        }
-
         return naturalKeyFields;
+    }
+
+    /**
+     * Recursive method to traverse down to the leaf nodes of a neutral schema and extract annotated key fields
+     */
+    private void getNaturalKeyFields(Map<String, Boolean> naturalKeyFields, NeutralSchema schema, String baseXPath) {
+        Map<String, NeutralSchema> fields = schema.getFields();
+        for (Entry<String, NeutralSchema> fieldEntry : fields.entrySet()) {
+            String fieldXPath = baseXPath + fieldEntry.getKey();
+
+            NeutralSchema fieldSchema = fieldEntry.getValue();
+            if (fieldSchema instanceof ComplexSchema) {
+                getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldXPath + ".");
+            } else {
+                AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
+                if (fieldsAppInfo != null) {
+                    if (fieldsAppInfo.isNaturalKey()) {
+                        Boolean isOptional = null;
+                        if (fieldsAppInfo.isRequired()) {
+                            isOptional = new Boolean(false);
+                        } else {
+                            isOptional = new Boolean(true);
+                        }
+                        naturalKeyFields.put(fieldXPath, isOptional);
+                    }
+                }
+            }
+        }
     }
 
     /* (non-Javadoc)
@@ -136,5 +156,9 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         String tenantId = (String) entity.getMetaData().get("tenantId");
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType);
         return naturalKeyDescriptor;
+    }
+
+    private void handleFieldAccessException(String keyField, Entity entity){
+        LOG.error("Failed to extract field " + keyField + " from " + entity.getType() + "entity");
     }
 }
