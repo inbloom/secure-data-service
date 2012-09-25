@@ -269,6 +269,23 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <classesClassifier>classes</classesClassifier>
+                    <webResources>
+                       <resource>
+                               <directory>../config/indexes/</directory>
+                               <filtering>true</filtering>
+                               <includes>
+                                   <include>**/tenantDB_indexes.js</include>
+                               </includes>
+                           </resource>
+                           <resource>
+                               <directory>../config/shards/</directory>
+                               <filtering>true</filtering>
+                               <includes>
+                                   <include>**/sli_shards.js</include>
+                                   <include>**/sli-shard-presplit.js</include>
+                               </includes>
+                           </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
@@ -310,38 +327,6 @@
                     </connectors>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>copy-resources</id>
-                    <phase>initialize</phase>
-                    <goals>
-                        <goal>copy-resources</goal>
-                    </goals>
-                    <configuration>
-                       <outputDirectory>src/main/resources</outputDirectory>
-                       <resources>
-                           <resource>
-                               <directory>../config/indexes/</directory>
-                               <filtering>true</filtering>
-                               <includes>
-                                   <include>**/tenantDB_indexes.js</include>
-                               </includes>
-                           </resource>
-                           <resource>
-                               <directory>../config/shards/</directory>
-                               <filtering>true</filtering>
-                               <includes>
-                                   <include>**/sli_shards.js</include>
-                                   <include>**/sli-shard-presplit.js</include>
-                               </includes>
-                           </resource>
-                       </resources>
-                   </configuration>
-                </execution>
-        </executions>
-      </plugin>
         </plugins>
     </build>
 </project>

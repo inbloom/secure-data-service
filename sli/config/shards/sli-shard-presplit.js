@@ -73,4 +73,4 @@ function preSplit(shard_list, database_name, tenantId){
     }
 }
 
-preSplit(discoverShards(), "sli", "Midgar");
+preSplit(discoverShards(), database, tenantId);

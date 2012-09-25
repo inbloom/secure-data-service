@@ -223,8 +223,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
 
+            //Spin up the new database
             MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + tenantId + "\"");
-            //MongoCommander.exec(tenantId, INDEX_SCRIPT, "");
+            MongoCommander.exec(getDatabaseName(tenantId), INDEX_SCRIPT, "");
+            MongoCommander.exec("admin",PRE_SPLITTING_SCRIPT, "var num_years=1, tenant='"+ tenantId +"', database='" + getDatabaseName(tenantId) + "'");
+
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
@@ -271,6 +274,10 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         existingBody.put(LZ, new ArrayList(allLandingZones));
         tenantService.update(existingTenantId, existingBody);
         return existingTenantId;
+    }
+
+    private String getDatabaseName( String tenantId) {
+        return tenantId;
     }
 
     private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer, String path,
