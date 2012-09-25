@@ -84,7 +84,7 @@
   )
 )  
 
-(defn create-student [schoolName studentId]
+(defn create-student-edfi [schoolName studentId]
   (element :Student {:id (student-id schoolName studentId)}
     (element :StudentUniqueStateId {} (student-id schoolName studentId))
     (element :Name {}
@@ -100,7 +100,7 @@
   )
 )
 
-(defn create-state []
+(defn create-state-edfi []
   (let [tmp (element :StateEducationAgency {:id "NY"}
     (element :StateOrganizationId {} "NY")
     (element :NameOfInstitution {} "New York State Board of Education")
@@ -118,7 +118,7 @@
   )
 )
 
-(defn create-district [districtName]
+(defn create-district-edfi [districtName]
   (let [tmp (element :LocalEducationAgency {:id districtName}
     (element :StateOrganizationId {} districtName)
     (element :NameOfInstitution {} districtName)
@@ -138,7 +138,7 @@
   )
 )
 
-(defn create-school [districtName, schoolName]
+(defn create-school-edfi [districtName, schoolName]
   (let [tmp (element :School {:id schoolName}
     (element :StateOrganizationId {} schoolName)
     (element :EducationOrgIdentificationCode {:IdentificationSystem "School"}
@@ -175,7 +175,7 @@
   )
 )
 
-(defn create-course [districtName]
+(defn create-course-edfi [districtName]
   (let [tmp (element :Course {:id (course-id districtName)}
     (element :CourseTitle {} "Math 7")
     (element :NumberOfParts {} "1")
@@ -189,7 +189,7 @@
   )
 )
 
-(defn create-student-assessment-association [schoolName studentId assessmentName date]
+(defn create-student-assessment-association-edfi [schoolName studentId assessmentName date]
   (let [score (rand-nth (range 6 33))]
     (element :StudentAssessment {:id (saa-id schoolName studentId date)}
       (element :AdministrationDate {} date)
@@ -207,7 +207,7 @@
   )
 )
 
-(defn create-student-school-association [schoolName studentId]
+(defn create-student-school-association-edfi [schoolName studentId]
   (element :StudentSchoolAssociation {}
     (student-ref schoolName studentId)
     (school-ref schoolName)
@@ -216,7 +216,7 @@
   )
 )
 
-(defn create-student-section-association [schoolName studentId]
+(defn create-student-section-association-edfi [schoolName studentId]
   (element :StudentSectionAssociation {}
     (student-ref schoolName studentId)
     (section-ref schoolName)
@@ -225,7 +225,7 @@
   )
 )
 
-(defn create-assessment [assessmentName]
+(defn create-assessment-edfi [assessmentName]
   (let [tmp (element :Assessment {:id (assessment-id assessmentName)}
       (element :AssessmentTitle {} assessmentName)
       (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
@@ -275,7 +275,7 @@
   )
 )
 
-(defn create-session [schoolName]
+(defn create-session-edfi [schoolName]
   (into () [
     (element :CalendarDate {:id (calendar-date-id schoolName) }
       (element :Date {} "2011-09-22")
@@ -308,7 +308,7 @@
   )
 )
 
-(defn create-course-offering [districtName schoolName]
+(defn create-course-offering-edfi [districtName schoolName]
   (element :CourseOffering { :id (local-course-id districtName schoolName) }
     (element :LocalCourseCode {} (local-course-id districtName schoolName))
     (element :LocalCourseTitle {} "7th Grade Math")
@@ -318,7 +318,7 @@
   )
 )
 
-(defn create-section [districtName schoolName]
+(defn create-section-edfi [districtName schoolName]
   (element :Section {}
     (element :UniqueSectionCode {} (section-id schoolName))
     (element :SequenceOfCourse {} "1")
@@ -328,20 +328,20 @@
   ) 
 )
 
-(defn create-student-enrollment [schoolName studentId]
+(defn create-student-enrollment-edfi [schoolName studentId]
   (into () [
-    (create-student-school-association schoolName studentId)
-    (create-student-section-association schoolName studentId) ]
+    (create-student-school-association-edfi schoolName studentId)
+    (create-student-section-association-edfi schoolName studentId) ]
   )
 )
 
-(defn gen-sessions [schools output-file]
+(defn gen-sessions-edfi [schools output-file]
   (gen-edfi-xml :InterchangeEducationOrgCalendar output-file
     (reverse
       (into ()
         [
           (for [schoolName schools
-            :let [tmp (create-session schoolName)]]
+            :let [tmp (create-session-edfi schoolName)]]
             tmp
           )
         ]
@@ -350,13 +350,13 @@
   )
 )
 
-(defn gen-students [schools rng output-file]
+(defn gen-students-edfi [schools rng output-file]
   (gen-edfi-xml :InterchangeStudentParent output-file
     (into ()
       [
         (for [schoolName schools]
           (for [id rng
-            :let [tmp (create-student schoolName id)]
+            :let [tmp (create-student-edfi schoolName id)]
             ]
             tmp
           )
@@ -366,16 +366,24 @@
   )
 )
 
-(defn gen-schools [districtName schools output-file]
+
+(defn gen-state-edfi [output-file]
+  (gen-edfi-xml :InterchangeEducationOrganization output-file
+    (create-state-edfi)
+  )
+)
+  
+
+(defn gen-schools-edfi [districtName schools output-file]
   (gen-edfi-xml :InterchangeEducationOrganization output-file
     (reverse
       (into ()
         [
-          (create-state)
-          (create-district districtName)
-          (create-course districtName)
+          (create-state-edfi)
+          (create-district-edfi districtName)
+          (create-course-edfi districtName)
           (for [schoolName schools
-            :let [tmp (create-school districtName schoolName)]]
+            :let [tmp (create-school-edfi districtName schoolName)]]
             tmp
           )
         ]
@@ -384,41 +392,41 @@
   )
 )
 
-(defn gen-assessment [assessmentName output-file]
-  (gen-edfi-xml :InterchangeAssessmentMetadata output-file (create-assessment assessmentName))
+(defn gen-assessment-edfi [assessmentName output-file]
+  (gen-edfi-xml :InterchangeAssessmentMetadata output-file (create-assessment-edfi assessmentName))
 )
 
-(defn gen-student-assessment-associations
+(defn gen-student-assessment-associations-edfi
   [districtName schools students assessment n output-file]
   (gen-edfi-xml :InterchangeStudentAssessment output-file
     (for [schoolName schools]
-      (for [studentId students, i (range 1 n)]
-        (create-student-assessment-association schoolName studentId assessment (str "2011-10-" (format "%02d" i)))
+      (for [studentId students, i (range n)]
+        (create-student-assessment-association-edfi schoolName studentId assessment (str "2011-10-" (format "%02d" i)))
       )
     )
   )
 )
 
-(defn gen-student-enrollments [schools rng output-file]
+(defn gen-student-enrollments-edfi [schools rng output-file]
   (gen-edfi-xml :InterchangeStudentEnrollment output-file
     (for [schoolName schools]
       (for [id rng]
-        (create-student-enrollment schoolName id)
+        (create-student-enrollment-edfi schoolName id)
       )
     )
   )
 )
 
-(defn gen-sections [districtName schools output-file]
+(defn gen-sections-edfi [districtName schools output-file]
   (gen-edfi-xml :InterchangeMasterSchedule output-file
     (reverse 
       (into () 
         [
           (for [schoolName schools]
-            (create-course-offering districtName schoolName)
+            (create-course-offering-edfi districtName schoolName)
           )
           (for [schoolName schools]
-            (create-section districtName schoolName)
+            (create-section-edfi districtName schoolName)
           )
         ]
       )
@@ -468,7 +476,7 @@
   )
 )
 
-(defn create-control-file []
+(defn create-control-file-edfi []
   (def directory (clojure.java.io/file "/tmp/test"))
   (def files (rest (file-seq directory)))
   (with-open [out (java.io.PrintWriter. (java.io.FileOutputStream. "/tmp/test/MainControlFile.ctl"))]

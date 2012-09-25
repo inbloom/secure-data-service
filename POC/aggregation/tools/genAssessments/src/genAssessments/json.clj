@@ -3,30 +3,39 @@
   (:use clojure.data.json)
   (:use genAssessments.defines)
   (:require [clojure.java.io :as io])
-)
+  (:use [monger.core :only [connect! connect set-db! get-db]]
+        [monger.collection :only [insert insert-batch]])
+  (:use [monger.result :only [ok? has-error?]])
+  (:import [org.bson.types ObjectId]
+           [com.mongodb DB WriteConcern]))
+
+(connect!)
+(set-db! (get-db "sli"))
 
 (defn sha1 [id]
   (apply str
-    (map (partial format "%02x") (.digest (doto (java.security.MessageDigest/getInstance "SHA-1").reset(.update(.getBytes id)))))
+    (map (partial format "%02x") (.digest (doto (java.security.MessageDigest/getInstance "SHA1").reset(.update(.getBytes id)))))
   )
 )
 
 (defn gen-json [output-file contents]
-  (def entity (merge contents { :metaData { :tenantId "Hyrule" } } ) )    
-  (with-open [f (io/writer output-file :append true)]
-    (.write f (with-out-str (print-json entity)))
-    (.write f "\n")
+  (def entity (merge contents { :metaData { :tenantId "Hyrule" } } ) )
+  (try (insert output-file contents)
+    (catch Exception e
+      (println (format "%s\n\n%s" contents e)),
+      (.System.exit 0)
+    )
   )
 )
 
-(defn create-name []
+(defn create-name-json []
   {
     :firstName (rand-nth first-names),
     :lastSurname (rand-nth last-names)
   }
 )
 
-(defn create-address []
+(defn create-address-json []
   {
    :streetNumberName "123 Elm Street",
    :city "NY",
@@ -35,28 +44,28 @@
   }
 )
 
-(defn create-result [result]
+(defn create-result-json [result]
   {
     :result result,
     :assessmentReportingMethod "Scale score"
   }
 )
 
-(defn create-student [schoolName studentId]
+(defn create-student-json [schoolName studentId]
   {
     :type "student",
     :_id (sha1 (student-id schoolName studentId)),
     :body
     {
       :studentUniqueStateId (student-id schoolName studentId),
-      :name (create-name),
+      :name (create-name-json),
       :sex (rand-nth ["Male" "Female"])
       :birthData (str "2001-" (format "%02d" (inc (rand-int 12))) "-" (format "%02d" (inc (rand-int 28))))
     }
   }
 )
 
-(defn create-state []
+(defn create-state-json []
   {
     :type "stateEducationAgency",
     :_id (sha1 "NY"),
@@ -65,12 +74,12 @@
       :stateOrganizationId "NY",
       :nameOfInstitution "New York State Board of Education",
       :organizationCategories ["State Education Agency"],
-      :address (create-address)
+      :address (create-address-json)
     }
   }
 )
 
-(defn create-district [districtName]
+(defn create-district-json [districtName]
   {
     :type "localEducationAgency",
     :_id (sha1 districtName),
@@ -79,17 +88,17 @@
       :stateOrganizationId districtName,
       :nameOfInstitution districtName,
       :organizationCategories ["Local Education Agency"],
-      :address (create-address),
+      :address (create-address-json),
       :parentEducationAgencyReference (sha1 "NY")
     }
   }
 )
 
-(defn create-school [districtName schoolName]
+(defn create-school-json [districtName schoolName]
   {
     :type  "school",
     :_id (sha1 schoolName),
-    :body 
+    :body
     {
       :schoolCategories [ "Elementary School" ],
       :gradesOffered
@@ -104,13 +113,13 @@
       :organizationCategories ["School"],
       :stateOrganizationId schoolName,
       :nameOfInstitution schoolName,
-      :address (create-address),
+      :address (create-address-json),
       :parentEducationAgencyReference (sha1 districtName)
     }
   }
 )
 
-(defn create-course-code [districtName]
+(defn create-course-code-json [districtName]
   [
     {
       :ID (sha1 (course-id districtName) ),
@@ -119,7 +128,7 @@
   ]
 )
 
-(defn create-course [districtName]
+(defn create-course-json [districtName]
   {
     :type "course",
     :_id (sha1 (course-id districtName) ),
@@ -127,13 +136,13 @@
     {
       :courseTitle "Math 7",
       :numberOfParts 1,
-      :courseCode (create-course-code districtName),
+      :courseCode (create-course-code-json districtName),
       :schoolId (sha1 districtName)
     }
   }
 )
 
-(defn create-student-assessment-association [schoolName studentId assessmentName score date]
+(defn create-student-assessment-association-json [schoolName studentId assessmentName score date]
   {
     :type "studentAssessmentAssociation",
     :_id (sha1 (saa-id schoolName studentId date) ),
@@ -148,7 +157,7 @@
   }
 )
 
-(defn create-student-school-association [schoolName studentId]
+(defn create-student-school-association-json [schoolName studentId]
   {
     :type "studentSchoolAssociation",
     :_id (sha1 (format "%s-%s-%s" schoolName studentId "2011-09-01") ),
@@ -162,7 +171,7 @@
   }
 )
 
-(defn create-student-section-association [schoolName studentId]
+(defn create-student-section-association-json [schoolName studentId]
   {
     :type "studentSectionAssociation",
     :_id (sha1 (student-id schoolName studentId) )
@@ -174,7 +183,7 @@
   }
 )
 
-(defn create-assessment [assessmentName]
+(defn create-assessment-json [assessmentName]
   {
     :type "assessment",
     :_id (sha1 assessmentName),
@@ -192,7 +201,7 @@
   		  {
   		    :performanceLevelDescriptor [ { :codeValue "W" } ],
   			  :assessmentReportingMethod "Scale score",
-       
+
   			  :minimumScore 6,
   			  :maximumScore 14
   		  },
@@ -219,7 +228,7 @@
   }
 )
 
-(defn create-session [schoolName]
+(defn create-session-json [schoolName]
   {
     :type "session",
     :_id (sha1 (session-id schoolName) ),
@@ -235,7 +244,7 @@
   }
 )
 
-(defn create-calendar-date [date calendarEvent]
+(defn create-calendar-date-json [date calendarEvent]
   {
     :type "calendarDate",
     :_id (sha1 (format "%s-%s" date calendarEvent) ),
@@ -247,7 +256,7 @@
   }
 )
 
-(defn create-course-offering [districtName schoolName]
+(defn create-course-offering-json [districtName schoolName]
   {
     :type "courseOffering",
     :_id (sha1 (local-course-id districtName schoolName) ),
@@ -261,7 +270,7 @@
   }
 )
 
-(defn create-section [districtName schoolName]
+(defn create-section-json [districtName schoolName]
   {
     :_id (sha1 (section-id schoolName) ),
     :type "section",
@@ -276,72 +285,71 @@
   }
 )
 
-(defn gen-sessions [schools output-file]
+(defn gen-sessions-json [schools output-file]
   (doseq [schoolName schools]
-    (gen-json "/tmp/test/session.json" (create-session schoolName))
+    (gen-json "session" (create-session-json schoolName))
   )
 )
-  
-(defn gen-students [schools rng output-file]
+
+(defn gen-students-json [schools rng output-file]
   (doseq [schoolName schools]
     (doseq [id rng]
-      (gen-json "/tmp/test/student.json" (create-student schoolName id))
+      (gen-json "student" (create-student-json schoolName id))
     )
   )
 )
 
-(defn gen-state []
-  (gen-json "/tmp/test/educationOrganization.json" (create-state))
+(defn gen-state-json []
+  (gen-json "educationOrganization" (create-state-json))
 )
 
-(defn gen-district [districtName]
-  (gen-json (format "/tmp/test/educationOrganization.json") (create-district districtName))
+(defn gen-district-json [districtName]
+  (gen-json (format "educationOrganization") (create-district-json districtName))
 )
 
-(defn gen-course [districtName]
-  (gen-json "/tmp/test/course.json" (create-course districtName))
+(defn gen-course-json [districtName]
+  (gen-json "course" (create-course-json districtName))
 )
 
-(defn gen-schools [districtName schools output-file]
-  (gen-state)
-  (gen-district districtName)
-  (gen-course districtName)
-  
+(defn gen-schools-json [districtName schools output-file]
+  (gen-district-json districtName)
+  (gen-course-json districtName)
+
   (doseq [schoolName schools]
-    (gen-json "/tmp/test/educationOrganization.json" (create-school districtName schoolName))
+    (gen-json "educationOrganization" (create-school-json districtName schoolName))
   )
 )
 
-(defn gen-assessment [assessmentName output-file]
-  (gen-json "/tmp/test/assessment.json" (create-assessment assessmentName))
+(defn gen-assessment-json [assessmentName output-file]
+  (gen-json "assessment" (create-assessment-json assessmentName))
 )
 
-(defn gen-student-assessment-associations [districtName schools students assessment n output-file]
+(defn gen-student-assessment-associations-json [districtName schools students assessment n output-file]
   (doseq [schoolName schools]
     (doseq [studentId students]
-      (doseq [i (range 1 n)]
-        (gen-json "/tmp/test/studentAssessmentAssociation.json" 
-          (create-student-assessment-association schoolName studentId assessment (rand-nth (range 6 33)) (str "2011-10-" (format "%02d" i)))
+      (doseq [i (range n)]
+        (gen-json "studentAssessmentAssociation"
+          (create-student-assessment-association-json schoolName studentId assessment (rand-nth (range 6 33)) (str "2011-10-" (format "%02d" i)))
         )
       )
     )
   )
 )
-      
-(defn gen-student-enrollments [schools rng output-file]
+
+(defn gen-student-enrollments-json [schools rng output-file]
   (doseq [schoolName schools]
     (doseq [id rng]
-      (gen-json "/tmp/test/studentSchoolAssociation.json" (create-student-school-association schoolName id))
-      (gen-json "/tmp/test/studentSectionAssociation.json" (create-student-section-association schoolName id))
+      (gen-json "studentSchoolAssociation" (create-student-school-association-json schoolName id))
+      (gen-json "studentSectionAssociation" (create-student-section-association-json schoolName id))
     )
-  )
-)  
-
-(defn gen-sections [districtName schools output-file]
-  (doseq [schoolName schools]
-    (gen-json "/tmp/test/courseOffering.json" (create-course-offering districtName schoolName))
-    (gen-json "/tmp/test/section.json" (create-section districtName schoolName))
   )
 )
 
-(defn create-control-file [] )
+(defn gen-sections-json [districtName schools output-file]
+  (doseq [schoolName schools]
+    (gen-json "courseOffering" (create-course-offering-json districtName schoolName))
+    (gen-json "section" (create-section-json districtName schoolName))
+  )
+)
+
+(defn create-control-file-json [] )
