@@ -377,11 +377,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         boolean success = true;
 
         NeutralQuery hardLogoutQuery = new NeutralQuery(0);
-        hardLogoutQuery.addCriteria(new NeutralCriteria("hardLogout", "<", System.currentTimeMillis()));
+        hardLogoutQuery.addCriteria(new NeutralCriteria("hardLogout", NeutralCriteria.CRITERIA_LT, System.currentTimeMillis()));
 
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("expiration", "<", System.currentTimeMillis()));
+        NeutralQuery query = new NeutralQuery();
+        NeutralQuery expireQuery = new NeutralQuery(new NeutralCriteria("expiration", NeutralCriteria.CRITERIA_LT, System.currentTimeMillis()));
         query.addOrQuery(hardLogoutQuery);
+        query.addOrQuery(expireQuery);
 
         for (Entity entity : repo.findAll(SESSION_COLLECTION, query)) {
             if (!repo.delete(SESSION_COLLECTION, entity.getEntityId())) {
