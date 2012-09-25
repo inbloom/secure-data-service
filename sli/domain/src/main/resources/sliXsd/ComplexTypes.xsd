@@ -3617,7 +3617,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentSectionAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3644,12 +3644,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="beginDate" type="xs:date">
+			<xs:element name="beginDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the student's entry or
 						assignment to the section. If blank, default is the start date of
 						the first grading period.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
