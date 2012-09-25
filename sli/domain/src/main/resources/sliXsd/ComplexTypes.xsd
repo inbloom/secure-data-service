@@ -3520,7 +3520,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentProgramAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3573,9 +3573,6 @@
 						exited the program or stopped receiving
 						services.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="reasonExited" type="reasonExitedType">
@@ -3595,6 +3592,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
