@@ -64,6 +64,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Autowired
     private MongoQueryConverter queryConverter;
 
+    /**
+     * Collections that are not specific for a tenant.
+     * Includes the likes of 'realm', 'application', 'userSession', etc.
+     */
     private Set<String> tenantAgnosticCollections;
 
     /**
