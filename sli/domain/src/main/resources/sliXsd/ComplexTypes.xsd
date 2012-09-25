@@ -608,6 +608,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -1550,6 +1551,7 @@
 				<sli:SecuritySphere>Public</sli:SecuritySphere>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
                 <sli:schemaVersion>1</sli:schemaVersion>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2299,6 +2301,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -4568,7 +4571,7 @@
 			<xs:appinfo>
 				<sli:CollectionType>educationOrganization</sli:CollectionType>
 				<sli:SecuritySphere>Public</sli:SecuritySphere>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -4592,9 +4595,6 @@
 						or
 						other agency or entity.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="nameOfInstitution" type="nameOfInstitution">

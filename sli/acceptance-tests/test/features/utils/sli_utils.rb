@@ -614,6 +614,12 @@ module CreateEntityHash
         ]
     return data
   end
+  
+  def CreateEntityHash.createBaseSchoolRandomId()
+    data = CreateEntityHash.createBaseSchool
+    data['stateOrganizationId'] = (0...8).map{65.+(rand(25)).chr}.join
+    return data
+  end
 end
 
 module EntityProvider
