@@ -38,7 +38,9 @@
 		<ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+                    <ID>South Daybreak Elementary</ID>
+                </EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</StudentCompetencyObjective>
