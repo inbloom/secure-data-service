@@ -18,10 +18,9 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
@@ -89,7 +88,7 @@ public class SliSmooksFactory {
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
 
-            HashSet<String >recordLevelDeltaEnabledEntities = new HashSet<String>();
+            HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
             recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
 

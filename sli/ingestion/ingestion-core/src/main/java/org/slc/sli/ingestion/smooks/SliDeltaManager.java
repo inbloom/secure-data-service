@@ -51,7 +51,7 @@ public final class SliDeltaManager {
                 //UN : Remove this from here and do something more sensible
                 LOG.info("Record found: " + record.tenantId +  "-" + record._id);
             } else {
-                batchJobDAO.findAndUpsertRecordHash(TenantContext.getTenantId(), recordId);
+                n.addMetaData("recordHash", createRecordHash(TenantContext.getTenantId(), recordId));
             }
             return (record != null);
 
@@ -75,5 +75,13 @@ public final class SliDeltaManager {
             formatter.format("%02x", b);
         }
         return formatter.toString();
+    }
+
+    public static RecordHash createRecordHash(String tenantId, String recordId) {
+        RecordHash rh = new RecordHash();
+        rh._id = recordId;
+        rh.tenantId = tenantId;
+        rh.timestamp = "" + System.currentTimeMillis();
+        return rh;
     }
 }

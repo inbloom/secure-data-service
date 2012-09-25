@@ -193,6 +193,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
+
+//            //UN: Added the records to the recordHashStore
+//            for (NeutralRecord neutralRecord : records) {
+//                recordHashStore.add(neutralRecord);
+//            }
 
             // TODO: make this generic for all self-referencing entities
             if ("learningObjective".equals(collectionNameAsStaged)) {
@@ -236,8 +242,19 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
                             currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+
+                            if (recordHashStore.contains(record)) {
+                                recordHashStore.remove(record);
+                            }
                         }
                     }
+//                    for (NeutralRecord neutralRecord2 : recordHashStore) {
+//                        if (neutralRecord2.getMetaDataByName("recordHash") != null) {
+//                            System.out.println("Record Hash found in Neutral Record");
+//                        }
+////                        RecordHash rh = neutralRecord2.getRecordHash();
+////                        batchJobDAO.findAndUpsertRecordHash(rh.tenantId, rh._id);
+//                    }
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
