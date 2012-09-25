@@ -332,62 +332,75 @@ public class MongoQueryConverter {
                 }
             }
 
-            Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
-            // other criteria
-            for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
-                String key = neutralCriteria.getKey();
-                String operator = neutralCriteria.getOperator();
-                Object value = neutralCriteria.getValue();
-                Object originalValue = value;
-                NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
-
-                if (fieldSchema != null) {
-                    value = fieldSchema.convert(neutralCriteria.getValue());
-                    if (fieldSchema.isPii()) {
-                        if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
-                            throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
-                        }
-
-                        if (encryptor != null) {
-                            value = encryptor.encryptSingleValue(value);
-                        }
-                    }
-                }
-
-                neutralCriteria.setValue(value);
-                NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
-                        neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
-                if (!fields.containsKey(criteriaToAdd.getKey())) {
-                    List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
-                    fields.put(criteriaToAdd.getKey(), list);
-                }
-                //add the criteria to the map
-                fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
-                //set the original value back
-                neutralCriteria.setValue(originalValue);
-            }
-
-            //add the criteria to mongo query
-            mongoQuery = addCriteria(mongoQuery, fields);
-
-            Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());
-            if (mongoOrQueries.length > 0) {
-                mongoQuery.or(mongoOrQueries);
-            }
+            Criteria criteria = convertToCriteria(entityName, neutralQuery, entitySchema);
+            mongoQuery.addCriteria(criteria);
         }
 
         return mongoQuery;
     }
 
+
     /**
-     * Add the criteria to the mongo query
-     * @param query The mongo query to add criteria
+     * Converts a given neutral sub-query into a mongo Criteria object where each argument has
+     * been converted into the proper type.
+     */
+    public Criteria convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
+        Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
+        // other criteria
+        for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
+            String key = neutralCriteria.getKey();
+            String operator = neutralCriteria.getOperator();
+            Object value = neutralCriteria.getValue();
+            Object originalValue = value;
+            NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
+
+            if (fieldSchema != null) {
+                value = fieldSchema.convert(neutralCriteria.getValue());
+                if (fieldSchema.isPii()) {
+                    if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
+                        throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
+                    }
+
+                    if (encryptor != null) {
+                        value = encryptor.encryptSingleValue(value);
+                    }
+                }
+            }
+
+            neutralCriteria.setValue(value);
+            NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
+                    neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
+            if (!fields.containsKey(criteriaToAdd.getKey())) {
+                List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
+                fields.put(criteriaToAdd.getKey(), list);
+            }
+            //add the criteria to the map
+            fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
+            //set the original value back
+            neutralCriteria.setValue(originalValue);
+        }
+
+        // merge the criteria into one
+        Criteria mongoCriteria = mergeCriteria(fields);
+
+        // now tag on the "orQueries"  
+        for (NeutralQuery orQuery : neutralQuery.getOrQueries()) {
+            Criteria orCriteria = convertToCriteria(entityName, orQuery, entitySchema);
+            mongoCriteria.orOperator(orCriteria);
+        }
+        
+        return mongoCriteria;
+    }
+
+    /**
+     * Merge criteria into one using the 'and' operator
      * @param criteriaForFields The criteria for fields
      * @return The updated mongo query
      */
-    protected Query addCriteria(Query query, Map<String, List<NeutralCriteria>> criteriaForFields) {
+    protected Criteria mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
 
-        if (query != null && criteriaForFields != null) {
+        List<Criteria> toMerge = new ArrayList<Criteria>();
+        if (criteriaForFields != null) {
             for (Map.Entry<String, List<NeutralCriteria>> e : criteriaForFields.entrySet()) {
                 List<NeutralCriteria> list = e.getValue();
 
@@ -398,29 +411,21 @@ public class MongoQueryConverter {
                                 criteria.getOperator()).generateCriteria(criteria, fullCriteria);
                     }
 
-                    query.addCriteria(fullCriteria);
+                    toMerge.add(fullCriteria);
                 }
             }
         }
 
-        return query;
-    }
-
-
-    private Query[] translateQueries(String entityName, List<NeutralQuery> queries) {
-        if (queries == null || queries.isEmpty()) {
-            return new Query[]{};
+        if (toMerge.isEmpty()) {
+            return new Criteria();
+        } else {
+            Criteria c = toMerge.get(0);
+            for(int i = 1; i < toMerge.size(); i++) {
+                c = c.andOperator(toMerge.get(i));
+            }
+            return c;
         }
-
-        Query[] mongoQueries = new Query[queries.size()];
-
-        for (int i = 0; i < mongoQueries.length; i++) {
-            mongoQueries[i] = this.convert(entityName, queries.get(i));
-        }
-
-        return mongoQueries;
     }
-
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
         if (schema == null) {
