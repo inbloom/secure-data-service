@@ -46,6 +46,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
@@ -54,14 +59,11 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.MongoCommander;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -122,6 +124,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
+    public static final String SHARDING_SCRIPT = "sli_shards.js";
+    public static final String INDEX_SCRIPT = "sli_indexes";
+    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -217,6 +222,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
+
+            MongoCommander.exec(tenantId, INDEX_SCRIPT, "");
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
@@ -409,7 +416,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 break;
             }
         }
-        
+
         // Map<String, Object> landingZone = landingZones.get(0);
         // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
