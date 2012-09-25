@@ -43,6 +43,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -172,6 +173,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                     @Override
                     public Object execute() {
+                    	TenantContext.setIsSystemCall(true);
                         sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).insert(tenantLock, WriteConcern.SAFE);
                         return null;
                     }
@@ -206,6 +208,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                 @Override
                 public Object execute() {
+                	TenantContext.setIsSystemCall(true);
                     sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).remove(tenantLock, WriteConcern.SAFE);
                     return null;
                 }
