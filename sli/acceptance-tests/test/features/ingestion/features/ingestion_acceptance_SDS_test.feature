@@ -440,15 +440,14 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
-   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
-   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.sectionId            | 2012cs-ba78f74d-073f-11e2-8842-68a86d320ddc |
-   | studentSectionAssociation             | 2023872d-3809-49c8-910a-50d62336e6b0 | body.beginDate            | 2011-09-01                              |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.sectionId            | 28b826ba-87b3-e33c-169d-39f53d342591 |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.beginDate            | 2011-09-01                              |
 # uncomment when section has a deterministic id
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
    | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
    | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
->>>>>>> deterministic_ids
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
