@@ -1328,7 +1328,7 @@ Then /^I check to find if record is in collection:$/ do |table|
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     elsif row["searchType"] == "double"
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
- elsif row["searchType"] == "boolean"
+    elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
@@ -1458,6 +1458,15 @@ Then /^verify the following data in that document:$/ do |table|
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
       end
     end
+  end
+end
+
+Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
+  @entity.each do |ent|
+    @db = @conn[INGESTION_DB_NAME]
+    @entity_collection = @db.collection(collection)
+    @refEntity = @entity_collection.find({key => value, refField => ent['_id']})
+    assert(@refEntity.count == count.to_i, "Expected #{count} documents but found #{@refEntity.count}")
   end
 end
 

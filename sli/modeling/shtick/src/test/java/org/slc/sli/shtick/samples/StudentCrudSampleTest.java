@@ -26,21 +26,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/* Sample CRUD test using shtick for Student
-* @author chung
-*/
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+/**
+ *  Sample CRUD test using shtick for Student
+ * @author chung
+ *
+**/
 public class StudentCrudSampleTest {
-    private final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
+    private static final String UNIQUE_STATE_ID = "9998";
+
     @Test
-    public void testCrud() {
+    public void testCrud() throws IOException, StatusCodeException {
         final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
         final Level3Client client = new StandardLevel3Client(inner);
+        String studentId = null;
 
         try {
             // CREATE
-            final String studentId = doPostStudents(client);
+            studentId = doPostStudents(client);
             Assert.assertNotNull(studentId);
 
             // READ
@@ -55,15 +63,35 @@ public class StudentCrudSampleTest {
             doDeleteStudentsById(client, studentId);
             try {
                 doGetStudentsById(client, studentId);
+                fail("Entity should be deleted");
             } catch (StatusCodeException e) {
                 Assert.assertEquals(e.getStatusCode(), 404);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             Assert.fail(e.getMessage());
         } catch (StatusCodeException e) {
-            e.printStackTrace();
             Assert.fail(e.getMessage() + " - " + e.getStatusCode());
+        }
+    }
+
+    @Test
+    public void testNaturalKeys() throws IOException, StatusCodeException {
+        final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
+        final Level3Client client = new StandardLevel3Client(inner);
+        String studentId = null;
+
+        try {
+            studentId = doPostStudents(client);
+
+            doPostStudents(client);
+        } catch (StatusCodeException e) {
+            assertEquals("Should match", 409, e.getStatusCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        } finally {
+            if (studentId != null) {
+                doDeleteStudentsById(client, studentId);
+            }
         }
     }
 
@@ -76,7 +104,7 @@ public class StudentCrudSampleTest {
         name.setLastSurname("Guy");
         student.setName(name);
 
-        student.setStudentUniqueStateId("1234567");
+        student.setStudentUniqueStateId(UNIQUE_STATE_ID);
 
         List<Address> addresses = new ArrayList<Address>();
         Address address = new Address();
@@ -113,28 +141,28 @@ public class StudentCrudSampleTest {
         Assert.assertEquals(sex, SexType.MALE);
 
         Name name = student.getName();
-        Assert.assertEquals(name.getFirstName(), "Testing");
-        Assert.assertEquals(name.getMiddleName(), "Student");
-        Assert.assertEquals(name.getLastSurname(), "Guy");
+        Assert.assertEquals("Testing", name.getFirstName());
+        Assert.assertEquals("Student", name.getMiddleName());
+        Assert.assertEquals("Guy", name.getLastSurname());
 
-        Assert.assertEquals(student.getStudentUniqueStateId(), "1234567");
+        Assert.assertEquals(student.getStudentUniqueStateId(), UNIQUE_STATE_ID);
 
         List<Address> addresses = student.getAddress();
         Assert.assertEquals(addresses.size(), 1);
         Address address = addresses.get(0);
-        Assert.assertEquals(address.getStreetNumberName(), "1234 Testing St");
-        Assert.assertEquals(address.getCity(), "City");
-        Assert.assertEquals(address.getPostalCode(), "12345");
-        Assert.assertEquals(address.getStateAbbreviation(), StateAbbreviationType.NY);
+        Assert.assertEquals("1234 Testing St", address.getStreetNumberName());
+        Assert.assertEquals("City", address.getCity());
+        Assert.assertEquals("12345", address.getPostalCode());
+        Assert.assertEquals(StateAbbreviationType.NY, address.getStateAbbreviation());
 
         BirthData birthData = student.getBirthData();
         Assert.assertEquals(birthData.getBirthDate(), "2000-01-02");
 
         List<Disability> disabilities = student.getDisabilities();
-        Assert.assertEquals(disabilities.size(), 1);
+        Assert.assertEquals(1, disabilities.size());
         Disability disability = disabilities.get(0);
-        Assert.assertEquals(disability.getDisability(), DisabilityType.MENTAL_RETARDATION);
-        Assert.assertEquals(disability.getDisabilityDiagnosis(), "Mental issues");
+        Assert.assertEquals(DisabilityType.MENTAL_RETARDATION, disability.getDisability());
+        Assert.assertEquals("Mental issues", disability.getDisabilityDiagnosis());
 
         return student;
     }
@@ -145,14 +173,14 @@ public class StudentCrudSampleTest {
 
         List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
                 new ArrayList<String>() {{ add(studentId);}}, EMPTY_QUERY_ARGS);
-        Assert.assertEquals(students.size(), 1);
+        Assert.assertEquals(1, students.size());
         Student updatedStudent = students.get(0);
 
         Name name = updatedStudent.getName();
-        Assert.assertEquals(name.getLastSurname(), "Girl");
+        Assert.assertEquals("Girl", name.getLastSurname());
 
         SexType sex = updatedStudent.getSex();
-        Assert.assertEquals(sex, SexType.FEMALE);
+        Assert.assertEquals(SexType.FEMALE, sex);
     }
 
     private void doDeleteStudentsById(Level3Client client, String studentId) throws IOException, StatusCodeException {

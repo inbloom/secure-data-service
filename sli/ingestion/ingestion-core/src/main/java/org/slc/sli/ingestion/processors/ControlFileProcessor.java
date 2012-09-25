@@ -65,6 +65,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
 
+    private static final String BATCH_JOB_STAGE_DESC = "Validates the control file";
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -112,7 +114,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     }
 
     private void processControlFile(Exchange exchange, String batchJobId) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         NewBatchJob newJob = null;
         try {

@@ -1,0 +1,10 @@
+body.SuperSectionUniqId
+body.section.teacherAssociations.teacherId
+body.section.studentAssociations.studentId
+body.section.courseId
+body.section.schoolId
+body.section.uniqueSectionCode
+body.section.sessionId
+body.section.programReference
+body.section.mediumOfInstruction
+body.section.gradeBookEntries.gradebookEntryType

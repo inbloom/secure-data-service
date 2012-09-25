@@ -16,7 +16,9 @@ function createConnection(host) {
 
   // define _id in Schema otherwise mongoose does not return it
   var schema = new mongoose.Schema({
-    _id: String
+    _id: String,
+    notes : { comments: String, errorSummary: String, environment: String, isSharded: String, isPreSplit: String, 
+      isBalancerOn: String, isClustered: String, codeTag: String}
   });
 
   // create model object for newBatchJob
@@ -152,10 +154,30 @@ function delTenantJobLock(req,res,next) {
   });
 }
 
+function setNoteForJob(req,res,next) {
+    var mongo = req.header('X-Api-Version', 'localhost:27017');
+    console.log('POST Request: %s/%s/%s/%s/%s', mongo, req.params[0], req.params[1], req.params[2], req.params[2]);
+
+    var model = getOrCreateConnection(mongo).routeMap[req.params[0]].model;
+
+    var field = req.params[2];
+    var value = req.params[3];
+    var update = {};
+    update[field] = value;
+
+    model.findByIdAndUpdate(req.params[1], { $set : update}, {upsert:true}, function (err, job) {
+        if (err) {
+          console.log(err);
+          res.send(404);
+        }
+       res.send(200);
+      });
+}
 // Set up our routes and start the server
 server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)\/(.*)/, genericFind);
 server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)/, genericFind);
 server.get(/^\/([a-zA-Z0-9_\.~-]+)/, genericFind);
+server.post(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)\/(.*)\/(.*)/, setNoteForJob);
 server.del('/tenantjoblock/:id', delTenantJobLock);
 
 server.listen(8080, function() {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.common.util.uuid;
 
 import com.fasterxml.uuid.EthernetAddress;
@@ -22,8 +23,6 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
 
 /**
  * Generates Type 1 (time-based) UUIDs.
@@ -41,12 +40,7 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 1 random UUID.
      */
     @Override
-    public String generateId() {
+    public String randomUUID() {
         return generator.generate().toString();
-    }
-
-    @Override
-    public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
-        return generateId();
     }
 }

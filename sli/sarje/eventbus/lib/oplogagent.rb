@@ -25,7 +25,7 @@ require 'eventbus'
 
 module Eventbus
   class OpLogReader
-    def initialize(config = {},logger=nil)
+    def initialize(config = {}, logger = nil)
       @logger = logger if logger
       @config = {
           :mongo_host => 'localhost',
@@ -61,16 +61,13 @@ module Eventbus
         coll = db[@config[:mongo_oplog_collection]]
         cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
         if(@config[:mongo_ignore_initial_read])
-          #puts "ignoring initial readings"
           @logger.info "ignoring initial readings" if @logger
           while cursor.has_next?
             cursor.next_document
           end
         end
       rescue Exception => e
-       # puts "exception occurred when connecting to mongo for oplog: #{e}"
         @logger.debug "exception occurred when connecting to mongo for oplog: #{e}" if @logger
-       # puts "reconnection attempt in #{@config[:mongo_connection_retry]} seconds"
         @logger.debug "reconnection attempt in #{@config[:mongo_connection_retry]} seconds" if @logger
         sleep @config[:mongo_connection_retry]
         retry
@@ -117,7 +114,7 @@ module Eventbus
           end
           if(!event_ids.empty?)
             #puts "events to send to listener: #{event_ids}"
-            @logger.info "events to send to listener: #{event_ids}" if @logger
+            @logger.info "events to send to listener: #{event_ids}" unless @logger.nil?
             yield event_ids
           end
         end
@@ -144,13 +141,13 @@ module Eventbus
   class OpLogAgent
     attr_reader :threads
 
-    def initialize(config = {},logger = nil)
+    def initialize(config = {}, logger = nil)
       @logger = logger if logger
       @event_subscriber = config[:event_subscriber]
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new
-      @oplog_reader = OpLogReader.new(config,logger) if @logger
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config[:collect_events_interval])
+      @oplog_reader = OpLogReader.new(config, logger)
 
       @threads << Thread.new do
         @oplog_reader.handle_oplogs do |incoming_oplog_message|
@@ -159,7 +156,6 @@ module Eventbus
       end
 
       @event_subscriber.handle_subscriptions do |subscriptions|
-       # puts "received subscription #{subscriptions}"
         @logger.info "received subscription #{subscriptions}" if @logger
         if(subscriptions != nil)
           @oplog_throttler.set_subscription_events(subscriptions)

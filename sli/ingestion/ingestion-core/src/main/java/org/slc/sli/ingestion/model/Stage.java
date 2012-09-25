@@ -39,6 +39,7 @@ public class Stage {
     private String jobId;
 
     private String stageName;
+    private String stageDesc;
     private String status;
     private Date startTimestamp;
     private Date stopTimestamp;
@@ -49,13 +50,15 @@ public class Stage {
 
     private List<Metrics> metrics;
 
-    public Stage(String stageName) {
+    public Stage(String stageName, String stageDesc) {
         this.stageName = stageName;
+        this.setStageDesc(stageDesc);
         this.metrics = new LinkedList<Metrics>();
     }
 
-    public Stage(String stageName, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
+    public Stage(String stageName, String stageDesc, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
         this.stageName = stageName;
+        this.setStageDesc(stageDesc);
         this.status = status;
         this.startTimestamp = startTimestamp;
         this.stopTimestamp = stopTimestamp;
@@ -65,8 +68,8 @@ public class Stage {
         this.metrics = metrics;
     }
 
-    public static Stage createAndStartStage(BatchJobStageType batchJobStageType) {
-        Stage stage = new Stage(batchJobStageType.getName());
+    public static Stage createAndStartStage(BatchJobStageType batchJobStageType, String stageDesc) {
+        Stage stage = new Stage(batchJobStageType.getName(), stageDesc);
         stage.startStage();
         return stage;
     }
@@ -191,5 +194,13 @@ public class Stage {
         }
         return -1L;
     }
+
+	public String getStageDesc() {
+		return stageDesc;
+	}
+
+	public void setStageDesc(String stageDesc) {
+		this.stageDesc = stageDesc;
+	}
 
 }

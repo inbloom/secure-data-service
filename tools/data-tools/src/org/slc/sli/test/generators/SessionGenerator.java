@@ -77,7 +77,7 @@ public class SessionGenerator {
         // System.out.println("this is school year Type :" +
         // gpit.getSchoolYear());
         for (String stateOrgId : stateOrgIds)
-            gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
+            gpit.setStateOrganizationId(stateOrgId);
         // System.out.println("this is state org Id :" +
         // gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().get(0)
         // );
@@ -234,7 +234,7 @@ public class SessionGenerator {
 				session.getGradingPeriodReference().add(gprt);
 			} else {
 				GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
-				gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) schoolId);
+				gpit.setStateOrganizationId(schoolId);
 				gpit.setSchoolYear("2011-2012");
 				if (i == 0) {
 					gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
