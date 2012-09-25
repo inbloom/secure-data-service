@@ -435,18 +435,24 @@ Scenario: Verify deterministic ids generated: Clean Database
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseAttemptResult            | ????                                 |
-# uncomment when parent has a deterministic id
-#   | studentParentAssociation             | ???????????????????????????????????? | body.studentId            | ????                                 |
-#   | studentParentAssociation             | ???????????????????????????????????? | body.parentId            | ????                                 |
+   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
+   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.parentId             | 19730e81-bc94-ec88-381e-0c8f8ed9e156 |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
-# uncomment when section has a deterministic id
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
+   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
+   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
+    | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
+    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
+    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+# uncomment when session has a deterministic id
+#    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
+#    | courseOffering | TODO | body.sessionId            | TODO |
+#    | courseOffering | TODO | body.schoolId             | TODO |
+
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
