@@ -29,7 +29,6 @@ Scenario: Preload Small Sample Data Set
      | school                                    |
      | schoolSessionAssociation                  |
      | section                                   |
-     | sectionAssessmentAssociation              |
      | sectionSchoolAssociation                  |
      | session                                   |
      | sessionCourseAssociation                  |
@@ -81,7 +80,6 @@ Then I should see following map of entry counts in the corresponding collections
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
-     | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                 22|
      | sessionCourseAssociation                 |                  0|

@@ -1224,7 +1224,6 @@
 
 				Associations: TeacherSectionAssociation,
 				StudentSectionAssociation,
-				SectionAssessmentAssociation
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
