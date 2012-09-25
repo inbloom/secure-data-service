@@ -1,0 +1,10 @@
+{
+    "entityType" : "studentCompetencyObjective",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "studentCompetencyObjectiveId",
+            "valueSource" : "StudentCompetencyObjective.StudentCompetencyObjectiveId"
+        }
+    ]
+}

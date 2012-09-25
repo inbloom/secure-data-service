@@ -1876,7 +1876,7 @@ Bilingual/English as a Second Language</xs:documentation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+					<xs:element name="ProgramId" type="ProgramId">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
@@ -2850,7 +2850,7 @@ Met standard
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode" minOccurs="0">
+					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode">
 						<xs:annotation>
 							<xs:documentation>The Identifier for the student competency.</xs:documentation>
 						</xs:annotation>

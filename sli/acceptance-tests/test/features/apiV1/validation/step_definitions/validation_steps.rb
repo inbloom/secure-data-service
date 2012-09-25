@@ -73,7 +73,7 @@ Given /^I create a valid base level school object$/ do
   if defined? @result
     oldParentId = @result["parentEducationAgencyReference"]
   end
-  @result = CreateEntityHash.createBaseSchool()
+  @result = CreateEntityHash.createBaseSchoolRandomId()
 
   if defined? oldParentId
     @result["parentEducationAgencyReference"] = oldParentId
@@ -109,7 +109,7 @@ Given /^I create a student object with sex equal to "([^"]*)" instead of "([^"]*
 end
 
 Given /^I create a create a school object with "([^"]*)" set to a single map$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchool()
+  @result = CreateEntityHash.createBaseSchoolRandomId()
   @result[arg1] = Hash["streetNumberName" => "123 Elm Street",
                        'city'=>"New York",
                        "stateAbbreviation" => "NY",
@@ -118,7 +118,7 @@ Given /^I create a create a school object with "([^"]*)" set to a single map$/ d
 end
 
 Given /^I create the same school object with "([^"]*)" as an array with the same map$/ do |arg1|
-  @result = CreateEntityHash.createBaseSchool()
+  @result = CreateEntityHash.createBaseSchoolRandomId()
   @result[arg1] = [
                     Hash["streetNumberName" => "123 Elm Street",
                          'city'=>"New York",
@@ -160,7 +160,7 @@ Given /^I create a student object with "([^"]*)" equal to a integer$/ do |arg1|
 end
 
 Given /^I create a school object with "([^"]*)" equal to a (\d+) character string$/ do |arg1, arg2|
-  @result = CreateEntityHash.createBaseSchool()
+  @result = CreateEntityHash.createBaseSchoolRandomId()
   @result[arg1] = createXlengthString(Integer(arg2))
 end
 
@@ -193,6 +193,10 @@ end
 
 When /^I create a base school object$/ do
   @result = CreateEntityHash.createBaseSchool()
+end
+
+When /^"([^\"]*)" has a value of "([^\"]*)"$/ do |key, value|
+  @result[key] = value
 end
 
 When /^I query ([^\"]*) by ([^\"]*) = ([^\"]*)$/ do |entity_uri, field, value|

@@ -173,13 +173,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<Entity> persist = new ArrayList<Entity>();
         
         for (Entity record : records) {
-            // TODO: Temporary workaround until we get deterministic id's and context stamping
-            // synced up
-            String entityId = null;
-            if ("educationOrganization".equals(collectionName)) {
-                entityId = record.getStagedEntityId();
-            }
-            Entity entity = new MongoEntity(record.getType(), entityId, record.getBody(), record.getMetaData());
+            Entity entity = new MongoEntity(record.getType(), null, record.getBody(), record.getMetaData());
             persist.add(entity);
         }
         
