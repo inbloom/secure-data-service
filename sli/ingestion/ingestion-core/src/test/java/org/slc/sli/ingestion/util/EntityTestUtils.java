@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.util;
 
 import static org.junit.Assert.assertEquals;
@@ -43,8 +42,8 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.xml.sax.SAXException;
-
+import org.mockito.Mockito;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -53,42 +52,46 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
+import org.xml.sax.SAXException;
 
 /**
- *
+ * 
  * @author ablum
- *
+ * 
  */
 public class EntityTestUtils {
-
+    
     private static final ObjectMapper MAPPER = new ObjectMapper();
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-
+    
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException, SmooksException {
-
+        
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
-
+        
+        DeterministicUUIDGeneratorStrategy mockUidGenerator = Mockito.mock(DeterministicUUIDGeneratorStrategy.class);
+        
         Smooks smooks = new Smooks(smooksConfig);
-        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null, null,
+                mockUidGenerator);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
-
+        
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
-
+        
         smooksEdFiVisitor.getRecordsPerisisted();
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
-
+        
         return entityList;
     }
-
+    
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
-
+        
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-
+        
         try {
             Assert.assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
@@ -98,10 +101,10 @@ public class EntityTestUtils {
             Assert.fail();
         }
     }
-
+    
     /**
      * Utility to make checking values in a map less verbose.
-     *
+     * 
      * @param map
      *            The map containing the entry we want to check.
      * @param key
@@ -113,11 +116,11 @@ public class EntityTestUtils {
     public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
         assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
     }
-
+    
     /**
      * Utility to run smooks with provided configurations and return the first NeutralRecord (if
      * there is one)
-     *
+     * 
      * @param smooksXmlConfigFilePath
      *            path to smooks config xml
      * @param targetSelector
@@ -131,9 +134,9 @@ public class EntityTestUtils {
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData) throws IOException, SAXException {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
-
+        
         NeutralRecord neutralRecord = null;
-
+        
         List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
                 targetSelector);
         if (records != null && records.size() > 0) {
@@ -141,7 +144,7 @@ public class EntityTestUtils {
         }
         return neutralRecord;
     }
-
+    
     @SuppressWarnings("unchecked")
     public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
             throws IOException, SAXException {
@@ -149,12 +152,11 @@ public class EntityTestUtils {
         Smooks smooks = new Smooks(smooksConfigPath);
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
         try {
-
+            
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
-
+            
             smooks.filterSource(source, result);
-
-
+            
             for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
                 if (resEntry.getValue() instanceof List) {
                     List<?> list = (List<?>) resEntry.getValue();
@@ -170,11 +172,11 @@ public class EntityTestUtils {
         }
         return null;
     }
-
+    
     /**
      * Reads the entire contents of a resource file found on the classpath and returns it as a
      * string.
-     *
+     * 
      * @param resourceName
      *            the name of the resource to locate on the classpath
      * @return the contents of the resource file
@@ -186,7 +188,7 @@ public class EntityTestUtils {
         if (stream == null) {
             throw new FileNotFoundException("Could not find resource " + resourceName + " in the classpath");
         }
-
+        
         try {
             return EntityTestUtils.convertStreamToString(stream);
         } finally {
@@ -198,10 +200,10 @@ public class EntityTestUtils {
             }
         }
     }
-
+    
     /**
      * Reads the contents of a stream in UTF-8 format and returns it as a string.
-     *
+     * 
      * @param stream
      *            the stream to read
      * @return the contents of the stream or an empty string if the stream has not content
@@ -219,7 +221,7 @@ public class EntityTestUtils {
             return "";
         }
     }
-
+    
     public static String delimit(String[] strings, String delimiter) {
         StringBuilder builder = new StringBuilder();
         for (String string : strings) {
@@ -230,37 +232,37 @@ public class EntityTestUtils {
         }
         return builder.toString();
     }
-
+    
     public static URL getResource(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResource(resourceName);
     }
-
+    
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }
-
+    
     private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
-
+        
         private List<NeutralRecord> neutralRecordList;
-
+        
         private DummyResourceWriter() {
             this.neutralRecordList = new ArrayList<NeutralRecord>();
         }
-
+        
         @Override
         public void writeResource(NeutralRecord neutralRecord, String jobId) {
             neutralRecordList.add(neutralRecord);
         }
-
+        
         public List<NeutralRecord> getNeutralRecordsList() {
             return neutralRecordList;
         }
-
+        
         @Override
         public void insertResource(NeutralRecord neutralRecord, String jobId) {
             neutralRecordList.add(neutralRecord);
         }
-
+        
         @Override
         public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
             neutralRecordList.addAll(neutralRecords);
