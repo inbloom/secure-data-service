@@ -31,3 +31,8 @@ Everything else is required in order for this to work.
 
 # Notes #
 Parameters that are several words (Like the user's name) should be quoted.
+
+Example usage:
+ruby generator.rb -t developer@gmail.com -u "Charles Gray" -a "SLC Dashboards" -R "Sandbox Realm"
+
+Example output: Your new long-lived session token is t-12345678-abcd-1234-5678-1234567890ab
