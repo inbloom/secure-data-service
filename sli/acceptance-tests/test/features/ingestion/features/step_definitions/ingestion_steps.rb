@@ -1539,6 +1539,42 @@ def checkForContentInFileGivenPrefix(message, prefix)
   end
 end
 
+def checkForNullContentInFileGivenPrefix(message, prefix)
+
+  if (INGESTION_MODE == 'remote')
+    if remoteFileContainsMessage(prefix, message, @landing_zone_path)
+      assert(false, "Processed all the records.")
+    else
+      assert(false, "Didn't process all the records.")
+    end
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      aFile.close
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
 def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 
   if (INGESTION_MODE == 'remote')
@@ -1619,6 +1655,11 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
 end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
+  prefix = "job-" + @source_file_name + "-"
+  checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should not see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
 end

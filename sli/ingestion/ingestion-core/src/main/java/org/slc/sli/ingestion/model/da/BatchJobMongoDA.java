@@ -44,6 +44,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -73,6 +75,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
+    private static final String RECORD_HASH ="recordHash";
     private static final int DUP_KEY_CODE = 11000;
 
     @Value("${sli.ingestion.totalRetries}")
@@ -641,15 +644,20 @@ public class BatchJobMongoDA implements BatchJobDAO {
             rh._id = recordId;
             rh.tenantId = tenantId;
             rh.timestamp = "" + System.currentTimeMillis();
-            this.batchJobMongoTemplate.save(rh, "recordHash");
+            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
             return false;
         } else {
             rh.timestamp = "" + System.currentTimeMillis();
+
             rh.tenantId = tenantId;
-            this.batchJobMongoTemplate.save(rh, "recordHash");
+
+
+            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
+
             return true;
         }
     }
+
 
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
@@ -658,4 +666,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
         query.addCriteria(Criteria.where("_id").is(recordId));
         return this.batchJobMongoTemplate.findOne(query, RecordHash.class, "recordHash");
     }
+
+	@Override
+	public void removeRecordHashByTenant(String tenantId) {
+//		batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);	
+		 Query searchTenantId = new Query();
+	        searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
+	                tenantId));
+		batchJobMongoTemplate.remove(searchTenantId, RECORD_HASH);	
+	}
 }
