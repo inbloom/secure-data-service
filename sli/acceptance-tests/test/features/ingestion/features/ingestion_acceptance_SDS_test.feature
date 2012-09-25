@@ -1907,9 +1907,6 @@ Then I should see following map of entry counts in the corresponding collections
 
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
-    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
-    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
@@ -1919,7 +1916,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | section                     |
         | studentSectionAssociation   |
         | staff                       |
-        |staffEducationOrganizationAssociation|
+        | staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
@@ -1943,13 +1940,56 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
-		| studentDisciplineIncidentAssociation|
+        | studentDisciplineIncidentAssociation|
         | grade                       |
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
         | courseOffering              |
         | studentAcademicRecord       |
+    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+        | studentSchoolAssociation    |
+        | course                      |
+        | educationOrganization       |
+        | section                     |
+        | studentSectionAssociation   |
+        | staff                       |
+        | staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        | session                     |
+        | assessment                  |
+        | studentAssessmentAssociation|
+        | gradebookEntry              |
+        | studentTranscriptAssociation|
+        | studentGradebookEntry       |
+        | parent                      |
+        | studentParentAssociation    |
+        | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
+        | cohort                      |
+        | staffCohortAssociation      |
+        | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
+        | learningStandard            |
+        | learningObjective           |
+        | disciplineIncident          |
+        | disciplineAction            |
+		    | studentDisciplineIncidentAssociation|
+        | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
+        | courseOffering              |
+        | studentAcademicRecord       |
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
 
 When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
   And zip file is scp to ingestion landing zone for "Hyrule-NYC"
