@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Data access object for batch job data.
@@ -119,6 +120,8 @@ public interface BatchJobDAO {
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
     boolean findAndUpsertRecordHash(String tenantId, String recordId);
+
+    void removeRecordHashByTenant(String tenantId);
 
     public RecordHash findRecordHash(String tenantId, String recordId);
 }

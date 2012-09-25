@@ -4,6 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+@wip
 Scenario: Job report should report deltas when SDS is ingested twice
     Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in batch job datastore:
@@ -98,5 +99,67 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see " InterchangeStudentCohort.xml staffCohortAssociation 3 deltas!" in the resulting batch job file
     And I should see " InterchangeStudentDiscipline.xml disciplineAction 2 deltas!" in the resulting batch job file
     And I should see " InterchangeStudentDiscipline.xml studentDisciplineIncidentAssociation 4 deltas!" in the resulting batch job file
-    And I should see " InterchangeStudentDiscipline.xml disciplineIncident 2 deltas!" in the resulting batch job file
-  
+   And I should see " InterchangeStudentDiscipline.xml disciplineIncident 2 deltas!" in the resulting batch job file
+
+
+Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId
+
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+
+    And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+        | studentSchoolAssociation    |
+        | course                      |
+        | educationOrganization       |
+        | section                     |
+        | studentSectionAssociation   |
+        | staff                       |
+        |staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        | session                     |
+        | assessment                  |
+        | studentAssessmentAssociation|
+        | gradebookEntry              |
+        | studentTranscriptAssociation|
+        | studentGradebookEntry       |
+        | parent                      |
+        | studentParentAssociation    |
+        | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
+        | cohort                      |
+        | staffCohortAssociation      |
+        | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
+        | learningStandard            |
+        | learningObjective           |
+        | disciplineIncident          |
+        | disciplineAction            |
+		| studentDisciplineIncidentAssociation|
+        | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
+        | courseOffering              |
+        | studentAcademicRecord       |
+
+ And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
+ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
+  And a batch job for file "StoriedDataSet_NY.zip" is completed in database
+ And a batch job log has been created
+ 
+ And zip file is scp to ingestion landing zone for "Hyrule-NYC"
+ And a batch job for file "StoriedDataSet_NY.zip" is completed in database
+ 
+ And I check to find if record is in batch job collection:
+     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
+     | recordHash               | 726                   | tenantId                  | Midgar                  | string               |
+     | recordHash               | 726                   | tenantId                  | Hyrule                  | string               |
+     
+ And I should not see an error log file created

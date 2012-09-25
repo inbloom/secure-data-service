@@ -58,9 +58,13 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 public class PurgeProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
+<<<<<<< Updated upstream
 
     private static final String BATCH_JOB_STAGE_DESC = "Purges tenant's ingested data from sli database";
 
+=======
+    
+>>>>>>> Stashed changes
     private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
@@ -131,6 +135,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 } else {
 
                     purgeForTenant(exchange, tenantId);
+                  
                 }
 
             } catch (Exception exception) {
@@ -168,6 +173,8 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 mongoTemplate.remove(searchTenantId, collectionName);
             }
         }
+        
+        batchJobDAO.removeRecordHashByTenant(tenantId);
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
 
