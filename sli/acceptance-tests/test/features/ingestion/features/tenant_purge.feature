@@ -25,11 +25,14 @@ Then I should see following map of entry counts in the corresponding collections
  Scenario: Post a zip file containing student from a different tenant
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "TenantNoPurge.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+    | collectionName              |
+    | student                     |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | student                     | 74    |
+     | student                     | 2     |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | student          | 2                   | metaData.tenantId           | Hyrule                  | string               |
@@ -53,7 +56,7 @@ And I should not see an error log file created
   And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
-      | student                     | 72    |
+      | student                     | 0     |
    And the following collections counts are the same:
      |collectionName|
      | application  |
