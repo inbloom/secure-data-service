@@ -35,6 +35,7 @@ import com.mongodb.MongoException;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -211,6 +212,7 @@ public class EntityRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testCount() {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student");
@@ -288,6 +290,7 @@ public class EntityRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testFindIdsByQuery() {
         repository.deleteAll("student");
         repository.create("student", buildTestStudentEntity());
@@ -346,6 +349,7 @@ public class EntityRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testCreateRetry() {
         TenantContext.setTenantId("SLIUnitTest");
         Map<String, Object> studentMetaData = new HashMap<String, Object>();

@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
+//import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoException;
@@ -36,7 +36,6 @@ import com.mongodb.WriteConcern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
@@ -127,11 +126,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return errors;
     }
 
+    /*
     public List<Error> findBatchJobErrors(String jobId, CursorPreparer cursorPreparer) {
         List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class,
                 cursorPreparer, BATCHJOB_ERROR_COLLECTION);
         return errors;
     }
+    */
 
     public NewBatchJob findLatestBatchJob() {
         Query query = new Query();
@@ -567,8 +568,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
             }
 
             private Iterator<Error> getNextList() {
-                List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)),
-                        Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
+                Query q = query(where(BATCHJOBID_FIELDNAME).is(jobId)).skip(cursorPreparer.position).limit(cursorPreparer.limit);
+                cursorPreparer.position += cursorPreparer.limit; 
+                List<Error> errors = batchJobMongoTemplate.find(q, Error.class, BATCHJOB_ERROR_COLLECTION);
                 remainingResults -= errors.size();
                 return errors.iterator();
             }
@@ -580,33 +582,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
          * @author bsuzuki
          *
          */
-        private final class LimitedCursorPreparer implements CursorPreparer {
+        private final class LimitedCursorPreparer {
 
             private final int limit;
             private int position = 0;
 
             public LimitedCursorPreparer(int limit) {
                 this.limit = limit;
-            }
-
-            @Override
-            /**
-             * set the skip and limit for the internal cursor to get the result
-             * in chunks of up to 'limit' size
-             */
-            public DBCursor prepare(DBCursor cursor) {
-
-                DBCursor cursorToUse = cursor;
-
-                cursorToUse = cursorToUse.skip(position);
-                cursorToUse = cursorToUse.limit(limit);
-                cursorToUse.batchSize(1000);
-
-                position += limit;
-
-                cursorToUse.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
-
-                return cursorToUse;
             }
 
         }

@@ -47,7 +47,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -139,7 +138,7 @@ public class BatchJobMongoDATest {
         List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT);
         errorIndex += errorsReturnedSecond.size();
 
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION)))
+        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
         .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
         .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
         .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
@@ -156,7 +155,7 @@ public class BatchJobMongoDATest {
         }
 
         // check we use the prepared cursor to query the db twice
-        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION));
+        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
     /**
@@ -171,7 +170,7 @@ public class BatchJobMongoDATest {
         List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT - 1);
         errorIndex += errorsReturnedSecond.size();
 
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION)))
+        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION)))
         .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
         .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
         .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
@@ -188,7 +187,7 @@ public class BatchJobMongoDATest {
         }
 
         // check we use the prepared cursor to query the db twice
-        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION));
+        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
     @Test
