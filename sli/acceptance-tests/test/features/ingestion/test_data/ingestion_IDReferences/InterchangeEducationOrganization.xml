@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -246,7 +244,7 @@
         <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>7th-Grade-English-1</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading Group</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -266,7 +264,7 @@
         <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Reading-Group-2</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing about Government</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -286,7 +284,7 @@
         <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Writing-about-Government-3</UniqueCourseId></Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -322,7 +320,7 @@
       <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
-  </Course>
+  <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId></Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -343,7 +341,7 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>8th-Grade-English-5</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Club/Team</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -364,5 +362,5 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Club/Team-6</UniqueCourseId></Course>
 </InterchangeEducationOrganization>

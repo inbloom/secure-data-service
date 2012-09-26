@@ -408,33 +408,37 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
     | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
+
+    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.uniqueCourseId  | State-History-II-G7-50 |
+    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.schoolId  | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+
 # disciplineAction
-#    | disciplineAction                     | ???????????????????????????????????? | body.responsibilitySchoolId     | ????                           |
-#    | disciplineAction                     | ???????????????????????????????????? | body.disciplineActionIdentifier | ????                           |
+    | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.responsibilitySchoolId          | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+    | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
 # disciplineIncident
-#    | disciplineIncident                   | ???????????????????????????????????? | body.schoolId             | ????                                 |
-#    | disciplineIncident                   | ???????????????????????????????????? | body.incidentIdentifier   | ????                                 |
+    | disciplineIncident                   | b535a023-3676-d595-0ed5-02f238ab4160 | body.schoolId                        | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+    | disciplineIncident                   | b535a023-3676-d595-0ed5-02f238ab4160 | body.incidentIdentifier              | Disruption                           |
 # grade
-#    | grade                                | ???????????????????????????????????? | body.studentSectionAssociationId | ????                                 |
-#    | grade                                | ???????????????????????????????????? | body.gradingPeriodId      | ????                                 |
+    | grade                                | 8e9e4a26-8490-26ae-1ca2-41330b2c028c | body.studentSectionAssociationId     | ce158357-8d55-e8d9-6a7d-b0f03f2950aa |
+    | grade                                | 8e9e4a26-8490-26ae-1ca2-41330b2c028c | body.gradingPeriodId                 | d82fece5-1186-dc44-79f4-236c404dd217 |
 # gradebookEntry
-#    | gradebookEntry                       | ???????????????????????????????????? | body.sectionId            | ????                                 |
-#    | gradebookEntry                       | ???????????????????????????????????? | body.gradebookEntryType   | ????                                 |
-#    | gradebookEntry                       | ???????????????????????????????????? | body.dateAssigned         | ????                                 |
+    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.sectionId                       | f094acb0-faae-6114-9e5a-0b854fc2c2a1 |
+    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.gradebookEntryType              | Quiz                                 |
+    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.dateAssigned                    | 2011-10-13                           |
 # studentAcademicRecord
-#    | studentAcademicRecord                | ???????????????????????????????????? | body.studentId            | ????                                 |
-#    | studentAcademicRecord                | ???????????????????????????????????? | body.sessionId            | ????                                 |
+    | studentAcademicRecord                | ad295893-95d7-d5a9-0f52-7e80eaa67369 | body.studentId                       | 3c06e659-95b7-c1cc-f82b-2dd134f60551 |
+    | studentAcademicRecord                | ad295893-95d7-d5a9-0f52-7e80eaa67369 | body.sessionId                       | 5509dd73-0a39-e896-b6aa-f0296122b407 |
 # staffEducationOrganizationAssociation
-#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffReference                 | ????                                 |
-#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.educationOrganizationReference | ????                                 |
-#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffClassification            | ????                                 |
-#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.beginDate                      | ????                                 |
+    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.staffReference                 | ef891c9a-8bec-9218-138e-34d3239e4bb5 |
+    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.educationOrganizationReference | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 |
+    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.staffClassification            | Superintendent                       |
+    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.beginDate                      | 1967-08-13                           |
 # teacherSchoolAssociation
-     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.teacherId            | 46f5b008-c469-097d-1926-27791327dfbb |
-     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.programAssignment    | Regular Education                    |
-     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
-     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
-     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
+    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.teacherId                      | 46f5b008-c469-097d-1926-27791327dfbb |
+    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.programAssignment              | Regular Education                    |
+    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.schoolId                       | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+    | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
+    | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
 # uncomment when course has a deterministic id
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
