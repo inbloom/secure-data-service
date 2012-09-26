@@ -125,7 +125,7 @@ public class Indexer {
         // send the message
         logger.info("Sending bulk index request: " + message);
         HttpEntity<String> response = sendRESTCall(message);
-        logger.info("Bulk index response: " + response + "\n");
+        logger.info("Bulk index response: " + response.getBody() + "\n");
         
         // TODO: do we need to check the response status of each part of the bulk request?
         
