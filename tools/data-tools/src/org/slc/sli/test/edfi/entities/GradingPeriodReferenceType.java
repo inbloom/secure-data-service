@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://ed-fi.org/0100}ReferenceType">
  *       &lt;sequence>
  *         &lt;element name="GradingPeriodIdentity" type="{http://ed-fi.org/0100}GradingPeriodIdentityType" minOccurs="0"/>
+ *         &lt;element name="BeginDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -54,7 +55,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GradingPeriodReferenceType", propOrder = {
-    "gradingPeriodIdentity"
+    "gradingPeriodIdentity",
+    "beginDate"
 })
 public class GradingPeriodReferenceType
     extends ReferenceType
@@ -62,6 +64,9 @@ public class GradingPeriodReferenceType
 
     @XmlElement(name = "GradingPeriodIdentity")
     protected GradingPeriodIdentityType gradingPeriodIdentity;
+
+    @XmlElement(name = "BeginDate")
+    protected Date beginDate;
 
     /**
      * Gets the value of the gradingPeriodIdentity property.
@@ -85,6 +90,30 @@ public class GradingPeriodReferenceType
      */
     public void setGradingPeriodIdentity(GradingPeriodIdentityType value) {
         this.gradingPeriodIdentity = value;
+    }
+
+    /**
+     * Gets the value of the beginDate property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Date }
+     *     
+     */
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    /**
+     * Sets the value of the beginDate property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Date }
+     *     
+     */
+    public void setBeginDate(Date value) {
+        this.beginDate = value;
     }
 
 }
