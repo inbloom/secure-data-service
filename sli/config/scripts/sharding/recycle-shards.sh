@@ -25,6 +25,9 @@ echo shards configured.
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
 echo sli indexed.
 
+mongo Midgar $SLI_HOME/config/indexes/tenantDB_indexes.js
+echo Midgar tenant indexed.
+
 mongo is $SLI_HOME/config/indexes/is_indexes.js
 echo is indexed.
 
