@@ -4,6 +4,7 @@
   (:use genAssessments.json)
   (:use clojure.data.xml)
   (:use clojure.contrib.math)
+  (:gen-class)
 )
 
 (defn no-op [v]
@@ -37,78 +38,55 @@
     districtCount schoolCount studentCount dataFormat)
   )
   (println (format "[0/%d districts]" districtCount))
-  
-  (def ^:dynamic gen-state)
-  (def ^:dynamic gen-assessment)
-  (def ^:dynamic gen-students)
-  (def ^:dynamic gen-schools)
-  (def ^:dynamic gen-sections)
-  (def ^:dynamic gen-sessions)
-  (def ^:dynamic gen-student-enrollments)
-  (def ^:dynamic gen-student-assessment-associations)
-  
-  (defn create-entities [assessmentName sectionName districtCount schoolCount studentCount]
-    (gen-state)
-    (gen-assessment assessmentName "assessment")
-    
-    (def rng (range studentCount))
-    (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
-      (def startTime (System/currentTimeMillis))
-      (doseq [ [districtName schools] district]
-        (gen-students schools rng (format "student" districtName))
-        (gen-schools districtName schools (format "educationOrganization" districtName))
-        (gen-sessions schools "session")
-        (gen-sections districtName schools (format "section" districtName))
-        (gen-student-enrollments schools rng (format "/tmp/test/E-%s-enrollment.xml" districtName))
-        (gen-student-assessment-associations districtName schools rng assessmentName 10 (format "/tmp/test/G-%s-assessment-results.xml" districtName))
-      )
-      (def endTime (System/currentTimeMillis))
-      (def elapsed (/ (-  endTime startTime) 1000.0))
-      (def remain (* elapsed (- districtCount ((i :next)))))
-      (println (format "[%d/%d districts] (%f seconds : %f remaining)"  ((i :curr)) districtCount elapsed (max 0.0 remain)))
-    )
-  )  
-  
-  (cond 
-    (= dataFormat "json")
-    (binding [gen-state gen-state-json]
-      (binding [gen-assessment gen-assessment-json]
-        (binding [gen-students gen-students-json]
-          (binding [gen-schools gen-schools-json]
-            (binding [gen-sessions gen-sessions-json] 
-              (binding [gen-sections gen-sections-json] 
-                (binding [gen-student-enrollments gen-student-enrollments-json]
-                  (binding [gen-student-assessment-associations gen-student-assessment-associations-json]
-                    (create-entities assessmentName sectionName districtCount schoolCount studentCount)
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-    :else 
-    (binding [gen-state gen-state-edfi]
-      (binding [gen-assessment gen-assessment-edfi]
-        (binding [gen-students gen-students-edfi]
-          (binding [gen-schools gen-schools-edfi]
-            (binding [gen-sessions gen-sessions-edfi]
-              (binding [gen-sections gen-sections-edfi]
-                (binding [gen-student-enrollments gen-student-enrollments-edfi]
-                  (binding [gen-student-assessment-associations gen-student-assessment-associations-edfi]
-                    (create-entities assessmentName sectionName districtCount schoolCount studentCount)
-                    (create-control-file-edfi)
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
+
+  (def json { :gen-state gen-state-json,
+              :gen-assessment gen-assessment-json,
+              :gen-students gen-students-json,
+              :gen-schools gen-schools-json,
+              :gen-sessions gen-sessions-json,
+              :gen-sections gen-sections-json,
+              :gen-student-enrollments gen-student-enrollments-json,
+              :gen-student-assessment-associations gen-student-assessment-associations-json 
+              :create-control-file create-control-file-json } )
+
+  (def edfi {  :gen-state gen-state-edfi,
+               :gen-assessment gen-assessment-edfi,
+               :gen-students gen-students-edfi,
+               :gen-schools gen-schools-edfi,
+               :gen-sessions gen-sessions-edfi,
+               :gen-sections gen-sections-edfi,
+               :gen-student-enrollments gen-student-enrollments-edfi,
+               :gen-student-assessment-associations gen-student-assessment-associations-edfi
+               :create-control-file create-control-file-edfi } )
+
+  (def ^:dynamic fmt)
+
+  (cond
+    (= dataFormat "json") (def fmt json)
+    :else (def fmt edfi)
   )
-  
+
+  ((:gen-state fmt))
+  ((:gen-assessment fmt) assessmentName)
+
+  (def rng (range studentCount))
+  (doseq [ [district] (map list (gen-district-schools districtCount schoolCount studentCount))]
+    (def startTime (System/currentTimeMillis))
+    (doseq [ [districtName schools] district]
+      ((:gen-students fmt) districtName schools rng)
+      ((:gen-schools fmt) districtName schools)
+      ((:gen-sessions fmt) districtName schools)
+      ((:gen-sections fmt) districtName schools)
+      ((:gen-student-enrollments fmt) districtName schools rng)
+      ((:gen-student-assessment-associations fmt) districtName schools rng assessmentName 10)
+    )
+    (def endTime (System/currentTimeMillis))
+    (def elapsed (/ (-  endTime startTime) 1000.0))
+    (def remain (* elapsed (- districtCount ((i :next)))))
+    (println (format "[%d/%d districts] (%f seconds : %f remaining)"  ((i :curr)) districtCount elapsed (max 0.0 remain)))
+  )
+  ((:create-control-file fmt))
+
   (println "Assessment data generation complete")
 )
 
@@ -145,4 +123,8 @@
 ; 45 million students
 (defn gen-giant-set []
   (gen-big-data 250 75 2400 "json")
+)
+
+(defn -main [& [args]]
+  (gen-extra-large-set)
 )
