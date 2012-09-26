@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://ed-fi.org/0100}ReferenceType">
  *       &lt;sequence>
  *         &lt;element name="GradingPeriodIdentity" type="{http://ed-fi.org/0100}GradingPeriodIdentityType" minOccurs="0"/>
- *         &lt;element name="BeginDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="BeginDate" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -66,7 +66,7 @@ public class GradingPeriodReferenceType
     protected GradingPeriodIdentityType gradingPeriodIdentity;
 
     @XmlElement(name = "BeginDate")
-    protected Date beginDate;
+    protected String beginDate;
 
     /**
      * Gets the value of the gradingPeriodIdentity property.
@@ -97,10 +97,10 @@ public class GradingPeriodReferenceType
      * 
      * @return
      *     possible object is
-     *     {@link Date }
+     *     {@link String }
      *     
      */
-    public Date getBeginDate() {
+    public String getBeginDate() {
         return beginDate;
     }
 
@@ -109,10 +109,10 @@ public class GradingPeriodReferenceType
      * 
      * @param value
      *     allowed object is
-     *     {@link Date }
+     *     {@link String }
      *     
      */
-    public void setBeginDate(Date value) {
+    public void setBeginDate(String value) {
         this.beginDate = value;
     }
 
