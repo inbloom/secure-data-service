@@ -20,7 +20,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-
+/**
+ * Indexer is responsible for building elastic search index requests and
+ * sending them to the elastic search server for processing.
+ * 
+ * @author dwu
+ *
+ */
 public class Indexer {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -48,7 +54,7 @@ public class Indexer {
     }
     
     /**
-     * Builds an elastic search index request from an entity
+     * Builds a single elastic search index request from an entity
      * @param entityJson
      * @return
      */
@@ -118,8 +124,11 @@ public class Indexer {
         
         // send the message
         logger.info("Sending bulk index request: " + message);
-        HttpEntity<String> response = sendRESTQuery(message);
+        HttpEntity<String> response = sendRESTCall(message);
         logger.info("Bulk index response: " + response + "\n");
+        
+        // TODO: do we need to check the response status of each part of the bulk request?
+        
     }
     
     
@@ -129,7 +138,7 @@ public class Indexer {
      * @param query
      * @return
      */
-    private HttpEntity<String> sendRESTQuery(String query) {
+    private HttpEntity<String> sendRESTCall(String query) {
 
         HttpMethod method = HttpMethod.POST;
         HttpHeaders headers = new HttpHeaders();
@@ -143,16 +152,12 @@ public class Indexer {
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
 
         // make the REST call
-        //esUri = "http://localhost:9200/" + TenantContext.getTenantId().toLowerCase() + "_bulk";
-        //esUri = "http://localhost:9200/_bulk";
-        
         try {
             return searchTemplate.exchange(
                     esUri, method, entity, String.class /*, TenantContext.getTenantId().toLowerCase()*/);
         } catch (RestClientException rce) {
             logger.error("Error sending elastic search request!", rce);
             throw rce;
-
         }
     }
 

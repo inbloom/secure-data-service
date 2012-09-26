@@ -24,9 +24,7 @@
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
-			<version>0.20.0</version>
-			<scope>system</scope>
-            <systemPath>/Users/dwu/estest/elasticsearch-0.20.0.Beta1-SNAPSHOT/lib/elasticsearch-0.20.0.Beta1-SNAPSHOT.jar</systemPath>
+			<version>0.19.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>

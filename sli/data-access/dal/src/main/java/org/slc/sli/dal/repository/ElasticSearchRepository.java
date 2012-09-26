@@ -27,6 +27,8 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.ImmutableSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -65,7 +67,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
     private Node node;
 
     private Client createEmbeddedNodeClient() {
-        node = nodeBuilder().node();
+        node = nodeBuilder().local(true).node();
         esClient = node.client();
         return esClient;
     }

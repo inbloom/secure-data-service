@@ -42,11 +42,11 @@ public class Loader {
      */
     public void load() throws IOException {
         
-        index("course", Arrays.asList("_id", "body.courseTitle", "body.subjectArea", "metaData", "type"), false);
+        //index("course", Arrays.asList("_id", "body.courseTitle", "body.subjectArea", "metaData", "type"), false);
         index("student", Arrays.asList("_id", "body.name.firstName", "body.name.middleName", "body.name.lastSurname", "body.otherName.firstName", "body.name.lastSurname", "metaData", "type"), true);
-        index("section", Arrays.asList("_id", "body.uniqueSectionCode", "metaData", "type"), false);
-        index("educationOrganization", Arrays.asList("_id", "body.nameOfInstitution", "body.shortNameOfInstitution", "metaData", "type"), false);
-        index("staff", Arrays.asList("_id", "body.name.firstName", "body.name.middleName", "body.name.lastSurname", "body.otherName.firstName", "body.name.lastSurname", "metaData", "type"), false);  
+        //index("section", Arrays.asList("_id", "body.uniqueSectionCode", "metaData", "type"), false);
+        //index("educationOrganization", Arrays.asList("_id", "body.nameOfInstitution", "body.shortNameOfInstitution", "metaData", "type"), false);
+        //index("staff", Arrays.asList("_id", "body.name.firstName", "body.name.middleName", "body.name.lastSurname", "body.otherName.firstName", "body.name.lastSurname", "metaData", "type"), false);  
     }
     
     /**
@@ -79,7 +79,7 @@ public class Loader {
             indexRequests.add(irb);
             
             // when we reach a set number of index requests, execute the bulk request
-            if (count ++ >= 100) {
+            if (count ++ >= 1000) {
                 count = 0;
                 indexer.executeBulkHttp(indexRequests);
                 indexRequests.clear();
