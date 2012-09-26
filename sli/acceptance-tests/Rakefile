@@ -9,7 +9,8 @@ Dir.glob('suites/*.rake').each { |r| import r }
 
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
-DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
+DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+SYSTEM_DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
@@ -101,7 +102,39 @@ def runTests(testDirPath)
   end
 end
 
+def isSystemCollection(collectionName)
+  if collectionName == "tenant"
+    return true
+  elsif collectionName == "realm"
+    return true
+  elsif collectionName == "securityEvent"
+    return true
+  elsif collectionName == "application"
+    return true
+  elsif collectionName == "roles"
+    return true
+  elsif collectionName == "customRole"
+    return true
+  elsif collectionName == "tenantJobLock"
+    return true
+  elsif collectionName == "userSession"
+    return true
+  elsif collectionName == "userAccount"
+    return true
+#  elsif collectionName == "staff"
+#    return true
+  else
+    return false
+  end
+end
+
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
+  if isSystemCollection(collectionName)
+    db_used = SYSTEM_DB_NAME
+  else
+    db_used = DB_NAME
+  end
+  
   if TODROP
     dropOption = (dropExistingCollection) ? "--drop":""
   else
@@ -117,7 +150,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
 
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
-  sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+  sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{db_used} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
@@ -158,7 +191,7 @@ end
 def cleanseRealms()
   puts 'About to clean up all but the boostrapped realms in mongo'
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(SYSTEM_DB_NAME)
   @realmColl = @db.collection('realm')
 
   @realmColl.find.each do |row|
@@ -172,7 +205,7 @@ end
 def cleanseApps()
   puts 'About to clean up all but the boostrapped applications in mongo'
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(SYSTEM_DB_NAME)
   @appColl = @db.collection('application')
 
   @appColl.find.each do |row|
@@ -185,7 +218,7 @@ end
 def cleanseTenantCollection()
   puts 'About to clean up test tenants in mongo'
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(SYSTEM_DB_NAME)
   @tenantColl = @db.collection('tenant')
 
   @tenantColl.find.each do |row|
@@ -200,9 +233,15 @@ end
 
 
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
+  if isSystemCollection(collectionName)
+    db_used = SYSTEM_DB_NAME
+  else
+    db_used = DB_NAME
+  end
+  
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(db_used)
   coll = @db.collection(collectionName)
 
   #need a few if blocks for apps, app Auth, oauth tokens, realms
@@ -214,14 +253,20 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
+  if isSystemCollection(collectionName)
+    db_used = SYSTEM_DB_NAME
+  else
+    db_used = DB_NAME
+  end
+  
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
 
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
-#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
+#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.getLastError()\""
 end
 
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,
@@ -229,7 +274,7 @@ end
 # the dynamic ID of the realm.
 def swap_realm_ids()
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(SYSTEM_DB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
   custom_roles = @db.collection('customRole')
@@ -269,7 +314,7 @@ end
 # wht the dynamic ID of the app.
 def swap_app_ids()
   @conn = Mongo::Connection.new(DB_HOST)
-  @db = @conn.db(DB_NAME)
+  @db = @conn.db(SYSTEM_DB_NAME)
   to_swap = [
         {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
         {"app_name" => "SLC Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
