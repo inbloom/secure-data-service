@@ -160,7 +160,7 @@
     },
     {
       "path": "/learningStandards",
-      "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the education organization to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources.",
+      "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the education organization to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources."
     },
     {
       "path": "/parents",
