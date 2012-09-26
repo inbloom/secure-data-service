@@ -2,7 +2,8 @@
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
 Scenario: Preload Small Sample Data Set
-  Given the following collections are empty in datastore:
+  Given I am using the tenant "TENANT-EDORG"
+  And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
      | attendance                                |

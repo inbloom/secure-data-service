@@ -362,6 +362,10 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
   initializeTenantDatabase(lz_key)
 end
 
+Given /^I am using the tenant "([^"]*)"$/ do |tenantId|
+  initializeTenantDatabase(tenantId)
+end
+
 def initializeTenantDatabase(lz_key)
   @ingestion_db_name = lz_key
 
