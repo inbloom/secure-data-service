@@ -29,11 +29,10 @@ public class Loader {
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
     
+    @Autowired
     Indexer indexer;
 
-    public Loader() {
-        indexer = new Indexer();
-        indexer.init();    
+    public Loader() {  
     }
     
     
