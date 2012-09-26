@@ -313,12 +313,14 @@ end
 def swap_app_ids()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
+  @dbTenant = @conn.db(DB_NAME)
+
   to_swap = [
         {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
         {"app_name" => "SLC Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
   ]
   apps = @db.collection('application')
-  app_auths = @db.collection('applicationAuthorization')
+  app_auths = @dbTenant.collection('applicationAuthorization')
 
   to_swap.each do |app|
     puts "Swapping IDs for #{app['app_name']}"
