@@ -7332,9 +7332,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<!-- TODO remove minOccurs=0 -->
-			<xs:element name="gradingPeriodId" type="reference"
-				minOccurs="0">
+			<xs:element name="gradingPeriodId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for this report
 						card.</xs:documentation>
