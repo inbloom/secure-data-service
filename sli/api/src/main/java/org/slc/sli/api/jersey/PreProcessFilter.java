@@ -19,16 +19,18 @@ package org.slc.sli.api.jersey;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.ws.rs.core.UriBuilder;
 
+import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
-import org.slc.sli.dal.MongoStat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.validation.URLValidator;
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -60,12 +63,16 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private MongoStat mongoStat;
 
+    @Value("${api.server.url}")
+    private String apiServerUrl;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
         populateSecurityContext(request);
         mongoStat.clear();
+        forwardSearch(request);
         return request;
     }
 
@@ -77,6 +84,24 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     private void recordStartTime(ContainerRequest request) {
         request.getProperties().put("startTime", System.currentTimeMillis());
+    }
+
+    private void forwardSearch(ContainerRequest request) {
+        String requestURL = request.getRequestUri().toString();
+        if (requestURL.contains("?")) {
+            requestURL = requestURL.substring(0, requestURL.indexOf("?"));
+        }
+        String serverUrl = apiServerUrl + "api/rest/v1/";
+        UriTemplate readAllUri = new UriTemplate(serverUrl + "{resource}");
+        HashMap<String, String> uri = new HashMap<String, String>();
+        if (readAllUri.match(requestURL , uri)) {
+            String entity = uri.get("resource");
+            if (!"search".equals(entity)) {
+              UriBuilder builder =  UriBuilder.fromUri(request.getRequestUri().toString().replace(entity, "search"));
+              builder.queryParam("_type", entity);
+              request.setUris(request.getBaseUri(), builder.build());
+            }
+        }
     }
 
     /**

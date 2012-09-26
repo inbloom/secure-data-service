@@ -28,6 +28,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -40,6 +41,9 @@ import org.slc.sli.domain.Entity;
 
 @Component
 public class SearchResourceService {
+
+    @Autowired
+    DefaultResourceService defaultResourceService;
 
     @Autowired
     private ResourceHelper resourceHelper;
@@ -68,11 +72,7 @@ public class SearchResourceService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity entity = principal.getEntity();
         String type = entity != null ? entity.getType() : null;
-        if (type != null && type.equals(EntityNames.TEACHER)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (type != null && type.equals(EntityNames.TEACHER));
     }
 
 }

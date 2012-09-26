@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
@@ -47,7 +48,7 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
 
-    private static final String EMBEDDED_DATA_LOCK = "data/elasticsearch/nodes/0/node.lock";
+    private static final String EMBEDDED_DATA = "data";
 
     private String esUri;
 
@@ -80,10 +81,10 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
      */
     public void init() throws Exception {
         if (embeddedEnabled) {
-            // delete lock file manually if failed on exit
-            File f = new File(EMBEDDED_DATA_LOCK);
-            if (f.exists() && !f.delete()) {
-                LOG.error("Unable to delete lock file for elastic search. Please remove manually at " + f.getAbsolutePath());
+            try {
+                FileUtils.deleteDirectory(new File(EMBEDDED_DATA));
+            } catch (IOException ioe) {
+                LOG.error("Unable to delete embedded directory for elasticsearch. Please delete manually");
             }
         }
         esClient = embeddedEnabled ? createEmbeddedNodeClient() : new TransportClient();
@@ -98,7 +99,6 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         esClient.close();
         if (embeddedEnabled && node != null) {
             node.close();
-            new File(EMBEDDED_DATA_LOCK).deleteOnExit();
         }
     }
 
