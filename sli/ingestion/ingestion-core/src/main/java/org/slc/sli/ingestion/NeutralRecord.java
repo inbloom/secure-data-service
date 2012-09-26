@@ -322,7 +322,7 @@ public class NeutralRecord {
     }
 
     public Object getMetaDataByName(String name) {
-        if(this.metaData.containsKey(name)) {
+        if (this.metaData.containsKey(name)) {
             return this.metaData.get(name);
         }
         return null;

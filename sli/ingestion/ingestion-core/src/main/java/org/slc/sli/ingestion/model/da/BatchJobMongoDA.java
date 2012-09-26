@@ -44,7 +44,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
@@ -648,10 +647,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             return false;
         } else {
             rh.timestamp = "" + System.currentTimeMillis();
-
             rh.tenantId = tenantId;
-
-
             this.batchJobMongoTemplate.save(rh, RECORD_HASH);
 
             return true;
@@ -667,12 +663,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return this.batchJobMongoTemplate.findOne(query, RecordHash.class, "recordHash");
     }
 
-	@Override
-	public void removeRecordHashByTenant(String tenantId) {
-//		batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);	
-		 Query searchTenantId = new Query();
-	        searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
-	                tenantId));
-		batchJobMongoTemplate.remove(searchTenantId, RECORD_HASH);	
-	}
+    @Override
+    public void removeRecordHashByTenant(String tenantId) {
+//       batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);
+         Query searchTenantId = new Query();
+            searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
+                    tenantId));
+        batchJobMongoTemplate.remove(searchTenantId, RECORD_HASH);
+    }
 }

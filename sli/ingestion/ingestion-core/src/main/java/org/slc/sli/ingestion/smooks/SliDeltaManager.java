@@ -51,7 +51,10 @@ public final class SliDeltaManager {
                 //UN : Remove this from here and do something more sensible
                 LOG.info("Record found: " + record.tenantId +  "-" + record._id);
             } else {
-                n.addMetaData("recordHash", createRecordHash(TenantContext.getTenantId(), recordId));
+                RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
+                n.addMetaData("recordHashId", recordHash._id);
+                n.addMetaData("recordHashTenantId", recordHash.tenantId);
+                n.addMetaData("recordHashTimeStamp", recordHash.timestamp);
             }
             return (record != null);
 

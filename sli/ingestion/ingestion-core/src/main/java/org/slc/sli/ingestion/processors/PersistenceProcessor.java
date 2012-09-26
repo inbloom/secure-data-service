@@ -195,10 +195,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
-//            //UN: Added the records to the recordHashStore
-//            for (NeutralRecord neutralRecord : records) {
-//                recordHashStore.add(neutralRecord);
-//            }
+            //UN: Added the records to the recordHashStore
+            for (NeutralRecord neutralRecord : records) {
+                recordHashStore.add(neutralRecord);
+            }
 
             // TODO: make this generic for all self-referencing entities
             if ("learningObjective".equals(collectionNameAsStaged)) {
@@ -248,13 +248,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             }
                         }
                     }
-//                    for (NeutralRecord neutralRecord2 : recordHashStore) {
-//                        if (neutralRecord2.getMetaDataByName("recordHash") != null) {
-//                            System.out.println("Record Hash found in Neutral Record");
-//                        }
-////                        RecordHash rh = neutralRecord2.getRecordHash();
-////                        batchJobDAO.findAndUpsertRecordHash(rh.tenantId, rh._id);
-//                    }
+                    for (NeutralRecord neutralRecord2 : recordHashStore) {
+                        if (neutralRecord2.getMetaDataByName("recordHashId") != null) {
+                            batchJobDAO.findAndUpsertRecordHash(neutralRecord2.getMetaDataByName("recordHashTenantId").toString(),
+                                    neutralRecord2.getMetaDataByName("recordHashId").toString());
+                        }
+                    }
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                 }
