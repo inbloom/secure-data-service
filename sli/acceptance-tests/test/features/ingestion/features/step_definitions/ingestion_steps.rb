@@ -727,6 +727,25 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db[row["collectionName"]]
+    @entity_collection.remove()
+
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+
+    if @entity_collection.find().count.to_s != "0"
+      @result = "false"
+    end
+  end
+  ensureBatchJobIndexes(@batchConn)
+  assert(@result == "true", "Some collections were not cleared successfully.")
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   @db = @conn[INGESTION_DB_NAME]

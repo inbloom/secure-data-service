@@ -374,15 +374,18 @@ public class JobReportingProcessor implements Processor {
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
         List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
-        if(edfiMetrics != null){
-            for(Metrics metric:edfiMetrics) {
+        if (edfiMetrics != null) {
+            for (Metrics metric:edfiMetrics) {
                 Map<String, Long> duplicates = metric.getDuplicateCounts();
-                String resource = metric.getResourceId();
-                for(String entity: duplicates.keySet()) {
-                    Long count = duplicates.get(entity);
-                            if(count > 0) {
-                                writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
-                            }
+
+                if (duplicates != null) {
+                    String resource = metric.getResourceId();
+                    for (String entity: duplicates.keySet()) {
+                        Long count = duplicates.get(entity);
+                                if (count > 0) {
+                                    writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                                }
+                    }
                 }
             }
         }
