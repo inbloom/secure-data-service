@@ -408,6 +408,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
     | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
+
+    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.uniqueCourseId  | State-History-II-G7-50 |
+    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.schoolId  | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+
 # disciplineAction
 #    | disciplineAction                     | ???????????????????????????????????? | body.responsibilitySchoolId     | ????                           |
 #    | disciplineAction                     | ???????????????????????????????????? | body.disciplineActionIdentifier | ????                           |
