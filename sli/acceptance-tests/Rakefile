@@ -10,7 +10,7 @@ Dir.glob('suites/*.rake').each { |r| import r }
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
 DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
-SYSTEM_DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
+SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
@@ -121,8 +121,6 @@ def isSystemCollection(collectionName)
     return true
   elsif collectionName == "userAccount"
     return true
-#  elsif collectionName == "staff"
-#    return true
   else
     return false
   end
