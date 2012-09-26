@@ -395,6 +395,7 @@ And I check to find if record is in collection:
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
     | collectionName                       | deterministicId                      | field                             | value                                |
+    | assessment                           | 86605678-f9e6-5619-892c-8f7b16a1c6ea | body.assessmentIdentificationCode.ID  | ACT                              |
     | educationOrganization                | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 | body.stateOrganizationId  | IL                                   |
     | educationOrganization                | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | cdd544e9-dc55-0152-0f8e-3742499680b9 | body.stateOrganizationId  | Daybreak Central High                |
@@ -424,25 +425,47 @@ Scenario: Verify deterministic ids generated: Clean Database
 #    | studentAcademicRecord                | ???????????????????????????????????? | body.studentId            | ????                                 |
 #    | studentAcademicRecord                | ???????????????????????????????????? | body.sessionId            | ????                                 |
 # staffEducationOrganizationAssociation
-# uncomment when disciplineIncident has a deterministic id
-#    | studentDisciplineIncidentAssociation | ???????????????????????????????????? | body.studentId              | 3c06e659-95b7-c1cc-f82b-2dd134f60551 |
-#    | studentDisciplineIncidentAssociation | ???????????????????????????????????? | body.disciplineIncidentId    | ???????????????????????????????????? |
+#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffReference                 | ????                                 |
+#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.educationOrganizationReference | ????                                 |
+#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffClassification            | ????                                 |
+#    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.beginDate                      | ????                                 |
+     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
+     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
 # uncomment when course has a deterministic id
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseAttemptResult            | ????                                 |
-# uncomment when parent has a deterministic id
-#   | studentParentAssociation             | ???????????????????????????????????? | body.studentId            | ????                                 |
-#   | studentParentAssociation             | ???????????????????????????????????? | body.parentId            | ????                                 |
+   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
+   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.parentId             | 19730e81-bc94-ec88-381e-0c8f8ed9e156 |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
    | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.sectionId            | 28b826ba-87b3-e33c-169d-39f53d342591 |
+   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.beginDate            | 2011-09-01                              |
 # uncomment when section has a deterministic id
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
 #   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
+   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
+   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
     | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.programId            | 3648e86a-ed1b-70a5-72f9-76a366e98093 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.educationOrganizationId | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 |
+    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.beginDate            | 2011-03-01                           |
+    | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
+    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
+    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.beginDate                           | 2012-04-16                           |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
+    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.schoolId      | 7cde113b-35de-2b8a-0988-04cf364bd1ab |
+# uncomment when session has a deterministic id
+#    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
+#    | courseOffering | TODO | body.sessionId            | TODO |
+#    | courseOffering | TODO | body.schoolId             | TODO |
+
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database

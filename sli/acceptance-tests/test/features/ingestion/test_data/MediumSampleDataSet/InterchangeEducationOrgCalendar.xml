@@ -615,15 +615,15 @@
         <CalendarEvent>Make-up day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses0-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-05</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses1-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-06</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses1-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-07</Date>
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses0-0">
@@ -643,7 +643,7 @@
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-08</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-1">
@@ -655,7 +655,7 @@
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses1-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-09</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses0-0">

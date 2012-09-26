@@ -4,11 +4,11 @@
 <table id="applications" class="table">
   <thead>
 	<tr>
-		<th>Name</th>
-		<th>Version</th>
-		<th>Vendor</th>
-		<th>Request Date</th>
-		<th>Approval Date</th>
+        <th><%= sortable "Name" %></th>
+      	<th><%= sortable "Version" %></th>
+      	<th><%= sortable "Vendor" %></th>
+		<th><%= sortable "Request Date", "registration.request_date" %></th>
+		<th><%= sortable "Approval Date", "registration.approval_date" %></th>
 		<th>Status</th>
 		<th></th>
 		<th></th>

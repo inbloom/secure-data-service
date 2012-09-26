@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
 
 
 
@@ -16,7 +14,7 @@
         <UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -29,7 +27,7 @@
         <UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -42,7 +40,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -55,7 +53,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -68,7 +66,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -81,7 +79,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -94,7 +92,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -107,7 +105,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -120,7 +118,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -133,7 +131,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -146,7 +144,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -159,7 +157,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -172,7 +170,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -185,7 +183,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -198,7 +196,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -211,7 +209,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -224,7 +222,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -237,7 +235,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -250,7 +248,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -263,7 +261,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -276,7 +274,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -289,7 +287,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -302,7 +300,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -315,7 +313,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -328,7 +326,7 @@
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -341,7 +339,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -354,7 +352,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -367,7 +365,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -380,7 +378,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -393,7 +391,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -406,7 +404,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -419,7 +417,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -432,7 +430,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -445,7 +443,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -458,7 +456,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -471,7 +469,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -484,7 +482,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -497,7 +495,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -510,7 +508,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -523,7 +521,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -536,7 +534,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -549,7 +547,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -562,7 +560,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -575,7 +573,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -588,7 +586,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -601,7 +599,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -614,7 +612,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -627,7 +625,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -640,7 +638,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -653,7 +651,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -666,7 +664,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
 
 

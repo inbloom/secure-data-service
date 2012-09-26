@@ -16,7 +16,6 @@
 package org.slc.sli.validation.schema;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -55,10 +54,10 @@ public class NaturalKeyExtractorTest {
 
         Entity e = setup();
 
-        List<String> naturalKeyFields = naturalKeyExtractor.getNaturalKeyFields(e);
+        Map<String, Boolean> naturalKeyFields = naturalKeyExtractor.getNaturalKeyFields(e);
 
         Assert.assertEquals(1, naturalKeyFields.size());
-        Assert.assertEquals("someField", naturalKeyFields.get(0));
+        Assert.assertEquals("someField", naturalKeyFields.entrySet().iterator().next().getKey());
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
 
@@ -121,8 +120,45 @@ public class NaturalKeyExtractorTest {
 
         Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
 
-        Assert.assertEquals(1, naturalKeys.size());
+        Assert.assertEquals(2, naturalKeys.size());
         Assert.assertEquals("someValue", naturalKeys.get("someField"));
+        Assert.assertEquals("", naturalKeys.get("optionalField"));
+        Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
+    }
+
+    @Test
+    public void shouldExtractNestedKeyField() {
+
+        Entity e = setup();
+        Map<String, String> parentValue = new HashMap<String, String>();
+        parentValue.put("childField", "someNestedValue");
+        e.getBody().put("parentField", parentValue);
+
+        //add another optional schema field that is not present
+        AppInfo mockAppInfo = Mockito.mock(AppInfo.class);
+        Mockito.when(mockAppInfo.applyNaturalKeys()).thenReturn(true);
+        Mockito.when(mockAppInfo.getType()).thenReturn(AnnotationType.APPINFO);
+        mockSchema.addAnnotation(mockAppInfo);
+
+        //create the parent field schema
+        ComplexSchema parentFieldSchema = new ComplexSchema();
+        mockSchema.addField("parentField", parentFieldSchema);
+
+        //create the child field schema
+        NeutralSchema mockChildFieldSchema = Mockito.mock(NeutralSchema.class);
+        AppInfo mockFieldAppInfo = Mockito.mock(AppInfo.class);
+        Mockito.when(mockChildFieldSchema.getAppInfo()).thenReturn(mockFieldAppInfo);
+        Mockito.when(mockFieldAppInfo.isNaturalKey()).thenReturn(true);
+        Mockito.when(mockFieldAppInfo.isRequired()).thenReturn(false);
+
+        //add the child schema to the parent
+        parentFieldSchema.addField("childField", mockChildFieldSchema);
+
+        Map<String, String> naturalKeys = naturalKeyExtractor.getNaturalKeys(e);
+
+        Assert.assertEquals(2, naturalKeys.size());
+        Assert.assertEquals("someValue", naturalKeys.get("someField"));
+        Assert.assertEquals("someNestedValue", naturalKeys.get("parentField.childField"));
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
 
