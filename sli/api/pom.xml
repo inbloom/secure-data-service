@@ -272,6 +272,7 @@
                     <webResources>
                        <resource>
                                <directory>../config/indexes/</directory>
+                               <targetPath>../classes</targetPath>
                                <filtering>true</filtering>
                                <includes>
                                    <include>**/tenantDB_indexes.js</include>
@@ -279,6 +280,7 @@
                            </resource>
                            <resource>
                                <directory>../config/shards/</directory>
+                               <targetPath>../classes</targetPath>
                                <filtering>true</filtering>
                                <includes>
                                    <include>**/sli_shards.js</include>
