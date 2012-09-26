@@ -640,7 +640,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         if (rh == null) {
             //record was not found
             rh = new RecordHash();
-            rh._id = recordId;
+            rh.recordId = recordId;
             rh.tenantId = tenantId;
             rh.timestamp = "" + System.currentTimeMillis();
             this.batchJobMongoTemplate.save(rh, RECORD_HASH);
@@ -659,8 +659,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Query query = new Query().limit(1);
         query.addCriteria(Criteria.where("tenantId").is(tenantId));
-        query.addCriteria(Criteria.where("_id").is(recordId));
-        return this.batchJobMongoTemplate.findOne(query, RecordHash.class, "recordHash");
+        query.addCriteria(Criteria.where("recordId").is(recordId));
+        return this.batchJobMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override

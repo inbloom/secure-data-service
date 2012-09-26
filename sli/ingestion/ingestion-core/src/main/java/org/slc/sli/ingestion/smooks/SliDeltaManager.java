@@ -44,15 +44,15 @@ public final class SliDeltaManager {
 
         try {
             String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString()).getBytes("utf8"), "SHA-1");
-            LOG.info("RECORD HASH = " + recordId);
+//            LOG.info("RECORD HASH = " + recordId);
 
             RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
             if (record != null) {
                 //UN : Remove this from here and do something more sensible
-                LOG.info("Record found: " + record.tenantId +  "-" + record._id);
+                LOG.info("Record found: " + record.tenantId +  "-" + record.recordId);
             } else {
                 RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
-                n.addMetaData("recordHashId", recordHash._id);
+                n.addMetaData("recordHashId", recordHash.recordId);
                 n.addMetaData("recordHashTenantId", recordHash.tenantId);
                 n.addMetaData("recordHashTimeStamp", recordHash.timestamp);
             }
@@ -82,7 +82,7 @@ public final class SliDeltaManager {
 
     public static RecordHash createRecordHash(String tenantId, String recordId) {
         RecordHash rh = new RecordHash();
-        rh._id = recordId;
+        rh.recordId = recordId;
         rh.tenantId = tenantId;
         rh.timestamp = "" + System.currentTimeMillis();
         return rh;

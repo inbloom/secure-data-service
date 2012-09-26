@@ -5,14 +5,15 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 public class RecordHash {
 
-    public String _id;
+    public String recordId;
+    
     public String timestamp;
 
     @Indexed
     public String tenantId;
 
     public RecordHash() {
-        this._id = "";
+        this.recordId = "";
         this.timestamp = "";
         this.tenantId = "";
     }
