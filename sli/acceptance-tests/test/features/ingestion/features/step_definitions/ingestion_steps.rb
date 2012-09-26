@@ -47,8 +47,6 @@ INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
-TENANTS_FOR_LZ = {"Midgar-Daybreak" => "Midgar", "Midgar-Sunset" => "Midgar", "Hyrule-NYC"=> "Hyrule"}
-
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
 ############################################################
@@ -365,7 +363,12 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
 end
 
 def initializeTenantDatabase(lz_key)
-   @ingestion_db_name = TENANTS_FOR_LZ[lz_key]
+  @ingestion_db_name = lz_key
+
+  # split tenant from edOrg on hyphen
+  if @ingestion_db_name.index('-') != nil
+    @ingestion_db_name = @ingestion_db_name[0, @ingestion_db_name.index('-')]
+  end
 end 
 
 def initializeLandingZone(lz)
@@ -774,6 +777,11 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
     tenant = lz_key[0, lz_key.index('-')]
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
+
+  # set instance var to this value (used for future db connections)
+  @ingestion_db_name = tenant
+
+  puts "setting ingestion_db_name to #{@ingestion_db_name}"
 
   @body = {
     "tenantId" => tenant,
