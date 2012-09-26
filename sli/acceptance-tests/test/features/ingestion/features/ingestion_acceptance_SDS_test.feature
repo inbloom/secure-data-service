@@ -394,19 +394,19 @@ And I check to find if record is in collection:
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
-    | collectionName                       | deterministicId                      | field                             | value                                |
-    | educationOrganization                | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 | body.stateOrganizationId  | IL                                   |
-    | educationOrganization                | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 | body.stateOrganizationId  | IL-DAYBREAK                          |
-    | educationOrganization                | cdd544e9-dc55-0152-0f8e-3742499680b9 | body.stateOrganizationId  | Daybreak Central High                |
-    | student                              | 415924a0-3174-a2f3-af05-64f09d3e3d3e | body.studentUniqueStateId         | 800000025                            |
-    | staff                                | 90f4ba0f-9fd0-1be0-3f83-dd8cb519ecc2 | body.staffUniqueStateId           | jstevenson                           |
-    | staff                                | 98b905f7-5b5d-c695-9a61-5656fdb93482 | body.staffUniqueStateId           | linda.kim                            |
-    | cohort                               | fc06442f-862e-3b8f-d493-7b48eb7e3f88 | body.cohortIdentifier     | ACC-TEST-COH-1                       |
-    | cohort                               | fc06442f-862e-3b8f-d493-7b48eb7e3f88 | body.educationOrgId       | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.studentId            | e82bb76a-65be-d6db-a48b-1b453706436b |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
-    | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
+    | collectionName                       | deterministicId                             | field                             | value                                |
+    | educationOrganization                | 261472ed910549ecff6bb731f49362ed4d3fef05_id | body.stateOrganizationId  | IL                                   |
+    | educationOrganization                | 36465c681a53a77d71e24285d58bf5af9085e537_id | body.stateOrganizationId  | IL-DAYBREAK                          |
+    | educationOrganization                | e479e04449d7a787bb8cce88335d8214f612416a_id | body.stateOrganizationId  | Daybreak Central High                |
+    | student                              | 067198fd6da91e1aa8d67e28e850f224d6851713_id | body.studentUniqueStateId         | 800000025                            |
+    | staff                                | dfec28d34c75a4d307d1e85579e26a81630f6a47_id | body.staffUniqueStateId           | jstevenson                           |
+    | staff                                | c67d7320aabbeed6ef3ad321e4de250d14a27ac3_id | body.staffUniqueStateId           | linda.kim                            |
+    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
+    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.educationOrgId       | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.studentId            | 25369655c44d8d9346b356a75b8ac3552bb85e6e_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.cohortId             | 9f522548066d6edebc551afc6c5214d3360cf539_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.beginDate            | 2012-01-15                           |
+    | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
 # disciplineAction
 #    | disciplineAction                     | ???????????????????????????????????? | body.responsibilitySchoolId     | ????                           |
 #    | disciplineAction                     | ???????????????????????????????????? | body.disciplineActionIdentifier | ????                           |
@@ -428,29 +428,29 @@ Scenario: Verify deterministic ids generated: Clean Database
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.educationOrganizationReference | ????                                 |
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffClassification            | ????                                 |
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.beginDate                      | ????                                 |
-     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
-     | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
+     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.disciplineIncidentId    | 4d1d98c6d4c6adf3e2f6008d7896432eb655b22f_id |
 # uncomment when course has a deterministic id
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
 #   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseAttemptResult            | ????                                 |
-   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
-   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.parentId             | 19730e81-bc94-ec88-381e-0c8f8ed9e156 |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
-   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
-   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
-    | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
-    | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
-    | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.programId            | 3648e86a-ed1b-70a5-72f9-76a366e98093 |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.educationOrganizationId | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.beginDate            | 2011-03-01                           |
-    | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
-    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
-    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
+   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id  |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.schoolId            | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.entryDate            | 2008-09-05                              |
+   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.teacherId            | 18f5c2652935c4881c8a88df04481e8c3aeb5aac_id |
+   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.sectionId            | e2b3887f55834817a194a51604dd3fb03d8cacbc_id |
+    | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
+    | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
+    | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.beginDate            | 2011-03-01                           |
+    | parent         | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
+    | section        | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
+    | section        | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
 # uncomment when session has a deterministic id
 #    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
 #    | courseOffering | TODO | body.sessionId            | TODO |
