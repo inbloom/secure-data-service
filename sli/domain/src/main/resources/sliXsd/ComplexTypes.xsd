@@ -667,6 +667,9 @@
 			<xs:documentation>This entity represents subtests that assess
 				specific learning objectives.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="identificationCode" type="identificationCode">
@@ -679,6 +682,9 @@
 						other agency or
 						entity.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="maxRawScore" type="xs:int" minOccurs="0">
