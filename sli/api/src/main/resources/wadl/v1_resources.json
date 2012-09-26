@@ -121,7 +121,7 @@
     },
     {
       "path": "/educationOrganizations",
-      "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. For more information, see the schema for $$EducationOrganization$$ resources.",
+      "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the education organization to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
@@ -138,7 +138,7 @@
     },
     {
       "path": "/schools",
-      "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. For more information, see the schema for $$School$$ resources.",
+      "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the education organization to which the school belongs. For more information, see the schema for $$School$$ resources.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicAggregateListableResource",
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations" },
@@ -160,7 +160,7 @@
     },
     {
       "path": "/learningStandards",
-      "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. For more information, see the schema for $$LearningStandard$$ resources."
+      "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the education organization to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources."
     },
     {
       "path": "/parents",
@@ -186,7 +186,7 @@
     },
     {
       "path": "/learningObjectives",
-      "doc": "Represents identified learning objectives for courses in specific grades. For more information, see the schema for $$LearningObjective$$ resources.",
+      "doc": "Represents identified learning objectives for courses in specific grades. Caution: The learningObjectives entity is public in the SLI API. Any metadata associated with a learningObjective can be viewed by anyone within the education organization to which the learningObjective belongs. For more information, see the schema for $$LearningObjective$$ resources.",
       "subResources": [
         { "path": "/{id}/studentCompetencies" },
         { "path": "/{id}/learningStandards" },
