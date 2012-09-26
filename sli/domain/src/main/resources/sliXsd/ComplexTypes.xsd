@@ -6285,7 +6285,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>course</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -6303,9 +6303,9 @@
 						instruction for which a grade or report is assigned (e.g.,
 						reading, composition, spelling, and language arts).
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
+					<!--<xs:appinfo>-->
+						<!--<sli:naturalKey>true</sli:naturalKey>-->
+					<!--</xs:appinfo>-->
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="numberOfParts">
@@ -6320,6 +6320,16 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+            <xs:element name="uniqueCourseId" type="uniqueCourseId">
+                <xs:annotation>
+                    <xs:documentation>A unique number or alphanumeric code assigned to a
+                        course by a school, school system, a state, or other agency or entity.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element maxOccurs="unbounded" name="courseCode" type="courseCode">
 				<xs:annotation>
 					<xs:documentation>The code that identifies the organization of
