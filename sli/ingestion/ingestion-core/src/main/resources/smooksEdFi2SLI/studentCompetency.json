@@ -15,7 +15,7 @@
                             "path" : "body.learningObjectiveId.identificationCode",
                             "values" :
                             [{
-                                "valueSource" : "body.learningObjectiveReference"
+                                "valueSource" : "body.learningObjectiveReference.LearningObjectiveId"
                             }]
                         }
                     ]

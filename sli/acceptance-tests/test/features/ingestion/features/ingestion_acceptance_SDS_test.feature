@@ -100,8 +100,8 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 6     |
         | studentCompetency           | 59    |
         | studentCompetencyObjective  | 4     |
-        | learningStandard            | 1463  |
-        | learningObjective           | 135   |
+        | learningStandard            | 1499  |
+        | learningObjective           | 198   |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
         | studentDisciplineIncidentAssociation| 4|
@@ -165,7 +165,7 @@ Then I should see following map of entry counts in the corresponding collections
        | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
-    And I should see "Processed 4151 records." in the resulting batch job file
+    And I should see "Processed 4250 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -248,6 +248,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
 
 @smoke
 Scenario: Check the collections: Clean Database
@@ -2062,8 +2065,8 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 6     |
         | studentCompetency           | 59    |
         | studentCompetencyObjective  | 4     |
-        | learningStandard            | 1463  |
-        | learningObjective           | 135   |
+        | learningStandard            | 1499  |
+        | learningObjective           | 198   |
         | disciplineIncident          | 4     |
         | disciplineAction            | 3     |
     | studentDisciplineIncidentAssociation| 8 |
