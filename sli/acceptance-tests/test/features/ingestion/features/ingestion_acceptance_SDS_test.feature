@@ -433,6 +433,10 @@ Scenario: Verify deterministic ids generated: Clean Database
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.educationOrganizationReference | ????                                 |
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.staffClassification            | ????                                 |
 #    | staffEducationOrganizationAssociation | ???????????????????????????????????? | body.beginDate                      | ????                                 |
+# teacherSchoolAssociation
+     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.teacherId            | 46f5b008-c469-097d-1926-27791327dfbb |
+     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.programAssignment    | Regular Education                    |
+     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
      | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
      | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
 # uncomment when course has a deterministic id
