@@ -47,7 +47,6 @@
 		<property name="template" ref="mongoTemplate" />
 	</bean>
 
-	<bean id="loader" class="org.slc.sli.search.Loader" init-method="init"
-		destroy-method="destroy" />
+	<bean id="loader" class="org.slc.sli.search.Loader" />
 
 </beans>
