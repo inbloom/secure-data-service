@@ -18,7 +18,7 @@ echo Shards killed.
 sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo Shards started.
 
-mongo admin $SLI_HOME/config/shards/sli_shards.js
+mongo admin $SLI_HOME/config/shards/sli_shards.js --eval "var database = 'sli'"
 #mongo admin $SLI_HOME/config/shards/is_shards.js
 echo shards configured.
 
