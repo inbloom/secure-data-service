@@ -7,7 +7,6 @@
 
 (defn gen-edfi-xml
   [interchange output-file contents]
-  ; (prn output-file)
   (with-open [out (java.io.OutputStreamWriter. (java.io.FileOutputStream. output-file) "UTF-8")]
     (emit (element interchange {:xmlns "http://ed-fi.org/0100"} contents) out)
   )
@@ -335,8 +334,8 @@
   )
 )
 
-(defn gen-sessions-edfi [schools output-file]
-  (gen-edfi-xml :InterchangeEducationOrgCalendar output-file
+(defn gen-sessions-edfi [districtName schools]
+  (gen-edfi-xml :InterchangeEducationOrgCalendar (format "/tmp/test/E-%s-calendar.xml" districtName)
     (reverse
       (into ()
         [
@@ -350,8 +349,8 @@
   )
 )
 
-(defn gen-students-edfi [schools rng output-file]
-  (gen-edfi-xml :InterchangeStudentParent output-file
+(defn gen-students-edfi [districtName schools rng]
+  (gen-edfi-xml :InterchangeStudentParent (format "/tmp/test/C-%s-students.xml" districtName)
     (into ()
       [
         (for [schoolName schools]
@@ -367,19 +366,16 @@
 )
 
 
-(defn gen-state-edfi [output-file]
-  (gen-edfi-xml :InterchangeEducationOrganization output-file
-    (create-state-edfi)
-  )
+(defn gen-state-edfi []
+  (gen-edfi-xml :InterchangeEducationOrganization "/tmp/test/A-state.xml" (create-state-edfi))
 )
   
 
-(defn gen-schools-edfi [districtName schools output-file]
-  (gen-edfi-xml :InterchangeEducationOrganization output-file
+(defn gen-schools-edfi [districtName schools]
+  (gen-edfi-xml :InterchangeEducationOrganization (format "/tmp/test/D-%s-schools.xml" districtName)
     (reverse
       (into ()
         [
-          (create-state-edfi)
           (create-district-edfi districtName)
           (create-course-edfi districtName)
           (for [schoolName schools
@@ -392,13 +388,12 @@
   )
 )
 
-(defn gen-assessment-edfi [assessmentName output-file]
-  (gen-edfi-xml :InterchangeAssessmentMetadata output-file (create-assessment-edfi assessmentName))
+(defn gen-assessment-edfi [assessmentName]
+  (gen-edfi-xml :InterchangeAssessmentMetadata "/tmp/test/B-assessment.xml" (create-assessment-edfi assessmentName))
 )
 
-(defn gen-student-assessment-associations-edfi
-  [districtName schools students assessment n output-file]
-  (gen-edfi-xml :InterchangeStudentAssessment output-file
+(defn gen-student-assessment-associations-edfi [districtName schools students assessment n]
+  (gen-edfi-xml :InterchangeStudentAssessment (format "/tmp/test/H-%s-assessment-results.xml" districtName)
     (for [schoolName schools]
       (for [studentId students, i (range n)]
         (create-student-assessment-association-edfi schoolName studentId assessment (str "2011-10-" (format "%02d" i)))
@@ -407,8 +402,8 @@
   )
 )
 
-(defn gen-student-enrollments-edfi [schools rng output-file]
-  (gen-edfi-xml :InterchangeStudentEnrollment output-file
+(defn gen-student-enrollments-edfi [districtName schools rng]
+  (gen-edfi-xml :InterchangeStudentEnrollment (format "/tmp/test/G-%s-enrollment.xml" districtName)
     (for [schoolName schools]
       (for [id rng]
         (create-student-enrollment-edfi schoolName id)
@@ -417,8 +412,8 @@
   )
 )
 
-(defn gen-sections-edfi [districtName schools output-file]
-  (gen-edfi-xml :InterchangeMasterSchedule output-file
+(defn gen-sections-edfi [districtName schools]
+  (gen-edfi-xml :InterchangeMasterSchedule (format "/tmp/test/F-%s-master-schedule.xml" districtName)
     (reverse 
       (into () 
         [
@@ -451,6 +446,9 @@
       (if (substring? "-assessment.xml" filename)
         (format formatString "AssessmentMetadata" filename md5string)
       )
+      (if (substring? "-state.xml" filename)
+        (format formatString "EducationOrganization" filename md5string)
+      )
       (if (substring? "-schools.xml" filename)
         (format formatString "EducationOrganization" filename md5string)
       )
@@ -460,7 +458,7 @@
       (if (substring? "-master-schedule.xml" filename)
         (format formatString "MasterSchedule" filename md5string)
       )
-      (if (substring? "student.xml" filename)
+      (if (substring? "-students.xml" filename)
         (format formatString "StudentParent" filename, md5string)
       )
       (if (substring? "-enrollment.xml" filename)

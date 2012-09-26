@@ -285,13 +285,13 @@
   }
 )
 
-(defn gen-sessions-json [schools output-file]
+(defn gen-sessions-json [districtName schools output-file]
   (doseq [schoolName schools]
     (gen-json "session" (create-session-json schoolName))
   )
 )
 
-(defn gen-students-json [schools rng output-file]
+(defn gen-students-json [districtName schools rng output-file]
   (doseq [schoolName schools]
     (doseq [id rng]
       (gen-json "student" (create-student-json schoolName id))
@@ -336,7 +336,7 @@
   )
 )
 
-(defn gen-student-enrollments-json [schools rng output-file]
+(defn gen-student-enrollments-json [districtName schools rng output-file]
   (doseq [schoolName schools]
     (doseq [id rng]
       (gen-json "studentSchoolAssociation" (create-student-school-association-json schoolName id))
