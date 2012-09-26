@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.Client;
@@ -134,17 +135,16 @@ public class Indexer {
         HttpHeaders headers = new HttpHeaders();
 
         // Basic Authentication when username and password are provided
-        /*
         if (esUsername != null && esPassword != null) {
             headers.set("Authorization",
                     "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
-        */
+        
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
 
         // make the REST call
         //esUri = "http://localhost:9200/" + TenantContext.getTenantId().toLowerCase() + "_bulk";
-        esUri = "http://localhost:9200/_bulk";
+        //esUri = "http://localhost:9200/_bulk";
         
         try {
             return searchTemplate.exchange(
@@ -161,4 +161,15 @@ public class Indexer {
         return new TransportClient();
     }
     
+    public void setSearchUrl(String esUrl) {
+        this.esUri = esUrl + "/_bulk";
+    }
+    
+    public void setSearchUsername(String esUsername) {
+        this.esUsername = esUsername;
+    }
+
+    public void setSearchPassword(String esPassword) {
+        this.esPassword = esPassword;
+    }
 }

@@ -51,6 +51,9 @@
 	</bean>
 	
 	<bean id="indexer" class="org.slc.sli.search.Indexer" init-method="init" destroy-method="destroy">
+	    <property name="searchUrl" value="${sli.search.url}" />
+        <property name="searchUsername" value="${sli.search.username}" />
+        <property name="searchPassword" value="${sli.search.password}" />
 	</bean>
 
 </beans>
