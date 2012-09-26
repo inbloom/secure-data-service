@@ -667,6 +667,9 @@
 			<xs:documentation>This entity represents subtests that assess
 				specific learning objectives.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="identificationCode" type="identificationCode">
@@ -679,6 +682,9 @@
 						other agency or
 						entity.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="maxRawScore" type="xs:int" minOccurs="0">
@@ -1413,9 +1419,9 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>session</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
-                <sli:schemaVersion>1</sli:schemaVersion>
-            </xs:appinfo>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+				<sli:schemaVersion>1</sli:schemaVersion>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="sessionName" type="identificationCode">
@@ -1432,18 +1438,12 @@
 				<xs:annotation>
 					<xs:documentation>The identifier for the school year.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="term" type="termType">
 				<xs:annotation>
 					<xs:documentation>The term for the session during the school year.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -1478,15 +1478,16 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="schoolId" type="reference" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>The education organization referenced by this session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="schoolId" type="reference" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The education organization referenced by this session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
