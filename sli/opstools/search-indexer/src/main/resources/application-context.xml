@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<import resource="classpath:/spring/validation.xml" />
+	<context:component-scan base-package="org.slc.sli.search" />
+	<context:component-scan base-package="org.slc.sli.dal" />
+	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:annotation-config />
+	<tx:annotation-driven />
+	<context:property-placeholder location="classpath:search.properties" />
+	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
+	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
+	</bean>
+
+	<mongo:mapping-converter id="mappingConverter"
+		base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
+		<mongo:custom-converters>
+			<mongo:converter>
+				<bean class="org.slc.sli.dal.convert.EntityReadConverter" />
+			</mongo:converter>
+		</mongo:custom-converters>
+	</mongo:mapping-converter>
+
+	<mongo:mongo id="searchMongo" host="${search.mongodb.host}"
+		port="${search.mongodb.port}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${search.mongodb.database}"
+		mongo-ref="searchMongo" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="mappingConverter" />
+		<property name="slaveOk" value="false" />
+	</bean>
+
+	<bean id="mongoEntityRepository" name="validationRepo"
+		class="org.slc.sli.dal.repository.MongoEntityRepository">
+		<property name="template" ref="mongoTemplate" />
+	</bean>
+
+	<bean id="loader" class="org.slc.sli.search.Loader" init-method="init"
+		destroy-method="destroy" />
+
+</beans>
