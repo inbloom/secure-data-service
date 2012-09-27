@@ -33,7 +33,7 @@ function discoverShards() {
 
 function preSplit_docId(shard_list, database_name, tenantId, num_years){
     //make sure the database is sharded
-    print("Enabling sharding on database:" + database_name);
+//    print("Enabling sharding on database:" + database_name);
     db.runCommand( { enablesharding : database_name } );
 
     var a_code = "a".charCodeAt(0);
@@ -45,7 +45,7 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
         var this_year = new Date().getFullYear();
 
         //enable sharding on the collection
-        print("Sharding collecion:" + collection);
+//        print("Sharding collecion:" + collection);
         db.runCommand({shardcollection:collection,
                        key:{"metaData.tenantId":1, "_id":1} });
 
@@ -99,7 +99,7 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
 
 function preSplit_hashId(shard_list, database_name, tenantId, num_years){
     //make sure the database is sharded
-    print("Enabling sharding on database:" + database_name);
+//    print("Enabling sharding on database:" + database_name);
     db.runCommand( { enablesharding : database_name } );
 	
     var char_offset = Math.floor(256 / shard_list.length);
@@ -109,7 +109,7 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
         var collection = database_name + "." + collections_hashId[col_num];
 
         //enable sharding on the collection
-        print("Sharding collecion:" + collection);
+//        print("Sharding collecion:" + collection);
         db.runCommand({shardcollection:collection,
                        key:{"metaData.tenantId":1, "_id":1} });
         	
