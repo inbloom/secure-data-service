@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -25,6 +27,7 @@ public class Loader implements FileAlterationListener {
     
     private static final String DEFAULT_DROP_OFF_DIR = "inbox";
     private static final int DEFAULT_INTERVAL_SEC = 3;
+    private static final int DEFAULT_EXECUTOR_THREADS = 5;
     
     @Autowired
     private Indexer indexer;
@@ -37,6 +40,9 @@ public class Loader implements FileAlterationListener {
     
     private FileAlterationMonitor monitor;
     
+    private ExecutorService executor;
+    private int executorThreads = DEFAULT_EXECUTOR_THREADS;
+    
     public Loader() {
         monitor = new FileAlterationMonitor(TimeUnit.SECONDS.toMillis(intervalSec));
         FileAlterationObserver observer = new FileAlterationObserver(new File(inboxDir));
@@ -45,55 +51,72 @@ public class Loader implements FileAlterationListener {
     }
     
     public void init() throws Exception {
+        
+        // create thread pool to process files
+        executor = Executors.newFixedThreadPool(executorThreads);
+        
         // watch directory for files
         monitor.start();
     }
     
     public void destroy()  throws Exception{
         monitor.stop();
+        executor.shutdown();
     }
     
-    private void loadFromFileAndIndex(File inFile) {
+    private class LoaderWorker implements Runnable {
         
-        // read records from file
-        BufferedReader br = null;
-        String id, type, index, entity;
+        File inFile;
         
-        try {
-            // get tenant and entity type from file name
-            String fileName = inFile.getName();
-            index = fileName.substring(0, fileName.indexOf('-'));
-            type = fileName.substring(fileName.indexOf('-')+1, fileName.indexOf('.'));
-            
-            br = new BufferedReader(new FileReader(inFile));
-            while ((entity = br.readLine()) != null) {
-                
-                // create entity object
-                ObjectMapper mapper = new ObjectMapper();
-                
-                Map<String, Object> entityMap = mapper.readValue(
-                        entity, 
-                        new TypeReference<Map<String, Object>>() {});
-                
-                id = (String) entityMap.get("_id");
-                //String body = mapper.writeValueAsString((Map<String, Object>) entityMap.get("body"));
-                IndexEntity indexEntity = new IndexEntity(index, type, id, (Map<String, Object>) entityMap.get("body"));
-                
-                indexer.index(type, indexEntity);
-                
-            }
-            indexer.flush();
-        } catch (Exception e) {
-            logger.error("Error loading from file", e);
+        LoaderWorker(File inFile) {
+            this.inFile = inFile;
         }
-        finally {
-            
+        
+        public void run() {
+        
+            // read records from file
+            BufferedReader br = null;
+            String id, type, index, entity;
+        
             try {
-                IOUtils.close(br);
-            } catch (IOException e) {
-                logger.error("Error closing file", e);
+                // get tenant and entity type from file name
+                String fileName = inFile.getName();
+                index = fileName.substring(0, fileName.indexOf('-'));
+                type = fileName.substring(fileName.indexOf('-')+1, fileName.indexOf('.'));
+            
+                br = new BufferedReader(new FileReader(inFile));
+                while ((entity = br.readLine()) != null) {
+                
+                    // create entity object
+                    ObjectMapper mapper = new ObjectMapper();
+                
+                    Map<String, Object> entityMap = mapper.readValue(
+                            entity, 
+                            new TypeReference<Map<String, Object>>() {});
+                
+                    id = (String) entityMap.get("_id");
+                    //String body = mapper.writeValueAsString((Map<String, Object>) entityMap.get("body"));
+                    IndexEntity indexEntity = new IndexEntity(index, type, id, (Map<String, Object>) entityMap.get("body"));
+                
+                    indexer.index(type, indexEntity);
+                
+                }
+                indexer.flush();
+            } catch (Exception e) {
+                logger.error("Error loading from file", e);
+            }
+            finally {
+            
+                try {
+                    IOUtils.close(br);
+                    inFile.delete();
+                    logger.info("Done processing file: " + inFile.getName());
+                } catch (IOException e) {
+                    logger.error("Error closing file", e);
+                }
             }
         }
+        
     }
 
     public void onDirectoryChange(File arg0) {
@@ -110,8 +133,8 @@ public class Loader implements FileAlterationListener {
 
     public void onFileCreate(File inFile) {
         // TODO: make sure file is not being written to still
-        loadFromFileAndIndex(inFile);
-        inFile.delete();
+        logger.info("Processing file: " + inFile.getName());
+        executor.execute(new LoaderWorker(inFile));
     }
 
     public void onFileDelete(File arg0) {
