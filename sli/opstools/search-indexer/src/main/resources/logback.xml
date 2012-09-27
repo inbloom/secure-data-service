@@ -20,7 +20,7 @@
     </rollingPolicy>
   </appender>
 	
-	<root level="INFO">
+	<root level="${log.level}">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 	</root>
