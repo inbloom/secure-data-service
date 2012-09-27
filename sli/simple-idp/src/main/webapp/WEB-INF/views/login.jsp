@@ -45,6 +45,24 @@
 
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
+<script type="text/javascript">
+  function disableTextbox() {
+	  select = document.getElementById("selected_roles")
+	  textbox = document.getElementById("customRoles")
+	  if (select.selectedIndex > 0) {
+		  textbox.value = ""
+	  } 
+  }
+  
+  function disableSelect() {
+	   select = document.getElementById("selected_roles")
+	   textbox = document.getElementById("customRoles")
+	   if (textbox.value.length > 0) {
+		   select.selectedIndex = 0
+	   } 
+	  
+  }
+</script>
 </head>
 <body onload="document.login_form.user_id.focus();">
 
@@ -84,7 +102,7 @@
 					</div>
 					<div class="control-group">
 						<label for="password" class="control-label">Password:</label>
-						<input type="password" id="password" name="password" />
+						<input type="password" id="password" name="password" autocomplete="off"/>
 					</div>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">
@@ -99,16 +117,15 @@
 					<div class="control-group">
 						<label for="selected_roles" class="control-label">Roles:</label>
 						<div class="controls">
-							<select id="selected_roles" multiple="multiple"
-								name="selected_roles" class="input-xlarge">
+							<select id="selected_roles" name="selected_roles" class="input-xlarge" onchange="disableTextbox();">
+                                <option> </option>
 								<c:forEach items="${roles}" var="role">
 									<option value="${role.id}">${role.name}</option>
 								</c:forEach>
 							</select>
-							<p class="help-block">Select one or more roles using Ctrl/Apple+Click</p>
-                            <label for='customRoles'>Custom Role(s):</label>
-                            <input type="text" id="customRoles" name="customRoles" />
-                            <p class="help-block">Custom roles should be comma separated</p>
+                            
+                            <label for='customRoles'>Or Custom Role:</label>
+                            <input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" />
 						</div>
 					</div>
 					</c:if>

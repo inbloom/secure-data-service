@@ -38,7 +38,7 @@ public final class LevelNClientJavaHelper {
     /**
      * This is the default type used for all JSON objects.
      */
-    private static final JavaType JT_MAP_STRING_TO_OBJECT = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
+    protected static final JavaType JT_MAP_STRING_TO_OBJECT = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
     /**
      * The domain neutral entity type.
      */
@@ -46,7 +46,7 @@ public final class LevelNClientJavaHelper {
     /**
      * A list of the domain neutral entity type.
      */
-    private static final JavaType JT_LIST_OF_ENTITY = JavaType.collectionType(JavaCollectionKind.LIST, JT_ENTITY);
+    protected static final JavaType JT_LIST_OF_ENTITY = JavaType.collectionType(JavaCollectionKind.LIST, JT_ENTITY);
 
     public static final List<JavaParam> computeParams(final JavaParam token, final List<Param> params,
             final JavaParam requestParam) {

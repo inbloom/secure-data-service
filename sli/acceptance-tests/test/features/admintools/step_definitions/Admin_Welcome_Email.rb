@@ -27,14 +27,12 @@ require_relative '../../utils/email.rb'
 SAMT_WELCOME_TEST_UID_PREFIX = "SAMT_Welcome_Email_"
 NEW_PASSWORD = "password1234"
 
-Before do
+Before("@RALLY_US3459") do
   extend Test::Unit::Assertions
 end
 
-After do |scenario|
-  unless @do_not_run_after
-    cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
-  end
+After("@RALLY_US3459") do |scenario|
+  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|

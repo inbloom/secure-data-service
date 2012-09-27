@@ -44,6 +44,8 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
+    public static final String BATCH_JOB_STAGE_DESC = "Splits the work that can be processed in parallel";
+
     @Autowired
     private SplitStrategy balancedTimestampSplitStrategy;
 
@@ -59,7 +61,7 @@ public class WorkNoteSplitter {
      */
     public List<WorkNote> splitTransformationWorkNotes(Exchange exchange) {
 
-        Stage stage = Stage.createAndStartStage(BatchJobStageType.WORKNOTE_SPLITTER);
+        Stage stage = Stage.createAndStartStage(BatchJobStageType.WORKNOTE_SPLITTER, BATCH_JOB_STAGE_DESC);
 
         String jobId = null;
         List<WorkNote> workNoteList = null;

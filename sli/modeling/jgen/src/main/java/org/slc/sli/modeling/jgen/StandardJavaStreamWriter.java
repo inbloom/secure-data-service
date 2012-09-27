@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -114,8 +115,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         }
         writer.write("public");
         writer.write(SPACE);
-        writer.write("final");
-        writer.write(SPACE);
         writer.write("class");
         writer.write(SPACE);
         writer.write(name);
@@ -132,14 +131,55 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         }
         writer.write("public");
         writer.write(SPACE);
-        writer.write("final");
-        writer.write(SPACE);
         writer.write("class");
         writer.write(SPACE);
         writer.write(name);
         if (!implementations.isEmpty()) {
             writer.write(" implements ");
+            boolean first = true;
             for (final String implementation : implementations) {
+                if (first) {
+                    first = false;
+                } else {
+                    writer.write(COMMA);
+                    writer.write(SPACE);
+                }
+                writer.write(implementation);
+            }
+        }
+        beginBlock();
+    }
+
+    @Override
+    public void beginClass(final String name, final List<String> implementations, final String extension) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (implementations == null) {
+            throw new NullPointerException("implementations");
+        }
+        if (extension == null) {
+            throw new NullPointerException("extension");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("class");
+        writer.write(SPACE);
+        writer.write(name);
+        writer.write(SPACE);
+        writer.write("extends");
+        writer.write(SPACE);
+        writer.write(extension);
+        if (!implementations.isEmpty()) {
+            writer.write(" implements ");
+            boolean first = true;
+            for (final String implementation : implementations) {
+                if (first) {
+                    first = false;
+                } else {
+                    writer.write(COMMA);
+                    writer.write(SPACE);
+                }
                 writer.write(implementation);
             }
         }
@@ -155,8 +195,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
             throw new NullPointerException("extendsClass");
         }
         writer.write("public");
-        writer.write(SPACE);
-        writer.write("final");
         writer.write(SPACE);
         writer.write("class");
         writer.write(SPACE);
@@ -343,16 +381,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void writeArgs(final String... args) throws IOException {
-        boolean first = true;
-        for (final String arg : args) {
-            if (first) {
-                first = false;
-            } else {
-                writer.write(COMMA);
-                writer.write(SPACE);
-            }
-            writer.write(arg);
-        }
+        writeArgs(Arrays.asList(args));
     }
 
     @Override
@@ -510,22 +539,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void writeParams(final JavaParam... params) throws IOException {
-        boolean first = true;
-        for (final JavaParam param : params) {
-            if (first) {
-                first = false;
-            } else {
-                writer.write(COMMA);
-                writer.write(SPACE);
-            }
-            if (!insideInterface && param.isFinal()) {
-                writer.write("final");
-                writer.write(SPACE);
-            }
-            writeType(param.getType());
-            writer.write(SPACE);
-            writer.write(param.getName());
-        }
+        writeParams(Arrays.asList(params));
     }
 
     @Override

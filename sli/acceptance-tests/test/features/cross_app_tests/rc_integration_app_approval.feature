@@ -6,7 +6,8 @@ Given I have an open web browser
 
 Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
+#When I selected the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure""
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
@@ -43,7 +44,8 @@ And I click on log out
 
 Scenario: App developer creates new installed app
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
+#When I selected the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure""
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
@@ -95,7 +97,8 @@ Then I am redirected to the Application Registration Tool page
 
 Scenario:  LEA approves Dashboard, Databrowser and Dev App
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Infrastructure"
+#When I selected the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure""
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page    
 Then I should be on Portal home page

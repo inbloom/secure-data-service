@@ -42,6 +42,8 @@
         <context:exclude-filter type="regex"
             expression=".*CustomImpl" />
             <context:exclude-filter type="regex"
+            expression=".*DummyEntityRepository" />
+            <context:exclude-filter type="regex"
             expression=".*MongoEntityRepository" />
             <context:exclude-filter type="regex"
             expression=".*AvroEntityValidator" />
@@ -49,6 +51,8 @@
             expression=".*AggregationLoader" />
             <context:exclude-filter type="regex"
             expression=".*NeutralSchemaValidator" />
+            <context:exclude-filter type="assignable"
+            expression="org.slc.sli.api.model.ModelProvider" />
     </context:component-scan>
 
 
@@ -62,6 +66,7 @@
 
     <bean id="EntityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+    <bean id="testModelProvider" class="org.slc.sli.api.model.TestModelProvider" />
 
     <import resource="classpath:/spring/validation.xml" />
     

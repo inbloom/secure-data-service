@@ -24,7 +24,7 @@ import org.junit.Test;
 public class StandardLevel2ClientManualTest {
     private Level2ClientManual client; // class under test
 
-    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private static final String BASE_URL = TestingConstants.BASE_URL;
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     @Before
@@ -48,7 +48,7 @@ public class StandardLevel2ClientManualTest {
             putStudent(studentId);
             final List<Entity> updatedStudent = getStudent(studentId);
             assertEquals(1, updatedStudent.size());
-            assertEquals("900000012", updatedStudent.get(0).getData().get("studentUniqueStateId"));
+            assertEquals("Male", updatedStudent.get(0).getData().get("sex"));
 
             // DELETE
             client.deleteStudentsById(TestingConstants.ROGERS_TOKEN, studentId);

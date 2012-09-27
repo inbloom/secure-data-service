@@ -33,7 +33,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  * @author pwolf
@@ -43,8 +43,8 @@ import org.slc.sli.domain.Repository;
 public class ResolveCreatorsEntitiesHelper {
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    
+    private PagingRepositoryDelegate<Entity> repo;
 
     private final HashMap<String, String> entityCollectionTransform = new HashMap<String, String>();
 

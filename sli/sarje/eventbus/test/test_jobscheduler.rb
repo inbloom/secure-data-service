@@ -23,6 +23,7 @@ require 'test/unit'
 require 'eventbus' 
 require 'time'
 require 'systemu'
+require 'logger'
 
 class TestJobScheduler < Test::Unit::TestCase
 
@@ -40,6 +41,9 @@ class TestJobScheduler < Test::Unit::TestCase
   }
 
     def setup
+       @logger = Logger.new(STDOUT)
+       @logger.level = Logger::INFO
+
         mongo_helper = Eventbus::MongoHelper.new(CONFIG)
         # Set up the fixtures in Mongo 
         mongo_helper.removeDatabase

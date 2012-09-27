@@ -37,10 +37,15 @@ Before do
 end
 
 After do
-begin
-initializeLandingZone(@lz)
-rescue
-end
+  begin
+    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    initializeLandingZone(@lz)
+  rescue
+    if $SLI_DEBUG
+      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
+      STDOUT.puts "Reason:  #{$!}"
+    end
+  end
 end
 
 

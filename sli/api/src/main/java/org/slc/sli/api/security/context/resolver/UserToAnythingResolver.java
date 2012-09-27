@@ -32,7 +32,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  * Resolves "Users" to anything.
@@ -55,8 +55,8 @@ public class UserToAnythingResolver implements EntityContextResolver {
     private SchemaDataProvider provider;
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repository;
+    
+    private PagingRepositoryDelegate<Entity> repository;
 
     /* (non-Javadoc)
      * @see org.slc.sli.api.security.context.resolver.EntityContextResolver#canResolve(java.lang.String, java.lang.String)

@@ -393,4 +393,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         return results;
     }
+
+    protected void setModelProvider(final ModelProvider modelProvider) {
+        this.modelProvider = modelProvider;
+    }
 }

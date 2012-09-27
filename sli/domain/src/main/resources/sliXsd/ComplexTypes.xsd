@@ -1712,6 +1712,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1723,6 +1724,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1775,6 +1777,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1787,6 +1790,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1896,6 +1900,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1906,6 +1911,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2321,7 +2327,7 @@
 			<xs:appinfo>
 				<sli:CollectionType>student</sli:CollectionType>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
-				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -2997,6 +3003,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3008,6 +3015,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>assessment</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3132,6 +3140,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3143,6 +3152,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3222,6 +3232,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3234,6 +3245,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3424,6 +3436,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3434,6 +3447,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>parent</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3514,6 +3528,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3524,6 +3539,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3600,6 +3616,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3610,6 +3627,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3670,6 +3688,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3679,6 +3698,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3789,17 +3809,18 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <!-- 
-			<xs:element name="graduationPlan" type="graduationPlan"
+			<xs:element name="graduationPlanId" type="reference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The graduation plan associated with the student
 						enrolled in
 						the school.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>graduationPlan</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-             -->
 		</xs:sequence>
 	</xs:complexType>
 
@@ -4223,6 +4244,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>teacher</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4233,6 +4255,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4290,6 +4313,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>teacher</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4300,6 +4324,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

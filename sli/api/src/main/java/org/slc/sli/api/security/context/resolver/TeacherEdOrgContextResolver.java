@@ -33,7 +33,7 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  * TeacherEdOrgContextResolver
@@ -44,8 +44,8 @@ import org.slc.sli.domain.Repository;
 public class TeacherEdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repository;
+    
+    private PagingRepositoryDelegate<Entity> repository;
     @Autowired
     private AssociativeContextHelper helper;
 

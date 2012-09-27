@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.util;
 
 import java.util.ArrayList;
@@ -23,15 +22,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.StringUtils;
+
 /**
- *A utility class to process a neutral record
+ * A utility class to process a neutral record
+ *
  * @author ablum
  *
  */
 public class NeutralRecordUtils {
 
-   @SuppressWarnings("unchecked")
-   public static <T> T scrubEmptyStrings(T obj) {
+    @SuppressWarnings("unchecked")
+    public static <T> T scrubEmptyStrings(T obj) {
         if (Map.class.isInstance(obj)) {
             return (T) process((Map<?, ?>) obj);
         } else if (List.class.isInstance(obj)) {
@@ -41,9 +42,9 @@ public class NeutralRecordUtils {
         } else {
             return obj;
         }
-   }
+    }
 
-   private static List<Object> process(List<?> value) {
+    private static List<Object> process(List<?> value) {
         List<Object> newList = new ArrayList<Object>();
 
         boolean isEmpty = true;
@@ -51,7 +52,7 @@ public class NeutralRecordUtils {
             record = scrubEmptyStrings(record);
 
             if (record != null) {
-                   isEmpty = false;
+                isEmpty = false;
             }
 
             newList.add(record);
@@ -62,38 +63,57 @@ public class NeutralRecordUtils {
         }
 
         return newList;
-   }
+    }
 
-   private static Map<Object, Object> process(Map<?, ?> value) {
-      Map<Object, Object> newMap = new HashMap<Object, Object>();
+    private static Map<Object, Object> process(Map<?, ?> value) {
+        Map<Object, Object> newMap = new HashMap<Object, Object>();
 
-      boolean isEmpty = true;
-      for (Map.Entry<?, ?> item : value.entrySet()) {
-           Object newValue = scrubEmptyStrings(item.getValue());
+        boolean isEmpty = true;
+        for (Map.Entry<?, ?> item : value.entrySet()) {
+            Object newValue = scrubEmptyStrings(item.getValue());
 
-           if (newValue != null) {
+            if (newValue != null) {
                 isEmpty = false;
-           }
+            }
 
-               newMap.put(item.getKey(), newValue);
-       }
+            newMap.put(item.getKey(), newValue);
+        }
 
-      if (isEmpty) {
-           newMap = null;
-      }
+        if (isEmpty) {
+            newMap = null;
+        }
 
-      return newMap;
-   }
+        return newMap;
+    }
 
-   private static String process(String value) {
-       String cmp = value;
+    private static String process(String value) {
+        String cmp = value;
 
-       if (!StringUtils.hasText(cmp)) {
-             value = null;
-       } else {
-           value = value.trim();
-       }
+        if (!StringUtils.hasText(cmp)) {
+            value = null;
+        } else {
+            value = value.trim();
+        }
 
-       return value;
-   }
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String getByPath(String name, Map<String, Object> map) {
+        // how many times have I written this code? Not enough, I say!
+        String[] path = name.split("\\.");
+        for (int i = 0; i < path.length; i++) {
+            Object obj = map.get(path[i]);
+            if (obj == null) {
+                return null;
+            } else if (i == path.length - 1 && obj instanceof String) {
+                return (String) obj;
+            } else if (obj instanceof Map) {
+                map = (Map<String, Object>) obj;
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
 }

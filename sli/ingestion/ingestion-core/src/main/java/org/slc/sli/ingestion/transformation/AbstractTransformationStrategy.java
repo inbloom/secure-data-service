@@ -16,10 +16,10 @@
 
 package org.slc.sli.ingestion.transformation;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,6 +149,20 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
+
+        Iterable<NeutralRecord> data = getCollectionIterableFromDb(collectionName);
+
+        Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
+
+        if (collection.size() != workNote.getRecordsInRange()) {
+            LOG.error("Number of records in creationTime query result ({}) does not match resultsInRange of {} ",
+                    collection.size(), workNote);
+        }
+
+        return collection;
+    }
+
+    public Iterable<NeutralRecord> getCollectionIterableFromDb(String collectionName) {
         WorkNote workNote = getWorkNote();
 
         Query query = buildCreationTimeQuery(workNote);
@@ -160,14 +174,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
             LOG.warn("Found no records in collection: {} for batch job id: {}", collectionName, getJob().getId());
         }
 
-        Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
-
-        if (collection.size() != workNote.getRecordsInRange()) {
-            LOG.error("Number of records in creationTime query result ({}) does not match resultsInRange of {} ",
-                    collection.size(), workNote);
-        }
-
-        return collection;
+        return data;
     }
 
     /**
@@ -237,7 +244,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      * @return Map of { Neutral Record UUID --> Neutral Record }
      */
     private Map<Object, NeutralRecord> iterableResultsToMap(Iterable<NeutralRecord> data) {
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
+        Map<Object, NeutralRecord> collection = new TreeMap<Object, NeutralRecord>();
         NeutralRecord tempNr = null;
 
         Iterator<NeutralRecord> neutralRecordIterator = data.iterator();

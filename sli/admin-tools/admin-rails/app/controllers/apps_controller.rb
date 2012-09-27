@@ -20,6 +20,8 @@ limitations under the License.
 class AppsController < ApplicationController
   before_filter :check_rights
 
+  $column_names = ["name", "vendor", "version", "metaData.created", "metaData.updated", "registration.approval_date", "registration.request_date"]
+
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
   # It allows developers to create new apps.
@@ -35,7 +37,10 @@ class AppsController < ApplicationController
   # GET /apps.json
   def index
     @title = "Application Registration Tool"
-    @apps = App.all.sort { |a,b| b.metaData.updated <=> a.metaData.updated }
+
+    @apps = App.all
+    @apps = sort(@apps)
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @apps }
@@ -121,23 +126,21 @@ class AppsController < ApplicationController
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
 
-
-
     logger.debug {params[:app].inspect}
 
     @app = App.new(params[:app])
-    logger.debug{"Application is valid? #{@app.valid?}"}
+    # Want to read the created_by on the @app, which is stamped during the created.
+    # Tried @app.reload and it didn't work
+    creator_email = session[:email]
+    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
     @app.is_admin = boolean_fix @app.is_admin
     @app.installed = boolean_fix @app.installed
-
+    logger.debug{"Application is valid? #{@app.valid?}"}
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
         if !APP_CONFIG["is_sandbox"]
-            # Want to read the created_by on the @app, which is stamped during the created.
-            # Tried @app.reload and it didn't work
-            creator_email = App.find(@app.id).created_by
-            dev_info = APP_LDAP_CLIENT.read_user(creator_email)
             ApplicationMailer.notify_operator(session[:support_email], @app, "#{dev_info[:first]} #{dev_info[:last]}").deliver
         end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
@@ -163,6 +166,11 @@ class AppsController < ApplicationController
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     @app.load(params[:app])
+    # Want to read the created_by on the @app, which is stamped during the created.
+    # Tried @app.reload and it didn't work
+    creator_email = session[:email]
+    dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+    @app.vendor = dev_info[:vendor] || (APP_CONFIG['is_sandbox'] ? "Sandbox" : "Unknown")
     @app.attributes.delete :image_url unless params[:app].include? :image_url
     @app.attributes.delete :administration_url unless params[:app].include? :administration_url
     @app.attributes.delete :application_url unless params[:app].include? :application_url
@@ -226,5 +234,32 @@ class AppsController < ApplicationController
     end
     result
   end
- 
+
+  def sort_column
+    $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "desc"
+  end
+
+  def sort(app_array)
+    columns = sort_column().split(".")
+    puts("The sort_column is #{sort_column()}")
+    if sort_direction == "desc"
+        app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
+    else
+        app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
+    end
+    app_array
+  end
+
+  def getAttribute(model, column_array)
+    cur = model
+    column_array.each do |col|
+      cur = cur.attributes[col]
+    end
+    return cur
+
+  end
 end

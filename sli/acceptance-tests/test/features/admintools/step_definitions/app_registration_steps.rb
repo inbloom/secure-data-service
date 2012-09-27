@@ -200,7 +200,6 @@ When /^I have entered data into the other required fields except for the shared 
   @driver.find_element(:name, 'app[redirect_uri]').send_keys "https://blah.com"
   @driver.find_element(:name, 'app[version]').send_keys "0.9"
   @driver.find_element(:name, 'app[image_url]').send_keys "http://blah.com"
-  @driver.find_element(:name, 'app[vendor]').send_keys "Cucumber"
   @driver.find_element(:css, 'input[id="app_installed"]').click
   list = @driver.find_element(:css, 'input[disabled="disabled"]')
   assert(list, "Should have disabled fields.")

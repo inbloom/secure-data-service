@@ -30,12 +30,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -48,6 +42,11 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.validation.schema.ReferenceSchema;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -263,9 +262,7 @@ public class ResourceUtil {
 
             links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
-            if (areCalculatedValuesPresent(defn, id)) {
-                links.add(getCalculatedValuesLink(uriInfo, id, defn));
-            }
+            links.add(getCalculatedValuesLink(uriInfo, id, defn));
 
             if (areAggregatesPresent(defn, id)) {
                 links.add(getAggregatesLInk(uriInfo, id, defn));
@@ -273,17 +270,6 @@ public class ResourceUtil {
         }
 
         return links;
-    }
-
-    private static boolean areCalculatedValuesPresent(final EntityDefinition defn, String id) {
-        try {
-            CalculatedData<?> calcValues = defn.getService().getCalculatedValues(id);
-            return calcValues != null && !calcValues.getCalculatedValues().isEmpty();
-        } catch (AccessDeniedException e) {
-            return false;
-        } catch (EntityNotFoundException enfe) {
-            return false;
-        }
     }
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {

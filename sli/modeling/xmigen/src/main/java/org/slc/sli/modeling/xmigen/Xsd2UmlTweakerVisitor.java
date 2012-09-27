@@ -36,7 +36,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
         final Occurs upper = range.getUpper();
         if (upper == Occurs.ONE && lower == Occurs.ONE) {
             // FIXME: Unfortunately, this disqualifies models that don't use this SLI annotation.
-            return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_NATURAL_KEY, end, model, false);
+            return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, end, model, false);
         } else {
             return false;
         }
@@ -70,11 +70,13 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final AssociationEnd associationEnd) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public void visit(final Attribute attribute) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -146,6 +148,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final EnumLiteral enumLiteral) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -168,11 +171,13 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final Multiplicity multiplicity) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public void visit(final Range range) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
     
     @Override
@@ -183,5 +188,6 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     @Override
     public void visit(final TaggedValue taggedValue) {
         // Ignore
+        throw new UnsupportedOperationException();
     }
 }

@@ -85,6 +85,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_REST_RESOURCE, Occurs.ZERO, Occurs.UNBOUNDED, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_RESTRICTED_FOR_LOGGING, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SECURITY_SPHERE, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
 
@@ -92,14 +93,16 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
         // Look for the reference tag.
+        String name = null;
         final List<TaggedValue> taggedValues = attribute.getTaggedValues();
         for (final TaggedValue taggedValue : taggedValues) {
             final TagDefinition tagDefinition = host.getTagDefinition(taggedValue.getTagDefinition());
             if (tagDefinition.getName().equals(SliUmlConstants.TAGDEF_REFERENCE)) {
-                return nameFromSchemaTypeName(new QName(taggedValue.getValue()));
+                name = nameFromSchemaTypeName(new QName(taggedValue.getValue()));
+                break;
             }
         }
-        return null;
+        return name;
     }
 
     @Override
@@ -213,6 +216,9 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     }
                 } else if (SliMongoConstants.SLI_SCHEMA_VERSION.equals(name)) {
                     // ignore
+                } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
+                    taggedValues.add(new TaggedValue("true", tagDefinition));
                 } else {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }

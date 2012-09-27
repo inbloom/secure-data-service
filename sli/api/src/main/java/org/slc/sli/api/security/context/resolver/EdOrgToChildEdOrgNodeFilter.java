@@ -36,7 +36,7 @@ import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  *
@@ -51,8 +51,8 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
     private CallingApplicationInfoProvider clientInfo;
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public List<String> addAssociatedIds(List<String> ids) {

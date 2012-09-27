@@ -17,9 +17,9 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -58,6 +58,9 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 public class PurgeProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
+
+    private static final String BATCH_JOB_STAGE_DESC = "Purges tenant's ingested data from sli database";
+
     private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
@@ -109,7 +112,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 //            TenantContext.setTenantId(null);
 //        }
 
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
@@ -169,7 +172,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         logger.info("Purge process complete.");
 
     }
-    
+
     private void cleanApplicationEdOrgs(Query searchTenantId) {
         List<Entity> edorgs = mongoTemplate.find(searchTenantId, Entity.class, "educationOrganization");
         List<Entity> apps = mongoTemplate.findAll(Entity.class, "application");
@@ -177,14 +180,14 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         for (Entity edorg : edorgs) {
             edorgids.add(edorg.getEntityId());
         }
-        
+
         List<String> authedEdorgs;
         for (Entity app : apps) {
             authedEdorgs = (List<String>) app.getBody().get("authorized_ed_orgs");
             if (authedEdorgs == null) {
                 continue;
             }
-            
+
             for (String id : edorgids) {
                 if (authedEdorgs.contains(id)) {
                     authedEdorgs.remove(id);

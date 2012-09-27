@@ -199,6 +199,16 @@ task :partialTransformedIngestionTest do
   runTests("test/features/ingestion/features/ingestion_TransformedPartialIngestion.feature")
 end
 
+desc "Run Partial Ingestion Test"
+task :partialIngestionTest do
+  runTests("test/features/ingestion/features/ingestion_partial_test.feature")
+end
+
+desc "Ingestion Index Validation Test"
+task :IngestionIndexValidationTest do
+  runTests("test/features/ingestion/features/ingestion_indexValidation.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

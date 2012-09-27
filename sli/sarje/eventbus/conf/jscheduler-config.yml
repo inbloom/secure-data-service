@@ -1,0 +1,29 @@
+# logging configurations
+logger_output: STDOUT
+logger_level: INFO
+
+# ActiveMQ configuration 
+# host and port for the AactiveMQ broker running the STOMP protocol 
+messaging_host: 127.0.0.1
+messaging_port: 61613
+
+# Job infrastructure specific configuration 
+# host and port of the mongodb used to store scheduled jobs
+mongo_host: 127.0.0.1
+mongo_port: 27017
+
+# name of the mongodb database to store eventbus related data
+mongo_db: eventbus
+
+# collection that stores the jobs to be triggered by events 
+mongo_job_collection: jobs
+
+# interval in seconds in which to poll the mongodb for job definitions 
+mongo_poll_interval: 20
+
+# Hadoop configuration
+# directory with jars containing hadoop jobs 
+hadoop_jars: "./jars"
+
+# path to the root of the hadoop installation 
+hadoop_home: /usr/lib/hadoop

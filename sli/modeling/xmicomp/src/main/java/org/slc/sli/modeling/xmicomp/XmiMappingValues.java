@@ -13,7 +13,7 @@ public final class XmiMappingValues {
     public static final String STATUS_TRANSIENT = "transient";
     public static final String STATUS_UNKNOWN = "unknown";
     
-    private XmiMappingValues() {
-        throw new RuntimeException();
+    public XmiMappingValues() {
+        throw new UnsupportedOperationException();
     }
 }

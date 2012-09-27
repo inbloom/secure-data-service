@@ -31,11 +31,6 @@
 	<%= f.label :client_secret, "Shared Secret" %>
 	<%= f.text_field :client_secret, :disabled => true, :class => :read_only, :value => client_field_value(app, :client_secret) %>
 </div>
-<div class = "field well">
-	<%= f.label :vendor, "Vendor", :class => "required" %>
-	<%= f.text_field :vendor %>
-	<span class="help-inline"> Your company Name</span>
-</div>
 
 <div class = "field well" id='application_url'>
 	<%= f.label :application_url, "Url", :class => "required" %>

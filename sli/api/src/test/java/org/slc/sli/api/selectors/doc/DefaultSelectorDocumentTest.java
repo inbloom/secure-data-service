@@ -175,6 +175,8 @@ public class DefaultSelectorDocumentTest {
 
     @Test
     public void testAssociationSkipQueryPlan() {
+        defaultSelectorDocument.setModelProvider(provider);
+
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
         ids.add(student2.getEntityId());

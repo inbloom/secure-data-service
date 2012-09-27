@@ -16,7 +16,10 @@
 
 package org.slc.sli.dal.aspect;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -63,6 +66,9 @@ public class MongoTrackingAspect {
         setEnabled(enabledConfig);
     }
 
+    @Value("${sli.mongo.tracking.interval.seconds}")
+    private String trackingInterval;
+
     @Autowired
     private MongoStat dbCallTracker;
 
@@ -76,7 +82,7 @@ public class MongoTrackingAspect {
     }
 
     // Map<jobId, Map<(db,function,collection), (opCount,totalElapsedMs)>>
-    private ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> stats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
+    private ConcurrentMap<String, Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>>>();
 
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
@@ -84,15 +90,14 @@ public class MongoTrackingAspect {
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long end = System.currentTimeMillis();
+
         if (isEnabled()) {
-        MongoTemplate mt = (MongoTemplate) pjp.getTarget();
-
-        String collection = determineCollectionName(pjp);
-
-        proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection,start,end);
+            MongoTemplate mt = (MongoTemplate) pjp.getTarget();
+            String collection = determineCollectionName(pjp);
+            proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection, start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-           dbCallTracker.increamentHitCount();
+            dbCallTracker.increamentHitCount();
         }
 
         return result;
@@ -104,10 +109,10 @@ public class MongoTrackingAspect {
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long end = System.currentTimeMillis();
-        if (isEnabled()) {
-        DBCollection col = (DBCollection) pjp.getTarget();
 
-        proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(),start,end);
+        if (isEnabled()) {
+            DBCollection col = (DBCollection) pjp.getTarget();
+            proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(), start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.increamentHitCount();
@@ -115,30 +120,72 @@ public class MongoTrackingAspect {
         return result;
     }
 
-    private void  proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection,long start,
-                                  long end)
-            throws Throwable {
+    private void proceedAndTrack(ProceedingJoinPoint pjp, String db, String function, String collection, long start,
+            long end) throws Throwable {
         long elapsed = end - start;
-        trackCallStatistics(db, function, collection, elapsed);
+        trackCallStatistics(db, function, collection, start, elapsed);
 
         logSlowQuery(elapsed, db, function, collection, pjp);
 
     }
 
-    private void trackCallStatistics(String db, String function, String collection, long elapsed) {
+    private void trackCallStatistics(String db, String function, String collection, long start, long elapsed) {
         String jobId = TenantContext.getJobId();
         if (jobId != null) {
+            long trackingInt = Long.valueOf(trackingInterval) * 1000;
+            if (trackingInt <= 0) {
+                trackingInt = 1000;
+            }
 
-            // init map for job
-            stats.putIfAbsent(jobId, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
+            long jobBegin = start;
+            long startInt = start;
 
-            // init map for stats
+            // Init map for job.
+            if (stats.get(jobId) == null) {
+                ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> jobStats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
+                Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>> jobStatsPair = Pair
+                        .of(new AtomicLong(start), jobStats);
+
+                stats.putIfAbsent(jobId, jobStatsPair);
+
+            } else if (stats.get(jobId).getLeft().get() == 0) {
+                stats.get(jobId).getLeft().set(start);
+            } else {
+                jobBegin = stats.get(jobId).getLeft().get();
+                startInt = ((stats.get(jobId).getRight().size() - 1) * trackingInt) + jobBegin;
+            }
+
+            // Init map for intervals.
+            // FIXME: Calendar and SimpleDateFormat objects are expensive to create.
+            // Can we just use epoch time from System.currentTimeMillis()
+            String currJobInterval = null;
+            long newInt = (((start - jobBegin) / trackingInt) * trackingInt) + jobBegin;
+            if (newInt < startInt) {
+                startInt = newInt;
+            }
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+            while (newInt >= startInt) {
+                long endInt = startInt + trackingInt;
+                calendar.setTimeInMillis(startInt);
+                String startTimeStamp = formatter.format(calendar.getTime());
+                calendar.setTimeInMillis(endInt);
+                String endTimeStamp = formatter.format(calendar.getTime());
+                currJobInterval = String.format("%s - %s", startTimeStamp, endTimeStamp);
+                stats.get(jobId).getRight()
+                        .putIfAbsent(currJobInterval, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
+                startInt = endInt;
+            }
+
+            // Init map for stats.
             collection = collection.replaceAll("\\.", "DOT");
             String statsKey = String.format("%s#%s#%s", db, function, collection);
-            stats.get(jobId).putIfAbsent(statsKey, Pair.of(new AtomicLong(0), new AtomicLong(0)));
+            stats.get(jobId).getRight().get(currJobInterval)
+                    .putIfAbsent(statsKey, Pair.of(new AtomicLong(0), new AtomicLong(0)));
 
-            // increment
-            Pair<AtomicLong, AtomicLong> pair = stats.get(jobId).get(statsKey);
+            // Increment.
+            Pair<AtomicLong, AtomicLong> pair = stats.get(jobId).getRight().get(currJobInterval).get(statsKey);
             pair.getLeft().incrementAndGet();
             pair.getRight().addAndGet(elapsed);
 
@@ -173,10 +220,10 @@ public class MongoTrackingAspect {
         return collection;
     }
 
-    public Map<String, Pair<AtomicLong, AtomicLong>> getStats() {
+    public Map<String, ? extends Map<String, Pair<AtomicLong, AtomicLong>>> getStats() {
         String jobId = TenantContext.getJobId();
-        if (jobId != null) {
-            return this.stats.get(TenantContext.getJobId());
+        if ((jobId != null) && (this.stats.get(jobId) != null)) {
+            return this.stats.get(jobId).getRight();
         }
         return null;
     }
@@ -184,7 +231,10 @@ public class MongoTrackingAspect {
     public void reset() {
         String jobId = TenantContext.getJobId();
         if (jobId != null) {
-            this.stats.put(jobId, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
+            ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> jobStats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
+            Pair<AtomicLong, ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>> jobStatsPair = Pair
+                    .of(new AtomicLong(0), jobStats);
+            this.stats.put(jobId, jobStatsPair);
         }
         LOG.info("Mongo tracking stats are now cleared for job {}.", jobId);
     }
