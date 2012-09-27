@@ -24,7 +24,7 @@ public class ContextInferranceHelper {
 			result="/staff/"+actorId+"/staffCohortAssociations/cohorts";
 		}
 		else if("sections".equals(entity)) {
-			String ids = StringUtils.join(edorger.getUserSchools(user), ",");
+			String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
 			result=String.format("/schools/%s/sections",ids);
 		}
 		
