@@ -1,5 +1,6 @@
 package org.slc.sli.search;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +44,9 @@ public class Indexer {
 
     private String esPassword;
     
+    Collection<IndexRequestBuilder> indexRequests = new ArrayList<IndexRequestBuilder>();
+    int count = 0;
+    
     
     public void init() {
         client = getClient();
@@ -51,6 +55,35 @@ public class Indexer {
 
     public void destroy() {
         client.close();
+    }
+    
+    public void index(String entityType, Entity entity) {
+        
+        IndexRequestBuilder irb = buildIndexRequest(entityType, entity);
+        indexRequests.add(irb);
+        
+        // when we reach a set number of index requests, execute the bulk request
+        if (count ++ >= 1000) {
+            count = 0;
+            executeBulkHttp(indexRequests);
+            indexRequests.clear();
+        }
+    }
+    
+    public void index(String entityType, String entityId, String tenant, String entity) {
+        IndexRequestBuilder irb = buildIndexRequest(entityType, entityId, tenant, entity);
+        indexRequests.add(irb);
+        
+        // when we reach a set number of index requests, execute the bulk request
+        if (count ++ >= 1000) {
+            count = 0;
+            executeBulkHttp(indexRequests);
+            indexRequests.clear();
+        }
+    }
+    
+    public void flush() {
+        executeBulkHttp(indexRequests);
     }
     
     /**
@@ -80,6 +113,11 @@ public class Indexer {
         IndexRequestBuilder irb = client.prepareIndex(tenant, entityType, entity.getEntityId()).setSource(entItem);
         
         return irb;
+    }
+    
+    public IndexRequestBuilder buildIndexRequest(String entityType, String entityId, String tenant, String entity) {
+        
+        return client.prepareIndex(tenant.toLowerCase(), entityType, entityId).setSource(entity);
     }
 
     /**

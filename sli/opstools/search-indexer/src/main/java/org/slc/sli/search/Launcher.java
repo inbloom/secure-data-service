@@ -8,9 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Launcher {
     
     public static final void main(String[] args) throws IOException {
-        final ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-        Loader loader = context.getBean(Loader.class);
-        loader.load();
+        new ClassPathXmlApplicationContext("application-context.xml");
     }
     
 }
