@@ -1,11 +1,9 @@
 package org.slc.sli.api.security.pdp;
 
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
@@ -19,30 +17,25 @@ public class ContextInferranceHelper {
 	@Resource
 	private EdOrgHelper edorger;
 
-	private Map<String, String> teacherRewrites;
-	private Map<String, String> staffRewrites;
-
-	@PostConstruct
-	public void init() {
-		teacherRewrites.put("sections", "/sections/%s");
-		staffRewrites.put("/sections", "/schools/%s/sections");
-	}
-
 	public String getInferredUri(String entity, Entity user) {
 		String actorId = user.getEntityId();
 
 		String result = "/" + entity;
-		// result = "/staff/" + actorId + "/staffCohortAssociations/cohorts";
 
-		if (user.getType().equals("staff")) {
-			String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-			String rewrite = staffRewrites.get(entity);
-
-			if (rewrite != null) {
-				result = String.format(rewrite, ids);
+		if (isTeacher(user)) {
+		} else {
+			if ("cohorts".equals(entity)) {
+				result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
+			} else if ("sections".equals(entity)) {
+				String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+				result = String.format("/schools/%s/sections", ids);
 			}
 		}
 
 		return result;
+	}
+
+	private boolean isTeacher(Entity principal) {
+		return principal.getType().equals(EntityNames.TEACHER);
 	}
 }
