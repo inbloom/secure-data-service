@@ -412,6 +412,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.studentId            | e82bb76a-65be-d6db-a48b-1b453706436b |
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
+    | studentAssessmentAssociation         | 23c04ebd-282e-82ad-463e-976eda8553c5 | body.studentId            | 8ce4e17d-b1e0-d964-0418-08fda6dea913 |
+    | studentAssessmentAssociation         | 23c04ebd-282e-82ad-463e-976eda8553c5 | body.assessmentId         | 64303882-3770-4f70-71da-ab7f8254cebe |
+    | studentAssessmentAssociation         | 23c04ebd-282e-82ad-463e-976eda8553c5 | body.administrationDate   | 2011-09-01                           |
     | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.schoolId  | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
