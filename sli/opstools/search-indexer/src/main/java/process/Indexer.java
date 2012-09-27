@@ -1,4 +1,4 @@
-package org.slc.sli.search;
+package process;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -13,6 +14,7 @@ import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.search.entity.IndexEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -34,6 +36,8 @@ public class Indexer {
     
     static final String MAPPING_TEMPLATE = "{\"%s\":{\"type\" : \"object\", \"properties\" : {\"metaData\": {\"properties\" : {\"edOrgs\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"teacherContext\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"isOrphaned\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"createdBy\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}}}}}}";
 
+    private static final int DEFAULT_QUEUE_SIZE = 5000;
+    
     private Client client;
 
     private String esUri;
@@ -43,6 +47,10 @@ public class Indexer {
     private String esUsername;
 
     private String esPassword;
+    
+    private int queueSize = DEFAULT_QUEUE_SIZE;
+    
+    private LinkedBlockingQueue<IndexEntity> dataQueue = new LinkedBlockingQueue<IndexEntity>(queueSize);
     
     Collection<IndexRequestBuilder> indexRequests = new ArrayList<IndexRequestBuilder>();
     int count = 0;
@@ -214,5 +222,9 @@ public class Indexer {
 
     public void setSearchPassword(String esPassword) {
         this.esPassword = esPassword;
+    }
+    
+    public void setQueueSize(int queueSize) {
+        this.queueSize = queueSize;
     }
 }
