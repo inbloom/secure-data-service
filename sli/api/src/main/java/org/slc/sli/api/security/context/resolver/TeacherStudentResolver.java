@@ -133,7 +133,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
                 if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
-                    programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
+                    programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
         }
