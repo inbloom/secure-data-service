@@ -1,42 +1,42 @@
 {
-    "keyFields" : ["body.schoolId", "body.teacherId"],
-	"references" :
-	[{
+    "keyFields" : ["body.schoolId", "body.teacherId", "body.programAssignment"],
+    "references" :
+    [{
         "fieldPath" : "body.schoolId","ref" :
         {
-	        "entityType" : "school",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.stateOrganizationId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.schoolId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "school",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.schoolId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.teacherId","ref" :
         {
-	        "entityType" : "staff",
-	        "givesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.staffUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.teacherId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "staff",
+            "givesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.teacherId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }
