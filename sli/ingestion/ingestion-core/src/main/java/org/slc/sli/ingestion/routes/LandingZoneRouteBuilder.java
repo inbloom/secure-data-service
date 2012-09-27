@@ -84,7 +84,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
         for (String inboundDir : landingZonePaths) {
-            log.info("Configuring route for landing zone: {}", inboundDir + ", pi=" + pollInterval + ", rlci=" + readLockCheckInterval + ", rlt=" + readLockTimeout);
+            log.info("Configuring route for landing zone: {}", inboundDir);
 
             //Don't create the file poller if failed to create
             //the landing zone or the name is invalid

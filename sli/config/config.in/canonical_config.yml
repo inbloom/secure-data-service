@@ -125,7 +125,7 @@ default:
         landingzone.inbounddir: C:/lz/
 
         # landingzone polling
-        sli.ingestion.lz.readLockCheckInterval: 3000
+        sli.ingestion.lz.readLockCheckInterval: 10000
         sli.ingestion.lz.readLockTimeout: 600000
         sli.ingestion.lz.pollInterval: 30000
 

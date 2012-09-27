@@ -63,19 +63,18 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
 
-        LOG.info("Validating " + zipFile.getAbsolutePath());
+        LOG.debug("Validating " + zipFile.getAbsolutePath());
 
         while (!done) {
 
             try {
                 fis = new FileInputStream(zipFile);
                 zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
-                LOG.info("Checking " + zipFile.getAbsolutePath() + " entries.");
+                LOG.debug("Checking " + zipFile.getAbsolutePath() + " entries.");
 
                 ArchiveEntry ze;
 
                 while ((ze = zis.getNextEntry()) != null) {
-                    LOG.info("Examining " + ze.getName());
 
                     if (isDirectory(ze)) {
                         fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
@@ -93,7 +92,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 }
 
                 done = true;
-                LOG.info("Done validating " + zipFile.getAbsolutePath());
+                LOG.debug("Done validating " + zipFile.getAbsolutePath());
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
@@ -110,16 +109,18 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 return false;
 
             } catch (IOException ex) {
-                LOG.info("Caught IO exception processing " + zipFile.getAbsolutePath());
+                LOG.debug("Caught IO exception processing " + zipFile.getAbsolutePath());
                 ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
+                    String message = "Input/output error encountered processing " + zipFile.getAbsolutePath() + ". If the file is not processed, please resubmit.";
+                    LOG.info(message, ex);
                     fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
                     done = true;
                     return false;
                 } else {
                     try {
-                        LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move.");
+                        LOG.debug("Waiting for " + zipFile.getAbsolutePath() + "to move.");
                         Thread.sleep(zipfilePollInterval);
                     } catch (InterruptedException e) {
                         // Restore the interrupted status

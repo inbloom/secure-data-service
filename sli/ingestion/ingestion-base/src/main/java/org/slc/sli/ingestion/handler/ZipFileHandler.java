@@ -64,7 +64,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
             try {
                 File dir = ZipFileUtil.extract(zipFile);
-                LOG.info("Extracted zip file to {}", dir.getAbsolutePath() + ", zct=" + zipfileCompletionTimeout + ", zcpi=" + zipfileCompletionPollInterval);
+                LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
                 done = true;
 
                 // Find manifest (ctl file)
@@ -93,7 +93,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                     done = true;
                 } else {
                     try {
-                        LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move in handler.");
+                        LOG.debug("Waiting for " + zipFile.getAbsolutePath() + "to move in handler.");
                         Thread.sleep(zipfileCompletionPollInterval);
                     } catch (InterruptedException e) {
                         // Restore the interrupted status
