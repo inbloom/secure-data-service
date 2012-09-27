@@ -3299,12 +3299,12 @@ Commended</xs:documentation>
 			<xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of students.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CohortReference" type="CohortReferenceType" maxOccurs="unbounded">
+			<xs:element name="CohortReference" type="CohortReferenceType">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
 				</xs:annotation>

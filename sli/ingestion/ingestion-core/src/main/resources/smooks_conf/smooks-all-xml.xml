@@ -2826,19 +2826,11 @@
 
   <jb:bean beanId="staffCohortAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring property="staffReference" beanIdRef="StaffCohortAssoc_staffReferenceArray" />
-    <jb:wiring property="staffId" beanIdRef="StaffCohortAssoc_staffIdArray" />
-    <jb:wiring property="cohortReference" beanIdRef="StaffCohortAssoc_cohortReferenceArray" />
-    <jb:wiring property="cohortId" beanIdRef="StaffCohortAssoc_cohortIdArray" />
+    <jb:wiring property="staffReference" beanIdRef="StaffCohortAssoc_staffReference" />
+    <jb:wiring property="cohortReference" beanIdRef="StaffCohortAssoc_cohortReference" />
     <jb:value property="beginDate" data="StaffCohortAssociation/BeginDate" />
     <jb:value property="endDate" data="StaffCohortAssociation/EndDate" />
     <jb:value property="studentRecordAccess" data="StaffCohortAssociation/StudentRecordAccess" decoder="Boolean" />
-  </jb:bean>
-
-  <!-- StaffCohortAssociation support object: StaffCohortAssoc_staffReferenceArray  -->
-  <jb:bean beanId="StaffCohortAssoc_staffReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring beanIdRef="StaffCohortAssoc_staffReference" />
   </jb:bean>
 
   <jb:bean beanId="StaffCohortAssoc_staffReference" class="java.util.HashMap"
@@ -2849,17 +2841,6 @@
   <jb:bean beanId="StaffCohortAssoc_staffReference_staffIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/StaffReference/StaffIdentity">
     <jb:value property="staffUniqueStateId" data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
-  </jb:bean>
-
-  <jb:bean beanId="StaffCohortAssoc_staffIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:value data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
-  </jb:bean>
-
-  <!-- StaffCohortAssociation support object: StaffCohortAssoc_cohortReferenceArray  -->
-  <jb:bean beanId="StaffCohortAssoc_cohortReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring beanIdRef="StaffCohortAssoc_cohortReference" />
   </jb:bean>
 
   <jb:bean beanId="StaffCohortAssoc_cohortReference" class="java.util.HashMap"
@@ -2876,20 +2857,17 @@
     <jb:wiring property="educationOrgIdentificationCode"
       beanIdRef="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray" />
   </jb:bean>
+  
   <jb:bean beanId="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_StateOrganizationIdArray"
     class="java.util.ArrayList"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
     <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/StateOrganizationId" />
   </jb:bean>
+  
   <jb:bean beanId="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray"
     class="java.util.ArrayList"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
     <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/EducationOrgIdentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="StaffCohortAssoc_cohortIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
   </jb:bean>
 
   <!-- End StaffCohortAssociation Mapping -->
@@ -3623,7 +3601,7 @@
     <jb:bean beanId="ReportCardAttributes" class="java.util.HashMap"
              createOnElement="InterchangeStudentGrade/ReportCard">
         <jb:value property="studentId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
-        <jb:wiring property="gradingPeriodReference" beanIdRef="ReportCard_GradingPeriodReferenceArray" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="ReportCard_GradingPeriodReference" />
         <jb:value property="reportCardId" data="ReportCard/@id" />
         <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
         <jb:value property="gpaCumulative" data="ReportCard/GPACumulative" decoder="Double" />
@@ -3648,11 +3626,6 @@
     <jb:bean beanId="reportCard_gradesArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
         <jb:value data="InterchangeStudentGrade/ReportCard/GradeReference/@ref"></jb:value>
     </jb:bean>
-
-  <jb:bean beanId="ReportCard_GradingPeriodReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentGrade/ReportCard">
-    <jb:wiring beanIdRef="ReportCard_GradingPeriodReference" />
-  </jb:bean>
 
   <jb:bean beanId="ReportCard_GradingPeriodReference"
     class="java.util.HashMap"
