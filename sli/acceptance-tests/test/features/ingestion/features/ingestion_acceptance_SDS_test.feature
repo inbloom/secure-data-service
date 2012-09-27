@@ -474,10 +474,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.beginDate                           | 2012-04-16                           |
     | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
     | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.schoolId      | 7cde113b-35de-2b8a-0988-04cf364bd1ab |
-# uncomment when session has a deterministic id
-#    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
-#    | courseOffering | TODO | body.sessionId            | TODO |
-#    | courseOffering | TODO | body.schoolId             | TODO |
+# session
+    | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.sessionName          | Spring 2011 Daybreak Central High    |
+    | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
 
 
 @smoke
