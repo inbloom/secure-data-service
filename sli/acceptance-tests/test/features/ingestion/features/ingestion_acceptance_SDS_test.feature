@@ -995,6 +995,47 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
+      And the following collections are empty in datastore:
+        | collectionName                      |
+        | student                             |
+        | studentSchoolAssociation            |
+        | course                              |
+        | educationOrganization               |
+        | section                             |
+        | studentSectionAssociation           |
+        | staff                               |
+        |staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation            |
+        | teacherSectionAssociation           |
+        | session                             |
+        | assessment                          |
+        | studentAssessmentAssociation        |
+        | gradebookEntry                      |
+        | studentTranscriptAssociation        |
+        | studentGradebookEntry               |
+        | parent                              |
+        | studentParentAssociation            |
+        | attendance                          |
+        | program                             |
+        | staffProgramAssociation             |
+        | studentProgramAssociation           |
+        | cohort                              |
+        | staffCohortAssociation              |
+        | studentCohortAssociation            |
+        | studentCompetency                   |
+        | studentCompetencyObjective          |
+        | learningStandard                    |
+        | learningObjective                   |
+        | disciplineIncident                  |
+        | disciplineAction                    |
+        | studentDisciplineIncidentAssociation|
+        | grade                               |
+        | gradingPeriod                       |
+        | calendarDate                        |
+        | reportCard                          |
+        | courseOffering                      |
+        | studentAcademicRecord               |
+        | graduationPlan                      |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:

@@ -311,6 +311,7 @@ end
 
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   setFixture("student", "student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
