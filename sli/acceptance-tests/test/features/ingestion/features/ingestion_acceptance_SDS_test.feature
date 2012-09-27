@@ -477,6 +477,10 @@ Scenario: Verify deterministic ids generated: Clean Database
 # session
     | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.sessionName          | Spring 2011 Daybreak Central High    |
     | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+    | attendance                           | 6227f925-2d9b-7d3c-c959-5a6eb1b07401 | body.studentId            | 67c5e612-3a7b-724a-dde7-7ed7fb99d222 |
+    | attendance                           | 6227f925-2d9b-7d3c-c959-5a6eb1b07401 | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+
+
 
 
 @smoke
