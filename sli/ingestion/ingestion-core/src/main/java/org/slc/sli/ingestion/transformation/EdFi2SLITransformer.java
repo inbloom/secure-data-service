@@ -489,13 +489,17 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String field : entityConfig.getKeyFields()) {
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
                 if (fieldValue instanceof List) {
-                    int size = ((List) fieldValue).size();
+                    List fieldValues = ((List) fieldValue);
+                    int size = fieldValues.size();
                     //make sure we have exactly the number of desired values
-                    query.addCriteria(Criteria.where(field).size(size));
+                    Criteria criteria = Criteria.where(field).size(size);
                     //make sure we have each individual desired value
-                    for (Object val : (List) fieldValue) {
-                        query.addCriteria(Criteria.where(field).is(val));
+                    Criteria[] valueCriteria = new Criteria[size];
+                    for (int i = 0; i < size; i++) {
+                        valueCriteria[i] = Criteria.where(field).is(fieldValues.get(i));
                     }
+                    criteria = criteria.andOperator(valueCriteria);
+                    query.addCriteria(criteria);
                     //this will be insufficient if fieldValue can contain duplicates
                 } else {
                     query.addCriteria(Criteria.where(field).is(fieldValue));
