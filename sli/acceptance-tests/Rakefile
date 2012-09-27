@@ -310,10 +310,10 @@ end
 # The app ids for bootstrapped apps are dynamically generated,
 # so here we swap out references to those apps in the app authroization
 # wht the dynamic ID of the app.
-def swap_app_ids()
+def swap_app_ids(dbName)
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
-  @dbTenant = @conn.db(DB_NAME)
+  @dbTenant = @conn.db(dbName)
 
   to_swap = [
         {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
@@ -371,7 +371,8 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
-  swap_app_ids()
+  swap_app_ids("Midgar")
+  swap_app_ids("Hyrule")
 end
 
 desc "Approve SLC apps for ingested realms"
