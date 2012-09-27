@@ -80,8 +80,8 @@ $entityData = {
         "localCourseTitle" => "German 101 - Intro"
     },
     "staffCohortAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "cohortId" => ["b408635d-8fd5-11e1-86ec-0021701f543f"],
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "cohortId" => "b408635d-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2010-01-15",
         "endDate" => "2012-03-29",
         "studentRecordAccess" => true
@@ -93,9 +93,10 @@ $entityData = {
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"],
-        "beginDate" => "2012-01-01"
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+        "beginDate" => "2012-01-01",
+        "endDate" => "2012-12-31"
     },
     "studentAssessmentAssociation" => {
         "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",

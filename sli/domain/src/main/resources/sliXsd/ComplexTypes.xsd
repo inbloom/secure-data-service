@@ -1713,12 +1713,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffCohortAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of
 						students.
@@ -1730,7 +1730,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
+			<xs:element name="cohortId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the
 						staff.
@@ -1747,6 +1747,9 @@
 					<xs:documentation>Start date for the association of staff to this
 						cohort.
 					</xs:documentation>
+					<xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -1906,12 +1909,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.
 					</xs:documentation>
@@ -1922,7 +1925,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programId" type="reference" maxOccurs="unbounded">
+			<xs:element name="programId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.
 					</xs:documentation>
@@ -1938,6 +1941,9 @@
 					<xs:documentation>Start date for the association of staff to this
 						cohort.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -7248,7 +7254,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>reportCard</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -7332,9 +7338,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<!-- TODO remove minOccurs=0 -->
-			<xs:element name="gradingPeriodId" type="reference"
-				minOccurs="0">
+			<xs:element name="gradingPeriodId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for this report
 						card.</xs:documentation>

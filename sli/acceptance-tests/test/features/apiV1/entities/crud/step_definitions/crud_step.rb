@@ -323,8 +323,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysAbsent" => 15,
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378"
-      #"gradingPeriodId" => "TODO"
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
   }
 }
   @fields = @entityData[arg1]

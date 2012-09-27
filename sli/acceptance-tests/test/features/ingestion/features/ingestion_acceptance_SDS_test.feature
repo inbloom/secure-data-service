@@ -18,6 +18,8 @@
 @RALLY_US3202
 @RALLY_US3200
 @RALLY_US4162
+@RALLY_US4136
+@RALLY_US4080
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -86,8 +88,8 @@ Then I should see following map of entry counts in the corresponding collections
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
         | graduationPlan              | 3     |
-        | learningObjective           | 135   |
-        | learningStandard            | 1463  |
+        | learningObjective           | 197   |
+        | learningStandard            | 1499  |
         | parent                      | 9     |
         | program                     | 2     |
         | reportCard                  | 2     |
@@ -96,7 +98,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 14    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 10 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |
         | studentAssessmentAssociation| 203   |
@@ -165,7 +167,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4151 records." in the resulting batch job file
+    And I should see "Processed 4253 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -179,8 +181,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 45" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 45" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 495" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 495" in the resulting batch job file
@@ -248,6 +250,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 98" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 98" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
 
 @smoke
 Scenario: Check the collections: Clean Database
@@ -290,12 +295,12 @@ And I check to find if record is in collection:
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-01              | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | true                    | boolean              |
-     | staffProgramAssociation     | 2                   | body.studentRecordAccess    | false                   | boolean              |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-05              | string               |
+     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | false                   | boolean              |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 4                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
-     | staffProgramAssociation     | 1                   | body.endDate                | 2012-02-15              | string               |
+     | staffProgramAssociation     | 4                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
@@ -408,10 +413,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
     | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
     | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
-
     | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.schoolId  | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
-
+    | reportCard                           | c572f02d-f1c3-b63b-4453-4687ef3086b7 | body.studentId | 254775c2-c0c3-8180-d49f-75a54d7e8929                       |
 # disciplineAction
     | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.responsibilitySchoolId          | cdd544e9-dc55-0152-0f8e-3742499680b9 |
     | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
@@ -433,6 +437,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.educationOrganizationReference | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 |
     | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.staffClassification            | Superintendent                       |
     | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.beginDate                      | 1967-08-13                           |
+# staffProgramAssociation
+    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.staffId                        | d9538483-c8e5-30bc-eb28-edd419ec3846 |
+    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.programId                      | c6b49f09-3f36-755e-48c9-bba118c8beb2 |
+    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.beginDate                      | 2011-01-05                           |
 # teacherSchoolAssociation
     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.teacherId                      | 46f5b008-c469-097d-1926-27791327dfbb |
     | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.programAssignment              | Regular Education                    |
@@ -451,9 +459,6 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
    | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.sectionId            | 28b826ba-87b3-e33c-169d-39f53d342591 |
    | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.beginDate            | 2011-09-01                              |
-# uncomment when section has a deterministic id
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
    | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
    | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
     | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
@@ -505,7 +510,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staff                                 | 13    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 10    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -549,7 +554,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -724,7 +729,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 21    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 16 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 183   |
         | studentAssessmentAssociation| 203   |
         | studentCohortAssociation    | 6     |
@@ -795,7 +800,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staff                                 | 20    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 16    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -839,7 +844,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1102,7 +1107,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 58    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 37 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 191    |
         | studentAssessmentAssociation| 203   |
         | studentCohortAssociation    | 6     |
@@ -1176,7 +1181,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staff                                 | 20    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 16    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1220,7 +1225,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1781,8 +1786,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                       | 13    |
      | parent                               | 12    |
      | program                              | 4     |
-     | staffCohortAssociation               | 5     |
-     | staffProgramAssociation              | 7     |
+     | staffProgramAssociation              | 16    |
      | student                              | 193   |
      | studentAcademicRecord                | 121   |
      | studentAssessmentAssociation         | 204   |
@@ -1870,13 +1874,15 @@ Then I should see following map of entry counts in the corresponding collections
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
      | staffCohortAssociation      | 2                   | body.beginDate              | 2011-07-01              | string               |
      | staffCohortAssociation      | 5                   | body.studentRecordAccess    | true                    | boolean              |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-02              | string               |
+     | staffProgramAssociation     | 12                  | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | false                   | boolean              |
+     | staffProgramAssociation     | 6                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-02              | string               |
+     | staffProgramAssociation     | 4                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-05-02              | string               |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-02              | string               |
-     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
-     | staffProgramAssociation     | 3                   | body.endDate                | 2012-02-15              | string               |
-     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | false                   | boolean              |
-     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
+     | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
      | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
@@ -1922,7 +1928,7 @@ Then I should see following map of entry counts in the corresponding collections
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 113 records." in the resulting batch job file
+  And I should see "Processed 118 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -1935,8 +1941,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentProgramAssociation2.xml records considered: 9" in the resulting batch job file
   And I should see "StudentProgramAssociation2.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "StudentProgramAssociation2.xml records failed: 0" in the resulting batch job file
-  And I should see "Staff2.xml records considered: 4" in the resulting batch job file
-  And I should see "Staff2.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "Staff2.xml records considered: 9" in the resulting batch job file
+  And I should see "Staff2.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "Staff2.xml records failed: 0" in the resulting batch job file
   And I should see "StudentCohortAssociation2.xml records considered: 1" in the resulting batch job file
   And I should see "StudentCohortAssociation2.xml records ingested successfully: 1" in the resulting batch job file
@@ -2055,8 +2061,8 @@ Then I should see following map of entry counts in the corresponding collections
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 23    |
-        | learningObjective           | 135   |
-        | learningStandard            | 1463  |
+        | learningObjective           | 197   |
+        | learningStandard            | 1499  |
         | parent                      | 9     |
         | program                     | 2     |
         | reportCard                  | 2     |
@@ -2065,7 +2071,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 51    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 31 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 86    |
         | studentAcademicRecord       | 117   |
         | studentAssessmentAssociation| 203   |
@@ -2111,7 +2117,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staff                                 | 13    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 10    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -2155,7 +2161,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -2622,7 +2628,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -2633,11 +2639,14 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 2                   | body.beginDate                 | 2011-01-01              | string               |
         | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-06-01              | string               |
         | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 4                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 4                   | body.studentRecordAccess       | true                    | boolean              |
+        | staffProgramAssociation     | 3                   | body.studentRecordAccess       | false                   | boolean              |
     When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
@@ -2650,7 +2659,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
-        | staffProgramAssociation     | 4     |
+        | staffProgramAssociation     | 11    |
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -2661,8 +2670,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 2                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-06-01              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 8                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 10                  | body.studentRecordAccess       | true                    | boolean              |
+        | staffProgramAssociation     | 1                   | body.studentRecordAccess       | false                   | boolean              |
