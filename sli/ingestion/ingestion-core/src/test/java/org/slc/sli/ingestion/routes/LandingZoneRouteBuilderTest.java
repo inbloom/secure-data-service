@@ -40,45 +40,45 @@ import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 /**
  * Tests for LandingZoneRouteBuilder
- * 
+ *
  * @author jtully
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class LandingZoneRouteBuilderTest {
-    
+
     @Autowired
     private ControlFilePreProcessor ctrlFilePreProcessor;
-    
-    @Autowired 
+
+    @Autowired
     private ZipFileProcessor zipFileProcessor;
-    
+
     @Autowired
     private NoExtractProcessor noExtractProcessor;
     @Test
     public void shouldCreateCtrlAndZipRoutes() throws Exception {
         CamelContext camelContext = new DefaultCamelContext();
-        
+
         String testPath = "testPath";
         List<String> testPaths = new ArrayList<String>();
         testPaths.add(testPath);
-        
-        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(testPaths, 
-                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor);
-        
+
+        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(testPaths,
+                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor, 1000, 2000, 5000);
+
         camelContext.start();
-        
+
         camelContext.addRoutes(landingZoneRouteBuilder);
-        
+
         List<Route> routeList = camelContext.getRoutes();
-        
-        assertEquals("Number of routes found was not 3", 3, routeList.size());
-        assertEquals("Ctrl route Id was not as expected", 
+
+        assertEquals("Number of routes found was not 2", 2, routeList.size());
+        assertEquals("Ctrl route Id was not as expected",
                 LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + testPath, routeList.get(0).getId());
-        assertEquals("Zip route Id was not as expected", 
+        assertEquals("Zip route Id was not as expected",
                 LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + testPath, routeList.get(1).getId());
-        
+
         camelContext.stop();
     }
 }
