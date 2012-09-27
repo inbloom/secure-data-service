@@ -370,6 +370,14 @@ task :appInit do
   setFixture("application", "application_fixture.json", "test/data", false)
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev@zork"
+  setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos@mokey"
+  setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_app_ids()
 end
