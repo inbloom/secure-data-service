@@ -2058,8 +2058,8 @@ Then I should see following map of entry counts in the corresponding collections
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 23    |
-        | learningObjective           | 135   |
-        | learningStandard            | 1463  |
+        | learningObjective           | 197   |
+        | learningStandard            | 1499  |
         | parent                      | 9     |
         | program                     | 2     |
         | reportCard                  | 2     |
