@@ -90,7 +90,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                     | 10 |
      | sessionCourseAssociation                    | 0 |
      | staff                                       | 60 |
-     | staffCohortAssociation                      | 20 |
+     | staffCohortAssociation                      | 180 |
      | staffEducationOrganizationAssociation       | 10 |
      | staffProgramAssociation                     | 13 |
      | student                                     | 500 |

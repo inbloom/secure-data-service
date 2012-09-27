@@ -1,8 +1,10 @@
 package org.slc.sli.validation.schema;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.mongodb.DBObject;
 
@@ -50,16 +52,19 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
         boolean recordMatchingKeyFields = false;
 
-        List<String> naturalKeyList = new ArrayList<String>();
+        //TODO - a lot of this can be removed with deterministicIds given that we will no
+        //longer support updates of key fields
+
+        Map<String, Boolean> naturalKeys = new HashMap<String, Boolean>();
         try {
-            naturalKeyList = naturalKeyExtractor.getNaturalKeyFields(entity);
+            naturalKeys = naturalKeyExtractor.getNaturalKeyFields(entity);
         } catch (NaturalKeyValidationException e) {
             // swallow exception. if there are missing keys fields,
             // they will be validated in the validate method
             return;
         }
 
-        if (naturalKeyList != null && naturalKeyList.size() != 0) {
+        if (naturalKeys != null && naturalKeys.size() != 0) {
 
             Map<String, Object> newEntityBody = entity.getBody();
             boolean possibleMatch = true;
@@ -76,14 +81,14 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
-                    for (String key : naturalKeyList) {
+                    for (Entry<String, Boolean> keyField : naturalKeys.entrySet()) {
 
                         Map<String, Object> existingBody = existingEntity.getBody();
-                        Object value = existingBody.get(key);
-                        if (!newEntityBody.containsKey(key)) {
-                            newEntityBody.put(key, value);
+                        Object value = existingBody.get(keyField.getKey());
+                        if (!newEntityBody.containsKey(keyField.getKey())) {
+                            newEntityBody.put(keyField.getKey(), value);
                         } else {
-                            Object newEntityValue = newEntityBody.get(key);
+                            Object newEntityValue = newEntityBody.get(keyField.getKey());
 
                             // if all values are equal, then we're ok - as we're just trying to
                             // catch
@@ -100,9 +105,9 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             // fields of the entity we're updating
             if (possibleMatch) {
                 NeutralQuery neutralQuery = new NeutralQuery();
-                for (String key : naturalKeyList) {
-                    neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, newEntityBody
-                            .get(key)));
+                for (Entry<String, Boolean> keyField : naturalKeys.entrySet()) {
+                    neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL, newEntityBody
+                            .get(keyField.getKey())));
                 }
                 neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
                         entity.getMetaData().get("tenantId"), false));
@@ -119,7 +124,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
             } else {
-                throw new NaturalKeyValidationException(entity.getType(), naturalKeyList);
+                throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeys.keySet()));
             }
         }
 

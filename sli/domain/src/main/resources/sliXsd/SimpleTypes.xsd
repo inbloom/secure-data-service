@@ -679,6 +679,18 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+    <xs:simpleType name="uniqueCourseId">
+        <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code assigned to a
+                course by a school, school system, a state, or other agency or entity.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="60" />
+        </xs:restriction>
+    </xs:simpleType>
+
 	<xs:simpleType name="programType">
 		<xs:annotation>
 			<xs:documentation>The formal name of the program of instruction,

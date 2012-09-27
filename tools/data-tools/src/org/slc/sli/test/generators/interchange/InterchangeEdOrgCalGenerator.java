@@ -150,8 +150,8 @@ public class InterchangeEdOrgCalGenerator {
              if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	 calendar = null;
              } else {
-//            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
-            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount);
+//                 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
+                 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount++);
              }
 
 	         iWriter.marshal(calendar);

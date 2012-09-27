@@ -121,6 +121,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentCompetencies |
     | studentId           |
     | students            |
+    | beginDate           |
     Given selector "(name,studentSectionAssociations:(section:(*)))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200

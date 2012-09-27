@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+<?xml version="1.0" encoding="UTF-8"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
     <StateEducationAgency id="CAP0">
         <StateOrganizationId>CAP0</StateOrganizationId>
         <NameOfInstitution>Institution name CAP0</NameOfInstitution>
@@ -580,7 +579,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse0-1</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse1">
         <CourseTitle>CAP0-D0-HSch0-cse1</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -634,7 +633,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse1-2</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse2">
         <CourseTitle>CAP0-D0-HSch0-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -688,7 +687,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse2-3</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse3">
         <CourseTitle>CAP0-D0-HSch0-cse3</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -742,7 +741,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse3-4</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse4">
         <CourseTitle>CAP0-D0-HSch0-cse4</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -796,7 +795,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse4-5</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse5">
         <CourseTitle>CAP0-D0-HSch0-cse5</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -850,7 +849,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse5-6</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse6">
         <CourseTitle>CAP0-D0-HSch0-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -904,7 +903,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse6-7</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse7">
         <CourseTitle>CAP0-D0-HSch0-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -958,7 +957,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse7-8</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse8">
         <CourseTitle>CAP0-D0-HSch0-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1012,7 +1011,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse8-9</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch0-cse9">
         <CourseTitle>CAP0-D0-HSch0-cse9</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1066,7 +1065,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch0-cse9-10</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse0">
         <CourseTitle>CAP0-D0-HSch1-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1120,7 +1119,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse0-11</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse1">
         <CourseTitle>CAP0-D0-HSch1-cse1</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1174,7 +1173,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse1-12</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse2">
         <CourseTitle>CAP0-D0-HSch1-cse2</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -1228,7 +1227,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse2-13</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse3">
         <CourseTitle>CAP0-D0-HSch1-cse3</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1282,7 +1281,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse3-14</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse4">
         <CourseTitle>CAP0-D0-HSch1-cse4</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1336,7 +1335,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse4-15</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse5">
         <CourseTitle>CAP0-D0-HSch1-cse5</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1390,7 +1389,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse5-16</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse6">
         <CourseTitle>CAP0-D0-HSch1-cse6</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1444,7 +1443,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse6-17</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse7">
         <CourseTitle>CAP0-D0-HSch1-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1498,7 +1497,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse7-18</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse8">
         <CourseTitle>CAP0-D0-HSch1-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1552,7 +1551,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse8-19</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch1-cse9">
         <CourseTitle>CAP0-D0-HSch1-cse9</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1606,7 +1605,7 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch1-cse9-20</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse0">
         <CourseTitle>CAP0-D0-HSch2-cse0</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -1660,7 +1659,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse0-21</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse1">
         <CourseTitle>CAP0-D0-HSch2-cse1</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1714,7 +1713,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse1-22</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse2">
         <CourseTitle>CAP0-D0-HSch2-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -1768,7 +1767,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse2-23</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse3">
         <CourseTitle>CAP0-D0-HSch2-cse3</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1822,7 +1821,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse3-24</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse4">
         <CourseTitle>CAP0-D0-HSch2-cse4</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -1876,7 +1875,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse4-25</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse5">
         <CourseTitle>CAP0-D0-HSch2-cse5</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -1930,7 +1929,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse5-26</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse6">
         <CourseTitle>CAP0-D0-HSch2-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -1984,7 +1983,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse6-27</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse7">
         <CourseTitle>CAP0-D0-HSch2-cse7</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2038,7 +2037,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse7-28</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse8">
         <CourseTitle>CAP0-D0-HSch2-cse8</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2092,7 +2091,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse8-29</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch2-cse9">
         <CourseTitle>CAP0-D0-HSch2-cse9</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -2146,7 +2145,7 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch2-cse9-30</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse0">
         <CourseTitle>CAP0-D0-HSch3-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2200,7 +2199,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse0-31</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse1">
         <CourseTitle>CAP0-D0-HSch3-cse1</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2254,7 +2253,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse1-32</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse2">
         <CourseTitle>CAP0-D0-HSch3-cse2</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -2308,7 +2307,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse2-33</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse3">
         <CourseTitle>CAP0-D0-HSch3-cse3</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -2362,7 +2361,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse3-34</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse4">
         <CourseTitle>CAP0-D0-HSch3-cse4</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -2416,7 +2415,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse4-35</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse5">
         <CourseTitle>CAP0-D0-HSch3-cse5</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2470,7 +2469,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse5-36</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse6">
         <CourseTitle>CAP0-D0-HSch3-cse6</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2524,7 +2523,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse6-37</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse7">
         <CourseTitle>CAP0-D0-HSch3-cse7</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -2578,7 +2577,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse7-38</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse8">
         <CourseTitle>CAP0-D0-HSch3-cse8</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2632,7 +2631,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse8-39</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch3-cse9">
         <CourseTitle>CAP0-D0-HSch3-cse9</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2686,7 +2685,7 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch3-cse9-40</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse0">
         <CourseTitle>CAP0-D0-HSch4-cse0</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2740,7 +2739,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse0-41</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse1">
         <CourseTitle>CAP0-D0-HSch4-cse1</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2794,7 +2793,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse1-42</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse2">
         <CourseTitle>CAP0-D0-HSch4-cse2</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2848,7 +2847,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse2-43</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse3">
         <CourseTitle>CAP0-D0-HSch4-cse3</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -2902,7 +2901,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse3-44</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse4">
         <CourseTitle>CAP0-D0-HSch4-cse4</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -2956,7 +2955,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse4-45</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse5">
         <CourseTitle>CAP0-D0-HSch4-cse5</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -3010,7 +3009,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse5-46</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse6">
         <CourseTitle>CAP0-D0-HSch4-cse6</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -3064,7 +3063,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse6-47</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse7">
         <CourseTitle>CAP0-D0-HSch4-cse7</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
@@ -3118,7 +3117,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse7-48</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse8">
         <CourseTitle>CAP0-D0-HSch4-cse8</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
@@ -3172,7 +3171,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse8-49</UniqueCourseId></Course>
     <Course id="CAP0-D0-HSch4-cse9">
         <CourseTitle>CAP0-D0-HSch4-cse9</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
@@ -3226,7 +3225,7 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-    </Course>
+    <UniqueCourseId>CAP0-D0-HSch4-cse9-50</UniqueCourseId></Course>
     <Program id="CAP0-D0-HSch0-prg0">
         <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
         <ProgramType>International Baccalaureate</ProgramType>

@@ -34,7 +34,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              |
       | courseOffering                         | courseOfferings                          | localCourseTitle         | German 101 - Intro     | German 111 - Intro     |
-      | staffCohortAssociation                 | staffCohortAssociations                  | beginDate                | 2010-01-15             | 2011-02-01             |
+      | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             |
       | staffProgramAssociation                | staffProgramAssociations                 | beginDate                | 2012-01-01             | 2012-02-01             |
       | studentAssessmentAssociation           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             |
@@ -58,7 +58,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
       | courseOffering                         | courseOfferings                          | 95      |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 11      |
+      | staffCohortAssociation                 | staffCohortAssociations                  | 17      |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 17      |
       | staffProgramAssociation                | staffProgramAssociations                 | 7       |
       | studentAssessmentAssociation           | studentAssessments                       | 8       |

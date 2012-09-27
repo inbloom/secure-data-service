@@ -15,7 +15,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="hostname" elementType="Argument">
             <stringProp name="Argument.name">hostname</stringProp>
-            <stringProp name="Argument.value">local.slidev.org</stringProp>
+            <stringProp name="Argument.value">${__P(hostname,local.slidev.org)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="clientId" elementType="Argument">
@@ -38,13 +38,13 @@
           </elementProp>
           <elementProp name="protocol" elementType="Argument">
             <stringProp name="Argument.name">protocol</stringProp>
-            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.value">${__P(protocol,http)}</stringProp>
             <stringProp name="Argument.desc">http/https</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="port" elementType="Argument">
             <stringProp name="Argument.name">port</stringProp>
-            <stringProp name="Argument.value">8080</stringProp>
+            <stringProp name="Argument.value">${__P(port,8080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loginId" elementType="Argument">
@@ -70,10 +70,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">100</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
         <longProp name="ThreadGroup.start_time">1345650982000</longProp>
         <longProp name="ThreadGroup.end_time">1345650982000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -235,7 +235,7 @@ vars.put(&quot;studentID&quot;, resp[0].id);</stringProp>
           <stringProp name="LoopController.loops">4</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -430,7 +430,7 @@ vars.put(&quot;gradebookEntryID&quot;, resp[0].id);
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -720,7 +720,7 @@ vars.put(&quot;attData&quot; , JSON.stringify(att));
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -964,7 +964,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -1235,7 +1235,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -1504,7 +1504,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
