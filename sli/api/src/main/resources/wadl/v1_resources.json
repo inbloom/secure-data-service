@@ -12,6 +12,7 @@
       "subResources": [
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
+        { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/teachers" }
       ]
