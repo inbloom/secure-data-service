@@ -38,6 +38,9 @@
     <property name="directory" value="src/test/resources/dummylz"></property>
   </bean>
 
+	<context:property-placeholder
+		ignore-resource-not-found="true" />
+		
   <aop:aspectj-autoproxy />
 
 </beans>

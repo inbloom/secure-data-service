@@ -48,7 +48,7 @@ public class ZipFileUtil {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String filePath = zipFile.getParentFile().getAbsolutePath() + File.separator + ".done" + File.separator + "unzip" + File.separator
+        String filePath = zipFile.getParentFile().getAbsolutePath() + File.separator + "unzip" + File.separator
                 + zipFile.getName().substring(0, zipFile.getName().lastIndexOf(".")) + time.getTime();
 
         // make dir to unzip files

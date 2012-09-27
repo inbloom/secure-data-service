@@ -70,13 +70,11 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
     private MessageSource messageSource;
 
-    // 1 hour
     @Value("${sli.ingestion.zipfile.timeout:3600000}")
-    private int zipfileCompletionTimeout;
+    private int zipfileTimeout;
 
-    // 2 sec
     @Value("${sli.ingestion.zipfile.pollinterval:2000}")
-    private int zipfileCompletionPollInterval;
+    private int zipfilePollInterval;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -141,7 +139,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
     // DE1618 On a gluster file system the zipfile move may not have completed yet so we poll for file size changes
     private void waitForZipfile(File zipfile) throws InterruptedException {
-        if (FileUtils.isFileDoneChanging(zipfile, zipfileCompletionPollInterval, zipfileCompletionTimeout) == false) {
+        if (FileUtils.isFileDoneChanging(zipfile, zipfilePollInterval, zipfileTimeout) == false) {
             LOG.warn(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG12", zipfile.getName()));
         }
 

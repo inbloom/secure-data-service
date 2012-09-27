@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.handler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,13 +44,11 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
     private MessageSource messageSource;
 
-    // 10 min default
     @Value("${sli.ingestion.zipfile.timeout:600000}")
-    private int zipfileCompletionTimeout;
+    private Long zipfileCompletionTimeout;
 
-    // 2 sec default
-    @Value("${sli.ingestion.zipfile.retryinterval:2000}")
-    private int zipfileCompletionPollInterval;
+    @Value("${sli.ingestion.zipfile.retryinterval:30000}")
+    private Long zipfileCompletionPollInterval;
 
     File doHandling(File zipFile, ErrorReport errorReport) {
         return doHandling(zipFile, errorReport, null);
@@ -65,7 +64,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
             try {
                 File dir = ZipFileUtil.extract(zipFile);
-                LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
+                LOG.info("Extracted zip file to {}", dir.getAbsolutePath() + ", zct=" + zipfileCompletionTimeout + ", zcpi=" + zipfileCompletionPollInterval);
                 done = true;
 
                 // Find manifest (ctl file)
@@ -75,6 +74,13 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                 // Unsupported compression method
                 String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG18", zipFile.getName());
                 LOG.error(message, ex);
+                errorReport.error(message, this);
+                done = true;
+
+            } catch (FileNotFoundException ex) {
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us so give up
+                LOG.info(zipFile.getAbsolutePath() + " cannot be found. If the file was not processed by another ingestion service, please resubmit.", ex);
+                String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
                 errorReport.error(message, this);
                 done = true;
 

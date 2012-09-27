@@ -20,6 +20,7 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
@@ -43,13 +44,13 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileValidator.class);
 
-    // 10 min default
+    // how long to wait for the file to become valid before giving up
     @Value("${sli.ingestion.zipfile.timeout:600000}")
-    private int zipfileCompletionTimeout;
+    private Long zipfileTimeout;
 
-    // 2 sec default
-    @Value("${sli.ingestion.zipfile.retryinterval:2000}")
-    private int zipfileCompletionPollInterval;
+    // how often to check if the file is has become valid
+    @Value("${sli.ingestion.zipfile.retryinterval:10000}")
+    private Long zipfilePollInterval;
 
     @Override
     public boolean isValid(File zipFile, ErrorReport callback) {
@@ -60,7 +61,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
         boolean isValid = false;
 
         boolean done = false;
-        long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
+        long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
 
         LOG.info("Validating " + zipFile.getAbsolutePath());
 
@@ -100,6 +101,14 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 done = true;
                 return false;
 
+            } catch (FileNotFoundException ex) {
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us
+                String message = zipFile.getAbsolutePath() + " cannot be found. If the file is not processed, please resubmit.";
+                LOG.info(message, ex);
+                fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                done = true;
+                return false;
+
             } catch (IOException ex) {
                 LOG.info("Caught IO exception processing " + zipFile.getAbsolutePath());
                 ex.printStackTrace();
@@ -111,7 +120,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 } else {
                     try {
                         LOG.info("Waiting for " + zipFile.getAbsolutePath() + "to move.");
-                        Thread.sleep(zipfileCompletionPollInterval);
+                        Thread.sleep(zipfilePollInterval);
                     } catch (InterruptedException e) {
                         // Restore the interrupted status
                         Thread.currentThread().interrupt();
