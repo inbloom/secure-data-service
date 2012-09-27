@@ -41,25 +41,61 @@
                     ]
                 ]
             }
-        },{
-            "fieldPath" : "body.studentId",
+        },
+        {
+            "fieldPath" : "body.studentSectionAssociationId",
             "ref" :
             {
-                "entityType" : "student",
+                "entityType" : "studentSectionAssociation",
                 "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
                         {
-                            "path" : "body.studentUniqueStateId",
+                            "path" : "body.studentId",
                             "values" :
                             [{
-                                "valueSource" : "body.studentId"
+                                 "ref":
+                                 {
+                                     "entityType" : "student",
+                                     "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                                  "path" : "body.studentUniqueStateId",
+                                                  "values" :
+                                                   [{
+                                                         "valueSource" : "body.studentId"
+                                                   }]
+                                              }
+                                          ]
+                                      ]
+                                 }
                             }]
+                        },
+                        {
+                            "path" : "body.sectionId",
+                            "values" :
+                             [{
+                                 "ref":
+                                 {
+                                     "entityType" : "section",
+                                     "choiceOfFields" :
+                                      [
+                                          [{
+                                              "path" : "body.uniqueSectionCode",
+                                              "values" :
+                                               [{
+                                                   "valueSource" : "body.uniqueSectionCode"
+                                               }]
+                                          }]
+                                      ]
+                                 }
+                             }]
                         }
                     ]
                 ]
             }
-        } 
+        }
     ]
 }
