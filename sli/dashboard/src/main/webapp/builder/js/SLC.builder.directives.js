@@ -72,7 +72,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					items: "li:not(.nonSortable)",
 					cancel: ".nonSortable",
 					update: function() {
-						var model, paneModel;
+						var model, panelModel;
 
 						if(scope.$eval(attrs.ngSortable)) {
 							model = scope.$eval(attrs.ngSortable);
@@ -81,7 +81,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							model = scope.$parent.$eval(attrs.ngSortable);
 
 							if (attrs.ngSortable === "pages") {
-								paneModel = scope.$eval("panes");
+								panelModel = scope.$eval("panes");
 							}
 						}
 						$rootScope.newPageArray = [];
@@ -96,7 +96,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							if(model[oldIndex] !== null && model[oldIndex] !== undefined) {
 								$rootScope.newPageArray.push(model[oldIndex]);
 								if (attrs.ngSortable === "pages") {
-									$rootScope.newPaneArray.push(paneModel[oldIndex]);
+									$rootScope.newPaneArray.push(panelModel[oldIndex]);
 								}
 							}
 						});

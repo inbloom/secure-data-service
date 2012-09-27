@@ -60,6 +60,9 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 	if checked is true, page title will be editable. */
 	$scope.checked = false;
 
+
+	$scope.enabledSaveButton = false;
+
 	Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
 		var i;
 
@@ -120,7 +123,8 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		}
 
 		$.modal.close();
-		$scope.saveProfile();
+		//$scope.saveProfile();
+		dbSharedService.enableSaveButton(true);
 		configs.mode = "";
 		dbSharedService.setModalConfig(configs);
 	};
@@ -146,7 +150,9 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		}
 
 		$.modal.close();
-		$scope.saveProfile();
+		//$scope.saveProfile();
+
+		dbSharedService.enableSaveButton(true);
 		$scope.selectedPanels = [];
 	};
 
@@ -155,7 +161,6 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		$scope.profileItemArray = $scope.panels.concat($scope.pages);
 		$scope.profile.items = $scope.profileItemArray;
 		dbSharedService.saveDataSource(angular.toJson($scope.profile), callback);
-
 	};
 
 	$scope.removePageFromProfile = function (index, callback) {
@@ -206,7 +211,9 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 			return;
 		}
 		$scope.page.name = $scope.pageName;
-		parent.saveProfile();
+
+		dbSharedService.enableSaveButton(true);
+		//parent.saveProfile();
 		parent.checked = false;
 	};
 
@@ -232,8 +239,18 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 	$scope.$on("panelChanged", function () {
 		$scope.page.items = [];
 		$scope.page.items = $scope.newPageArray;
-		parent.saveProfile();
+		//parent.saveProfile();
+
+		dbSharedService.enableSaveButton(true);
 	});
+
+	$scope.publishPage = function () {
+		parent.saveProfile(function () {
+			$(".alert").show();
+			window.setTimeout(function() { $(".alert").hide("slow"); }, 3000);
+			dbSharedService.enableSaveButton(false);
+		});
+	};
 
 }
 
@@ -243,21 +260,23 @@ pageCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
  * @param $scope - scope object for controller
  */
 
-function panelCtrl($scope) {
+function panelCtrl($scope, dbSharedService) {
 
 	var parent = $scope.$parent;
 
 	$scope.removePanel = function () {
 		if(confirm("Are you sure you want to remove the panel?")) {
 			$scope.pagePanels.splice($scope.$index, 1);
-			parent.saveProfile();
+			//parent.saveProfile();
+
+			dbSharedService.enableSaveButton(true);
 		}
 	};
 
 
 }
 
-panelCtrl.$inject = ['$scope'];
+panelCtrl.$inject = ['$scope', 'dbSharedService'];
 
 
 /* Modal Box Controller

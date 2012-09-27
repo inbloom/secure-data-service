@@ -1,5 +1,7 @@
 <h3>Customize: {{profile.name}}</h3>
-
+<div class="alert alert-success hide">
+    <strong>Well done!</strong> The changes have been saved successfully.
+</div>
 <tabs>
     <pane title="{{page.name}}" ng-repeat="page in pages">
         <div ng-controller="pageCtrl" class="panels">
@@ -22,9 +24,11 @@
                 <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
             </div>
             <br/>
-            <div class="page-actions">
-                <button class="btn" ng-click="showPageConfig()">+ Show Page Source Code</button>
-                <button class="btn btn-danger pull-right" data-toggle="modal" ng-click="removePage()" >Remove Tab</button>
+            <a ng-click="showPageConfig()">+ Show Page Source Code</a>
+            <br/>
+            <div class="form-actions">
+                <button class="btn btn-danger pull-left" data-toggle="modal" ng-click="removePage()" >Remove Tab</button>
+                <button class="btn pull-right publish_button" ng-click="publishPage()" disabled>Publish Layout</button>
             </div>
         </div>
     </pane>

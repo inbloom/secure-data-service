@@ -153,6 +153,15 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			}
 		}
 
+		function enableSaveButton(status) {
+			if(status) {
+				$(".publish_button").removeAttr("disabled").addClass("btn-primary");
+			}
+			else {
+				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+			}
+		}
+
 		return {
 			getPage: getPage,
 			setPage: setPage,
@@ -162,6 +171,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			getModalConfig: getModalConfig,
 			setModalConfig: setModalConfig,
 			generatePageId: generatePageId,
-			showError: showError
+			showError: showError,
+			enableSaveButton: enableSaveButton
 		};
 	});
