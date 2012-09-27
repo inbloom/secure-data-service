@@ -54,7 +54,7 @@ public void testDeclareTagDefinitions() throws Exception {
     when(host.ensureTagDefinitionId(anyString())).thenReturn(Identifier.random());
     List<TagDefinition> tagDefinitionList = pluginForSLI.declareTagDefinitions(host);
     assertNotNull(tagDefinitionList);
-    assertEquals(11 , tagDefinitionList.size());
+    assertEquals(12 , tagDefinitionList.size());
 } 
 
 /** 

@@ -20,7 +20,7 @@ limitations under the License.
 module AppsHelper
   def sortable(title, value = nil)
     value ||= title.downcase
-    direction = params[:direction] == "ascending" ? "descending" : "ascending"
+    direction = params[:direction] == "desc" ? "asc" : "desc"
     link_to title, {:sort => value, :direction => direction}, {:class => direction}
   end
 

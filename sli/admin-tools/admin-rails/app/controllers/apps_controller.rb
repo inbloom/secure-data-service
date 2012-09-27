@@ -20,6 +20,8 @@ limitations under the License.
 class AppsController < ApplicationController
   before_filter :check_rights
 
+  $column_names = ["name", "vendor", "version", "metaData.created", "metaData.updated", "registration.approval_date", "registration.request_date"]
+
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
   # It allows developers to create new apps.
@@ -35,7 +37,10 @@ class AppsController < ApplicationController
   # GET /apps.json
   def index
     @title = "Application Registration Tool"
-    @apps = App.all.sort { |a,b| b.metaData.updated <=> a.metaData.updated }
+
+    @apps = App.all
+    @apps = sort(@apps)
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @apps }
@@ -229,5 +234,32 @@ class AppsController < ApplicationController
     end
     result
   end
- 
+
+  def sort_column
+    $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "desc"
+  end
+
+  def sort(app_array)
+    columns = sort_column().split(".")
+    puts("The sort_column is #{sort_column()}")
+    if sort_direction == "desc"
+        app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
+    else
+        app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
+    end
+    app_array
+  end
+
+  def getAttribute(model, column_array)
+    cur = model
+    column_array.each do |col|
+      cur = cur.attributes[col]
+    end
+    return cur
+
+  end
 end
