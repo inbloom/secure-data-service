@@ -20,9 +20,9 @@
 
 (defn gen-json [output-file contents]
   (def entity (merge contents { :metaData { :tenantId "Hyrule" } } ) )
-  (try (insert output-file contents)
+  (try (insert output-file entity)
     (catch Exception e
-      (println (format "%s\n\n%s" contents e)),
+      (println (format "%s\n\n%s" entity e)),
       (.System.exit 0)
     )
   )
