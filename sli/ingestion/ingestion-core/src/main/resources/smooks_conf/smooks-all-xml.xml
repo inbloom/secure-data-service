@@ -925,6 +925,8 @@
     <!-- this schoolId field is added to pass validation unit test: CourseEntityTest
          the parent id is resolved correctly during ingestion -->
     <jb:value property="schoolId" data="Course/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <!-- uniqueCourseId - simple type -->
+    <jb:value property="uniqueCourseId" data="Course/UniqueCourseId" />
   </jb:bean>
 
   <jb:bean beanId="Course_gradesOfferedArray" class="java.util.ArrayList" createOnElement="Course/GradesOffered">
@@ -3567,9 +3569,9 @@
 
   <jb:bean beanId="StudentCompetencyAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentCompetency">
-    <jb:value property="learningObjectiveReference" data="StudentCompetency/LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
     <jb:value property="studentCompetencyId" data="StudentCompetency/@id" />
     <jb:wiring property="competencyLevel" beanIdRef="StudentCompetency_CompetencyLevelDescriptors" />
+    <jb:wiring property="learningObjectiveReference" beanIdRef="StudentCompetency_LearningObjectiveReference" />
     <jb:wiring property="studentCompetencyObjectiveReference" beanIdRef="StudentCompetency_StudentCompetencyObjectiveReference" />
     <jb:value property="diagnosticStatement" data="StudentCompetency/DiagnosticStatement" />
     <jb:value property="studentId" data="StudentCompetency/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
