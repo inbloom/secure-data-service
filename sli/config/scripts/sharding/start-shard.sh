@@ -39,7 +39,7 @@ for ((i=1; i<=$num_shards; i++))
 do
   shard_port=$(( 10000 + $i ))
   mkdir -p $M/data/db/$i
-  mongod --shardsvr --dbpath $M/data/db/$i --port $shard_port > $M/logs/shard$i.log &
+  mongod --shardsvr --dbpath $M/data/db/$i --nojournal --port $shard_port > $M/logs/shard$i.log &
   echo $! >> $M/pids
 
   wait_for_mongo $shard_port
@@ -49,7 +49,7 @@ do
 done
 
 echo "Starting up config server..."
-mongod --configsvr --dbpath $M/data/db/config --port 20000 > $M/logs/configdb.log &
+mongod --configsvr --dbpath $M/data/db/config --nojournal --port 20000 > $M/logs/configdb.log &
 echo $! >> $M/pids
 
 wait_for_mongo 20000
