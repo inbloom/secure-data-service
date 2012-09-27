@@ -40,7 +40,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation           |
         | session                             |
         | assessment                          |
-        | studentAssessmentAssociation        |
+        #        | studentAssessmentAssociation        |
         | gradebookEntry                      |
         | studentTranscriptAssociation        |
         | studentGradebookEntry               |
@@ -73,11 +73,11 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
-        #        | studentSchoolAssociation    | 167   |
+        | studentSchoolAssociation    | 167   |
         | course                      | 95    |
         | educationOrganization       | 5     |
         | section                     | 97    |
-        #| studentSectionAssociation   | 297   |
+        | studentSectionAssociation   | 297   |
         | staff                       | 14    |
         | staffEducationOrganizationAssociation| 10 |
         | teacherSchoolAssociation    | 3     |
@@ -97,17 +97,17 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 6     |
-        #| studentCompetency           | 59    |
+        | studentCompetency           | 59    |
         | studentCompetencyObjective  | 4     |
         | learningStandard            | 1463  |
         | learningObjective           | 135   |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
         | studentDisciplineIncidentAssociation| 4|
-        #| grade                       | 4     |
+        #        | grade                       | 4     |
         | gradingPeriod               | 17    |
         | calendarDate                | 556   |
-        #| reportCard                  | 2     |
+        | reportCard                  | 2     |
         | courseOffering              | 95    |
         | studentAcademicRecord       | 117   |
         | graduationPlan              | 3     |
@@ -351,8 +351,8 @@ And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature                 |string               |
-     | studentAssessmentAssociation| 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
-#    | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
+     #     | studentAssessmentAssociation| 0                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified                         |string               |
+     #| studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                     | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName                                  | ACT                                              |string               |
@@ -368,17 +368,17 @@ And I check to find if record is in collection:
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Reading-Arts                                 |string               |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Science                                      |string               |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Writing                                      |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English                  |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |string               |
-     | studentAssessmentAssociation| 12                  | body.studentObjectiveAssessments.scoreResults.0.result                                         | 15                           |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Usage            |string               |
-     | studentAssessmentAssociation| 6                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 10                           |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Rhetorical       |string               |
-     | studentAssessmentAssociation| 9                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 8                            |string               |
-     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+     #     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English                  |string               |
+     #     | studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |string               |
+     #| studentAssessmentAssociation| 12                  | body.studentObjectiveAssessments.scoreResults.0.result                                         | 15                           |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Usage            |string               |
+     #| studentAssessmentAssociation| 6                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 10                           |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Rhetorical       |string               |
+     #| studentAssessmentAssociation| 9                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 8                            |string               |
+     #| studentAssessmentAssociation| 25                  | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | parent                      | 1                   | body.parentUniqueStateId      | 9870036500      |string               |
@@ -423,7 +423,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -467,7 +467,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -511,7 +511,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffProgramAssociation               | 0     |
      | student                               | 29    |
      | studentAcademicRecord                 | 68    |
-     | studentAssessmentAssociation          | 127   |
+     #     | studentAssessmentAssociation          | 127   |
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
@@ -555,7 +555,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffProgramAssociation               | 0     |
      | student                               | 26    |
      | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
+     #     | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -599,7 +599,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staffProgramAssociation               | 0     |
      | student                               | 25    |
      | studentAcademicRecord                 | 54    |
-     | studentAssessmentAssociation          | 75    |
+     #     | studentAssessmentAssociation          | 75    |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -633,7 +633,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 14    |
         | session                     | 23    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 203   |
+        #        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -713,7 +713,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 3     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -757,7 +757,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -801,7 +801,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 0     |
      | student                               | 29    |
      | studentAcademicRecord                 | 68    |
-     | studentAssessmentAssociation          | 127   |
+     #     | studentAssessmentAssociation          | 127   |
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
@@ -845,7 +845,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 0     |
      | student                               | 26    |
      | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
+     #     | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -889,7 +889,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 0     |
      | student                               | 25    |
      | studentAcademicRecord                 | 54    |
-     | studentAssessmentAssociation          | 75    |
+     #     | studentAssessmentAssociation          | 75    |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -933,7 +933,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 0     |
      | student                               | 105   |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -977,7 +977,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staffProgramAssociation               | 0     |
      | student                               | 105   |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1011,7 +1011,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 30    |
         | session                     | 27    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 203   |
+        #        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -1094,7 +1094,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 3     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -1138,7 +1138,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -1182,7 +1182,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 29    |
      | studentAcademicRecord                 | 68    |
-     | studentAssessmentAssociation          | 127   |
+     #     | studentAssessmentAssociation          | 127   |
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
@@ -1226,7 +1226,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 26    |
      | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
+     #     | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -1270,7 +1270,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 25    |
      | studentAcademicRecord                 | 54    |
-     | studentAssessmentAssociation          | 75    |
+     #     | studentAssessmentAssociation          | 75    |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1314,7 +1314,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 105   |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1358,7 +1358,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 105   |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1402,7 +1402,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 8     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1446,7 +1446,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1490,7 +1490,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1534,7 +1534,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1578,7 +1578,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 0     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1622,7 +1622,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 0     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1666,7 +1666,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -1702,7 +1702,7 @@ Then I should see following map of entry counts in the corresponding collections
 	 | courseOffering                       | 105   |
 	 | attendance                           | 75    |
 	 | assessment                           | 23    |
-	 | studentAssessmentAssociation         | 204   |
+         #	 | studentAssessmentAssociation         | 204   |
 	 | student                              | 193   |
      | parent                               | 12    |
      | studentParentAssociation             | 11    |
@@ -1779,9 +1779,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-4 |string                  |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature     |string                  |
-     | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |
+     #     | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
+     #     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  |
+     #     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |
      | parent                      | 1                   | body.parentUniqueStateId      | 3152281864      |string                  |
      | parent                      | 1                   | body.parentUniqueStateId      | 2521899635      |string                  |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
@@ -1814,16 +1814,16 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
      | assessment                  | 1                   | body.assessmentItem.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | body.assessmentItem.correctResponse            | False            | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
-     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
-     | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
+     #     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+     #     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
+     #     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
+     #     | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-1"
   Then the field "learningStandards" is an array of size 2
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
@@ -1924,7 +1924,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessmentAssociation|
+        #        | studentAssessmentAssociation|
         | gradebookEntry              |
         | studentTranscriptAssociation|
         | studentGradebookEntry       |
@@ -1970,7 +1970,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 27    |
         | session                     | 26    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 203   |
+        #        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -2029,7 +2029,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -2073,7 +2073,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 3     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
-     | studentAssessmentAssociation          | 203   |
+     #     | studentAssessmentAssociation          | 203   |
      | studentCohortAssociation              | 6     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -2117,7 +2117,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 29    |
      | studentAcademicRecord                 | 68    |
-     | studentAssessmentAssociation          | 127   |
+     #     | studentAssessmentAssociation          | 127   |
      | studentCohortAssociation              | 3     |
      | studentCompetency                     | 27    |
      | studentCompetencyObjective            | 0     |
@@ -2161,7 +2161,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 26    |
      | studentAcademicRecord                 | 9     |
-     | studentAssessmentAssociation          | 20    |
+     #     | studentAssessmentAssociation          | 20    |
      | studentCohortAssociation              | 4     |
      | studentCompetency                     | 59    |
      | studentCompetencyObjective            | 4     |
@@ -2205,7 +2205,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 25    |
      | studentAcademicRecord                 | 54    |
-     | studentAssessmentAssociation          | 75    |
+     #     | studentAssessmentAssociation          | 75    |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2249,7 +2249,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 8     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2293,7 +2293,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2337,7 +2337,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2381,7 +2381,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #    | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2425,7 +2425,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 0     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2469,7 +2469,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 0     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
@@ -2513,7 +2513,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staffProgramAssociation               | 0     |
      | student                               | 4     |
      | studentAcademicRecord                 | 0     |
-     | studentAssessmentAssociation          | 0     |
+     #     | studentAssessmentAssociation          | 0     |
      | studentCohortAssociation              | 0     |
      | studentCompetency                     | 0     |
      | studentCompetencyObjective            | 0     |
