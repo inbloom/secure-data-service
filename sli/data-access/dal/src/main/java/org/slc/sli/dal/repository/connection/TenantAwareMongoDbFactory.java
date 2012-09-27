@@ -16,14 +16,14 @@
 
 package org.slc.sli.dal.repository.connection;
 
-import org.apache.commons.codec.binary.Hex;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-import com.mongodb.DB;
-import com.mongodb.Mongo;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.dal.TenantContext;
 
 /**
  * @author okrook
@@ -63,8 +63,7 @@ public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
     }
 
     public static String getTenantDatabaseName(String tenantId) {
-        return tenantId;
-        //return Hex.encodeHexString(tenantId.getBytes());
+        return TenantIdToDbName.convertTenantIdToDbName(tenantId);
     }
 
 }
