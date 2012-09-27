@@ -493,12 +493,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     int size = fieldValues.size();
                     //make sure we have exactly the number of desired values
                     Criteria criteria = Criteria.where(field).size(size);
-                    //make sure we have each individual desired value
-                    Criteria[] valueCriteria = new Criteria[size];
-                    for (int i = 0; i < size; i++) {
-                        valueCriteria[i] = Criteria.where(field).is(fieldValues.get(i));
+                    // if there are desired values, make sure we have each individual desired value
+                    if (size > 0) {
+                        Criteria[] valueCriteria = new Criteria[size];
+                        for (int i = 0; i < size; i++) {
+                            valueCriteria[i] = Criteria.where(field).is(fieldValues.get(i));
+                        }
+                        criteria = criteria.andOperator(valueCriteria);
                     }
-                    criteria = criteria.andOperator(valueCriteria);
                     query.addCriteria(criteria);
                     //this will be insufficient if fieldValue can contain duplicates
                 } else {
