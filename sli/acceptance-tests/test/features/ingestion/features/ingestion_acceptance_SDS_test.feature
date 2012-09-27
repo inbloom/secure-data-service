@@ -440,17 +440,16 @@ Scenario: Verify deterministic ids generated: Clean Database
      | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
      | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.disciplineIncidentId    | 4d1d98c6d4c6adf3e2f6008d7896432eb655b22f_id |
 # staffProgramAssociation
-    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.staffId                        | d9538483-c8e5-30bc-eb28-edd419ec3846 |
-    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.programId                      | c6b49f09-3f36-755e-48c9-bba118c8beb2 |
-    | staffProgramAssociation               | fe257442-82ab-73ab-eb8d-0378158296c2 | body.beginDate                      | 2011-01-05                           |
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.staffId                        | a909105eca7591d418b2697d72df27ca632e16f8_id |
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.programId                      | 983dd657325009aefa88a234fa18bdb1e11c82a8_id |
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.beginDate                      | 2011-01-01                           |
 # teacherSchoolAssociation
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.teacherId                      | a965bf003819d48b507749091d282c851dd0507f_id |
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.programAssignment              | Regular Education                    |
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.schoolId                       | e479e04449d7a787bb8cce88335d8214f612416a_id |
-# uncomment when course has a deterministic id
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseAttemptResult            | ????                                 |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.studentAcademicRecordId            | 39dc6fb4f73a616c637b48682faba1176ea23950_id                                 |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseId                | 45b19639f02b1f04a88cab31e543ae58adfcbb27_id                                 |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseAttemptResult            | Pass                                 |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
    | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id  |
@@ -475,8 +474,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod  | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
     | gradingPeriod  | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
 # session
-    | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.sessionName          | Spring 2011 Daybreak Central High    |
-    | session                              | 5c7fa118-d43a-19cc-0fce-868c7ef2fb4c | body.schoolId             | cdd544e9-dc55-0152-0f8e-3742499680b9 |
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName          | Spring 2011 Daybreak Central High    |
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId             | e479e04449d7a787bb8cce88335d8214f612416a_id |
 
 
 @smoke
