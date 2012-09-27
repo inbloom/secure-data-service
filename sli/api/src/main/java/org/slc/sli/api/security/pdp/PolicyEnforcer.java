@@ -64,7 +64,7 @@ public class PolicyEnforcer {
 				info("Access Allowed: {}", request.getPath());
 			} else {
 				warn("Access Denied: {}", request.getPath());
-				throw new AccessDeniedException("No context");
+				//throw new AccessDeniedException("No context");
 			}
 		}
 	}
