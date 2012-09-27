@@ -13,10 +13,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -37,6 +40,10 @@ public class Indexer {
     static final String MAPPING_TEMPLATE = "{\"%s\":{\"type\" : \"object\", \"properties\" : {\"metaData\": {\"properties\" : {\"edOrgs\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"teacherContext\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"isOrphaned\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}, \"createdBy\": {\"type\" : \"string\", \"index\" : \"not_analyzed\"}}}}}}";
 
     private static final int DEFAULT_QUEUE_SIZE = 5000;
+
+    @Autowired
+    @Qualifier("entityEncryption")
+    private EntityEncryption encrypt;
     
     private Client client;
 
@@ -65,7 +72,7 @@ public class Indexer {
         client.close();
     }
     
-    public void index(String entityType, Entity entity) {
+    public void index(String entityType, IndexEntity entity) {
         
         IndexRequestBuilder irb = buildIndexRequest(entityType, entity);
         indexRequests.add(irb);
@@ -99,26 +106,16 @@ public class Indexer {
      * @param entityJson
      * @return
      */
-    public IndexRequestBuilder buildIndexRequest(String entityType, Entity entity) {
+    public IndexRequestBuilder buildIndexRequest(String entityType, IndexEntity entity) {
         
-        Map<String, Object> entItem;
         Set<String> tenants = new HashSet<String>();
-        String tenant;
-        entItem = new HashMap<String, Object>();
+        String tenant = entity.getIndex();;
         
-        // decrypt here?
-        
-        entItem.put("body", entity.getBody());
-        entItem.put("metaData", entity.getMetaData());
-        tenant = ((String)entity.getMetaData().get("tenantId")).toLowerCase();
-        
-        // TODO: do we need to keep track of tenants?
-        if (!tenants.contains(tenant)) {
-            tenants.add(tenant);
-        }
+        // decrypt body
+        Map<String, Object> decryptedBody = encrypt.decrypt(entityType, entity.getBody());
         
         // create irb
-        IndexRequestBuilder irb = client.prepareIndex(tenant, entityType, entity.getEntityId()).setSource(entItem);
+        IndexRequestBuilder irb = client.prepareIndex(tenant, entityType, entity.getId()).setSource(decryptedBody);
         
         return irb;
     }
@@ -128,6 +125,7 @@ public class Indexer {
         return client.prepareIndex(tenant.toLowerCase(), entityType, entityId).setSource(entity);
     }
 
+    
     /**
      * Takes a collection of index requests, builds a bulk http message to send to elastic search
      * 

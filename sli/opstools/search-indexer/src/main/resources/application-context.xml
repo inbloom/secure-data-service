@@ -47,9 +47,9 @@
 		<property name="template" ref="mongoTemplate" />
 	</bean>
 
-	<bean id="loader" class="org.slc.sli.search.Loader" init-method="init" destroy-method="destroy"/>
+	<bean id="loader" class="process.Loader" init-method="init" destroy-method="destroy"/>
 	
-	<bean id="indexer" class="org.slc.sli.search.Indexer" init-method="init" destroy-method="destroy">
+	<bean id="indexer" class="process.Indexer" init-method="init" destroy-method="destroy">
 	    <property name="searchUrl" value="${sli.search.url}" />
         <property name="searchUsername" value="${sli.search.username}" />
         <property name="searchPassword" value="${sli.search.password}" />

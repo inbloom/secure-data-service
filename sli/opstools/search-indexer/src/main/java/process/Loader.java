@@ -4,17 +4,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.apache.lucene.util.IOUtils;
-import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.slc.sli.search.entity.IndexEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,10 +25,6 @@ public class Loader implements FileAlterationListener {
     
     private static final String DEFAULT_DROP_OFF_DIR = "inbox";
     private static final int DEFAULT_INTERVAL_SEC = 3;
-    
-    @Autowired
-    @Qualifier("entityEncryption")
-    private EntityEncryption encrypt;
     
     @Autowired
     private Indexer indexer;
@@ -62,13 +60,27 @@ public class Loader implements FileAlterationListener {
         String id, type, index, entity;
         
         try {
+            // get tenant and entity type from file name
+            String fileName = inFile.getName();
+            index = fileName.substring(0, fileName.indexOf('-'));
+            type = fileName.substring(fileName.indexOf('-')+1, fileName.indexOf('.'));
+            
             br = new BufferedReader(new FileReader(inFile));
-            while ((id = br.readLine()) != null) {
-                //TODO: parse out type, id, tenant from filename/entity body
-                type = br.readLine();
-                index = br.readLine();
-                entity = br.readLine();
-                indexer.index(type, id, index, entity);
+            while ((entity = br.readLine()) != null) {
+                
+                // create entity object
+                ObjectMapper mapper = new ObjectMapper();
+                
+                Map<String, Object> entityMap = mapper.readValue(
+                        entity, 
+                        new TypeReference<Map<String, Object>>() {});
+                
+                id = (String) entityMap.get("_id");
+                //String body = mapper.writeValueAsString((Map<String, Object>) entityMap.get("body"));
+                IndexEntity indexEntity = new IndexEntity(index, type, id, (Map<String, Object>) entityMap.get("body"));
+                
+                indexer.index(type, indexEntity);
+                
             }
             indexer.flush();
         } catch (Exception e) {
