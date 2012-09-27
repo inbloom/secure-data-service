@@ -41,9 +41,7 @@ public class MongoCommanderTest {
 
     @Test
     public void test() {
-        String filePath = MongoCommanderTest.class.getClassLoader()
-                .getResource("test_indexes.js").getPath();
-        MongoCommander.exec("api_test", filePath, "");
+        MongoCommander.exec("api_test", "test_indexes.js", "");
 
         try {
             Mongo mongo = new Mongo();
@@ -58,7 +56,7 @@ public class MongoCommanderTest {
             Assert.assertEquals(1,(int)temp.get("_id"));
             Map<String, Double> attIndex = (Map<String, Double>)attendanceIndexes.get(1).get("key");
             //Not quite sure why it is double in Mongo
-            Assert.assertEquals(1.0, (double)attIndex.get("metaData.edOrgs"));
+            Assert.assertEquals(-1.0, (double)attIndex.get("metaData.edOrgs"));
             db.dropDatabase();
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
