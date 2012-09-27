@@ -287,6 +287,7 @@ public class CourseGenerator {
         clone.setMaximumAvailableCredit(old.getMaximumAvailableCredit());
         clone.setCareerPathway(old.getCareerPathway());
         clone.setEducationOrganizationReference(old.getEducationOrganizationReference());
+        clone.setUniqueCourseId(old.getUniqueCourseId());
         return clone;
     }
 
@@ -296,6 +297,7 @@ public class CourseGenerator {
 
         // courseCount--;
         course.setId(courseId);
+        course.setUniqueCourseId(courseId);
         CourseCode cc = new CourseCode();
         cc.setID(courseId);
         // cc.setID(course.getId() + courseCount);
@@ -342,6 +344,8 @@ public class CourseGenerator {
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
+
+        course.setUniqueCourseId(id);
 
         CourseCode CourseCode = new CourseCode();
         CourseCode.setID(id);
