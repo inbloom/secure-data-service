@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 
 <!-- ed org and schools --> 
 	<StateEducationAgency>
@@ -72,10 +70,10 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-10</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+    <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="LEA course code">
       <ID>Intro Algebra</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+    <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
       <ID>Math 101</ID>
     </CourseCode>
     <SubjectArea>Mathematics</SubjectArea>
@@ -84,7 +82,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-1-1</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>COURSE 2</CourseTitle>
@@ -92,10 +90,10 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-20</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+    <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="LEA course code">
       <ID>Interm Algebra</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+    <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
       <ID>Math 102</ID>
     </CourseCode>
     <SubjectArea>Mathematics</SubjectArea>
@@ -104,7 +102,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-2-2</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>COURSE 3</CourseTitle>
@@ -112,10 +110,10 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-30</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+    <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="LEA course code">
       <ID>Adv Algebra</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+    <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
       <ID>Math 103</ID>
     </CourseCode>
     <SubjectArea>Mathematics</SubjectArea>
@@ -124,7 +122,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-3-3</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>COURSE 4</CourseTitle>
@@ -132,10 +130,10 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-40</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+    <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="LEA course code">
       <ID>Hon Algebra</ID>
     </CourseCode>
-    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+    <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
       <ID>Math 201</ID>
     </CourseCode>
     <SubjectArea>Mathematics</SubjectArea>
@@ -144,7 +142,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-4-4</UniqueCourseId></Course>
   
   <Course>
     <CourseTitle>COURSE 5</CourseTitle>
@@ -158,7 +156,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-5-5</UniqueCourseId></Course>
   
   <Course>
     <CourseTitle>COURSE 6</CourseTitle>
@@ -172,6 +170,6 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>COURSE-6-6</UniqueCourseId></Course>
   
 </InterchangeEducationOrganization>

@@ -657,6 +657,11 @@ Student late arrival/early dismissal
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
+                    <xs:element name="UniqueCourseId" type="UniqueCourseId">
+                        <xs:annotation>
+                            <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
 					<xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
@@ -3830,7 +3835,7 @@ Local Neglected Program
 					<xs:documentation>The teacher providing services to the school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SchoolReference" type="EducationalOrgReferenceType" maxOccurs="unbounded">
+			<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.</xs:documentation>
 				</xs:annotation>
@@ -9974,6 +9979,15 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="24"/>
 		</xs:restriction>
 	</xs:simpleType>
+    <xs:simpleType name="UniqueCourseId">
+        <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
 	<xs:simpleType name="UniqueSectionCode">
 		<xs:annotation>
 			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.

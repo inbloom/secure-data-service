@@ -135,7 +135,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "uniqueCourseId" => "Chinese-1-10"
   },
   "courseOffering" => { 
     "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
@@ -226,6 +227,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",

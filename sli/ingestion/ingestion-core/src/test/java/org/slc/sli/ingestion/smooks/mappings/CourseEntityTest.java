@@ -98,6 +98,7 @@ public class CourseEntityTest {
                 + "            <StateOrganizationId>ID1</StateOrganizationId>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
+                + "    <UniqueCourseId>Science-6A-68</UniqueCourseId>"
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
 
