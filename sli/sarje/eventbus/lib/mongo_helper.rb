@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-require 'stomp'
 require 'json'
 require 'thread'
 
@@ -25,8 +24,8 @@ module Eventbus
   class MongoHelper
     #TODO: move this out to a property
     MONGO_HOME = "/usr/local"
-    MONGO_EXEC = "#{MONGO_HOME}/bin/mongo"
-    MONGOIMPORT_EXEC = "#{MONGO_HOME}/bin/mongoimport"
+    MONGO_EXEC = "mongo"
+    MONGOIMPORT_EXEC = "mongoimport"
 
     def initialize(config)
       @active_config = config
@@ -42,6 +41,7 @@ module Eventbus
     def setFixture(collectionName = @active_config[:mongo_job_collection], fixtureFilePath = @active_config[:fixture_file_path], dropExistingCollection = true)
       dropOption = (dropExistingCollection) ? "--drop":""
       command = "#{MONGOIMPORT_EXEC} #{dropOption} -d #{@active_config[:mongo_db]} -c #{collectionName} -h #{@active_config[:mongo_host]} --file #{fixtureFilePath}"
+      puts "COMMAND: #{command}"
       status, stdout, stderr = systemu command
 
       #sh cmd do |success, exit_code|

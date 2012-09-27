@@ -36,4 +36,5 @@ public final class SliUmlConstants {
     public static final String TAGDEF_REST_RESOURCE = TAGDEF_PREFIX.concat("resource");
     public static final String TAGDEF_RESTRICTED_FOR_LOGGING = TAGDEF_PREFIX.concat("restrictedForLogging");
     public static final String TAGDEF_SECURITY_SPHERE = TAGDEF_PREFIX.concat("securitySphere");
+    public static final String TAGDEF_ASSOCIATION_KEY = TAGDEF_PREFIX.concat("associationKey");
 }

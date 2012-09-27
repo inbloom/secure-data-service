@@ -6,7 +6,8 @@ Given I have an open web browser
 
 Scenario: App developer deletes installed app
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Collaborative"
+#When I selected the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page     
 Then I should be on Portal home page
@@ -29,7 +30,8 @@ Then the application named "Schlemiel" is removed from the SLI
 
 Scenario:  LEA deletes realm
 When I navigate to the Portal home page
-When I selected the realm "Shared Learning Collaborative"
+#When I selected the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
@@ -50,7 +52,8 @@ And I click on log out
 Scenario: slcoperator deletes SEA,LEA
 When I navigate to the user account management page
 Then I will be redirected to the realm selector web page
-When I select the realm "Shared Learning Collaborative"
+#When I select the realm "Shared Learning Collaborative"
+When I selected the realm "Shared Learning Infrastructure"
 Then I am redirected to "Simple" login page
 When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"

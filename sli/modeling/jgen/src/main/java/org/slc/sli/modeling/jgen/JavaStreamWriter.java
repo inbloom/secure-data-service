@@ -32,6 +32,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void beginClass(String name, List<String> implementations) throws IOException;
 
+    void beginClass(String name, List<String> implementations, String extension) throws IOException;
+
     void beginClass(String name, String extension) throws IOException;
 
     void beginEnum(String name) throws IOException;

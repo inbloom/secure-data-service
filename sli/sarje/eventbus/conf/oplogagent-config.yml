@@ -1,0 +1,33 @@
+# logging configuration 
+logger_output: STDOUT
+logger_level: INFO
+
+# set the node-id that is prefixed to the hostname 
+node_id: oplogagent-
+
+# ActiveMQ configuration 
+# host and port for the AactiveMQ broker running the STOMP protocol 
+messaging_host: 127.0.0.1
+messaging_port: 61613
+
+# the interval in which to send a heartbeat in seconds 
+heartbeat_period: 10
+
+# MongoDB configuration 
+# host and port of the mongoDB installation that the oplog agent 
+# should connect to 
+mongo_host: localhost
+mongo_port: 27017
+
+# database and collection that the oplog agent should follow 
+mongo_db: local
+mongo_oplog_collection: oplog.rs
+
+# parameters for the connection to mongo in seconds
+mongo_connection_retry: 5
+mongo_ignore_initial_read: true
+
+# time frame in which to coalesce oplog messages in seconds
+# all messages within this timeframe will be processed together and generate 
+# a single event 
+collect_events_interval: 5

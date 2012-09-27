@@ -22,12 +22,16 @@ $LOAD_PATH << testdir + "/../lib"
 require 'test/unit'
 require 'eventbus'
 require 'time'
+require 'logger'
 
 class TestEventPubSub < Test::Unit::TestCase
     FIRE_N_EVENTS = 5 
     EVENT_TYPE = "testevent"
 
-    def setup 
+    def setup
+        @logger = Logger.new(STDOUT)
+        @logger.level = Logger::INFO
+ 
         @queue_config = {}
 
         @event_subscriptions = [
@@ -42,9 +46,9 @@ class TestEventPubSub < Test::Unit::TestCase
 
     def test_eventpubsub
         # set up two agents and a subscriber 
-        test_publisher_1 = TestAgent.new(FIRE_N_EVENTS, "agent_1", EVENT_TYPE)
-        test_publisher_2 = TestAgent.new(FIRE_N_EVENTS, "agent_2", EVENT_TYPE)
-        event_subscriber = Eventbus::EventSubscriber.new(EVENT_TYPE)
+        test_publisher_1 = TestAgent.new(FIRE_N_EVENTS, "agent_1", EVENT_TYPE, @logger)
+        test_publisher_2 = TestAgent.new(FIRE_N_EVENTS, "agent_2", EVENT_TYPE, @logger)
+        event_subscriber = Eventbus::EventSubscriber.new({}, EVENT_TYPE, @logger)
 
         # set up the event handler 
         fired_events = {} 
@@ -93,9 +97,9 @@ class TestEventPubSub < Test::Unit::TestCase
 end 
 
 class TestAgent 
-    def initialize(fire_n_events, id, event_type) 
+    def initialize(fire_n_events, id, event_type,logger) 
         @fire_n_events = fire_n_events 
-        @e_publisher = Eventbus::EventPublisher.new(id, event_type)
+        @e_publisher = Eventbus::EventPublisher.new(id, event_type,{},logger)
 
         # setup the subscription handler on the publisher side 
         @tem_lock = Mutex.new 

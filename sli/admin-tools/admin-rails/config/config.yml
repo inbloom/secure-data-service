@@ -48,8 +48,8 @@ development:
     <<: *email_mon
     <<: *ldap_default
     api_base: http://local.slidev.org:8080/api/rest
-    client_id: 2941966d8983082974d634242407ee89
-    client_secret: 94fff6c0c0dbb42ba940f06bc4a7c46a534d46b281b21e49c2654caa4e145944b541982e8aed93755e7d13af472830cf3f8c6db07e24082817541d5723378f3e
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
@@ -57,17 +57,15 @@ development:
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7 
+    tmp_dir: /tmp 
 
 local-acceptance-tests:
     <<: *common
     <<: *email_rumbster
     <<: *ldap_default
     api_base: http://local.slidev.org:8080/api/rest
-    client_id: 2941966d8983082974d634242407ee89
-    client_secret: 94fff6c0c0dbb42ba940f06bc4a7c46a534d46b281b21e49c2654caa4e145944b541982e8aed93755e7d13af472830cf3f8c6db07e24082817541d5723378f3e
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     is_sandbox: false
@@ -76,8 +74,6 @@ local-acceptance-tests:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 development_sb:
     <<: *common
@@ -85,24 +81,22 @@ development_sb:
     <<: *email_mon
     <<: *ldap_default
     api_base: http://local.slidev.org:8080/api/rest
-    client_id: 2941966d8983082974d634242407ee89
-    client_secret: 94fff6c0c0dbb42ba940f06bc4a7c46a534d46b281b21e49c2654caa4e145944b541982e8aed93755e7d13af472830cf3f8c6db07e24082817541d5723378f3e
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    tmp_dir: /tmp 
     
 team:
     <<: *common
     <<: *email_mon
     <<: *ldap_default
     api_base: https://ci.slidev.org/api/rest
-    client_id: af2fec704462eeca851a05322bc03957
-    client_secret: d22eed2020846ff50a2d71f2d9acaa603d08ebe4a914dac655e38774e73c6b3066ef53dc00a77bd872e852a11374b6b44b430dd258ab2077be0de912fb77b980
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
@@ -110,9 +104,7 @@ team:
     auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    tmp_dir: /tmp 
     
 team_sb:
     <<: *common
@@ -120,16 +112,14 @@ team_sb:
     <<: *email_mon
     <<: *ldap_default
     api_base: https://ci.slidev.org/api/rest
-    client_id: af2fec704462eeca851a05322bc03957
-    client_secret: d22eed2020846ff50a2d71f2d9acaa603d08ebe4a914dac655e38774e73c6b3066ef53dc00a77bd872e852a11374b6b44b430dd258ab2077be0de912fb77b980
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    tmp_dir: /tmp 
     
 test:
     <<: *common
@@ -142,17 +132,15 @@ test:
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    tmp_dir: /tmp 
     
 production:
     <<: *common
     <<: *email_mon
     <<: *ldap_default
     api_base: https://ci.slidev.org/api/rest
-    client_id: af2fec704462eeca851a05322bc03957
-    client_secret: d22eed2020846ff50a2d71f2d9acaa603d08ebe4a914dac655e38774e73c6b3066ef53dc00a77bd872e852a11374b6b44b430dd258ab2077be0de912fb77b980
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
@@ -160,7 +148,5 @@ production:
     auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
-    tmp_dir: /tmp
-    encryption_keyfile: config/localRailsKey
-    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    tmp_dir: /tmp 
 

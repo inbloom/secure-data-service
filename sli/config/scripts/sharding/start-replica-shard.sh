@@ -72,4 +72,6 @@ do
   sleep 15
   mongo admin --port $mongos_port --eval 'db.runCommand( { addshard : "'$set_name'/localhost:'$(($shard_port_base+$i*3+1))',localhost:'$(($shard_port_base+$i*3+2))',localhost:'$(($shard_port_base+$i*3+3))'"})'
 done
+
+mongo admin --port $mongos_port ../../shards/sli_shards.js 
 echo "mongos is running on port $mongos_port"
