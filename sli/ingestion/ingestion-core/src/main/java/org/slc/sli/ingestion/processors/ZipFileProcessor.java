@@ -111,8 +111,6 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             FaultsReport errorReport = new FaultsReport();
 
-            waitForZipfile(zipFile);  // DE1618 gluster does not atomic move so we need to check for file size changes
-
             File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 
             BatchJobUtils.writeErrorsWithDAO(batchJobId, zipFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
