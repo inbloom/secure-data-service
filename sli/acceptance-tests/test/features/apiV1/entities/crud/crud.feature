@@ -188,4 +188,4 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
