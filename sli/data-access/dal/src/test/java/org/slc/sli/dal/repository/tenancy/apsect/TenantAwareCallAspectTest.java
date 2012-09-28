@@ -16,19 +16,23 @@
 
 package org.slc.sli.dal.repository.tenancy.apsect;
 
+import java.io.PrintStream;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
-
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
 import org.slc.sli.dal.repository.tenancy.SystemCall;
 import org.slc.sli.dal.repository.tenancy.TenantCall;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author okrook
  *
  */
 public class TenantAwareCallAspectTest {
+    Logger log = LoggerFactory.getLogger(TenantAwareCallAspectTest.class);
 
     @Test
     public void testTenantCall() {
@@ -39,6 +43,40 @@ public class TenantAwareCallAspectTest {
         tenantCall2(null, "MyTenant");
     }
 
+    @Test
+    public void mutliThreadedCalls() throws InterruptedException {
+        Runnable th = new Runnable() {
+
+            @Override
+            public void run() {
+                tenantCall("MyTenant" + Thread.currentThread().getId());
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
+
+                systemCall();
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
+
+                tenantCall2(null, "MyTenant" + Thread.currentThread().getId());
+            }
+        };
+
+        Thread th1 = new Thread(th);
+        Thread th2 = new Thread(th);
+
+        th1.start();
+        th2.start();
+
+        th1.join();
+        th2.join();
+    }
+
     @Test(expected = IllegalStateException.class)
     public void testBadTenantCall() {
         badTenantCall("MyTenant");
@@ -46,15 +84,21 @@ public class TenantAwareCallAspectTest {
 
     @TenantCall(param = "tenantId")
     private void tenantCall(String tenantId) {
+        log.debug(String.format("Expected: %s, Actual: %s", tenantId, CurrentTenantHolder.getCurrentTenant()));
+
         Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
 
         systemCall();
+
+        log.debug(String.format("Expected: %s, Actual: %s", tenantId, CurrentTenantHolder.getCurrentTenant()));
 
         Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
     }
 
     @TenantCall(param = "tenantId")
     private void tenantCall2(Object someValue, String tenantId) {
+        log.debug(String.format("Expected: %s, Actual: %s", tenantId, CurrentTenantHolder.getCurrentTenant()));
+
         Assert.assertEquals(tenantId, CurrentTenantHolder.getCurrentTenant());
     }
 
@@ -65,6 +109,8 @@ public class TenantAwareCallAspectTest {
 
     @SystemCall
     private void systemCall() {
+        log.debug(String.format("Expected: %s, Actual: %s", "null", String.valueOf(CurrentTenantHolder.getCurrentTenant())));
+
         Assert.assertEquals(null, CurrentTenantHolder.getCurrentTenant());
     }
 }

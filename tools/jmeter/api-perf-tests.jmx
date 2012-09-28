@@ -4,7 +4,7 @@
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -15,7 +15,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="hostname" elementType="Argument">
             <stringProp name="Argument.name">hostname</stringProp>
-            <stringProp name="Argument.value">local.slidev.org</stringProp>
+            <stringProp name="Argument.value">${__P(hostname,local.slidev.org)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="clientId" elementType="Argument">
@@ -38,13 +38,13 @@
           </elementProp>
           <elementProp name="protocol" elementType="Argument">
             <stringProp name="Argument.name">protocol</stringProp>
-            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.value">${__P(protocol,http)}</stringProp>
             <stringProp name="Argument.desc">http/https</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="port" elementType="Argument">
             <stringProp name="Argument.name">port</stringProp>
-            <stringProp name="Argument.value">8080</stringProp>
+            <stringProp name="Argument.value">${__P(port,8080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loginId" elementType="Argument">
@@ -70,10 +70,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">100</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
         <longProp name="ThreadGroup.start_time">1345650982000</longProp>
         <longProp name="ThreadGroup.end_time">1345650982000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -85,12 +85,12 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="firstName" elementType="Argument">
               <stringProp name="Argument.name">firstName</stringProp>
-              <stringProp name="Argument.value">Dominic</stringProp>
+              <stringProp name="Argument.value">Arline</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="lastName" elementType="Argument">
               <stringProp name="Argument.name">lastName</stringProp>
-              <stringProp name="Argument.value">Berdan</stringProp>
+              <stringProp name="Argument.value">Randolph</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
@@ -181,7 +181,15 @@ vars.put(&quot;studentID&quot;, resp[0].id);</stringProp>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get student transcripts" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
           <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -227,7 +235,7 @@ vars.put(&quot;studentID&quot;, resp[0].id);</stringProp>
           <stringProp name="LoopController.loops">4</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -239,7 +247,7 @@ vars.put(&quot;studentID&quot;, resp[0].id);</stringProp>
           <collectionProp name="Arguments.arguments">
             <elementProp name="sectionCode" elementType="Argument">
               <stringProp name="Argument.name">sectionCode</stringProp>
-              <stringProp name="Argument.value">10th%20Grade%20Writing-Sec%206s11</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HS0-1-2-sec0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">10th Grade Writing-Sec 6s11</stringProp>
             </elementProp>
@@ -305,7 +313,15 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List of students for section" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
           <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -341,6 +357,13 @@ log.info(&quot;Looked up &quot; + resp.length + &quot; students in  &quot; + var
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">sectionId</stringProp>
+              </elementProp>
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -407,7 +430,7 @@ vars.put(&quot;gradebookEntryID&quot;, resp[0].id);
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -419,7 +442,7 @@ vars.put(&quot;gradebookEntryID&quot;, resp[0].id);
           <collectionProp name="Arguments.arguments">
             <elementProp name="sectionCode" elementType="Argument">
               <stringProp name="Argument.name">sectionCode</stringProp>
-              <stringProp name="Argument.value">10th%20Grade%20Writing-Sec%206s11</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HS0-1-2-sec0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">10th Grade Writing-Sec 6s11</stringProp>
             </elementProp>
@@ -542,6 +565,13 @@ vars.put(&quot;schoolID&quot;, resp.schoolId);
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">includeFields</stringProp>
+              </elementProp>
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -690,7 +720,7 @@ vars.put(&quot;attData&quot; , JSON.stringify(att));
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -702,7 +732,7 @@ vars.put(&quot;attData&quot; , JSON.stringify(att));
           <collectionProp name="Arguments.arguments">
             <elementProp name="sectionCode" elementType="Argument">
               <stringProp name="Argument.name">sectionCode</stringProp>
-              <stringProp name="Argument.value">10th%20Grade%20Writing-Sec%206s11</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HS0-1-2-sec0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Mrs. Braverman&apos;s Homeroom #38</stringProp>
             </elementProp>
@@ -838,6 +868,13 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">includeFields</stringProp>
               </elementProp>
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -927,7 +964,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -939,7 +976,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <collectionProp name="Arguments.arguments">
             <elementProp name="stateOrganizationId" elementType="Argument">
               <stringProp name="Argument.name">stateOrganizationId</stringProp>
-              <stringProp name="Argument.value">Daybreak%20Central%20High</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HSch0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Daybreak Central High</stringProp>
             </elementProp>
@@ -1015,7 +1052,15 @@ vars.put(&quot;schoolId&quot;, resp[0].id);
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List sections in school" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="limit" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">limit</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
           <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1110,7 +1155,15 @@ vars.put(&quot;courseId&quot;, resp.courseId);</stringProp>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get teacher section assocations" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="limit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">10000</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">limit</stringProp>
+                </elementProp>
+              </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1182,7 +1235,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -1194,7 +1247,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <collectionProp name="Arguments.arguments">
             <elementProp name="stateOrganizationId" elementType="Argument">
               <stringProp name="Argument.name">stateOrganizationId</stringProp>
-              <stringProp name="Argument.value">Daybreak%20Central%20High</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HSch0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Daybreak Central High</stringProp>
             </elementProp>
@@ -1272,7 +1325,15 @@ vars.put(&quot;schoolId&quot;, resp[0].id);
           </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List studentSchoolAssociations" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="limit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">10000</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">limit</stringProp>
+                </elementProp>
+              </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1292,7 +1353,15 @@ vars.put(&quot;schoolId&quot;, resp[0].id);
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List studentSchoolAssociations/students" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="limit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">10000</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">limit</stringProp>
+                </elementProp>
+              </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1372,7 +1441,15 @@ for (var i = 0; i &lt; resp.length; i++) {
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List studentSchoolAssociations" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="limit" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">10000</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">limit</stringProp>
+                  </elementProp>
+                </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1392,7 +1469,14 @@ for (var i = 0; i &lt; resp.length; i++) {
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List studentSchoolAssociations/students" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">10000</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  </elementProp>
+                </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1420,7 +1504,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1345751116000</longProp>
         <longProp name="ThreadGroup.end_time">1345751116000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -1432,7 +1516,7 @@ for (var i = 0; i &lt; resp.length; i++) {
           <collectionProp name="Arguments.arguments">
             <elementProp name="stateOrganizationId" elementType="Argument">
               <stringProp name="Argument.name">stateOrganizationId</stringProp>
-              <stringProp name="Argument.value">Daybreak%20Central%20High</stringProp>
+              <stringProp name="Argument.value">CAP0-D0-HSch0</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Daybreak Central High</stringProp>
             </elementProp>
@@ -1510,7 +1594,15 @@ vars.put(&quot;schoolId&quot;, resp[0].id);
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List attendances for school" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="limit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">10000</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">limit</stringProp>
+                </elementProp>
+              </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1540,6 +1632,13 @@ vars.put(&quot;schoolId&quot;, resp[0].id);
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">includeFields</stringProp>
+                </elementProp>
+                <elementProp name="limit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">10000</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">limit</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
@@ -1578,7 +1677,15 @@ for (var i = 0; i &lt; resp.length; i++) {
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List studentSchoolAssociations/students" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="limit" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">10000</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    <stringProp name="Argument.name">limit</stringProp>
+                  </elementProp>
+                </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -1864,7 +1971,7 @@ log.info(&quot;Access token is &quot; + resp.access_token);</stringProp>
       </HeaderManager>
       <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-        <boolProp name="ResultCollector.error_logging">true</boolProp>
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
           <value class="SampleSaveConfiguration">

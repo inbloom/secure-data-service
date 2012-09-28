@@ -23,7 +23,9 @@ def do_work(assessment_id, db):
 
         # get all students in the school 
         ssa_collection = db["studentSchoolAssociation"]
-        students = [s["body"]["studentId"] for s  in ssa_collection.find({ "body.schoolId" : school_id }, {"_id" : 0, "body.studentId" : 1})]
+        students = [s["body"]["studentId"] 
+                    for s  in ssa_collection.find({ "body.schoolId" : school_id }, {"_id" : 0, "body.studentId" : 1})
+                    if s.get("body", {}).get("studentId",None)]
 
         print "School:   %s" % school_id
         print "Students: %s" % len(students)
@@ -62,14 +64,14 @@ def main():
     db = con.sli
 
     if len(sys.argv) < 3:
-      print "Available Assessment IDs:"
-      result = set()
-      result = set((x["body"]["assessmentId"] for x in db["studentAssessmentAssociation"].find({}, ["body.assessmentId"])))
-      for e in result:
-        print e
+        result = set()
+        result = set((x["body"]["assessmentId"] for x in db["studentAssessmentAssociation"].find({}, ["body.assessmentId"]) if x.get("body", {}).get("assessmentId", None)))
+        print "Available Assessment IDs:"
+        for e in result:
+          print e
     else:
-      assessment_id = sys.argv[2]
-      do_work(assessment_id, db)
+        assessment_id = sys.argv[2]
+        do_work(assessment_id, db)
 
     # close the connection 
     con.close()
