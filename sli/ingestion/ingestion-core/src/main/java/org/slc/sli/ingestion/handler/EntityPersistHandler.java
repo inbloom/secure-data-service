@@ -220,13 +220,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     errorReport.error(errorMessage, this);
                 }
 
-                if (complexField !=null) {
+                if (complexField != null) {
                     String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
 
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        String errorMessage = "Issue finding key field: " +" for entity of type: " + entity.getType() + "\n";
+                        String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType() + "\n";
                         errorReport.error(errorMessage, this);
                     }
                 }

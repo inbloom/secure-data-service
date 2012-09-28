@@ -108,6 +108,7 @@ editRow = (tr) ->
   groupName.replaceWith(input)
   groupName = tr.find("td:eq(0)").find(".groupTitle")
   td.prepend(groupName)
+  td.prepend("Group Name:")
 
   #Add delete button to each role name
   tr.find("td:eq(0) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
