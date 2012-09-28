@@ -5954,6 +5954,9 @@
 						The name of the period for which grades are
 						reported
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -6162,6 +6165,9 @@
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a learning Standard.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="contentStandardName" type="contentStandardName"
