@@ -73,7 +73,16 @@ public class ContextInferranceHelper {
             } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/sections/%s/students/studentParentAssociations",
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
-            }
+            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/sections/%s/studentSectionAssociations", 
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/teachers/%s/teacherSchoolAssociations", user.getEntityId());
+            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
+            } else if (ResourceNames.SECTIONS.equals(resource)) {
+                result = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
+            } 
 
         } else if (isStaff(user)) {
             if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
