@@ -1744,7 +1744,7 @@
 
   <jb:bean beanId="performanceLevelsTypeArrayIntermediate" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:wiring beanIdRef="studentAssessmentPerformanceDescriptorCodeValue" />
-    <jb:wiring beanIdRef="studentAssessmentPerfor manceDescriptorDescription" />
+    <jb:wiring beanIdRef="studentAssessmentPerformanceDescriptorDescription" />
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentPerformanceDescriptorDescription" class="java.util.HashMap"
