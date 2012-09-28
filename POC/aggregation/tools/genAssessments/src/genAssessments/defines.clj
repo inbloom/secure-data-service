@@ -86,7 +86,7 @@
  )
 
 (defn school-id [i j]
-  (format "PS-%s" (str (+ i j)))
+  (format "PS-%s-%s" (str i) (str j))
 )
 
 (defn student-id [schoolName studentId]

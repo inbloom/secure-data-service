@@ -173,10 +173,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void giveContext(Entity entity, EntityConfig entityConfig) {
         ComplexRefDef complexRefDef = entityConfig.getComplexReference();
-        if (complexRefDef != null) {
+//        if (complexRefDef != null) {
             // what is this?
             // -> thinking we'll need this for course lookups
-        }
+//        }
 
         if (isEducationOrganization(entity.getType())) {
             @SuppressWarnings("unchecked")
@@ -508,11 +508,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
             }
             ComplexKeyField complexField = entityConfig.getComplexKeyField();
-            if (complexField !=null) {
+            if (complexField != null) {
                 String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
                 Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
 
-                query.addCriteria(Criteria.where(complexField.getListPath() + "." +complexField.getFieldPath()).is(fieldValue));
+                query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(fieldValue));
             }
         } catch (Exception e) {
             errorReport.error(errorMessage, this);
