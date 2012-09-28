@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.validation;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.DummyEntityRepository;
 
 /**
@@ -29,7 +28,7 @@ import org.slc.sli.validation.DummyEntityRepository;
  *
  */
 @Component("validationRepo")
-public class IngestionDummyEntityRepository extends DummyEntityRepository implements Repository<Entity> {
+public class IngestionDummyEntityRepository extends DummyEntityRepository {
 
     @Override
     public boolean update(String collection, Entity entity) {
