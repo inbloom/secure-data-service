@@ -24,7 +24,6 @@ import java.util.Map;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -139,11 +138,6 @@ public class MockPerfRepo implements Repository<Entity> {
 
     @Override
     public void createCollection(String collection) {
-
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
 
     }
 

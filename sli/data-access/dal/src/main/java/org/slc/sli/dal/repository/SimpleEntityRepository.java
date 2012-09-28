@@ -23,7 +23,6 @@ import java.util.Map;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -148,12 +147,6 @@ public class SimpleEntityRepository implements Repository<Entity> {
 
     @Override
     public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
         // TODO Auto-generated method stub
 
     }

@@ -13,7 +13,6 @@ import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<T> repo;
-    
+
     // The size of queries we page around.
     @Value("${sli.api.security.context.paging}")
     private int COUNT;
@@ -46,7 +45,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.createWithRetries(type, id, body, metaData, collectionName, noOfRetries);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -70,7 +69,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         }
         return startingIds;
     }
-    
+
     private NeutralQuery adjustIdsInQuery(List<String> ids, NeutralQuery query) {
         for (NeutralQuery orQuery : query.getOrQueries()) {
             for (NeutralCriteria criteria : orQuery.getCriteria()) {
@@ -81,7 +80,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         }
         return query;
     }
-    
+
     public List<List<String>> extractBrokenListOfIds(List<String> queriedIds) {
         List<List<String>> brokenList = new ArrayList<List<String>>();
         int blocks = queriedIds.size() / COUNT;
@@ -110,7 +109,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.create(type, body);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -121,7 +120,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.create(type, body, collectionName);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -133,7 +132,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.create(type, body, metaData, collectionName);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -144,7 +143,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.insert(records, collectionName);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -155,7 +154,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findById(collectionName, id);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -166,7 +165,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.exists(collectionName, id);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -177,7 +176,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findOne(collectionName, neutralQuery);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -201,7 +200,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         }
         return results;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -213,7 +212,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findAllByPaths(collectionName, paths, neutralQuery);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -225,7 +224,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findAllIds(collectionName, neutralQuery);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -236,7 +235,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.count(collectionName, neutralQuery);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -247,7 +246,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.update(collection, object);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -259,7 +258,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.doUpdate(collection, id, update);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -271,7 +270,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.doUpdate(collection, query, update);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -282,7 +281,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.delete(collectionName, id);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -293,7 +292,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         repo.deleteAll(collectionName);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -304,7 +303,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.execute(command);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -315,7 +314,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.getCollection(collectionName);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -326,7 +325,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.getCollections(includeSystemCollections);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -338,7 +337,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findByPaths(collectionName, paths);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -351,7 +350,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.findByQuery(collectionName, query, skip, max);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -362,7 +361,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.collectionExists(collection);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -373,20 +372,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         repo.createCollection(collection);
     }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.slc.sli.domain.Repository#ensureIndex(org.springframework.data.mongodb.core.index.
-     * IndexDefinition, java.lang.String)
-     */
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
-        // TODO Auto-generated method stub
-        repo.ensureIndex(index, collection);
-        
-    }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -397,7 +383,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         repo.setWriteConcern(writeConcern);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -408,7 +394,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         repo.setReferenceCheck(referenceCheck);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -420,7 +406,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.count(collectionName, query);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -433,7 +419,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.createWithRetries(type, body, metaData, collectionName, noOfRetries);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -444,7 +430,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.updateWithRetries(collection, object, noOfRetries);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -456,5 +442,5 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         // TODO Auto-generated method stub
         return repo.patch(type, collectionName, id, newValues);
     }
-    
+
 }

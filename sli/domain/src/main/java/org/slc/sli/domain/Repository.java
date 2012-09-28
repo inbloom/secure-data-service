@@ -19,7 +19,6 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -31,15 +30,15 @@ import com.mongodb.WriteResult;
 /**
  * Define the object repository interface that provides basic CRUD and field
  * query methods for objects including core objects and association objects
- *
+ * 
  * @author Dong Liu dliu@wgen.net
- *
+ * 
  */
 public interface Repository<T> {
 
     /**
      * Create an entry with the collection set to the type name
-     *
+     * 
      * @param type
      *            the type of object to be persisted
      * @param body
@@ -87,7 +86,7 @@ public interface Repository<T> {
 
     /**
      * Fetches first element from given query
-     *
+     * 
      * @param collectionName
      * @param query
      * @return
@@ -117,7 +116,7 @@ public interface Repository<T> {
 
     /**
      * Filter a collection of IDs by
-     *
+     * 
      * @param collectionName
      *            the name of the collection to look in
      * @param query
@@ -132,7 +131,7 @@ public interface Repository<T> {
 
     /**
      * Get the number of elements in the collection matching a particular query
-     *
+     * 
      * @param collectionName
      *            the name of the collection to look in
      * @param query
@@ -155,7 +154,7 @@ public interface Repository<T> {
      * Note, this does not go through the validator, caller is expected to ensure the update will
      * keep the object valid
      * It also does not encrypt values, so it cannot be used to update PII data
-     *
+     * 
      * @param collection
      *            the collection the entity is in
      * @param id
@@ -171,7 +170,7 @@ public interface Repository<T> {
      * Note, this does not go through the validator, caller is expected to ensure the update will
      * keep the object valid
      * It also does not encrypt values, so it cannot be used to update PII data
-     *
+     * 
      * @param collection
      *            the collection the entity is in
      * @param query
@@ -198,7 +197,7 @@ public interface Repository<T> {
 
     /**
      * Execute a mongo command
-     *
+     * 
      * @param command
      *            the command to execute
      * @return the result of that command
@@ -207,7 +206,7 @@ public interface Repository<T> {
 
     /**
      * Get the actual db collection
-     *
+     * 
      * @param collectionName
      *            the collection name
      * @return the mongo db collection
@@ -216,7 +215,7 @@ public interface Repository<T> {
 
     /**
      * Get the available collections.
-     *
+     * 
      * @return List<DBCollections> collections.
      */
     public List<DBCollection> getCollections(boolean includeSystemCollections);
@@ -242,7 +241,7 @@ public interface Repository<T> {
      *            the beginning index of the object that will be returned
      * @param max
      *            the max number of objects that will be returned
-     *
+     * 
      * @return the collection of objects
      */
     @Deprecated
@@ -250,7 +249,7 @@ public interface Repository<T> {
 
     /**
      * check if the collection exists in database
-     *
+     * 
      * @param collection
      *            : name of the collection
      * @return
@@ -259,31 +258,21 @@ public interface Repository<T> {
 
     /**
      * Create a collection
-     *
+     * 
      * @param collection
      */
     public void createCollection(String collection);
 
     /**
-     * ensureIndex for a collection the database
-     *
-     * @param index
-     *            : the index to be ensured
-     * @param collection
-     *            : name of collection
-     */
-    public void ensureIndex(IndexDefinition index, String collection);
-
-    /**
      * Supports configuring a write concern on a repository.
-     *
+     * 
      * @param writeConcern
      */
     public void setWriteConcern(String writeConcern);
 
     /**
      * Support configurability of performing refrence checking as a part of schema validation
-     *
+     * 
      * @param referenceCheck
      */
     public void setReferenceCheck(String referenceCheck);
@@ -301,7 +290,7 @@ public interface Repository<T> {
     /**
      * Updates only the provided keys with their values in the target ID'd entity
      * in the specified collection name.
-     *
+     * 
      * @param collectionName
      *            where the entity to be patched can be found
      * @param id
@@ -314,7 +303,7 @@ public interface Repository<T> {
 
     /**
      * Update all documents matching the query rather than just one.
-     *
+     * 
      * @param query
      * @param update
      * @param entityReferenced
