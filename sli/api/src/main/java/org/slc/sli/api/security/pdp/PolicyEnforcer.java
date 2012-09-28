@@ -49,7 +49,10 @@ public class PolicyEnforcer {
 
 			// Obtain resolver
 			String entityName = seg.get(1).getPath();
-			String entityId = seg.get(2).getPath();
+   String entityId = null;
+   if (seg.size() > 2) {
+       entityId = seg.get(2).getPath();
+   }
 
 			List<String> ids = Collections.emptyList();
 
@@ -60,7 +63,7 @@ public class PolicyEnforcer {
 				ids = resolver.findAccessible(user.getEntity());
 			}
 			
-			if (ids.contains(entityId)) {
+			if (entityId != null && ids.contains(entityId)) {
 				info("Access Allowed: {}", request.getPath());
 			} else {
 				warn("Access Denied: {}", request.getPath());
