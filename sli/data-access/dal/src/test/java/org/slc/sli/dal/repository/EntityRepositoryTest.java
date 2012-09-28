@@ -373,6 +373,14 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
     }
+    @Test
+    public void testCreateWithMetadata() {
+        repository.deleteAll("student");
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        repository.create("student", studentBody, studentMetaData, "student");
+        assertEquals(1, repository.count("student", new NeutralQuery()));
+    }
 
     @Test
     public void testCreateRetryWithError() {
@@ -382,8 +390,8 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         int noOfRetries = 5;
 
-        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo)
-                .create("student", studentBody, studentMetaData, "student");
+        Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
+                .create("student", null, studentBody, studentMetaData, "student");
         Mockito.doCallRealMethod().when(mockRepo)
                 .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
 
@@ -393,7 +401,7 @@ public class EntityRepositoryTest {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test

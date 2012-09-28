@@ -276,16 +276,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Iterable<T> findAll(String collectionName) {
-        // Enforcing the tenantId query. The rationale for this is all CRUD
-        // Operations should be restricted based on tenant.
-        NeutralQuery neutralQuery = new NeutralQuery();
-        this.addDefaultQueryParams(neutralQuery, collectionName);
-
-        return findAll(collectionName, neutralQuery);
+        return findAll(collectionName, new NeutralQuery());
     }
 
     @Override
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
+
+        if (neutralQuery == null) {
+            neutralQuery = new NeutralQuery();
+        }
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
