@@ -6050,7 +6050,7 @@
 			</xs:documentation>
 			<xs:appinfo>
                 <sli:CollectionType>graduationPlan</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -6077,9 +6077,6 @@
 					<xs:documentation>An indicator of whether the graduation plan is
 						tailored for an individual.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="totalCreditsRequired" type="credits">
@@ -6088,9 +6085,6 @@
 						graduation
 						under this plan.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsBySubject" type="creditsBySubject"
@@ -6102,9 +6096,6 @@
 						requirement
 						are eligible to meet subject credit requirements.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsByCourse" type="creditsByCourse"
@@ -6115,7 +6106,17 @@
 						specific course, or by taking one or more from a set of
 						courses.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+ 			<xs:element name="educationOrganizationId" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						For standard plans defined by an education organization, the 
+						reference to the organization defining the plan.  
+						Individualized plans do not require this reference.
+					</xs:documentation>
 					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
