@@ -533,7 +533,8 @@ public final class InterchangeStudentGradeGenerator {
             StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);
 
             for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
-
+                
+                
                 // create a studentgradebookentry for just a fraction of gradebooks
                 if (true /*
                           * (int) (Math.random() *
@@ -541,21 +542,26 @@ public final class InterchangeStudentGradeGenerator {
                           */) {
 
                     GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
+                    
                     SectionMeta section = gradeBookEntryMeta.getSection();
                     String sectionId = section.id;
-                    String sectionSchool = section.schoolId;
-                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
-                                                                                              // to
-                                                                                              // Section
+                    
+                    // need to ensure that this section is associated with the student
+                    if(studentMeta.sectionIds.contains(sectionId)) {
+                        String sectionSchool = section.schoolId;
+                        SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                                                                                                  // to
+                                                                                                  // Section
 
-                    StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
-                            sectionRef, studentRef);
-                    ReferenceType ref = new ReferenceType();
-                    ref.setRef(new Ref(gradeBookEntryMeta.getId()));
-                    studentGradeBookEntry.setGradebookEntryReference(ref);
+                        StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
+                                sectionRef, studentRef);
+                        ReferenceType ref = new ReferenceType();
+                        ref.setRef(new Ref(gradeBookEntryMeta.getId()));
+                        studentGradeBookEntry.setGradebookEntryReference(ref);
 
-                    writer.marshal(studentGradeBookEntry);           
-                    count++;
+                        writer.marshal(studentGradeBookEntry);           
+                        count++;
+                    }
                 }
             }
         }
