@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -249,9 +250,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                        if (neutralRecord2.getMetaDataByName("recordHashId") != null) {
-                            batchJobDAO.findAndUpsertRecordHash(neutralRecord2.getMetaDataByName("recordHashTenantId").toString(),
-                                    neutralRecord2.getMetaDataByName("recordHashId").toString());
+                        if (neutralRecord2.getMetaDataByName("rhId") != null) {
+                            batchJobDAO.findAndUpsertRecordHash(neutralRecord2.getMetaDataByName("rhTenantId").toString(),
+                                    neutralRecord2.getMetaDataByName("rhId").toString());
                         }
                     }
                 } catch (DataAccessResourceFailureException darfe) {

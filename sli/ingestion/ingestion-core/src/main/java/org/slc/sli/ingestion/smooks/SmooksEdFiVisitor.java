@@ -112,15 +112,20 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
 
             LOG.info("CHECKING RECORD for DELTA");
-            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())
-                    || !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
-                LOG.info("RECORD IS NOT INGESTED BEFORE");
+
+            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
-                LOG.info("RECORD IS INGESTED BEFORE");
-                String type = neutralRecord.getRecordType();
-                Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
-                duplicateCounts.put(type, new Long(count.longValue() + 1));
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+                    LOG.info("RECORD IS NOT INGESTED BEFORE");
+                    queueNeutralRecordForWriting(neutralRecord);
+
+                } else {
+                    LOG.info("RECORD IS INGESTED BEFORE");
+                    String type = neutralRecord.getRecordType();
+                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
+                    duplicateCounts.put(type, new Long(count.longValue() + 1));
+                }
             }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
