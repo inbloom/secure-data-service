@@ -15,6 +15,13 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools")
 end
 
+desc "Run custom Roles Tests"
+task :customRolesTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/custom_role_mapping.feature")
+end
+  
+
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
   runTests("test/features/databrowser/idp_authentication.feature")
