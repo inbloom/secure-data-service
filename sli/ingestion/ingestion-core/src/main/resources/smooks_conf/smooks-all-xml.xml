@@ -1028,7 +1028,7 @@
     <jb:value property="description" data="AssessmentPerformanceLevel/PerformanceLevel/Description" />
   </jb:bean>
 
-  <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference">
+  <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
     <jb:value data="ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
 <!--    <jb:wiring beanIdRef="ObjectiveItemRef" /> -->
   </jb:bean>
