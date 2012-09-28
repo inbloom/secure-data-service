@@ -142,7 +142,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
     "localCourseCode" => "LCCMA1",  
     "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
-    "localCourseTitle" => "Math 1 - Intro to Mathematics", 
+    "localCourseTitle" => "Math 1 - Intro to Mathematics",
     "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
   },
   "disciplineAction" => {
@@ -313,7 +313,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
      "competencyLevel" => [{
        "description" => "really hard competency"
      }],
-     "diagnosticStatement" => "passed with flying colors"
+     "diagnosticStatement" => "passed with flying colors",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],

@@ -131,7 +131,9 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     }
 
     private boolean compare(Object existingObject, Object newObject) {
-        if(existingObject instanceof DBObject){
+        if (existingObject == null && newObject == null) {
+        	return true;
+        } else if (existingObject instanceof DBObject){
             return ((DBObject) existingObject).toMap().equals(newObject);
         } else {
             return existingObject.equals(newObject);
