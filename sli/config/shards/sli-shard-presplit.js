@@ -14,10 +14,17 @@
 // limitations under the License.
 //
 
-// These collections use the old style doc Ids to split on.
-var collections_docId = ["assessment","attendance","calendarDate","cohort","competencyLevelDescriptor","course","courseOffering","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganization","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","gradingPeriod","graduationPlan","learningObjective","learningStandard","parent","program","reportCard","section","sectionAssessmentAssociation","sectionSchoolAssociation","session","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","student","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
 
-// These collections use the new deterministic (hash) id
+// These collections use the old style doc Ids to split on.
+
+// New collections_docId with low cardinality entities removed.
+var collections_docId = ["attendance","cohort","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","parent","reportCard","sectionAssessmentAssociation","sectionSchoolAssociation","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","student","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
+
+// Original collections_docId
+//var collections_docId = ["assessment","attendance","calendarDate","cohort","competencyLevelDescriptor","course","courseOffering","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganization","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","gradingPeriod","graduationPlan","learningObjective","learningStandard","parent","program","reportCard","section","sectionAssessmentAssociation","sectionSchoolAssociation","session","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","student","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
+
+
+// These collection is the new deterministic (hash) id to split on.
 var collections_hashId = [""];
 
 function discoverShards() {
@@ -25,7 +32,7 @@ function discoverShards() {
     var available_shards = db.runCommand( { listShards : 1 } );
     var shard_list = available_shards["shards"];
     for (var shard in shard_list) {
-    	print("Shard: " + shard);
+//    	print("Shard: " + shard);
         shards.push(shard_list[shard]["_id"]);
     }
     return shards;
@@ -158,6 +165,7 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
 // num_years will become obsolete when all of the entities
 // are switched to deterministic ids, at which point it
 // should be permanently set to '1'
+
 preSplit_docId(discoverShards(), "sli", tenant, num_years);
 preSplit_hashId(discoverShards(), "sli", tenant, num_years);
 sh.setBalancerState(false);

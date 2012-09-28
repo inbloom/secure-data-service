@@ -14,33 +14,36 @@
 // limitations under the License.
 //
 
+
+// Low cardinality enitities are commented out.
+
 db.runCommand( { enablesharding : "sli" } );
-db.runCommand( { shardcollection : "sli.assessment", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.assessment", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.attendance", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.calendarDate", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.calendarDate", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.cohort", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.competencyLevelDescriptor", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.course", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.courseOffering", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.competencyLevelDescriptor", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.course", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.courseOffering", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.courseSectionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.disciplineAction", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.disciplineIncident", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.educationOrganization", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.educationOrganization", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.educationOrganizationAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.educationOrganizationSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.grade", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.gradebookEntry", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.gradingPeriod", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.graduationPlan", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.learningObjective", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.learningStandard", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.gradingPeriod", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.graduationPlan", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.learningObjective", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.learningStandard", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.parent", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.program", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.program", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.reportCard", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.section", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.section", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionAssessmentAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.session", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+//db.runCommand( { shardcollection : "sli.session", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sessionCourseAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.staff", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.staffCohortAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
