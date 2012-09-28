@@ -54,10 +54,10 @@ $(document).ready(function() {
 //  });
 //
 //  // put out spinner for provision button
-//  $("#provisionButton").click(function() {
-//      $("#spinner").show();
-//  });
 // !!! END Commenting out RSA Key field UI temporarily !!!
+  $("#provisionButton").click(function() {
+      $("#spinner").show();
+  });
 
   if (is_sandbox) {
     var buttonEnableForCustom = function() {

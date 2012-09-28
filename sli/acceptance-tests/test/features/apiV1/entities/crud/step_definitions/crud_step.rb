@@ -135,7 +135,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "uniqueCourseId" => "Chinese-1-10"
   },
   "courseOffering" => { 
     "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
@@ -226,6 +227,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
@@ -321,8 +323,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysAbsent" => 15,
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378"
-      #"gradingPeriodId" => "TODO"
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
   }
 }
   @fields = @entityData[arg1]

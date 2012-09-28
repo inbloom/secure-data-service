@@ -117,17 +117,17 @@ public class InterchangeStudentCohortGenerator {
 
     	int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
-            StaffCohortAssociation retVal;
-
+            List<StaffCohortAssociation> staffCohortAssociations = null;
+            
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                staffCohortAssociations = new ArrayList<StaffCohortAssociation>();
             } else {
-                retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
+                staffCohortAssociations = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
-            
-            
-            iWriter.marshal(retVal);
-            count++;
+            for (StaffCohortAssociation staffCohort : staffCohortAssociations) {
+                iWriter.marshal(staffCohort);
+            }
+            count += staffCohortAssociations.size();
         }
         return count;
         
