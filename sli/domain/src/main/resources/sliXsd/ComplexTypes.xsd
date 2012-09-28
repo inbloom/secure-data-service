@@ -4179,7 +4179,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
+			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
