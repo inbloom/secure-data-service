@@ -91,7 +91,7 @@ public class StageTrackingAspect {
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
 
-        if(isEnabled()) {
+        if (isEnabled()) {
             // class name (sans package) # method name. e.g. "IdNormalizer#resolveInternalIds"
             String statsKey = pjp.getStaticPart().getSignature().getDeclaringType().getSimpleName() + "#"
                     + pjp.getStaticPart().getSignature().getName();
