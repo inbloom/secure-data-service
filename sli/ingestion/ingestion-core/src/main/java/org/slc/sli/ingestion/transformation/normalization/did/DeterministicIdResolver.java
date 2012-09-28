@@ -122,7 +122,7 @@ public class DeterministicIdResolver {
                         String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                         if (uuid != null && !uuid.isEmpty()) {
                             uuidList.add(uuid);
-                            LOG.info("Set a DID for an entity in a list " + entity + ": " + uuid);
+                            LOG.debug("Set a DID for an entity in a list " + entity + ": " + uuid);
                         } else {
                             // TODO key and value below aren't what we want
                             throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
@@ -137,7 +137,7 @@ public class DeterministicIdResolver {
                     String uuid = getId(reference, tenantId, didRefConfig);
                     if (uuid != null && !uuid.isEmpty()) {
                         PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                        LOG.info("Sed a DID for entity " + entity + ": " + uuid);
+                        LOG.debug("Sed a DID for entity " + entity + ": " + uuid);
                     } else {
                         // TODO key and value below aren't what we want
                         throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
