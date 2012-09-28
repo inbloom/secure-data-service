@@ -63,5 +63,20 @@
     </div>
 </div>
 
+<!-- List of available panels modal box -->
+<div class="modal hide" id="alertModal" ng-controller="alertBoxCtrl" >
+    <div class="modal-header">
+        <h3>{{modalTitle}}</h3>
+    </div>
+    <div class="modal-body">
+        The changes you have made will be lost if you leave this page. <br/>
+        Do you want to stay on this page and publish layout changes?
+    </div>
+    <div class="modal-footer">
+        <button class="btn simplemodal-close" ng-click="leavePage()" data-dismiss="modal" tabindex="3">Leave this page</button>
+        <button class="btn simplemodal-close" ng-click="saveChanges()"data-dismiss="modal" tabindex="4">Stay on this page</button>
+    </div>
+</div>
+
 <!-- Add/edit page/panel modal box -->
 <ng-modal></ng-modal>

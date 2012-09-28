@@ -120,18 +120,28 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			restrict: 'E',
 			transclude: true,
 			scope: {},
-			controller: function($scope, $element, dbSharedService) {
+			controller: function($scope, $rootScope, $element, dbSharedService) {
 				var panes = $scope.panes = [],
 					parent = $scope.$parent,
 					self = this;
 
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
-					angular.forEach(panes, function(pane) {
-						pane.selected = false;
-						parent.checked = false;
-					});
-					pane.selected = true;
+
+					if($rootScope.saveStatus) {
+						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+					}
+
+					if(!$rootScope.saveStatus) {
+						angular.forEach(panes, function(pane) {
+							pane.selected = false;
+							parent.checked = false;
+						});
+						pane.selected = true;
+
+						$rootScope.saveStatus = false;
+						$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+					}
 				};
 
 				this.addPane = function(pane) {

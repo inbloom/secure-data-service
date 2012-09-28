@@ -25,7 +25,7 @@
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
 
-function profileListCtrl($scope, Profiles, dbSharedService) {
+function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 	var i;
 	$scope.profiles = [];
 	Profiles.query(function(profiles) {
@@ -41,9 +41,10 @@ function profileListCtrl($scope, Profiles, dbSharedService) {
 		dbSharedService.showError(error.status, null);
 	});
 
+	$rootScope.saveStatus = false;
 }
 
-profileListCtrl.$inject = ['$scope', 'Profiles', 'dbSharedService'];
+profileListCtrl.$inject = ['$scope', '$rootScope', 'Profiles', 'dbSharedService'];
 
 
 /* Profile Controller
@@ -223,9 +224,9 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 	};
 
 	$scope.removePage = function () {
-		if(confirm("Are you sure you want to remove the tab? There is no way to undo this action.")) {
-			parent.removePageFromProfile($scope.$index, function () {
-				$rootScope.$broadcast("pageRemoved", $scope.$index);
+			if(confirm("Are you sure you want to remove the tab? There is no way to undo this action.")) {
+				parent.removePageFromProfile($scope.$index, function () {
+					$rootScope.$broadcast("pageRemoved", $scope.$index);
 			});
 		}
 	};
@@ -265,12 +266,10 @@ function panelCtrl($scope, dbSharedService) {
 	var parent = $scope.$parent;
 
 	$scope.removePanel = function () {
-		if(confirm("Are you sure you want to remove the panel?")) {
-			$scope.pagePanels.splice($scope.$index, 1);
-			//parent.saveProfile();
+		$scope.pagePanels.splice($scope.$index, 1);
+		//parent.saveProfile();
 
-			dbSharedService.enableSaveButton(true);
-		}
+		dbSharedService.enableSaveButton(true);
 	};
 
 
@@ -347,9 +346,37 @@ function allPanelListCtrl($scope, dbSharedService) {
 allPanelListCtrl.$inject = ['$scope', 'dbSharedService'];
 
 
+/* Save changes modal controller
+ * @param $scope - scope object for controller
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+function alertBoxCtrl($scope, $rootScope, dbSharedService) {
+
+	var parent = $scope.$parent;
+
+	// Listen the event when all modal dialog box gets displayed
+	$scope.$on("alertModalDisplayed", function () {
+		var configs = dbSharedService.getModalConfig();
+
+		$("#alertModal h3").html(configs.modalTitle);
+	});
+
+	$scope.leavePage = function () {
+		$rootScope.saveStatus = false;
+		return true;
+	};
+
+	$scope.saveChanges = function () {
+		$rootScope.saveStatus = true;
+		return true;
+	};
+
+}
+
+alertBoxCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
 
 
-/* panelsCtrl Controller
+/* panelsCtrl Controller - display list of panels for the profile selected in left hand side panel view
  * @param $scope - scope object for controller
  * @param $routeParams - route parameter passed from the URL
  * @param AllPanels - Service to get all available panels for the profile
@@ -366,3 +393,7 @@ function panelsCtrl($scope, $routeParams, AllPanels, dbSharedService) {
 }
 
 panelsCtrl.$inject = ['$scope', '$routeParams', 'AllPanels', 'dbSharedService'];
+
+
+
+
