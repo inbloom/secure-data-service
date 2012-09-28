@@ -484,13 +484,17 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
     | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
 # session
-    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName          | Spring 2011 Daybreak Central High    |
-    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId             | e479e04449d7a787bb8cce88335d8214f612416a_id |
-    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId            | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
-    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName                     | Spring 2011 Daybreak Central High    |
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId                        | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId                       | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId                        | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
     | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
     | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.graduationPlanType      | Minimum       |
     | graduationPlan | 26849264faf4eb7080720ed9d84fe14b21e4a5e0_id | body.graduationPlanType      | Minimum       |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.academicSubject                 | Social Studies |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
+    | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
