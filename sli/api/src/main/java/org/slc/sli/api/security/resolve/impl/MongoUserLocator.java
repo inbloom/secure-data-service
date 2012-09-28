@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -31,6 +32,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.dal.TenantContext;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -58,6 +60,7 @@ public class MongoUserLocator implements UserLocator {
         paths.put("metaData.tenantId", tenantId);
         paths.put("body.staffUniqueStateId", externalUserId);
 
+        TenantContext.setTenantId(tenantId);
         Iterable<Entity> staff = repo.findAllByPaths(EntityNames.STAFF, paths, neutralQuery);
 
         if (staff != null && staff.iterator().hasNext()) {
