@@ -420,7 +420,7 @@ Tardy
 							<xs:documentation>The section associated with the attendance event.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The school associated with the attendance event.</xs:documentation>
 						</xs:annotation>
@@ -3415,12 +3415,12 @@ Volunteer/no contract
 			<xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
+			<xs:element name="ProgramReference" type="ProgramReferenceType">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.</xs:documentation>
 				</xs:annotation>

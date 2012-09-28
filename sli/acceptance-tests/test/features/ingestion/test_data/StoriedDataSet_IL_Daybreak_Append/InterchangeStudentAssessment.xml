@@ -286,7 +286,7 @@
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
            </ObjectiveAssessmentIdentity> 
        </ObjectiveAssessmentReference> 
-   </StudentObjectiveAssessment>
+   </StudentObjectiveAssessment> -->
 <!--originally been commented -->
 <!--    <StudentAssessmentItem id="SAI_1">
    		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>

@@ -93,9 +93,10 @@ $entityData = {
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"],
-        "beginDate" => "2012-01-01"
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+        "beginDate" => "2012-01-01",
+        "endDate" => "2012-12-31"
     },
     "studentAssessmentAssociation" => {
         "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
@@ -145,6 +146,7 @@ $entityData = {
     "studentTranscriptAssociation" => {
         "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
         "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
+        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
         "courseAttemptResult" => "Pass",
         "creditsEarned" => {
             "credit" => 4.0

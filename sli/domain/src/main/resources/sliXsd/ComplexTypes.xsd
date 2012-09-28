@@ -1909,12 +1909,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.
 					</xs:documentation>
@@ -1925,7 +1925,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programId" type="reference" maxOccurs="unbounded">
+			<xs:element name="programId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.
 					</xs:documentation>
@@ -1941,6 +1941,9 @@
 					<xs:documentation>Start date for the association of staff to this
 						cohort.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -2868,7 +2871,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -2878,7 +2881,10 @@
 					<xs:documentation>The month(s), day(s), and year on which an
 						assessment is administered or first day of administration if over
 						multiple days.
-					</xs:documentation>
+						</xs:documentation>	
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="administrationEndDate"
@@ -4173,7 +4179,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
+			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
@@ -6589,7 +6595,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>attendance</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
