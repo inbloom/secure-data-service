@@ -2,6 +2,7 @@ package org.slc.sli.dal.convert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,9 +36,10 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        Map<String, String> studentLookup = new HashMap<String, String>();
-        studentLookup.put("_id", "studentId");
-        locations.put("studentAssessmentAssociation", new Location("student", studentLookup, "assessments",
+        Map<String, String> studentLookup = new LinkedHashMap<String, String>();
+        studentLookup.put("studentId", "studentId");
+        studentLookup.put("schoolYear", "schoolYear");
+        locations.put("studentAssessmentAssociation", new Location("enrollment", studentLookup, "assessments",
                 "studentAssessmentAssociation"));
     }
 
@@ -91,6 +93,14 @@ public class SubDocAccessor {
             return StringUtils.join(parentIdList, ID_SEPERATOR);
         }
 
+        private Map<String, Object> getParentQuery(Map<String, Object> body) {
+            Map<String, Object> parentQuery = new HashMap<String, Object>();
+            for (Entry<String, String> entry : lookup.entrySet()) {
+                parentQuery.put(entry.getKey(), body.get(entry.getValue()));
+            }
+            return parentQuery;
+        }
+
         private Update getUpdateObject(Map<String, Map<String, Object>> newEntities) {
             Update update = new Update();
             for (Entry<String, Map<String, Object>> entity : newEntities.entrySet()) {
@@ -107,8 +117,9 @@ public class SubDocAccessor {
             return template.updateFirst(query, updateObject, collection).getLastError().ok();
         }
 
-        public boolean bulkUpdate(String parentId, Map<String, Map<String, Object>> newEntities) {
-            Query query = getQuery(parentId);
+        public boolean bulkUpdate(Map<String, Object> parentQuery, Map<String, Map<String, Object>> newEntities) {
+            Query query = new Query();
+            query.getQueryObject().putAll(parentQuery);
             Update update = getUpdateObject(newEntities);
             return template.updateFirst(query, update, collection).getLastError().ok();
         }
@@ -117,23 +128,23 @@ public class SubDocAccessor {
             return update(makeEntityId(entity), entity);
         }
 
-        public boolean bulkCreate(String parentId, List<Map<String, Object>> entities) {
+        public boolean bulkCreate(Map<String, Object> parentQuery, List<Map<String, Object>> entities) {
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
             for (Map<String, Object> entity : entities) {
                 updateMap.put(makeEntityId(entity), entity);
             }
-            return bulkUpdate(parentId, updateMap);
+            return bulkUpdate(parentQuery, updateMap);
         }
 
         public boolean insert(List<Entity> entities) {
-            ConcurrentMap<String, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<String, List<Map<String, Object>>>();
+            ConcurrentMap<Map<String, Object>, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<Map<String, Object>, List<Map<String, Object>>>();
             for (Entity entity : entities) {
-                String parentEntityId = getParentEntityId(entity.getBody());
-                parentEntityMap.putIfAbsent(parentEntityId, new ArrayList<Map<String, Object>>());
-                parentEntityMap.get(parentEntityId).add(entity.getBody());
+                Map<String, Object> parentQuery = getParentQuery(entity.getBody());
+                parentEntityMap.putIfAbsent(parentQuery, new ArrayList<Map<String, Object>>());
+                parentEntityMap.get(parentQuery).add(entity.getBody());
             }
             boolean result = true;
-            for (Entry<String, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
+            for (Entry<Map<String, Object>, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
                 result &= bulkCreate(entry.getKey(), entry.getValue());
             }
             return result;

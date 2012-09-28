@@ -40,6 +40,7 @@ public class SubDocAccessorTest {
     public void setUp() {
         assessmentResult.put("scoreResult", "42");
         assessmentResult.put("studentId", "studentid");
+        assessmentResult.put("schoolYear", 2012);
     }
 
     @Test
@@ -62,7 +63,7 @@ public class SubDocAccessorTest {
                 return assessmentResults.size() == 1 && assessmentResults.get(0).get("scoreResult").equals("42")
                         && assessmentIds.get(0).startsWith("assessments.studentid;");
             }
-        }), eq("student"))).thenReturn(success);
+        }), eq("enrollment"))).thenReturn(success);
         assertTrue(underTest.subDoc("studentAssessmentAssociation").create(assessmentResult));
     }
 
@@ -73,7 +74,7 @@ public class SubDocAccessorTest {
             public boolean matches(Object argument) {
                 Query query = (Query) argument;
                 DBObject queryObject = query.getQueryObject();
-                return queryObject.get("_id").equals("studentid");
+                return queryObject.get("studentid").equals("studentid") && queryObject.get("schoolYear").equals(2011);
             }
         });
         return matchesId;
