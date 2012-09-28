@@ -252,4 +252,14 @@ public class DummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    public void addEntity(String collectionName, Entity entity) {
+        if (entities.get(collectionName) != null) {
+            entities.get(collectionName).put(entity.getEntityId(), entity);
+        } else {
+            Map<String, Entity> map = new HashMap<String, Entity>();
+            map.put(entity.getEntityId(), entity);
+            entities.put(collectionName, map);
+        }
+    }
 }
