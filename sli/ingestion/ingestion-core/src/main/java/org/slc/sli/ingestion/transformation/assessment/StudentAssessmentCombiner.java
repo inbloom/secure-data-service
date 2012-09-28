@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -53,12 +52,16 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     private static final String BODY = "body.";
+    private static final String ASSESSMENT_DATE = "administrationDate";
+    private static final String SCHOOL_YEAR = "schoolYear";
 
     private Map<Object, NeutralRecord> studentAssessments;
     List<NeutralRecord> transformedStudentAssessments;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
+
+    private String schoolYearCutoff = "08-31"; // TODO make this configurable per tenant
 
     /**
      * Default constructor.
@@ -121,10 +124,21 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
+            neutralRecord.setAttributeField(SCHOOL_YEAR, getSchoolYear(neutralRecord));
             transformedStudentAssessments.add(neutralRecord);
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());
+    }
+
+    private int getSchoolYear(NeutralRecord assessmentResult) {
+        String date = (String) assessmentResult.getAttributes().get(ASSESSMENT_DATE);
+        String[] splitDate = date.split("-", 2);
+        int year = Integer.parseInt(splitDate[0]);
+        if (splitDate[1].compareTo(schoolYearCutoff) <= 0) {
+            year--;
+        }
+        return year;
     }
 
     /**
@@ -152,7 +166,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
 
-                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}", studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
+                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}",
+                        studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
 
                 Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
                         getJob(), objectiveAssessmentRef);
@@ -180,7 +195,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     studentAssessmentAssociationId);
         }
 
-        LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
+        LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(),
+                studentAssessmentAssociationId);
         return assessments;
     }
 
