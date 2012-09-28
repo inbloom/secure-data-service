@@ -32,7 +32,7 @@ public class Indexer {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private static final int DEFAULT_BULK_SIZE = 5000;
-    private static final int MAX_AGGREGATE_PERIOD = 1000;
+    private static final int MAX_AGGREGATE_PERIOD = 2000;
     
     @Autowired
     IndexEntityConverter indexEntityConverter;
