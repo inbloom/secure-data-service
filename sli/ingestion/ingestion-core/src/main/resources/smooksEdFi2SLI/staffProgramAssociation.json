@@ -1,47 +1,43 @@
 {
     "keyFields" : ["body.staffId","body.programId", "body.beginDate"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.staffId",
         "ref" :
         {
-	        "entityType" : "staff",
-	        "isRefList" : true,
-    		"refObjectPath" : "body.staffReference",
-    		"takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "body.staffUniqueStateId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "staff",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.programId",
         "ref" :
         {
-	        "entityType" : "program",
-	        "isRefList" : true,
-    		"refObjectPath" : "body.programReference",
+            "entityType" : "program",
             "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "body.programId",
-		                "values" : 
-		                [
-		                	{"valueSource" : "body.programReference.programIdentity.programId"}
-		                ]
-		            }
-	            ]
-	        ]
+            [
+                [
+                    {
+                        "path" : "body.programId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.programReference.programIdentity.programId"}
+                        ]
+                    }
+                ]
+            ]
         }
     }]
 }

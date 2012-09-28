@@ -88,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staff                                    |                 14|
      | staffCohortAssociation                   |                  3|
      | staffEducationOrganizationAssociation    |                 10|
-     | staffProgramAssociation                  |                  3|
+     | staffProgramAssociation                  |                  7|
      | student                                  |                 78|
      | studentAcademicRecord                    |                117|
      | studentAssessmentAssociation             |                203|

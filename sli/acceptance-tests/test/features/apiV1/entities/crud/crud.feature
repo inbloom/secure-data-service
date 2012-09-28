@@ -8,7 +8,7 @@ Background: Nothing yet
       And format "application/vnd.slc+json"
 
 
-	    Scenario Outline: CRUD operations on an entity
+        Scenario Outline: CRUD operations on an entity
        Given entity URI <Entity Resource URI>
         # Create
        Given a valid entity json document for a <Entity Type>
@@ -58,9 +58,9 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
- 
- 
-	    Scenario Outline: CRUD operations on invalid entities
+
+
+        Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
     #Read invalid
      When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
@@ -102,7 +102,7 @@ Examples:
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
 
-	    Scenario Outline: Get All Entities
+        Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
@@ -129,7 +129,7 @@ Examples:
 | "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 22 |
 | "student"                      | "students"                | 113 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | 3 |
 | "studentGradebookEntry"        | "studentGradebookEntries" | 5 |
 | "teacher"                      | "teachers"                | 5 |
 | "grade"                        | "grades"                  | 3 |
@@ -188,4 +188,4 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
