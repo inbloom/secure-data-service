@@ -1,4 +1,4 @@
-from aggregatedriver import run_pipeline, write_result, cond_from_bands 
+from aggregatedriver import cond_from_bands, run_parallel
 from instrumentation import instrument
 from multiprocessing import Process, Queue 
 from Queue import Empty 
@@ -34,8 +34,8 @@ def do_work(assessment_id, db):
                           for s  in ssa_collection.find({ "body.schoolId" : school_id }, {"_id" : 0, "body.studentId" : 1})
                           if s.get("body", {}).get("studentId",None)]
 
-              print "School:   %s" % school_id
-              print "Students: %s" % len(students)
+              # print "School:   %s" % school_id
+              # print "Students: %s" % len(students)
 
               if students:
                   # assemble a pipeline 
@@ -60,13 +60,13 @@ def do_work(assessment_id, db):
                     }
                   ]
 
-                  result = dict([(by_rank[x["_id"]]["abbreviation"], x["count"]) for x in run_pipeline(pipeline, "student", db)])
+                  result = dict([(by_rank[x["_id"]]["abbreviation"], x["count"]) 
+                              for x in db.command("aggregate", "student", pipeline=pipeline)["result"]])
                   edorg_collection.update({"_id" : school_id}, {"$set" : {target_var : result }})
-                  print "Written: ", result 
+                  # print "Written: ", result 
 
         except Empty, e:
-            print "Process finished."      
-
+            pass 
 
     # run a query over schools 
     N_WORKERS = 10 
@@ -74,16 +74,8 @@ def do_work(assessment_id, db):
     for school in edorg_collection.find({ "type" : "school" }):
         q.put(school["_id"])
 
-    all_processes = [] 
-    for i in xrange(N_WORKERS):
-      t = Process(target=_worker, args=(q,), name="Thread_%s" % i)
-      t.daemon = True
-      t.start() 
-      all_processes.append(t)
-
-    # wait until everything is processed
-    with inst.lap(id="one_school_aggregation"):
-      [p.join() for p in all_processes]
+    with inst.lap(id="school_aggregation"):
+        run_parallel(_worker, (q,), N_WORKERS)
 
 def main():
     hostname = "localhost" if len(sys.argv) < 2 else sys.argv[1]
