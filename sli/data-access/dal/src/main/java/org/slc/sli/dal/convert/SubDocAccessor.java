@@ -13,6 +13,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,7 +35,9 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        locations.put("studentAssessmentAssociation", new Location("student", "studentId", "assessments",
+        Map<String, String> studentLookup = new HashMap<String, String>();
+        studentLookup.put("_id", "studentId");
+        locations.put("studentAssessmentAssociation", new Location("student", studentLookup, "assessments",
                 "studentAssessmentAssociation"));
     }
 
@@ -47,7 +50,7 @@ public class SubDocAccessor {
     public class Location {
         private static final String ID_SEPERATOR = ";";
         private final String collection;
-        private final String key;
+        private final Map<String, String> lookup;
         private final String subField;
         private final String type;
 
@@ -61,28 +64,31 @@ public class SubDocAccessor {
          * @param subField
          *            the place to put the sub doc
          */
-        public Location(String collection, String key, String subField, String type) {
+        public Location(String collection, Map<String, String> lookup, String subField, String type) {
             super();
             this.collection = collection;
-            this.key = key;
+            this.lookup = lookup;
             this.subField = subField;
             this.type = type;
-        }
-
-        private String getKey() {
-            return key;
         }
 
         private Query getQuery(String parentId) {
             return Query.query(Criteria.where("_id").is(parentId));
         }
 
-        private String getParentEntityId(Map<String, Object> entity) {
-            return (String) entity.get(getKey());
-        }
-
         private String getParentEntityId(String entityId) {
             return entityId.split(ID_SEPERATOR)[0];
+        }
+
+        private String getParentEntityId(Map<String, Object> body) {
+            List<String> parentIdList = new ArrayList<String>();
+            for (Entry<String, String> entry : lookup.entrySet()) {
+                if (entry.getKey().equals("_id")) {
+                    return (String) body.get(entry.getValue());
+                }
+                parentIdList.add((String) body.get(entry.getValue()));
+            }
+            return StringUtils.join(parentIdList, ID_SEPERATOR);
         }
 
         private Update getUpdateObject(Map<String, Map<String, Object>> newEntities) {
@@ -152,9 +158,12 @@ public class SubDocAccessor {
 
         public List<Entity> find(Query original) {
             DBObject originalQuery = original.getQueryObject();
-            String keyField = "body." + key;
-            Object keyQuery = originalQuery.get(keyField);
-            DBObject query = new BasicDBObject("_id", keyQuery);
+            DBObject query = new BasicDBObject();
+            for (Entry<String, String> entry : lookup.entrySet()) {
+                String keyField = "body." + entry.getValue();
+                Object keyQuery = originalQuery.get(entry.getKey());
+                query.put(keyField, keyQuery);
+            }
             query.put(subField, new BasicDBObject("$exists", true));
             DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
             List<Entity> results = new ArrayList<Entity>();
