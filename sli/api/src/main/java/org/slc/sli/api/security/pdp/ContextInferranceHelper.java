@@ -32,7 +32,35 @@ public class ContextInferranceHelper {
             if(ResourceNames.ATTENDANCES.equals(resource)) {
                 result = String.format("/sections/%s/students/attendances",
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if ("/courseTranscripts".equals(resource)) {
+                result = String.format("/sections/%s/students/courseTranscripts",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.GRADES.equals(resource)) {
+                result = String.format("/sections/%s/studentSectionAssociations/students/grades",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.PARENTS.equals(resource)) {
+                result = String.format("/sections/%s/students/grades",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
+                result = String.format("/sections/%s/students/reportCards",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
+                result = String.format("/sections/%s/students/studentAcademicRecords",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if ("studentAssessments".equals(resource)) {
+                result = String.format("/sections/%s/students/studentAssessments",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
+                result = String.format("/sections/%s/studentCompetencies",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
+                result = String.format("/sections/%s/students/studentGradebookEntries",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+            } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/sections/%s/students/studentParentAssociations",
+                        StringUtils.join(sectionHelper.getTeachersSections(user)));
             }
+
 		} else if(isStaff(user)) {
 			if ("cohorts".equals(resource)) {
 				result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
