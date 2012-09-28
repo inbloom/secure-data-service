@@ -412,6 +412,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.studentId            | 25369655c44d8d9346b356a75b8ac3552bb85e6e_id |
     | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.cohortId             | 9f522548066d6edebc551afc6c5214d3360cf539_id |
     | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.beginDate            | 2012-01-15                           |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.schoolId  | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
@@ -467,15 +470,19 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
     | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
     | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.beginDate            | 2011-03-01                           |
-    | parent         | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
-    | section        | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
-    | section        | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
-    | gradingPeriod  | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.beginDate                           | 2011-04-11                           |
-    | gradingPeriod  | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
-    | gradingPeriod  | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+    | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
+    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
+    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.beginDate                           | 2011-04-11                           |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
 # session
     | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName          | Spring 2011 Daybreak Central High    |
     | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId             | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId            | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+
+
 
 
 @smoke
