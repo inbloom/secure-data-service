@@ -72,7 +72,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         info("\n {} -> {}",request.getBaseUri().getPath(),request.getRequestUri().getPath());
         //info("GRU: {}",request.getBaseUriBuilder().path(request.getPathSegments().get(0).getPath()).path("1337").build());
 
-        //enforcer.enforce(SecurityContextHolder.getContext().getAuthentication(), request);
+        enforcer.enforce(SecurityContextHolder.getContext().getAuthentication(), request);
         
         return request;
     }
