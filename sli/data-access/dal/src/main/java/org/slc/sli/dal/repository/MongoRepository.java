@@ -322,13 +322,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(neutralQuery, collectionName);
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
-            mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
+            //mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
+            neutralQuery.addCriteria(new NeutralCriteria(field.getKey(), "=", field.getValue(), false));
         }
 
         // find and return an entity
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
