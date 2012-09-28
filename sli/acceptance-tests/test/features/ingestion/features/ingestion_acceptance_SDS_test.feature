@@ -20,6 +20,7 @@
 @RALLY_US4162
 @RALLY_US4136
 @RALLY_US4080
+@RALLY_US4116
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -446,6 +447,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.staffId                        | a909105eca7591d418b2697d72df27ca632e16f8_id |
     | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.programId                      | 983dd657325009aefa88a234fa18bdb1e11c82a8_id |
     | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.beginDate                      | 2011-01-01                           |
+# staffCohortAssociation
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.staffId                        | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.cohortId                       | b3bd8fc373ba4b067d3c96aad5fd3fe2c8678138_id |
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.beginDate                      | 2011-07-01                           		 |
 # teacherSchoolAssociation
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.teacherId                      | a965bf003819d48b507749091d282c851dd0507f_id |
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.programAssignment              | Regular Education                    |
