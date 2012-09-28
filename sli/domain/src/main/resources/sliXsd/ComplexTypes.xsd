@@ -7512,7 +7512,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentCompetency</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -7549,6 +7549,9 @@
 				<xs:annotation>
 					<xs:documentation>The competency level assessed for the student for
 						the referenced learning objective.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="diagnosticStatement" type="text"
@@ -7559,8 +7562,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationId" type="reference"
-				minOccurs="0">
+			<xs:element name="studentSectionAssociationId" type="reference" >
 				<xs:annotation>
 					<xs:documentation>Association to the student-section association
 						with which the competency is evaluated.</xs:documentation>

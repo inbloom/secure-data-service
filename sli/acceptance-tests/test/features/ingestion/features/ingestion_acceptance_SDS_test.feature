@@ -418,6 +418,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
+    | studentCompetency                    | dfdec1686deef4c317d574ffd637ff12f2ff263f_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.schoolId  | f3261d8da17cbb2178f883afb966e2307cdbda53_id |

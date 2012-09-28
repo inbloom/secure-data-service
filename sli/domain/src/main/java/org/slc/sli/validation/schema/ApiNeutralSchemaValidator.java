@@ -16,6 +16,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -27,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ApiNeutralSchemaValidator.class);
     
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
@@ -102,14 +106,11 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                                 }
                             }
                         } catch (IllegalAccessException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            LOG.error(e.getMessage(), e);
                         } catch (InvocationTargetException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            LOG.error(e.getMessage(), e);
                         } catch (NoSuchMethodException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            LOG.error(e.getMessage(), e);
                         }
                     }
                 }
@@ -145,7 +146,9 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     }
     
     private boolean compare(Object existingObject, Object newObject) {
-        if (existingObject instanceof DBObject) {
+        if (existingObject == null && newObject == null) {
+            return true;
+        } else if (existingObject instanceof DBObject) {
             return ((DBObject) existingObject).toMap().equals(newObject);
         } else {
             return existingObject.equals(newObject);
