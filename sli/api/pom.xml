@@ -69,11 +69,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slc.sli.dal</groupId>
-            <artifactId>mock-dal</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.1</version>
