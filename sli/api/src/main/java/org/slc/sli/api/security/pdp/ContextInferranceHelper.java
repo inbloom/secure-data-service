@@ -13,11 +13,11 @@ import javax.annotation.Resource;
 @Component
 public class ContextInferranceHelper {
 
-	// @Resource(name = "validationRepo")
-	// private Repository<Entity> repo;
+    // @Resource(name = "validationRepo")
+    // private Repository<Entity> repo;
 
-	@Resource
-	private EdOrgHelper edorger;
+    @Resource
+    private EdOrgHelper edorger;
 
     @Resource
     private SectionHelper sectionHelper;
@@ -29,21 +29,21 @@ public class ContextInferranceHelper {
 
         String actorId = user.getEntityId();
         if (isTeacher(user)) {
-            if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+            if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+            } else if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
+            } else if (ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.HOME.equals(resource)) {
+            } else if (ResourceNames.HOME.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.ASSESSMENTS.equals(resource)) {
+            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.ATTENDANCES.equals(resource)) {
+            } else if (ResourceNames.ATTENDANCES.equals(resource)) {
                 result = String.format("/sections/%s/students/attendances",
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
             } else if ("/courseTranscripts".equals(resource)) {
@@ -75,27 +75,27 @@ public class ContextInferranceHelper {
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
             }
 
-		} else if(isStaff(user)) {
-            if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+        } else if (isStaff(user)) {
+            if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+            } else if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
+            } else if (ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.HOME.equals(resource)) {
+            } else if (ResourceNames.HOME.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
                 result = "/" + resource;
-            } else if(ResourceNames.ASSESSMENTS.equals(resource)) {
+            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
                 result = "/" + resource;
             } else if (ResourceNames.COHORTS.equals(resource)) {
-				result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
-			} else if (ResourceNames.SECTIONS.equals(resource)) {
-				String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-				result = String.format("/schools/%s/sections", ids);
-			} else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
+            } else if (ResourceNames.SECTIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/sections", ids);
+            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students/studentSectionAssociations", ids);
             } else if (ResourceNames.TEACHERS.equals(resource)) {
@@ -152,12 +152,13 @@ public class ContextInferranceHelper {
             }
         }
 
-		return result;
-	}
+        return result;
+    }
 
     private boolean isTeacher(Entity principal) {
         return principal.getType().equals(EntityNames.TEACHER);
     }
+
     private boolean isStaff(Entity principal) {
         return principal.getType().equals(EntityNames.STAFF);
     }
