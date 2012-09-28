@@ -219,8 +219,12 @@ end
 
 desc "Run User Admin CRUD Tests"
 task :userAdminCrudTests => [:realmInit] do
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  Rake::Task["importSandboxData"].execute
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/user_admin")
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
 end
 
 desc "Run V1 Hierachy Traversal Tests"
