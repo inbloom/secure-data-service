@@ -324,7 +324,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
-            //mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
             neutralQuery.addCriteria(new NeutralCriteria(field.getKey(), "=", field.getValue(), false));
         }
 
