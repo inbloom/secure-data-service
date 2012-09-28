@@ -88,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
-        | graduationPlan              | 3     |
+        | graduationPlan              | 4     |
         | learningObjective           | 197   |
         | learningStandard            | 1499  |
         | parent                      | 9     |
@@ -150,6 +150,8 @@ Then I should see following map of entry counts in the corresponding collections
        | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
+       | graduationPlan              | 3                   | body.educationOrganizationId                   | 36465c681a53a77d71e24285d58bf5af9085e537_id | string  |
+       | graduationPlan              | 2                   | body.graduationPlanType                        | Minimum                                     | string  |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-2            | string               |
        | staff                       | 1                   | body.staffUniqueStateId        | cgray                      | string               |
@@ -168,7 +170,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4253 records." in the resulting batch job file
+    And I should see "Processed 4254 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -185,8 +187,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 45" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 45" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 495" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 495" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 496" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 496" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file
@@ -486,9 +488,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId             | e479e04449d7a787bb8cce88335d8214f612416a_id |
     | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId            | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
     | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
-
-
-
+    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.graduationPlanType      | Minimum       |
+    | graduationPlan | 26849264faf4eb7080720ed9d84fe14b21e4a5e0_id | body.graduationPlanType      | Minimum       |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
