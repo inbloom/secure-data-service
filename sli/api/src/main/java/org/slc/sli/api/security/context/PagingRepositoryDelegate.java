@@ -23,6 +23,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+/**
+ *
+ * TODO: add javadoc class here
+ *
+ * @param <T>
+ */
 @Component
 public class PagingRepositoryDelegate<T> implements Repository<T> {
 
@@ -32,7 +38,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     // The size of queries we page around.
     @Value("${sli.api.security.context.paging}")
-    private int COUNT;
+    private int count;
 
     /*
      * (non-Javadoc)
@@ -84,17 +90,17 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     public List<List<String>> extractBrokenListOfIds(List<String> queriedIds) {
         List<List<String>> brokenList = new ArrayList<List<String>>();
-        int blocks = queriedIds.size() / COUNT;
-        if (queriedIds.size() % COUNT > 0) {
+        int blocks = queriedIds.size() / count;
+        if (queriedIds.size() % count > 0) {
             blocks++;
         }
         for (int i = 0; i < blocks; ++i) {
             List<String> part = new ArrayList<String>();
-            int offSet = queriedIds.size() - i * COUNT;
-            if (offSet > COUNT) {
-                offSet = COUNT;
+            int offSet = queriedIds.size() - i * count;
+            if (offSet > count) {
+                offSet = count;
             }
-            part.addAll(queriedIds.subList(i * COUNT, i * COUNT + offSet));
+            part.addAll(queriedIds.subList(i * count, i * count + offSet));
             brokenList.add(part);
         }
         return brokenList;
