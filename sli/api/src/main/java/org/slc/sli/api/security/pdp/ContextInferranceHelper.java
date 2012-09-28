@@ -23,7 +23,8 @@ public class ContextInferranceHelper {
     private SectionHelper sectionHelper;
 
 
-    public String getInferredUri(String resource, Entity user) {
+    @SuppressWarnings("unchecked")
+	public String getInferredUri(String resource, Entity user) {
 
         String result = "/" + resource;
 
@@ -146,7 +147,7 @@ public class ContextInferranceHelper {
             } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/students/studentAcademicRecords", ids);
-            } else if ("studentAssessments".equals(resource)) {
+            } else if (ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/students/studentAssessments ", ids);
             } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
