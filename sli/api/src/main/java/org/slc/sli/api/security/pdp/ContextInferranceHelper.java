@@ -29,7 +29,21 @@ public class ContextInferranceHelper {
 
         String actorId = user.getEntityId();
         if (isTeacher(user)) {
-            if(ResourceNames.ATTENDANCES.equals(resource)) {
+            if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.HOME.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.ASSESSMENTS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.ATTENDANCES.equals(resource)) {
                 result = String.format("/sections/%s/students/attendances",
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
             } else if ("/courseTranscripts".equals(resource)) {
@@ -62,7 +76,21 @@ public class ContextInferranceHelper {
             }
 
 		} else if(isStaff(user)) {
-			if (ResourceNames.COHORTS.equals(resource)) {
+            if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.HOME.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
+                result = "/" + resource;
+            } else if(ResourceNames.ASSESSMENTS.equals(resource)) {
+                result = "/" + resource;
+            } else if (ResourceNames.COHORTS.equals(resource)) {
 				result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
 			} else if (ResourceNames.SECTIONS.equals(resource)) {
 				String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
