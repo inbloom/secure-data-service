@@ -19,14 +19,14 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
-
-import org.springframework.data.mongodb.core.index.IndexDefinition;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -93,26 +93,13 @@ public interface Repository<T> {
      * @return
      */
     public T findOne(String collectionName, NeutralQuery neutralQuery);
-
-    /**
-     * Get the number of elements in the collection matching a particular query
-     *
-     * @param collectionName
-     *            the name of the collection to look in
-     * @return the collection of objects
-     */
-    public Iterable<T> findAll(String collectionName);
-
+    
     /**
      * @param collectionName
      *            the name of the collection to look in
-     * @param query
+     * @param neutralQuery
      *            the query to filter returned collection results
-     * @param skip
-     *            the beginning index of the object that will be returned
-     * @param max
-     *            the max number of objects that will be returned
-     *
+     * 
      * @return the collection of objects
      */
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery);

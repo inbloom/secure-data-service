@@ -27,14 +27,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
@@ -42,11 +42,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.ValidationError;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  * Tests the ReferenceSchema methods
@@ -152,12 +151,6 @@ public class ReferenceSchemaTest {
 
         @Override
         public Iterable<Entity> findAll(String collectionName, NeutralQuery query) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findAll(String collectioName) {
             // TODO Auto-generated method stub
             return null;
         }

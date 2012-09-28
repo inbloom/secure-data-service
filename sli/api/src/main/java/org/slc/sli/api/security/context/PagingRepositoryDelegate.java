@@ -181,17 +181,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      * 
-     * @see org.slc.sli.domain.Repository#findAll(java.lang.String)
-     */
-    @Override
-    public Iterable<T> findAll(String collectionName) {
-        // TODO Auto-generated method stub
-        return repo.findAll(collectionName);
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.slc.sli.domain.Repository#findAll(java.lang.String, org.slc.sli.domain.NeutralQuery)
      */
     @Override
