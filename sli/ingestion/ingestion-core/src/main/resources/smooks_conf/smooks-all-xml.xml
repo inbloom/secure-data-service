@@ -1871,17 +1871,18 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
            createOnElement="InterchangeStudentEnrollment/GraduationPlan">
       <jb:expression property="recordType">'graduationPlan'</jb:expression>
-      <jb:value property="localId" data="InterchangeStudentEnrollment/GraduationPlan/@id" />
       <jb:wiring property="attributes" beanIdRef="graduationPlanAttributes" />
   </jb:bean>
 
   <jb:bean beanId="graduationPlanAttributes" class="java.util.HashMap"
            createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:value property="localId" data="InterchangeStudentEnrollment/GraduationPlan/@id" />
       <jb:value property="individualPlan" data="IndividualPlan" decoder="Boolean" />
       <jb:value property="graduationPlanType" data="GraduationPlanType" />
       <jb:wiring property="totalCreditsRequired" beanIdRef="TotalCreditsRequiredValue" />
       <jb:wiring property="creditsBySubject" beanIdRef="CreditsBySubjectArray" />
       <jb:wiring property="creditsByCourse" beanIdRef="CreditsByCourseArray" />
+      <jb:wiring property="EducationOrganizationReference" beanIdRef="GraduationPlan_EducationOrganizationReference" />
   </jb:bean>
 
   <jb:bean beanId="TotalCreditsRequiredValue" class="java.util.HashMap"
@@ -1942,6 +1943,30 @@
       <jb:value property="creditType" data="GraduationPlan/CreditsByCourse/Credits/@CreditType" />
       <jb:value property="creditConversion" data="GraduationPlan/CreditsByCourse/Credits/@CreditConversion"
                 decoder="Double"/>
+  </jb:bean>
+
+  <!-- GraduationPlan supporting object: EducationOrganizationReference -->
+  <jb:bean beanId="GraduationPlan_EducationOrganizationReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/GraduationPlan/EducationOrganizationReference">
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity" />
+  </jb:bean>
+  <jb:bean beanId="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity">
+    <jb:value property="StateOrganizationId" data="GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring property="EducationOrgIdentificationCode" beanIdRef="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+  <jb:bean beanId="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentEnrollment/GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity">
+    <jb:wiring beanIdRef="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCode" />
+  </jb:bean>
+  <jb:bean beanId="GraduationPlan_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCode"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentEnrollment/GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
+    <jb:value property="IdentificationSystem" data="GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+    <jb:value property="ID" data="GraduationPlan/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
 
   <!-- StudentAcademicRecord -->

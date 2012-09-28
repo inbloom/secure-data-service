@@ -165,6 +165,7 @@ Then I should see following map of entry counts in the corresponding collections
        | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
+#       | graduationPlan              | 3                   | body.educationOrganizationId                   | bd086bae-ee82-4cf2-baf9-221a9407ea07 | string  |
     And I should see "Processed 4151 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
@@ -465,7 +466,8 @@ Scenario: Verify deterministic ids generated: Clean Database
 #    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
 #    | courseOffering | TODO | body.sessionId            | TODO |
 #    | courseOffering | TODO | body.schoolId             | TODO |
-
+#    | graduationPlan |  | body.educationOrganizationId | bd086bae-ee82-4cf2-baf9-221a9407ea07 |
+#    | graduationPlan |  | body.graduationPlanType      | Distinguished                        |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
