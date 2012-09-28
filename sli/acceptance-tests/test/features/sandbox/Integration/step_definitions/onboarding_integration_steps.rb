@@ -36,7 +36,8 @@ CUSTOM_DATA_SET_CHOICE = "custom"
 Before do
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+   @db = Mongo::Connection.new.db("mreynolds")
+   @slidb = Mongo::Connection.new.db("sli")
 end
 
 After do |scenario|
@@ -237,7 +238,7 @@ Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
 end
 
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
-  app_collection=@db["application"]
+  app_collection=@slidb["application"]
   results=app_collection.find({"body.bootstrap"=>true})
    results.each do |application|
     found=false
@@ -257,7 +258,7 @@ Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |a
 end
 
 Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenantId, landing_zone_path|
-  tenant_coll=@db["tenant"]
+  tenant_coll=@slidb["tenant"]
   count=tenant_coll.find().count
   assert(count==1,"tenant entry is not added to mongo")
   tenant=tenant_coll.find().to_a[0]
@@ -442,7 +443,7 @@ def clear_edOrg
 end
 
 def clear_tenant
-   tenant_coll=@db["tenant"]
+   tenant_coll=@slidb["tenant"]
    tenant_coll.remove()
 end
 
