@@ -73,11 +73,14 @@ public class ObjectiveAssessmentEntityTest {
             + "      </LearningStandardId>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
-            + "  <ObjectiveAssessmentReference id=\"EOA13\" ref=\"sub\">"
+            + "  <ObjectiveAssessmentReference>"
+            + "    <ObjectiveAssessmentIdentity>"
+            + "       <ObjectiveAssessmentIdentificationCode>sub</ObjectiveAssessmentIdentificationCode>"
+            + "     </ObjectiveAssessmentIdentity>"
             + "  </ObjectiveAssessmentReference>"
             + "</ObjectiveAssessment>"
             + "<ObjectiveAssessment id=\"sub\">"
-            + "  <IdentificationCode>TAKSReading3-4</IdentificationCode>"
+            + "  <IdentificationCode>sub</IdentificationCode>"
             + "</ObjectiveAssessment>"
             + "</InterchangeAssessmentMetadata>";
 

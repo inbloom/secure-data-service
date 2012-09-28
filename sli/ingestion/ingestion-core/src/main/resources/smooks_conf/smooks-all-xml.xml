@@ -1662,7 +1662,7 @@
   <jb:bean beanId="studentObjectiveAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="SOAperformanceLevelDescriptorsArray" />
-    <jb:value property="objectiveAssessmentRef" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
+    <jb:value property="objectiveAssessmentRef" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/IdentificationCode" />
     <jb:value property="studentAssessmentRef" data="StudentAssessmentReference/@ref" />
   </jb:bean>
 
