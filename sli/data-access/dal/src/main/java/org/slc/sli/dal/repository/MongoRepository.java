@@ -72,6 +72,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
             "application", "tenantJobLock" };
     protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONS_EXCLUDED));
 
+    MongoQueryConverter getQueryConverter() {
+        return queryConverter;
+    }
+
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
      * this method
@@ -428,6 +432,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
+    @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.

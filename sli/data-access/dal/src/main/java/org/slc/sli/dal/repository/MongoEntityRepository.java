@@ -39,6 +39,7 @@ import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -192,7 +193,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 persist.add(entity);
             }
 
-            return super.insert(persist, collectionName);        }
+            return super.insert(persist, collectionName);
+        }
     }
 
     @Override
@@ -268,6 +270,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id), null);
         }
         return super.findById(collectionName, id);
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).find(getQueryConverter().convert(collectionName, neutralQuery));
+        }
+        return super.findAll(collectionName, neutralQuery);
     }
 
 }

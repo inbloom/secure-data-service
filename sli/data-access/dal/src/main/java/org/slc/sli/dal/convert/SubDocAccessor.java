@@ -8,6 +8,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -29,7 +34,8 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        locations.put("studentAssessmentAssociation", new Location("student", "studentId", "assessments"));
+        locations.put("studentAssessmentAssociation", new Location("student", "studentId", "assessments",
+                "studentAssessmentAssociation"));
     }
 
     /**
@@ -43,19 +49,24 @@ public class SubDocAccessor {
         private final String collection;
         private final String key;
         private final String subField;
+        private final String type;
 
         /**
          * Create a new location to store subdocs
          *
-         * @param collection the collection the superdoc is in
-         * @param key the field in the subdoc that refers to the super doc's id
-         * @param subField the place to put the sub doc
+         * @param collection
+         *            the collection the superdoc is in
+         * @param key
+         *            the field in the subdoc that refers to the super doc's id
+         * @param subField
+         *            the place to put the sub doc
          */
-        public Location(String collection, String key, String subField) {
+        public Location(String collection, String key, String subField, String type) {
             super();
             this.collection = collection;
             this.key = key;
             this.subField = subField;
+            this.type = type;
         }
 
         private String getKey() {
@@ -137,6 +148,25 @@ public class SubDocAccessor {
 
         private String getField(String id) {
             return subField + "." + id;
+        }
+
+        public List<Entity> find(Query original) {
+            DBObject originalQuery = original.getQueryObject();
+            String keyField = "body." + key;
+            Object keyQuery = originalQuery.get(keyField);
+            DBObject query = new BasicDBObject("_id", keyQuery);
+            query.put(subField, new BasicDBObject("$exists", true));
+            DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
+            List<Entity> results = new ArrayList<Entity>();
+            while (cursor.hasNext()) {
+                DBObject next = cursor.next();
+                @SuppressWarnings("unchecked")
+                Map<String, Map<String, Object>> subEntities = (Map<String, Map<String, Object>>) next.get(subField);
+                for (Map<String, Object> subEntity : subEntities.values()) {
+                    results.add(new MongoEntity(type, subEntity));
+                }
+            }
+            return results;
         }
 
     }
