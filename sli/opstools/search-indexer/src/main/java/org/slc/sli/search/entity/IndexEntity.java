@@ -1,7 +1,5 @@
 package org.slc.sli.search.entity;
 
-import java.util.Map;
-
 /**
  * Indexable Unit
  *
@@ -21,9 +19,9 @@ public class IndexEntity {
     private String index;
     private String type;
     private String id;
-    private Map<String, Object> body;
+    private String body;
     
-    public IndexEntity(Action action, String index, String type, String id, Map<String, Object> body) {
+    public IndexEntity(Action action, String index, String type, String id, String body) {
         this.action = action;
         this.index = index;
         this.type = type;
@@ -31,7 +29,7 @@ public class IndexEntity {
         this.body = body;
     }
     
-    public IndexEntity(String index, String type, String id, Map<String, Object> body) {
+    public IndexEntity(String index, String type, String id, String body) {
         this(Action.INDEX, index, type, id, body);
     }
 
@@ -47,7 +45,7 @@ public class IndexEntity {
         return id;
     }
 
-    public Map<String, Object> getBody() {
+    public String getBody() {
         return body;
     }
     

@@ -16,3 +16,5 @@ domain/src/main/resources/sliModel/SLI.xmi
 domain/src/main/resources/sliModel/SLI.xsd
 META*
 testBundle*.zip
+opstools/search-indexer/inbox/
+api/data
