@@ -469,12 +469,6 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String entityType) {
-        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
-        return all;
-    }
-
-    @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
         return ((List<?>) findAll(collectionName, neutralQuery)).size();
     }

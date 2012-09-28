@@ -22,19 +22,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -99,11 +98,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
         throw new UnsupportedOperationException("MongoPerfRepository.findOne not implemented");
-    }
-
-    @Override
-    public Iterable<Entity> findAll(String collectionName) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findAll not implemented");
     }
 
     @Override

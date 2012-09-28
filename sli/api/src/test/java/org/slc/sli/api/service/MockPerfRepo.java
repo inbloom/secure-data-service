@@ -21,18 +21,17 @@ package org.slc.sli.api.service;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  * Mock entity repository for testing purposes
@@ -69,11 +68,6 @@ public class MockPerfRepo implements Repository<Entity> {
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
-        return null;
-    }
-
-    @Override
-    public Iterable<Entity> findAll(String collectionName) {
         return null;
     }
 

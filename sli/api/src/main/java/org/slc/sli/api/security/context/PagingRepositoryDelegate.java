@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +17,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  *
@@ -42,7 +41,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#createWithRetries(java.lang.String, java.lang.String,
      * java.util.Map, java.util.Map, java.lang.String, int)
      */
@@ -55,7 +54,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#updateMulti(org.slc.sli.domain.NeutralQuery,
      * java.util.Map, java.lang.String)
      */
@@ -108,7 +107,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#create(java.lang.String, java.util.Map)
      */
     @Override
@@ -119,7 +118,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#create(java.lang.String, java.util.Map, java.lang.String)
      */
     @Override
@@ -130,7 +129,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#create(java.lang.String, java.util.Map, java.util.Map,
      * java.lang.String)
      */
@@ -142,7 +141,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#insert(java.util.List, java.lang.String)
      */
     @Override
@@ -153,7 +152,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findById(java.lang.String, java.lang.String)
      */
     @Override
@@ -164,7 +163,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#exists(java.lang.String, java.lang.String)
      */
     @Override
@@ -175,7 +174,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findOne(java.lang.String, org.slc.sli.domain.NeutralQuery)
      */
     @Override
@@ -186,18 +185,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.domain.Repository#findAll(java.lang.String)
-     */
-    @Override
-    public Iterable<T> findAll(String collectionName) {
-        // TODO Auto-generated method stub
-        return repo.findAll(collectionName);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findAll(java.lang.String, org.slc.sli.domain.NeutralQuery)
      */
     @Override
@@ -221,7 +209,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findAllByPaths(java.lang.String, java.util.Map,
      * org.slc.sli.domain.NeutralQuery)
      */
@@ -233,7 +221,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findAllIds(java.lang.String,
      * org.slc.sli.domain.NeutralQuery)
      */
@@ -245,7 +233,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#count(java.lang.String, org.slc.sli.domain.NeutralQuery)
      */
     @Override
@@ -256,7 +244,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#update(java.lang.String, java.lang.Object)
      */
     @Override
@@ -267,7 +255,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#doUpdate(java.lang.String, java.lang.String,
      * org.springframework.data.mongodb.core.query.Update)
      */
@@ -279,7 +267,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#doUpdate(java.lang.String,
      * org.slc.sli.domain.NeutralQuery, org.springframework.data.mongodb.core.query.Update)
      */
@@ -291,7 +279,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#delete(java.lang.String, java.lang.String)
      */
     @Override
@@ -302,7 +290,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#deleteAll(java.lang.String)
      */
     @Override
@@ -313,7 +301,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#execute(com.mongodb.DBObject)
      */
     @Override
@@ -324,7 +312,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#getCollection(java.lang.String)
      */
     @Override
@@ -335,7 +323,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#getCollections(boolean)
      */
     @Override
@@ -346,7 +334,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findByPaths(java.lang.String, java.util.Map)
      */
     @Override
@@ -358,7 +346,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#findByQuery(java.lang.String,
      * org.springframework.data.mongodb.core.query.Query, int, int)
      */
@@ -371,7 +359,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#collectionExists(java.lang.String)
      */
     @Override
@@ -382,7 +370,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#createCollection(java.lang.String)
      */
     @Override
@@ -393,7 +381,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#setWriteConcern(java.lang.String)
      */
     @Override
@@ -404,7 +392,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#setReferenceCheck(java.lang.String)
      */
     @Override
@@ -415,7 +403,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#count(java.lang.String,
      * org.springframework.data.mongodb.core.query.Query)
      */
@@ -427,7 +415,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#createWithRetries(java.lang.String, java.util.Map,
      * java.util.Map, java.lang.String, int)
      */
@@ -440,7 +428,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#updateWithRetries(java.lang.String, java.lang.Object, int)
      */
     @Override
@@ -451,7 +439,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.domain.Repository#patch(java.lang.String, java.lang.String,
      * java.lang.String, java.util.Map)
      */

@@ -20,17 +20,16 @@ package org.slc.sli.dal.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
-
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * @author ifaybyshev
@@ -70,12 +69,6 @@ public class SimpleEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Iterable<Entity> findAll(String collectionName) {
         // TODO Auto-generated method stub
         return null;
     }
