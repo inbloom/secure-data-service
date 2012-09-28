@@ -21,13 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -59,7 +58,6 @@ public class MongoUserLocator implements UserLocator {
         paths.put("metaData.tenantId", tenantId);
         paths.put("body.staffUniqueStateId", externalUserId);
 
-        TenantContext.setTenantId(tenantId);
         Iterable<Entity> staff = repo.findAllByPaths(EntityNames.STAFF, paths, neutralQuery);
 
         if (staff != null && staff.iterator().hasNext()) {
