@@ -162,8 +162,10 @@ public class SubDocAccessor {
                 DBObject next = cursor.next();
                 @SuppressWarnings("unchecked")
                 Map<String, Map<String, Object>> subEntities = (Map<String, Map<String, Object>>) next.get(subField);
-                for (Map<String, Object> subEntity : subEntities.values()) {
-                    results.add(new MongoEntity(type, subEntity));
+                for (Entry<String, Map<String, Object>> subEntityEntry : subEntities.entrySet()) {
+                    Map<String, Object> subEntity = subEntityEntry.getValue();
+                    String id = subEntityEntry.getKey();
+                    results.add(new MongoEntity(type, id, subEntity, new HashMap<String, Object>()));
                 }
             }
             return results;
