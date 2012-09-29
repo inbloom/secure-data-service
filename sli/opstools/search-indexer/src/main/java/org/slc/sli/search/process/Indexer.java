@@ -11,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.codec.binary.Base64;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +47,10 @@ public class Indexer {
     private String esPassword;
     
     private int bulkSize = DEFAULT_BULK_SIZE;
-    
+    // queue of indexrequests limited to bulkSize
     LinkedBlockingQueue<IndexEntity> indexRequests = new LinkedBlockingQueue<IndexEntity>(DEFAULT_BULK_SIZE * 2);
-    ReentrantLock indexLock = new ReentrantLock();
     
-    private ScheduledExecutorService queueMonitor = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService indexExecutor = Executors.newScheduledThreadPool(1);
     // last message timestamp
     private long lastUpdate = 0L;
 
@@ -61,17 +61,14 @@ public class Indexer {
     private class IndexQueueMonior implements Runnable {
         public void run() {
             try {
-                indexLock.lock();
                 if (indexRequests.size() >= bulkSize || 
                     (indexRequests.size() > 0 && (System.currentTimeMillis() - lastUpdate > MAX_AGGREGATE_PERIOD))) {
-                    List<IndexEntity> col = new ArrayList<IndexEntity>();
+                    final List<IndexEntity> col = new ArrayList<IndexEntity>();
                     indexRequests.drainTo(col);
-                    executeBulkHttp(col);
+                    indexExecutor.schedule(new Runnable() {public void run() {executeBulkHttp(col);}}, 10, TimeUnit.MILLISECONDS);
                 }
             } catch (Throwable t) {
                 logger.info("Unable to index with elasticsearch", t);
-            } finally {
-                indexLock.unlock();
             }
         }
         
@@ -79,21 +76,20 @@ public class Indexer {
     
     public void init() {
         searchTemplate = new RestTemplate();
-        queueMonitor.scheduleAtFixedRate(new IndexQueueMonior(), MAX_AGGREGATE_PERIOD, MAX_AGGREGATE_PERIOD, TimeUnit.MILLISECONDS);
+        indexExecutor.scheduleAtFixedRate(new IndexQueueMonior(), MAX_AGGREGATE_PERIOD, MAX_AGGREGATE_PERIOD, TimeUnit.MILLISECONDS);
     }
     
     public void destroy() {
-        queueMonitor.shutdown();
+        indexExecutor.shutdown();
     }
     
     public void index(IndexEntity entity) {
         try {
-            indexLock.lock();
-            indexRequests.add(entity);
+            indexRequests.put(entity);
             lastUpdate = System.currentTimeMillis();
-        } finally {
-            indexLock.unlock();
-        }
+        } catch (InterruptedException e) {
+            throw new SearchIndexerException("Shutting down...");
+        } 
     }
     
     /**
