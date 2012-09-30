@@ -74,10 +74,6 @@ public class SubDocAccessor {
             this.type = type;
         }
 
-        private Query getQuery(String parentId) {
-            return Query.query(Criteria.where("_id").is(parentId));
-        }
-
         private String getParentEntityId(String entityId) {
             return entityId.split(ID_SEPERATOR)[0];
         }
@@ -88,15 +84,15 @@ public class SubDocAccessor {
                 if (entry.getKey().equals("_id")) {
                     return (String) body.get(entry.getValue());
                 }
-                parentIdList.add((String) body.get(entry.getValue()));
+                parentIdList.add(body.get(entry.getValue()).toString());
             }
             return StringUtils.join(parentIdList, ID_SEPERATOR);
         }
 
-        private Map<String, Object> getParentQuery(Map<String, Object> body) {
-            Map<String, Object> parentQuery = new HashMap<String, Object>();
+        private Query getParentQuery(Map<String, Object> body) {
+            Query parentQuery = new Query();
             for (Entry<String, String> entry : lookup.entrySet()) {
-                parentQuery.put(entry.getKey(), body.get(entry.getValue()));
+                parentQuery.addCriteria(new Criteria(entry.getKey()).is(body.get(entry.getValue())));
             }
             return parentQuery;
         }
@@ -110,25 +106,23 @@ public class SubDocAccessor {
         }
 
         public boolean update(String id, Map<String, Object> entity) {
-            Query query = getQuery(getParentEntityId(entity));
+            Query query = getParentQuery(entity);
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
             updateMap.put(id, entity);
             Update updateObject = getUpdateObject(updateMap);
             return template.updateFirst(query, updateObject, collection).getLastError().ok();
         }
 
-        public boolean bulkUpdate(Map<String, Object> parentQuery, Map<String, Map<String, Object>> newEntities) {
-            Query query = new Query();
-            query.getQueryObject().putAll(parentQuery);
+        public boolean bulkUpdate(Query parentQuery, Map<String, Map<String, Object>> newEntities) {
             Update update = getUpdateObject(newEntities);
-            return template.updateFirst(query, update, collection).getLastError().ok();
+            return template.updateFirst(parentQuery, update, collection).getLastError().ok();
         }
 
         public boolean create(Map<String, Object> entity) {
             return update(makeEntityId(entity), entity);
         }
 
-        public boolean bulkCreate(Map<String, Object> parentQuery, List<Map<String, Object>> entities) {
+        public boolean bulkCreate(Query parentQuery, List<Map<String, Object>> entities) {
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
             for (Map<String, Object> entity : entities) {
                 updateMap.put(makeEntityId(entity), entity);
@@ -137,14 +131,14 @@ public class SubDocAccessor {
         }
 
         public boolean insert(List<Entity> entities) {
-            ConcurrentMap<Map<String, Object>, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<Map<String, Object>, List<Map<String, Object>>>();
+            ConcurrentMap<Query, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<Query, List<Map<String, Object>>>();
             for (Entity entity : entities) {
-                Map<String, Object> parentQuery = getParentQuery(entity.getBody());
+                Query parentQuery = getParentQuery(entity.getBody());
                 parentEntityMap.putIfAbsent(parentQuery, new ArrayList<Map<String, Object>>());
                 parentEntityMap.get(parentQuery).add(entity.getBody());
             }
             boolean result = true;
-            for (Entry<Map<String, Object>, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
+            for (Entry<Query, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
                 result &= bulkCreate(entry.getKey(), entry.getValue());
             }
             return result;

@@ -74,7 +74,7 @@ public class SubDocAccessorTest {
             public boolean matches(Object argument) {
                 Query query = (Query) argument;
                 DBObject queryObject = query.getQueryObject();
-                return queryObject.get("studentid").equals("studentid") && queryObject.get("schoolYear").equals(2011);
+                return queryObject.get("studentId").equals("studentid") && queryObject.get("schoolYear").equals(2012);
             }
         });
         return matchesId;
