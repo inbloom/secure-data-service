@@ -49,7 +49,7 @@ public class SubDocAccessorTest {
         CommandResult successCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
-        when(template.updateFirst(matchesId(), argThat(new ArgumentMatcher<Update>() {
+        when(template.updateFirst(matchesParentQuery(), argThat(new ArgumentMatcher<Update>() {
 
             @Override
             @SuppressWarnings("unchecked")
@@ -61,20 +61,33 @@ public class SubDocAccessorTest {
                         (Collection<? extends Map<String, Object>>) set.values());
                 List<String> assessmentIds = new ArrayList<String>(set.keySet());
                 return assessmentResults.size() == 1 && assessmentResults.get(0).get("scoreResult").equals("42")
-                        && assessmentIds.get(0).startsWith("assessments.studentid;");
+                        && assessmentIds.get(0).startsWith("assessments.studentid2012;");
             }
         }), eq("enrollment"))).thenReturn(success);
         assertTrue(underTest.subDoc("studentAssessmentAssociation").create(assessmentResult));
     }
 
-    private Query matchesId() {
-        Query matchesId = argThat(new ArgumentMatcher<Query>() {
+    private Query matchesParentQuery() {
+        Query matchesQuery = argThat(new ArgumentMatcher<Query>() {
 
             @Override
             public boolean matches(Object argument) {
                 Query query = (Query) argument;
                 DBObject queryObject = query.getQueryObject();
                 return queryObject.get("studentId").equals("studentid") && queryObject.get("schoolYear").equals(2012);
+            }
+        });
+        return matchesQuery;
+    }
+
+    private Query matchesParentId() {
+        Query matchesId = argThat(new ArgumentMatcher<Query>() {
+
+            @Override
+            public boolean matches(Object argument) {
+                Query query = (Query) argument;
+                DBObject queryObject = query.getQueryObject();
+                return queryObject.get("_id").equals("studentid2012");
             }
         });
         return matchesId;
@@ -84,10 +97,10 @@ public class SubDocAccessorTest {
     public void testRead() {
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> studentAssessments = new HashMap<String, Object>();
-        studentAssessments.put("studentid;1234", assessmentResult);
+        studentAssessments.put("studentid2012;1234", assessmentResult);
         student.put("assessments", studentAssessments);
-        when(template.findOne(matchesId(), eq(Map.class), eq("student"))).thenReturn(student);
-        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid;1234"));
+        when(template.findOne(matchesParentId(), eq(Map.class), eq("enrollment"))).thenReturn(student);
+        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid2012;1234"));
     }
 
 }

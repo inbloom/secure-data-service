@@ -86,7 +86,7 @@ public class SubDocAccessor {
                 }
                 parentIdList.add(body.get(entry.getValue()).toString());
             }
-            return StringUtils.join(parentIdList, ID_SEPERATOR);
+            return StringUtils.join(parentIdList, "");
         }
 
         private Query getParentQuery(Map<String, Object> body) {
@@ -154,6 +154,9 @@ public class SubDocAccessor {
         public Map<String, Object> read(String id) {
             Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))),
                     Map.class, collection);
+            if (result == null) {
+                return null;
+            }
             return (Map<String, Object>) ((Map<String, Object>) result.get(subField)).get(id);
         }
 
