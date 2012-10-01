@@ -73,7 +73,13 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.LIMIT, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                apiQuery.setLimit(Integer.parseInt((String) value));
+            	int limit = Integer.parseInt((String) value);
+                
+                if (limit < 0) {
+                	throw new QueryParseException("Limit cannot be less than zero", (String) value);
+                }
+            	
+            	apiQuery.setLimit(limit);
             }
         });
 
@@ -81,7 +87,13 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.OFFSET, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                apiQuery.setOffset(Integer.parseInt((String) value));
+                int offset = Integer.parseInt((String) value);
+                
+                if (offset < 0) {
+                	throw new QueryParseException("Offset cannot be less than zero", (String) value);
+                }
+            	
+            	apiQuery.setOffset(offset);
             }
         });
 
