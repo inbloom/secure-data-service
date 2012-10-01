@@ -140,11 +140,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
-    }
-
-    @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
     }

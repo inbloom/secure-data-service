@@ -111,11 +111,6 @@ public class MockPerfRepo implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        return null;
-    }
-
-    @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         return null;
     }

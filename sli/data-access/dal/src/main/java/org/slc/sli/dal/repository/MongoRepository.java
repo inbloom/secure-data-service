@@ -27,12 +27,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +42,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -498,19 +497,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     protected abstract Class<T> getRecordClass();
 
-    @Override
-    @Deprecated
-    /**
-     * @Deprecated
-     * "This is a deprecated method that should only be used by the ingestion ID Normalization code.
-     * It is not tenant-safe meaning clients of this method must include tenantId in the metaData block"
-     */
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        Query query = this.queryConverter.convert(collectionName, neutralQuery);
-        return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
-    }
-
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
         List<T> results = template.find(query, getRecordClass(), collectionName);
@@ -538,15 +524,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return findByQuery(collectionName, query);
     }
 
-    @Deprecated
-    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
-        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
-            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
-            query.addCriteria(criteria);
-        }
 
-        return query;
-    }
 
     @Override
     /**The existing collections have been cached

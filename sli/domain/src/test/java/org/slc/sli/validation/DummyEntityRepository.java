@@ -138,12 +138,6 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         // TODO Auto-generated method stub
         return null;

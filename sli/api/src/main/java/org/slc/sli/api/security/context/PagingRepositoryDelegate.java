@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +16,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  *
@@ -294,18 +293,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
         // TODO Auto-generated method stub
         return repo.getCollections(includeSystemCollections);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.domain.Repository#findByPaths(java.lang.String, java.util.Map)
-     */
-    @Override
-    @Deprecated
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths) {
-        // TODO Auto-generated method stub
-        return repo.findByPaths(collectionName, paths);
     }
 
     /*

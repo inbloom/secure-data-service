@@ -19,12 +19,11 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
+
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -182,18 +181,6 @@ public interface Repository<T> {
      * @return List<DBCollections> collections.
      */
     public List<DBCollection> getCollections(boolean includeSystemCollections);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.tenantId","Region")
-     * @return the collection of objects
-     */
-    @Deprecated
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths);
 
     /**
      * @param collectionName
