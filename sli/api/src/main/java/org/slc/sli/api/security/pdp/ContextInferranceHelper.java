@@ -123,7 +123,7 @@ public class ContextInferranceHelper {
                 result = String.format("/schools/%s/sections", ids);
             } else if (ResourceNames.STAFF.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-                result = String.format("/educationOrganizations/%s/staffEducationOrganizationsAssociations/staff", ids);
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", ids);
             } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations", actorId);
             } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
