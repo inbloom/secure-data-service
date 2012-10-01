@@ -314,7 +314,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
      "competencyLevel" => [{
        "description" => "really hard competency"
      }],
-     "diagnosticStatement" => "passed with flying colors"
+     "diagnosticStatement" => "passed with flying colors",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
