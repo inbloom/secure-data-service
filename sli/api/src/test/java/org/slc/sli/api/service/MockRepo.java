@@ -478,12 +478,6 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // Not implemented
-        return null;
-    }
-
-    @Override
     public Entity create(final String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);

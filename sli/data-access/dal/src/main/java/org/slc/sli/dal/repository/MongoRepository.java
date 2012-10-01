@@ -27,12 +27,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -307,22 +308,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
             ids.add(this.getRecordId(t));
         }
         return ids;
-    }
-
-    @Override
-    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-
-        // Enforcing the tenantId query. The rationale for this is all CRUD
-        // Operations should be restricted based on tenant.
-        this.addDefaultQueryParams(neutralQuery, collectionName);
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
-
-        for (Map.Entry<String, String> field : paths.entrySet()) {
-            mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
-        }
-
-        // find and return an entity
-        return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override

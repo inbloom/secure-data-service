@@ -122,12 +122,6 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public long count(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
         return 0;

@@ -106,11 +106,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findAllByPaths not implemented");
-    }
-
-    @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         throw new UnsupportedOperationException("MongoPerfRepository.findAllIds not implemented");
     }

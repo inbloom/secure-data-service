@@ -209,19 +209,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.slc.sli.domain.Repository#findAllByPaths(java.lang.String, java.util.Map,
-     * org.slc.sli.domain.NeutralQuery)
-     */
-    @Override
-    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
-        return repo.findAllByPaths(collectionName, paths, neutralQuery);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.slc.sli.domain.Repository#findAllIds(java.lang.String,
      * org.slc.sli.domain.NeutralQuery)
      */

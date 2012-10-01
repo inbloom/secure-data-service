@@ -77,11 +77,6 @@ public class MockPerfRepo implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        return null;
-    }
-
-    @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         return null;
     }

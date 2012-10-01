@@ -104,17 +104,6 @@ public interface Repository<T> {
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery);
 
     /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.tenantId","Region")
-     * @return the collection of objects
-     */
-    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery);
-
-    /**
      * Filter a collection of IDs by
      * 
      * @param collectionName
