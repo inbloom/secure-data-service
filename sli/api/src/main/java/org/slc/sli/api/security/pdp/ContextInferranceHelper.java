@@ -118,21 +118,41 @@ public class ContextInferranceHelper {
                 result = "/" + resource;
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
-            } else if (ResourceNames.SECTIONS.equals(resource)) {
-                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-                result = String.format("/schools/%s/sections", ids);
-            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-                result = String.format("/schools/%s/studentSchoolAssociations/students/studentSectionAssociations", ids);
             } else if (ResourceNames.TEACHERS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/teacherSchoolAssociations/teachers", ids);
+            } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/teacherSchoolAssociations", ids);
+            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/teacherSectionAssociations", ids);
+            } else if (ResourceNames.SECTIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/sections", ids);
+            } else if (ResourceNames.STAFF.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/educationOrganizations/%s/staffEducationOrganizationsAssociations/staff", ids);
+            } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffCohortAssociations", actorId);
+            } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffEducationOrgAssignmentAssociations", actorId);
+            } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramsAssociations", actorId);
             } else if (ResourceNames.STUDENTS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students", ids);
             } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations", ids);
+            } else if (ResourceNames.PROGRAMS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramsAssociations/programs", actorId);
+            }
+
+            /* 4035 or 4036 endpoints to be implemented
+            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/studentSchoolAssociations/students/studentSectionAssociations", ids);
             } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/courseOfferings", ids);
@@ -176,6 +196,7 @@ public class ContextInferranceHelper {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/students/studentParentAssociations", ids);
             }
+            */
         }
 
         return result;
