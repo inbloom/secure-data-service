@@ -1,0 +1,16 @@
+@RALLY4037
+
+Feature: As a user of the SLC API I would like to see various endpoints exist.
+
+Background: Nothing yet
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    Scenario Outline: Check that the urls requested do actually exist
+        When I navigate to <url> with <id>
+        Then I should receive a valid return code
+    Examples:
+        | url                                     | id | 
+        | "/schools/#{id}/courses"                | "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/schools/#{id}/courseOfferings"        | "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/schools/#{id}/sessions"               | "67ce204b-9999-4a11-bfea-000000000005"| 
+        | "/schools/#{id}/sessions/gradingPeriods"| "67ce204b-9999-4a11-bfea-000000000005"|
+
