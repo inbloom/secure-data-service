@@ -21,9 +21,7 @@ package org.slc.sli.api.service;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.query.Query;
@@ -100,11 +98,6 @@ public class MockPerfRepo implements Repository<Entity> {
     @Override
     public void deleteAll(String collectionName) {
 
-    }
-
-    @Override
-    public CommandResult execute(DBObject command) {
-        return null;
     }
 
     @Override

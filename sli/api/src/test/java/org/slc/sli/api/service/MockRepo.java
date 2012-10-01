@@ -529,11 +529,6 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public CommandResult execute(DBObject command) {
-        return null;
-    }
-
-    @Override
     public DBCollection getCollection(String collectionName) {
         return null;
     }

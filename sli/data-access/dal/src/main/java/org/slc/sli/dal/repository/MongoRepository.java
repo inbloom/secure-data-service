@@ -447,13 +447,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected abstract Update getUpdateCommand(T entity);
 
     @Override
-    public CommandResult execute(DBObject command) {
-        // Due to security concerns, we are not going to support this method
-        throw new UnsupportedOperationException();
-        // return template.executeCommand(command);
-    }
-
-    @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals("")) {
             return false;

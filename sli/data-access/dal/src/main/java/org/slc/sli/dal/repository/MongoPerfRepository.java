@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -129,11 +127,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public void deleteAll(String collectionName) {
         // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public CommandResult execute(DBObject command) {
-        throw new UnsupportedOperationException("MongoPerfRepository.execute not implemented");
     }
 
     @Override

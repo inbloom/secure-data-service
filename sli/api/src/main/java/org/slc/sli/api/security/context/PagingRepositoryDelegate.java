@@ -277,17 +277,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.domain.Repository#execute(com.mongodb.DBObject)
-     */
-    @Override
-    public CommandResult execute(DBObject command) {
-        // TODO Auto-generated method stub
-        return repo.execute(command);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.slc.sli.domain.Repository#getCollection(java.lang.String)
      */
     @Override

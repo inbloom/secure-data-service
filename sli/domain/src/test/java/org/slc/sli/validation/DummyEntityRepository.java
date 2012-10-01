@@ -20,9 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.springframework.data.mongodb.core.query.Query;
@@ -131,11 +129,6 @@ public class DummyEntityRepository implements Repository<Entity> {
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public CommandResult execute(DBObject command) {
         return null;
     }
 

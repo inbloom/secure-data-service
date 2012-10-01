@@ -24,7 +24,6 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 /**
@@ -167,15 +166,6 @@ public interface Repository<T> {
      *            the name of the collection to delete from
      */
     public void deleteAll(String collectionName);
-
-    /**
-     * Execute a mongo command
-     *
-     * @param command
-     *            the command to execute
-     * @return the result of that command
-     */
-    public abstract CommandResult execute(DBObject command);
 
     /**
      * Get the actual db collection
