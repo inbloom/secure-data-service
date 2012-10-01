@@ -349,8 +349,12 @@ task :securityTests => [:realmInit] do
 end
 
 desc "Run Security MegaTest"
-task :apiMegaTests => [:realmInit, :importSecuredData] do
+#task :apiMegaTests => [:realmInit, :importSecuredData] do
+task :apiMegaTests => [:realmInit] do
+    DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security"
+    Rake::Task["importSecuredData"].execute
     runTests("test/features/apiV1/entities/student_security")
+    DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
 end
 ############################################################
 # Security tests end
