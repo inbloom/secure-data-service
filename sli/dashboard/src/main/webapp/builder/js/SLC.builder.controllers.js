@@ -41,6 +41,26 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 		dbSharedService.showError(error.status, null);
 	});
 
+	$scope.goToProfile = function (profileId) {
+
+		if($rootScope.saveStatus) {
+			$rootScope.profileAlert = true;
+			dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+
+			$scope.$on("leaveProfile", function () {
+				$rootScope.profileAlert = false;
+				location.href="#/profiles/"+ profileId;
+
+				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+			});
+
+			return false;
+		}
+
+		location.href="#/profiles/"+ profileId;
+
+	};
+
 	$rootScope.saveStatus = false;
 }
 
@@ -54,13 +74,14 @@ profileListCtrl.$inject = ['$scope', '$rootScope', 'Profiles', 'dbSharedService'
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
 
-function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) {
+function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSharedService) {
 
 	/* set flag to show view/edit mode for page title in the page.
 	if checked is false, page title will be read-only and only viewable.
 	if checked is true, page title will be editable. */
 	$scope.checked = false;
 
+	var pagesArray = [];
 
 	$scope.enabledSaveButton = false;
 
@@ -75,6 +96,7 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		for (i = 0; i < $scope.profile.items.length; i++) {
 			if($scope.profile.items[i].type === "TAB") {
 				$scope.pages.push($scope.profile.items[i]);
+				pagesArray.push($scope.profile.items[i]);
 			}
 			else {
 				$scope.panels.push($scope.profile.items[i]);
@@ -90,6 +112,7 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 	}, function(error) {
 		dbSharedService.showError(error.status, null);
 	});
+
 
 	// After re-ordering the tabs, save the tab order into the profile config
 	$scope.$on("tabChanged", function () {
@@ -124,7 +147,6 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		}
 
 		$.modal.close();
-		//$scope.saveProfile();
 		dbSharedService.enableSaveButton(true);
 		configs.mode = "";
 		dbSharedService.setModalConfig(configs);
@@ -151,7 +173,6 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		}
 
 		$.modal.close();
-		//$scope.saveProfile();
 
 		dbSharedService.enableSaveButton(true);
 		$scope.selectedPanels = [];
@@ -179,16 +200,24 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		contentJSON: angular.toJson(page.items), pageTitle: page.name});
 	};
 }
-profileCtrl.$inject = ['$scope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
+profileCtrl.$inject = ['$scope', '$rootScope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
 
 /* Page controller
  * @param $scope - scope object for controller
  * @param $rootScope - root scope for the application
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
-function pageCtrl($scope, $rootScope, dbSharedService) {
+function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 
 	var parent = $scope.$parent;
+
+	$rootScope.$on("leavePage", function () {
+		var pageDetails = Page.query();
+			$scope.page.name = pageDetails[0].name;
+			$scope.page.items = pageDetails[0].items;
+			$rootScope.$broadcast("leaveTab");
+			return false;
+	});
 
 	// The panel view gets changed whenever there is a change in the page config
 	$scope.$watch('page.items', function(newValue, oldValue) {
@@ -214,7 +243,6 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 		$scope.page.name = $scope.pageName;
 
 		dbSharedService.enableSaveButton(true);
-		//parent.saveProfile();
 		parent.checked = false;
 	};
 
@@ -240,7 +268,6 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 	$scope.$on("panelChanged", function () {
 		$scope.page.items = [];
 		$scope.page.items = $scope.newPageArray;
-		//parent.saveProfile();
 
 		dbSharedService.enableSaveButton(true);
 	});
@@ -253,9 +280,10 @@ function pageCtrl($scope, $rootScope, dbSharedService) {
 		});
 	};
 
+
 }
 
-pageCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
+pageCtrl.$inject = ['$scope', '$rootScope', 'Page', 'dbSharedService'];
 
 /* Panel controller
  * @param $scope - scope object for controller
@@ -267,7 +295,6 @@ function panelCtrl($scope, dbSharedService) {
 
 	$scope.removePanel = function () {
 		$scope.pagePanels.splice($scope.$index, 1);
-		//parent.saveProfile();
 
 		dbSharedService.enableSaveButton(true);
 	};
@@ -346,13 +373,14 @@ function allPanelListCtrl($scope, dbSharedService) {
 allPanelListCtrl.$inject = ['$scope', 'dbSharedService'];
 
 
-/* Save changes modal controller
+/* confirmation box modal controller
  * @param $scope - scope object for controller
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
-function alertBoxCtrl($scope, $rootScope, dbSharedService) {
+function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 
-	var parent = $scope.$parent;
+	var parent = $scope.$parent,
+		page = dbSharedService.getPage();
 
 	// Listen the event when all modal dialog box gets displayed
 	$scope.$on("alertModalDisplayed", function () {
@@ -363,17 +391,22 @@ function alertBoxCtrl($scope, $rootScope, dbSharedService) {
 
 	$scope.leavePage = function () {
 		$rootScope.saveStatus = false;
-		return true;
+		if($rootScope.profileAlert) {
+			$rootScope.$broadcast("leaveProfile");
+		}
+		else {
+			$rootScope.$broadcast("leavePage");
+		}
 	};
 
 	$scope.saveChanges = function () {
 		$rootScope.saveStatus = true;
-		return true;
+		$rootScope.$broadcast("saveChanges");
 	};
 
 }
 
-alertBoxCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
+confirmBoxCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
 
 
 /* panelsCtrl Controller - display list of panels for the profile selected in left hand side panel view

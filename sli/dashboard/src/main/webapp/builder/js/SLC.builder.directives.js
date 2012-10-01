@@ -128,20 +128,32 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
 
+					// if user trying to navigate away from the selected tab without saving page-level changes,
+					// the save changes confirmation box will display.
 					if($rootScope.saveStatus) {
 						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
-					}
 
-					if(!$rootScope.saveStatus) {
-						angular.forEach(panes, function(pane) {
-							pane.selected = false;
-							parent.checked = false;
+						$scope.$on("leaveTab", function () {
+
+							$scope.selectTab(pane);
+
+							$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
 						});
-						pane.selected = true;
 
-						$rootScope.saveStatus = false;
-						$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+						return false;
 					}
+
+					dbSharedService.setPage($scope.$parent.page);
+					$scope.selectTab(pane);
+				};
+
+
+				$scope.selectTab = function(pane) {
+					angular.forEach(panes, function(pane) {
+						pane.selected = false;
+						parent.checked = false;
+					});
+					pane.selected = true;
 				};
 
 				this.addPane = function(pane) {
@@ -184,6 +196,10 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						parent.checked = true;
 					});
 				};
+
+				$scope.$on("tabReRendered", function () {
+						this.$render();
+				});
 			},
 			template:
 				'<div class="tabbable">' +

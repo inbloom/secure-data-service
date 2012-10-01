@@ -38,10 +38,17 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		return $resource('../s/c/cfg/all?layoutName=:profileId', {profileId:''});
 	})
 
+	// Get the list of available panels for the profile
+	.factory('Page', function($resource){
+		return $resource('page.json', {});
+	})
+
 	// Service which contains common methods shared by controllers
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
-			modalConfig = {};
+			modalConfig = {},
+			oldPages = [];
+
 
 		function getPage() {
 			return page;
@@ -51,6 +58,13 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			page = item;
 		}
 
+		function getOldPages() {
+			return oldPages;
+		}
+
+		function setOldPages(items) {
+			oldPages = items;
+		}
 		function showModal(modalId, modalCfg) {
 			if(modalCfg) {
 				setModalConfig(modalCfg);
@@ -179,6 +193,8 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			setModalConfig: setModalConfig,
 			generatePageId: generatePageId,
 			showError: showError,
-			enableSaveButton: enableSaveButton
+			enableSaveButton: enableSaveButton,
+			getOldPages: getOldPages,
+			setOldPages: setOldPages
 		};
 	});
