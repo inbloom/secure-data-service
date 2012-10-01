@@ -16,6 +16,8 @@ public class IndexEntityConverter {
     
     @Autowired
     EntityEncryption entityEncryption;
+    // decrypt records flag
+    private boolean decrypt = true;
     
     public String toIndexJson(IndexEntity ie) {
         StringBuilder sb = new StringBuilder();
@@ -30,15 +32,20 @@ public class IndexEntityConverter {
     public IndexEntity fromEntityJson(String entity) {
         try {
             Map<String, Object> entityMap = mapper.readValue(entity, new TypeReference<Map<String, Object>>() {});                    
-            Map<String, Object> decryptedMap = entityEncryption.decrypt((String)entityMap.get("type"), (Map<String, Object>) entityMap.get("body"));
+            Map<String, Object> decryptedMap = 
+                    decrypt ? entityEncryption.decrypt((String)entityMap.get("type"), (Map<String, Object>) entityMap.get("body")): entityMap;
             return new IndexEntity(
                     ((String)((Map<String, Object>)entityMap.get("metaData")).get("tenantId")).toLowerCase(), 
                     (String)entityMap.get("type"), 
                     (String)entityMap.get("_id"), 
                     mapper.writeValueAsString(decryptedMap));
         } catch (Exception e) {
-             throw new SearchIndexerException("Unable to convert entity");
+             throw new SearchIndexerException("Unable to convert entity " + entity, e);
         } 
+    }
+    
+    public void setDecrypt(boolean decrypt) {
+        this.decrypt = decrypt;
     }
     
 }
