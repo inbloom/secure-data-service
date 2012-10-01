@@ -34,16 +34,14 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
     }
 
     @Override
-    public boolean matches(Object argument)
-    {
-        if (query!=null) {
+    public boolean matches(Object argument) {
+        if (query != null) {
             return matches((Query) argument);
         }
         return false;
     }
 
-    private boolean matches(Query arg)
-    {
+    private boolean matches(Query arg) {
         String queryKey;
         String argKey;
 
@@ -51,19 +49,18 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
             queryKey = query.getQueryObject().get(key).getClass().getSimpleName();
             argKey = arg.getQueryObject().get(key).getClass().getSimpleName();
 
-            if (!queryKey.equals(argKey))
-            {
+            if (!queryKey.equals(argKey)) {
                 return false;
             } else if (queryKey.equals("BasicDBObject")) {
-                BasicDBObject queryObj = (BasicDBObject)query.getQueryObject().get(key);
-                BasicDBObject argObj = (BasicDBObject)arg.getQueryObject().get(key);;
+                BasicDBObject queryObj = (BasicDBObject) query.getQueryObject().get(key);
+                BasicDBObject argObj = (BasicDBObject) arg.getQueryObject().get(key);
 
 //                System.out.println(key);
 //                System.out.print("\t"+queryObj);
 //                System.out.println(" "+argObj);
 
                 for (String key2 : queryObj.keySet()) {
-                    if (queryObj.get(key2).getClass()!=argObj.get(key2).getClass())
+                    if (queryObj.get(key2).getClass() != argObj.get(key2).getClass())
                     {
                         return false;
                     } else if (key2.equals("$in")) {
@@ -72,7 +69,7 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
                         if (queryVal.length != argVal.length) {
                             return false;
                         }
-                        for (int i=0; i<queryVal.length; ++i) {
+                        for (int i = 0; i < queryVal.length; ++i) {
                             if (!queryVal[i].equals(argVal[i])) {
                                 return false;
                             }
@@ -80,8 +77,7 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
                         return true;
                     }
                 }
-            }
-            else if (!query.getQueryObject().get(key).equals(arg.getQueryObject().get(key))) {
+            } else if (!query.getQueryObject().get(key).equals(arg.getQueryObject().get(key))) {
                 return false;
             }
         }

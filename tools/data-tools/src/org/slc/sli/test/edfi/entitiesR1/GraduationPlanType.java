@@ -12,8 +12,6 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-import org.slc.sli.test.edfi.entities.GraduationPlanType;
-
 
 /**
  * <p>Java class for graduationPlanType.
