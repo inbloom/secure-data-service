@@ -1481,7 +1481,7 @@
                     <xs:documentation>The education organization referenced by this session.
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:ReferenceType>school</sli:ReferenceType>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -1520,7 +1520,7 @@
 					<xs:documentation>The school that offers the course.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
