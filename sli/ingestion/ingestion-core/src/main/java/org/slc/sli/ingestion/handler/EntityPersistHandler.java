@@ -26,6 +26,14 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -47,62 +55,55 @@ import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Handles the persisting of Entity objects
- * 
+ *
  * @author dduran
  *         Modified by Thomas Shewchuk (PI3 US811)
  *         - 2/1/2010 Added record DB lookup and update capabilities, and support for association
  *         entities.
- * 
+ *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
-    
+
     public static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
-    
+
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
     private MessageSource messageSource;
-    
+
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
-    
+
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
-    
+
     @Value("${sli.ingestion.totalRetries}")
     private int totalRetries;
-    
+
     @Autowired
     private SchemaRepository schemaRepository;
-    
+
     @Autowired
     private EntityValidator validator;
-    
+
     @Autowired
     private INaturalKeyExtractor naturalKeyExtractor;
-    
+
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
-    
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
         entityRepository.setReferenceCheck(referenceCheckEnabled);
     }
-    
+
     Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
         return doHandling(entity, errorReport, null);
     }
-    
+
     @Override
     protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
@@ -114,16 +115,16 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
         return null;
     }
-    
+
     @Override
     protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
         return persist(entities, errorReport);
     }
-    
+
     /**
      * Persist entity in the data store.
-     * 
+     *
      * @param entity
      *            Entity to be persisted
      * @return Persisted entity
@@ -131,7 +132,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *             Validation Exception
      */
     private Entity persist(SimpleEntity entity) throws EntityValidationException {
-        
+
         String collectionName = "";
         NeutralSchema schema = schemaRepository.getSchema(entity.getType());
         if (schema != null) {
@@ -140,24 +141,24 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 collectionName = appInfo.getCollectionType();
             }
         }
-        
+
         if (entity.getEntityId() != null) {
-            
+
             if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
             }
-            
+
             return entity;
         } else {
             return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
                     collectionName, totalRetries);
         }
     }
-    
+
     boolean update(String collectionName, Entity entity, List<Entity> failed, ErrorReport errorReport) {
         boolean res = false;
-        
+
         try {
             res = entityRepository.updateWithRetries(collectionName, entity, totalRetries);
             if (!res) {
@@ -166,17 +167,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (MongoException e) {
             reportWarnings(e.getCause().getMessage(), collectionName, errorReport);
         }
-        
+
         return res;
     }
-    
+
     private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
         String collectionName = getCollectionName(entities.get(0));
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
-        
+
         for (SimpleEntity entity : entities) {
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, errorReport);
@@ -184,7 +185,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 preMatchEntity(memory, entityConfig, errorReport, entity);
             }
         }
-        
+
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
             LOG.info("Processing: " + entity.getType());
@@ -197,7 +198,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         }
-        
+
         try {
             LOG.info("Bulk insert of {} queued records into collection: {}", new Object[] { queued.size(),
                     collectionName });
@@ -207,19 +208,18 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // Because "queued" only contains new records(with no Id), and we don't have unique
             // indexes
             LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
-            
+
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
                 update(collectionName, entity, failed, errorReport);
             }
         }
-        
+
         return failed;
     }
-    
+
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
-        
         if (NaturalKeyExtractor.useDeterministicIds()) {
             
             NaturalKeyDescriptor naturalKeyDescriptor;
@@ -280,7 +280,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             memory.put(keyValues, entity);
         }
     }
-    
+
     private String getCollectionName(Entity entity) {
         String collectionName = null;
         NeutralSchema schema = schemaRepository.getSchema(entity.getType());
@@ -292,10 +292,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
         return collectionName;
     }
-    
+
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
-            
+
             String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
                     + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
                     + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
@@ -304,10 +304,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             errorReport.error(message, this);
         }
     }
-    
+
     /**
      * Generic warning reporting function.
-     * 
+     *
      * @param warningMessage
      *            Warning message reported by entity.
      * @param entity
@@ -319,31 +319,31 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
         errorReport.warning(assembledMessage, this);
     }
-    
+
     protected String getFailureMessage(String code, Object... args) {
         return MessageSourceHelper.getMessage(messageSource, code, args);
     }
-    
+
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
-    
+
     public MessageSource getMessageSource() {
         return messageSource;
     }
-    
+
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-    
+
     public EntityConfigFactory getEntityConfigurations() {
         return entityConfigurations;
     }
-    
+
     public void setEntityConfigurations(EntityConfigFactory entityConfigurations) {
         this.entityConfigurations = entityConfigurations;
     }
-    
+
     private void addTimestamps(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put("created", now);

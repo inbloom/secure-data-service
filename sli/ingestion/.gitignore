@@ -5,3 +5,6 @@
 target
 .git
 .pydevproject
+ingestion-service/src/main/resources/*.js
+ingestion-service/src/main/resources/*.sh
+ingestion-service/src/main/resources/*.rb

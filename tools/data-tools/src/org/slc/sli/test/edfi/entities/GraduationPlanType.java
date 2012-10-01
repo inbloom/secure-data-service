@@ -62,6 +62,10 @@ public enum GraduationPlanType {
     RECOMMENDED("Recommended"),
     @XmlEnumValue("Standard")
     STANDARD("Standard");
+
+    /** total possible enum values */
+    public static final int NUM_TYPES = 5;
+
     private final String value;
 
     GraduationPlanType(String v) {
@@ -81,4 +85,19 @@ public enum GraduationPlanType {
         throw new IllegalArgumentException(v);
     }
 
+    //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
+    public static GraduationPlanType fromIndex(int i) {
+    	switch (i % NUM_TYPES) {
+    	case 0:
+    		return CAREER_AND_TECHNICAL_EDUCATION;
+    	case 1:
+    		return DISTINGUISHED;
+    	case 2:
+    		return MINIMUM;
+    	case 3:
+    		return RECOMMENDED;
+    	default:
+    		return STANDARD;
+    	}
+    }
 }

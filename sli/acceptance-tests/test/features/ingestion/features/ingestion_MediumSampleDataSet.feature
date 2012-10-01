@@ -104,7 +104,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation                   | 1000 |
      | studentSchoolAssociation                    | 500 |
      | studentSectionAssociation                   | 2500 |
-     | studentGradebookEntry                       | 500 |
+     | studentGradebookEntry                       | 8 |
      | studentTranscriptAssociation                | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |

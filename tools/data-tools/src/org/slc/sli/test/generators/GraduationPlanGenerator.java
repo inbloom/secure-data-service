@@ -43,6 +43,9 @@ public class GraduationPlanGenerator {
 
     private int numberOfCreditsBySubject = random.nextInt(10);
 
+    //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
+	private static int typeIndex = 0;
+
     public GraduationPlanGenerator(boolean generateOptionalFields) {
         this.optional = generateOptionalFields;
     }
@@ -53,12 +56,11 @@ public class GraduationPlanGenerator {
 
     public static GraduationPlan generateLowFi(String graduationPlanId) {
     	
-    	
    	 GraduationPlan gp = new GraduationPlan();
 
         gp.setId(graduationPlanId);
 
-        gp.setGraduationPlanType(GraduationPlanType.STANDARD);
+        gp.setGraduationPlanType(GraduationPlanType.fromIndex(typeIndex++));
 
         Credits cs = new Credits();
         cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
@@ -72,7 +74,7 @@ public class GraduationPlanGenerator {
 
         gp.setId(graduationPlanId);
 
-        gp.setGraduationPlanType(GraduationPlanType.STANDARD);
+        gp.setGraduationPlanType(GraduationPlanType.fromIndex(typeIndex++));
 
         Credits cs = new Credits();
         cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
