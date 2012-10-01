@@ -101,41 +101,40 @@ Examples:
 #| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
-
-	    Scenario Outline: Get All Entities
+    Scenario Outline: Get All Entities as State Staff
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
-     Then I should receive a return code of 200
+     Then I should receive a return code of <Code>
       And I should receive a collection of "<Entity Count>" entities
       And each entity's "entityType" should be <Entity Type>
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 17 |
-| "attendance"                   | "attendances"             | 2 |
-| "cohort"                       | "cohorts"                 | 3 |
-| "course"                       | "courses"                 | 91 |
-| "disciplineAction"             | "disciplineActions"       | 3 |
-| "disciplineIncident"           | "disciplineIncidents"     | 3 |
-| "educationOrganization"        | "educationOrganizations"  | 39 |
-| "gradebookEntry"               | "gradebookEntries"        | 4 |
-| "learningObjective"            | "learningObjectives"      | 5 |
-| "learningStandard"             | "learningStandards"       | 14 |
-| "parent"                       | "parents"                 | 3 |
-| "program"                      | "programs"                | 2 |
-| "school"                       | "schools"                 | 27 |
-| "section"                      | "sections"                | 94 |
-| "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 22 |
-| "student"                      | "students"                | 113 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
-| "studentGradebookEntry"        | "studentGradebookEntries" | 5 |
-| "teacher"                      | "teachers"                | 5 |
-| "grade"                        | "grades"                  | 3 |
-| "studentCompetency"            | "studentCompetencies"     | 3 |
-| "gradingPeriod"                | "gradingPeriods"          | 2 |
-| "reportCard"                   | "reportCards"             | 3 |
+| Entity Type                    | Entity Resource URI       | Code | Entity Count |
+| "assessment"                   | "assessments"             |  200 | 17 |
+| "attendance"                   | "attendances"             |  200 | 2 |
+| "cohort"                       | "cohorts"                 |  200 | 3 |
+| "course"                       | "courses"                 |  200 | 91 |
+| "disciplineAction"             | "disciplineActions"       |  200 | 3 |
+| "disciplineIncident"           | "disciplineIncidents"     |  200 | 3 |
+| "educationOrganization"        | "educationOrganizations"  |  200 | 39 |
+| "gradebookEntry"               | "gradebookEntries"        |  200 | 4 |
+| "learningObjective"            | "learningObjectives"      |  200 | 5 |
+| "learningStandard"             | "learningStandards"       |  200 | 14 |
+| "parent"                       | "parents"                 |  200 | 3 |
+| "program"                      | "programs"                |  200 | 2 |
+| "school"                       | "schools"                 |  200 | 27 |
+| "section"                      | "sections"                |  200 | 0 |
+| "session"                      | "sessions"                |  200 | 22 |
+| "staff"                        | "staff"                   |  200 | 3 |
+| "student"                      | "students"                |  200 | 0 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 2 |
+| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 5 |
+| "teacher"                      | "teachers"                |  200 | 0 |
+| "grade"                        | "grades"                  |  200 | 3 |
+| "studentCompetency"            | "studentCompetencies"     |  200 | 3 |
+| "gradingPeriod"                | "gradingPeriods"          |  200 | 2 |
+| "reportCard"                   | "reportCards"             |  200 | 3 |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -189,3 +188,41 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+
+    Scenario Outline: Get All Entities as School Teacher
+    
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+     And format "application/vnd.slc+json"
+    Given entity URI <Entity Resource URI>
+    Given parameter "limit" is "0"
+     When I navigate to GET "/<ENTITY URI>"
+     Then I should receive a return code of 200
+      And I should receive a collection of "<Entity Count>" entities
+      And each entity's "entityType" should be <Entity Type>
+
+Examples:
+| Entity Type                    | Entity Resource URI       | Entity Count |
+| "assessment"                   | "assessments"             | 17 |
+| "attendance"                   | "attendances"             | 1 |
+| "cohort"                       | "cohorts"                 | 2 |
+| "course"                       | "courses"                 | 25 |
+| "disciplineAction"             | "disciplineActions"       | 2 |
+| "disciplineIncident"           | "disciplineIncidents"     | 1 |
+| "educationOrganization"        | "educationOrganizations"  | 39 |
+| "gradebookEntry"               | "gradebookEntries"        | 4 |
+| "learningObjective"            | "learningObjectives"      | 5 |
+| "learningStandard"             | "learningStandards"       | 14 |
+| "parent"                       | "parents"                 | 2 |
+| "program"                      | "programs"                | 2 |
+| "school"                       | "schools"                 | 27 |
+| "section"                      | "sections"                | 4 |
+| "session"                      | "sessions"                | 11 |
+| "staff"                        | "staff"                   | 1 |
+| "student"                      | "students"                | 31 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | 1 |
+| "studentGradebookEntry"        | "studentGradebookEntries" | 4 |
+| "teacher"                      | "teachers"                | 1 |
+| "grade"                        | "grades"                  | 2 |
+| "studentCompetency"            | "studentCompetencies"     | 2 |
+#| "gradingPeriod"                | "gradingPeriods"          | 2 | Commented out due to DE1745, no teacher -> gradingPeriod context resolver
+| "reportCard"                   | "reportCards"             | 1 |

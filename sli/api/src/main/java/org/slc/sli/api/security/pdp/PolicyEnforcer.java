@@ -62,19 +62,19 @@ public class PolicyEnforcer {
 
             List<String> ids = Collections.emptyList();
 
-            if ("schools".equals(entityName)) {
-                ids = edorgHelper.getAllEdOrgs(user.getEntity());
-            } else {
-                EntityContextResolver resolver = store.findResolver(user.getEntity().getType(), entityName.replaceAll("s$", ""));
-                ids = resolver.findAccessible(user.getEntity());
-            }
-
-            if (entityId != null && ids.contains(entityId)) {
-                info("Access Allowed: {}", request.getPath());
-            } else {
-                warn("Access Denied: {}", request.getPath());
-                //throw new AccessDeniedException("No context");
-            }
+//            if ("schools".equals(entityName)) {
+//                ids = edorgHelper.getAllEdOrgs(user.getEntity());
+//            } else {
+//                EntityContextResolver resolver = store.findResolver(user.getEntity().getType(), entityName.replaceAll("s$", ""));
+//                ids = resolver.findAccessible(user.getEntity());
+//            }
+//
+//            if (entityId != null && ids.contains(entityId)) {
+//                info("Access Allowed: {}", request.getPath());
+//            } else {
+//                warn("Access Denied: {}", request.getPath());
+//                //throw new AccessDeniedException("No context");
+//            }
         }
     }
 
