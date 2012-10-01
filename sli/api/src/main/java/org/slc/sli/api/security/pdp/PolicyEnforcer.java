@@ -17,59 +17,62 @@ import org.springframework.stereotype.Component;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
- * 
  * @author dkornishev
- * 
  */
 @Component
 public class PolicyEnforcer {
 
-	@Resource
-	private ContextResolverStore store;
+    @Resource
+    private ContextResolverStore store;
 
-	@Resource
-	private EdOrgHelper edorgHelper;
+    @Resource
+    private EdOrgHelper edorgHelper;
 
-	@Resource
-	private ContextInferranceHelper inferer;
-	
-	public void enforce(Authentication auth, ContainerRequest request) {
-		List<PathSegment> seg = request.getPathSegments();
+    @Resource
+    private ContextInferranceHelper inferer;
 
-		SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-		if (seg.get(0).getPath().equals("v1")) {
-			if (seg.size() < 3) {
-				request.getProperties().put("requestedURI", request.getPath());
-				String newPath = inferer.getInferredUri(seg.get(1).getPath(), user.getEntity());
-				info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
-				request.setUris(request.getBaseUri(), request.getBaseUriBuilder().path(seg.get(0).getPath()).path(newPath).build());
-			}
+    public void enforce(Authentication auth, ContainerRequest request) {
 
-			seg = request.getPathSegments();
+        if (request.getMethod() == "POST") {
+            return;
+        }
 
-			// Obtain resolver
-			String entityName = seg.get(1).getPath();
-   String entityId = null;
-   if (seg.size() > 2) {
-       entityId = seg.get(2).getPath();
-   }
+        List<PathSegment> seg = request.getPathSegments();
 
-			List<String> ids = Collections.emptyList();
+        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+        if (seg.get(0).getPath().equals("v1")) {
+            if (seg.size() < 3) {
+                request.getProperties().put("requestedURI", request.getPath());
+                String newPath = inferer.getInferredUri(seg.get(1).getPath(), user.getEntity());
+                info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
+                request.setUris(request.getBaseUri(), request.getBaseUriBuilder().path(seg.get(0).getPath()).path(newPath).build());
+            }
 
-			if ("schools".equals(entityName)) {
-				ids = edorgHelper.getAllEdOrgs(user.getEntity());
-			} else {
-				EntityContextResolver resolver = store.findResolver(user.getEntity().getType(), entityName.replaceAll("s$", ""));
-				ids = resolver.findAccessible(user.getEntity());
-			}
-			
-			if (entityId != null && ids.contains(entityId)) {
-				info("Access Allowed: {}", request.getPath());
-			} else {
-				warn("Access Denied: {}", request.getPath());
-				//throw new AccessDeniedException("No context");
-			}
-		}
-	}
+            seg = request.getPathSegments();
+
+            // Obtain resolver
+            String entityName = seg.get(1).getPath();
+            String entityId = null;
+            if (seg.size() > 2) {
+                entityId = seg.get(2).getPath();
+            }
+
+            List<String> ids = Collections.emptyList();
+
+            if ("schools".equals(entityName)) {
+                ids = edorgHelper.getAllEdOrgs(user.getEntity());
+            } else {
+                EntityContextResolver resolver = store.findResolver(user.getEntity().getType(), entityName.replaceAll("s$", ""));
+                ids = resolver.findAccessible(user.getEntity());
+            }
+
+            if (entityId != null && ids.contains(entityId)) {
+                info("Access Allowed: {}", request.getPath());
+            } else {
+                warn("Access Denied: {}", request.getPath());
+                //throw new AccessDeniedException("No context");
+            }
+        }
+    }
 
 }
