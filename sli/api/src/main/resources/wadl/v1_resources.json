@@ -146,6 +146,7 @@
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
         { "path": "/{id}/courseOfferings" },
+        { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
         { "path": "/{id}/sessions/gradingPeriods" },
         { "path": "/{id}/sections" }
