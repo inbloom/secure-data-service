@@ -43,9 +43,6 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
 
-    @Value("${sli.ingestion.totalRetries}")
-    private int numberOfRetries;
-
     @Override
     public void afterPropertiesSet() throws Exception {
         neutralRecordRepository.setWriteConcern(writeConcern);
@@ -63,7 +60,7 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Override
     public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
-        neutralRecordRepository.insertAllWithRetries(neutralRecords, collectionName, numberOfRetries);
+        neutralRecordRepository.insertAll(neutralRecords, collectionName);
     }
 
     public NeutralRecordRepository getRecordRepository() {
@@ -102,9 +99,12 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
      * Gets the creation time for the first entity that matches the criteria of collection name,
      * batch job id, and sort order.
      *
-     * @param collectionName Collection in which to find entity.
-     * @param jobId Current batch job id.
-     * @param order Sort order (ascending, descending).
+     * @param collectionName
+     *            Collection in which to find entity.
+     * @param jobId
+     *            Current batch job id.
+     * @param order
+     *            Sort order (ascending, descending).
      * @return Long representing creation time of entity.
      */
     private long getCreationTimeForEntity(String collectionName, String jobId, Order order) {
