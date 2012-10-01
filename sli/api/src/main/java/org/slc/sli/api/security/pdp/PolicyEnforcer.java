@@ -44,8 +44,11 @@ public class PolicyEnforcer {
             if (seg.size() < 3) {
                 request.getProperties().put("requestedURI", request.getPath());
                 String newPath = inferer.getInferredUri(seg.get(1).getPath(), user.getEntity());
-                info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
-                request.setUris(request.getBaseUri(), request.getBaseUriBuilder().path(seg.get(0).getPath()).path(newPath).build());
+                if (newPath != null) {
+                    String parameters = request.getRequestUri().getQuery();
+                    info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
+                    request.setUris(request.getBaseUri(), request.getBaseUriBuilder().path(seg.get(0).getPath()).path(newPath).replaceQuery(parameters).build());
+                }
             }
 
             seg = request.getPathSegments();

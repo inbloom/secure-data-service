@@ -26,7 +26,7 @@ public class ContextInferranceHelper {
     @SuppressWarnings("unchecked")
 	public String getInferredUri(String resource, Entity user) {
 
-        String result = "/" + resource;
+        String result = null;
 
         String actorId = user.getEntityId();
         if (isTeacher(user)) {
