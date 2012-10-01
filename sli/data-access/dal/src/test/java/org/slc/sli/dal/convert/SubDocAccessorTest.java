@@ -73,7 +73,7 @@ public class SubDocAccessorTest {
                                 List<String> assessmentIds = new ArrayList<String>(set.keySet());
                                 return assessmentResults.size() == 1
                                         && assessmentResults.get(0).get("scoreResult").equals("42")
-                                        && assessmentIds.get(0).startsWith("assessments.studentid2012;");
+                                        && assessmentIds.get(0).startsWith("assessments.studentid2012×");
                             }
                         }), eq(true), eq(false))).thenReturn(success);
 
@@ -113,7 +113,7 @@ public class SubDocAccessorTest {
                                 List<String> assessmentIds = new ArrayList<String>(set.keySet());
                                 return assessmentResults.size() == 1
                                         && assessmentResults.get(0).get("scoreResult").equals("42")
-                                        && assessmentIds.get(0).startsWith("assessments.studentid2011;");
+                                        && assessmentIds.get(0).startsWith("assessments.studentid2011×");
                             }
                         }), eq(true), eq(false));
         verify(enrollmentCollection).update(
@@ -150,10 +150,10 @@ public class SubDocAccessorTest {
     public void testRead() {
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> studentAssessments = new HashMap<String, Object>();
-        studentAssessments.put("studentid2012;1234", assessmentResult);
+        studentAssessments.put("studentid2012×1234", assessmentResult);
         student.put("assessments", studentAssessments);
         when(template.findOne(matchesParentId(), eq(Map.class), eq("enrollment"))).thenReturn(student);
-        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid2012;1234"));
+        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid2012×1234"));
     }
 
 }

@@ -50,7 +50,7 @@ public class SubDocAccessor {
      *
      */
     public class Location {
-        private static final String ID_SEPERATOR = ";";
+        private static final String ID_SEPERATOR = "×";
         private final String collection;
         private final Map<String, String> lookup;
         private final String subField;
@@ -174,9 +174,11 @@ public class SubDocAccessor {
             DBObject originalQuery = original.getQueryObject();
             DBObject query = new BasicDBObject();
             for (Entry<String, String> entry : lookup.entrySet()) {
-                String keyField = "body." + entry.getValue();
-                Object keyQuery = originalQuery.get(entry.getKey());
-                query.put(keyField, keyQuery);
+                String keyField = entry.getValue();
+                Object keyQuery = originalQuery.get("body." + entry.getKey());
+                if (keyQuery != null) {
+                    query.put(keyField, keyQuery);
+                }
             }
             query.put(subField, new BasicDBObject("$exists", true));
             DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
