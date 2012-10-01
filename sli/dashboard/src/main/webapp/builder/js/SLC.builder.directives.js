@@ -128,15 +128,15 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
 
+					$rootScope.profileAlert = false; // set profile alert flag to false
+
 					// if user trying to navigate away from the selected tab without saving page-level changes,
 					// the save changes confirmation box will display.
 					if($rootScope.saveStatus) {
 						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
 
 						$scope.$on("leaveTab", function () {
-
 							$scope.selectTab(pane);
-
 							$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
 						});
 

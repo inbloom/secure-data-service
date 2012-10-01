@@ -61,6 +61,14 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 
 	};
 
+	$(window).bind('beforeunload', function() {
+		if($rootScope.saveStatus) {
+			//dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+			//return false;
+			return 'Dashboard builder';
+		}
+	});
+
 	$rootScope.saveStatus = false;
 }
 
@@ -211,12 +219,17 @@ function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 
 	var parent = $scope.$parent;
 
+
+
 	$rootScope.$on("leavePage", function () {
-		var pageDetails = Page.query();
-			$scope.page.name = pageDetails[0].name;
-			$scope.page.items = pageDetails[0].items;
-			$rootScope.$broadcast("leaveTab");
-			return false;
+		var pageDetails = Page.query(function () {
+			if($scope.page.id === pageDetails[0].id) {
+				$scope.page.name = pageDetails[0].name;
+				$scope.page.items = pageDetails[0].items;
+				$rootScope.$broadcast("leaveTab");
+			}
+		});
+		return false;
 	});
 
 	// The panel view gets changed whenever there is a change in the page config
@@ -275,7 +288,7 @@ function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 	$scope.publishPage = function () {
 		parent.saveProfile(function () {
 			$(".alert").show();
-			window.setTimeout(function() { $(".alert").hide("slow"); }, 3000);
+			window.setTimeout(function() { $(".alert").hide("slow"); }, 10000);
 			dbSharedService.enableSaveButton(false);
 		});
 	};
