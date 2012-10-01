@@ -89,12 +89,13 @@ public class SubDocAccessor {
             return StringUtils.join(parentIdList, "");
         }
 
-        private Query getParentQuery(Map<String, Object> body) {
+        private DBObject getParentQuery(Map<String, Object> body) {
             Query parentQuery = new Query();
+            parentQuery.addCriteria(Criteria.where("_id").is(getParentEntityId(body)));
             for (Entry<String, String> entry : lookup.entrySet()) {
                 parentQuery.addCriteria(new Criteria(entry.getKey()).is(body.get(entry.getValue())));
             }
-            return parentQuery;
+            return parentQuery.getQueryObject();
         }
 
         private Update getUpdateObject(Map<String, Map<String, Object>> newEntities) {
@@ -106,23 +107,28 @@ public class SubDocAccessor {
         }
 
         public boolean update(String id, Map<String, Object> entity) {
-            Query query = getParentQuery(entity);
+            DBObject query = getParentQuery(entity);
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
             updateMap.put(id, entity);
             Update updateObject = getUpdateObject(updateMap);
-            return template.updateFirst(query, updateObject, collection).getLastError().ok();
+            return doUpdate(query, updateObject);
         }
 
-        public boolean bulkUpdate(Query parentQuery, Map<String, Map<String, Object>> newEntities) {
+        private boolean doUpdate(DBObject query, Update updateObject) {
+            return template.getCollection(collection)
+                    .update(query, updateObject.getUpdateObject(), true, false).getLastError().ok();
+        }
+
+        public boolean bulkUpdate(DBObject parentQuery, Map<String, Map<String, Object>> newEntities) {
             Update update = getUpdateObject(newEntities);
-            return template.updateFirst(parentQuery, update, collection).getLastError().ok();
+            return doUpdate(parentQuery, update);
         }
 
         public boolean create(Map<String, Object> entity) {
             return update(makeEntityId(entity), entity);
         }
 
-        public boolean bulkCreate(Query parentQuery, List<Map<String, Object>> entities) {
+        public boolean bulkCreate(DBObject parentQuery, List<Map<String, Object>> entities) {
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
             for (Map<String, Object> entity : entities) {
                 updateMap.put(makeEntityId(entity), entity);
@@ -131,14 +137,14 @@ public class SubDocAccessor {
         }
 
         public boolean insert(List<Entity> entities) {
-            ConcurrentMap<Query, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<Query, List<Map<String, Object>>>();
+            ConcurrentMap<DBObject, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<DBObject, List<Map<String, Object>>>();
             for (Entity entity : entities) {
-                Query parentQuery = getParentQuery(entity.getBody());
+                DBObject parentQuery = getParentQuery(entity.getBody());
                 parentEntityMap.putIfAbsent(parentQuery, new ArrayList<Map<String, Object>>());
                 parentEntityMap.get(parentQuery).add(entity.getBody());
             }
             boolean result = true;
-            for (Entry<Query, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
+            for (Entry<DBObject, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
                 result &= bulkCreate(entry.getKey(), entry.getValue());
             }
             return result;
