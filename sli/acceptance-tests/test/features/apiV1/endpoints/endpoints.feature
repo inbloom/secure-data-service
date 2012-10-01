@@ -12,6 +12,7 @@ Background: Nothing yet
         | "/schools/#{id}/courses"                                  | "67ce204b-9999-4a11-bfea-000000000005"|
         | "/schools/#{id}/courseOfferings"                          | "67ce204b-9999-4a11-bfea-000000000005"|
         | "/schools/#{id}/sessions"                                 | "67ce204b-9999-4a11-bfea-000000000005"| 
+        | "/schools/#{id}/sections/gradebookEntries"                | "67ce204b-9999-4a11-bfea-000000000005"| 
         | "/schools/#{id}/sessions/gradingPeriods"                  | "67ce204b-9999-4a11-bfea-000000000005"|
         | "/educationOrganizations/#{id}/studentCompetencyObjectives"| "67ce204b-9999-4a11-bfea-000000000005"|
         | "/staff/#{id}/disciplineIncidents/studentDisciplineIncidentAssociations"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"|
