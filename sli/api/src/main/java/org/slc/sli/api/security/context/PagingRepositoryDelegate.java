@@ -240,17 +240,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         return repo.update(collection, object);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.slc.sli.domain.Repository#doUpdate(java.lang.String, java.lang.String,
-     * org.springframework.data.mongodb.core.query.Update)
-     */
-    @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return repo.doUpdate(collection, id, update);
-    }
 
     /*
      * (non-Javadoc)

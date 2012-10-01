@@ -138,21 +138,6 @@ public interface Repository<T> {
      */
     public boolean update(String collection, T object);
 
-    /**
-     * Make an update to an entity.
-     * Note, this does not go through the validator, caller is expected to ensure the update will
-     * keep the object valid
-     * It also does not encrypt values, so it cannot be used to update PII data
-     * 
-     * @param collection
-     *            the collection the entity is in
-     * @param id
-     *            the id of the entity
-     * @param update
-     *            the update to make
-     * @return whether or not the object was updated
-     */
-    public boolean doUpdate(String collection, String id, Update update);
 
     /**
      * Make an update to a single entity through a query
