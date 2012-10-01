@@ -45,9 +45,11 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -475,85 +477,105 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
+        Query query;
+        
+        if (NaturalKeyExtractor.useDeterministicIds()) {
+            
+            NaturalKeyDescriptor naturalKeyDescriptor;
+            try {
+                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+            } catch (NaturalKeyValidationException e1) {
+                String message = "An entity is missing one or more required natural key fields" + "\n"
+                        + "       Entity     " + entity.getType() + "\n" + "       Instance   "
+                        + entity.getRecordNumber();
+                
+                for (String fieldName : e1.getNaturalKeys()) {
+                    message += "\n" + "       Field      " + fieldName;
+                }
+                errorReport.error(message, this);
+                return null;
+            } catch (NoNaturalKeysDefinedException e) {
+                LOG.error(e.getMessage(), e);
+                return null;
+            }
+            
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                // Okay for embedded entities
+                LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                        + "       Instance   " + entity.getRecordNumber());
+                
+                query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+            } else {
+                query = new Query();
+                String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+                query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                        tenantId));
+                String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+                query.addCriteria(Criteria.where(ID).is(entityId));
+            }
+        } else {
+            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+        }
+        
+        return query;
+    }
+    
+    protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
+            ErrorReport errorReport) {
         Query query = new Query();
         
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
         query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
         
-        NaturalKeyDescriptor naturalKeyDescriptor;
-        try {
-            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-        } catch (NaturalKeyValidationException e1) {
-            String message = "An entity is missing one or more required natural key fields" + "\n"
-                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
-            
-            for (String fieldName : e1.getNaturalKeys()) {
-                message += "\n" + "       Field      " + fieldName;
+        String errorMessage = "ERROR: Invalid key fields for an entity\n";
+        if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
+            errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+        } else {
+            errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
+                    + entityConfig.getKeyFields() + "\n";
+            if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
+                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                for (RefDef refDef : entityConfig.getReferences()) {
+                    String collectionName = "";
+                    NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
+                    if (schema != null) {
+                        AppInfo appInfo = schema.getAppInfo();
+                        if (appInfo != null) {
+                            collectionName = appInfo.getCollectionType();
+                        }
+                    }
+                    
+                    errorMessage += "       collection = " + collectionName + "\n";
+                }
             }
-            errorReport.error(message, this);
-            return null;
         }
         
-        if (naturalKeyDescriptor == null) {
-            // look the entity up the old way -> key fields
-            
-            String errorMessage = "ERROR: Invalid key fields for an entity\n";
-            if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-                errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
-            } else {
-                errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
-                        + entityConfig.getKeyFields() + "\n";
-                if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
-                    errorMessage += "     The following collections are referenced by the key fields:" + "\n";
-                    for (RefDef refDef : entityConfig.getReferences()) {
-                        String collectionName = "";
-                        NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
-                        if (schema != null) {
-                            AppInfo appInfo = schema.getAppInfo();
-                            if (appInfo != null) {
-                                collectionName = appInfo.getCollectionType();
-                            }
-                        }
-                        
-                        errorMessage += "       collection = " + collectionName + "\n";
+        try {
+            for (String field : entityConfig.getKeyFields()) {
+                Object fieldValue = PropertyUtils.getProperty(entity, field);
+                if (fieldValue instanceof List) {
+                    int size = ((List) fieldValue).size();
+                    // make sure we have exactly the number of desired values
+                    query.addCriteria(Criteria.where(field).size(size));
+                    // make sure we have each individual desired value
+                    for (Object val : (List) fieldValue) {
+                        query.addCriteria(Criteria.where(field).is(val));
                     }
+                    // this will be insufficient if fieldValue can contain duplicates
+                } else {
+                    query.addCriteria(Criteria.where(field).is(fieldValue));
                 }
             }
-            
-            try {
-                for (String field : entityConfig.getKeyFields()) {
-                    Object fieldValue = PropertyUtils.getProperty(entity, field);
-                    if (fieldValue instanceof List) {
-                        int size = ((List) fieldValue).size();
-                        // make sure we have exactly the number of desired values
-                        query.addCriteria(Criteria.where(field).size(size));
-                        // make sure we have each individual desired value
-                        for (Object val : (List) fieldValue) {
-                            query.addCriteria(Criteria.where(field).is(val));
-                        }
-                        // this will be insufficient if fieldValue can contain duplicates
-                    } else {
-                        query.addCriteria(Criteria.where(field).is(fieldValue));
-                    }
-                }
-                ComplexKeyField complexField = entityConfig.getComplexKeyField();
-                if (complexField != null) {
-                    String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
-                    Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
-                    
-                    query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath())
-                            .is(fieldValue));
-                }
-            } catch (Exception e) {
-                errorReport.error(errorMessage, this);
+            ComplexKeyField complexField = entityConfig.getComplexKeyField();
+            if (complexField != null) {
+                String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+                Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
+                
+                query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(
+                        fieldValue));
             }
-            LOG.info("OLD WAY: " + entity.getType() + " " + query.toString());
-            
-        } else {
-            // look the entity up the new way -> natural keys
-            String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
-            query.addCriteria(Criteria.where(ID).is(entityId));
-            LOG.info("NEW WAY: " + entity.getType() + " " + query.toString());
+        } catch (Exception e) {
+            errorReport.error(errorMessage, this);
         }
         
         return query;

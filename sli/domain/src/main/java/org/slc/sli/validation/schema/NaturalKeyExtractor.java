@@ -26,6 +26,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,13 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
     
+    public static boolean useDeterministicIds() {
+        
+        String nonDeterministicIds = System.getProperty("nonDeterministicIds");
+        return nonDeterministicIds == null;
+        
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -50,12 +58,17 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
      */
     @Override
-    public Map<String, String> getNaturalKeys(Entity entity) {
+    public Map<String, String> getNaturalKeys(Entity entity) throws NoNaturalKeysDefinedException {
         Map<String, String> map = new HashMap<String, String>();
         
         List<String> missingKeys = new ArrayList<String>();
         
         Map<String, Boolean> naturalKeyFields = getNaturalKeyFields(entity);
+        if (naturalKeyFields == null) {
+            // natural keys don't apply to this entity
+            return null;
+        }
+        
         for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
             // instead use x-paths here?
             // Object value = entity.getBody().get(keyField.getKey());
@@ -97,9 +110,9 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      * .Entity)
      */
     @Override
-    public Map<String, Boolean> getNaturalKeyFields(Entity entity) {
+    public Map<String, Boolean> getNaturalKeyFields(Entity entity) throws NoNaturalKeysDefinedException {
         
-        Map<String, Boolean> naturalKeyFields = new HashMap<String, Boolean>();
+        Map<String, Boolean> naturalKeyFields = null;
         
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema != null) {
@@ -107,8 +120,15 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
                 if (appInfo.applyNaturalKeys()) {
+                    naturalKeyFields = new HashMap<String, Boolean>();
                     // recursive call to get natural fields
                     getNaturalKeyFields(naturalKeyFields, schema, "");
+                    
+                    if (naturalKeyFields.isEmpty()) {
+                        // if no fields are found, there is a problem
+                        LOG.error("Failed to find natural key definitions for the " + entity.getType() + " entity");
+                        throw new NoNaturalKeysDefinedException(entity.getType());
+                    }
                 }
             }
         }
@@ -157,12 +177,13 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      * .Entity)
      */
     @Override
-    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
+    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) throws NoNaturalKeysDefinedException {
         
         Map<String, String> map = getNaturalKeys(entity);
-        if (map.isEmpty()) {
-            // no natural keys were found, don't return a descriptor
-            return null;
+        if (map == null) {
+            NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor();
+            naturalKeyDescriptor.setNaturalKeysNotNeeded(true);
+            return naturalKeyDescriptor;
         }
         
         String entityType = entity.getType();

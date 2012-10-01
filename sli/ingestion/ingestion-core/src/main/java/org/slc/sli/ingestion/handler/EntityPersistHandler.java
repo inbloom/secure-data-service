@@ -40,10 +40,12 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,42 +220,63 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
         
-        NaturalKeyDescriptor naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-        if (naturalKeyDescriptor == null) {
-            // "old" style -> based on key fields from json
-            List<String> keyFields = entityConfig.getKeyFields();
-            ComplexKeyField complexField = entityConfig.getComplexKeyField();
-            if (keyFields.size() > 0) {
+        if (NaturalKeyExtractor.useDeterministicIds()) {
+            
+            NaturalKeyDescriptor naturalKeyDescriptor;
+            try {
+                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+            } catch (NoNaturalKeysDefinedException e1) {
+                LOG.error(e1.getMessage(), e1);
+                return;
+            }
+            
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                        + "       Instance   " + entity.getRecordNumber();
+                LOG.error(message);
+                
+                preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+            } else {
+                // "new" style -> based on natural keys from schema
+                String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
                 List<Object> keyValues = new ArrayList<Object>();
-                for (String field : keyFields) {
-                    try {
-                        keyValues.add(PropertyUtils.getProperty(entity, field));
-                    } catch (Exception e) {
-                        String errorMessage = "Issue finding key field: " + field + " for entity of type: "
-                                + entity.getType() + "\n";
-                        errorReport.error(errorMessage, this);
-                    }
-                    
-                    if (complexField != null) {
-                        String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
-                        
-                        try {
-                            keyValues.add(PropertyUtils.getProperty(entity, propertyString));
-                        } catch (Exception e) {
-                            String errorMessage = "Issue finding key field: " + " for entity of type: "
-                                    + entity.getType() + "\n";
-                            errorReport.error(errorMessage, this);
-                        }
-                    }
-                    
-                }
+                keyValues.add(id);
                 memory.put(keyValues, entity);
             }
         } else {
-            // "new" style -> based on natural keys from schema
-            String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+            preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+        }
+        
+    }
+    
+    private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
+            ErrorReport errorReport, SimpleEntity entity) {
+        List<String> keyFields = entityConfig.getKeyFields();
+        ComplexKeyField complexField = entityConfig.getComplexKeyField();
+        if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
-            keyValues.add(id);
+            for (String field : keyFields) {
+                try {
+                    keyValues.add(PropertyUtils.getProperty(entity, field));
+                } catch (Exception e) {
+                    String errorMessage = "Issue finding key field: " + field + " for entity of type: "
+                            + entity.getType() + "\n";
+                    errorReport.error(errorMessage, this);
+                }
+                
+                if (complexField != null) {
+                    String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
+                    
+                    try {
+                        keyValues.add(PropertyUtils.getProperty(entity, propertyString));
+                    } catch (Exception e) {
+                        String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
+                                + "\n";
+                        errorReport.error(errorMessage, this);
+                    }
+                }
+                
+            }
             memory.put(keyValues, entity);
         }
     }

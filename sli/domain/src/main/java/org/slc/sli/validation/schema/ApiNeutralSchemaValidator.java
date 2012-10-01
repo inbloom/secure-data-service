@@ -15,6 +15,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,11 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         } catch (NaturalKeyValidationException e) {
             // swallow exception. if there are missing keys fields,
             // they will be validated in the validate method
+            return;
+        } catch (NoNaturalKeysDefinedException e) {
+            // swallow exception. if there are missing keys fields,
+            // they will be validated in the validate method
+            LOG.error(e.getMessage(), e);
             return;
         }
         
