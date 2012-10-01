@@ -24,7 +24,7 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos@mokey.org", "fakedev@zork.net"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos_mokey_org", "fakedev_zork_net"]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
@@ -372,9 +372,9 @@ task :appInit do
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev@zork"
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos@mokey"
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
   setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
 
   DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
@@ -955,6 +955,34 @@ task :importSandboxData do
     "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+desc "Import Sandbox Test Data"
+task :importZorkSandboxData do
+  testHash = Hash[
+    "educationOrganization" => "educationOrganization_fixture_zork.json",
+    "staff" => "staff_fixture_zork.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
+
+   ]
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+
+end
+
+desc "Import Sandbox Test Data"
+task :importChaosSandboxData do
+  testHash = Hash[
+    "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staff" => "staff_fixture_chaos.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
+
+   ]
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+
 end
 
 desc "Import Tenant Metrics Data"
