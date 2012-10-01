@@ -123,7 +123,7 @@ Examples:
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
 | "parent"                       | "parents"                 | 3 |
-| "program"                      | "programs"                | 5 |
+| "program"                      | "programs"                | 2 |
 | "school"                       | "schools"                 | 27 |
 | "section"                      | "sections"                | 94 |
 | "session"                      | "sessions"                | 22 |

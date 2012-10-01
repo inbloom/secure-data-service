@@ -136,7 +136,7 @@ public class ContextInferranceHelper {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations", ids);
             } else if (ResourceNames.PROGRAMS.equals(resource)) {
-                result = String.format("/staff/%s/staffProgramsAssociations/programs", actorId);
+                result = String.format("/staff/%s/staffProgramAssociations/programs", actorId);
             }
 
             /* 4035 or 4036 endpoints to be implemented
