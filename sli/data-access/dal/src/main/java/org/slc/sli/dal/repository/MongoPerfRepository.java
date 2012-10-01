@@ -22,17 +22,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -162,12 +161,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public long count(String collectionName, Query query) {
         return 0;  // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
