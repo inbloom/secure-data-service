@@ -61,6 +61,7 @@ import org.slc.sli.domain.QueryParseException;
  * Jersey resource for all entities and associations.
  *
  * @author Ryan Farris <rfarris@wgen.net>
+ * @deprecated If extending or delegating to this class, use {@link org.slc.sli.api.resources.generic.DefaultResource}
  *
  */
 @Path("{type}")
