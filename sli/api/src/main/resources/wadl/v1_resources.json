@@ -125,7 +125,8 @@
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
-        { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" }
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
+        { "path": "/{id}/studentCompetencyObjectives" }
       ]
     },
     {
