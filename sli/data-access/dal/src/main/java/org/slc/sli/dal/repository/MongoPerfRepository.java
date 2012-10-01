@@ -125,7 +125,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // To change body of implemented methods use File | Settings | File Templates.
     }
 

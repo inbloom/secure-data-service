@@ -109,7 +109,7 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
 
     }

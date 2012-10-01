@@ -96,7 +96,7 @@ public class MockPerfRepo implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
 
     }
 

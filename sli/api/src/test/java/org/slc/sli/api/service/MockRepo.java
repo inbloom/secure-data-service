@@ -447,7 +447,7 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String entityType) {
+    public void deleteAll(String entityType, NeutralQuery query) {
         Map<String, Entity> repository = repo.get(entityType);
         if (repository != null) {
             repository.clear();

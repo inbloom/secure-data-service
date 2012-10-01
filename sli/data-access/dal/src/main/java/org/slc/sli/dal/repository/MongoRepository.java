@@ -468,7 +468,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // We decided that if TenantId is null, then we will search on blank.
         // This option may need to be revisted.
         String tenantId = TenantContext.getTenantId();

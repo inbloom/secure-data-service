@@ -268,9 +268,9 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      * @see org.slc.sli.domain.Repository#deleteAll(java.lang.String)
      */
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
-        repo.deleteAll(collectionName);
+        repo.deleteAll(collectionName, null);
     }
 
     /*

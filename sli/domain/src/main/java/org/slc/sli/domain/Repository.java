@@ -163,8 +163,9 @@ public interface Repository<T> {
     /**
      * @param collectionName
      *            the name of the collection to delete from
+     * @param query TODO
      */
-    public void deleteAll(String collectionName);
+    public void deleteAll(String collectionName, NeutralQuery query);
 
     /**
      * Get the actual db collection
