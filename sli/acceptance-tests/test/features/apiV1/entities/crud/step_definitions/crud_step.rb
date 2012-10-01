@@ -31,7 +31,7 @@ require_relative '../../../utils/api_utils.rb'
 ###############################################################################
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  
+
   #general
   id = @entityUri                               if human_readable_id == "ENTITY URI"
   id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
@@ -81,7 +81,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
-        "date" => "2011-09-16", 
+        "date" => "2011-09-16",
         "event" => "Tardy"
       }]
     }]
@@ -138,12 +138,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "uniqueCourseId" => "Chinese-1-10"
   },
-  "courseOffering" => { 
-    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
-    "localCourseCode" => "LCCMA1",  
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
+  "courseOffering" => {
+    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008",
+    "localCourseCode" => "LCCMA1",
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002",
     "localCourseTitle" => "Math 1 - Intro to Mathematics",
-    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
+    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -160,8 +160,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
-    "incidentDate" => "2012-02-14", 
-    "incidentTime" => "01:00:00", 
+    "incidentDate" => "2012-02-14",
+    "incidentTime" => "01:00:00",
     "incidentLocation" => "On School",
     "behaviors" => [[
         {"shortDescription" => "Behavior 012 description"},
@@ -172,7 +172,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
     "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
-    "nameOfInstitution" => "Gotham City School District", 
+    "nameOfInstitution" => "Gotham City School District",
     "address" => [
               "streetNumberName" => "111 Ave C",
               "city" => "Chicago",
@@ -182,8 +182,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               ]
   },
   "gradebookEntry" => {
-    "gradebookEntryType" => "Quiz", 
-    "dateAssigned" => "2012-02-14", 
+    "gradebookEntryType" => "Quiz",
+    "dateAssigned" => "2012-02-14",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
   },
   "learningObjective" => {
@@ -240,14 +240,15 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Students"
     }
   },
-  "studentGradebookEntry" => { 
+  "studentGradebookEntry" => {
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
     "letterGradeEarned" => "A",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
     "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
+    "studentSectionAssociationId" => "49b277c3-4639-42c2-88ef-0f59dd5acba2",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
-    "diagnosticStatement" => "Finished the quiz in 5 minutes" 
+    "diagnosticStatement" => "Finished the quiz in 5 minutes"
   },
   "assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",
@@ -263,7 +264,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "parent" => {
     "parentUniqueStateId" => "ParentID101",
-    "name" => 
+    "name" =>
     { "firstName" => "John",
       "lastSurname" => "Doe",
     }

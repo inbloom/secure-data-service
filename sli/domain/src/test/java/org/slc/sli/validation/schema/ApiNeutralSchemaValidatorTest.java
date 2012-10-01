@@ -27,6 +27,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 
 public class ApiNeutralSchemaValidatorTest {
@@ -49,7 +50,7 @@ public class ApiNeutralSchemaValidatorTest {
     }
     
     @Test
-    public void validateNaturalKeyValidationExceptionFromMissingFields() {
+    public void validateNaturalKeyValidationExceptionFromMissingFields() throws NoNaturalKeysDefinedException {
         // setup
         Entity mockEntity = Mockito.mock(Entity.class);
         NaturalKeyValidationException e = new NaturalKeyValidationException(null, null);

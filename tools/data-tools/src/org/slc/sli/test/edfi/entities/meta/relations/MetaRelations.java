@@ -53,6 +53,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entitiesR1.GraduationPlanType;
 import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
 import org.slc.sli.test.utils.ValidateSchema;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -244,7 +245,10 @@ public final class MetaRelations {
         SECTIONS_PER_STUDENT = Integer.parseInt(properties.getProperty("SECTIONS_PER_STUDENT").trim());
         CALENDER_PER_SESSIONS= Integer.parseInt(properties.getProperty("CALENDER_PER_SESSIONS").trim());
         GRADINGPERIOD_PER_CALENDAR = Integer.parseInt(properties.getProperty("GRADINGPERIOD_PER_CALENDAR").trim());
-        GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL").trim());
+        //it's not possible to have more unique graduationPlans per school than there are values in the type enum
+        int graduationPlans = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL").trim());
+        GRADUATION_PLAN_PER_SCHOOL = graduationPlans > GraduationPlanType.NUM_TYPES? 
+        		GraduationPlanType.NUM_TYPES : graduationPlans;
         GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS").trim()); 
         
         STUDENTS_PER_SECTION = Integer.parseInt(properties.getProperty("STUDENTS_PER_SECTION").trim()); 

@@ -3858,7 +3858,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3880,7 +3880,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3890,7 +3889,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3936,6 +3934,17 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentSectionAssociationId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Association to the student-section association
+                        with which the competency is evaluated.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

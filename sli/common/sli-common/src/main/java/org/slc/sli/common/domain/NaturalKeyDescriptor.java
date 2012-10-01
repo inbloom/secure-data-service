@@ -11,6 +11,7 @@ public class NaturalKeyDescriptor {
     private Map<String, String> naturalKeys;
     private String tenantId;
     private String entityType;
+    private boolean naturalKeysNotNeeded;
 
     public NaturalKeyDescriptor() {
         this(null, null, null);
@@ -70,6 +71,14 @@ public class NaturalKeyDescriptor {
 
     public void setEntityType(String entityType) {
         this.entityType = entityType;
+    }
+
+    public boolean isNaturalKeysNotNeeded() {
+        return naturalKeysNotNeeded;
+    }
+
+    public void setNaturalKeysNotNeeded(boolean naturalKeysNotNeeded) {
+        this.naturalKeysNotNeeded = naturalKeysNotNeeded;
     }
 
 }

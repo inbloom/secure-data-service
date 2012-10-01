@@ -33,10 +33,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.springframework.context.ApplicationContext;
 
@@ -80,7 +82,7 @@ public class EntityWriteConverterTest {
     }
     
     @Test
-    public void testEntityConvert() {
+    public void testEntityConvert() throws NoNaturalKeysDefinedException {
         Entity e = Mockito.mock(Entity.class);
         
         HashMap<String, Object> body = new HashMap<String, Object>();
@@ -91,14 +93,17 @@ public class EntityWriteConverterTest {
         meta.put("meta1", "field1");
         meta.put("meta2", "field2");
         
+        NaturalKeyDescriptor desc = new NaturalKeyDescriptor();
+        
         Mockito.when(e.getType()).thenReturn("collection");
         Mockito.when(e.getBody()).thenReturn(body);
         Mockito.when(e.getMetaData()).thenReturn(meta);
         
-        Mockito.when(uuidGeneratorStrategy.generateId(null)).thenReturn("uid");
+        Mockito.when(naturalKeyExtractor.getNaturalKeyDescriptor(Mockito.any(Entity.class))).thenReturn(desc);
+        Mockito.when(uuidGeneratorStrategy.generateId(desc)).thenReturn("uid");
         
         DBObject d = converter.convert(e);
-        Assert.assertNotNull(d);
+        Assert.assertNotNull("DBObject should not be null", d);
         
         assertSame(body, (Map<?, ?>) d.get("body"));
         assertSame(meta, (Map<?, ?>) d.get("metaData"));

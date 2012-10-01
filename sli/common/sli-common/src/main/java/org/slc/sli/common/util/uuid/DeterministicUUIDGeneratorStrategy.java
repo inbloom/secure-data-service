@@ -49,11 +49,11 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
 
     @Autowired
     @Qualifier("shardType1UUIDGeneratorStrategy")
-    ShardType1UUIDGeneratorStrategy oldStrategy;
+    ShardType1UUIDGeneratorStrategy uuidStrategy;
 
     @Override
     public String generateId() {
-        return oldStrategy.generateId();
+        return uuidStrategy.generateId();
     }
 
     @Override

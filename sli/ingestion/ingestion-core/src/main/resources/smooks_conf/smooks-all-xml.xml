@@ -2410,12 +2410,18 @@
     <jb:value property="studentId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="sectionId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
     <jb:wiring property="gradebookReference" beanIdRef="studentGradebookEntry_gradebookReference" />
+    <jb:wiring property="studentSectionAssociationReference" beanIdRef="studentGradebookEntry_studentSectionAssociationReference" />
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntry_gradebookReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
     <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
     <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
     <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
+  
+  <jb:bean beanId="studentGradebookEntry_studentSectionAssociationReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:value property="studentId" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <!-- Start StudentProgramAssociation mapping -->
