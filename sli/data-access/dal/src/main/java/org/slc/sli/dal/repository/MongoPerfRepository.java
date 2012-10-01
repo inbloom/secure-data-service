@@ -22,18 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -158,11 +159,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public boolean collectionExists(String collection) {
         return false;  // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void createCollection(String collection) {
-        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

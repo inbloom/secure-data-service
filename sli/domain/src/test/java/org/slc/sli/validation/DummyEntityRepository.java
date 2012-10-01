@@ -20,17 +20,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Mock entity repository for testing purposes
@@ -65,12 +66,6 @@ public class DummyEntityRepository implements Repository<Entity> {
     public boolean collectionExists(String collection) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
