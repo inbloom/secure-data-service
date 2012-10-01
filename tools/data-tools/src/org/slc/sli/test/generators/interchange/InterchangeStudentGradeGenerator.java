@@ -398,6 +398,8 @@ public final class InterchangeStudentGradeGenerator {
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
             Map<String, SectionMeta> sectionMetaMap, InterchangeWriter<InterchangeStudentGrade> writer) {
 
+    	int studentCompetencyObjectiveIdCounter = 0;
+    	
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
@@ -422,7 +424,8 @@ public final class InterchangeStudentGradeGenerator {
                             .getStudentSectionAssociationReference(studentRef, sectionRef);
                     LearningObjectiveReferenceType loRef = new LearningObjectiveReferenceType();
                     LearningObjectiveIdentityType loIdentity = new LearningObjectiveIdentityType();
-                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + reportCardId + "_" + loId);
+                    studentCompetencyObjectiveIdCounter++;
+                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + studentCompetencyObjectiveIdCounter);
                     loRef.setLearningObjectiveIdentity(loIdentity);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
