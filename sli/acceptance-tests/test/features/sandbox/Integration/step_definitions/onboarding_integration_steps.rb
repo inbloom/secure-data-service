@@ -37,6 +37,7 @@ Before do
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db("mreynolds")
+   @sandboxdb = Mongo::Connection.new.db("devldapuser_slidev_org")
    @slidb = Mongo::Connection.new.db("sli")
 end
 
@@ -233,6 +234,12 @@ end
 
 Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
  edOrg_coll=@db["educationOrganization"]
+ edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
+ assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+end
+
+Then /^an "([^"]*)" is saved to sandbox mongo$/ do |arg1|
+ edOrg_coll=@sandboxdb["educationOrganization"]
  edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
 end
