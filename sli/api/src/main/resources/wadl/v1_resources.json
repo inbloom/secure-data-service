@@ -13,6 +13,7 @@
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
         { "path": "/{id}/teacherSectionAssociations" },
+        { "path": "/{id}/gradebookEntries" },
         { "path": "/{id}/teacherSectionAssociations/teachers" }
       ]
     },
