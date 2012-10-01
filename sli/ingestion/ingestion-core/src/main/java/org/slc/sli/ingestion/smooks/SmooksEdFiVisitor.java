@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
@@ -109,9 +108,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 writeAndClearQueuedNeutralRecords();
             }
         } else {
-
             // Indicate Smooks Validation Failure
-            LOG.error("Smooks validation failure at element " + element.getName().toString());
+            LOG.error("Smooks validation failure at element {} --> {}", new Object[] { element.getName().toString(),
+                    terminationError.getMessage() });
 
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
@@ -146,11 +145,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                         queuedWrites.get(entry.getKey()).clear();
                     } catch (DataAccessResourceFailureException darfe) {
                         LOG.error("Exception processing record with entityPersistentHandler", darfe);
-                    } catch (InvalidDataAccessApiUsageException  ex) {
+                    } catch (InvalidDataAccessApiUsageException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
-                    } catch (InvalidDataAccessResourceUsageException  ex) {
+                    } catch (InvalidDataAccessResourceUsageException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
-                    } catch (MongoException  me) {
+                    } catch (MongoException me) {
                         LOG.error("Exception processing record with entityPersistentHandler", me);
                     } catch (UncategorizedMongoDbException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
