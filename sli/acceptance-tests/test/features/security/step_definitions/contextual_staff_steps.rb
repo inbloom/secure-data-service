@@ -178,6 +178,12 @@ When /^I try to access the (data for "[^"]*") in my "[^"]*" from the API$/ do |d
   restHttpGet(dataPath)
 end
 
+Then /^The response contains an empty array$/ do
+  assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
+  result = JSON.parse(@res.body)
+  assert(result.length == 0)
+end
+
 Then /^I get the (data containing "[^"]*") returned in json format$/ do |idArray|
   assert(@res != nil, "Did not receive a response from the API")
   assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")

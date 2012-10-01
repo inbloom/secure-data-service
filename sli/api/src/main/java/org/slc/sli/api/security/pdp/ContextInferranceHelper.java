@@ -25,7 +25,7 @@ public class ContextInferranceHelper {
 
 
     @SuppressWarnings("unchecked")
-	public String getInferredUri(String resource, Entity user) {
+    public String getInferredUri(String resource, Entity user) {
 
         String result = null;
 
@@ -47,9 +47,10 @@ public class ContextInferranceHelper {
                 result = "/" + resource;
             } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/sections/%s/studentSectionAssociations",
-                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
             } else if (ResourceNames.TEACHERS.equals(resource)) {
-                result = String.format("/schools/%s/teacherSchoolAssociations/teachers", StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+                result = String.format("/schools/%s/teacherSchoolAssociations/teachers",
+                        StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/teachers/%s/teacherSchoolAssociations", user.getEntityId());
             } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
