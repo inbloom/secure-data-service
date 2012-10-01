@@ -33,7 +33,6 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | school                                    |
      | schoolSessionAssociation                  |
      | section                                   |
-     | sectionAssessmentAssociation              |
      | sectionSchoolAssociation                  |
      | session                                   |
      | sessionCourseAssociation                  |
@@ -85,7 +84,6 @@ Then I should see following map of entry counts in the corresponding collections
      | school                                      | 0 |
      | schoolSessionAssociation                    | 0 |
      | section                                     | 300 |
-     | sectionAssessmentAssociation                | 0 |
      | sectionSchoolAssociation                    | 0 |
      | session                                     | 10 |
      | sessionCourseAssociation                    | 0 |
