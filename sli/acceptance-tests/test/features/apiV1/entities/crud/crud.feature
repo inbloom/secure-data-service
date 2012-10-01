@@ -224,5 +224,5 @@ Examples:
 | "teacher"                      | "teachers"                | 1 |
 | "grade"                        | "grades"                  | 2 |
 | "studentCompetency"            | "studentCompetencies"     | 2 |
-| "gradingPeriod"                | "gradingPeriods"          | 2 |
+#| "gradingPeriod"                | "gradingPeriods"          | 2 | Commented out due to DE1745, no teacher -> gradingPeriod context resolver
 | "reportCard"                   | "reportCards"             | 1 |
