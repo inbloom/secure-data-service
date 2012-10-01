@@ -36,6 +36,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | attendance                            |
         | calendarDate                          |
         | cohort                                |
+        | competencyLevelDescriptor             |
         | course                                |
         | courseOffering                        |
         | disciplineAction                      |
@@ -80,6 +81,7 @@ Then I should see following map of entry counts in the corresponding collections
         | attendance                  | 75    |
         | calendarDate                | 556   |
         | cohort                      | 3     |
+        | competencyLevelDescriptor   | 6     |
         | course                      | 95    |
         | courseOffering              | 95    |
         | disciplineAction            | 2     |
@@ -170,13 +172,13 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4254 records." in the resulting batch job file
+    And I should see "Processed 4260 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 102" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 102" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 108" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 108" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
@@ -403,6 +405,7 @@ And I check to find if record is in collection:
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
     | collectionName                       | deterministicId                             | field                             | value                                |
+    | competencyLevelDescriptor            | fb623d47656476ad67d8b698ee19d3a1932fd2ea_id | body.codeValue                    | Barely Competent 4                   |
     | educationOrganization                | 261472ed910549ecff6bb731f49362ed4d3fef05_id | body.stateOrganizationId  | IL                                   |
     | assessment                           | 0af135b55da9d8c1cfeb5226836bf40b19f58e8d_id | body.assessmentIdentificationCode.ID  | ACT                              |
     | educationOrganization                | 36465c681a53a77d71e24285d58bf5af9085e537_id | body.stateOrganizationId  | IL-DAYBREAK                          |
@@ -458,6 +461,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.teacherId                      | a965bf003819d48b507749091d282c851dd0507f_id |
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.programAssignment              | Regular Education                    |
     | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.schoolId                       | e479e04449d7a787bb8cce88335d8214f612416a_id |
+# courseOffering
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.schoolId                       | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.sessionId                      | f50d73dc3bbfa3a25bb362a3e225c74162005b4e_id |
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.localCourseCode                | 3rd Grade Homeroom                          |
    | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.studentAcademicRecordId            | 39dc6fb4f73a616c637b48682faba1176ea23950_id                                 |
    | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseId                | 45b19639f02b1f04a88cab31e543ae58adfcbb27_id                                 |
    | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseAttemptResult            | Pass                                 |

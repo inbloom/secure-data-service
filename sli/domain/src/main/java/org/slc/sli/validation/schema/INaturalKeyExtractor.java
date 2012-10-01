@@ -19,36 +19,37 @@ import java.util.Map;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
 /**
  * @author sashton
  */
 public interface INaturalKeyExtractor {
-
+    
     /**
      * Returns a map of natural key field -> value for the given entity
-     *
+     * 
      * @param entity
      * @return
      */
-    public abstract Map<String, String> getNaturalKeys(Entity entity);
-
+    public abstract Map<String, String> getNaturalKeys(Entity entity) throws NoNaturalKeysDefinedException;
+    
     /**
      * Returns a map of natural keys from the schema for the given entity. The key is the field name
      * and the value is a Boolean representing whether the field is optional.
-     *
+     * 
      * @param entity
      *            Entity to inspect
      * @return
      */
-    public abstract Map<String, Boolean> getNaturalKeyFields(Entity entity);
-
+    public abstract Map<String, Boolean> getNaturalKeyFields(Entity entity) throws NoNaturalKeysDefinedException;
+    
     /**
      * Returns a natural key descriptor for the given entity
-     *
+     * 
      * @param entity
      * @return
      */
-    public abstract NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity);
-
+    public abstract NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) throws NoNaturalKeysDefinedException;
+    
 }

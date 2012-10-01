@@ -7373,7 +7373,7 @@
 				competencies.</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>competencyLevelDescriptor</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
 			</xs:appinfo>
 		</xs:annotation>

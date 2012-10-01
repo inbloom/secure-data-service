@@ -26,20 +26,20 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
  * @author sashton
  */
 public class DummyNaturalKeyExtractor implements INaturalKeyExtractor {
-
+    
     @Override
     public Map<String, String> getNaturalKeys(Entity entity) {
         return new HashMap<String, String>();
     }
-
+    
     @Override
     public Map<String, Boolean> getNaturalKeyFields(Entity entity) {
         return new HashMap<String, Boolean>();
     }
-
+    
     @Override
     public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
-        return null;
+        return new NaturalKeyDescriptor();
     }
-
+    
 }

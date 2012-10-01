@@ -30,6 +30,7 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
@@ -49,7 +50,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void testGetNaturalKeyFields() {
+    public void testGetNaturalKeyFields() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         
@@ -61,7 +62,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void testGetNaturalKeyDescriptor() {
+    public void testGetNaturalKeyDescriptor() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         
@@ -76,7 +77,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void testGetNaturalKeys() {
+    public void testGetNaturalKeys() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         
@@ -88,7 +89,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test(expected = NaturalKeyValidationException.class)
-    public void shouldThrowExceptionWhenMissingRequiredKeyField() {
+    public void shouldThrowExceptionWhenMissingRequiredKeyField() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         // remove field so that exception is thrown
@@ -99,7 +100,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void shouldNotThrowExceptionWhenMissingOptionalKeyField() {
+    public void shouldNotThrowExceptionWhenMissingOptionalKeyField() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         
@@ -126,7 +127,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void shouldExtractNestedKeyField() {
+    public void shouldExtractNestedKeyField() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         Map<String, String> parentValue = new HashMap<String, String>();
@@ -166,7 +167,7 @@ public class NaturalKeyExtractorTest {
     }
     
     @Test
-    public void shouldNotExtractNestedKeyFieldWhenParentFieldIsNotANaturalKey() {
+    public void shouldNotExtractNestedKeyFieldWhenParentFieldIsNotANaturalKey() throws NoNaturalKeysDefinedException {
         
         Entity e = setup();
         Map<String, String> parentValue = new HashMap<String, String>();
