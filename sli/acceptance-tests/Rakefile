@@ -113,8 +113,6 @@ def isSystemCollection(collectionName)
     return true
   elsif collectionName == "roles"
     return true
-  elsif collectionName == "customRole"
-    return true
   elsif collectionName == "tenantJobLock"
     return true
   elsif collectionName == "userSession"
@@ -273,9 +271,10 @@ end
 def swap_realm_ids()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
+  @dbTenant = @conn.db(DB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
-  custom_roles = @db.collection('customRole')
+  custom_roles = @dbTenant.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
         {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
@@ -352,8 +351,47 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm"
+  setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer_email_slidev_org"
+  setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator_slidev_org"
+  setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper_slidev_org"
   setFixture("customRole", "customRole_fixture.json", "test/data")
   swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security"
+  setFixture("customRole", "customRole_Security_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork"
+  setFixture("customRole", "customRole_Zork_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  setFixture("customRole", "customRole_Hyrule_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
+  swap_realm_ids()
+
 end
 
 task :appDenialInit do

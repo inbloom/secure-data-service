@@ -113,7 +113,6 @@
     <value>realm</value>
     <value>application</value>
     <value>roles</value>
-    <value>customRole</value>
     <value>tenantJobLock</value>
     <value>userSession</value>
     <value>userAccount</value>
