@@ -58,12 +58,6 @@ public class MockRepo implements Repository<Entity> {
         return false;
     }
 
-    @Override
-    public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
 
     public MockRepo() {
