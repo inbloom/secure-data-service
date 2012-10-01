@@ -55,16 +55,6 @@ public class ContextInferranceHelper {
                 result = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 result = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
-            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
-                result = "/" + resource;
-            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
-                result = "/" + resource;
-            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
-                result = "/" + resource;
-            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
-                result = "/" + resource;
-            } else if (ResourceNames.ASSESSMENTS.equals(resource)) {
-                result = "/" + resource;
             }
             /* 4035 or 4036 endpoints to be implemented
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
