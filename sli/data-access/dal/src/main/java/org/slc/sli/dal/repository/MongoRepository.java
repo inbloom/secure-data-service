@@ -571,15 +571,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.collectionExists(collection);
     }
 
-    @Override
-    /**
-     * This function assumes the collection does not exists
-     *
-     * @author tke
-     */
-    public void createCollection(String collection) {
-        template.createCollection(collection);
-    }
 
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
