@@ -121,6 +121,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     public void processFile(File inFile) {
         // TODO: make sure file is not being written to still
         logger.info("Processing file: " + inFile.getName());
+        // protect from incomplete files
         long size1 = 0L, size2 = 1L;
         while (size1 != size2) {
             size1 = inFile.length();
