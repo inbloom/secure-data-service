@@ -17,7 +17,7 @@ Feature: CompetencyLevelDescriptor Ingestion Test
       | competencyLevelDescriptor   | 1     |
     And I check to find if record is in collection:
       | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
-      | competencyLevelDescriptor   | 1                   | body.description               | Description3            | string               |
+      | competencyLevelDescriptor   | 1                   | body.description               | Description1            | string               |
       | competencyLevelDescriptor   | 1                   | body.codeValue                 | CodeValue1              | string               |
       | competencyLevelDescriptor   | 1                   | body.performanceBaseConversion | Advanced                | string               |
     And I should see "Processed 1 records." in the resulting batch job file
@@ -37,6 +37,7 @@ Feature: CompetencyLevelDescriptor Ingestion Test
     And I check to find if record is in collection:
       | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
       | competencyLevelDescriptor   | 1                   | body.description               | Description3            | string               |
+      | competencyLevelDescriptor   | 0                   | body.description               | Description1            | string               |
       | competencyLevelDescriptor   | 1                   | body.codeValue                 | CodeValue1              | string               |
       | competencyLevelDescriptor   | 1                   | body.description               | Description2            | string               |
       | competencyLevelDescriptor   | 1                   | body.codeValue                 | CodeValue2              | string               |
