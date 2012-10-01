@@ -46,7 +46,7 @@ public class ContextInferranceHelper {
                 result = "/" + resource;
             } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/sections/%s/studentSectionAssociations",
-                        StringUtils.join(sectionHelper.getTeachersSections(user)));
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
             } else if (ResourceNames.TEACHERS.equals(resource)) {
                 result = String.format("/schools/%s/teacherSchoolAssociations/teachers",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
