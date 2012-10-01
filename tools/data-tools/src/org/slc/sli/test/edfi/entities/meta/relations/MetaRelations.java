@@ -115,6 +115,8 @@ public final class MetaRelations {
     public static  int TEACHERS_PER_SECTION = 2;
     public static  int GRADEBOOKENTRY_PER_SECTION=2;
     
+    public static boolean EXCLUDE_PARENTS=false;
+    
     public static boolean School_Ref=false;
     public static boolean Session_Ref=false;  
     public static boolean StateEducationAgency_Ref=false;
@@ -256,7 +258,7 @@ public final class MetaRelations {
         GRADEBOOKENTRY_PER_SECTION = Integer.parseInt(properties.getProperty("GRADEBOOKENTRY_PER_SECTION").trim());
         
         StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR").trim());
-        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS").trim());
+        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS_PER_STUDENT").trim());
         StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT").trim());
         StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT").trim());
         StudentGradeRelations.GRADEBOOK_ENTRIES= Integer.parseInt(properties.getProperty("GRADEBOOK_ENTRIES").trim());
@@ -274,7 +276,8 @@ public final class MetaRelations {
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
         
- 
+        EXCLUDE_PARENTS = Boolean.parseBoolean(properties.getProperty("EXCLUDE_PARENTS").trim());
+        
     	School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref").trim());
 		Session_Ref = Boolean.parseBoolean(properties
