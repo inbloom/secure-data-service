@@ -228,7 +228,8 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffProgramAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations" },
-        { "path": "/{id}/staffCohortAssociations/cohorts" }
+        { "path": "/{id}/staffCohortAssociations/cohorts" },
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
     {
