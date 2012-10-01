@@ -60,6 +60,25 @@ public class EntityRepositoryTest {
     private Repository<Entity> repository;
 
     @Test
+    public void testDeleteAll() {
+        repository.deleteAll("student", null);
+
+        Map<String, Object> studentMap = buildTestStudentEntity();
+        studentMap.put("firstName", "John");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", studentMap);
+        assertEquals(5, repository.count("student", new NeutralQuery()));
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
+        repository.deleteAll("student", neutralQuery);
+        assertEquals(4, repository.count("student", new NeutralQuery()));
+        repository.deleteAll("student", null);
+    }
+
+    @Test
     public void testCRUDEntityRepository() {
 
         // clean up the existing student data
