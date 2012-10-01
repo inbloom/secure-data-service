@@ -1,14 +1,15 @@
 package org.slc.sli.api.security.pdp;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Component
 public class ContextInferranceHelper {
@@ -48,7 +49,7 @@ public class ContextInferranceHelper {
                 result = String.format("/sections/%s/studentSectionAssociations",
                         StringUtils.join(sectionHelper.getTeachersSections(user)));
             } else if (ResourceNames.TEACHERS.equals(resource)) {
-                result = String.format("/schools/%s/teacherSchoolAssociations/teachers", "TODO");
+                result = String.format("/schools/%s/teacherSchoolAssociations/teachers", StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/teachers/%s/teacherSchoolAssociations", user.getEntityId());
             } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
@@ -122,7 +123,7 @@ public class ContextInferranceHelper {
                 result = String.format("/schools/%s/sections", ids);
             } else if (ResourceNames.STAFF.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-                result = String.format("/educationOrganizations/%s/staffEducationOrganizationsAssociations/staff", ids);
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", ids);
             } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations", actorId);
             } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
