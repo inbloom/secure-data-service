@@ -155,4 +155,5 @@ public final class ResourceNames {
     }
 
 
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
 }
