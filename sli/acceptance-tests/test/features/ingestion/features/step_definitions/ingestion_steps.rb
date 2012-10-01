@@ -1655,6 +1655,7 @@ Then /^I should not see an error log file created$/ do
     @error_status_filename = ""
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex(@error_filename_component))
+        puts File.open(@landing_zone_path + entry).read
         # LAST ENTRY IS OUR FILE
         @error_status_filename = entry
       end

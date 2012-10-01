@@ -96,6 +96,24 @@
         </executions>
       </plugin>
 
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+            <webResources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>true</filtering>
+                    <targetPath>META-INF</targetPath>
+                    <includes>
+                        <include>**/SLI_metadata.txt</include>
+                    </includes>
+                </resource>
+            </webResources>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
