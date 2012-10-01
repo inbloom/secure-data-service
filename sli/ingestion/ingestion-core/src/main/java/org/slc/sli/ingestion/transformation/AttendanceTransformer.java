@@ -27,14 +27,11 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -42,7 +39,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -52,7 +55,7 @@ import org.slc.sli.domain.Entity;
  */
 @Scope("prototype")
 @Component("attendanceTransformationStrategy")
-public class AttendanceTransformer extends AbstractTransformationStrategy {
+public class AttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware{
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
     private static final String ATTENDANCE = "attendance";
@@ -61,8 +64,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
 
+    private int numAttendancesIngested = 0;
+
     private Map<Object, NeutralRecord> attendances;
 
+    private MessageSource messageSource;
     @Autowired
     private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
 
@@ -151,7 +157,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
         }
 
-        int numAttendanceIngested = 0;
         if (studentSchoolAttendanceEvents.size() > 0) {
             LOG.info("Discovered {} student-school associations from attendance events",
                     studentSchoolAttendanceEvents.size());
@@ -161,7 +166,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 List<Map<String, Object>> attendance = entry.getValue();
                 String studentId = studentSchoolPair.getLeft();
                 String schoolId = studentSchoolPair.getRight();
-                numAttendanceIngested += transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+                transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
             }
         }
 
@@ -179,17 +184,17 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 } else {
                     NeutralRecord school = schools.get(0);
                     String schoolId = (String) school.getAttributes().get("stateOrganizationId");
-                    numAttendanceIngested += transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+                    transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
                 }
             }
 
         }
 
         long numAttendance = attendances.size();
-        if (numAttendance != numAttendanceIngested) {
-            long remainingAttendances = numAttendance - numAttendanceIngested;
+        if (numAttendance != numAttendancesIngested) {
+            long remainingAttendances = numAttendance - numAttendancesIngested;
             super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning(Long.toString(remainingAttendances) + " attendance events are not processed, because they are not within any school year", this);
+                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG1",Long.toString(remainingAttendances) ) , this);
         }
 
         LOG.info("Finished transforming attendance data");
@@ -206,7 +211,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * @param attendance
      *            List of transformed attendance events.
      */
-    private int transformAndPersistAttendanceEvents(String studentId, String schoolId,
+    private void transformAndPersistAttendanceEvents(String studentId, String schoolId,
             List<Map<String, Object>> attendance) {
         Map<Object, NeutralRecord> sessions = getSessions(schoolId);
 
@@ -220,26 +225,23 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             placeholder.setCreationTime(getWorkNote().getRangeMinimum());
             insertRecord(placeholder);
         } catch (DuplicateKeyException dke) {
-            LOG.warn("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
+            LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG2"));
         }
 
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions, studentId, schoolId);
 
-        int numAttendances = 0;
         if (schoolYears.entrySet().size() > 0) {
             for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
                 String schoolYear = attendanceEntry.getKey();
                 List<Map<String, Object>> events = attendanceEntry.getValue();
 
-                numAttendances += events.size();
-                
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
-                
+
                 Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
                 attendanceEventsToPush.put("body.schoolYearAttendance.$.attendanceEvent", events.toArray());
                 Map<String, Object> update = new HashMap<String, Object>();
@@ -248,10 +250,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                         ATTENDANCE_TRANSFORMED, getBatchJobId());
                 LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
             }
-            return numAttendances;
         } else {
-            LOG.warn("No daily attendance for student: {} in school: {}", studentId, schoolId);
-            return 0;
+            LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG3", studentId, schoolId));
         }
     }
 
@@ -308,7 +308,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 STUDENT_SCHOOL_ASSOCIATION, query);
-        
+
         if (associations != null) {
             List<String> schoolIds = new ArrayList<String>();
             for (NeutralRecord association : associations) {
@@ -509,18 +509,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     events.add(event);
                 }
             }
-            
-            if (events.size() > 0 ) {
+
+            int eventSize = events.size();
+            if (eventSize > 0 ) {
+                numAttendancesIngested += eventSize;
                 stageSchoolYearAttendances.add(new SchoolYearAttendance(schoolYear, events));
             }
         }
         if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
             super.getErrorReport(attendances.values().iterator().next().getSourceFile())
-                .warning("No session found to handle attendance for student: {"+studentId+"} in school: {"+schoolId+"}", this);
+                .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG4",studentId,schoolId), this);
         }
 
         // Step 2: retrieve sli SchoolYearAttendances
-        Set<SchoolYearAttendance> sliSchoolYearAttendances = getSliSchoolYearAttendances(studentId, schoolId);        
+        Set<SchoolYearAttendance> sliSchoolYearAttendances = getSliSchoolYearAttendances(studentId, schoolId);
         // Step 3: merge sli and staging SchoolYearAttendances
         Set<SchoolYearAttendance> mergedAttendances = mergeSchoolYearAttendance(sliSchoolYearAttendances, stageSchoolYearAttendances);
         Map<String, List<Map<String, Object>>> schoolYears = new HashMap<String, List<Map<String, Object>>>();
@@ -529,7 +531,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         return schoolYears;
     }
-    
+
     /**
      * Merge the sets of SchoolYearAttendance from SLI and stage.
      *
@@ -539,13 +541,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      *            Set containing SchoolYearAttendance from stage.
      * @return Set containing SchoolYearAttendance merged from both.
      */
-    private Set<SchoolYearAttendance> mergeSchoolYearAttendance(Set<SchoolYearAttendance> sliSchoolYearAttendances, 
+    private Set<SchoolYearAttendance> mergeSchoolYearAttendance(Set<SchoolYearAttendance> sliSchoolYearAttendances,
                                                                 Set<SchoolYearAttendance> stageSchoolYearAttendances) {
-        if (sliSchoolYearAttendances.size() == 0) 
+        if (sliSchoolYearAttendances.size() == 0) {
             return stageSchoolYearAttendances;
-        if (stageSchoolYearAttendances.size() == 0) 
+        }
+        if (stageSchoolYearAttendances.size() == 0) {
             return sliSchoolYearAttendances;
-        
+        }
+
         Set<SchoolYearAttendance> newSchoolYearAttendances = new HashSet<SchoolYearAttendance>();
         for (SchoolYearAttendance stageSchoolYearAttendance : stageSchoolYearAttendances) {
             boolean merged = false;
@@ -577,9 +581,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * @return Set containing SchoolYearAttendance retrieved from SLI.
      */
     @SuppressWarnings("unchecked")
-    private Set<SchoolYearAttendance> getSliSchoolYearAttendances(String studentUniqueStateId, String stateOrganizationId) { 
+    private Set<SchoolYearAttendance> getSliSchoolYearAttendances(String studentUniqueStateId, String stateOrganizationId) {
         Set<SchoolYearAttendance> attendances = new HashSet<SchoolYearAttendance>();
-        
+
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
         Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
@@ -587,7 +591,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         if(studentEntity != null) {
             studentEntityId = studentEntity.getEntityId();
         } else {
-            return attendances;            
+            return attendances;
         }
 
         NeutralQuery schoolQuery = new NeutralQuery(0);
@@ -597,7 +601,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         if(schoolEntity != null) {
             schoolEntityId = schoolEntity.getEntityId();
         } else {
-            return attendances;            
+            return attendances;
         }
 
         NeutralQuery attendanceQuery = new NeutralQuery(0);
@@ -605,21 +609,21 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         attendanceQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
         Entity attendanceEntity = getMongoEntityRepository().findOne(EntityNames.ATTENDANCE, attendanceQuery);
         if(attendanceEntity == null) {
-            return attendances;            
-        }        
-        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)attendanceEntity.getBody().get("schoolYearAttendance");       
-        if (schoolYearAttendance == null || schoolYearAttendance.size() == 0) {
-            return attendances;            
+            return attendances;
         }
-        
+        List<Map<String,Object>> schoolYearAttendance = (List<Map<String,Object>>)attendanceEntity.getBody().get("schoolYearAttendance");
+        if (schoolYearAttendance == null || schoolYearAttendance.size() == 0) {
+            return attendances;
+        }
+
         for (Map<String,Object> yearAttendance : schoolYearAttendance) {
             String schoolYear = (String)yearAttendance.get("schoolYear");
             List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>)yearAttendance.get("attendanceEvent");
             if (attendanceEvent.size() > 0) {
                 attendances.add(new SchoolYearAttendance(schoolYear, attendanceEvent));
             }
-        }        
-        return attendances;            
+        }
+        return attendances;
     }
 
     private Entity getSliSchool(String stateOrganizationId) {
@@ -671,25 +675,40 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return sessionRecords;
     }
 
+    /*
+     * This function only concatenate 2 lists sessions of the same school. Since the keys for sessions are schoolId
+     * and session name, this functions only needs to distinguish sessions via sessionName.
+     */
     private Iterable<NeutralRecord> concat(List<NeutralRecord> first, List<NeutralRecord> second) {
         List<NeutralRecord> res = new ArrayList<NeutralRecord>();
         res.addAll(first);
-        res.addAll(second);
+        Set<String> sessions = new HashSet<String>();
+        for(NeutralRecord record : first) {
+            sessions.add((String) record.getAttributes().get("sessionName"));
+        }
+        for(NeutralRecord record : second) {
+            String sKey = (String) record.getAttributes().get("sessionName");
+            if(!sessions.contains(sKey)) {
+                sessions.add(sKey);
+                res.add(record);
+            }
+        }
         return res;
     }
 
     class SchoolYearAttendance {
         private String schoolYear;
         private List<Map<String, Object>> attendanceEvent;
-        
+
         public SchoolYearAttendance(String schoolYear, List<Map<String, Object>> attendanceEvent) {
             this.schoolYear = schoolYear;
             this.attendanceEvent = attendanceEvent;
         }
-        
+
         public void mergeAndUpdateAttendanceEvent(SchoolYearAttendance obj) {
-            if (!sameSchoolYear(obj)) 
+            if (!sameSchoolYear(obj)) {
                 return;
+            }
             for (Map<String, Object> stageAttendance : obj.attendanceEvent) {
                 for (Map<String, Object> sliAttendance : this.attendanceEvent) {
                     Object sliEvent =sliAttendance.get("event");
@@ -702,7 +721,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                         //remove matched to prevent duplicated
                         this.attendanceEvent.remove(sliAttendance);
                         break;
-                    }                    
+                    }
                 }
             }
             List<Map<String, Object>> mergedAttendanceEvent = new ArrayList<Map<String, Object>>();
@@ -710,20 +729,26 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             mergedAttendanceEvent.addAll(obj.attendanceEvent);
             this.attendanceEvent = mergedAttendanceEvent;
         }
-        
+
         public boolean sameSchoolYear(SchoolYearAttendance obj) {
-            return obj.schoolYear!=null && obj.schoolYear.equals(this.schoolYear);            
+            return obj.schoolYear!=null && obj.schoolYear.equals(this.schoolYear);
         }
-        
+
         public String getSchoolYear() {
             return this.schoolYear;
         }
         public List<Map<String, Object>> getAttendanceEvent() {
             return this.attendanceEvent;
         }
+        @Override
         public String toString() {
             return "schoolYear:"+schoolYear+",attendanceEvent:"+attendanceEvent;
         }
-        
+
      }
+
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }
