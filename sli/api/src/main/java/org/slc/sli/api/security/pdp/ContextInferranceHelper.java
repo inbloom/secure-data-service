@@ -116,9 +116,6 @@ public class ContextInferranceHelper {
             } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/teacherSchoolAssociations", ids);
-            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
-                result = String.format("/schools/%s/teacherSectionAssociations", ids);
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/sections", ids);
@@ -130,7 +127,7 @@ public class ContextInferranceHelper {
             } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffEducationOrgAssignmentAssociations", actorId);
             } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
-                result = String.format("/staff/%s/staffProgramsAssociations", actorId);
+                result = String.format("/staff/%s/staffProgramAssociations", actorId);
             } else if (ResourceNames.STUDENTS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students", ids);
@@ -142,6 +139,9 @@ public class ContextInferranceHelper {
             }
 
             /* 4035 or 4036 endpoints to be implemented
+            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+                String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+                result = String.format("/schools/%s/teacherSectionAssociations", ids);
             } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students/studentSectionAssociations", ids);
