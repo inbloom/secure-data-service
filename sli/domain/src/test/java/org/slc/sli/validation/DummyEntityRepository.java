@@ -41,6 +41,15 @@ import org.slc.sli.domain.Repository;
 public class DummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
+    private boolean existsAlwaysTrue;
+
+    public DummyEntityRepository() {
+        this(false);
+    }
+
+    public DummyEntityRepository(boolean existsAlwaysTrue) {
+        this.existsAlwaysTrue = existsAlwaysTrue;
+    }
 
     public void clean() {
         entities = new HashMap<String, Map<String, Entity>>();
@@ -80,8 +89,8 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public boolean update(String collection, Entity entity) {
-        // TODO Auto-generated method stub
-        return false;
+        addEntity(collection, entity.getEntityId(), entity);
+        return true;
     }
 
     @Override
@@ -145,6 +154,9 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public boolean exists(String collectionName, String id) {
+        if (existsAlwaysTrue) {
+            return true;
+        }
         Map<String, Entity> collection = entities.get(collectionName);
         if (collection.get(id) == null) {
             return false;
