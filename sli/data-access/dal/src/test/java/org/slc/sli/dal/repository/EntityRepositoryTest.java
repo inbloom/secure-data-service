@@ -31,6 +31,8 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -394,6 +396,28 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         repository.create("student", studentBody, studentMetaData, "student");
         assertEquals(1, repository.count("student", new NeutralQuery()));
+    }
+
+    @Test
+    public void testCreateRetryWithError() {
+
+        Repository<Entity> mockRepo = Mockito.spy(repository);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        int noOfRetries = 5;
+
+        Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
+            .create("student", null, studentBody, studentMetaData, "student");
+        Mockito.doCallRealMethod().when(mockRepo)
+            .createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
+
+        try {
+            mockRepo.createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
+        } catch (MongoException ex) {
+            assertEquals(ex.getMessage(), "Test Exception");
+        }
+
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test
