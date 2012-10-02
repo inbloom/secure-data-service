@@ -129,18 +129,30 @@ end
 # Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
   # version + uri + Transform(template) + uri2
 # end
-
-
-Then /^I should receive at least one link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
+Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
+  step "in an entity, I should receive a link named \"#{arg1}\""
+end
+Then /^I should receive a link named "([^"]*)"$/ do |arg1|
+  step "in an entity, I should receive a link named \"#{arg1}\""
+end
+Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
+  @result = JSON.parse(@res.body)
   found = false
-  @result.each do |result|
-    assert(result.has_key?("links"), "Response contains no links")
-    result["links"].each do |link|
-      #puts link["rel"]
-      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+  @result = [@result] unless @result.is_a? Array
+  @result.each do |entity|
+    puts entity
+    assert(entity.has_key?("links"), "Response contains no links")
+    entity["links"].each do |link|
+      if link["rel"] == arg1
+        @the_link = link['href']
         found = true
       end
     end
   end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+  assert(found, "Link not found rel=#{arg1}")  
 end
+
+When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
+   restHttpGetAbs(@the_link)
+end
+

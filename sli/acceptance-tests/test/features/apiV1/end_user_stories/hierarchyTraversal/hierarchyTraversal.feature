@@ -26,29 +26,29 @@ Scenario: Traverse from parent education organization through child education or
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
     When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
     Then I should receive a return code of 200
-       And I should receive a link named "getSessions" with URI "/v1/sessions?schoolId=<'SCHOOL' ID>"
-    When I navigate to GET "/v1/sessions?schoolId=<'SCHOOL' ID>"
+       And I should receive a link named "getSessions"
+    When I navigate to GET the link named "getSessions"
     Then I should receive a return code of 200
-         And in an entity, I should receive a link named "self" with URI "/v1/sessions/<'SESSION' ID>"
-    When I navigate to GET "/v1/sessions/<'SESSION' ID>"
+         And in an entity, I should receive a link named "self" 
+    When I navigate to GET the link named "self"
     Then I should receive a return code of 200
-        And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SESSION' ID>/courseOfferings"
-    When I navigate to GET "/v1/sessions/<'SESSION' ID>/courseOfferings"
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>"
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
     Then I should receive a return code of 200
-        And I should receive a link named "getCourse" with URI "/v1/courses/<'COURSE' ID>"
-    When I navigate to GET "/v1/courses/<'COURSE' ID>"
+        And I should receive a link named "getCourse"
+    When I navigate to GET the link named "getCourse" 
     Then I should receive a return code of 200
-        And I should receive a link named "getCourseOfferings" with URI "/v1/courses/<'COURSE' ID>/courseOfferings"
-    When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
     Then I should receive a return code of 200
-        And I should receive a collection link named "getSections" with URI "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
-    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
+        And I should receive a collection link named "getSections"
+    When I navigate to GET the link named "getSections"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/sections/<'SECTION' ID>"
-    When I navigate to GET "/v1/sections/<'SECTION' ID>"
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
     Then I should receive a return code of 200
         And I should receive a link named "getTeacherSectionAssociations" with URI "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
     When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
