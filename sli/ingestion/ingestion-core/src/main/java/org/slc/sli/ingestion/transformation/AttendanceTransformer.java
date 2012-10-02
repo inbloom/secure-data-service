@@ -69,6 +69,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private Map<Object, NeutralRecord> attendances;
 
     private MessageSource messageSource;
+
     @Autowired
     private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
 
@@ -493,6 +494,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             Map<Object, NeutralRecord> sessions, String studentId, String schoolId) {
         // Step 1: prepare stageing SchoolYearAttendances
         Set<SchoolYearAttendance> stageSchoolYearAttendances = new HashSet<SchoolYearAttendance>();
+        Set<Integer> processedAttendances = new HashSet<Integer>();
+
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
@@ -509,15 +512,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 if (DateTimeUtil.isLeftDateBeforeRightDate(sessionBegin, date)
                         && DateTimeUtil.isLeftDateBeforeRightDate(date, sessionEnd)) {
                     events.add(event);
+
+                    //Only count one attendance event once.
+                    processedAttendances.add(i);
                 }
             }
 
             int eventSize = events.size();
             if (eventSize > 0 ) {
-                numAttendancesIngested += eventSize;
                 stageSchoolYearAttendances.add(new SchoolYearAttendance(schoolYear, events));
             }
         }
+
+        numAttendancesIngested += processedAttendances.size();
+
         if (sessions.entrySet().size() == 0 && attendance.size() > 0) {
             super.getErrorReport(attendances.values().iterator().next().getSourceFile())
                 .warning(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG4",studentId,schoolId), this);
