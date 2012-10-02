@@ -51,6 +51,8 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
+    puts "innerhtml == " + panel.attribute('innerHTML').to_s
+    puts "is text found? " + (panel.attribute('innerHTML').include? panelName).to_s
     if (panel.attribute('innerHTML').include? panelName)  
       found = true
       panel.click
@@ -74,7 +76,7 @@ When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, lis
   
   @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
   actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
-  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} Actual: #{actualPanels.length.to_s}")
+  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")
   
   expectedPanels.each do |expectedPanel|
     found = false
