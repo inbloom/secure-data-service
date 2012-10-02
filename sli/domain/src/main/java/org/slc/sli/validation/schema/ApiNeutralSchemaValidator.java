@@ -1,144 +1,163 @@
 package org.slc.sli.validation.schema;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.mongodb.DBObject;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This validator is used to get the naturalKeyFields for an entity.
  * This validator applies specifically to the API CRUD operations,
  * as the natural keys are not currently applicable for ingestion.
- *
+ * 
  * @author John Cole <jcole@wgen.net>
- *
+ * 
  */
 public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ApiNeutralSchemaValidator.class);
+    
+    @Autowired
+    INaturalKeyExtractor naturalKeyExtractor;
+    
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {
         validateNaturalKeys(entity);
         return super.validate(entity);
     }
-
-    /**
-     * Returns a list of natural keys from the schema for the given entity
-     * @param entity Entity to inspect
-     * @return
-     */
-    protected List<String> getNaturalKeyFields(Entity entity) {
-
-        List<String> naturalKeyFields = new ArrayList<String>();
-
-        NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
-        if (schema != null) {
-
-            AppInfo appInfo = schema.getAppInfo();
-            if (appInfo != null) {
-                if (appInfo.applyNaturalKeys()) {
-                    Map<String, NeutralSchema> fields = schema.getFields();
-                    for (Iterator<Map.Entry<String, NeutralSchema>> i = fields.entrySet().iterator(); i.hasNext();) {
-                        Map.Entry entry = i.next();
-                        String field = (String) entry.getKey();
-                        NeutralSchema fieldSchema = (NeutralSchema) entry.getValue();
-
-                        AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
-                        if (fieldsAppInfo != null) {
-                            if (fieldsAppInfo.isNaturalKey()) {
-                                naturalKeyFields.add(field);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return naturalKeyFields;
-    }
-
+    
     /**
      * Validates natural keys against a given entity
+     * 
      * @param entity
      * @return
      */
     protected void validateNaturalKeys(final Entity entity) {
         String collectionName = entity.getType();
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
-
+        
         if (schema != null && schema.getAppInfo() != null && schema.getAppInfo().getCollectionType() != null) {
             collectionName = schema.getAppInfo().getCollectionType();
         }
-
+        
         boolean recordMatchingKeyFields = false;
-        List<String> naturalKeyList = getNaturalKeyFields(entity);
-
-        if (naturalKeyList != null && naturalKeyList.size() != 0) {
-
+        
+        // TODO - a lot of this can be removed with deterministicIds given that we will no
+        // longer support updates of key fields
+        
+        Map<String, Boolean> naturalKeys = new HashMap<String, Boolean>();
+        try {
+            naturalKeys = naturalKeyExtractor.getNaturalKeyFields(entity);
+        } catch (NaturalKeyValidationException e) {
+            // swallow exception. if there are missing keys fields,
+            // they will be validated in the validate method
+            return;
+        } catch (NoNaturalKeysDefinedException e) {
+            // swallow exception. if there are missing keys fields,
+            // they will be validated in the validate method
+            LOG.error(e.getMessage(), e);
+            return;
+        }
+        
+        if (naturalKeys != null && naturalKeys.size() != 0) {
+            
             Map<String, Object> newEntityBody = entity.getBody();
             boolean possibleMatch = true;
             String entityId = entity.getEntityId();
-
+            
             // if we have an existing entityId, then we're doing an update. Check to
             // make sure that there is no existing entity with the new key fields of the entity
             if (entityId != null && !entityId.isEmpty()) {
                 possibleMatch = false;
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "=", entity.getEntityId()));
-                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, entity.getMetaData().get("tenantId"), false));
-
+                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                        entity.getMetaData().get("tenantId"), false));
+                
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
-                    for (String key : naturalKeyList) {
-
+                    for (Entry<String, Boolean> keyField : naturalKeys.entrySet()) {
+                        
                         Map<String, Object> existingBody = existingEntity.getBody();
-                        Object value = existingBody.get(key);
-                        if (!newEntityBody.containsKey(key)) {
-                            newEntityBody.put(key, value);
-                        } else {
-                            String existingValueString = value.toString();
-                            String newValueString = newEntityBody.get(key).toString();
-
-                            // if all values are equal, then we're ok - as we're just trying to catch
-                            // the case where a key field has been changed, and check the new target
-                            if (!existingValueString.equals(newValueString)) {
-                                possibleMatch = true;
+                        try {
+                            Object value = PropertyUtils.getProperty(existingBody, keyField.getKey());
+                            Object existingValue = PropertyUtils.getProperty(newEntityBody, keyField.getKey());
+                            if (existingValue == null) {
+                                PropertyUtils.setProperty(newEntityBody, keyField.getKey(), value);
+                            } else {
+                                Object newEntityValue = newEntityBody.get(keyField.getKey());
+                                
+                                // if all values are equal, then we're ok - as we're just trying to
+                                // catch
+                                // the case where a key field has been changed, and check the new
+                                // target
+                                if (!compare(value, newEntityValue)) {
+                                    possibleMatch = true;
+                                }
                             }
+                        } catch (IllegalAccessException e) {
+                            LOG.error(e.getMessage(), e);
+                        } catch (InvocationTargetException e) {
+                            LOG.error(e.getMessage(), e);
+                        } catch (NoSuchMethodException e) {
+                            LOG.error(e.getMessage(), e);
                         }
                     }
                 }
             }
-
-            // At this point we either have a possible match on the entity to create or the new key fields of the entity we're updating
+            
+            // At this point we either have a possible match on the entity to create or the new key
+            // fields of the entity we're updating
             if (possibleMatch) {
                 NeutralQuery neutralQuery = new NeutralQuery();
-                for (String key : naturalKeyList) {
-                    neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, newEntityBody.get(key)));
+                for (Entry<String, Boolean> keyField : naturalKeys.entrySet()) {
+                    neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
+                            newEntityBody.get(keyField.getKey())));
                 }
-                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, entity.getMetaData().get("tenantId"), false));
-
+                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                        entity.getMetaData().get("tenantId"), false));
+                
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
                     recordMatchingKeyFields = true;
                 }
             }
         }
-
+        
         if (recordMatchingKeyFields) {
             if (entity.getEntityId() != null && !entity.getEntityId().isEmpty()) {
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
             } else {
-                throw new NaturalKeyValidationException(entity.getType(), naturalKeyList);
+                throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeys.keySet()));
             }
         }
-
+        
     }
-
+    
+    private boolean compare(Object existingObject, Object newObject) {
+        if (existingObject == null && newObject == null) {
+            return true;
+        } else if (existingObject instanceof DBObject) {
+            return ((DBObject) existingObject).toMap().equals(newObject);
+        } else {
+            return existingObject.equals(newObject);
+        }
+    }
 }

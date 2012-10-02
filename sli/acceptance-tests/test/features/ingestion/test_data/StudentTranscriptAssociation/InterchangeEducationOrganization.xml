@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 
   <Course>
     <CourseTitle>Algebra-10</CourseTitle>
@@ -17,8 +15,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Algebra-10-1</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>Geometry-10</CourseTitle>
@@ -35,7 +33,7 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Geometry-10-2</UniqueCourseId></Course>
   
 </InterchangeEducationOrganization>

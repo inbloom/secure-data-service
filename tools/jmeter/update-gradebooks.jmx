@@ -36,12 +36,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="loginId" elementType="Argument">
             <stringProp name="Argument.name">loginId</stringProp>
-            <stringProp name="Argument.value">jstevenson</stringProp>
+            <stringProp name="Argument.value">${__P(staffIdLogin.1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loginPassword" elementType="Argument">
             <stringProp name="Argument.name">loginPassword</stringProp>
-            <stringProp name="Argument.value">jstevenson1234</stringProp>
+            <stringProp name="Argument.value">${__P(staffIdPassword.1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -66,7 +66,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="sectionCode" elementType="Argument">
               <stringProp name="Argument.name">sectionCode</stringProp>
-              <stringProp name="Argument.value">CAP0-D0-HS0-1-2-sec0</stringProp>
+              <stringProp name="Argument.value">${__P(sectionId.1)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Mrs. Braverman&apos;s Homeroom #38</stringProp>
             </elementProp>
@@ -132,7 +132,7 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{    &#xd;
 &quot;sectionId&quot;: &quot;${sectionId}&quot;,&#xd;
-&quot;dateAssigned&quot;: &quot;2011-09-15&quot;,&#xd;
+&quot;dateAssigned&quot;: &quot;2011-09-${dayOfMonth}&quot;,&#xd;
 &quot;gradebookEntryType&quot;: &quot;Assignment&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -156,6 +156,16 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.end">30</stringProp>
+            <stringProp name="CounterConfig.incr">1</stringProp>
+            <stringProp name="CounterConfig.name">dayOfMonth</stringProp>
+            <stringProp name="CounterConfig.format">00</stringProp>
+            <boolProp name="CounterConfig.per_user">false</boolProp>
+            <stringProp name="TestPlan.comments">Used to randomize the date since we can&apos;t have two gradebook entries on the same date</stringProp>
+          </CounterConfig>
+          <hashTree/>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Location Header" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">true</stringProp>
             <stringProp name="RegexExtractor.refname">gradebookId</stringProp>
@@ -219,6 +229,7 @@ log.info(&quot;Looked up &quot; + resp.length + &quot; students in  &quot; + var
 students = [];
 for (var i = 0; i &lt; resp.length; i++) {
   vars.put(&quot;students_&quot; + (i+1), resp[i].studentId);
+  vars.put(&quot;assocId_&quot; + (i+1), resp[i].id); //map student ID to assoc id
 }</stringProp>
           </BSFPostProcessor>
           <hashTree/>
@@ -240,6 +251,7 @@ for (var i = 0; i &lt; resp.length; i++) {
     &quot;letterGradeEarned&quot;: &quot;A+&quot;,&#xd;
     &quot;sectionId&quot;: &quot;${sectionId}&quot;,&#xd;
     &quot;studentId&quot;: &quot;${studentId}&quot;,&#xd;
+    &quot;studentSectionAssociationId&quot; : &quot;${__V(assocId_${assocIdCount})}&quot;,&#xd;
     &quot;dateFulfilled&quot;: &quot;2011-10-13&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -272,6 +284,16 @@ for (var i = 0; i &lt; resp.length; i++) {
             </HeaderManager>
             <hashTree/>
           </hashTree>
+          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.end"></stringProp>
+            <stringProp name="CounterConfig.incr">1</stringProp>
+            <stringProp name="CounterConfig.name">assocIdCount</stringProp>
+            <stringProp name="CounterConfig.format"></stringProp>
+            <boolProp name="CounterConfig.per_user">true</boolProp>
+            <stringProp name="TestPlan.comments">Used to keep track of associations since we need to include the assoc reference</stringProp>
+          </CounterConfig>
+          <hashTree/>
         </hashTree>
       </hashTree>
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">

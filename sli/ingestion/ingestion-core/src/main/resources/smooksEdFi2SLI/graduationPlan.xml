@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="graduationPlans" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="graduationPlan" />
+    </jb:bean>
+
+    <jb:bean beanId="graduationPlan" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'graduationPlan'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="graduationPlanMetaData" />
+        <jb:wiring property="body" beanIdRef="graduationPlanBody" />
+    </jb:bean>
+
+    <jb:bean beanId="graduationPlanMetaData" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="attributes localId" />
+    </jb:bean>
+
+    <jb:bean beanId="graduationPlanBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="individualPlan" data="attributes individualPlan" decoder="Boolean" />
+        <jb:value property="graduationPlanType" data="attributes graduationPlanType" />
+        <jb:wiring property="totalCreditsRequired" beanIdRef="GraduationPlan_TotalCreditsRequired" />
+        <jb:wiring property="creditsBySubject" beanIdRef="GraduationPlan_CreditsBySubjectArray" />
+        <jb:wiring property="creditsByCourse" beanIdRef="GraduationPlan_CreditsByCourseArray" />
+        <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+    </jb:bean>
+
+  <!-- Start TotalCreditsRequired -->
+  <jb:bean beanId="GraduationPlan_TotalCreditsRequired" class="java.util.HashMap"
+           createOnElement="attributes totalCreditsRequired">
+      <jb:value property="credit" data="attributes totalCreditsRequired credit" decoder="Double" />
+      <jb:value property="creditType" data="attributes totalCreditsRequired creditType" />
+      <jb:value property="creditConversion" data="attributes totalCreditsRequired creditConversion"
+                decoder="Double" />
+  </jb:bean>
+
+  <!-- Start CreditsBySubject -->
+  <jb:bean beanId="GraduationPlan_CreditsBySubjectArray" class="java.util.ArrayList"
+           createOnElement="attributes">
+      <jb:wiring beanIdRef="GraduationPlan_CreditsBySubject" />
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsBySubject" class="java.util.HashMap"
+           createOnElement="attributes creditsBySubject element">
+      <jb:wiring property="credits" beanIdRef="GraduationPlan_CreditsBySubject_Credits" />
+      <jb:value property="subjectArea" data="attributes creditsBySubject element subjectArea" />
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsBySubject_Credits" class="java.util.HashMap"
+           createOnElement="attributes creditsBySubject element credits">
+      <jb:value property="credit" data="attributes creditsBySubject element credits credit" decoder="Double" />
+      <jb:value property="creditType" data="attributes creditsBySubject element credits creditType" />
+      <jb:value property="creditConversion" data="attributes creditsBySubject element credits creditConversion"
+                decoder="Double"/>
+  </jb:bean>
+  <!-- End CreditsBySubject -->
+
+  <!-- Start CreditsByCourse -->
+  <jb:bean beanId="GraduationPlan_CreditsByCourseArray" class="java.util.ArrayList"
+           createOnElement="attributes">
+      <jb:wiring beanIdRef="GraduationPlan_CreditsByCourse" />
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsByCourse" class="java.util.HashMap"
+           createOnElement="attributes creditsByCourse element">
+      <jb:wiring property="credits" beanIdRef="GraduationPlan_CreditsByCourse_Credits" />
+      <jb:value property="gradeLevel" data="attributes creditByCourse element gradeLevel" />
+      <jb:wiring property="courseCode" beanIdRef="GraduationPlan_CreditsByCourse_CourseCodeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsByCourse_Credits" class="java.util.HashMap"
+           createOnElement="attributes creditsByCourse element credits element">
+      <jb:value property="credit" data="attributes creditsByCourse element credits credit" decoder="Double" />
+      <jb:value property="creditType" data="attributes creditsByCourse element credits creditType" />
+      <jb:value property="creditConversion" data="attributes creditsByCourse element credits creditConversion"
+                decoder="Double"/>
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsByCourse_CourseCodeArray" class="java.util.ArrayList"
+           createOnElement="attributes creditsByCourse element">
+      <jb:wiring beanIdRef="GraduationPlan_CreditsByCourse_CourseCode" />
+  </jb:bean>
+
+  <jb:bean beanId="GraduationPlan_CreditsByCourse_CourseCode" class="java.util.HashMap"
+           createOnElement="attributes creditsByCourse element courseCode element">
+      <jb:value property="ID" data="attributes creditsByCourse element courseCode element ID" />
+      <jb:value property="identificationSystem" 
+                data="attributes creditsByCourse element courseCode element identificationSystem" />
+      <jb:value property="assigningOrganizationCode"
+                data="attributes creditsByCourse element courseCode element assigningOrganizationCode" />
+  </jb:bean>
+  <!-- End CreditsByCourse -->
+
+</smooks-resource-list>

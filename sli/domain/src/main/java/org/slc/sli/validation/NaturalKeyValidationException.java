@@ -13,6 +13,7 @@ public class NaturalKeyValidationException extends RuntimeException {
     final List<String> naturalKeys;
 
     public NaturalKeyValidationException(String entityType, List<String> naturalKeys) {
+        super(entityType + " is missing the following required key fields: " + naturalKeys);
         this.entityType = entityType;
         this.naturalKeys = naturalKeys;
     }

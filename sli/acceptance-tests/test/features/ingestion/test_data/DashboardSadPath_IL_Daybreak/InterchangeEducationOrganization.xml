@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -159,7 +157,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>8th-Grade-English-1</UniqueCourseId></Course>
   <Course>
     <CourseTitle>8th Grade Math</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -180,7 +178,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>8th-Grade-Math-2</UniqueCourseId></Course>
   <Course>
     <CourseTitle>8th Grade Advanced Math</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -201,7 +199,7 @@
          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>8th-Grade-Advanced-Math-3</UniqueCourseId></Course>
     <Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -222,7 +220,7 @@
          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>7th-Grade-English-4</UniqueCourseId></Course>
   <Course>
     <CourseTitle>7th Grade Adv. English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -243,7 +241,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>7th-Grade-Adv.-English-5</UniqueCourseId></Course>
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -264,7 +262,7 @@
          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>American-Literature-6</UniqueCourseId></Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -300,5 +298,5 @@
       <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
-  </Course>
+  <UniqueCourseId>1st-Grade-Homeroom-7</UniqueCourseId></Course>
 </InterchangeEducationOrganization>

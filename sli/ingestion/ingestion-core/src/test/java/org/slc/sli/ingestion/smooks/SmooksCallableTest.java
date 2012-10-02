@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks;
 
 import static org.junit.Assert.assertFalse;
@@ -31,6 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -62,6 +62,9 @@ public class SmooksCallableTest {
     @Mock
     private NewBatchJob newBatchJob;
     
+    @Mock
+    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+    
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -85,7 +88,8 @@ public class SmooksCallableTest {
         
         List<FutureTask<Boolean>> smooksOfTheFutureList = new ArrayList<FutureTask<Boolean>>();
         for (int i = 0; i < 3; i++) {
-            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, fe, stage, batchJobDAO, sliSmooksFactory);
+            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, fe, stage, batchJobDAO, sliSmooksFactory,
+                    deterministicUUIDGeneratorStrategy);
             
             FutureTask<Boolean> smooksOfTheFuture = IngestionExecutor.execute(smooksCallabe);
             

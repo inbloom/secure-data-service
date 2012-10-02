@@ -1,0 +1,10 @@
+{
+    "entityType" : "test",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "testUniqueStateId",
+            "valueSource" : "testIdentity.testUniqueStateId"
+        }
+    ]
+}
