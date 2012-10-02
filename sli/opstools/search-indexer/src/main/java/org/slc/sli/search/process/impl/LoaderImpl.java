@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.util.ThreadUtil;
 
+/**
+ * Loads records from a file for indexing
+ * @author agrebneva
+ * 
+ */
 @Service
 public class LoaderImpl implements FileAlterationListener, Loader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
