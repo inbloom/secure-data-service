@@ -49,6 +49,25 @@ public class NaturalKeyDescriptor {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        int result = 42;
+
+        if (this.getNaturalKeys() != null) {
+            result = 37 * result + this.getNaturalKeys().hashCode();
+        }
+
+        if (this.getTenantId() != null) {
+            result = 37 * result + this.getTenantId().hashCode();
+        }
+
+        if (this.getEntityType() != null) {
+            result = 37 * result + this.getEntityType().hashCode();
+        }
+
+        return result;
+    }
+
     public Map<String, String> getNaturalKeys() {
         return naturalKeys;
     }
