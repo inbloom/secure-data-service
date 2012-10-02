@@ -66,7 +66,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="stateOrganizationId" elementType="Argument">
               <stringProp name="Argument.name">stateOrganizationId</stringProp>
-              <stringProp name="Argument.value">CAP0-D0-HSch0</stringProp>
+              <stringProp name="Argument.value">${__P(schoolId.1)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.desc">Daybreak Central High</stringProp>
             </elementProp>
