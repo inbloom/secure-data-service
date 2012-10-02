@@ -65,5 +65,7 @@ email_imap_registration_pass: Y;Gtf@w{
 portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
 
+elastic_search_address: http://local.slidev.org:9200
+elastic_search_inbox: "../opstools/search-indexer/inbox"
 
 

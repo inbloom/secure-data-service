@@ -267,6 +267,16 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into DELETE was nil")
+
+  urlHeader = makeHeaders('delete',sessionId,format)
+  @res = RestClient.delete(url, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 def makeUrlAndHeaders(verb,id,sessionId,format)
   headers = makeHeaders(verb, sessionId, format)
 
