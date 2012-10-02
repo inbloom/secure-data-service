@@ -432,8 +432,8 @@ public class MongoQueryConverter {
         } else {
             Criteria criterion = toMerge.get(0);
             Criteria[] otherCriteria = new Criteria[toMerge.size() - 1];
-            for(int i = 1; i < toMerge.size(); i++) {
-            	otherCriteria[i-1] = toMerge.get(i);
+            for (int i = 1; i < toMerge.size(); i++) {
+                otherCriteria[i - 1] = toMerge.get(i);
             }
             criterion.andOperator(otherCriteria);
             return criterion;
