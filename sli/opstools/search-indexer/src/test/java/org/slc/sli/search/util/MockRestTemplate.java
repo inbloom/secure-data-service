@@ -1,0 +1,212 @@
+package org.slc.sli.search.util;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestOperations;
+
+public class MockRestTemplate implements RestOperations {
+    
+    private List<HttpEntity<?>> callsCollector = new ArrayList<HttpEntity<?>>();
+    
+    ResponseEntity<?> mockResponse = new ResponseEntity<String>("{'status':'ok'}", HttpStatus.OK);
+    
+    public void reset() {
+        callsCollector = new ArrayList<HttpEntity<?>>();
+    }
+    
+    public List<HttpEntity<?>> getCalls() {
+        return callsCollector;
+    }
+    
+    public <T> T getForObject(String url, Class<T> responseType, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T getForObject(String url, Class<T> responseType, Map<String, ?> uriVariables)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T getForObject(URI url, Class<T> responseType) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Object... uriVariables)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Map<String, ?> uriVariables)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> getForEntity(URI url, Class<T> responseType) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public HttpHeaders headForHeaders(String url, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public HttpHeaders headForHeaders(String url, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public HttpHeaders headForHeaders(URI url) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public URI postForLocation(String url, Object request, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public URI postForLocation(String url, Object request, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public URI postForLocation(URI url, Object request) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T postForObject(String url, Object request, Class<T> responseType, Object... uriVariables)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T postForObject(String url, Object request, Class<T> responseType, Map<String, ?> uriVariables)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T postForObject(URI url, Object request, Class<T> responseType) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> postForEntity(String url, Object request, Class<T> responseType,
+            Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> postForEntity(String url, Object request, Class<T> responseType,
+            Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> postForEntity(URI url, Object request, Class<T> responseType)
+            throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public void put(String url, Object request, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void put(String url, Object request, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void put(URI url, Object request) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void delete(String url, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void delete(String url, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void delete(URI url) throws RestClientException {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public Set<HttpMethod> optionsForAllow(String url, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public Set<HttpMethod> optionsForAllow(String url, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public Set<HttpMethod> optionsForAllow(URI url) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
+            Class<T> responseType, Object... uriVariables) throws RestClientException {
+        callsCollector.add(requestEntity);
+        return (ResponseEntity<T>) mockResponse;
+    }
+    
+    public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
+            Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException {
+        callsCollector.add(requestEntity);
+        return (ResponseEntity<T>) mockResponse;
+    }
+    
+    public <T> ResponseEntity<T> exchange(URI url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType)
+            throws RestClientException {
+        callsCollector.add(requestEntity);
+        return (ResponseEntity<T>) mockResponse;
+    }
+    
+    public <T> T execute(String url, HttpMethod method, RequestCallback requestCallback,
+            ResponseExtractor<T> responseExtractor, Object... uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T execute(String url, HttpMethod method, RequestCallback requestCallback,
+            ResponseExtractor<T> responseExtractor, Map<String, ?> uriVariables) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public <T> T execute(URI url, HttpMethod method, RequestCallback requestCallback,
+            ResponseExtractor<T> responseExtractor) throws RestClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+}

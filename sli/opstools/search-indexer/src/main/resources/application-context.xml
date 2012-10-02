@@ -49,12 +49,15 @@
 
     <bean id="extractor" class="org.slc.sli.search.process.Extractor" init-method="init" destroy-method="destroy"/>
 
-	<bean id="loader" class="org.slc.sli.search.process.Loader" init-method="init" destroy-method="destroy"/>
+	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy"/>
 	
-	<bean id="indexer" class="org.slc.sli.search.process.Indexer" init-method="init" destroy-method="destroy">
+	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate"/>
+	
+	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl" init-method="init" destroy-method="destroy">
 	    <property name="searchUrl" value="${sli.search.url}" />
         <property name="searchUsername" value="${sli.search.username}" />
         <property name="searchPassword" value="${sli.search.password}" />
+        <property name="searchTemplate" ref="searchTemplate"/>
 	</bean>
 
 </beans>
