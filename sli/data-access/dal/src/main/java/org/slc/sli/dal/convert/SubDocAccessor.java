@@ -173,8 +173,8 @@ public class SubDocAccessor {
             DBObject originalQuery = original.getQueryObject();
             DBObject query = new BasicDBObject();
             for (Entry<String, String> entry : lookup.entrySet()) {
-                String keyField = entry.getValue();
-                Object keyQuery = originalQuery.get("body." + entry.getKey());
+                String keyField = entry.getKey();
+                Object keyQuery = originalQuery.get("body." + entry.getValue());
                 if (keyQuery != null) {
                     query.put(keyField, keyQuery);
                 }
