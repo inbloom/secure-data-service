@@ -388,19 +388,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      * 
-     * @see org.slc.sli.domain.Repository#ensureIndex(org.springframework.data.mongodb.core.index.
-     * IndexDefinition, java.lang.String)
-     */
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
-        // TODO Auto-generated method stub
-        repo.ensureIndex(index, collection);
-        
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.slc.sli.domain.Repository#setWriteConcern(java.lang.String)
      */
     @Override
