@@ -42,7 +42,7 @@ public class PolicyEnforcer {
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         if (seg.get(0).getPath().equals("v1")) {
             if (seg.size() < 3) {
-                request.getProperties().put("requestedURI", request.getPath());
+                request.getProperties().put("requestedPath", request.getPath());
                 String newPath = inferer.getInferredUri(seg.get(1).getPath(), user.getEntity());
                 if (newPath != null) {
                     String parameters = request.getRequestUri().getQuery();
