@@ -29,6 +29,19 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
  Then I should be redirected to the Dashboard landing page
 When I navigate to the Dashboard Builder page
+
+And I click on "Section" Profile Builder
+And I add a Page named "LOS 2"
+And I add an available panel named "listOfStudents"
+And I click the Publish Layout button
+#US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
+And I add an available panel named "sectionInfo"
+And I navigate away to "School" Profile Builder without saving the changes
+And I click on "Leave" button on the modal window
+And I view the "School" profile builder
+And I click on "Section" Profile Builder
+And in "LOS 2" Page, it has the following panels: "listOfStudents"
+
 And I click on "School" Profile Builder
 And I add a Page named "School Tab"
 And I add an available panel named "sectionList"
@@ -42,17 +55,6 @@ And I click on "Stay" button on the modal window
 And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList"
 
-And I click on "Section" Profile Builder
-And I add a Page named "LOS 2"
-And I add an available panel named "listOfStudents"
-And I click the Publish Layout button
-#US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
-And I add an available panel named "sectionInfo"
-And I navigate away to "School" Profile Builder without saving the changes
-And I click on "Leave" button on the modal window
-And I view the "School" profile builder
-And I click on "Section" Profile Builder
-And in "LOS 2" Page, it has the following panels: "listOfStudents"
 
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
