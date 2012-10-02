@@ -47,11 +47,11 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   # Identify the pop up panel for 'Add a Panel'
   popupPanel = @driver.find_element(:id, "allPanelsModal")
   
+  # Select the panels from the list
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
-    name = panel.find_element(:css, "span[class*='ui-selectee']")
-    if (name.attribute("title").include? panelName)  
+    if (panel.find_element(:css, "span[class*='ui-selectee']").attribute("title").include? panelName)  
       found = true
       panel.click
       break
@@ -145,7 +145,7 @@ When /^I click on Panels Menu$/ do
 end
 
 # Click the 'Publish Layout' button
-When /^I click the "(.*?)" button$/ do |buttonName|
+When /^I click the Publish Layout button$/ do
   @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
 end
 
@@ -157,21 +157,17 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
    if (action =="Stay")
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1].click
      ensurePopupUnloaded()
-   else if (action =="Leave")
+   elsif (action =="Leave")
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   end
-   @driver.manage.timeouts.implicit_wait = 2
-   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
-   @driver.manage.timeouts.implicit_wait = 10   
 end
 
 # Navigate away without clicking the Publish Layout button 
 When /^I navigate away to "(.*?)" Profile Builder without saving the changes$/ do |profileName|
   @currentProfile = profileName.downcase
   name = "SLC - " + profileName + " Profile"
-  @driver.find_elements(:class, "profile_list")[0].find_element(:link_text, name).click
+  @driver.find_element(:class, "profile_list").find_element(:link_text, name).click
 end
 
 # Validate that the profile builder page loads correctly

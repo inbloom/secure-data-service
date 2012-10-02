@@ -18,7 +18,8 @@ When I select "Illinois Daybreak School District 4529" and click go
 And I click on "School" Profile Builder
 And I add a Page named "State Tab"
 And I upload custom json for it
-And I click the "Publish Layout" button
+#TODO - Remove the quotes around the button name
+And I click the Publish Layout button
 And in "Subjects and Courses" Page, it has the following panels: "sectionList"
 And I logout
  ## STATE IT admin logs out
@@ -32,19 +33,19 @@ And I click on "School" Profile Builder
 And I add a Page named "School Tab"
 And I add an available panel named "sectionList"
 And I add an available panel named "teacherList"
-And I click the "Publish Layout" button
+And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList;teacherList"
 And I delete an available panel named "teacherList"
 And I navigate away to "Section" Profile Builder without saving the changes
 #Publish layout modal window - select 'Stay on this page' and save the changes
 And I click on "Stay" button on the modal window
-And I click the "Publish Layout" button
+And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList"
 
 And I click on "Section" Profile Builder
 And I add a Page named "LOS 2"
 And I add an available panel named "listOfStudents"
-And I click the "Publish Layout" button
+And I click the Publish Layout button
 #US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
 And I add an available panel named "sectionInfo"
 And I navigate away to "School" Profile Builder without saving the changes
