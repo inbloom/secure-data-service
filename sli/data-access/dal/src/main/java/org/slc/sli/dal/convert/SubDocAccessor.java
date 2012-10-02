@@ -2,7 +2,6 @@ package org.slc.sli.dal.convert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,10 +35,75 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        Map<String, String> studentLookup = new LinkedHashMap<String, String>();
-        studentLookup.put("_id", "studentId");
-        locations.put("studentAssessmentAssociation", new Location("student", studentLookup, "assessments",
-                "studentAssessmentAssociation"));
+        //this will store student assessment associations under the student documents in the assessments field
+        store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
+                .register();
+    }
+
+    /**
+     * Start a location for a given sub doc type
+     *
+     * @param type
+     * @return
+     */
+    public LocationBuilder store(String type) {
+        return new LocationBuilder(type);
+    }
+
+    private class LocationBuilder {
+        private Map<String, String> lookup = new HashMap<String, String>();
+        private String collection;
+        private String subField;
+        private final String type;
+
+        public LocationBuilder(String type) {
+            super();
+            this.type = type;
+        }
+
+        /**
+         * Store the subdoc within the given super doc collection
+         *
+         * @param collection
+         *            the collection the subdoc gets stored in
+         * @return
+         */
+        public LocationBuilder within(String collection) {
+            this.collection = collection;
+            return this;
+        }
+
+        /**
+         * The field the subdocs show up in
+         *
+         * @param subField
+         *            The field the subdocs show up in
+         * @return
+         */
+        public LocationBuilder as(String subField) {
+            this.subField = subField;
+            return this;
+        }
+
+        /**
+         * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
+         *
+         * @param subDocField
+         * @param superDocField
+         * @return
+         */
+        public LocationBuilder mapping(String subDocField, String superDocField) {
+            lookup.put(superDocField, subDocField);
+            return this;
+        }
+
+        /**
+         * Register it as a sub resource location
+         */
+        public void register() {
+            locations.put(type, new Location(collection, lookup, subField, type));
+        }
+
     }
 
     /**
@@ -49,7 +113,12 @@ public class SubDocAccessor {
      *
      */
     public class Location {
-        private static final String ID_SEPERATOR = "×";
+        private static final String ID_SEPERATOR = "×"; // it should be noted that is not an 'x', so
+                                                        // be careful
+                                                        // should probably change it to something
+                                                        // less nefarious, but it does need to be
+                                                        // something the api won't consider
+                                                        // meaningful
         private final String collection;
         private final Map<String, String> lookup;
         private final String subField;
