@@ -3,6 +3,9 @@ package org.slc.sli.search.util;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ser.FilterProvider;
+import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
+import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.search.entity.IndexEntity;
@@ -36,7 +39,7 @@ public class IndexEntityConverter {
     @SuppressWarnings("unchecked")
     public IndexEntity fromEntityJson(String entity) {
         try {
-            Map<String, Object> entityMap = mapper.readValue(entity, new TypeReference<Map<String, Object>>() {});                    
+            Map<String, Object> entityMap = mapper.readValue(entity, new TypeReference<Map<String, Object>>() {});           
             Map<String, Object> decryptedMap = 
                     decrypt ? entityEncryption.decrypt((String)entityMap.get("type"), (Map<String, Object>) entityMap.get("body")): entityMap;
             return new IndexEntity(
@@ -44,6 +47,7 @@ public class IndexEntityConverter {
                     (String)entityMap.get("type"), 
                     (String)entityMap.get("_id"), 
                     mapper.writeValueAsString(decryptedMap));
+            
         } catch (Exception e) {
              throw new SearchIndexerException("Unable to convert entity", e);
         } 

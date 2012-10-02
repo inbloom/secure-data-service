@@ -19,6 +19,8 @@ public class IndexerTest {
     @Before
     public void setup() {
         indexer.setSearchTemplate(searchTemplate);
+        indexer.setBulkSize(1);
+        indexer.setSearchUrl("");
         indexer.setIndexEntityConverter(new IndexEntityConverter());
         indexer.init();
         indexer.setAggregatePeriod(10);
