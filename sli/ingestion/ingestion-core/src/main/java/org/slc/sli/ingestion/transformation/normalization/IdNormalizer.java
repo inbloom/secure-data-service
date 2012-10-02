@@ -340,7 +340,6 @@ public class IdNormalizer {
 
                     Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
                     List<Criteria> andList = new ArrayList<Criteria> ();
-                    //int criteriaCount = 0;
 
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
