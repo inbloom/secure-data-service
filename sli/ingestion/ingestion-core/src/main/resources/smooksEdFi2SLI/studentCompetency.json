@@ -3,7 +3,7 @@
     "references" :
     [
         {
-            "fieldPath" : "body.learningObjectiveId",
+            "fieldPath" : "body.objectiveId.learningObjectiveId",
             "ref" :
             {
                 "entityType" : "learningObjective",
@@ -15,7 +15,7 @@
                             "path" : "body.learningObjectiveId.identificationCode",
                             "values" :
                             [{
-                                "valueSource" : "body.learningObjectiveReference.LearningObjectiveId"
+                                "valueSource" : "body.objectiveId.learningObjectiveReference.LearningObjectiveId"
                             }]
                         }
                     ]
@@ -23,7 +23,7 @@
             }
         },
         {
-            "fieldPath" : "body.studentCompetencyObjectiveId",
+            "fieldPath" : "body.objectiveId.studentCompetencyObjectiveId",
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",
@@ -35,7 +35,7 @@
                             "path" : "body.studentCompetencyObjectiveId",
                             "values" :
                             [{
-                                "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+                                "valueSource" : "body.objectiveId.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
                         }
                     ]
