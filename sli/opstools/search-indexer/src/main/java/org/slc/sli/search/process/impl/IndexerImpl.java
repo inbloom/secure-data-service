@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 
@@ -80,7 +81,8 @@ public class IndexerImpl implements Indexer {
     public void flushQueue() {
         final List<IndexEntity> col = new ArrayList<IndexEntity>();
         indexRequests.drainTo(col);
-        executeBulkHttp(col);
+        if (!col.isEmpty())
+            executeBulkHttp(col);
     }
     
     public void init() {
@@ -109,7 +111,6 @@ public class IndexerImpl implements Indexer {
      * @param indexRequests
      */
     public void executeBulkHttp(List<IndexEntity> indexRequests) {
-        
         logger.info("Sending bulk index request with " + indexRequests.size() + "records");
         // create bulk http message
         StringBuilder message = new StringBuilder();
@@ -125,8 +126,9 @@ public class IndexerImpl implements Indexer {
             message.append(indexEntityConverter.toIndexJson(indexRequests.remove(0)));
         }
         // send the message
-        HttpEntity<String> response = sendRESTCall(message.toString());
-        logger.info("Bulk index response: " + response.getBody());
+        ResponseEntity<String> response = sendRESTCall(message.toString());
+        logger.info("Bulk index response: " + response.getStatusCode());
+        logger.debug("Bulk index response: " + response.getBody());
         
         // TODO: do we need to check the response status of each part of the bulk request?
         
@@ -138,7 +140,7 @@ public class IndexerImpl implements Indexer {
      * @param query
      * @return
      */
-    private HttpEntity<String> sendRESTCall(String query) {
+    private ResponseEntity<String> sendRESTCall(String query) {
         HttpMethod method = HttpMethod.POST;
         HttpHeaders headers = new HttpHeaders();
         
