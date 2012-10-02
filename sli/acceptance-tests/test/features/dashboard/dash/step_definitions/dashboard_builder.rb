@@ -55,8 +55,7 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
     puts "is text found? " + (panel.attribute('innerHTML').include? panelName).to_s
     if (panel.attribute('innerHTML').include? panelName)  
       found = true
-      panel.click
-      
+      panel.click     
       break
     end
   end
@@ -75,10 +74,13 @@ end
 When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, listOfPanels|
   hoverOverPage(pageName)
   expectedPanels = listOfPanels.split(';')
+  puts "expected Panels == " + expectedPanels.to_s
 
   @currentPage = @explicitWait.until{@driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")}  
+  puts "@currentPage == " + @currentPage.attribute("innerHTML").to_s
   #@currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
-  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  actualPanels = @explicitWait.until{@currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")}
+  
   assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")
   
   expectedPanels.each do |expectedPanel|
