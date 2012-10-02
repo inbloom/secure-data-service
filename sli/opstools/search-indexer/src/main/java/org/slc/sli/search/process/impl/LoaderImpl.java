@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.mongodb.util.ThreadUtil;
+
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
@@ -19,8 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.mongodb.util.ThreadUtil;
 
 /**
  * Loads records from a file for indexing
@@ -41,7 +41,6 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     @Autowired
     IndexEntityConverter indexEntityConverter;
     
-    @Autowired(required=false)
     private String inboxDir = DEFAULT_DROP_OFF_DIR;
     
     @Autowired(required=false)
@@ -179,6 +178,10 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     
     public void setPollIntervalMillis(long pollIntervalMillis) {
         this.pollIntervalMillis = pollIntervalMillis;
+    }
+
+    public void setInboxDir(String inboxDir) {
+        this.inboxDir = inboxDir;
     }
     
 }

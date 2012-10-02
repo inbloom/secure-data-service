@@ -47,9 +47,17 @@
 		<property name="template" ref="mongoTemplate" />
 	</bean>
 
-    <bean id="extractor" class="org.slc.sli.search.process.Extractor" init-method="init" destroy-method="destroy"/>
+    <bean id="indexEntityConfig" class="org.slc.sli.search.util.IndexEntityConfig" />
+    
+    <bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
+        <property name="indexEntityConfig" ref="indexEntityConfig" />
+        <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
+        <property name="extractDir" value="${sli.search.dir.extract:tmp}" />
+    </bean>
 
-	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy"/>
+	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">
+	    <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
+	</bean>
 	
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate"/>
 	

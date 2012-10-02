@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ExtractConfig {
+public class IndexEntityConfig {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private Map<String, List<String>> collectionFields;
     
-    public ExtractConfig() {
+    public IndexEntityConfig() {
         
         collectionFields = new HashMap<String, List<String>>();
         
