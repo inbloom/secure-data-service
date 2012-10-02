@@ -47,7 +47,6 @@ public class SubDocAccessorTest {
     public void setUp() {
         assessmentResult.put("scoreResult", "42");
         assessmentResult.put("studentId", "studentid");
-        assessmentResult.put("schoolYear", 2012);
     }
 
     @Test
@@ -57,11 +56,10 @@ public class SubDocAccessorTest {
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
         DBCollection enrollmentCollection = mock(DBCollection.class);
-        when(template.getCollection("enrollment")).thenReturn(enrollmentCollection);
+        when(template.getCollection("student")).thenReturn(enrollmentCollection);
         when(
-                enrollmentCollection.update(
-                        eq(BasicDBObjectBuilder.start("_id", "studentid2012").add("studentId", "studentid")
-                                .add("schoolYear", 2012).get()), argThat(new ArgumentMatcher<DBObject>() {
+                enrollmentCollection.update(eq(BasicDBObjectBuilder.start("_id", "studentid").get()),
+                        argThat(new ArgumentMatcher<DBObject>() {
 
                             @Override
                             @SuppressWarnings("unchecked")
@@ -73,7 +71,7 @@ public class SubDocAccessorTest {
                                 List<String> assessmentIds = new ArrayList<String>(set.keySet());
                                 return assessmentResults.size() == 1
                                         && assessmentResults.get(0).get("scoreResult").equals("42")
-                                        && assessmentIds.get(0).startsWith("assessments.studentid2012×");
+                                        && assessmentIds.get(0).startsWith("assessments.studentid×");
                             }
                         }), eq(true), eq(false))).thenReturn(success);
 
@@ -87,8 +85,9 @@ public class SubDocAccessorTest {
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
         DBCollection enrollmentCollection = mock(DBCollection.class);
-        when(template.getCollection("enrollment")).thenReturn(enrollmentCollection);
-        when(enrollmentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(success);
+        when(template.getCollection("student")).thenReturn(enrollmentCollection);
+        when(enrollmentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
+                success);
 
         Entity assessment1 = new MongoEntity("studentAssessmentAssociation", assessmentResult);
         Entity assessment2 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
@@ -96,40 +95,38 @@ public class SubDocAccessorTest {
         assessment2.getBody().put("scoreResult", "24");
         Entity assessment3 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
                 assessmentResult));
-        assessment3.getBody().put("schoolYear", 2011);
+        assessment3.getBody().put("studentId", "studentid2");
         assertTrue(underTest.subDoc("studentAssessmentAssociation").insert(
                 Arrays.asList(assessment1, assessment2, assessment3)));
-        verify(enrollmentCollection).update(
-                eq(BasicDBObjectBuilder.start("_id", "studentid2011").add("studentId", "studentid")
-                        .add("schoolYear", 2011).get()), argThat(new ArgumentMatcher<DBObject>() {
+        verify(enrollmentCollection).update(eq(BasicDBObjectBuilder.start("_id", "studentid2").get()),
+                argThat(new ArgumentMatcher<DBObject>() {
 
-                            @Override
-                            @SuppressWarnings("unchecked")
-                            public boolean matches(Object argument) {
-                                DBObject updateObject = (DBObject) argument;
-                                Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                                List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
-                                        (Collection<? extends Map<String, Object>>) set.values());
-                                List<String> assessmentIds = new ArrayList<String>(set.keySet());
-                                return assessmentResults.size() == 1
-                                        && assessmentResults.get(0).get("scoreResult").equals("42")
-                                        && assessmentIds.get(0).startsWith("assessments.studentid2011×");
-                            }
-                        }), eq(true), eq(false));
+                    @Override
+                    @SuppressWarnings("unchecked")
+                    public boolean matches(Object argument) {
+                        DBObject updateObject = (DBObject) argument;
+                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
+                        List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
+                                (Collection<? extends Map<String, Object>>) set.values());
+                        List<String> assessmentIds = new ArrayList<String>(set.keySet());
+                        return assessmentResults.size() == 1
+                                && assessmentResults.get(0).get("scoreResult").equals("42")
+                                && assessmentIds.get(0).startsWith("assessments.studentid2×");
+                    }
+                }), eq(true), eq(false));
         verify(enrollmentCollection).update(
-                eq(BasicDBObjectBuilder.start("_id", "studentid2012").add("studentId", "studentid")
-                        .add("schoolYear", 2012).get()), argThat(new ArgumentMatcher<DBObject>() {
+                eq(BasicDBObjectBuilder.start("_id", "studentid").get()), argThat(new ArgumentMatcher<DBObject>() {
 
-                            @Override
-                            @SuppressWarnings("unchecked")
-                            public boolean matches(Object argument) {
-                                DBObject updateObject = (DBObject) argument;
-                                Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                                List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
-                                        (Collection<? extends Map<String, Object>>) set.values());
-                                return assessmentResults.size() == 2;
-                            }
-                        }), eq(true), eq(false));
+                    @Override
+                    @SuppressWarnings("unchecked")
+                    public boolean matches(Object argument) {
+                        DBObject updateObject = (DBObject) argument;
+                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
+                        List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
+                                (Collection<? extends Map<String, Object>>) set.values());
+                        return assessmentResults.size() == 2;
+                    }
+                }), eq(true), eq(false));
 
     }
 
@@ -140,7 +137,7 @@ public class SubDocAccessorTest {
             public boolean matches(Object argument) {
                 Query query = (Query) argument;
                 DBObject queryObject = query.getQueryObject();
-                return queryObject.get("_id").equals("studentid2012");
+                return queryObject.get("_id").equals("studentid");
             }
         });
         return matchesId;
@@ -150,10 +147,10 @@ public class SubDocAccessorTest {
     public void testRead() {
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> studentAssessments = new HashMap<String, Object>();
-        studentAssessments.put("studentid2012×1234", assessmentResult);
+        studentAssessments.put("studentid×1234", assessmentResult);
         student.put("assessments", studentAssessments);
-        when(template.findOne(matchesParentId(), eq(Map.class), eq("enrollment"))).thenReturn(student);
-        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid2012×1234"));
+        when(template.findOne(matchesParentId(), eq(Map.class), eq("student"))).thenReturn(student);
+        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid×1234"));
     }
 
 }

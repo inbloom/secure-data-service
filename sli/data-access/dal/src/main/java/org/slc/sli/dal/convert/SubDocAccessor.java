@@ -37,9 +37,8 @@ public class SubDocAccessor {
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
         Map<String, String> studentLookup = new LinkedHashMap<String, String>();
-        studentLookup.put("studentId", "studentId");
-        studentLookup.put("schoolYear", "schoolYear");
-        locations.put("studentAssessmentAssociation", new Location("enrollment", studentLookup, "assessments",
+        studentLookup.put("_id", "studentId");
+        locations.put("studentAssessmentAssociation", new Location("student", studentLookup, "assessments",
                 "studentAssessmentAssociation"));
     }
 
