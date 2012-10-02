@@ -356,19 +356,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.domain.Repository#createWithRetries(java.lang.String, java.util.Map,
-     * java.util.Map, java.lang.String, int)
-     */
-    @Override
-    public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return repo.createWithRetries(type, body, metaData, collectionName, noOfRetries);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.slc.sli.domain.Repository#updateWithRetries(java.lang.String, java.lang.Object, int)
      */
     @Override

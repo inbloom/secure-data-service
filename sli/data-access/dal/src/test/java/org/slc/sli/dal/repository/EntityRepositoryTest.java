@@ -31,8 +31,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.mongodb.MongoException;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -365,16 +363,6 @@ public class EntityRepositoryTest {
     }
 
     @Test
-    public void testCreateRetry() {
-        TenantContext.setTenantId("SLIUnitTest");
-        Map<String, Object> studentMetaData = new HashMap<String, Object>();
-
-        repository.deleteAll("student", null);
-        repository.createWithRetries("student", buildTestStudentEntity(), studentMetaData, "student", 5);
-        assertEquals(1, repository.count("student", new NeutralQuery()));
-    }
-
-    @Test
     public void testUpdateRetry() {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
@@ -399,28 +387,6 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         repository.create("student", studentBody, studentMetaData, "student");
         assertEquals(1, repository.count("student", new NeutralQuery()));
-    }
-
-    @Test
-    public void testCreateRetryWithError() {
-
-        Repository<Entity> mockRepo = Mockito.spy(repository);
-        Map<String, Object> studentBody = buildTestStudentEntity();
-        Map<String, Object> studentMetaData = new HashMap<String, Object>();
-        int noOfRetries = 5;
-
-        Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
-                .create("student", null, studentBody, studentMetaData, "student");
-        Mockito.doCallRealMethod().when(mockRepo)
-                .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
-
-        try {
-            mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
-        } catch (MongoException ex) {
-            assertEquals(ex.getMessage(), "Test Exception");
-        }
-
-        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test

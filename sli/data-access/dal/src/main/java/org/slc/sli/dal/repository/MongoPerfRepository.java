@@ -22,16 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -167,14 +168,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-
-    @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

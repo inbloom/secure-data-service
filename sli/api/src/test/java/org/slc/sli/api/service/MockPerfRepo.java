@@ -143,13 +143,6 @@ public class MockPerfRepo implements Repository<Entity> {
 
 
     @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        return null;
-    }
-
-
-    @Override
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
         return false;
     }
