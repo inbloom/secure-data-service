@@ -82,12 +82,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(final String type, final Map<String, Object> body,
-            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
-        return createWithRetries(type, null, body, metaData, collectionName, noOfRetries);
-    }
-
-    @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
