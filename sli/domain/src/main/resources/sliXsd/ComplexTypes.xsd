@@ -7476,9 +7476,9 @@
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-            <xs:element name="objectiveId" type="studentCompetencyObjectiveReference" minOccurs="0">
+            <xs:element name="objectiveId" type="studentCompetencyObjectiveReference">
                 <xs:annotation>
-                    <xs:documentation>TODO DOCS</xs:documentation>
+                    <xs:documentation>The objective evaluated or assessed for the student.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="competencyLevel" type="competencyLevelDescriptorType">
@@ -7511,7 +7511,7 @@
 
     <xs:complexType name="studentCompetencyObjectiveReference">
         <xs:annotation>
-            <xs:documentation>TODO DOCS</xs:documentation>
+            <xs:documentation>The objective evaluated or assessed for the student.</xs:documentation>
         </xs:annotation>
         <xs:choice>
             <xs:element name="learningObjectiveId" type="reference">
