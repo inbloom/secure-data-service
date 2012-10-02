@@ -38,7 +38,7 @@
                         <div class="accordion-inner">
                             <ul class="profile_list">
                                 <li ng-repeat="profile in profiles">
-                                    <a ng-click="goToProfile(profile.id)">{{profile.name}}</a>
+                                    <a ng-click="goToProfile('#/profiles/'+profile.id)">{{profile.name}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -54,7 +54,7 @@
                         <div class="accordion-inner">
                             <ul class="profile_list">
                                 <li ng-repeat="profile in profiles">
-                                    <a href="#/panels/{{profile.id}}">{{profile.name}}</a>
+                                    <a ng-click="goToProfile('#/panels/'+profile.id)">{{profile.name}}</a>
                                 </li>
                             </ul>
                         </div>

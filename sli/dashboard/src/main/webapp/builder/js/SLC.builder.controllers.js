@@ -17,7 +17,7 @@
 /*
  * SLC Dashboard Builder Controller
  */
-/*global angular $ alert*/
+/*global angular $ confirm*/
 
 /* Profile List Controller
  * @param $scope - scope object for controller
@@ -41,15 +41,19 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 		dbSharedService.showError(error.status, null);
 	});
 
-	$scope.goToProfile = function (profileId) {
+	// If user click on profile link in the left column, the respective profile page will be displayed.
+	$scope.goToProfile = function (profileURL) {
 
+		// If user navigate away from profile without saving page level changes,
+		// the alert message box will be displayed.
 		if($rootScope.saveStatus) {
-			$rootScope.profileAlert = true;
+
+			$rootScope.profileAlert = true; // set profile alert to true
 			dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
 
 			$scope.$on("leaveProfile", function () {
 				$rootScope.profileAlert = false;
-				location.href="#/profiles/"+ profileId;
+				location.href = profileURL;
 
 				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
 			});
@@ -57,14 +61,14 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 			return false;
 		}
 
-		location.href="#/profiles/"+ profileId;
+		location.href = profileURL; // the user will redirect to the selected profile page.
 
 	};
 
+	// if user refresh the page or close the window without saving page level changes,
+	// the alert message box will be displayed.
 	$(window).bind('beforeunload', function() {
 		if($rootScope.saveStatus) {
-			//dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
-			//return false;
 			return 'Dashboard builder';
 		}
 	});
@@ -82,16 +86,12 @@ profileListCtrl.$inject = ['$scope', '$rootScope', 'Profiles', 'dbSharedService'
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
 
-function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSharedService) {
+function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) {
 
 	/* set flag to show view/edit mode for page title in the page.
 	if checked is false, page title will be read-only and only viewable.
 	if checked is true, page title will be editable. */
 	$scope.checked = false;
-
-	var pagesArray = [];
-
-	$scope.enabledSaveButton = false;
 
 	Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
 		var i;
@@ -104,7 +104,6 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		for (i = 0; i < $scope.profile.items.length; i++) {
 			if($scope.profile.items[i].type === "TAB") {
 				$scope.pages.push($scope.profile.items[i]);
-				pagesArray.push($scope.profile.items[i]);
 			}
 			else {
 				$scope.panels.push($scope.profile.items[i]);
@@ -113,6 +112,8 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 
 		$scope.id = $scope.profile.id;
 
+
+		// Get the list of available panels for selected profile
 		$scope.allPanels = AllPanels.query({profileId: $routeParams.profileId}, function() {}, function(error) {
 			dbSharedService.showError(error.status, null);
 		});
@@ -208,27 +209,47 @@ function profileCtrl($scope, $rootScope, $routeParams, Profile, AllPanels, dbSha
 		contentJSON: angular.toJson(page.items), pageTitle: page.name});
 	};
 }
-profileCtrl.$inject = ['$scope', '$rootScope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
+profileCtrl.$inject = ['$scope', '$routeParams', 'Profile', 'AllPanels', 'dbSharedService'];
 
 /* Page controller
  * @param $scope - scope object for controller
  * @param $rootScope - root scope for the application
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
-function pageCtrl($scope, $rootScope, Page, dbSharedService) {
+function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedService) {
 
 	var parent = $scope.$parent;
 
+	$scope.pageName = $scope.page.name;
 
-
+	// If user choose to leave the page without saving new changes, the old changes will be restored.
 	$rootScope.$on("leavePage", function () {
-		var pageDetails = Page.query(function () {
+
+		Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
+			var i;
+
+			$scope.profile = profile[0];
+
+			// Check profile items. Store all tabs into the pages array and all panels into panels array
+			for (i = 0; i < $scope.profile.items.length; i++) {
+				if($scope.profile.items[i].type === "TAB" && $scope.profile.items[i].id === $scope.page.id) {
+					$scope.page.name = $scope.profile.items[i].name;
+					$scope.page.items = $scope.profile.items[i].items;
+					$rootScope.$broadcast("leaveTab");
+				}
+			}
+
+		}, function(error) {
+			dbSharedService.showError(error.status, null);
+		});
+
+		/*var pageDetails = Page.query(function () {
 			if($scope.page.id === pageDetails[0].id) {
 				$scope.page.name = pageDetails[0].name;
 				$scope.page.items = pageDetails[0].items;
 				$rootScope.$broadcast("leaveTab");
 			}
-		});
+		});*/
 		return false;
 	});
 
@@ -237,8 +258,6 @@ function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 		$scope.pagePanels = newValue;
 	});
 
-	$scope.pageName = $scope.page.name;
-
 	$scope.cancelPageTitle = function () {
 		parent.checked = false;
 		$scope.pageName = $scope.page.name;
@@ -246,7 +265,6 @@ function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 
 	$scope.editPageTitle = function () {
 		parent.checked = true;
-		//$(".pageName").focus();
 	};
 
 	$scope.savePageTitle = function () {
@@ -285,26 +303,24 @@ function pageCtrl($scope, $rootScope, Page, dbSharedService) {
 		dbSharedService.enableSaveButton(true);
 	});
 
+	// After user click 'Publish Layout' button, the changes will be saved on the server.
 	$scope.publishPage = function () {
 		parent.saveProfile(function () {
 			$(".alert").show();
-			window.setTimeout(function() { $(".alert").hide("slow"); }, 10000);
+			window.setTimeout(function() { $(".alert").hide("slow"); }, 10000); // the success messages will be stayed for 10 seconds on the page
 			dbSharedService.enableSaveButton(false);
 		});
 	};
 
-
 }
 
-pageCtrl.$inject = ['$scope', '$rootScope', 'Page', 'dbSharedService'];
+pageCtrl.$inject = ['$scope', '$rootScope', '$routeParams', 'Profile', 'Page', 'dbSharedService'];
 
 /* Panel controller
  * @param $scope - scope object for controller
  */
 
 function panelCtrl($scope, dbSharedService) {
-
-	var parent = $scope.$parent;
 
 	$scope.removePanel = function () {
 		$scope.pagePanels.splice($scope.$index, 1);
@@ -392,17 +408,15 @@ allPanelListCtrl.$inject = ['$scope', 'dbSharedService'];
  */
 function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 
-	var parent = $scope.$parent,
-		page = dbSharedService.getPage();
-
-	// Listen the event when all modal dialog box gets displayed
+	// Listen the event when alert modal dialog box gets displayed
 	$scope.$on("alertModalDisplayed", function () {
 		var configs = dbSharedService.getModalConfig();
 
 		$("#alertModal h3").html(configs.modalTitle);
 	});
 
-	$scope.leavePage = function () {
+	// This function trigger custom events on profile and page level, if user leaves the page without saving the changes.
+	$scope.leaveChanges = function () {
 		$rootScope.saveStatus = false;
 		if($rootScope.profileAlert) {
 			$rootScope.$broadcast("leaveProfile");
@@ -410,11 +424,6 @@ function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 		else {
 			$rootScope.$broadcast("leavePage");
 		}
-	};
-
-	$scope.saveChanges = function () {
-		$rootScope.saveStatus = true;
-		$rootScope.$broadcast("saveChanges");
 	};
 
 }
@@ -439,7 +448,3 @@ function panelsCtrl($scope, $routeParams, AllPanels, dbSharedService) {
 }
 
 panelsCtrl.$inject = ['$scope', '$routeParams', 'AllPanels', 'dbSharedService'];
-
-
-
-

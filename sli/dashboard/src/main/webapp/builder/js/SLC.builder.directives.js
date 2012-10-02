@@ -122,8 +122,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			scope: {},
 			controller: function($scope, $rootScope, $element, dbSharedService) {
 				var panes = $scope.panes = [],
-					parent = $scope.$parent,
-					self = this;
+					parent = $scope.$parent;
 
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
@@ -161,10 +160,6 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						$scope.select(pane);
 					}
 					panes.push(pane);
-				};
-
-				this.removePane = function(pane) {
-					panes.splice(pane, 1);
 				};
 
 				$scope.$parent.$on("tabChanged", function () {
