@@ -32,6 +32,8 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -47,10 +49,15 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
@@ -65,7 +72,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected static final String METADATA_BLOCK = "metaData";
 
+    protected static final String ID = "_id";
+
     private IdNormalizer idNormalizer;
+
+    private DeterministicIdResolver didResolver;
 
     private EntityConfigFactory entityConfigurations;
 
@@ -76,6 +87,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Autowired
     private SchemaRepository schemaRepository;
+
+    @Autowired
+    private INaturalKeyExtractor naturalKeyExtractor;
+
+    @Autowired
+    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item) {
@@ -99,7 +116,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
 
         if (transformed != null && !transformed.isEmpty()) {
+
             for (SimpleEntity entity : transformed) {
+
                 if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
@@ -139,6 +158,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
+
+        // TODO: uncomment when deterministic id reference resolution should be activated
+        // didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
@@ -310,8 +332,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 if (cohortsToUpdate.size() > 0) {
-                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(),
-                            cohortsToUpdate);
+                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(), cohortsToUpdate);
                     updateContext("cohort", "edOrgs", entity.getEntityId(), cohortsToUpdate);
                 } else {
                     LOG.info("found no cohorts to update for ed org: {}", entity.getEntityId());
@@ -457,8 +478,56 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
-        Query query = new Query();
+        Query query;
 
+        if (NaturalKeyExtractor.useDeterministicIds()) {
+            
+            NaturalKeyDescriptor naturalKeyDescriptor;
+            try {
+                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+            } catch (NaturalKeyValidationException e1) {
+                String message = "An entity is missing one or more required natural key fields" + "\n"
+                        + "       Entity     " + entity.getType() + "\n" + "       Instance   "
+                        + entity.getRecordNumber();
+                
+                for (String fieldName : e1.getNaturalKeys()) {
+                    message += "\n" + "       Field      " + fieldName;
+                }
+                errorReport.error(message, this);
+                return null;
+            } catch (NoNaturalKeysDefinedException e) {
+                LOG.error(e.getMessage(), e);
+                return null;
+            }
+            
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                // Okay for embedded entities
+                LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                        + "       Instance   " + entity.getRecordNumber());
+                
+                query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+            } else {
+                query = new Query();
+                String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+                query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                        tenantId));
+                String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+                query.addCriteria(Criteria.where(ID).is(entityId));
+            }
+        } else {
+            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+        }
+        
+        return query;
+    }
+    
+    protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
+            ErrorReport errorReport) {
+        Query query = new Query();
+        
+        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+        query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
+        
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
@@ -476,27 +545,24 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                             collectionName = appInfo.getCollectionType();
                         }
                     }
-
+                    
                     errorMessage += "       collection = " + collectionName + "\n";
                 }
             }
         }
-
-        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-        query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
-
+        
         try {
             for (String field : entityConfig.getKeyFields()) {
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
                 if (fieldValue instanceof List) {
                     int size = ((List) fieldValue).size();
-                    //make sure we have exactly the number of desired values
+                    // make sure we have exactly the number of desired values
                     query.addCriteria(Criteria.where(field).size(size));
-                    //make sure we have each individual desired value
+                    // make sure we have each individual desired value
                     for (Object val : (List) fieldValue) {
                         query.addCriteria(Criteria.where(field).is(val));
                     }
-                    //this will be insufficient if fieldValue can contain duplicates
+                    // this will be insufficient if fieldValue can contain duplicates
                 } else {
                     query.addCriteria(Criteria.where(field).is(fieldValue));
                 }
@@ -505,8 +571,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             if (complexField != null) {
                 String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
                 Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
-
-                query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(fieldValue));
+                
+                query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(
+                        fieldValue));
             }
         } catch (Exception e) {
             errorReport.error(errorMessage, this);
@@ -523,6 +590,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void setIdNormalizer(IdNormalizer idNormalizer) {
         this.idNormalizer = idNormalizer;
+    }
+
+    public DeterministicIdResolver getDidResolver() {
+        return didResolver;
+    }
+
+    public void setDidResolver(DeterministicIdResolver didResolver) {
+        this.didResolver = didResolver;
     }
 
     public EntityConfigFactory getEntityConfigurations() {

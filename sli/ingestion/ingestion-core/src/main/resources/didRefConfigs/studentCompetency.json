@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "studentCompetencyObjective",
+            "didFieldPath" : "body.studentCompetencyObjectiveId",
+            "sourceRefPath" : "body.bananas"
+        }
+    ]
+}

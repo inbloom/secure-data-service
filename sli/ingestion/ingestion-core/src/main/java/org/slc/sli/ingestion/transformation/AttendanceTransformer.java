@@ -248,6 +248,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 update.put("pushAll", attendanceEventsToPush);
                 getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
                         ATTENDANCE_TRANSFORMED, getBatchJobId());
+
                 LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
             }
         } else {
@@ -263,7 +264,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private NeutralRecord createAttendanceRecordPlaceholder(String studentId, String schoolId,
             Map<Object, NeutralRecord> sessions) {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(type1UUIDGeneratorStrategy.randomUUID().toString());
+        record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
         record.setRecordType(ATTENDANCE_TRANSFORMED);
         record.setBatchJobId(getBatchJobId());
 
@@ -412,6 +413,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 record = itr.next();
                 sessions.put(record.getRecordId(), record);
             }
+
         }
 
         String parentEducationAgency = getParentEdOrg(schoolId);

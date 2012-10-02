@@ -1,4 +1,4 @@
-Feature: Sample Data Set Ingestion Timimg 
+Feature: Sample Data Set Ingestion Timimg
 
 Background: I have a landing zone route configured
 Given I am using local data store
@@ -88,9 +88,9 @@ Then I should see following map of entry counts in the corresponding collections
      | session                                     | 10 |
      | sessionCourseAssociation                    | 0 |
      | staff                                       | 60 |
-     | staffCohortAssociation                      | 20 |
+     | staffCohortAssociation                      | 180 |
      | staffEducationOrganizationAssociation       | 10 |
-     | staffProgramAssociation                     | 13 |
+     | staffProgramAssociation                     | 106 |
      | student                                     | 500 |
      | studentAcademicRecord                       | 500 |
      | studentAssessmentAssociation                | 2500 |
@@ -102,7 +102,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation                   | 1000 |
      | studentSchoolAssociation                    | 500 |
      | studentSectionAssociation                   | 2500 |
-     | studentGradebookEntry                       | 500 |
+     | studentGradebookEntry                       | 8 |
      | studentTranscriptAssociation                | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |

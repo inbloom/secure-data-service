@@ -72,6 +72,8 @@ public class NeutralSchemaValidationTest {
     
     @Test
     public void testValidSession() throws Exception {
+        this.addDummyEntity("educationOrganization", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2", "educationOrganization");
         this.addDummyEntity("gradingPeriod", "12345678-1234-1234-1234-12345678012");
         readAndValidateFixtureData("src/test/resources/session_fixture_neutral.json", "session");
     }

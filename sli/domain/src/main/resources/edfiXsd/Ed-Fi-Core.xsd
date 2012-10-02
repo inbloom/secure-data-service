@@ -420,7 +420,7 @@ Tardy
 							<xs:documentation>The section associated with the attendance event.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The school associated with the attendance event.</xs:documentation>
 						</xs:annotation>
@@ -657,6 +657,11 @@ Student late arrival/early dismissal
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
+                    <xs:element name="UniqueCourseId" type="UniqueCourseId">
+                        <xs:annotation>
+                            <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
 					<xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
@@ -1876,7 +1881,7 @@ Bilingual/English as a Second Language</xs:documentation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
+					<xs:element name="ProgramId" type="ProgramId">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
@@ -2834,7 +2839,7 @@ Met standard
 							<xs:documentation>A statement provided by the teacher that provides information in addition to the grade or assessment score.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" minOccurs="0">
+					<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType">
 						<xs:annotation>
 							<xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
 						</xs:annotation>
@@ -2850,7 +2855,7 @@ Met standard
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode" minOccurs="0">
+					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode">
 						<xs:annotation>
 							<xs:documentation>The Identifier for the student competency.</xs:documentation>
 						</xs:annotation>
@@ -3294,12 +3299,12 @@ Commended</xs:documentation>
 			<xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of students.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CohortReference" type="CohortReferenceType" maxOccurs="unbounded">
+			<xs:element name="CohortReference" type="CohortReferenceType">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
 				</xs:annotation>
@@ -3410,12 +3415,12 @@ Volunteer/no contract
 			<xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
+			<xs:element name="ProgramReference" type="ProgramReferenceType">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.</xs:documentation>
 				</xs:annotation>
@@ -3708,7 +3713,7 @@ Vocational
 					<xs:documentation>The section the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+			<xs:element name="BeginDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
 </xs:documentation>
@@ -3830,7 +3835,7 @@ Local Neglected Program
 					<xs:documentation>The teacher providing services to the school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SchoolReference" type="EducationalOrgReferenceType" maxOccurs="unbounded">
+			<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.</xs:documentation>
 				</xs:annotation>
@@ -10045,6 +10050,15 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="24"/>
 		</xs:restriction>
 	</xs:simpleType>
+    <xs:simpleType name="UniqueCourseId">
+        <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
 	<xs:simpleType name="UniqueSectionCode">
 		<xs:annotation>
 			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.

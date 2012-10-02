@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * GradebookEntry
- * 				This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
+ * 				This entity represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook.
  * 				This is similar to a studentGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received.
  * 				Limitations: None
  * 			

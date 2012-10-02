@@ -36,6 +36,7 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
         <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
         <jb:value property="careerPathway" data="attributes careerPathway" />
         <jb:value property="schoolId" data="attributes schoolId" />
+        <jb:value property="uniqueCourseId" data="attributes uniqueCourseId" />
     </jb:bean>
 
     <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes gradesOffered">

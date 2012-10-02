@@ -398,6 +398,8 @@ public final class InterchangeStudentGradeGenerator {
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
             Map<String, SectionMeta> sectionMetaMap, InterchangeWriter<InterchangeStudentGrade> writer) {
 
+    	int studentCompetencyObjectiveIdCounter = 0;
+    	
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
@@ -422,7 +424,8 @@ public final class InterchangeStudentGradeGenerator {
                             .getStudentSectionAssociationReference(studentRef, sectionRef);
                     LearningObjectiveReferenceType loRef = new LearningObjectiveReferenceType();
                     LearningObjectiveIdentityType loIdentity = new LearningObjectiveIdentityType();
-                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + reportCardId + "_" + loId);
+                    studentCompetencyObjectiveIdCounter++;
+                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + studentCompetencyObjectiveIdCounter);
                     loRef.setLearningObjectiveIdentity(loIdentity);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
@@ -533,7 +536,8 @@ public final class InterchangeStudentGradeGenerator {
             StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);
 
             for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
-
+                
+                
                 // create a studentgradebookentry for just a fraction of gradebooks
                 if (true /*
                           * (int) (Math.random() *
@@ -541,21 +545,26 @@ public final class InterchangeStudentGradeGenerator {
                           */) {
 
                     GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
+                    
                     SectionMeta section = gradeBookEntryMeta.getSection();
                     String sectionId = section.id;
-                    String sectionSchool = section.schoolId;
-                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
-                                                                                              // to
-                                                                                              // Section
+                    
+                    // need to ensure that this section is associated with the student
+                    if(studentMeta.sectionIds.contains(sectionId)) {
+                        String sectionSchool = section.schoolId;
+                        SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                                                                                                  // to
+                                                                                                  // Section
 
-                    StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
-                            sectionRef, studentRef);
-                    ReferenceType ref = new ReferenceType();
-                    ref.setRef(new Ref(gradeBookEntryMeta.getId()));
-                    studentGradeBookEntry.setGradebookEntryReference(ref);
+                        StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
+                                sectionRef, studentRef);
+                        ReferenceType ref = new ReferenceType();
+                        ref.setRef(new Ref(gradeBookEntryMeta.getId()));
+                        studentGradeBookEntry.setGradebookEntryReference(ref);
 
-                    writer.marshal(studentGradeBookEntry);           
-                    count++;
+                        writer.marshal(studentGradeBookEntry);           
+                        count++;
+                    }
                 }
             }
         }

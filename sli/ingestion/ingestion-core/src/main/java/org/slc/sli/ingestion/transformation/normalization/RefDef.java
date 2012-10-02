@@ -26,6 +26,15 @@ package org.slc.sli.ingestion.transformation.normalization;
 public class RefDef {
     private String fieldPath;
     private Ref ref;
+    private boolean deprecated = false;
+
+    public boolean isDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
+    }
 
     public String getFieldPath() {
         return fieldPath;
