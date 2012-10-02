@@ -66,12 +66,12 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="firstName" elementType="Argument">
               <stringProp name="Argument.name">firstName</stringProp>
-              <stringProp name="Argument.value">Arline</stringProp>
+              <stringProp name="Argument.value">${__P(studentFirstName.1)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="lastName" elementType="Argument">
               <stringProp name="Argument.name">lastName</stringProp>
-              <stringProp name="Argument.value">Randolph</stringProp>
+              <stringProp name="Argument.value">${__P(studentLastName.1)}</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
