@@ -37,16 +37,14 @@ public class IsCorrectNeutralQuery extends ArgumentMatcher<NeutralQuery> {
     }
 
     @Override
-    public boolean matches(Object argument)
-    {
-        if (query!=null) {
+    public boolean matches(Object argument) {
+        if (query != null) {
             return matches((NeutralQuery) argument);
         }
         return false;
     }
 
-    private boolean matches(NeutralQuery arg)
-    {
+    private boolean matches(NeutralQuery arg) {
         List<NeutralCriteria> queryCriteria = query.getCriteria();
         List<NeutralCriteria> argCriteria = arg.getCriteria();
 
@@ -54,7 +52,7 @@ public class IsCorrectNeutralQuery extends ArgumentMatcher<NeutralQuery> {
             return false;
         }
 
-        for (int i=0; i < queryCriteria.size(); ++i) {
+        for (int i = 0; i < queryCriteria.size(); ++i) {
             if (!queryCriteria.get(i).equals(argCriteria.get(i))) {
                 return false;
             }

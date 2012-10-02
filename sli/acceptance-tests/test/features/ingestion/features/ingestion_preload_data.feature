@@ -29,7 +29,6 @@ Scenario: Preload Small Sample Data Set
      | school                                    |
      | schoolSessionAssociation                  |
      | section                                   |
-     | sectionAssessmentAssociation              |
      | sectionSchoolAssociation                  |
      | session                                   |
      | sessionCourseAssociation                  |
@@ -74,21 +73,20 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
-     | learningObjective                        |                135|
-     | learningStandard                         |               1463|
+     | learningObjective                        |                197|
+     | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
-     | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                 22|
      | sessionCourseAssociation                 |                  0|
      | staff                                    |                 14|
      | staffCohortAssociation                   |                  3|
      | staffEducationOrganizationAssociation    |                 10|
-     | staffProgramAssociation                  |                  3|
+     | staffProgramAssociation                  |                  7|
      | student                                  |                 78|
      | studentAcademicRecord                    |                117|
      | studentAssessmentAssociation             |                203|
@@ -107,7 +105,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should not see an error log file created
 
 
-Scenario: Preload Small Sample Data Set
+Scenario: Preload Medium Sample Data Set
    Then I create a tenant set to preload data set "medium"
    And a batch job log has been created
    And I should not see an error log file created

@@ -53,6 +53,12 @@
             <artifactId>XmlSchema</artifactId>
             <version>${commons.schema.version}</version>
         </dependency>
+        
+        <!--  Apache Commons BeanUtils Dependency -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
 
         <!-- Spring Core dependency -->
         <dependency>

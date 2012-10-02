@@ -13,11 +13,31 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActMath"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActReading"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActScience"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActWriting"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Mathematics</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Science</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Writing</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
@@ -32,23 +52,51 @@
 	<ObjectiveAssessment id="ActEng">
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActEngUsage"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActEngRhetorical"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-English-Usage</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ActMath">
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActMathPreAlgebra"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActMathAlgebra"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActMathGeometry"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ActReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActReadingSocial"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActReadingArts"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ActScience">
@@ -90,8 +138,17 @@
 	<ObjectiveAssessment id="ActReadingSocial">
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<ObjectiveAssessmentReference ref="ActReadingSocial"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ActReadingArts"></ObjectiveAssessmentReference>
+		<!-- Commenting out circular reference -->
+		<!-- <ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference> -->
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+				<ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ActReadingArts">

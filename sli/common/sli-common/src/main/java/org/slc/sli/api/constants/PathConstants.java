@@ -31,7 +31,6 @@ public class PathConstants {
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
-    public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "sectionAssessmentAssociations";
     public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";

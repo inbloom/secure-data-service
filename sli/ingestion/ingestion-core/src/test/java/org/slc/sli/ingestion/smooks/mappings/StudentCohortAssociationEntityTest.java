@@ -78,7 +78,7 @@ public class StudentCohortAssociationEntityTest {
 
         assertEquals("Expected different number of attributes", 4, attributes.size());
 
-        Map<String, Object> studentReference = (Map<String, Object>) attributes.get("studentId");
+        Map<String, Object> studentReference = (Map<String, Object>) attributes.get("StudentReference");
         assertNotNull("Expected non-null student reference", studentReference);
         Map<String, Object> studentIdentity = (Map<String, Object>) studentReference.get("StudentIdentity");
         assertNotNull("Expected non-null student identity", studentIdentity);

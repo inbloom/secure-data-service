@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -13,7 +11,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -26,7 +24,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
 
 
@@ -42,7 +40,7 @@
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -55,7 +53,7 @@
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -68,7 +66,7 @@
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -81,7 +79,7 @@
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -95,7 +93,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -109,7 +107,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -123,7 +121,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -137,7 +135,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -151,7 +149,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -165,7 +163,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -179,7 +177,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -193,7 +191,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -207,7 +205,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -221,7 +219,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -235,7 +233,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -249,7 +247,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -263,7 +261,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -277,7 +275,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -291,7 +289,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -305,7 +303,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -319,7 +317,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -333,7 +331,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -347,7 +345,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -361,7 +359,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -375,7 +373,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -389,7 +387,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -403,7 +401,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -417,7 +415,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -431,7 +429,7 @@
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
 
 
@@ -447,7 +445,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
   <StudentSchoolAssociation>
     <EntryDate>2012-01-01</EntryDate>
@@ -1213,7 +1211,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
@@ -1228,7 +1226,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1242,7 +1240,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1256,7 +1254,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1270,7 +1268,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1284,7 +1282,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1298,7 +1296,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1312,7 +1310,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1326,7 +1324,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1340,7 +1338,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1354,7 +1352,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1368,7 +1366,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1382,7 +1380,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1396,7 +1394,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1410,7 +1408,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1424,7 +1422,7 @@
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
 
   <StudentSectionAssociation>
@@ -1441,7 +1439,7 @@
       </SectionIdentity>
     </SectionReference>
     <EntryGradeLevel>First grade</EntryGradeLevel>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSchoolAssociation>
     <EntryDate>2012-01-01</EntryDate>
     <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
@@ -1760,7 +1758,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1774,7 +1772,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1788,7 +1786,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1802,7 +1800,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1816,7 +1814,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1830,7 +1828,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1844,7 +1842,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1858,7 +1856,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1872,7 +1870,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1886,7 +1884,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1900,7 +1898,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1914,7 +1912,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1928,7 +1926,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1942,7 +1940,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1956,7 +1954,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1970,7 +1968,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1984,7 +1982,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -1998,7 +1996,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2012,7 +2010,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2026,7 +2024,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2040,7 +2038,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2054,7 +2052,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2068,7 +2066,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2082,7 +2080,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2096,7 +2094,7 @@
         <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
@@ -2111,7 +2109,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2125,7 +2123,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2139,7 +2137,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2153,7 +2151,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2167,7 +2165,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2181,7 +2179,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2195,7 +2193,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2209,7 +2207,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2223,7 +2221,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2237,7 +2235,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2251,7 +2249,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2265,7 +2263,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2279,7 +2277,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2293,7 +2291,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2307,7 +2305,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2321,7 +2319,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2335,7 +2333,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2349,7 +2347,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2363,7 +2361,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2377,7 +2375,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2391,7 +2389,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2405,7 +2403,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2419,7 +2417,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2433,7 +2431,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
   <StudentSectionAssociation>
     <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
@@ -2447,7 +2445,7 @@
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-  </StudentSectionAssociation>
+  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 
 
 </InterchangeStudentEnrollment>

@@ -44,7 +44,7 @@ public class StaffCohortAssociationGenerator {
      * 
      * @return <code>List<StudentCohortAssociation></code>
      */
-    public static StaffCohortAssociation generateLowFi(CohortMeta cohortMeta) {
+    public static List<StaffCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> staffIds = cohortMeta.staffIds;
@@ -71,7 +71,7 @@ public class StaffCohortAssociationGenerator {
         sit.setStaffUniqueStateId(staffId);
         StaffReferenceType srt = new StaffReferenceType();
         srt.setStaffIdentity(sit);
-        staffCohortAssoc.getStaffReference().add(srt);
+        staffCohortAssoc.setStaffReference(srt);
 
         // construct and add the Cohort Reference       
         CohortIdentityType ci = new CohortIdentityType();
@@ -79,7 +79,7 @@ public class StaffCohortAssociationGenerator {
         ci.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         CohortReferenceType crt = new CohortReferenceType();
         crt.setCohortIdentity(ci);
-        staffCohortAssoc.getCohortReference().add(crt);
+        staffCohortAssoc.setCohortReference(crt);
 
         //set begin and end dates
         staffCohortAssoc.setBeginDate(beginDate);
@@ -98,38 +98,40 @@ public class StaffCohortAssociationGenerator {
      * @param staffIds
      * @param schoolIds
      * 
-     * @return <code>StaffCohortAssociation</code>
+     * @return <code>List<StaffCohortAssociation></code>
      */
-    public static StaffCohortAssociation generateLowFi(String cohortId, Collection<String> staffIds, String schoolId) {
+    public static List<StaffCohortAssociation> generateLowFi(String cohortId, Collection<String> staffIds, String schoolId) {
 
-        StaffCohortAssociation staffCohortAssoc = new StaffCohortAssociation();
+        List<StaffCohortAssociation> staffCohortAssociations = new ArrayList<StaffCohortAssociation>();
         
         // construct and add the staff references
-        List<StaffReferenceType> srts = new ArrayList<StaffReferenceType>(staffIds.size());
         for (String staffId : staffIds) {
             StaffIdentityType sit = new StaffIdentityType();
             sit.setStaffUniqueStateId(staffId);
             StaffReferenceType srt = new StaffReferenceType();
             srt.setStaffIdentity(sit);
-            srts.add(srt);
+            
+            StaffCohortAssociation staffCohortAssoc = new StaffCohortAssociation();
+            staffCohortAssoc.setStaffReference(srt);
+            
+            // construct and add the Cohort Reference
+            CohortIdentityType ci = new CohortIdentityType();
+            ci.setCohortIdentifier(cohortId);
+            ci.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+            CohortReferenceType crt = new CohortReferenceType();
+            crt.setCohortIdentity(ci);
+            staffCohortAssoc.setCohortReference(crt);
+            
+            //set begin and end dates
+            staffCohortAssoc.setBeginDate(beginDate);
+            staffCohortAssoc.setEndDate(endDate);
+            
+            staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
+            
+            staffCohortAssociations.add(staffCohortAssoc);
         }
-        staffCohortAssoc.getStaffReference().addAll(srts);
-
-        // construct and add the Cohort Reference
-        CohortIdentityType ci = new CohortIdentityType();
-        ci.setCohortIdentifier(cohortId);
-        ci.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        CohortReferenceType crt = new CohortReferenceType();
-        crt.setCohortIdentity(ci);
-        staffCohortAssoc.getCohortReference().add(crt);
         
-        //set begin and end dates
-        staffCohortAssoc.setBeginDate(beginDate);
-        staffCohortAssoc.setEndDate(endDate);
-        
-        staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
-        
-        return staffCohortAssoc;
+        return staffCohortAssociations;
     }
 
     /**
@@ -155,7 +157,7 @@ public class StaffCohortAssociationGenerator {
             srt.setStaffIdentity(sit);
             srts.add(srt);
         }
-        staffCohortAssoc.getStaffReference().addAll(srts);
+        staffCohortAssoc.setStaffReference(srts.get(0));
 
         // construct and add the Cohort Reference
         CohortIdentityType ci = new CohortIdentityType();
@@ -163,7 +165,7 @@ public class StaffCohortAssociationGenerator {
         ci.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(schoolIds);
         CohortReferenceType crt = new CohortReferenceType();
         crt.setCohortIdentity(ci);
-        staffCohortAssoc.getCohortReference().add(crt);
+        staffCohortAssoc.setCohortReference(crt);
         
         //set begin and end dates
         staffCohortAssoc.setBeginDate(beginDate);
