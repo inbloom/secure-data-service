@@ -17,7 +17,7 @@ public class ExtractConfig {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    Map<String, List<String>> collectionFields;
+    private Map<String, List<String>> collectionFields;
     
     public ExtractConfig() {
         

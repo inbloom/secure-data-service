@@ -52,6 +52,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         File inbox = new File(inboxDir);
+        inbox.mkdir();
         FileAlterationObserver observer = new FileAlterationObserver(inbox);
         monitor.addObserver(observer);
         observer.addListener(this);
