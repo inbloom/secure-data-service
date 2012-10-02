@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) --><InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -14,7 +12,7 @@
 			</SectionIdentity>
 		</SectionReference>
 		<HomeroomIndicator>false</HomeroomIndicator>
-	</StudentSectionAssociation>
+	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 	<StudentSectionAssociation>
         <StudentReference>
             <StudentIdentity>
@@ -28,7 +26,7 @@
             </SectionIdentity>
         </SectionReference>
         <HomeroomIndicator>true</HomeroomIndicator>
-    </StudentSectionAssociation>
+    <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
 	<StudentSchoolAssociation>
 		<StudentReference>
 			<StudentIdentity>

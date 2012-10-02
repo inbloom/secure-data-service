@@ -87,6 +87,7 @@ public class SessionGenerator {
         GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 
         gprt.setGradingPeriodIdentity(gpit);
+        gprt.setBeginDate("2012-01-01");
 
         session.getGradingPeriodReference().add(gprt);
         // System.out.println("This is state org id by gradingPeriodReference: "
@@ -243,6 +244,7 @@ public class SessionGenerator {
 				}
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 				gprt.setGradingPeriodIdentity(gpit);
+				gprt.setBeginDate("2012-01-01");
 				session.getGradingPeriodReference().add(gprt);
 			}
 		}

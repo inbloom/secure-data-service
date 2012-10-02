@@ -17,6 +17,7 @@
 
 package org.slc.sli.test.generators.interchange;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -257,16 +258,17 @@ public class InterchangeStaffAssociationGenerator {
         long count = 0;
         
         for (ProgramMeta programMeta : programMetas) {
-            StaffProgramAssociation staffProgramAssociation;
+            List<StaffProgramAssociation> staffProgramAssociations = null;
             
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffProgramAssociation = null;
+                staffProgramAssociations = new ArrayList<StaffProgramAssociation>();
             } else {
-                staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
+                staffProgramAssociations = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }
-
-            iWriter.marshal(staffProgramAssociation);
-            count++;
+            for (StaffProgramAssociation staffProgram : staffProgramAssociations) {
+                iWriter.marshal(staffProgram);
+            }
+            count += staffProgramAssociations.size();
         }
         
         System.out.println("generated " + count + " StaffProgramAssociation objects in: "
