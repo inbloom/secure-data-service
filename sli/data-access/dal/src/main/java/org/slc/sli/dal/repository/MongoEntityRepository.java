@@ -41,6 +41,7 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -133,7 +134,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        MongoEntity entity = new MongoEntity(type, null, body, metaData);
+        Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
 
         this.addTimestamps(entity);
@@ -188,8 +189,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             List<Entity> persist = new ArrayList<Entity>();
 
             for (Entity record : records) {
-                Entity entity = new MongoEntity(record.getType(), record.getStagedEntityId(), record.getBody(),
-                        record.getMetaData());
+
+                String entityId = null;
+                if (NaturalKeyExtractor.useDeterministicIds() == false) {
+                    if ("educationOrganization".equals(collectionName)) {
+                        entityId = record.getStagedEntityId();
+                    }
+                }
+
+                Entity entity = new MongoEntity(record.getType(), entityId, record.getBody(), record.getMetaData());
                 persist.add(entity);
             }
 

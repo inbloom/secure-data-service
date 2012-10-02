@@ -1,5 +1,5 @@
 @RALLY_US3033
-Feature: Sample Data Set Ingestion Timimg 
+Feature: Sample Data Set Ingestion Timimg
 
 Background: I have a landing zone route configured
 Given I am using local data store
@@ -79,8 +79,8 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
-     | learningObjective                        |                135|
-     | learningStandard                         |               1463|
+     | learningObjective                        |                197|
+     | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
      | reportCard                               |                  2|
@@ -93,7 +93,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staff                                    |                 14|
      | staffCohortAssociation                   |                  3|
      | staffEducationOrganizationAssociation    |                 10|
-     | staffProgramAssociation                  |                  3|
+     | staffProgramAssociation                  |                  7|
      | student                                  |                 78|
      | studentAcademicRecord                    |                117|
      | studentAssessmentAssociation             |                203|
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentTranscriptAssociation             |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should see "Processed 4148 records." in the resulting batch job file
+    And I should see "Processed 4251 records." in the resulting batch job file
     And I should not see an error log file created
 
 

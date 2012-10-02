@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 /**
  * 
  * 				StudentGradebookEntry
- * 				This entity holds a student’s grade or competency level for a GradeBookEntry.
+ * 				This entity holds a student's grade or competency level for a GradeBookEntry.
  * 				Associations: Student
  * 			
  * 

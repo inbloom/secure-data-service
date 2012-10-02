@@ -28,6 +28,7 @@ import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 /**
  * The operations a CRUD endpoint should be able to perform (Create, Read, Update, Delete)
  *
+ * @deprecated If extending or delegating to this class, use {@link org.slc.sli.api.resources.generic.DefaultResource}
  * @author kmyers
  *
  */

@@ -35,7 +35,8 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        //this will store student assessment associations under the student documents in the assessments field
+        // this will store student assessment associations under the student documents in the
+        // assessments field
         store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
                 .register();
     }
@@ -159,7 +160,6 @@ public class SubDocAccessor {
 
         private DBObject getParentQuery(Map<String, Object> body) {
             Query parentQuery = new Query();
-            parentQuery.addCriteria(Criteria.where("_id").is(getParentEntityId(body)));
             for (Entry<String, String> entry : lookup.entrySet()) {
                 parentQuery.addCriteria(new Criteria(entry.getKey()).is(body.get(entry.getValue())));
             }
@@ -260,7 +260,9 @@ public class SubDocAccessor {
             } else if (idQuery instanceof DBObject) {
                 DBObject dbQuery = (DBObject) idQuery;
                 Object inQuery = dbQuery.get("$in");
-                if (inQuery instanceof Object[] && ((Object[]) inQuery).length == 1) {
+                if (inQuery instanceof List<?> && ((List<?>) inQuery).size() == 1) {
+                    return ((List<?>) inQuery).get(0).toString();
+                } else if (inQuery instanceof Object[] && ((Object[]) inQuery).length == 1) {
                     return ((Object[]) inQuery)[0].toString();
                 }
             }

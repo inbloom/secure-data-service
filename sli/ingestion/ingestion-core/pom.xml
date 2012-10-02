@@ -120,14 +120,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.slc.sli.domain</groupId>
-      <artifactId>domain</artifactId>
-      <type>test-jar</type>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-      
-    <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>${freemarker.version}</version>

@@ -41,6 +41,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+
 /**
  * JUnits for DAL
  */
@@ -66,8 +68,7 @@ public class MongoQueryConverterTest {
     }
 
     @Test
-    public void testAddCriteria() {
-        Query query = new Query();
+    public void testMergeCriteria() {
         NeutralCriteria neutralCriteria1 = new NeutralCriteria("eventDate", ">=", "2011-09-08");
         NeutralCriteria neutralCriteria2 = new NeutralCriteria("eventDate", "<=", "2012-04-08");
 
@@ -78,10 +79,10 @@ public class MongoQueryConverterTest {
         Map<String, List<NeutralCriteria>> map = new HashMap<String, List<NeutralCriteria>>();
         map.put("eventDate", list);
 
-        query = mongoQueryConverter.addCriteria(query, map);
+        Criteria criteriaMerged = mongoQueryConverter.mergeCriteria(map);
 
-        assertNotNull("Should not be null", query);
-        DBObject obj = query.getQueryObject();
+        assertNotNull("Should not be null", criteriaMerged);
+        DBObject obj = criteriaMerged.getCriteriaObject();
         assertTrue("Should not be null", obj.containsField("body.eventDate"));
 
         DBObject criteria = (DBObject) obj.get("body.eventDate");
@@ -90,18 +91,11 @@ public class MongoQueryConverterTest {
     }
 
     @Test
-    public void testNullAddCriteria() {
-        Query query = new Query();
-
-        query = mongoQueryConverter.addCriteria(query, null);
-        assertNotNull("Should not be null", query);
-        DBObject obj = query.getQueryObject();
+    public void testNullMergeCriteria() {
+        Criteria criteriaMerged = mongoQueryConverter.mergeCriteria(null);
+        assertNotNull("Should not be null", criteriaMerged);
+        DBObject obj = criteriaMerged.getCriteriaObject();
         assertEquals("Should match", 0, obj.keySet().size());
-
-        assertNull("Should be null", mongoQueryConverter.addCriteria(null, null));
-        assertNull("Should be null", mongoQueryConverter.addCriteria(null,
-                new HashMap<String, List<NeutralCriteria>>()));
-
     }
 
     @Test

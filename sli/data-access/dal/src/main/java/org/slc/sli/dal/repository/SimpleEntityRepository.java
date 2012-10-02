@@ -160,12 +160,6 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
 
