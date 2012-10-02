@@ -468,6 +468,7 @@ public final class InterchangeStudentGradeGenerator {
                             .createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(ID_PREFIX_SCO
                                     + reportCardId + "_" + scoId);
                     scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
+                    scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
 
                     LearningObjectiveReferenceType learningObjectiveRef = null;
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef,
