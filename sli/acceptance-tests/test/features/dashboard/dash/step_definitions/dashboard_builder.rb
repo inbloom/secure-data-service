@@ -51,17 +51,21 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
+    
     puts "innerhtml == " + panel.attribute('innerHTML').to_s
     puts "is text found? " + (panel.attribute('innerHTML').include? panelName).to_s
+    
     if (panel.attribute('innerHTML').include? panelName)  
       found = true
-      panel.click     
+      panel.click
+      sleep 0.20     
       break
     end
   end
   
   assert(found, "#{panelName} is not found in the list")
   popupPanel.find_element(:class,"modal-footer").find_elements(:tag_name, "button")[1].click
+  sleep 0.20
   
   ensurePopupUnloaded()
 end
@@ -77,7 +81,6 @@ When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, lis
   puts "expected Panels == " + expectedPanels.to_s
 
   @currentPage = @explicitWait.until{@driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")}  
-  puts "@currentPage == " + @currentPage.attribute("innerHTML").to_s
   #@currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
   actualPanels = @explicitWait.until{@currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")}
   
