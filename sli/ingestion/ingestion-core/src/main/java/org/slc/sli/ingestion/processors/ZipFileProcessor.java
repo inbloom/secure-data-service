@@ -25,9 +25,6 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.TenantContext;
@@ -45,8 +42,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.FileUtils;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -56,7 +51,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @Component
-public class ZipFileProcessor implements Processor, MessageSourceAware {
+public class ZipFileProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
 
@@ -69,14 +64,6 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    private MessageSource messageSource;
-
-    @Value("${sli.ingestion.zipfile.timeout:3600000}")
-    private int zipfileTimeout;
-
-    @Value("${sli.ingestion.zipfile.pollinterval:2000}")
-    private int zipfilePollInterval;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -135,14 +122,6 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
-    }
-
-    // DE1618 On a gluster file system the zipfile move may not have completed yet so we poll for file size changes
-    private void waitForZipfile(File zipfile) throws InterruptedException {
-        if (FileUtils.isFileDoneChanging(zipfile, zipfilePollInterval, zipfileTimeout) == false) {
-            LOG.warn(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG12", zipfile.getName()));
-        }
-
     }
 
     private NewBatchJob createNewBatchJob(File zipFile) {
@@ -206,8 +185,4 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
         this.zipFileHandler = handler;
     }
 
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 }

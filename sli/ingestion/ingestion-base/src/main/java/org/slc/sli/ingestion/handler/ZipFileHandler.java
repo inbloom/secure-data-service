@@ -44,10 +44,10 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
     private MessageSource messageSource;
 
-    @Value("${sli.ingestion.zipfile.timeout:600000}")
+    @Value("${sli.ingestion.file.timeout:600000}")
     private Long zipfileCompletionTimeout;
 
-    @Value("${sli.ingestion.zipfile.retryinterval:30000}")
+    @Value("${sli.ingestion.file.retryinterval:30000}")
     private Long zipfileCompletionPollInterval;
 
     File doHandling(File zipFile, ErrorReport errorReport) {
@@ -64,7 +64,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
             try {
                 File dir = ZipFileUtil.extract(zipFile);
-                LOG.info("Extracted zip file to {}", dir.getAbsolutePath() + ", zct=" + zipfileCompletionTimeout + ", zcpi=" + zipfileCompletionPollInterval);
+                LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
                 done = true;
 
                 // Find manifest (ctl file)

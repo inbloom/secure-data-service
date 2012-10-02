@@ -125,7 +125,7 @@ default:
         landingzone.inbounddir: C:/lz/
 
         # landingzone polling
-        sli.ingestion.lz.readLockCheckInterval: 3000
+        sli.ingestion.lz.readLockCheckInterval: 10000
         sli.ingestion.lz.readLockTimeout: 600000
         sli.ingestion.lz.pollInterval: 30000
 
@@ -208,9 +208,9 @@ default:
             small: [SmallSampleDataSet.zip]
             medium : [MediumSampleDataSet.zip]
 
-        # zipfile processing
-        sli.ingestion.zipfile.timeout: 600000
-        sli.ingestion.zipfile.retryinterval: 30000
+        # file processing
+        sli.ingestion.file.timeout: 600000
+        sli.ingestion.file.retryinterval: 30000
 
     dashboard: &DASHBOARD-DEFAULT
 

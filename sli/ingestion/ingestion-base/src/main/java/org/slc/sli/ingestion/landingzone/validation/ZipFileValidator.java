@@ -45,11 +45,11 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileValidator.class);
 
     // how long to wait for the file to become valid before giving up
-    @Value("${sli.ingestion.zipfile.timeout:600000}")
+    @Value("${sli.ingestion.file.timeout:600000}")
     private Long zipfileTimeout;
 
     // how often to check if the file is has become valid
-    @Value("${sli.ingestion.zipfile.retryinterval:10000}")
+    @Value("${sli.ingestion.file.retryinterval:10000}")
     private Long zipfilePollInterval;
 
     @Override
@@ -70,12 +70,10 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             try {
                 fis = new FileInputStream(zipFile);
                 zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
-                LOG.info("Checking " + zipFile.getAbsolutePath() + " entries.");
 
                 ArchiveEntry ze;
 
                 while ((ze = zis.getNextEntry()) != null) {
-                    LOG.info("Examining " + ze.getName());
 
                     if (isDirectory(ze)) {
                         fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
@@ -93,7 +91,6 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 }
 
                 done = true;
-                LOG.info("Done validating " + zipFile.getAbsolutePath());
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
@@ -104,17 +101,18 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             } catch (FileNotFoundException ex) {
                 // DE1618 Gluster may have lost track of the file, or it has been deleted from under us
                 String message = zipFile.getAbsolutePath() + " cannot be found. If the file is not processed, please resubmit.";
-                LOG.info(message, ex);
+                LOG.error(message, ex);
                 fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
                 done = true;
                 return false;
 
             } catch (IOException ex) {
-                LOG.info("Caught IO exception processing " + zipFile.getAbsolutePath());
+                LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
                 ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
                     fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                    LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;
                 } else {
