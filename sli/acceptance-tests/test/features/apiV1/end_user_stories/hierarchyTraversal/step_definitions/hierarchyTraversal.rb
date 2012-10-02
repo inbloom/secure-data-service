@@ -98,22 +98,6 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(found, "Expected value #{value} not found in array")
 end
 
-Then /^I should receive a collection link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
-  found = false;
-  @result.each do |record|
-    
-    record["links"].each do |link|
-      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-        found = true
-      end
-    end
-    
-    
-    
-  end
-  assert(found, "Response collection did not contain link rel \"#{rel}\" with value \"#{href}\"")
-end
-
 Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
