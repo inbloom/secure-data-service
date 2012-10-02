@@ -269,6 +269,6 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     And I should be informed that the selector is invalid
     
   Scenario: Sad path - Selector embeds too many documents
-    Given selector "(sections:(*),studentSectionAssociations:(*,section:(*)),schools:(*,sections:(*)))"
-    When I navigate to GET "/v1/students"
+    Given selector "(students:(*), teachers:(*), studentSchoolAssociations:(*))"
+    When I navigate to GET "/v1/schools"
     Then I should receive a return code of 413
