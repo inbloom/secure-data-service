@@ -6,11 +6,16 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.search.entity.IndexEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class IndexEntityConverter {
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     private ObjectMapper mapper = new ObjectMapper();
     private final static String NEW_LINE = "\n";
     
@@ -37,7 +42,7 @@ public class IndexEntityConverter {
                     (String)entityMap.get("_id"), 
                     mapper.writeValueAsString(decryptedMap));
         } catch (Exception e) {
-             throw new SearchIndexerException("Unable to convert entity");
+            throw new SearchIndexerException("Unable to convert entity", e);
         } 
     }
     
