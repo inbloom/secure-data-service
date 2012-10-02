@@ -114,8 +114,8 @@ public class SubDocAccessor {
         }
 
         private boolean doUpdate(DBObject query, Update updateObject) {
-            return template.getCollection(collection)
-                    .update(query, updateObject.getUpdateObject(), true, false).getLastError().ok();
+            return template.getCollection(collection).update(query, updateObject.getUpdateObject(), true, false)
+                    .getLastError().ok();
         }
 
         public boolean bulkUpdate(DBObject parentQuery, Map<String, Map<String, Object>> newEntities) {
@@ -155,10 +155,18 @@ public class SubDocAccessor {
             return getParentEntityId(entity) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
         }
 
-        @SuppressWarnings("unchecked")
         public Map<String, Object> read(String id) {
-            Map<?, ?> result = template.findOne(Query.query(Criteria.where("_id").is(getParentEntityId(id))),
-                    Map.class, collection);
+            return read(id, null);
+        }
+
+        @SuppressWarnings("unchecked")
+        public Map<String, Object> read(String id, Criteria additionalCriteria) {
+            Query query = Query.query(Criteria.where("_id").is(getParentEntityId(id)));
+            query.fields().include(getField(id));
+            if (additionalCriteria != null) {
+                query.addCriteria(additionalCriteria);
+            }
+            Map<?, ?> result = template.findOne(query, Map.class, collection);
             if (result == null) {
                 return null;
             }
@@ -169,7 +177,52 @@ public class SubDocAccessor {
             return subField + "." + id;
         }
 
+        /**
+         * If this query contains an id, we can search for that easy, so pull the id out if it
+         * exists
+         *
+         * @param query
+         * @return
+         */
+        private String getId(Query query) {
+            Object idQuery = query.getQueryObject().get("_id");
+            if (idQuery instanceof String) {
+                return (String) idQuery;
+            } else if (idQuery instanceof DBObject) {
+                DBObject dbQuery = (DBObject) idQuery;
+                Object inQuery = dbQuery.get("$in");
+                if (inQuery instanceof Object[] && ((Object[]) inQuery).length == 1) {
+                    return ((Object[]) inQuery)[0].toString();
+                }
+            }
+            return null;
+
+        }
+
         public List<Entity> find(Query original) {
+            List<Entity> results = new ArrayList<Entity>();
+            String extractedId = getId(original);
+            if (extractedId != null) {
+                results.add(new MongoEntity(type, read(extractedId)));
+            } else {
+                DBObject query = buildSubDocQuery(original);
+                DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
+                while (cursor.hasNext()) {
+                    DBObject next = cursor.next();
+                    @SuppressWarnings("unchecked")
+                    Map<String, Map<String, Object>> subEntities = (Map<String, Map<String, Object>>) next
+                            .get(subField);
+                    for (Entry<String, Map<String, Object>> subEntityEntry : subEntities.entrySet()) {
+                        Map<String, Object> subEntity = subEntityEntry.getValue();
+                        String id = subEntityEntry.getKey();
+                        results.add(new MongoEntity(type, id, subEntity, new HashMap<String, Object>()));
+                    }
+                }
+            }
+            return results;
+        }
+
+        private DBObject buildSubDocQuery(Query original) {
             DBObject originalQuery = original.getQueryObject();
             DBObject query = new BasicDBObject();
             for (Entry<String, String> entry : lookup.entrySet()) {
@@ -179,20 +232,20 @@ public class SubDocAccessor {
                     query.put(keyField, keyQuery);
                 }
             }
-            query.put(subField, new BasicDBObject("$exists", true));
-            DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
-            List<Entity> results = new ArrayList<Entity>();
-            while (cursor.hasNext()) {
-                DBObject next = cursor.next();
-                @SuppressWarnings("unchecked")
-                Map<String, Map<String, Object>> subEntities = (Map<String, Map<String, Object>>) next.get(subField);
-                for (Entry<String, Map<String, Object>> subEntityEntry : subEntities.entrySet()) {
-                    Map<String, Object> subEntity = subEntityEntry.getValue();
-                    String id = subEntityEntry.getKey();
-                    results.add(new MongoEntity(type, id, subEntity, new HashMap<String, Object>()));
+            Object idQuery = originalQuery.get("_id");
+            if (idQuery instanceof String) {
+                // we can filter out some more based on the parent id
+                query.put("_id", getParentEntityId((String) idQuery));
+            }
+            // metadata query params can go in as is
+            for (String key : originalQuery.keySet()) {
+                if (key.startsWith("metaData")) {
+                    query.put(key, originalQuery.get(key));
                 }
             }
-            return results;
+
+            query.put(subField, new BasicDBObject("$exists", true));
+            return query;
         }
 
     }

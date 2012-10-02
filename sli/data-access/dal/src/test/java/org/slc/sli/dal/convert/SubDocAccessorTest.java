@@ -151,7 +151,7 @@ public class SubDocAccessorTest {
         studentAssessments.put("studentid×1234", assessmentResult);
         student.put("assessments", studentAssessments);
         when(template.findOne(matchesParentId(), eq(Map.class), eq("student"))).thenReturn(student);
-        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid×1234"));
+        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid×1234", null));
     }
 
 }
