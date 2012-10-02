@@ -309,6 +309,7 @@
       "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources.",
       "subResources": [
         { "path": "/{id}/sessions" },
+        { "path": "/{id}/sections" },
         { "path": "/{id}/courses" }
       ]
     },
