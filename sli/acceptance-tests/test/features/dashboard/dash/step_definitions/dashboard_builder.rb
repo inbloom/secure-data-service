@@ -51,7 +51,7 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
-    if (panel.find_element(:css, "span[class*='ui-selectee']").attribute("title").include? panelName)  
+    if (panel.attribute('innerHTML').include? panelName)  
       found = true
       panel.click
       break
