@@ -7,7 +7,7 @@ Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 
-@integration @RALLY_US2276 @RALLY_US3376
+@integration @RALLY_US2276 @RALLY_US3376 @RALLY_US3480
 Scenario: Add a Page
 # STATE IT admin logs in
 When I select "Illinois Daybreak School District 4529" and click go
@@ -18,6 +18,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 And I click on "School" Profile Builder
 And I add a Page named "State Tab"
 And I upload custom json for it
+And I click the "Publish Layout" button
 And in "Subjects and Courses" Page, it has the following panels: "sectionList"
 And I logout
  ## STATE IT admin logs out
@@ -31,12 +32,27 @@ And I click on "School" Profile Builder
 And I add a Page named "School Tab"
 And I add an available panel named "sectionList"
 And I add an available panel named "teacherList"
+And I click the "Publish Layout" button
 And in "School Tab" Page, it has the following panels: "sectionList;teacherList"
 And I delete an available panel named "teacherList"
+And I navigate away to "Section" Profile Builder without saving the changes
+#Publish layout modal window - select 'Stay on this page' and save the changes
+And I click on "Stay" button on the modal window
+And I click the "Publish Layout" button
 And in "School Tab" Page, it has the following panels: "sectionList"
+
 And I click on "Section" Profile Builder
 And I add a Page named "LOS 2"
 And I add an available panel named "listOfStudents"
+And I click the "Publish Layout" button
+#US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
+And I add an available panel named "sectionInfo"
+And I navigate away to "School" Profile Builder without saving the changes
+And I click on "Leave" button on the modal window
+And I view the "School" profile builder
+And I click on "Section" Profile Builder
+And in "LOS 2" Page, it has the following panels: "listOfStudents"
+
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
 When I select ed org "Daybreak School District 4529"
@@ -107,7 +123,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 And I click on "School" Profile Builder
 And I see the following page order "Subjects and Courses;Teachers;State Tab" in the builder
 And I delete Page "State Tab"
- And I click on Panels Menu
+And I click on Panels Menu
 And I click on "School" Panels
 And I see the following available panels "populationWidget;schoolInfo;sectionList;teacherList"
 And I click on "Section" Panels
