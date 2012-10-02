@@ -56,9 +56,11 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
     if (panel.attribute('innerHTML').include? panelName)  
       found = true
       panel.click
+      
       break
     end
   end
+  
   assert(found, "#{panelName} is not found in the list")
   popupPanel.find_element(:class,"modal-footer").find_elements(:tag_name, "button")[1].click
   
@@ -73,8 +75,9 @@ end
 When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, listOfPanels|
   hoverOverPage(pageName)
   expectedPanels = listOfPanels.split(';')
-  
-  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
+
+  @currentPage = @explicitWait.until{@driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")}  
+  #@currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
   actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
   assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")
   

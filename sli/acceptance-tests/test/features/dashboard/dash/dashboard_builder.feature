@@ -30,18 +30,6 @@ When I select "Illinois Daybreak School District 4529" and click go
  Then I should be redirected to the Dashboard landing page
 When I navigate to the Dashboard Builder page
 
-#And I click on "Section" Profile Builder
-#And I add a Page named "LOS 2"
-#And I add an available panel named "listOfStudents"
-#And I click the Publish Layout button
-##US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
-#And I add an available panel named "sectionInfo"
-#And I navigate away to "School" Profile Builder without saving the changes
-#And I click on "Leave" button on the modal window
-#And I view the "School" profile builder
-#And I click on "Section" Profile Builder
-#And in "LOS 2" Page, it has the following panels: "listOfStudents"
-
 And I click on "School" Profile Builder
 And I add a Page named "School Tab"
 And I add an available panel named "sectionList"
@@ -55,6 +43,17 @@ And I click on "Stay" button on the modal window
 And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList"
 
+And I click on "Section" Profile Builder
+And I add a Page named "LOS 2"
+And I add an available panel named "listOfStudents"
+And I click the Publish Layout button
+#US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
+And I add an available panel named "sectionInfo"
+And I navigate away to "School" Profile Builder without saving the changes
+And I click on "Leave" button on the modal window
+And I view the "School" profile builder
+And I click on "Section" Profile Builder
+And in "LOS 2" Page, it has the following panels: "listOfStudents"
 
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
@@ -69,11 +68,11 @@ And I click on "School Tab" Tab
 And I click on subject "English Language and Literature"
 And I click on course "8th Grade English"
 And I click on section "8th Grade English - Sec 6"
-#And I view its section profile
-#And there are "2" Tabs
-#And Tab has a title named "LOS 2"
-#And I click on "LOS 2" Tab
-#Then I see a list of 28 students
+And I view its section profile
+And there are "2" Tabs
+And Tab has a title named "LOS 2"
+And I click on "LOS 2" Tab
+Then I see a list of 28 students
 And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -91,9 +90,9 @@ And I click on "Subjects and Courses" Tab
 And I click on subject "Miscellaneous"
 And I click on course "A.P. Calculus"
 And I click on section "A.P. Calculus Sec 201"
-#And I view its section profile
-#And there are "1" Tabs
-#And Tab has a title named "List of Students"
+And I view its section profile
+And there are "1" Tabs
+And Tab has a title named "List of Students"
 And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -129,5 +128,5 @@ And I delete Page "State Tab"
 And I click on Panels Menu
 And I click on "School" Panels
 And I see the following available panels "populationWidget;schoolInfo;sectionList;teacherList"
-#And I click on "Section" Panels
-#And I see the following available panels "Section Info;populationWidget;listOfStudents"
+And I click on "Section" Panels
+And I see the following available panels "Section Info;populationWidget;listOfStudents"
