@@ -231,6 +231,8 @@
         { "path": "/{id}/staffProgramAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations" },
         { "path": "/{id}/staffCohortAssociations/cohorts" },
+        { "path": "/{id}/disciplineActions" },
+        { "path": "/{id}/disciplineIncidents" },
         { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
