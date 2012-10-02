@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "",
+            "didFieldPath" : "body.id_field",
+            "sourceRefPath" : "body.ref_field"
+        }
+    ]
+}

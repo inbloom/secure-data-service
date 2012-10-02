@@ -16,7 +16,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</StudentProgramAssociation>
@@ -35,7 +35,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -54,7 +54,7 @@
 		<EndDate>2011-12-31</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -73,7 +73,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -92,7 +92,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -111,7 +111,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -130,7 +130,7 @@
 		<EndDate>2011-12-01</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -149,7 +149,7 @@
 		<EndDate>2012-04-12</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -168,7 +168,7 @@
 		<EndDate>2012-02-15</EndDate>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
   </StudentProgramAssociation>

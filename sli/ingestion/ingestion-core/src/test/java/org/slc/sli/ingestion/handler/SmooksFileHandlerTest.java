@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
 
 import static org.junit.Assert.assertTrue;
@@ -29,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.Smooks;
 import org.mockito.Mockito;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -127,8 +127,9 @@ public class SmooksFileHandlerTest {
     public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
         Smooks smooks = Mockito.mock(Smooks.class);
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
-        Mockito.when(factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(ErrorReport.class)))
-                .thenReturn(smooks);
+        Mockito.when(
+                factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(ErrorReport.class),
+                        Mockito.anyString(), Mockito.any(DeterministicUUIDGeneratorStrategy.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
         
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");

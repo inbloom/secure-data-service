@@ -5,6 +5,9 @@ To run you will need:
 - leiningen 1.7.1
 - /tmp/test directory must exist.
 
+This script supports both ed-fi XML file generation and direct mongodb data population.  By default
+the script will generate data directly in the 'sli' mongo database on localhost:27017.
+
 This supports the following data generation commands:
 (gen-tiny-set)         ;   1 district,   1 school/district,   100 students/school => 100 students
 (gen-small-set)        ;   1 district,   5 schools/district,  500 students/school => 2500 students
@@ -22,4 +25,5 @@ Usage:
      (use 'genAssessments.core :reload-all)
 3. Run one of the above commands to generate the dataset you want.
 
-Data is generated in the /tmp/test directory.
+XML data is generated in the /tmp/test directory.
+JSON data is committed directly to mongo.

@@ -50,7 +50,6 @@ public final class EntityNames {
     public static final String SCHOOL = "school";
     public static final String SEARCH = "search";
     public static final String SECTION = "section";
-    public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
     public static final String SESSION = "session";
     public static final String STAFF = "staff";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";

@@ -152,7 +152,6 @@ public class ParameterConstants {
     public static final String STUDENT_SCHOOL_ASSOCIATION_ID = "studentSchoolAssociationId";
     public static final String COURSE_OFFERING_ID = "courseOfferingId";
     public static final String STUDENT_ASSESSMENT_ID = "studentAssessmentId";
-    public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
     public static final String COURSE_TRANSCRIPT_ID = "courseTranscriptId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";

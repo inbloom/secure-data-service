@@ -166,6 +166,11 @@ public final class PluginForMongo implements Uml2XsdPlugin {
                         SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
+            } else if (SliUmlConstants.TAGDEF_ASSOCIATION_KEY.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_ASSOCIATION_KEY.getLocalPart(),
+                        SliMongoConstants.SLI_ASSOCIATION_KEY.getNamespaceURI());
+                xsw.characters(taggedValue.getValue());
+                xsw.end();
             } else {
                 throw new AssertionError(tagDefinition.getName());
             }

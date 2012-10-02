@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -214,7 +212,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId></Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -252,7 +250,7 @@
       <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
-  </Course>
+  <UniqueCourseId>1st-Grade-Homeroom-2</UniqueCourseId></Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -275,7 +273,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>8th-Grade-English-3</UniqueCourseId></Course>
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -298,7 +296,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>American-Literature-4</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -321,7 +319,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Special-Elective:-Debate-Clinic-5</UniqueCourseId></Course>
 
   <!-- courses for progress history -->
   <Course>
@@ -346,7 +344,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>7th-Grade-English-6</UniqueCourseId></Course>
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -369,7 +367,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>7th-Grade-Composition-7</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Kindergarten Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -391,7 +389,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Kindergarten-Homeroom-8</UniqueCourseId></Course>
   <Course>
     <CourseTitle>10th Grade Writing</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -414,7 +412,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>10th-Grade-Writing-9</UniqueCourseId></Course>
   <Course>
     <CourseTitle>10th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -437,7 +435,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>10th-Grade-English-10</UniqueCourseId></Course>
   
   <!-- courses used for report cards for Carmen Ortiz -->
   <Course>
@@ -462,7 +460,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Algebra-II-11</UniqueCourseId></Course>
   <Course>
     <CourseTitle>State History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -485,7 +483,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>State-History-II-12</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Earth Sciences II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -508,7 +506,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Earth-Sciences-II-13</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Vocal Performance II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -531,7 +529,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Vocal-Performance-II-14</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Nutrition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -554,7 +552,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Nutrition-15</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Algebra I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -577,7 +575,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Algebra-I-16</UniqueCourseId></Course>
   <Course>
     <CourseTitle>State History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -600,7 +598,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>State-History-I-17</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Earth Sciences I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -623,7 +621,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Earth-Sciences-I-18</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Vocal Performance I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -646,7 +644,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Vocal-Performance-I-19</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Weight Training</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -669,7 +667,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Weight-Training-20</UniqueCourseId></Course>
   <Course>
     <CourseTitle>English 9B ELL</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -692,7 +690,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>English-9B-ELL-21</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Basic Math II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -715,7 +713,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Basic-Math-II-22</UniqueCourseId></Course>
   <Course>
     <CourseTitle>World History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -738,7 +736,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>World-History-II-23</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Environmental Studies II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -761,7 +759,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Environmental-Studies-II-24</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Vocal Ensemble II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -784,7 +782,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Vocal-Ensemble-II-25</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Track and Field</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -807,7 +805,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Track-and-Field-26</UniqueCourseId></Course>
   <Course>
     <CourseTitle>English 9A ELL</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -830,7 +828,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>English-9A-ELL-27</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Basic Math I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -853,7 +851,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Basic-Math-I-28</UniqueCourseId></Course>
   <Course>
     <CourseTitle>World History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -876,7 +874,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>World-History-I-29</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Environmental Studies I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -899,7 +897,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Environmental-Studies-I-30</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Vocal Ensemble I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -922,7 +920,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Vocal-Ensemble-I-31</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Yoga and Fitness</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -945,7 +943,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Yoga-and-Fitness-32</UniqueCourseId></Course>
   <Course>
     <CourseTitle>ELA 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -968,7 +966,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>ELA-8B-33</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Pre-Algebra II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -991,7 +989,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Pre-Algebra-II-34</UniqueCourseId></Course>
   <Course>
     <CourseTitle>U.S. History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1014,7 +1012,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>U.S.-History-II-35</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1037,7 +1035,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-8B-36</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Choir B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1060,7 +1058,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Choir-B-37</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1083,7 +1081,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-8B-38</UniqueCourseId></Course>
   <Course>
     <CourseTitle>ELA 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1106,7 +1104,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>ELA-8A-39</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Pre-Algebra I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1129,7 +1127,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Pre-Algebra-I-40</UniqueCourseId></Course>
   <Course>
     <CourseTitle>U.S. History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1152,7 +1150,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>U.S.-History-I-41</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1175,7 +1173,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-8A-42</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Choir A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1198,7 +1196,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Choir-A-43</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1221,7 +1219,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-8A-44</UniqueCourseId></Course>
 
   <!-- courses used for report cards for Matt Sollars.
        Note that 7th Grade English and 7th Grade Composition have already been defined. -->
@@ -1247,7 +1245,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-7B-45</UniqueCourseId></Course>
   <Course>
     <CourseTitle>State History II-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1270,7 +1268,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>State-History-II-G7-46</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 7B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1293,7 +1291,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-7B-47</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Spanish II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1316,7 +1314,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Spanish-II-48</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Jazz Band</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1339,7 +1337,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Jazz-Band-49</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 7A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1362,7 +1360,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-7A-50</UniqueCourseId></Course>
   <Course>
     <CourseTitle>State History I-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1385,7 +1383,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>State-History-I-G7-51</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 7A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1408,7 +1406,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-7A-52</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Spanish I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1431,7 +1429,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Spanish-I-53</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Conditioning</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1454,7 +1452,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Conditioning-54</UniqueCourseId></Course>
   <Course>
     <CourseTitle>ELA 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1477,7 +1475,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>ELA-6B-55</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1500,7 +1498,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-6B-56</UniqueCourseId></Course>
   <Course>
     <CourseTitle>World History II-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1523,7 +1521,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>World-History-II-G6-57</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1546,7 +1544,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-6B-58</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Drama II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1569,7 +1567,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Drama-II-59</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Nutrition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1592,7 +1590,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Nutrition-60</UniqueCourseId></Course>
   <Course>
     <CourseTitle>ELA 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1615,7 +1613,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>ELA-6A-61</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1638,7 +1636,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-6A-62</UniqueCourseId></Course>
   <Course>
     <CourseTitle>World History I-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1661,7 +1659,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>World-History-I-G6-63</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1684,7 +1682,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-6A-64</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Drama I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1707,7 +1705,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Drama-I-65</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Team Sports</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1730,7 +1728,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Team-Sports-66</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1753,7 +1751,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Reading-5B-67</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1776,7 +1774,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Writing-5B-68</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1799,7 +1797,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-5B-69</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1822,7 +1820,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Geography-5-70</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1845,7 +1843,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-5B-71</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1868,7 +1866,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-5B-72</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1891,7 +1889,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Reading-5A-73</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1914,7 +1912,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Writing-5A-74</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1937,7 +1935,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-5A-75</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Government-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1960,7 +1958,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Government-5-76</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1983,7 +1981,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-5A-77</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2006,7 +2004,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-5A-78</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2029,7 +2027,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Reading-4B-79</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2052,7 +2050,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Writing-4B-80</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2075,7 +2073,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-4B-81</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Geography-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2098,7 +2096,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Geography-4-82</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2121,7 +2119,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-4B-83</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2144,7 +2142,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-4B-84</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2167,7 +2165,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Reading-4A-85</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2190,7 +2188,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Writing-4A-86</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Math 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2213,7 +2211,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Math-4A-87</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Government-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2236,7 +2234,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Government-4-88</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Science 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2259,7 +2257,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Science-4A-89</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Phys-Ed 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2282,7 +2280,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Phys-Ed-4A-90</UniqueCourseId></Course>
 
   <Program>
     <ProgramId>ACC-TEST-PROG-1</ProgramId>

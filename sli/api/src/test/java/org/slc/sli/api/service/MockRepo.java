@@ -27,24 +27,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
 import org.bson.BasicBSONObject;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
@@ -123,7 +122,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
         repo.put("applicationAuthorization", new LinkedHashMap<String, Entity>());
-        repo.put("oauthSession", new LinkedHashMap<String, Entity>());
+        repo.put("userSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.LEARNING_OBJECTIVE, new LinkedHashMap<String, Entity>());

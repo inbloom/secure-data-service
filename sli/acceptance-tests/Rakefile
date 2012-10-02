@@ -442,6 +442,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
+                     :v1NewEndpointTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
@@ -684,8 +685,9 @@ task :userAdminTests => [:importSandboxData] do
 #runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
 end
-task :sandboxUserAdminTests do
+task :sandboxUserAdminTests => [:realmInit] do
 @tags ||= ["~@wip", "@sandbox"]
+Rake::Task["importSandboxData"].execute
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 runTests("test/features/sandbox/UserAdmin/TOU_displayed.feature")
 end
@@ -878,7 +880,6 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
     "studentGradebookEntry" => "studentGradebookEntry_fixture.json",

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -75,8 +73,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Club/Team-1</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Senior Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -91,8 +89,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Senior-Homeroom-2</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Writing about Government</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -107,8 +105,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Writing-about-Government-3</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Honors American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -123,8 +121,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Honors-American-Literature-4</UniqueCourseId></Course>
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -139,8 +137,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>American-Literature-5</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -155,8 +153,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Special-Elective:Debate-Clinic-6</UniqueCourseId></Course>
   <Course>
     <CourseTitle>7th Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -171,8 +169,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>7th-Grade-Homeroom-7</UniqueCourseId></Course>
   <Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -187,8 +185,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>7th-Grade-English-8</UniqueCourseId></Course>
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -203,8 +201,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>7th-Grade-Composition-9</UniqueCourseId></Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -219,8 +217,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>8th-Grade-English-10</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Reading Group</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -235,8 +233,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Reading-Group-11</UniqueCourseId></Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -251,8 +249,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>1st-Grade-Homeroom-12</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>Algebra-11</CourseTitle>
@@ -269,8 +267,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Algebra-11-13</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Algebra-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -286,8 +284,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Algebra-10-14</UniqueCourseId></Course>
   <Course>
     <CourseTitle>Geometry-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -303,8 +301,8 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
+    <EducationOrganizationReference/>
+  <UniqueCourseId>Geometry-10-15</UniqueCourseId></Course>
 
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>

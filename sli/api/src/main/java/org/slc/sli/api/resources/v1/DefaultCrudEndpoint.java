@@ -70,6 +70,7 @@ import org.slc.sli.domain.NeutralQuery;
 /**
  * Prototype new api end points and versioning base class
  *
+ * @deprecated If extending or delegating to this class, use {@link org.slc.sli.api.resources.generic.DefaultResource}
  * @author srupasinghe
  * @author kmyers
  *
