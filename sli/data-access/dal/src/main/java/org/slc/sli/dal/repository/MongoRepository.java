@@ -469,24 +469,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery query) {
-        // We decided that if TenantId is null, then we will search on blank.
-        // This option may need to be revisted.
-
         this.addDefaultQueryParams(query, collectionName);
-
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
-
-//        String tenantId = TenantContext.getTenantId();
-//        BasicDBObject obj = null;
-//
-//        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
-//            obj = new BasicDBObject("metaData.tenantId", tenantId);
-//        } else {
-//            obj = new BasicDBObject();
-//        }
-
-//        template.getCollection(collectionName).remove(obj);
-//        LOG.debug("delete all objects in collection {}", collectionName);
         template.remove(convertedQuery, collectionName);
     }
 
