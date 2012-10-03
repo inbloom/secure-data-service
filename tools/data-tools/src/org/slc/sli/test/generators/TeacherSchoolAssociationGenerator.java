@@ -48,7 +48,7 @@ public class TeacherSchoolAssociationGenerator {
 
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
-        tsa.getSchoolReference().add(eor);
+        tsa.setSchoolReference(eor);
 
         tsa.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
 
@@ -75,7 +75,7 @@ public class TeacherSchoolAssociationGenerator {
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
    
         
-        teacherSchool.getSchoolReference().add(schoolRef);
+        teacherSchool.setSchoolReference(schoolRef);
 
        
         // construct and add the teacher reference

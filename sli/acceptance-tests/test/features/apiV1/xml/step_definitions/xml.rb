@@ -72,7 +72,7 @@ Given /^a valid XML document for a new school entity$/ do
             <postalCode>66952</postalCode>
             <nameOfCounty>Smith County</nameOfCounty>
         </address>
-        <stateOrganizationId>152901001</stateOrganizationId>
+        <stateOrganizationId>825408847</stateOrganizationId>
         <telephone sli:member="true">
             <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
             <telephoneNumber>(785) 667-6006</telephoneNumber>
@@ -103,7 +103,7 @@ When /^I change the name to "([^"]*)"$/ do |newName|
             <postalCode>66952</postalCode>
             <nameOfCounty>Smith County</nameOfCounty>
         </address>
-        <stateOrganizationId>152901001</stateOrganizationId>
+        <stateOrganizationId>Sunset Central High School</stateOrganizationId>
         <telephone sli:member="true">
             <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
             <telephoneNumber>(785) 667-6006</telephoneNumber>

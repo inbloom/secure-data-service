@@ -24,7 +24,7 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos@mokey.org", "fakedev@zork.net"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos_mokey_org", "fakedev_zork_net"]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
@@ -112,8 +112,6 @@ def isSystemCollection(collectionName)
   elsif collectionName == "application"
     return true
   elsif collectionName == "roles"
-    return true
-  elsif collectionName == "customRole"
     return true
   elsif collectionName == "tenantJobLock"
     return true
@@ -273,9 +271,10 @@ end
 def swap_realm_ids()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(SYSTEM_DB_NAME)
+  @dbTenant = @conn.db(DB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
-  custom_roles = @db.collection('customRole')
+  custom_roles = @dbTenant.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
         {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
@@ -352,8 +351,47 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm"
+  setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer_email_slidev_org"
+  setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator_slidev_org"
+  setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper_slidev_org"
   setFixture("customRole", "customRole_fixture.json", "test/data")
   swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security"
+  setFixture("customRole", "customRole_Security_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork"
+  setFixture("customRole", "customRole_Zork_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  setFixture("customRole", "customRole_Hyrule_fixture.json", "test/data")
+  swap_realm_ids()
+
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
+  swap_realm_ids()
+
 end
 
 task :appDenialInit do
@@ -372,9 +410,9 @@ task :appInit do
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev@zork"
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos@mokey"
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
   setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
 
   DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
@@ -496,6 +534,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
+                     :v1NewEndpointTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
@@ -544,7 +583,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:provisionIntegrationTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
+task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
                           :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
                           :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
@@ -724,6 +763,13 @@ runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run API preload resource Tests"
+task :preloadResourceTests => [:realmInit] do
+@tags ||= ["~@wip", "@sandbox"]
+Rake::Task["importSandboxData"].execute
+runTests("test/features/sandbox/preload/tenant_preload.feature")
 end
 
 ############################################################
@@ -933,7 +979,6 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
     "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
@@ -955,6 +1000,34 @@ task :importSandboxData do
     "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+desc "Import Sandbox Test Data"
+task :importZorkSandboxData do
+  testHash = Hash[
+    "educationOrganization" => "educationOrganization_fixture_zork.json",
+    "staff" => "staff_fixture_zork.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
+
+   ]
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+
+end
+
+desc "Import Sandbox Test Data"
+task :importChaosSandboxData do
+  testHash = Hash[
+    "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staff" => "staff_fixture_chaos.json",
+    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
+
+   ]
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  setMultipleFixtureFiles(testHash)
+  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+
 end
 
 desc "Import Tenant Metrics Data"

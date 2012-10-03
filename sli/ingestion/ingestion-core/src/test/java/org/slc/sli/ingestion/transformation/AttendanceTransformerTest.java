@@ -61,8 +61,7 @@ import org.slc.sli.ingestion.handler.EntityPersistHandler;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 
-public class AttendanceTransformerTest
-{
+public class AttendanceTransformerTest {
     @Autowired
     private AttendanceTransformer transformer;
 
@@ -112,7 +111,7 @@ public class AttendanceTransformerTest
         //query for school from studentSchoolAssociation
         List<String> schoolIds = new ArrayList<String>(associations.size());
         for (NeutralRecord r : associations) {
-            schoolIds.add((String)r.getAttributes().get("schoolId"));
+            schoolIds.add((String) r.getAttributes().get("schoolId"));
         }
         Query schoolQuery = new Query().limit(0);
         schoolQuery.addCriteria(Criteria.where("batchJobId").is(batchJobId));
@@ -126,8 +125,8 @@ public class AttendanceTransformerTest
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
         NeutralRecord nr = result.get(0);
-        Assert.assertEquals("schoolId2",nr.getAttributes().get("stateOrganizationId"));
-        Assert.assertEquals("recordId",nr.getRecordId());
+        Assert.assertEquals("schoolId2", nr.getAttributes().get("stateOrganizationId"));
+        Assert.assertEquals("recordId", nr.getRecordId());
 
     }
 
@@ -137,7 +136,7 @@ public class AttendanceTransformerTest
 
         //query SLI DB for student
         Entity studentEntity = buildStudentEntity("studentId2");
-        String studentUniqueStateId = (String)studentEntity.getBody().get("studentUniqueStateId");
+        String studentUniqueStateId = (String) studentEntity.getBody().get("studentUniqueStateId");
         NeutralQuery studentQuery = new NeutralQuery(0);
         studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, studentUniqueStateId));
         when(entityRepository.findOne(Mockito.eq("student"), Mockito.argThat(new IsCorrectNeutralQuery(studentQuery))))
@@ -154,7 +153,7 @@ public class AttendanceTransformerTest
         //query SLI DB for school from studentSchoolAssociation
         List<String> schoolIds = new ArrayList<String>(associations.size());
         for (Entity association : associations) {
-            schoolIds.add((String)association.getBody().get("schoolId"));
+            schoolIds.add((String) association.getBody().get("schoolId"));
         }
         NeutralQuery schoolQuery = new NeutralQuery(0);
         schoolQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, schoolIds));
@@ -168,7 +167,7 @@ public class AttendanceTransformerTest
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
         NeutralRecord nr = result.get(0);
-        Assert.assertEquals("schoolId2",nr.getAttributes().get("stateOrganizationId"));
+        Assert.assertEquals("schoolId2", nr.getAttributes().get("stateOrganizationId"));
         Assert.assertNull(nr.getRecordId());
 
     }
@@ -177,7 +176,7 @@ public class AttendanceTransformerTest
     @Test
     public void testGetSession() throws Throwable {
 
-        String stateOrganizationId = "schoolId1";        
+        String stateOrganizationId = "schoolId1";
         //Mock the query in staging for session
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
@@ -191,7 +190,7 @@ public class AttendanceTransformerTest
         q1.addCriteria(Criteria.where("body.stateOrganizationId").is("schoolId1"));
         when(repository.findAllByQuery(Mockito.eq("school"), Mockito.argThat(new IsCorrectQuery(q1))))
             .thenReturn(new ArrayList<NeutralRecord>());
-        
+
         //Mock the query in SLI for session
         Entity schoolEntity = buildSchoolEntity(stateOrganizationId);
         NeutralQuery schoolQuery = new NeutralQuery(0);
@@ -199,14 +198,14 @@ public class AttendanceTransformerTest
         when(entityRepository.findOne(Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
             .thenReturn(schoolEntity);
         String schoolEntityId = schoolEntity.getEntityId();
-        
+
         //Mock the query in sli for sessions
         List<Entity> sessions = buildSessionEntity();
         NeutralQuery sessionQuery = new NeutralQuery(0);
         sessionQuery.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolEntityId));
         when(entityRepository.findAll(Mockito.eq("session"), Mockito.argThat(new IsCorrectNeutralQuery(sessionQuery))))
             .thenReturn(sessions);
-        
+
         String[] args = new String[1];
         args[0] = "schoolId1";
         Map<Object, NeutralRecord> res = (Map<Object, NeutralRecord>) PrivateAccessor.invoke(transformer, "getSessions", new Class[]{String.class}, new Object[]{stateOrganizationId});
@@ -298,7 +297,7 @@ public class AttendanceTransformerTest
         List<NeutralRecord> schools = buildStudentSchoolAssocRecords();
         List<String> schoolIds = new ArrayList<String>(schools.size());
         for (NeutralRecord r : schools) {
-            schoolIds.add((String)r.getAttributes().get("schoolId"));
+            schoolIds.add((String) r.getAttributes().get("schoolId"));
         }
         Query schoolQuery = new Query().limit(0);
         schoolQuery.addCriteria(Criteria.where("batchJobId").is(batchJobId));
@@ -400,7 +399,7 @@ public class AttendanceTransformerTest
     }
 
     private Entity buildAttendanceEntity(String studentEntityId, String schoolEntityId) {
-        List<Map<String,Object>> schoolYearAttendance = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> schoolYearAttendance = new ArrayList<Map<String, Object>>();
         Map<String, Object> b = new HashMap<String, Object>();
         SimpleEntity r = new SimpleEntity();
         r.setType("attendance");
@@ -409,20 +408,20 @@ public class AttendanceTransformerTest
         b.put("studentId", studentEntityId);
         b.put("schoolId", schoolEntityId);
         b.put("schoolYearAttendance", schoolYearAttendance);
-        Map<String,Object> year1 = new HashMap<String,Object>();
-        Map<String,Object> year2 = new HashMap<String,Object>();
-        List<Map<String,Object>> attend1 = new ArrayList<Map<String,Object>>();
-        List<Map<String,Object>> attend2 = new ArrayList<Map<String,Object>>();
+        Map<String, Object> year1 = new HashMap<String, Object>();
+        Map<String, Object> year2 = new HashMap<String, Object>();
+        List<Map<String, Object>> attend1 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> attend2 = new ArrayList<Map<String, Object>>();
         schoolYearAttendance.add(year1);
         schoolYearAttendance.add(year2);
         year1.put("schoolYear", "2006-2007");
         year1.put("attendanceEvent", attend1);
         year2.put("schoolYear", "2007-2008");
         year2.put("attendanceEvent", attend2);
-        Map<String,Object> attendanceEvent11 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent21 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent22 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent23 = new HashMap<String,Object>();
+        Map<String, Object> attendanceEvent11 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent21 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent22 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent23 = new HashMap<String, Object>();
         attend1.add(attendanceEvent11);
         attend2.add(attendanceEvent21);
         attend2.add(attendanceEvent22);
@@ -440,12 +439,12 @@ public class AttendanceTransformerTest
         return e;
     }
 
-    private List<Map<String,Object>> buildAttendanceEvents() {
-        List<Map<String,Object>> attendEvents = new ArrayList<Map<String,Object>>();
-        Map<String,Object> attendanceEvent11 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent21 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent22 = new HashMap<String,Object>();
-        Map<String,Object> attendanceEvent23 = new HashMap<String,Object>();
+    private List<Map<String, Object>> buildAttendanceEvents() {
+        List<Map<String, Object>> attendEvents = new ArrayList<Map<String, Object>>();
+        Map<String, Object> attendanceEvent11 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent21 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent22 = new HashMap<String, Object>();
+        Map<String, Object> attendanceEvent23 = new HashMap<String, Object>();
         attendanceEvent11.put("event", "In Attendance");
         attendanceEvent11.put("date", "2008-12-01");
         attendanceEvent21.put("event", "In Attendance");
@@ -546,7 +545,7 @@ public class AttendanceTransformerTest
         r2.setAttributeField("eventDate", "2012-09-09");
         r2.setAttributeField("attendanceEventCategory", "attendanceEventCategory2");
         r2.setAttributeField("attendanceEventReason", "attendanceEventReason2");
-        return Arrays.asList(r1,r2);
+        return Arrays.asList(r1, r2);
     }
 
 }

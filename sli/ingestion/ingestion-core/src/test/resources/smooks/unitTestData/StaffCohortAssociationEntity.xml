@@ -8,20 +8,9 @@
 			<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
 		</StaffIdentity>
 	</StaffReference>
-	<StaffReference>
-		<StaffIdentity>
-			<StaffUniqueStateId>cgray</StaffUniqueStateId>
-		</StaffIdentity>
-	</StaffReference>
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>IL</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
 		<StateOrganizationId>IL</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>

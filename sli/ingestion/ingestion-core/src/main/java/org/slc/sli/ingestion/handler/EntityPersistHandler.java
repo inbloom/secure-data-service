@@ -34,7 +34,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -46,9 +48,12 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
@@ -61,7 +66,8 @@ import org.slc.sli.validation.schema.NeutralSchema;
  *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
-    private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
+
+    public static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
@@ -81,6 +87,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Autowired
     private EntityValidator validator;
+
+    @Autowired
+    private INaturalKeyExtractor naturalKeyExtractor;
+
+    @Autowired
+    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -139,8 +151,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             return entity;
         } else {
-            return entityRepository.createWithRetries(entity.getType(), entity.getStagedEntityId(), entity.getBody(),
-                    entity.getMetaData(), collectionName, totalRetries);
+            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
+                    collectionName, totalRetries);
         }
     }
 
@@ -176,6 +188,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
+            LOG.info("Processing: " + entity.getType());
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
@@ -207,6 +220,37 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
+        if (NaturalKeyExtractor.useDeterministicIds()) {
+            
+            NaturalKeyDescriptor naturalKeyDescriptor;
+            try {
+                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+            } catch (NoNaturalKeysDefinedException e1) {
+                LOG.error(e1.getMessage(), e1);
+                return;
+            }
+            
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                        + "       Instance   " + entity.getRecordNumber();
+                LOG.error(message);
+                
+                preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+            } else {
+                // "new" style -> based on natural keys from schema
+                String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+                List<Object> keyValues = new ArrayList<Object>();
+                keyValues.add(id);
+                memory.put(keyValues, entity);
+            }
+        } else {
+            preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+        }
+        
+    }
+    
+    private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
+            ErrorReport errorReport, SimpleEntity entity) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         if (keyFields.size() > 0) {
@@ -219,18 +263,19 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                             + entity.getType() + "\n";
                     errorReport.error(errorMessage, this);
                 }
-
-                if (complexField !=null) {
+                
+                if (complexField != null) {
                     String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
-
+                    
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        String errorMessage = "Issue finding key field: " +" for entity of type: " + entity.getType() + "\n";
+                        String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
+                                + "\n";
                         errorReport.error(errorMessage, this);
                     }
                 }
-
+                
             }
             memory.put(keyValues, entity);
         }

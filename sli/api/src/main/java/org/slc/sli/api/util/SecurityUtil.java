@@ -77,8 +77,10 @@ public class SecurityUtil {
 
         try {
             SecurityContextHolder.getContext().setAuthentication(FULL_ACCESS_AUTH);
+            TenantContext.setRunWithAllTenants(true);
             toReturn = task.execute();
         } finally {
+            TenantContext.setRunWithAllTenants(false);
             SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
             cachedAuth.remove();
             inSudo.set(false);

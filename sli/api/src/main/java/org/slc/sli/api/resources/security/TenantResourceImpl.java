@@ -61,6 +61,7 @@ import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.MongoCommander;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -77,6 +78,13 @@ import org.slc.sli.domain.enums.Right;
 @Path("tenants")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
+
+    @Value("${sli.sandbox.enabled}")
+    protected boolean isSandboxEnabled;
+
+    protected void setSandboxEnabled(boolean isSandboxEnabled) {
+        this.isSandboxEnabled = isSandboxEnabled;
+    }
 
     @Autowired
     private EntityDefinitionStore store;
@@ -95,6 +103,13 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private IngestionTenantLockChecker lockChecker;
+
+    @Autowired
+    private SecurityUtilProxy secUtil;
+
+    protected void setSecUtil(SecurityUtilProxy secUtil) {
+        this.secUtil = secUtil;
+    }
 
     private List<String> ingestionServerList;
 
@@ -402,13 +417,20 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
      *            the uri info
      * @return
      */
+    @SuppressWarnings("deprecation")
     @POST
     @Path("{" + UUID + "}" + "/preload")
     public Response preload(@PathParam(UUID) String tenantId, String dataSet, @Context UriInfo context) {
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
-
         String tenantName = (String) entity.get("tenantId");
+
+        if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
+            EntityBody body = new EntityBody();
+            body.put("message", "You are not authorized.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+
         if (lockChecker.ingestionLocked(tenantName)) {
             // throw new TenantResourceCreationException(Status.CONFLICT,
             // "Ingestion is locked for this tenant");

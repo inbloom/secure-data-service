@@ -1404,7 +1404,6 @@ Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is i
   @result = "true"
   
   @db = @conn[tenantId]
-  puts "db name: #{@db.name}"
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"
@@ -1707,6 +1706,7 @@ Then /^I should not see an error log file created$/ do
     @error_status_filename = ""
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex(@error_filename_component))
+        puts File.open(@landing_zone_path + entry).read
         # LAST ENTRY IS OUR FILE
         @error_status_filename = entry
       end
@@ -1935,6 +1935,21 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
         end
     end
     assert(found == true, "content not found")
+end
+
+Then /^I check that ids were generated properly:$/ do |table|
+  @db = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    collection = row['collectionName']
+    did = row['deterministicId']
+    field = row['field']
+    value = row['value']
+
+    @entity_collection = @db.collection(collection)
+    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+
+    assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
+  end
 end
 
 ############################################################

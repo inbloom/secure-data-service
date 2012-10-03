@@ -1,42 +1,42 @@
 {
     "keyFields" : [ "body.gradebookEntryId", "body.studentId", "body.sectionId"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.sectionId","ref" :
         {
-	        "entityType" : "section",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.uniqueSectionCode",
-		                "values" :
-		                [{
-			                "valueSource" : "body.sectionId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "section",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.sectionId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.studentId","ref" :
         {
-	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.studentId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.studentId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
@@ -82,6 +82,60 @@
                                 ]
                             }
                         }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentSectionAssociationId",
+        "ref" :
+        {
+            "entityType" : "studentSectionAssociation",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentId",
+                        "values" :
+                        [{
+                             "ref":
+                             {
+                                 "entityType" : "student",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.studentUniqueStateId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "body.studentSectionAssociationReference.studentId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    },
+                    {
+                        "path" : "body.sectionId",
+                        "values" :
+                         [{
+                             "ref":
+                             {
+                                 "entityType" : "section",
+                                 "choiceOfFields" :
+                                  [
+                                      [{
+                                          "path" : "body.uniqueSectionCode",
+                                          "values" :
+                                           [{
+                                               "valueSource" : "body.studentSectionAssociationReference.uniqueSectionCode"
+                                           }]
+                                      }]
+                                  ]
+                             }
+                         }]
                     }
                 ]
             ]

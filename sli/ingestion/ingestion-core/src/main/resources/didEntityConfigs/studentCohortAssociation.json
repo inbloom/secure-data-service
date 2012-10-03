@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "student",
+            "didFieldPath" : "body.studentId",
+            "sourceRefPath" : "body.StudentReference"
+        }
+    ]
+}

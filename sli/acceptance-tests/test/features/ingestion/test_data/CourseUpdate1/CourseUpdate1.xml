@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
@@ -90,7 +88,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Original-Title-1</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>Add More Course Code</CourseTitle>
@@ -107,7 +105,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Add-More-Course-Code-2</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>Remove Course Code</CourseTitle>
@@ -127,7 +125,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Remove-Course-Code-3</UniqueCourseId></Course>
 
   <Course>
     <CourseTitle>Different EdOrg Code</CourseTitle>
@@ -147,7 +145,7 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>
+  <UniqueCourseId>Different-EdOrg-Code-4</UniqueCourseId></Course>
 
 
 </InterchangeEducationOrganization>
