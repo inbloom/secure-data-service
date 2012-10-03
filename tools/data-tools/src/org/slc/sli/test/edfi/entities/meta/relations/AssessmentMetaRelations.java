@@ -368,6 +368,7 @@ public class AssessmentMetaRelations {
         LearningStandardMeta random = null;
         if (LEARN_STD_MAP.size() > 0) {
             random = LEARN_STD_MAP.get(LEARN_STD_PREFIX + RANDOM.nextInt(LEARN_STD_MAP.size()));
+            
         }
         return random;
     }
