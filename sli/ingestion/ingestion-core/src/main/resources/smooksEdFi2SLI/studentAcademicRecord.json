@@ -63,7 +63,7 @@
                                                             "path" : "body.studentUniqueStateId",
                                                             "values": [
                                                                 {
-                                                                    "valueSource":"body.studentId"
+                                                                    "valueSource":"body.reportCards.studentId"
                                                                 }
                                                             ]
                                                         }
@@ -85,7 +85,7 @@
                                                         "path":"body.gradingPeriodIdentity.schoolYear",
                                                         "values":[
                                                             {
-                                                                "valueSource":"body.gradingPeriodReference.schoolYear"
+                                                                "valueSource":"body.reportCards.schoolYear"
                                                             }
                                                         ]
                                                     },
@@ -93,7 +93,7 @@
                                                         "path":"body.gradingPeriodIdentity.gradingPeriod",
                                                         "values":[
                                                             {
-                                                                "valueSource":"body.gradingPeriodReference.gradingPeriod"
+                                                                "valueSource":"body.reportCards.gradingPeriod"
                                                             }
                                                         ]
                                                     },
@@ -103,13 +103,15 @@
                                                             {
                                                                 "ref":{
                                                                     "entityType": "school",
+                                                                    "isRefList" : true,
+                                                                    "refObjectPath" : "body.reportCards",
                                                                     "choiceOfFields": [
                                                                         [
                                                                             {
                                                                                 "path" : "body.stateOrganizationId",
                                                                                 "values": [
                                                                                     {
-                                                                                        "valueSource":"body.gradingPeriodReference.stateOrganizationId"
+                                                                                        "valueSource":"body.reportCards.stateOrganizationId"
                                                                                     }
                                                                                 ]
                                                                             }

@@ -24,17 +24,36 @@
     </jb:bean>
 
     <jb:bean beanId="studentAcademicRecordBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="cumulativeCreditsEarned" data="attributes cumulativeCreditsEarned" />
-        <jb:value property="cumulativeCreditsAttempted" data="attributes cumulativeCreditsAttempted" />
+        <jb:wiring property="cumulativeCreditsEarned" beanIdRef="cumulativeCreditsEarned" />
+        <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="cumulativeCreditsAttempted" />
         <jb:value property="cumulativeGradePointsEarned" data="attributes cumulativeGradePointsEarned" decoder="Double" />
         <jb:value property="cumulativeGradePointAverage" data="attributes cumulativeGradePointAverage" decoder="Double" />
-        <jb:value property="classRanking" data="attributes classRanking" />
+        <jb:wiring property="classRanking" beanIdRef="classRanking" />
         <jb:value property="studentId" data="attributes studentId" />
         <jb:value property="sessionId" data="attributes sessionId"  />
         <jb:wiring property="reportCards" beanIdRef="studentAcademicRecord_reportCardArray"/>
     </jb:bean>
 
-    <jb:bean beanId="studentAcademicRecord_reportCardArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="cumulativeCreditsEarned" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsEarned">
+        <jb:value property="credit" data="attributes cumulativeCreditsEarned credit" decoder="Double" />
+        <jb:value property="creditType" data="attributes cumulativeCreditsEarned creditType" />
+        <jb:value property="creditConversion" data="attributes cumulativeCreditsEarned creditConversion" decoder="Double" />
+    </jb:bean>
+
+    <jb:bean beanId="cumulativeCreditsAttempted" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsAttempted">
+        <jb:value property="credit" data="attributes cumulativeCreditsAttempted credit" decoder="Double" />
+        <jb:value property="creditType" data="attributes cumulativeCreditsAttempted creditType" />
+        <jb:value property="creditConversion" data="attributes cumulativeCreditsAttempted creditConversion" decoder="Double" />
+    </jb:bean>
+
+    <jb:bean beanId="classRanking" class="java.util.HashMap" createOnElement="attributes classRanking">
+        <jb:value property="classRank" data="attributes classRanking credit" decoder="Integer" />
+        <jb:value property="totalNumberInClass" data="attributes classRanking creditType" decoder="Integer" />
+        <jb:value property="percentageRanking" data="attributes classRanking creditConversion" decoder="Integer" />
+        <jb:value property="classRankingDate" data="attributes classRanking creditConversion" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAcademicRecord_reportCardArray" class="java.util.ArrayList" createOnElement="attributes reportCards">
         <jb:value data="attributes reportCards element" />
     </jb:bean>
 

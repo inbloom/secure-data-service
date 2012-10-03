@@ -1964,7 +1964,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordClassRanking" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ClassRanking">
     <jb:value property="classRank" data="StudentAcademicRecord/ClassRanking/ClassRank" decoder="Integer" />
     <jb:value property="totalNumberInClass" data="StudentAcademicRecord/ClassRanking/TotalNumberInClass" decoder="Integer" />
     <jb:value property="percentageRanking" data="StudentAcademicRecord/ClassRanking/PercentageRanking" decoder="Integer" />
@@ -1972,20 +1972,20 @@
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsEarnedValue" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/CumulativeCreditsEarned">
     <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsEarned/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditType" />
     <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditConversion" decoder="Double"/>
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsAttemptedValue" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/CumulativeCreditsAttempted">
     <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsAttempted/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditType" />
     <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditConversion" decoder="Double" />
   </jb:bean>
 
-  <jb:bean beanId="reportCard_array" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+  <jb:bean beanId="reportCard_array" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference">
     <jb:wiring beanIdRef="reportCard_reference" />
   </jb:bean>
 

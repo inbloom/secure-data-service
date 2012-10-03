@@ -2858,7 +2858,7 @@
 				</xs:annotation>
 			</xs:element>
 
-            <xs:element name="reportCards" type="reportCard" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="reportCards" type="reference" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Report cards for the student.</xs:documentation>
                     <xs:appinfo>
