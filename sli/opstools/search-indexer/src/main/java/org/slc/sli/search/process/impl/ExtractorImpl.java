@@ -103,6 +103,11 @@ public class ExtractorImpl implements Extractor {
                     numberOfLineWritten = 0;
                     IOUtils.closeQuietly(bw);
 
+                    // move file to inbox for indexer
+                    if (outFile != null) {
+                        FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
+                    }
+                    
                     // open file to write
                     outFile = createTempFile(collectionName);
                     bw = new BufferedWriter(new FileWriter(outFile));
@@ -113,8 +118,6 @@ public class ExtractorImpl implements Extractor {
                 bw.newLine();
                 numberOfLineWritten++;
             }
-            // move file to inbox for indexer
-            FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
 
         } catch (FileNotFoundException e) {
             logger.error("Error writing entities file", e);

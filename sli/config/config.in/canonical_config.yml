@@ -380,7 +380,7 @@ default:
         sli.search.indexer.log.level: INFO
         sli.search.indexer.dir.inbox: inbox
         sli.search.indexer.dir.extract: tmp
-        sli.search.indexer.schedule: 0 * * * * ?
+        sli.search.indexer.schedule: 0 0 0 ? * SUN
 
 acceptance-tests:
     api:
