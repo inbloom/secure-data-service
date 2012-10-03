@@ -1,6 +1,7 @@
 @RALLY_US206
 @RALLY_US1736
 @RALLY_US2033
+@RALLY_US4112
 Feature: Tenant Purge Test
 
 Background: I have a landing zone route configured
