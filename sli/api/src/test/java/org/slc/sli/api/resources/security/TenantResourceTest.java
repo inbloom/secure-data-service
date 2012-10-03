@@ -47,6 +47,7 @@ import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -63,9 +64,9 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing a tenant
- *
+ * 
  * @author srichards
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -81,6 +82,7 @@ public class TenantResourceTest {
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
+    private SecurityUtilProxy secUtil;
 
     private static final String TENANT_1 = "IL";
     private static final String TENANT_2 = "NC";
@@ -93,6 +95,7 @@ public class TenantResourceTest {
 
     @Before
     public void setup() throws Exception {
+        
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
@@ -102,6 +105,8 @@ public class TenantResourceTest {
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
 
         httpHeaders = mock(HttpHeaders.class);
+        secUtil = mock(SecurityUtilProxy.class);
+        tenantResource.setSecUtil(secUtil);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
 
@@ -374,7 +379,10 @@ public class TenantResourceTest {
 
     @Test
     public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        injector.setDeveloperContext();
         String id = createLandingZone(new EntityBody(createTestEntity()));
+        when(secUtil.getTenantId()).thenReturn(TENANT_1);
+        tenantResource.setSandboxEnabled(true);
         Response r = tenantResource.preload(id, "small", uriInfo);
         assertEquals(Status.CREATED.getStatusCode(), r.getStatus());
         Map<String, Object> e = repo.findById("tenant", id).getBody();
@@ -385,9 +393,36 @@ public class TenantResourceTest {
         assertEquals(Arrays.asList("small"), preload.get("files"));
         assertEquals("ready", preload.get("status"));
     }
+    
+    @Test
+    public void testPreloadNoAuthorization() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        // test no right will get forbidden response
+        injector.setLeaAdminContext();
+        tenantResource.setSandboxEnabled(true);
+        String id = createLandingZone(new EntityBody(createTestEntity()));
+        when(secUtil.getTenantId()).thenReturn(TENANT_1);
+        Response r = tenantResource.preload(id, "small", uriInfo);
+        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
+        
+        // test production environment will get forbidden response
+        injector.setDeveloperContext();
+        tenantResource.setSandboxEnabled(false);
+        r = tenantResource.preload(id, "small", uriInfo);
+        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
+        
+        // test tenant mismatch will get forbidden response
+        injector.setDeveloperContext();
+        tenantResource.setSandboxEnabled(true);
+        when(secUtil.getTenantId()).thenReturn(TENANT_2);
+        r = tenantResource.preload(id, "small", uriInfo);
+        assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
+
+    }
 
     @Test
     public void testLandingZoneLocked() {
+        injector.setDeveloperContext();
         String id = createLandingZone(new EntityBody(createTestEntity()));
         Map<String, Object> entity = repo.findById("tenant", id).getBody();
         @SuppressWarnings("unchecked")
@@ -399,6 +434,8 @@ public class TenantResourceTest {
                 .thenReturn(new MongoEntity("tenantJobLock", new HashMap<String, Object>()));
         tenantResource.setLockChecker(lockChecker);
         // try {
+        tenantResource.setSandboxEnabled(true);
+        when(secUtil.getTenantId()).thenReturn(TENANT_1);
         Response response = tenantResource.preload(id, "small", uriInfo);
         // fail("Should block preloading data in landing zone when ingesiton is running");
         // } catch (TenantResourceCreationException e) {

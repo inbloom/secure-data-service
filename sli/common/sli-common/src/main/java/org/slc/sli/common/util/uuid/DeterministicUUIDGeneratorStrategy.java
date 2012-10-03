@@ -16,87 +16,91 @@
 package org.slc.sli.common.util.uuid;
 
 import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+
 @Component
 @Qualifier("deterministicUUIDGeneratorStrategy")
 public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy {
-    
+
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicUUIDGeneratorStrategy.class);
-    
+
     public static final String DIGEST_ALGORITHM = "SHA-256";
-    private String deliminator = "||";
-    
+    private static final String DELIMITER_1 = "|";
+    private static final String DELIMITER_1_REGEX = "\\|";
+    private static final String DELIMITER_1_REPLACEMENT = DELIMITER_1 + DELIMITER_1;
+    private static final String DELIMITER_2 = "~";
+    private static final String DELIMITER_2_REGEX = "~";
+    private static final String DELIMITER_2_REPLACEMENT = DELIMITER_2 + DELIMITER_2;
+    private static final String DELIMITER = DELIMITER_1 + DELIMITER_2;
+
     @Autowired
     @Qualifier("shardType1UUIDGeneratorStrategy")
-    ShardType1UUIDGeneratorStrategy oldStrategy;
-    
+    ShardType1UUIDGeneratorStrategy uuidStrategy;
+
     @Override
     public String generateId() {
-        return oldStrategy.generateId();
+        return uuidStrategy.generateId();
     }
-    
+
     @Override
     public String generateId(NaturalKeyDescriptor naturalKeyDescriptor) {
-        
+
         // if no natural keys exist, can't generate deterministic id
         if (naturalKeyDescriptor == null || naturalKeyDescriptor.getNaturalKeys() == null
                 || naturalKeyDescriptor.getNaturalKeys().isEmpty()) {
             return generateId();
         }
-        
-        UUID uuid = null;
-        
-        try {
-            // Get values in alphabetical order
-            Map<String, String> naturalKeys = naturalKeyDescriptor.getNaturalKeys();
-            List<String> keyList = new ArrayList<String>(naturalKeys.keySet());
-            Collections.sort(keyList);
-            
-            // Concatenate values together into one string
-            StringBuffer keyValues = new StringBuffer();
-            keyValues.append(naturalKeyDescriptor.getEntityType()).append(deliminator);
-            keyValues.append(naturalKeyDescriptor.getTenantId()).append(deliminator);
-            for (String key : keyList) {
-                keyValues.append(naturalKeys.get(key)).append(deliminator);
-            }
-            // Digest keyValue string into hash
-            MessageDigest messageDigest = MessageDigest.getInstance(DIGEST_ALGORITHM);
-            byte[] keyValueBytes = keyValues.toString().getBytes();
-            messageDigest.update(keyValueBytes);
-            byte[] digestBytes = messageDigest.digest();
-            messageDigest.reset();
-            uuid = generateUuid(digestBytes);
-            
-        } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-            LOG.error(noSuchAlgorithmException.getMessage());
+
+        // Get values in alphabetical order
+        Map<String, String> naturalKeys = naturalKeyDescriptor.getNaturalKeys();
+        List<String> keyList = new ArrayList<String>(naturalKeys.keySet());
+        Collections.sort(keyList);
+
+        // Concatenate values together into one string
+        StringBuffer keyValues = new StringBuffer();
+        keyValues.append(escapeDelimiters(naturalKeyDescriptor.getEntityType())).append(DELIMITER);
+        keyValues.append(escapeDelimiters(naturalKeyDescriptor.getTenantId())).append(DELIMITER);
+        for (String key : keyList) {
+            keyValues.append(escapeDelimiters(naturalKeys.get(key))).append(DELIMITER);
         }
-        return uuid.toString();
+        // Digest keyValue string into hash
+        String hexHash = DigestUtils.shaHex(keyValues.toString().getBytes());
+
+        return hexHash + "_id";
     }
-    
+
+    private String escapeDelimiters(String input) {
+        if( input == null ){
+            return "";
+        }
+        String output = input.replaceAll(DELIMITER_1_REGEX, DELIMITER_1_REPLACEMENT).replaceAll(DELIMITER_2_REGEX,
+                DELIMITER_2_REPLACEMENT);
+        return output;
+    }
+
     protected static UUID generateUuid(byte[] data) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-        
+
         long msb = byteBuffer.getLong(0);
         long lsb = byteBuffer.getLong(8);
-        
+
         UUID uuid = new UUID(msb, lsb);
-        
+
         return uuid;
     }
-    
+
 }

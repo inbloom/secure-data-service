@@ -1233,8 +1233,7 @@
 				different medium.
 
 				Associations: TeacherSectionAssociation,
-				StudentSectionAssociation,
-				SectionAssessmentAssociation
+				StudentSectionAssociation.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
@@ -1483,7 +1482,7 @@
 					<xs:documentation>The education organization referenced by this session.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        <sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -1526,7 +1525,7 @@
 					<xs:documentation>The school that offers the course.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -1909,12 +1908,12 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>staffProgramAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.
 					</xs:documentation>
@@ -1925,7 +1924,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programId" type="reference" maxOccurs="unbounded">
+			<xs:element name="programId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.
 					</xs:documentation>
@@ -1941,6 +1940,9 @@
 					<xs:documentation>Start date for the association of staff to this
 						cohort.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -2878,7 +2880,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentAssessmentAssociation</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -2888,7 +2890,10 @@
 					<xs:documentation>The month(s), day(s), and year on which an
 						assessment is administered or first day of administration if over
 						multiple days.
-					</xs:documentation>
+						</xs:documentation>	
+					<xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="administrationEndDate"
@@ -3862,7 +3867,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -3884,7 +3889,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3894,7 +3898,6 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3940,6 +3943,17 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentSectionAssociationId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Association to the student-section association
+                        with which the competency is evaluated.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -4183,7 +4197,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
+			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
@@ -5958,6 +5972,9 @@
 						The name of the period for which grades are
 						reported
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -6054,7 +6071,7 @@
 			</xs:documentation>
 			<xs:appinfo>
                 <sli:CollectionType>graduationPlan</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -6081,9 +6098,6 @@
 					<xs:documentation>An indicator of whether the graduation plan is
 						tailored for an individual.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="totalCreditsRequired" type="credits">
@@ -6092,9 +6106,6 @@
 						graduation
 						under this plan.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsBySubject" type="creditsBySubject"
@@ -6106,9 +6117,6 @@
 						requirement
 						are eligible to meet subject credit requirements.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsByCourse" type="creditsByCourse"
@@ -6119,7 +6127,17 @@
 						specific course, or by taking one or more from a set of
 						courses.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+ 			<xs:element name="educationOrganizationId" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						For standard plans defined by an education organization, the 
+						reference to the organization defining the plan.  
+						Individualized plans do not require this reference.
+					</xs:documentation>
 					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6166,6 +6184,9 @@
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a learning Standard.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="contentStandardName" type="contentStandardName"
@@ -6599,7 +6620,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>attendance</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -7361,7 +7382,7 @@
 				competencies.</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>competencyLevelDescriptor</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
 			</xs:appinfo>
 		</xs:annotation>
@@ -7509,7 +7530,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>studentCompetency</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
 		</xs:annotation>
@@ -7546,6 +7567,9 @@
 				<xs:annotation>
 					<xs:documentation>The competency level assessed for the student for
 						the referenced learning objective.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="diagnosticStatement" type="text"
@@ -7556,8 +7580,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationId" type="reference"
-				minOccurs="0">
+			<xs:element name="studentSectionAssociationId" type="reference" >
 				<xs:annotation>
 					<xs:documentation>Association to the student-section association
 						with which the competency is evaluated.</xs:documentation>

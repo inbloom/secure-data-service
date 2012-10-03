@@ -3872,7 +3872,7 @@
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
 			<!-- Is this correct? A UUID has 32 digits + 4 hyphens = 36 characters -->
-			<xs:maxLength value="30" />
+			<xs:maxLength value="43" />
 		</xs:restriction>
 	</xs:simpleType>
 

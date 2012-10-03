@@ -50,6 +50,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentGrade;
 import org.slc.sli.test.edfi.entities.LearningObjective;
 import org.slc.sli.test.edfi.entities.LearningObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
@@ -69,10 +70,12 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
+import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
 import org.slc.sli.test.edfi.entities.meta.ReportCardMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
@@ -398,6 +401,8 @@ public final class InterchangeStudentGradeGenerator {
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
             Map<String, SectionMeta> sectionMetaMap, InterchangeWriter<InterchangeStudentGrade> writer) {
 
+    	int learningObjectiveIdCounter = 0;
+    	
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
@@ -422,8 +427,15 @@ public final class InterchangeStudentGradeGenerator {
                             .getStudentSectionAssociationReference(studentRef, sectionRef);
                     LearningObjectiveReferenceType loRef = new LearningObjectiveReferenceType();
                     LearningObjectiveIdentityType loIdentity = new LearningObjectiveIdentityType();
-                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + reportCardId + "_" + loId);
+                    LearningStandardId lsi = new LearningStandardId();
+                    learningObjectiveIdCounter++;
+                    lsi.setIdentificationCode(ID_PREFIX_LO + learningObjectiveIdCounter);
+                    loIdentity.getLearningObjectiveIdOrObjective().add(lsi);
                     loRef.setLearningObjectiveIdentity(loIdentity);
+                    
+                    LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
+                    
+                    AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
                             null);
@@ -465,6 +477,7 @@ public final class InterchangeStudentGradeGenerator {
                             .createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(ID_PREFIX_SCO
                                     + reportCardId + "_" + scoId);
                     scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
+                    scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
 
                     LearningObjectiveReferenceType learningObjectiveRef = null;
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef,
@@ -533,7 +546,8 @@ public final class InterchangeStudentGradeGenerator {
             StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);
 
             for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
-
+                
+                
                 // create a studentgradebookentry for just a fraction of gradebooks
                 if (true /*
                           * (int) (Math.random() *
@@ -541,21 +555,26 @@ public final class InterchangeStudentGradeGenerator {
                           */) {
 
                     GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
+                    
                     SectionMeta section = gradeBookEntryMeta.getSection();
                     String sectionId = section.id;
-                    String sectionSchool = section.schoolId;
-                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
-                                                                                              // to
-                                                                                              // Section
+                    
+                    // need to ensure that this section is associated with the student
+                    if(studentMeta.sectionIds.contains(sectionId)) {
+                        String sectionSchool = section.schoolId;
+                        SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                                                                                                  // to
+                                                                                                  // Section
 
-                    StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
-                            sectionRef, studentRef);
-                    ReferenceType ref = new ReferenceType();
-                    ref.setRef(new Ref(gradeBookEntryMeta.getId()));
-                    studentGradeBookEntry.setGradebookEntryReference(ref);
+                        StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
+                                sectionRef, studentRef);
+                        ReferenceType ref = new ReferenceType();
+                        ref.setRef(new Ref(gradeBookEntryMeta.getId()));
+                        studentGradeBookEntry.setGradebookEntryReference(ref);
 
-                    writer.marshal(studentGradeBookEntry);           
-                    count++;
+                        writer.marshal(studentGradeBookEntry);           
+                        count++;
+                    }
                 }
             }
         }

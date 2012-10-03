@@ -81,6 +81,15 @@ public class TenantProcessor implements Processor {
     public static final String TENANT_POLL_SUCCESS = "SUCCESS";
     public static final String TENANT_POLL_FAILURE = "FAILURE";
 
+    @Value("${sli.ingestion.lz.pollInterval:30000}")
+    private int pollInterval;
+
+    @Value("${sli.ingestion.lz.readLockCheckInterval:30000}")
+    private int readLockCheckInterval;
+
+    @Value("${sli.ingestion.lz.readLockTimeout:600000}")
+    private int readLockTimeout;
+
     @Override
     public void process(Exchange exchange) throws Exception {
 
@@ -184,7 +193,7 @@ public class TenantProcessor implements Processor {
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri,
-                zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
+                zipFileProcessor, controlFilePreProcessor, noExtractProcessor, pollInterval, readLockCheckInterval, readLockTimeout);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }
 

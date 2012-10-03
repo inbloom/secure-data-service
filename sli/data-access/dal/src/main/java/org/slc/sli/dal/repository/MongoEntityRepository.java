@@ -30,6 +30,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -173,7 +174,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<Entity> persist = new ArrayList<Entity>();
         
         for (Entity record : records) {
-            Entity entity = new MongoEntity(record.getType(), null, record.getBody(), record.getMetaData());
+            
+            String entityId = null;
+            if (NaturalKeyExtractor.useDeterministicIds() == false) {
+                if ("educationOrganization".equals(collectionName)) {
+                    entityId = record.getStagedEntityId();
+                }
+            }
+            
+            Entity entity = new MongoEntity(record.getType(), entityId, record.getBody(), record.getMetaData());
             persist.add(entity);
         }
         

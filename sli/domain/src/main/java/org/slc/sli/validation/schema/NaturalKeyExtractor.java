@@ -23,40 +23,55 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.NaturalKeyValidationException;
-import org.slc.sli.validation.SchemaRepository;
 
 /**
  * @author sashton
  */
 @Component
 public class NaturalKeyExtractor implements INaturalKeyExtractor {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(NaturalKeyExtractor.class);
-
+    
     @Autowired
     protected SchemaRepository entitySchemaRegistry;
-
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
+    
+    public static boolean useDeterministicIds() {
+        
+        String nonDeterministicIds = System.getProperty("nonDeterministicIds");
+        return nonDeterministicIds == null;
+        
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeys(org.slc.sli.domain.Entity)
      */
     @Override
-    public Map<String, String> getNaturalKeys(Entity entity) {
+    public Map<String, String> getNaturalKeys(Entity entity) throws NoNaturalKeysDefinedException {
         Map<String, String> map = new HashMap<String, String>();
-
+        
         List<String> missingKeys = new ArrayList<String>();
-
+        
         Map<String, Boolean> naturalKeyFields = getNaturalKeyFields(entity);
+        if (naturalKeyFields == null) {
+            // natural keys don't apply to this entity
+            return null;
+        }
+        
         for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
-            //instead use x-paths here?
-            //Object value = entity.getBody().get(keyField.getKey());
+            // instead use x-paths here?
+            // Object value = entity.getBody().get(keyField.getKey());
             Object value = null;
             try {
                 value = PropertyUtils.getProperty(entity.getBody(), keyField.getKey());
@@ -70,8 +85,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             if (value == null) {
                 if (keyField.getValue().booleanValue()) {
                     map.put(keyField.getKey(), "");
-                }
-                else{
+                } else {
                     // if the required key field is not found, there's a problem
                     missingKeys.add(keyField.getKey());
                 }
@@ -84,48 +98,62 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         if (!missingKeys.isEmpty()) {
             throw new NaturalKeyValidationException(entity.getType(), missingKeys);
         }
-
+        
         return map;
     }
-
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain.Entity)
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyFields(org.slc.sli.domain
+     * .Entity)
      */
     @Override
-    public Map<String, Boolean> getNaturalKeyFields(Entity entity) {
-
-        Map<String, Boolean> naturalKeyFields = new HashMap<String, Boolean>();
-
+    public Map<String, Boolean> getNaturalKeyFields(Entity entity) throws NoNaturalKeysDefinedException {
+        
+        Map<String, Boolean> naturalKeyFields = null;
+        
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema != null) {
-
+            
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
                 if (appInfo.applyNaturalKeys()) {
-                    //recursive call to get natural fields
+                    naturalKeyFields = new HashMap<String, Boolean>();
+                    // recursive call to get natural fields
                     getNaturalKeyFields(naturalKeyFields, schema, "");
+                    
+                    if (naturalKeyFields.isEmpty()) {
+                        // if no fields are found, there is a problem
+                        LOG.error("Failed to find natural key definitions for the " + entity.getType() + " entity");
+                        throw new NoNaturalKeysDefinedException(entity.getType());
+                    }
                 }
             }
         }
-
+        
         return naturalKeyFields;
     }
-
+    
     /**
-     * Recursive method to traverse down to the leaf nodes of a neutral schema and extract annotated key fields
+     * Recursive method to traverse down to the leaf nodes of a neutral schema and extract annotated
+     * key fields
      */
     private void getNaturalKeyFields(Map<String, Boolean> naturalKeyFields, NeutralSchema schema, String baseXPath) {
         Map<String, NeutralSchema> fields = schema.getFields();
         for (Entry<String, NeutralSchema> fieldEntry : fields.entrySet()) {
             String fieldXPath = baseXPath + fieldEntry.getKey();
-
+            
             NeutralSchema fieldSchema = fieldEntry.getValue();
-            if (fieldSchema instanceof ComplexSchema) {
-                getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldXPath + ".");
-            } else {
-                AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
-                if (fieldsAppInfo != null) {
-                    if (fieldsAppInfo.isNaturalKey()) {
+            
+            AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
+            if (fieldsAppInfo != null) {
+                boolean foo = fieldsAppInfo.isNaturalKey();
+                if (foo) {
+                    if (fieldSchema instanceof ComplexSchema) {
+                        getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldXPath + ".");
+                    } else {
                         Boolean isOptional = null;
                         if (fieldsAppInfo.isRequired()) {
                             isOptional = new Boolean(false);
@@ -136,29 +164,35 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                     }
                 }
             }
+            
         }
     }
-
-    /* (non-Javadoc)
-     * @see org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyDescriptor(org.slc.sli.domain.Entity)
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.validation.schema.INaturalKeyExtractor#getNaturalKeyDescriptor(org.slc.sli.domain
+     * .Entity)
      * .Entity)
      */
     @Override
-    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) {
-
+    public NaturalKeyDescriptor getNaturalKeyDescriptor(Entity entity) throws NoNaturalKeysDefinedException {
+        
         Map<String, String> map = getNaturalKeys(entity);
-        if (map.isEmpty()) {
-            // no natural keys were found, don't return a descriptor
-            return null;
+        if (map == null) {
+            NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor();
+            naturalKeyDescriptor.setNaturalKeysNotNeeded(true);
+            return naturalKeyDescriptor;
         }
-
+        
         String entityType = entity.getType();
         String tenantId = (String) entity.getMetaData().get("tenantId");
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType);
         return naturalKeyDescriptor;
     }
-
-    private void handleFieldAccessException(String keyField, Entity entity){
+    
+    private void handleFieldAccessException(String keyField, Entity entity) {
         LOG.error("Failed to extract field " + keyField + " from " + entity.getType() + "entity");
     }
 }

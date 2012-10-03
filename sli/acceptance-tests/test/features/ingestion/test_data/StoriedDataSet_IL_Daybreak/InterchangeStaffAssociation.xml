@@ -1004,13 +1004,40 @@
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
-	<!-- jjackson and jstevenson to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
+	<!-- jjackson to ACC-TEST-PROG-1 -->
 	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>jjackson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-05</BeginDate>
+		<EndDate>2012-02-15</EndDate>
+		<StudentRecordAccess>true</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- jjackson ACC-TEST-PROG-2 -->
+	<StaffProgramAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jjackson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-2</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-05</BeginDate>
+		<EndDate>2012-02-15</EndDate>
+		<StudentRecordAccess>true</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- jstevenson to ACC-TEST-PROG-1 -->
+	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
@@ -1021,6 +1048,17 @@
 				<ProgramId>ACC-TEST-PROG-1</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
+		<BeginDate>2011-01-05</BeginDate>
+		<EndDate>2012-02-15</EndDate>
+		<StudentRecordAccess>true</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- jstevenson to ACC-TEST-PROG-2 -->
+	<StaffProgramAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
 		<ProgramReference>
 			<ProgramIdentity>
 				<ProgramId>ACC-TEST-PROG-2</ProgramId>
@@ -1045,13 +1083,23 @@
 		<BeginDate>2011-06-01</BeginDate>
 		<StudentRecordAccess>false</StudentRecordAccess>
 	</StaffProgramAssociation>
-	<!-- sbantu and mjohnson to ACC-TEST-PROG-2 -->
+	<!-- sbantu to ACC-TEST-PROG-2 -->
 	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-2</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-01</BeginDate>
+		<StudentRecordAccess>false</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- mjohnson to ACC-TEST-PROG-2 -->
+	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>mjohnson</StaffUniqueStateId>

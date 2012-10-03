@@ -113,15 +113,16 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | name                       |
     | studentSectionAssociations |
     And in "studentSectionAssociations" I should see the following fields only:
-    | entityType          |
-    | grades              |
-    | id                  |
-    | sectionId           |
-    | sections            |
-    | studentCompetencies |
-    | studentId           |
-    | students            |
-    | beginDate           |
+    | studentGradebookEntries |
+    | entityType              |
+    | grades                  |
+    | id                      |
+    | sectionId               |
+    | sections                |
+    | studentCompetencies     |
+    | studentId               |
+    | students                |
+    | beginDate               |
     Given selector "(name,studentSectionAssociations:(section:(*)))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
@@ -268,7 +269,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
-    
+
   Scenario: Sad path - Selector embeds too many documents
     Given selector "(sections:(*),studentSectionAssociations:(*,section:(*)),schools:(*,sections:(*)))"
     When I navigate to GET "/v1/students"

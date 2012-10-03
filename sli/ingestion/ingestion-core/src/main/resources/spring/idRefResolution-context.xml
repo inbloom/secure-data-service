@@ -13,6 +13,9 @@
       <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
 
+      <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentAssessmentReference"
+          value="idRefResolution/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentAssessmentReference.ftl" />
+
       <!--End of Interchange StudentAssment -->
 
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference"
@@ -210,7 +213,7 @@
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentAssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />

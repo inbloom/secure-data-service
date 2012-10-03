@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class EdfiEntityTest {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(EdfiEntityTest.class);
-    
+
     @Test
     public void testSmallSubset() {
         Set<EdfiEntity> expected = EnumSet.of(EdfiEntity.STUDENT, EdfiEntity.PARENT);
@@ -45,7 +45,7 @@ public class EdfiEntityTest {
 
     @Test
     public void testAll() {
-        Set<EdfiEntity> expected = EnumSet.of(EdfiEntity.SELF, EdfiEntity.ASSESSMENT_FAMILY, EdfiEntity.ASSESSMENT_PERIOD_DESCRIPTOR, EdfiEntity.CALENDAR_DATE, EdfiEntity.CLASS_PERIOD, EdfiEntity.GRADUATION_PLAN,
+        Set<EdfiEntity> expected = EnumSet.of(EdfiEntity.SELF, EdfiEntity.ASSESSMENT_FAMILY, EdfiEntity.ASSESSMENT_PERIOD_DESCRIPTOR, EdfiEntity.CALENDAR_DATE, EdfiEntity.CLASS_PERIOD,
                 EdfiEntity.LEARNING_STANDARD, EdfiEntity.LOCATION, EdfiEntity.PARENT, EdfiEntity.PROGRAM, EdfiEntity.STAFF, EdfiEntity.STUDENT, EdfiEntity.TEACHER, EdfiEntity.BELL_SCHEDULE, EdfiEntity.COMPETENCY_LEVEL_DESCRIPTOR,
                 EdfiEntity.CREDENTIAL_FIELD_DESCRIPTOR, EdfiEntity.PERFORMANCE_LEVEL_DESCRIPTOR, EdfiEntity.SERVICE_DESCRIPTOR);
 

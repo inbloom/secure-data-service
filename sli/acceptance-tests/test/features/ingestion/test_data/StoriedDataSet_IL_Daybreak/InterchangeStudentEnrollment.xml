@@ -6752,9 +6752,7 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>
@@ -6810,11 +6808,60 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
+</GraduationPlan>
+
+<GraduationPlan id="GP-MINIMUM2">
+    <GraduationPlanType>Minimum</GraduationPlanType>
+    <IndividualPlan>false</IndividualPlan>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>32</Credit>
+    </TotalCreditsRequired>
+
+    <CreditsBySubject>
+        <SubjectArea>English Language and Literature</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>6</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Mathematics</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>4</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Social Studies</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>4</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Science</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>2</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>4</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Foreign Language and Literature</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>2</Credit>
+        </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+        <SubjectArea>Fine and Performing Arts</SubjectArea>
+        <Credits CreditConversion="0" CreditType="Semester hour credit">
+            <Credit>2</Credit>
+        </Credits>
+    </CreditsBySubject>
 </GraduationPlan>
 
 <GraduationPlan id="GP-ADVANCED">
@@ -6868,9 +6915,7 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>

@@ -11,6 +11,7 @@ public class NaturalKeyDescriptor {
     private Map<String, String> naturalKeys;
     private String tenantId;
     private String entityType;
+    private boolean naturalKeysNotNeeded;
 
     public NaturalKeyDescriptor() {
         this(null, null, null);
@@ -48,6 +49,25 @@ public class NaturalKeyDescriptor {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        int result = 42;
+
+        if (this.getNaturalKeys() != null) {
+            result = 37 * result + this.getNaturalKeys().hashCode();
+        }
+
+        if (this.getTenantId() != null) {
+            result = 37 * result + this.getTenantId().hashCode();
+        }
+
+        if (this.getEntityType() != null) {
+            result = 37 * result + this.getEntityType().hashCode();
+        }
+
+        return result;
+    }
+
     public Map<String, String> getNaturalKeys() {
         return naturalKeys;
     }
@@ -70,6 +90,14 @@ public class NaturalKeyDescriptor {
 
     public void setEntityType(String entityType) {
         this.entityType = entityType;
+    }
+
+    public boolean isNaturalKeysNotNeeded() {
+        return naturalKeysNotNeeded;
+    }
+
+    public void setNaturalKeysNotNeeded(boolean naturalKeysNotNeeded) {
+        this.naturalKeysNotNeeded = naturalKeysNotNeeded;
     }
 
 }

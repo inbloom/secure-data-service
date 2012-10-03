@@ -20,6 +20,9 @@ import com.mongodb.BasicDBObject;
 import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Util class for Query match
  *
@@ -34,16 +37,14 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
     }
 
     @Override
-    public boolean matches(Object argument)
-    {
-        if (query!=null) {
+    public boolean matches(Object argument) {
+        if (query != null) {
             return matches((Query) argument);
         }
         return false;
     }
 
-    private boolean matches(Query arg)
-    {
+    private boolean matches(Query arg) {
         String queryKey;
         String argKey;
 
@@ -51,37 +52,35 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
             queryKey = query.getQueryObject().get(key).getClass().getSimpleName();
             argKey = arg.getQueryObject().get(key).getClass().getSimpleName();
 
-            if (!queryKey.equals(argKey))
-            {
+            if (!queryKey.equals(argKey)) {
                 return false;
             } else if (queryKey.equals("BasicDBObject")) {
-                BasicDBObject queryObj = (BasicDBObject)query.getQueryObject().get(key);
-                BasicDBObject argObj = (BasicDBObject)arg.getQueryObject().get(key);;
+                BasicDBObject queryObj = (BasicDBObject) query.getQueryObject().get(key);
+                BasicDBObject argObj = (BasicDBObject) arg.getQueryObject().get(key);
 
 //                System.out.println(key);
 //                System.out.print("\t"+queryObj);
 //                System.out.println(" "+argObj);
 
                 for (String key2 : queryObj.keySet()) {
-                    if (queryObj.get(key2).getClass()!=argObj.get(key2).getClass())
+                    if (queryObj.get(key2).getClass() != argObj.get(key2).getClass())
                     {
                         return false;
                     } else if (key2.equals("$in")) {
-                        Object[] queryVal = (Object[]) queryObj.get(key2);
-                        Object[] argVal = (Object[]) argObj.get(key2);
-                        if (queryVal.length != argVal.length) {
+                        List queryVal = (ArrayList) queryObj.get(key2);
+                        List argVal = (ArrayList) argObj.get(key2);
+                        if (queryVal.size() != argVal.size()) {
                             return false;
                         }
-                        for (int i=0; i<queryVal.length; ++i) {
-                            if (!queryVal[i].equals(argVal[i])) {
+                        for (int i = 0; i < queryVal.size(); ++i) {
+                            if (!(queryVal.get(i).equals(argVal.get(i)))) {
                                 return false;
                             }
                         }
                         return true;
                     }
                 }
-            }
-            else if (!query.getQueryObject().get(key).equals(arg.getQueryObject().get(key))) {
+            } else if (!query.getQueryObject().get(key).equals(arg.getQueryObject().get(key))) {
                 return false;
             }
         }

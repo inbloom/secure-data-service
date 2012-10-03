@@ -18,6 +18,9 @@
 @RALLY_US3202
 @RALLY_US3200
 @RALLY_US4162
+@RALLY_US4136
+@RALLY_US4080
+@RALLY_US4116
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -33,6 +36,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | attendance                            |
         | calendarDate                          |
         | cohort                                |
+        | competencyLevelDescriptor             |
         | course                                |
         | courseOffering                        |
         | disciplineAction                      |
@@ -77,6 +81,7 @@ Then I should see following map of entry counts in the corresponding collections
         | attendance                  | 75    |
         | calendarDate                | 556   |
         | cohort                      | 3     |
+        | competencyLevelDescriptor   | 6     |
         | course                      | 95    |
         | courseOffering              | 95    |
         | disciplineAction            | 2     |
@@ -85,7 +90,7 @@ Then I should see following map of entry counts in the corresponding collections
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
-        | graduationPlan              | 3     |
+        | graduationPlan              | 4     |
         | learningObjective           | 197   |
         | learningStandard            | 1499  |
         | parent                      | 9     |
@@ -96,7 +101,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 14    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 10 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |
         | studentAssessmentAssociation| 203   |
@@ -147,6 +152,8 @@ Then I should see following map of entry counts in the corresponding collections
        | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
+       | graduationPlan              | 3                   | body.educationOrganizationId                   | 36465c681a53a77d71e24285d58bf5af9085e537_id | string  |
+       | graduationPlan              | 2                   | body.graduationPlanType                        | Minimum                                     | string  |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-2            | string               |
        | staff                       | 1                   | body.staffUniqueStateId        | cgray                      | string               |
@@ -165,13 +172,13 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4249 records." in the resulting batch job file
+    And I should see "Processed 4260 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 102" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 102" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 108" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 108" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
@@ -179,11 +186,11 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 45" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 45" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 495" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 495" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 496" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 496" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file
@@ -293,12 +300,12 @@ And I check to find if record is in collection:
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-01              | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | true                    | boolean              |
-     | staffProgramAssociation     | 2                   | body.studentRecordAccess    | false                   | boolean              |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-05              | string               |
+     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | false                   | boolean              |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 4                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
-     | staffProgramAssociation     | 1                   | body.endDate                | 2012-02-15              | string               |
+     | staffProgramAssociation     | 4                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
@@ -397,85 +404,105 @@ And I check to find if record is in collection:
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
-    | collectionName                       | deterministicId                      | field                             | value                                |
-    | assessment                           | 86605678-f9e6-5619-892c-8f7b16a1c6ea | body.assessmentIdentificationCode.ID  | ACT                              |
-    | educationOrganization                | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 | body.stateOrganizationId  | IL                                   |
-    | educationOrganization                | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 | body.stateOrganizationId  | IL-DAYBREAK                          |
-    | educationOrganization                | cdd544e9-dc55-0152-0f8e-3742499680b9 | body.stateOrganizationId  | Daybreak Central High                |
-    | student                              | 415924a0-3174-a2f3-af05-64f09d3e3d3e | body.studentUniqueStateId         | 800000025                            |
-    | staff                                | 90f4ba0f-9fd0-1be0-3f83-dd8cb519ecc2 | body.staffUniqueStateId           | jstevenson                           |
-    | staff                                | 98b905f7-5b5d-c695-9a61-5656fdb93482 | body.staffUniqueStateId           | linda.kim                            |
-    | cohort                               | fc06442f-862e-3b8f-d493-7b48eb7e3f88 | body.cohortIdentifier     | ACC-TEST-COH-1                       |
-    | cohort                               | fc06442f-862e-3b8f-d493-7b48eb7e3f88 | body.educationOrgId       | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.studentId            | e82bb76a-65be-d6db-a48b-1b453706436b |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.cohortId             | fc06442f-862e-3b8f-d493-7b48eb7e3f88 |
-    | studentCohortAssociation             | b7f52098-fa01-284b-ed70-8c9721fc1752 | body.beginDate            | 2012-01-15                           |
-    | studentCompetencyObjective           | e4ecf3d6-40de-d836-24be-d712a44d414d | body.studentCompetencyObjectiveId | SCO-K-1                              |
-    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.uniqueCourseId  | State-History-II-G7-50 |
-    | course                | a6054974-5208-a9da-7e96-0f38d0941f47 | body.schoolId  | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
-    | reportCard                           | c572f02d-f1c3-b63b-4453-4687ef3086b7 | body.studentId | 254775c2-c0c3-8180-d49f-75a54d7e8929                       |
+    | collectionName                       | deterministicId                             | field                             | value                                |
+    | competencyLevelDescriptor            | fb623d47656476ad67d8b698ee19d3a1932fd2ea_id | body.codeValue                    | Barely Competent 4                   |
+    | educationOrganization                | 261472ed910549ecff6bb731f49362ed4d3fef05_id | body.stateOrganizationId  | IL                                   |
+    | assessment                           | 0af135b55da9d8c1cfeb5226836bf40b19f58e8d_id | body.assessmentIdentificationCode.ID  | ACT                              |
+    | educationOrganization                | 36465c681a53a77d71e24285d58bf5af9085e537_id | body.stateOrganizationId  | IL-DAYBREAK                          |
+    | educationOrganization                | e479e04449d7a787bb8cce88335d8214f612416a_id | body.stateOrganizationId  | Daybreak Central High                |
+    | student                              | 067198fd6da91e1aa8d67e28e850f224d6851713_id | body.studentUniqueStateId         | 800000025                            |
+    | staff                                | dfec28d34c75a4d307d1e85579e26a81630f6a47_id | body.staffUniqueStateId           | jstevenson                           |
+    | staff                                | c67d7320aabbeed6ef3ad321e4de250d14a27ac3_id | body.staffUniqueStateId           | linda.kim                            |
+    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
+    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.educationOrgId       | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.studentId            | 25369655c44d8d9346b356a75b8ac3552bb85e6e_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.cohortId             | 9f522548066d6edebc551afc6c5214d3360cf539_id |
+    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.beginDate            | 2012-01-15                           |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
+    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
+    | studentCompetency                    | dfdec1686deef4c317d574ffd637ff12f2ff263f_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
+    | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.uniqueCourseId  | State-History-II-G7-50 |
+    | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.schoolId  | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+    | reportCard                           | b5a7854aa3b946dc0fc1a95506bd559a9228b495_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
 # disciplineAction
-    | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.responsibilitySchoolId          | cdd544e9-dc55-0152-0f8e-3742499680b9 |
-    | disciplineAction                     | 2154fed7-5d56-c929-2277-bfb97935e1a3 | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
+    | disciplineAction                     | 9a1a9dbb09f820022b2d6965599d2aa0ab32201e_id | body.responsibilitySchoolId          | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | disciplineAction                     | 9a1a9dbb09f820022b2d6965599d2aa0ab32201e_id | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
 # disciplineIncident
-    | disciplineIncident                   | b535a023-3676-d595-0ed5-02f238ab4160 | body.schoolId                        | cdd544e9-dc55-0152-0f8e-3742499680b9 |
-    | disciplineIncident                   | b535a023-3676-d595-0ed5-02f238ab4160 | body.incidentIdentifier              | Disruption                           |
+    | disciplineIncident                   | adcbad0471feb245749a1792f9383a81a2eb6609_id | body.schoolId                        | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | disciplineIncident                   | adcbad0471feb245749a1792f9383a81a2eb6609_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | 8e9e4a26-8490-26ae-1ca2-41330b2c028c | body.studentSectionAssociationId     | ce158357-8d55-e8d9-6a7d-b0f03f2950aa |
-    | grade                                | 8e9e4a26-8490-26ae-1ca2-41330b2c028c | body.gradingPeriodId                 | d82fece5-1186-dc44-79f4-236c404dd217 |
+    | grade                                | 8ff38e10a95a790ac41444105e1815ef3a940a2a_id | body.studentSectionAssociationId     | f489dcb5262469edc5278be810467d52d2eb5921_id |
+    | grade                                | 8ff38e10a95a790ac41444105e1815ef3a940a2a_id | body.gradingPeriodId                 | fe565dbc1d33fce6da502b8b3671630602ac9c72_id |
 # gradebookEntry
-    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.sectionId                       | f094acb0-faae-6114-9e5a-0b854fc2c2a1 |
-    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.gradebookEntryType              | Quiz                                 |
-    | gradebookEntry                       | 660483a6-be39-4e6a-a69f-d878410905d9 | body.dateAssigned                    | 2011-10-13                           |
+    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.sectionId                       | d36ad186e632afeed132d7a6cd6fc8bd409e8d3d_id |
+    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.gradebookEntryType              | Quiz                                 |
+    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.dateAssigned                    | 2011-10-27                           |
 # studentAcademicRecord
-    | studentAcademicRecord                | ad295893-95d7-d5a9-0f52-7e80eaa67369 | body.studentId                       | 3c06e659-95b7-c1cc-f82b-2dd134f60551 |
-    | studentAcademicRecord                | ad295893-95d7-d5a9-0f52-7e80eaa67369 | body.sessionId                       | 5509dd73-0a39-e896-b6aa-f0296122b407 |
+    | studentAcademicRecord                | c0ea573c1ee6a9e1a3f88470ce3f5880981dd4d0_id | body.studentId                       | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | studentAcademicRecord                | c0ea573c1ee6a9e1a3f88470ce3f5880981dd4d0_id | body.sessionId                       | 02e2f80a0952d4842821220965703da24d49d853_id |
 # staffEducationOrganizationAssociation
-    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.staffReference                 | ef891c9a-8bec-9218-138e-34d3239e4bb5 |
-    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.educationOrganizationReference | 0b36efa4-a67a-325f-ff4f-7ff4f52fe9e3 |
-    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.staffClassification            | Superintendent                       |
-    | staffEducationOrganizationAssociation | 88d16488-18e8-ed39-cf43-e7bb82b895ee | body.beginDate                      | 1967-08-13                           |
+    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.staffReference                 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.educationOrganizationReference | 261472ed910549ecff6bb731f49362ed4d3fef05_id |
+    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.staffClassification            | Superintendent                       |
+    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.beginDate                      | 1967-08-13                           |
+     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.disciplineIncidentId    | 4d1d98c6d4c6adf3e2f6008d7896432eb655b22f_id |
+# staffProgramAssociation
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.staffId                        | a909105eca7591d418b2697d72df27ca632e16f8_id |
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.programId                      | 983dd657325009aefa88a234fa18bdb1e11c82a8_id |
+    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.beginDate                      | 2011-01-01                           |
+# staffCohortAssociation
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.staffId                        | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.cohortId                       | b3bd8fc373ba4b067d3c96aad5fd3fe2c8678138_id |
+    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.beginDate                      | 2011-07-01                           		 |
 # teacherSchoolAssociation
-    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.teacherId                      | 46f5b008-c469-097d-1926-27791327dfbb |
-    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.programAssignment              | Regular Education                    |
-    | teacherSchoolAssociation             | 31d3aae3-a788-282b-3183-79946ea2768e | body.schoolId                       | cdd544e9-dc55-0152-0f8e-3742499680b9 |
-    | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.studentId              | 4514d16d-ee18-5e15-1dbb-9e01f0ae439d |
-    | studentDisciplineIncidentAssociation | c6bb4688-59bf-eee4-93b6-f960fb2b5c0c | body.disciplineIncidentId    | b535a023-3676-d595-0ed5-02f238ab4160 |
-# uncomment when course has a deterministic id
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.studentAcademicRecordId            | ????                                 |
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseId                | ????                                 |
-#   | studentTranscriptAssociation         | ???????????????????????????????????? | body.courseAttemptResult            | ????                                 |
-   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
-   | studentParentAssociation             | a69a47d2-3812-d258-c448-8b2f110f6f2d | body.parentId             | 19730e81-bc94-ec88-381e-0c8f8ed9e156 |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.studentId            | 47a8119e-75a5-1961-9a7a-f99bf6b538fe  |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.schoolId            | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
-   | studentSchoolAssociation             | 2540c15e-2286-32aa-a0ce-4f499b9ca2b1 | body.entryDate            | 2010-09-01                              |
-   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.studentId            | 82c67065-b63c-076b-b998-47a044f2783e |
-   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.sectionId            | 28b826ba-87b3-e33c-169d-39f53d342591 |
-   | studentSectionAssociation             | 25fb285f-cb11-490f-e4fa-cce0d025ed34 | body.beginDate            | 2011-09-01                              |
-# uncomment when section has a deterministic id
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.teacherId            | ????                                 |
-#   | teacherSectionAssociation            | ???????????????????????????????????? | body.sectionId            | ????                                 |
-   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.teacherId            | 98b905f7-5b5d-c695-9a61-5656fdb93482 |
-   | teacherSectionAssociation            | f78a7c0d-8450-eab0-4bb6-330396f93885 | body.sectionId            | d50423d3-7d1c-8e01-7841-6ce01c94ed5f |
-    | program                              | 3648e86a-ed1b-70a5-72f9-76a366e98093 | body.programId            | ACC-TEST-PROG-1                      |
-    | calendarDate                         | 7f642b60-da45-4dd1-f75e-44613749c98c | body.date                 | 2012-05-17                           |
-    | calendarDate                         | 8dca7880-aedb-c8ae-9bad-dfddc6da0a07 | body.date                 | 2010-09-23                           |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.studentId            | 415924a0-3174-a2f3-af05-64f09d3e3d3e |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.programId            | 3648e86a-ed1b-70a5-72f9-76a366e98093 |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.educationOrganizationId | 6355a3d5-5a74-9e9b-e416-c5eb440127b4 |
-    | studentProgramAssociation            | 4b28906a-8a42-f65e-8f04-e3727b0567c0 | body.beginDate            | 2011-03-01                           |
-    | parent         | 19730e81-bc94-ec88-381e-0c8f8ed9e156 | body.parentUniqueStateId  | 3597672174             |
-    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
-    | section        | d50423d3-7d1c-8e01-7841-6ce01c94ed5f | body.schoolId             | 51ebff64-8a21-0fb2-7932-fed1c73ad7bb |
-    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.beginDate                           | 2012-04-16                           |
-    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
-    | gradingPeriod  | 22ca050f-eee2-0f74-4b22-2f81b69d0e0e | body.gradingPeriodIdentity.schoolId      | 7cde113b-35de-2b8a-0988-04cf364bd1ab |
-# uncomment when session has a deterministic id
-#    | courseOffering | TODO | body.localCourseCode      | 7th Grade Math         |
-#    | courseOffering | TODO | body.sessionId            | TODO |
-#    | courseOffering | TODO | body.schoolId             | TODO |
-
+    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.teacherId                      | a965bf003819d48b507749091d282c851dd0507f_id |
+    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.programAssignment              | Regular Education                    |
+    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.schoolId                       | e479e04449d7a787bb8cce88335d8214f612416a_id |
+# courseOffering
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.schoolId                       | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.sessionId                      | f50d73dc3bbfa3a25bb362a3e225c74162005b4e_id |
+    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.localCourseCode                | 3rd Grade Homeroom                          |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.studentAcademicRecordId            | 39dc6fb4f73a616c637b48682faba1176ea23950_id                                 |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseId                | 45b19639f02b1f04a88cab31e543ae58adfcbb27_id                                 |
+   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseAttemptResult            | Pass                                 |
+   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id  |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.schoolId            | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.entryDate            | 2008-09-05                              |
+   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.sectionId            | 51188a8ba3f9a2a9b57c61a99ec080299c5987f1_id |
+   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.beginDate            | 2011-09-01                              |
+   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.teacherId            | 18f5c2652935c4881c8a88df04481e8c3aeb5aac_id |
+   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.sectionId            | e2b3887f55834817a194a51604dd3fb03d8cacbc_id |
+    | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
+    | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
+    | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.beginDate            | 2011-03-01                           |
+    | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
+    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
+    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.beginDate                           | 2011-04-11                           |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
+    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+# session
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName                     | Spring 2011 Daybreak Central High    |
+    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId                        | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId                       | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
+    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId                        | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
+    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
+    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.graduationPlanType      | Minimum       |
+    | graduationPlan | 26849264faf4eb7080720ed9d84fe14b21e4a5e0_id | body.graduationPlanType      | Minimum       |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.academicSubject                 | Social Studies |
+    | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
+    | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
@@ -507,7 +534,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staff                                 | 13    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 10    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -551,7 +578,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -726,7 +753,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 21    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 16 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 183   |
         | studentAssessmentAssociation| 203   |
         | studentCohortAssociation    | 6     |
@@ -797,7 +824,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staff                                 | 20    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 16    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -841,7 +868,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1104,7 +1131,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 58    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 37 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 191    |
         | studentAssessmentAssociation| 203   |
         | studentCohortAssociation    | 6     |
@@ -1178,7 +1205,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staff                                 | 20    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 16    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 183   |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1222,7 +1249,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -1783,8 +1810,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                       | 13    |
      | parent                               | 12    |
      | program                              | 4     |
-     | staffCohortAssociation               | 5     |
-     | staffProgramAssociation              | 7     |
+     | staffProgramAssociation              | 16    |
      | student                              | 193   |
      | studentAcademicRecord                | 121   |
      | studentAssessmentAssociation         | 204   |
@@ -1872,13 +1898,15 @@ Then I should see following map of entry counts in the corresponding collections
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
      | staffCohortAssociation      | 2                   | body.beginDate              | 2011-07-01              | string               |
      | staffCohortAssociation      | 5                   | body.studentRecordAccess    | true                    | boolean              |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-02              | string               |
+     | staffProgramAssociation     | 12                  | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | false                   | boolean              |
+     | staffProgramAssociation     | 6                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-02              | string               |
+     | staffProgramAssociation     | 4                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-05-02              | string               |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-02              | string               |
-     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
-     | staffProgramAssociation     | 3                   | body.endDate                | 2012-02-15              | string               |
-     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | false                   | boolean              |
-     | staffProgramAssociation     | 4                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
+     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
+     | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
      | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
@@ -1924,7 +1952,7 @@ Then I should see following map of entry counts in the corresponding collections
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 113 records." in the resulting batch job file
+  And I should see "Processed 118 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -1937,8 +1965,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentProgramAssociation2.xml records considered: 9" in the resulting batch job file
   And I should see "StudentProgramAssociation2.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "StudentProgramAssociation2.xml records failed: 0" in the resulting batch job file
-  And I should see "Staff2.xml records considered: 4" in the resulting batch job file
-  And I should see "Staff2.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "Staff2.xml records considered: 9" in the resulting batch job file
+  And I should see "Staff2.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "Staff2.xml records failed: 0" in the resulting batch job file
   And I should see "StudentCohortAssociation2.xml records considered: 1" in the resulting batch job file
   And I should see "StudentCohortAssociation2.xml records ingested successfully: 1" in the resulting batch job file
@@ -2067,7 +2095,7 @@ Then I should see following map of entry counts in the corresponding collections
         | staff                       | 51    |
         | staffCohortAssociation      | 3     |
         | staffEducationOrganizationAssociation| 31 |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
         | student                     | 86    |
         | studentAcademicRecord       | 117   |
         | studentAssessmentAssociation| 203   |
@@ -2113,7 +2141,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staff                                 | 13    |
      | staffCohortAssociation                | 3     |
      | staffEducationOrganizationAssociation | 10    |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 7     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -2157,7 +2185,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | staff                                 | 10    |
      | staffCohortAssociation                | 2     |
      | staffEducationOrganizationAssociation | 7     |
-     | staffProgramAssociation               | 3     |
+     | staffProgramAssociation               | 6     |
      | student                               | 78    |
      | studentAcademicRecord                 | 117   |
      | studentAssessmentAssociation          | 203   |
@@ -2624,7 +2652,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 3     |
-        | staffProgramAssociation     | 3     |
+        | staffProgramAssociation     | 7     |
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -2635,11 +2663,14 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 0                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 2                   | body.beginDate                 | 2011-01-01              | string               |
         | staffProgramAssociation     | 0                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-06-01              | string               |
         | staffProgramAssociation     | 0                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 4                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 4                   | body.studentRecordAccess       | true                    | boolean              |
+        | staffProgramAssociation     | 3                   | body.studentRecordAccess       | false                   | boolean              |
     When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
@@ -2652,7 +2683,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | grade                       | 4     |
         | reportCard                  | 2     |
         | staffCohortAssociation      | 4     |
-        | staffProgramAssociation     | 4     |
+        | staffProgramAssociation     | 11    |
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
@@ -2663,8 +2694,11 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-02              | string               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2010-01-15              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-01              | string               |
-        | staffProgramAssociation     | 1                   | body.endDate                   | 2012-03-16              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-01-05              | string               |
-        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-12-31              | string               |
-        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 2                   | body.beginDate                 | 2011-01-01              | string               |
+        | staffProgramAssociation     | 2                   | body.endDate                   | 2012-03-16              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-01-05              | string               |
+        | staffProgramAssociation     | 1                   | body.beginDate                 | 2011-06-01              | string               |
+        | staffProgramAssociation     | 4                   | body.beginDate                 | 2011-12-31              | string               |
+        | staffProgramAssociation     | 8                   | body.endDate                   | 2012-02-15              | string               |
+        | staffProgramAssociation     | 10                  | body.studentRecordAccess       | true                    | boolean              |
+        | staffProgramAssociation     | 1                   | body.studentRecordAccess       | false                   | boolean              |
