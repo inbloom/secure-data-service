@@ -87,7 +87,7 @@ Scenario: Can query PII fields by exact matching
 Scenario: Can not query PII fields by non-exact matching
     Given format "application/json"
         And student Rhonda Delagio exists
-	And Rhonda Delagio is associated with "<English Sec 6>"
+	And Rhonda Delagio is associated with "<English Sec 7>"
         And parameter "name.firstName" less than "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400

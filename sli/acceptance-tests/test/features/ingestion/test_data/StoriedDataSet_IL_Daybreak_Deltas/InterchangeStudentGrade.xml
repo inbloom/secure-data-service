@@ -86,7 +86,6 @@
 		</GradingPeriodReference>
 	</Grade>
 	<ReportCard>
-		<GradeReference ref="GR-GR3-800000025-1"/>
 		<StudentCompetencyReference ref="SC-GR3-800000025-1"/>
 		<GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
 		<GPACumulative>2.7</GPACumulative>

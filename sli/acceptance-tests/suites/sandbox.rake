@@ -88,7 +88,7 @@ end
 desc "Run Provisioning Integration Sandbox Tests"
 task :provisionIntegrationSandboxTests do
   @tags = ["~@wip", "@sandbox"]
-  runTests("test/features/sandbox/Provision/provision_Integrated.feature")
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
 end
 
 desc "Run Provisioning Interface Sandbox Tests"

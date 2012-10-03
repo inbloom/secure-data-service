@@ -195,12 +195,12 @@ public class Stage {
         return -1L;
     }
 
-	public String getStageDesc() {
-		return stageDesc;
-	}
+    public String getStageDesc() {
+        return stageDesc;
+    }
 
-	public void setStageDesc(String stageDesc) {
-		this.stageDesc = stageDesc;
-	}
+    public void setStageDesc(String stageDesc) {
+        this.stageDesc = stageDesc;
+    }
 
 }

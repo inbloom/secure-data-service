@@ -74,7 +74,8 @@ else
   @threads = []
   @tenants = Set.new
   @terminates = (ARGV[2].nil? ? false : true)
-  @database = (ARGV[1].nil? ? 'sli' : ARGV[1])
+  #change databasae from 'sli' to 'Security' as a result of DataPartitioning
+  @database = (ARGV[1].nil? ? 'Security' : ARGV[1])
   @hp = ARGV[0].split(":")
   @log = Logger.new(STDOUT)
   @log.level = Logger::INFO

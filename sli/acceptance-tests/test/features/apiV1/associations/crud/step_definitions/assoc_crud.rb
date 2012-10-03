@@ -76,12 +76,12 @@ $entityData = {
         "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
         "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
         "courseId" => "ddf01d82-9293-49ba-b16e-0fe5b4f4804d",
-        "localCourseCode" => "LCCGR1",
-        "localCourseTitle" => "German 1 - Intro to German"
+        "localCourseCode" => "LCCGR101",
+        "localCourseTitle" => "German 101 - Intro"
     },
     "staffCohortAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "cohortId" => ["b408635d-8fd5-11e1-86ec-0021701f543f"],
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "cohortId" => "b408635d-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2010-01-15",
         "endDate" => "2012-03-29",
         "studentRecordAccess" => true
@@ -93,9 +93,10 @@ $entityData = {
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {
-        "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
-        "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"],
-        "beginDate" => "2012-01-01"
+        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+        "beginDate" => "2012-01-01",
+        "endDate" => "2012-12-31"
     },
     "studentAssessmentAssociation" => {
         "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
@@ -145,6 +146,7 @@ $entityData = {
     "studentTranscriptAssociation" => {
         "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
         "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
+        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
         "courseAttemptResult" => "Pass",
         "creditsEarned" => {
             "credit" => 4.0
@@ -159,7 +161,7 @@ $entityData = {
     },
     "teacherSectionAssociation" => {
         "teacherId" => "edce823c-ee28-4840-ae3d-74d9e9976dc5",
-        "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7",
+        "sectionId" => "392d1835-f372-4690-b221-7065db1aed33",
         "classroomPosition" => "Teacher of Record"
     }
 }
