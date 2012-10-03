@@ -111,6 +111,7 @@ public class ExtractorImpl implements Extractor {
                 obj = cursor.next();
                 bw.write(JSON.serialize(obj));
                 bw.newLine();
+                numberOfLineWritten++;
             }
             // move file to inbox for indexer
             FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
