@@ -109,14 +109,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             // escape nasty characters
             tenantId = TenantIdToDbName.convertTenantIdToDbName(tenantId);
 
-            // query database with this tenant's id as db name
-            if (!"sli".equalsIgnoreCase(tenantId)) {
+            if (isValidDbName(tenantId)) {
                 TenantContext.setTenantId(tenantId);
+
                 List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);
                 crossTenantResults.addAll(resultsForThisTenant);
             }
         }
         return crossTenantResults;
+    }
+
+    private boolean isValidDbName(String tenantId) {
+        return !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
     }
 
     @Override
