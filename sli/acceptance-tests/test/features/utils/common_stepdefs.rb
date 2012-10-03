@@ -172,7 +172,7 @@ Given /^that databrowser has been authorized for all ed orgs$/ do
   allLeaAllowApp("SLC Data Browser")
 end
 
-Then /^I should receive a link named "(.*?)"$/ do |arg1|
+Then /^I should receive a link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
 

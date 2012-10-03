@@ -116,8 +116,3 @@ end
 Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
-Then /^I should receive a link named "([^"]*)"$/ do |arg1|
-  step "in an entity, I should receive a link named \"#{arg1}\""
-end
-
-
