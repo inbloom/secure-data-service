@@ -51,7 +51,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">${__P(loops,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">0</stringProp>
@@ -132,8 +132,8 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{    &#xd;
 &quot;sectionId&quot;: &quot;${sectionId}&quot;,&#xd;
-&quot;dateAssigned&quot;: &quot;2011-09-${dayOfMonth}&quot;,&#xd;
-&quot;gradebookEntryType&quot;: &quot;Assignment&quot;&#xd;
+&quot;dateAssigned&quot;: &quot;2011-09-20&quot;,&#xd;
+&quot;gradebookEntryType&quot;: &quot;Assignment_${uniqueId}&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -156,15 +156,14 @@ vars.put(&quot;sectionId&quot;, resp[0].id);
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
-            <stringProp name="CounterConfig.start">1</stringProp>
-            <stringProp name="CounterConfig.end">30</stringProp>
-            <stringProp name="CounterConfig.incr">1</stringProp>
-            <stringProp name="CounterConfig.name">dayOfMonth</stringProp>
-            <stringProp name="CounterConfig.format">00</stringProp>
-            <boolProp name="CounterConfig.per_user">false</boolProp>
-            <stringProp name="TestPlan.comments">Used to randomize the date since we can&apos;t have two gradebook entries on the same date</stringProp>
-          </CounterConfig>
+          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random Variable" enabled="true">
+            <stringProp name="maximumValue">342423423</stringProp>
+            <stringProp name="minimumValue">1</stringProp>
+            <stringProp name="outputFormat"></stringProp>
+            <boolProp name="perThread">false</boolProp>
+            <stringProp name="randomSeed"></stringProp>
+            <stringProp name="variableName">uniqueId</stringProp>
+          </RandomVariableConfig>
           <hashTree/>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Location Header" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">true</stringProp>
