@@ -54,8 +54,11 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
     
     puts "innerhtml == " + panel.attribute('innerHTML').to_s
     puts "is text found? " + (panel.attribute('innerHTML').include? panelName).to_s
+
+    name = panel.find_element(:css, "span[class*='ui-selectee']")
+    if (name.attribute("innerHTML").include? panelName) 
     
-    if (panel.attribute('innerHTML').include? panelName)  
+   # if (panel.attribute('innerHTML').include? panelName)  
       found = true
       panel.click
       sleep 0.20     
@@ -294,11 +297,13 @@ end
 
 def ensurePopupLoaded()
   @explicitWait.until {(style = @driver.find_element(:id, "modalBox").attribute('style').strip)  == "display: block;" }
+   puts "ensurePopupLoaded after "
 end
 
 def ensurePopupUnloaded() 
    @driver.manage.timeouts.implicit_wait = 2
    @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   puts "ensurePopupUnloaded after - " + @driver.find_elements(:id, "simplemodal-overlay").length.to_s
    @driver.manage.timeouts.implicit_wait = 10
 end
 
