@@ -184,8 +184,6 @@ public class SmooksCallable implements Callable<Boolean> {
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
 
-            Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
-
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
             fileProcessStatus.setDuplicateCounts(duplicateCounts);
 

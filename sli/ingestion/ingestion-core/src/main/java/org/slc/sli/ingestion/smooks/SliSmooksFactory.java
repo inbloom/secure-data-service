@@ -92,12 +92,6 @@ public class SliSmooksFactory {
             recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
 
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
-
-            HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
-            recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
-            ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
-
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
             }
