@@ -21,7 +21,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +35,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.slc.sli.test.DataFidelityType;
+import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
@@ -55,11 +59,14 @@ import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entitiesR1.GraduationPlanType;
 import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
+import org.slc.sli.test.generators.StudentAssessmentGenerator;
 import org.slc.sli.test.utils.ValidateSchema;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
-
+    private static Calendar calendar = new GregorianCalendar(2012, 10, 10);
+    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    
     // toggles for interchanges
     public static boolean INTERCHANGE_ED_ORG = true;
     public static boolean INTERCHANGE_ED_ORG_CALENDAR = true;
@@ -119,6 +126,7 @@ public final class MetaRelations {
     
     public static boolean School_Ref=false;
     public static boolean Session_Ref=false;  
+    public static boolean StudentAssessment_Ref=false;
     public static boolean StateEducationAgency_Ref=false;
     public static boolean LocalEducationAgency_Ref=false;
     public static boolean StudentParentAssociation_Ref=false;
@@ -258,6 +266,8 @@ public final class MetaRelations {
         GRADEBOOKENTRY_PER_SECTION = Integer.parseInt(properties.getProperty("GRADEBOOKENTRY_PER_SECTION").trim());
         
         StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR").trim());
+        
+
         StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS_PER_STUDENT").trim());
         StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT").trim());
         StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT").trim());
@@ -282,6 +292,8 @@ public final class MetaRelations {
 				.getProperty("School_Ref").trim());
 		Session_Ref = Boolean.parseBoolean(properties
 				.getProperty("Session_Ref").trim());
+		StudentAssessment_Ref = Boolean.parseBoolean(properties
+		        .getProperty("StudentAssessment_Ref").trim());
 		StateEducationAgency_Ref = Boolean.parseBoolean(properties
 				.getProperty("StateEducationAgency_Ref").trim());
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
@@ -1206,13 +1218,22 @@ public final class MetaRelations {
     
     private static void assignAssessmentsToStudents() {
         for (StudentMeta studentMeta : STUDENT_MAP.values()) {
+            calendar = new GregorianCalendar(2012, 1, 10);
+               
             for (int count = 0; count < ASSESSMENTS_PER_STUDENT; count++) {
+              
+             
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
                 
                 StudentAssessmentMeta studentAssessmentMeta = StudentAssessmentMeta.create(studentMeta,
-                        AssessmentMetaRelations.getRandomAssessmentMeta());
+                        AssessmentMetaRelations.getRandomAssessmentMeta(), DATE_FORMATTER.format(calendar.getTime()));
+                
                 STUDENT_ASSES_MAP.put(studentAssessmentMeta.xmlId, studentAssessmentMeta);
             }
         }
     }
     
+    public void resetCalendar() {
+        calendar = new GregorianCalendar(2012, 10, 10);
+    }
 }
