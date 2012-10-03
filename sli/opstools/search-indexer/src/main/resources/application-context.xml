@@ -32,9 +32,9 @@
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 
-	<mongo:mongo id="searchMongo" host="${search.mongodb.host}"
-		port="${search.mongodb.port}" />
-	<mongo:db-factory id="mongoDbFactory" dbname="${search.mongodb.database}"
+	<mongo:mongo id="searchMongo" host="${sli.mongodb.host}"
+		port="${sli.mongodb.port}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
 		mongo-ref="searchMongo" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
@@ -52,15 +52,15 @@
     
     <bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
         <property name="indexEntityConfig" ref="indexEntityConfig" />
-        <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
-        <property name="extractDir" value="${sli.search.dir.extract:tmp}" />
-        <property name="maxLinePerFile" value="${sli.search.max.lines:100}" />
-        <property name="executorThreads" value="${sli.search.thread.number:2}" />
+        <property name="inboxDir" value="${sli.search.indexer.dir.inbox:inbox}" />
+        <property name="extractDir" value="${sli.search.indexer.dir.extract:tmp}" />
+        <property name="maxLinePerFile" value="${sli.search.indexer.max.lines:100}" />
+        <property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
     </bean>
 
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">
-	    <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
-	    <property name="executorThreads" value="${sli.search.thread.number:2}" />
+	    <property name="inboxDir" value="${sli.search.indexer.dir.inbox:inbox}" />
+	    <property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
 	</bean>
 	
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate"/>
@@ -80,7 +80,7 @@
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="jobDetail" />
-        <property name="cronExpression" value="0 * * * * ?" />
+        <property name="cronExpression" value="${sli.search.indexer.schedule}" />
     </bean>
     
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

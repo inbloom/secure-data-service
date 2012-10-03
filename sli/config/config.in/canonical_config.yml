@@ -375,6 +375,13 @@ default:
         sli.sif-agent.idmap: default-idmap.csv
         sli.sif-agent.zonemap: default-zonemap.csv
 
+        # search indexer
+        sli.search.indexer.log.path: logs
+        sli.search.indexer.log.level: INFO
+        sli.search.indexer.dir.inbox: inbox
+        sli.search.indexer.dir.extract: tmp
+        sli.search.indexer.schedule: 0 * * * * ?
+
 acceptance-tests:
     api:
         <<: *API-DEFAULT
