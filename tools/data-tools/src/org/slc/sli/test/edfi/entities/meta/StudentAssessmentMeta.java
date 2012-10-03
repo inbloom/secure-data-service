@@ -17,6 +17,9 @@
 
 package org.slc.sli.test.edfi.entities.meta;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class StudentAssessmentMeta {
@@ -24,19 +27,37 @@ public final class StudentAssessmentMeta {
     public final String xmlId;
     public final String studentId;
     public final String assessmentId;
+    public static  Calendar calendar;
+    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    public final String date;
+    
+    //private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
+    //calendar = new GregorianCalendar(2012, 0, 1);
 
     // TODO: find better way to do unique id. studentId + assessmentId is not enough.
     // can a student take the same assessment on the same date?
     private static final AtomicInteger COUNTER = new AtomicInteger();
 
-    private StudentAssessmentMeta(String studentId, String assessmentId) {
+    private StudentAssessmentMeta(String studentId, String assessmentId, String date2) {
         this.xmlId = IdTransformer.transformId(studentId + "." + assessmentId + "." + COUNTER.getAndIncrement());
+        
         this.studentId = studentId;
         this.assessmentId = assessmentId;
+        this.date = date2;
     }
 
-    public static StudentAssessmentMeta create(StudentMeta studentMeta, AssessmentMeta assessmentMeta) {
-        return new StudentAssessmentMeta(studentMeta.id, assessmentMeta.id);
+    public static StudentAssessmentMeta create(StudentMeta studentMeta, AssessmentMeta assessmentMeta,  String date) {
+          return new StudentAssessmentMeta(studentMeta.id, assessmentMeta.id,date);
     }
+    
+    public static void resetCalendar() {
+        calendar = new GregorianCalendar(2012, 10, 10);
+    }
+
+ 
+//    public static String getDate() {
+//       date = DATE_FORMATTER.format(calendar.getTime());
+//       return date;
+//    }
 
 }

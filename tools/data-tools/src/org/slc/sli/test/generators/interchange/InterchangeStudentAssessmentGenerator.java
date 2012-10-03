@@ -20,14 +20,18 @@ package org.slc.sli.test.generators.interchange;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.stream.XMLStreamException;
+
+import org.slc.sli.test.edfi.entities.AssessmentItem;
 import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
 import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
+import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentAssessmentItem;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.meta.AssessmentItemMeta;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
@@ -93,7 +97,7 @@ public class InterchangeStudentAssessmentGenerator {
         Collection<StudentAssessment> studentAssessments = new ArrayList<StudentAssessment>();
         for (StudentAssessmentMeta studentAssessmentMeta : studentAssessmentMetas) {
             StudentAssessment studentAssessment;
-
+           
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 studentAssessment = null;
             } else {
@@ -142,34 +146,41 @@ public class InterchangeStudentAssessmentGenerator {
     }
     
     private static void generateStudentAssessmentItems(
-            Collection<StudentAssessment> studentAssessmentMetas, 
+            Collection<StudentAssessment> studentAssessmentMetas,
             InterchangeWriter<InterchangeStudentAssessment> writer) {
 
         long startTime = System.currentTimeMillis();
         long count = 0;
-
-        if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM < 0) {
+       
+        
+        if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM > 0) {
             for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
-                if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
-                    StudentAssessmentItem studentAssessmentItem;
-                    
+                AssessmentItemMeta random = AssessmentMetaRelations.getRandomAssessmentItemMeta();
+                //if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
+                StudentAssessmentItem studentAssessmentItem;
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                         studentAssessmentItem = null;
                     } else {
+                       
                         AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
-                        AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
-                        aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                        AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();                    
+                        aiit.setAssessmentItemIdentificationCode(random.id);
                         airt.setAssessmentItemIdentity(aiit);
                         studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(
-                                studentAssessmentMeta.getId() + "." + count, airt);
+                                studentAssessmentMeta.getId() + "." + count, studentAssessmentMeta.getId(), airt);
+                        writer.marshal(studentAssessmentItem);
+                        count++;
                     }
                     
-                    writer.marshal(studentAssessmentItem);
-                    count++;
+                    
+//                     writer.marshal(studentAssessmentItem);
+//                    count++;
+                   // System.out.println("student assessmet item is generated or not");
                 }
-            }
             
-        }
+           }
+            
+        //}
 
         System.out.println("generated " + count + " StudentAssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));

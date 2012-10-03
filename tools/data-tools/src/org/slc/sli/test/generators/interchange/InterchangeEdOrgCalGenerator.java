@@ -81,9 +81,9 @@ public class InterchangeEdOrgCalGenerator {
 
         generateSessions(iWriter, MetaRelations.SESSION_MAP.values());
         
-        generateGradingPeriod(iWriter, MetaRelations.GRADINGPERIOD_MAP.values());
-        
-        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
+//        generateGradingPeriod(iWriter, MetaRelations.GRADINGPERIOD_MAP.values());
+//        
+//        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
 
     }
     

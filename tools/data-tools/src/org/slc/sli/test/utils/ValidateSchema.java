@@ -63,9 +63,9 @@ public class ValidateSchema {
   				SCHEMAS.add("Interchange-StudentDiscipline.xsd");
   				SCHEMAS.add("Interchange-StudentEnrollment.xsd");
   				SCHEMAS.add("Interchange-StudentGrade.xsd");	
-  				SCHEMAS.add("Interchange-StudentGrade.xsd");
   				SCHEMAS.add("Interchange-StudentParent.xsd");
   				SCHEMAS.add("Interchange-StudentProgram.xsd");
+  				
 	  
 	} else {
 			

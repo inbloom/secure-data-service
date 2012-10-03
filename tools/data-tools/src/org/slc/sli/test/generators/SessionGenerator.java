@@ -188,6 +188,8 @@ public class SessionGenerator {
 //        }
 //        else
 //        	session.setEndDate("2012-06-" + + roll);
+        
+        //lina
         session.setBeginDate("2012-01-01");
         session.setEndDate("2012-12-31");
         
@@ -227,7 +229,7 @@ public class SessionGenerator {
 		}
 			
 		for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
-//		for (int i = 0; i < 1; i++) {
+
 			if (MetaRelations.Session_Ref) {
 				Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
@@ -244,7 +246,8 @@ public class SessionGenerator {
 				}
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 				gprt.setGradingPeriodIdentity(gpit);
-				gprt.setBeginDate("2012-01-01");
+				//lina
+				//gprt.setBeginDate("2012-09-01");
 				session.getGradingPeriodReference().add(gprt);
 			}
 		}
