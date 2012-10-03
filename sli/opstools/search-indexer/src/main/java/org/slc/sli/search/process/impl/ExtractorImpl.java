@@ -74,7 +74,6 @@ public class ExtractorImpl implements Extractor {
 
         for (String collection : indexEntityConfig.collections()) {
             executor.execute(new ExtractWorker(collection, indexEntityConfig.getFields(collection)));
-            extractCollection(collection, indexEntityConfig.getFields(collection));
         }
 
     }

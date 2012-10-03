@@ -111,7 +111,7 @@ public class IndexerImpl implements Indexer {
      * @param indexRequests
      */
     public void executeBulkHttp(List<IndexEntity> indexRequests) {
-        logger.info("Sending bulk index request with " + indexRequests.size() + "records");
+        logger.info("Sending bulk index request with " + indexRequests.size() + " records");
         // create bulk http message
         StringBuilder message = new StringBuilder();
         
