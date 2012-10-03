@@ -583,7 +583,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:provisionIntegrationTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
+task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
                           :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
                           :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
@@ -763,6 +763,13 @@ runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run API preload resource Tests"
+task :preloadResourceTests => [:realmInit] do
+@tags ||= ["~@wip", "@sandbox"]
+Rake::Task["importSandboxData"].execute
+runTests("test/features/sandbox/preload/tenant_preload.feature")
 end
 
 ############################################################

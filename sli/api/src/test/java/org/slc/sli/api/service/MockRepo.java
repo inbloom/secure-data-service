@@ -28,6 +28,10 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bson.BasicBSONObject;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
@@ -60,12 +64,6 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
         // TODO Auto-generated method stub
 
     }

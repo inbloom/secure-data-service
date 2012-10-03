@@ -74,7 +74,6 @@ public class ZipFileHandlerTest {
     public void testIOExceptionHandling() {
         File zip = new File("src/test/resources/zip/NoControlFile2.zip");
 
-        ZipFileHandler zipHandler = new ZipFileHandler();
         zipHandler.setMessageSource(messageSource);
 
         FaultsReport errorReport = new FaultsReport();
