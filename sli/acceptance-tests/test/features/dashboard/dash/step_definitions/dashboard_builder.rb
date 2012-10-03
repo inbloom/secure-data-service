@@ -45,14 +45,12 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   # Click on the 'Add available panels' button
   @currentPage.find_element(:css, "button[class*='btn-block']").click
   # Identify the pop up panel for 'Add a Panel'
+  @explicitWait.until {(style = @driver.find_element(:id, "allPanelsModal").attribute('style').strip)  == "display: block;" }
   popupPanel = @driver.find_element(:id, "allPanelsModal")
-  
   # Select the panels from the list
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
-# name = panel.find_element(:css, "span[class*='ui-selectee']")
-  puts "\n panel equals " + panel.to_s + "\n"
   if (panel.attribute("innerHTML").include? panelName)
       found = true
       panel.click
