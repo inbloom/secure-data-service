@@ -119,6 +119,13 @@ public class ExtractorImpl implements Extractor {
                 numberOfLineWritten++;
             }
 
+            // finish up
+            IOUtils.closeQuietly(bw);
+            // move file to inbox for indexer
+            if (outFile != null) {
+                FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
+            }
+            
         } catch (FileNotFoundException e) {
             logger.error("Error writing entities file", e);
         } catch (IOException e) {
