@@ -39,6 +39,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  *
  */
 public class AssessmentFamilyTest {
+	@Ignore
     @Test
     public void edfiXmlAssessmentFamilyTest() throws IOException, SAXException {
 
@@ -90,7 +91,7 @@ public class AssessmentFamilyTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                 targetSelector, edfiAssessmentFamilyXml);
-
+        
         checkValidAssessmentFamilyNeutralRecord(neutralRecord);
     }
 
