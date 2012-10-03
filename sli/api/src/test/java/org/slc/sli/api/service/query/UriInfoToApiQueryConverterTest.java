@@ -72,6 +72,28 @@ public class UriInfoToApiQueryConverterTest {
         this.testFullParse("descending", NeutralQuery.SortOrder.descending);
     }
 
+    @Test (expected = QueryParseException.class)
+    public void testPreventionOfNegativeLimit() throws URISyntaxException {
+    	
+    	String queryString = "limit=-1";
+    	
+    	URI requestUri = new URI(URI_STRING + "?" + queryString);
+
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        QUERY_CONVERTER.convert(uriInfo);
+    }
+
+    @Test (expected = QueryParseException.class)
+    public void testPreventionOfNegativeOffset() throws URISyntaxException {
+    	
+    	String queryString = "offset=-1";
+    	
+    	URI requestUri = new URI(URI_STRING + "?" + queryString);
+
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        QUERY_CONVERTER.convert(uriInfo);
+    }
+
     private void testFullParse(String sortOrderString, NeutralQuery.SortOrder sortOrder) {
         try {
             int offset = 5;

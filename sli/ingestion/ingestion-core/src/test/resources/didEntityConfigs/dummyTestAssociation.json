@@ -1,0 +1,15 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "dummy",
+            "didFieldPath" : "dummyId",
+            "sourceRefPath" : "dummyReference"
+        },
+        {
+            "entityType" : "test",
+            "didFieldPath" : "testId",
+            "sourceRefPath" : "testReference"
+        }
+    ]
+}

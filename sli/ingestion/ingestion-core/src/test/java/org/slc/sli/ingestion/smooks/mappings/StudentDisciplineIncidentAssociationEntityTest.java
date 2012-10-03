@@ -136,8 +136,12 @@ public class StudentDisciplineIncidentAssociationEntityTest {
         assertEquals("Expected different secondaryBehavior", "Hair Pulling", secondaryBehavior.get("SecondaryBehavior"));
 
         //student
-        String studentIdentity = (String) attributes.get("studentUniqueStateId");
-        assertNotNull("Expected non-null student reference", studentIdentity);
-        assertEquals("Expected different student unique state id", "Student Unique State Id", studentIdentity);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> studentReference = (Map<String, Object>) attributes.get("StudentReference");
+        assertNotNull("Expected non-null student reference", studentReference);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> studentIdentity = (Map<String, Object>) studentReference.get("StudentIdentity");
+        assertNotNull("Expected non-null student identity", studentIdentity);
+        assertEquals("Expected different student id", "Student Unique State Id", studentIdentity.get("StudentUniqueStateId"));
     }
 }

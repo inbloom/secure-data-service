@@ -16,10 +16,19 @@
 
 package org.slc.sli.ingestion;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -38,7 +47,28 @@ public class IngestionHealthCheck {
     private NewBatchJob newBatchJob;
     private String version;
 
+    private Logger log = LoggerFactory.getLogger(IngestionHealthCheck.class);
+
     public String getVersion() {
+
+        if (version == null || version.equals("")) {
+            InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("SLI_metadata.txt");
+            if (in != null) {
+                try {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    String currentFileLine;
+                    while ((currentFileLine = br.readLine()) != null)   {
+                        Pattern versionPattern = Pattern.compile("^Version\\s*:\\s*(.*)\\s*$");
+                        Matcher versionMatcher = versionPattern.matcher(currentFileLine);
+                        if (versionMatcher.matches()) {
+                            version = versionMatcher.group(1);
+                        }
+                    }
+                } catch (IOException ioe) {
+                    log.error("Error occured while obtaining the version: " + ioe.getLocalizedMessage());
+                }
+            }
+        }
         return version;
     }
 

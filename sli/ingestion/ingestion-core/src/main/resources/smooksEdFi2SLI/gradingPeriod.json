@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "body.gradingPeriodIdentity.schoolYear", "body.gradingPeriodIdentity.gradingPeriod", "body.gradingPeriodIdentity.schoolId" ],
+    "keyFields" : [ "body.beginDate", "body.gradingPeriodIdentity.gradingPeriod", "body.gradingPeriodIdentity.schoolId" ],
     "references" :
             [
                 {

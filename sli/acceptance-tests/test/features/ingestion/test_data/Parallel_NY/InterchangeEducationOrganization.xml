@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) --><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 	<StateEducationAgency>
 		<StateOrganizationId>NY</StateOrganizationId>
 		<NameOfInstitution>New York State Education System</NameOfInstitution>
@@ -313,7 +311,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>Mason201-1</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>PhySci001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -328,7 +326,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>PhySci001-2</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>Chem305</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -343,7 +341,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>Chem305-3</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>Math001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -358,7 +356,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>Math001-4</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>Art001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -373,7 +371,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>Art001-5</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>ARCH221</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -388,7 +386,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>ARCH221-6</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>PE001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -403,7 +401,7 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>PE001-7</UniqueCourseId></Course>
 	<Course>
 		<CourseTitle>Sci127</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -418,5 +416,5 @@
 				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	</Course>
+	<UniqueCourseId>Sci127-8</UniqueCourseId></Course>
 </InterchangeEducationOrganization>

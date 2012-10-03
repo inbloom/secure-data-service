@@ -1,6 +1,5 @@
 @RALLY_US2194 @DE609
-Feature: As an SLI application, I want to be able to delete an entity and trigger a cascade deletion
-    This means any entity referencing the deleted entity should also be deleted
+Feature: Blacklist validation
 
 Background:
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
