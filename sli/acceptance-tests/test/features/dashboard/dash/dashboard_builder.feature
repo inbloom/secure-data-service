@@ -36,9 +36,9 @@ And I add an available panel named "teacherList"
 And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList;teacherList"
 And I delete an available panel named "teacherList"
-And I navigate away to "Section" Profile Builder without saving the changes
+#And I navigate away to "Section" Profile Builder without saving the changes
 #Publish layout modal window - select 'Stay on this page' and save the changes
-And I click on "Stay" button on the modal window
+#And I click on "Stay" button on the modal window
 And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList"
 
