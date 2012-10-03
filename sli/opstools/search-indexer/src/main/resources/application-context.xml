@@ -17,7 +17,8 @@
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:annotation-config />
 	<tx:annotation-driven />
-	<context:property-placeholder location="classpath:search.properties" />
+	<property file="${sli.conf}"/>
+
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
 	</bean>
@@ -53,10 +54,13 @@
         <property name="indexEntityConfig" ref="indexEntityConfig" />
         <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
         <property name="extractDir" value="${sli.search.dir.extract:tmp}" />
+        <property name="maxLinePerFile" value="${sli.search.max.lines:100}" />
+        <property name="executorThreads" value="${sli.search.thread.number:2}" />
     </bean>
 
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">
 	    <property name="inboxDir" value="${sli.search.dir.inbox:inbox}" />
+	    <property name="executorThreads" value="${sli.search.thread.number:2}" />
 	</bean>
 	
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate"/>

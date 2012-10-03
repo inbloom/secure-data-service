@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.mongodb.util.ThreadUtil;
-
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
@@ -22,69 +20,70 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Loads records from a file for indexing
- * @author agrebneva
- * 
- */
+import com.mongodb.util.ThreadUtil;
+
 @Service
 public class LoaderImpl implements FileAlterationListener, Loader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private static final String DEFAULT_DROP_OFF_DIR = "inbox";
     private static final long DEFAULT_INTERVAL_MILLIS = 1000L;
-    private static final int DEFAULT_EXECUTOR_THREADS = 5;
-    
+    private static final int DEFAULT_EXECUTOR_THREADS = 2;
+
     @Autowired
     private Indexer indexer;
-    
+
     @Autowired
     IndexEntityConverter indexEntityConverter;
-    
+
     private String inboxDir = DEFAULT_DROP_OFF_DIR;
-    
-    @Autowired(required=false)
+
+    @Autowired(required = false)
     private long pollIntervalMillis = DEFAULT_INTERVAL_MILLIS;
-    
+
     private FileAlterationMonitor monitor;
-    
+
     private ExecutorService executor;
-    private int executorThreads = DEFAULT_EXECUTOR_THREADS;
-    
+
+    private int executorThreads=DEFAULT_EXECUTOR_THREADS;
+
     public void init() throws Exception {
         monitor = new FileAlterationMonitor(pollIntervalMillis);
         // create thread pool to process files
-        executor = Executors.newFixedThreadPool(executorThreads);
+        executor = Executors.newFixedThreadPool(executorThreads );
         File inbox = new File(inboxDir);
         inbox.mkdir();
         FileAlterationObserver observer = new FileAlterationObserver(inbox);
         monitor.addObserver(observer);
         observer.addListener(this);
         // watch directory for files
-        for (File f : inbox.listFiles())
-        {
+        for (File f : inbox.listFiles()) {
             processFile(f);
         }
         monitor.start();
     }
-    
-    public void destroy()  throws Exception{
+
+    public void destroy() throws Exception {
         monitor.stop();
         executor.shutdown();
     }
-    
+
+    public void setExecutorThreads(int executorThreads) {
+        this.executorThreads = executorThreads;
+    }
+
     /**
      * A worker to process an individual file
-     *
+     * 
      */
     private class LoaderWorker implements Runnable {
-        
+
         File inFile;
-        
+
         LoaderWorker(File inFile) {
             this.inFile = inFile;
         }
-        
+
         public void run() {
             // read records from file
             BufferedReader br = null;
@@ -98,8 +97,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 success = true;
             } catch (Throwable e) {
                 logger.error("Error loading from file", e);
-            }
-            finally {
+            } finally {
                 try {
                     IOUtils.closeWhileHandlingException(br);
                     logger.info("Done processing file: " + inFile.getName());
@@ -111,20 +109,23 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             }
         }
     }
-    
+
     /**
      * What to do after processing
+     * 
      * @param inFile
      */
     public void archive(File inFile) {
         inFile.delete();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.slc.sli.search.process.Loader#processFile(java.io.File)
      */
     public void processFile(File inFile) {
-        // TODO: make sure file is not being written to still
+
         logger.info("Processing file: " + inFile.getName());
         // protect from incomplete files
         long size1 = 0L, size2 = 1L;
@@ -167,21 +168,17 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     public void onStop(FileAlterationObserver arg0) {
     }
-    
+
     public void setIndexer(Indexer indexer) {
         this.indexer = indexer;
     }
 
     public void setIndexEntityConverter(IndexEntityConverter indexEntityConverter) {
-        this.indexEntityConverter = indexEntityConverter; 
+        this.indexEntityConverter = indexEntityConverter;
     }
-    
+
     public void setPollIntervalMillis(long pollIntervalMillis) {
         this.pollIntervalMillis = pollIntervalMillis;
     }
 
-    public void setInboxDir(String inboxDir) {
-        this.inboxDir = inboxDir;
-    }
-    
 }

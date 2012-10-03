@@ -3,9 +3,6 @@ package org.slc.sli.search.util;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ser.FilterProvider;
-import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
-import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.search.entity.IndexEntity;
