@@ -54,6 +54,10 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
 
     private static final String INVALID_CHARACTERS = "?";
 
+    private int pollInterval;
+    private int readLockCheckInterval;
+    private int readLockTimeout;
+
     private String workItemQueueUri;
 
     /**
@@ -63,20 +67,24 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
      * @param controlFilePreProcessor, the ingestion controlFilePreProcessor
      */
     public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri,
-            ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor) {
+            ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor,
+            int pollInterval, int readLockCheckInterval, int readLockTimeout) {
 
         this.landingZonePaths = landingZonePaths;
         this.zipFileProcessor = zipFileProcessor;
         this.controlFilePreProcessor = controlFilePreProcessor;
         this.noExtractProcessor = noExtractProcessor;
         this.workItemQueueUri = workItemQueueUri;
+        this.pollInterval = pollInterval;
+        this.readLockCheckInterval = readLockCheckInterval;
+        this.readLockTimeout = readLockTimeout;
     }
 
     @Override
     public void configure() throws Exception {
 
         for (String inboundDir : landingZonePaths) {
-            log.info("Configuring route for landing zone: {} ", inboundDir);
+            log.info("Configuring route for landing zone: {}", inboundDir + ", pi=" + pollInterval + ", rlci=" + readLockCheckInterval + ", rlt=" + readLockTimeout);
 
             //Don't create the file poller if failed to create
             //the landing zone or the name is invalid
@@ -87,8 +95,9 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             // routeId: ctlFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
+            + "&delay=" + pollInterval
             + "&delete=true"
-            + "&readLock=changed&readLockCheckInterval=1000")
+            + "&readLock=changed&readLockCheckInterval=" + readLockCheckInterval)
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
@@ -100,10 +109,14 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             // routeId: zipFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension()
-            + "$&exclude=\\.in\\.*&preMove="
+            + "$&exclude=\\.in\\.*"
+            + "&preMove="
                             + inboundDir + "/.done&moveFailed=" + inboundDir
                             + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
+                            + "&readLock=changed&readLockCheckInterval=" + readLockCheckInterval
+                            + "&readLockTimeout=" + readLockTimeout
+                            + "&delay=" + pollInterval
+                            + "&delete=true")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                     .process(zipFileProcessor)
@@ -117,15 +130,15 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                             .otherwise()
                                 .to(workItemQueueUri);
 
-            from(
-                    "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
-                            + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
-                            + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                + "&readLock=changed&readLockCheckInterval=1000")
-                    .routeId("noextract-" + inboundDir)
-                .log(LoggingLevel.INFO, "CamelRouting",
-                        "No-extract command file detected. Routing to NoExtractProcessor.").process(noExtractProcessor)
-            .to("direct:postExtract");
+//            from(
+//                    "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
+//                            + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
+//                            + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
+//                + "&readLock=changed&readLockCheckInterval=1000")
+//                    .routeId("noextract-" + inboundDir)
+//                .log(LoggingLevel.INFO, "CamelRouting",
+//                        "No-extract command file detected. Routing to NoExtractProcessor.").process(noExtractProcessor)
+//            .to("direct:postExtract");
 
         }
     }

@@ -148,8 +148,7 @@ public class OnboardingResource {
             Map<String, Object> meta = new HashMap<String, Object>();
             meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
             meta.put("externalId", orgId);
-            Entity edOrgEntity = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta,
-                    EntityNames.EDUCATION_ORGANIZATION);
+            Entity edOrgEntity = repo.create("stateEducationAgency", body, meta, EntityNames.EDUCATION_ORGANIZATION);
 
             if (edOrgEntity == null) {
                 return Response.status(Status.INTERNAL_SERVER_ERROR).build();

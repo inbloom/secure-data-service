@@ -41,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -341,14 +340,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(neutralQuery, collectionName);
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
-            mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
+            neutralQuery.addCriteria(new NeutralCriteria(field.getKey(), "=", field.getValue(), false));
         }
 
         // find and return an entity
         guideIfTenantAgnostic(collectionName);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 

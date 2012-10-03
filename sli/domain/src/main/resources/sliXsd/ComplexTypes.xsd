@@ -1233,7 +1233,7 @@
 				different medium.
 
 				Associations: TeacherSectionAssociation,
-				StudentSectionAssociation,
+				StudentSectionAssociation.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
