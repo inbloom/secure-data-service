@@ -51,24 +51,15 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
-    
-    puts "innerhtml == " + panel.attribute('innerHTML').to_s
-    puts "is text found? " + (panel.attribute('innerHTML').include? panelName).to_s
-
-    name = panel.find_element(:css, "span[class*='ui-selectee']")
-    if (name.attribute("innerHTML").include? panelName) 
-    
-   # if (panel.attribute('innerHTML').include? panelName)  
+  name = panel.find_element(:css, "span[class*='ui-selectee']")
+  if (name.attribute("innerHTML").include? panelName)
       found = true
       panel.click
-      sleep 0.20     
       break
     end
   end
-  
   assert(found, "#{panelName} is not found in the list")
   popupPanel.find_element(:class,"modal-footer").find_elements(:tag_name, "button")[1].click
-  sleep 0.20
   
   ensurePopupUnloaded()
 end
@@ -81,13 +72,10 @@ end
 When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, listOfPanels|
   hoverOverPage(pageName)
   expectedPanels = listOfPanels.split(';')
-  puts "expected Panels == " + expectedPanels.to_s
-
-  @currentPage = @explicitWait.until{@driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")}  
-  #@currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
-  actualPanels = @explicitWait.until{@currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")}
-  #actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
-  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")
+  
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
+  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} Actual: #{actualPanels.length.to_s}")
   
   expectedPanels.each do |expectedPanel|
     found = false
@@ -160,21 +148,6 @@ end
 # Click the 'Publish Layout' button
 When /^I click the Publish Layout button$/ do
   @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
-  listOfPanels = "sectionList;teacherList"
-  expectedPanels = listOfPanels.split(';')
-  puts "expected Panels == " + expectedPanels.to_s
-  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{expectedPanels}']")
-  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
-  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")     
-  expectedPanels.each do |expectedPanel|
-    found = false
-    actualPanels.each do |actualPanel|
-      if (actualPanel.attribute("innerHTML").include? expectedPanel)
-        found = true  
-      end  
-    end  
-    assert(found, "#{expectedPanel} was not found")
-  end
 end
 
 # Publish Layout Modal Window
@@ -189,6 +162,9 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
+   @driver.manage.timeouts.implicit_wait = 2
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @driver.manage.timeouts.implicit_wait = 10 
 end
 
 # Navigate away without clicking the Publish Layout button 
@@ -312,13 +288,11 @@ end
 
 def ensurePopupLoaded()
   @explicitWait.until {(style = @driver.find_element(:id, "modalBox").attribute('style').strip)  == "display: block;" }
-   puts "ensurePopupLoaded after "
 end
 
 def ensurePopupUnloaded() 
    @driver.manage.timeouts.implicit_wait = 2
    @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
-   puts "ensurePopupUnloaded after - " + @driver.find_elements(:id, "simplemodal-overlay").length.to_s
    @driver.manage.timeouts.implicit_wait = 10
 end
 
