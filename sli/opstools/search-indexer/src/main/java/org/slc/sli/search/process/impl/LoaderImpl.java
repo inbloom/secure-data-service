@@ -181,4 +181,8 @@ public class LoaderImpl implements FileAlterationListener, Loader {
         this.pollIntervalMillis = pollIntervalMillis;
     }
 
+    public void setInboxDir(String inboxDir) {
+        this.inboxDir = inboxDir;
+    }
+
 }

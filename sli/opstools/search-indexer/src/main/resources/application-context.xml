@@ -17,7 +17,7 @@
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:annotation-config />
 	<tx:annotation-driven />
-	<property file="${sli.conf}"/>
+	<context:property-placeholder location="file:${sli.conf}" />
 
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">

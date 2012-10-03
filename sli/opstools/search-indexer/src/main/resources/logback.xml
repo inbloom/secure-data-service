@@ -10,17 +10,17 @@
 	</appender>
 	
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${log.path}/search-indexer.log</File>
+    <File>${sli.search.log.path}/search-indexer.log</File>
     <Append>true</Append>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
         <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${log.path}/search-indexer-%d{yyyy-MM-dd}.log</fileNamePattern>
+        <fileNamePattern>${sli.search.log.path}/search-indexer-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
   </appender>
 	
-	<root level="${log.level}">
+	<root level="${sli.search.log.level}">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 	</root>
