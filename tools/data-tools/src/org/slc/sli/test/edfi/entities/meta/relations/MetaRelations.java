@@ -55,6 +55,8 @@ import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entitiesR1.GraduationPlanType;
 import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
+import org.slc.sli.test.generators.GradingPeriodGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.utils.ValidateSchema;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
@@ -454,7 +456,7 @@ public final class MetaRelations {
         
         Map<String, CalendarMeta> calendarForSession = buildCalendarForSessions(sessionsForSchool);
         
-        Map<String, GradingPeriodMeta> gradingPeriodForCalendar = buildGradingPeriodForCalendar(calendarForSession);
+        Map<String, GradingPeriodMeta> gradingPeriodForCalendar = buildGradingPeriodForCalendar(calendarForSession, sessionsForSchool);
         
         Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
 
@@ -641,11 +643,13 @@ public final class MetaRelations {
      * @return
      */
     private static Map<String, GradingPeriodMeta> buildGradingPeriodForCalendar(
-            Map<String, CalendarMeta> calendarForGradingPeriod) {
+            Map<String, CalendarMeta> calendarForGradingPeriod, Map<String, SessionMeta> sessionsForSchool) {
         
         Map<String, GradingPeriodMeta> gradingPeriodMetas = new HashMap<String, GradingPeriodMeta>(
                 GRADINGPERIOD_PER_CALENDAR);
         
+        Random random = new Random();
+        int count = random.nextInt(InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS);
         for (CalendarMeta calendarMeta : calendarForGradingPeriod.values()) {
             
             for (int idNum = 0; idNum < GRADINGPERIOD_PER_CALENDAR; idNum++) {
@@ -655,9 +659,24 @@ public final class MetaRelations {
                 GradingPeriodMeta gradingPeriodMeta = new GradingPeriodMeta(gradingPeriodId);
                 gradingPeriodMeta.calendars.add(calendarMeta.id);
                 
+                gradingPeriodMeta.setGradingPeriodNum(count % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS + 1);
+                count++;
+                
                 // it's useful to return the objects created JUST for this school
                 gradingPeriodMetas.put(gradingPeriodMeta.id, gradingPeriodMeta);
                 GRADINGPERIOD_MAP.put(gradingPeriodMeta.id, gradingPeriodMeta);
+                
+            }
+        }
+        
+        //assign gradingPeriods to the school
+        for (SessionMeta session : sessionsForSchool.values()) {
+            count = 0;
+            for (GradingPeriodMeta gradingPeriod : gradingPeriodMetas.values()) {
+                session.gradingPeriodNumList.add(new Integer(gradingPeriod.getGradingPeriodNum()));
+                if (count > GRADING_PERIOD_PER_SESSIONS) {
+                    break;
+                }
             }
         }
         

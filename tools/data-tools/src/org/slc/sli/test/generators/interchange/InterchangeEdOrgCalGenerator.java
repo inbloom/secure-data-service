@@ -110,7 +110,8 @@ public class InterchangeEdOrgCalGenerator {
                     orgId = orgId.substring(0, orgId.lastIndexOf("-"));
                     if (!prevOrgId.equalsIgnoreCase(orgId)) count=1;
                     prevOrgId = orgId;
-				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
+                    
+				    gradingPeriod = gpg.getGradingPeriod(orgId, gradingPeriodMeta.getGradingPeriodNum());
 				    gradingPeriod.setId(gradingPeriodMeta.id);
 				    
 					if (MetaRelations.GradingPeriod_Ref) {
@@ -181,7 +182,7 @@ public class InterchangeEdOrgCalGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 session = null;
             } else {
-                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList);
+                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodNumList);
             	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
