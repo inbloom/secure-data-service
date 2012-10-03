@@ -305,10 +305,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // convert the neutral query into a mongo query
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
-        // find and return an instance
-        guideIfTenantAgnostic(collectionName);
-        return template.find(mongoQuery, getRecordClass(), collectionName);
+        // always call guideIfTenantAgnostic - this sets threadlocal flag
+        if (!guideIfTenantAgnostic(collectionName) && TenantContext.runWithAllTenants()) {
+
+            return findAllAcrossTenants(collectionName, mongoQuery);
+        } else {
+
+            return template.find(mongoQuery, getRecordClass(), collectionName);
+        }
     }
+
+    protected abstract Iterable<T> findAllAcrossTenants(String collectionName, Query mongoQuery);
 
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
@@ -718,14 +725,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return tenantAgnosticCollections.contains(collectionName);
     }
 
+
     /**
      * Set a boolean value in TenantContext threadlocal store which signals whether this collection
      * is tenant-specific. The method should be used before MongoTemplate calls to ensure that the
      * correct database is used.
      *
      * @param collectionName
+     * @return <code>true</code> if this collection is tenant agnostic.
      */
-    protected void guideIfTenantAgnostic(String collectionName) {
-        TenantContext.setIsSystemCall(isTenantAgnostic(collectionName));
+    protected boolean guideIfTenantAgnostic(String collectionName) {
+        boolean isTenantAgnostic = isTenantAgnostic(collectionName);
+        TenantContext.setIsSystemCall(isTenantAgnostic);
+        return isTenantAgnostic;
     }
 }

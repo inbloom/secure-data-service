@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -78,6 +79,31 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected Class<Entity> getRecordClass() {
         return Entity.class;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Iterable<Entity> findAllAcrossTenants(String collectionName, Query mongoQuery) {
+        List<Entity> allRequestedEntities = new ArrayList<Entity>();
+
+        guideIfTenantAgnostic("realm");
+        List<String> distinctTenantIds = (List<String>) template.getCollection("realm").distinct("body.tenantId");
+
+        guideIfTenantAgnostic(collectionName);
+        for (String tenantId : distinctTenantIds) {
+
+            // escape nasty characters
+            tenantId = TenantIdToDbName.convertTenantIdToDbName(tenantId);
+
+            // query database with this tenant's id as db name
+            if (!"sli".equalsIgnoreCase(tenantId)) {
+                TenantContext.setTenantId(tenantId);
+                List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);
+                allRequestedEntities.addAll(resultsForThisTenant);
+            }
+        }
+
+        return allRequestedEntities;
     }
 
     @Override

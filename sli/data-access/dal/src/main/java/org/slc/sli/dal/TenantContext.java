@@ -32,6 +32,13 @@ public class TenantContext {
         }
     };
 
+    private static ThreadLocal<Boolean> threadLocalRunWithAllTenants = new ThreadLocal<Boolean>() {
+        @Override
+        protected Boolean initialValue() {
+            return false;
+        }
+    };
+
     /**
      * Get the tenant id local to this thread.
      *
@@ -74,6 +81,14 @@ public class TenantContext {
 
     public static void setIsSystemCall(boolean isSystemCall) {
         threadLocalIsSystemCall.set(isSystemCall);
+    }
+
+    public static boolean runWithAllTenants() {
+        return threadLocalRunWithAllTenants.get();
+    }
+
+    public static void setRunWithAllTenants(boolean runWithAllTenants) {
+        threadLocalRunWithAllTenants.set(runWithAllTenants);
     }
 
 }
