@@ -14,7 +14,9 @@
         { "path": "/{id}/studentSectionAssociations/students" },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
-        { "path": "/{id}/teacherSectionAssociations/teachers" }
+        { "path": "/{id}/teacherSectionAssociations/teachers" },
+        { "path": "/{id}/gradebookEntries" },
+        { "path": "/{id}/studentGradebookEntries" }        
       ]
     },
     {
@@ -64,7 +66,10 @@
       "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources.",
       "subResources": [
         { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courseOfferings/courses" }
+        { "path": "/{id}/courseOfferings/courses" },
+        { "path": "/{id}/studentAcademicRecords" },
+        { "path": "/{id}/sections" }
+
       ]
     },
     {
@@ -79,7 +84,7 @@
       "path": "/gradebookEntries",
       "doc": "Represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook. For more information, see the schema for $$GradebookEntry$$ resources.",
       "subResources": [
-
+        { "path": "/{id}/studentGradebookEntries" }
       ]
     },
     {
@@ -126,7 +131,8 @@
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
-        { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" }
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
+        { "path": "/{id}/cohorts" }
       ]
     },
     {
