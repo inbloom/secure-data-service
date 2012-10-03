@@ -44,7 +44,6 @@ end
 When /^I add an available panel named "(.*?)"$/ do |panelName|
   # Click on the 'Add available panels' button
   @currentPage.find_element(:css, "button[class*='btn-block']").click
-  puts "driver"  + @driver.page_source
   # Identify the pop up panel for 'Add a Panel'
   @explicitWait.until {(style = @driver.find_element(:id, "allPanelsModal").attribute('style').strip)  == "display: block;" }
   popupPanel = @driver.find_element(:id, "allPanelsModal")
@@ -148,9 +147,7 @@ end
 # Click the 'Publish Layout' button
 When /^I click the Publish Layout button$/ do
   @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
-  style = "test"
   @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
-  puts style
   sleep 3
 end
 
@@ -166,9 +163,6 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   @driver.manage.timeouts.implicit_wait = 2
-   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
-   @driver.manage.timeouts.implicit_wait = 10 
 end
 
 # Navigate away without clicking the Publish Layout button 
