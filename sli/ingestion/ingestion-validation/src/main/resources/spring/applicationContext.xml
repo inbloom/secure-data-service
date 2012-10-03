@@ -51,4 +51,7 @@
         <property name="batchJobAssembler" ref="batchJobAssembler"/>
         <property name="ComplexValidator" ref="complexValidator"/>
      </bean>
+
+       <context:property-placeholder
+               ignore-resource-not-found="true" />
 </beans>

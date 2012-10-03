@@ -526,7 +526,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.collectionExists(collection);
     }
 
-
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
 
