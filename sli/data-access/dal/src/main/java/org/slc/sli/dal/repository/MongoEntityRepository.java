@@ -17,6 +17,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -85,26 +86,41 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @SuppressWarnings("unchecked")
     @Override
     protected Iterable<Entity> findAllAcrossTenants(String collectionName, Query mongoQuery) {
-        List<Entity> allRequestedEntities = new ArrayList<Entity>();
+        List<Entity> crossTenantResults = Collections.emptyList();
 
         guideIfTenantAgnostic("realm");
         List<String> distinctTenantIds = (List<String>) template.getCollection("realm").distinct("body.tenantId");
 
+        String originalTenantId = TenantContext.getTenantId();
+        try {
+            crossTenantResults = issueQueryToTenantDbs(collectionName, mongoQuery, distinctTenantIds);
+        } finally {
+            TenantContext.setTenantId(originalTenantId);
+        }
+
+        return crossTenantResults;
+    }
+
+    private List<Entity> issueQueryToTenantDbs(String collectionName, Query mongoQuery, List<String> distinctTenantIds) {
+        List<Entity> crossTenantResults = Collections.emptyList();
+
         guideIfTenantAgnostic(collectionName);
         for (String tenantId : distinctTenantIds) {
-
             // escape nasty characters
             tenantId = TenantIdToDbName.convertTenantIdToDbName(tenantId);
 
-            // query database with this tenant's id as db name
-            if (!"sli".equalsIgnoreCase(tenantId)) {
+            if (isValidDbName(tenantId)) {
                 TenantContext.setTenantId(tenantId);
+
                 List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);
-                allRequestedEntities.addAll(resultsForThisTenant);
+                crossTenantResults.addAll(resultsForThisTenant);
             }
         }
+        return crossTenantResults;
+    }
 
-        return allRequestedEntities;
+    private boolean isValidDbName(String tenantId) {
+        return !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
     }
 
     @Override
