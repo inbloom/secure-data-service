@@ -102,8 +102,8 @@ Scenario Outline: Confirm all association generate one valid links that is imple
     Then I should receive a return code of 204
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <new valid value>
-     And I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
-    When I navigate to GET "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
+     And I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
     Then "id" should be "<NEW VALID VALUE>"
      And "entityType" should be <target entity type>
     Examples:
