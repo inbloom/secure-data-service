@@ -86,7 +86,7 @@ When /^in "(.*?)" Page, it has the following panels: "(.*?)"$/ do |pageName, lis
   @currentPage = @explicitWait.until{@driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")}  
   #@currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{pageName}']")
   actualPanels = @explicitWait.until{@currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")}
-  
+  #actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
   assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")
   
   expectedPanels.each do |expectedPanel|
@@ -160,6 +160,21 @@ end
 # Click the 'Publish Layout' button
 When /^I click the Publish Layout button$/ do
   @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
+  listOfPanels = "sectionList;teacherList"
+  expectedPanels = listOfPanels.split(';')
+  puts "expected Panels == " + expectedPanels.to_s
+  @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='#{expectedPanels}']")
+  actualPanels = @currentPage.find_element(:class,"unstyled").find_elements(:tag_name,"li")
+  assert(actualPanels.length == expectedPanels.length, "Expected: #{expectedPanels.length.to_s} panels, Actual: #{actualPanels.length.to_s} panels")     
+  expectedPanels.each do |expectedPanel|
+    found = false
+    actualPanels.each do |actualPanel|
+      if (actualPanel.attribute("innerHTML").include? expectedPanel)
+        found = true  
+      end  
+    end  
+    assert(found, "#{expectedPanel} was not found")
+  end
 end
 
 # Publish Layout Modal Window
