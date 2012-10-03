@@ -32,11 +32,6 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +40,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
+
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -452,7 +453,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
-    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+    @Override
+	public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
@@ -632,25 +634,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public void createCollection(String collection) {
         guideIfTenantAgnostic(collection);
         template.createCollection(collection);
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
-
-        // TODO - This needs refactoring: template.getDb() is an expensive operations
-        // Mongo indexes names(including collection name and namespace) are limited to 128
-        // characters.
-        String nsName = (String) index.getIndexOptions().get("name") + collection + "." + template.getDb().getName();
-
-        // Verify the length of the name is ready
-        if (nsName.length() >= 128) {
-            LOG.error("ns and name exceeds 128 characters, failed to create index");
-            return;
-        }
-        guideIfTenantAgnostic(collection);
-        template.ensureIndex(index, collection);
-
-        LOG.info("Success!  Index for {} has been created, details {} ", collection, index);
     }
 
     @Override

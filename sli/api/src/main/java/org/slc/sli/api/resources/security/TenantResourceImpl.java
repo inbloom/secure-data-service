@@ -17,7 +17,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -62,17 +61,16 @@ import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.MongoCommander;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
-import org.slc.sli.api.util.StreamGobbler;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
 
 /**
- * 
+ *
  * Provides CRUD operations on registered application through the /tenants path.
- * 
+ *
  * @author
  */
 @Component
@@ -80,7 +78,7 @@ import org.slc.sli.domain.enums.Right;
 @Path("tenants")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
-    
+
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
 
@@ -105,7 +103,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private IngestionTenantLockChecker lockChecker;
-    
+
     @Autowired
     private SecurityUtilProxy secUtil;
 
@@ -321,7 +319,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * TODO: add javadoc
-     * 
+     *
      */
     static class MutableInt {
         int value = 0;
@@ -389,7 +387,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/tenants/<tenantId>
-     * 
+     *
      * @param tenantId
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
@@ -410,7 +408,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * Preload a landing zone with a sample data set
-     * 
+     *
      * @param tenantId
      *            tenant id
      * @param dataSet
@@ -426,7 +424,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
-        
+
         if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized.");
@@ -459,7 +457,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Get the status for the preloading job
      * This functionality is not available at this point
-     * 
+     *
      * @return
      */
     @GET
