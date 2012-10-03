@@ -102,7 +102,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     private List<Entity> issueQueryToTenantDbs(String collectionName, Query mongoQuery, List<String> distinctTenantIds) {
-        List<Entity> crossTenantResults = Collections.emptyList();
+        List<Entity> crossTenantResults = new ArrayList<Entity>();
 
         guideIfTenantAgnostic(collectionName);
         for (String tenantId : distinctTenantIds) {
