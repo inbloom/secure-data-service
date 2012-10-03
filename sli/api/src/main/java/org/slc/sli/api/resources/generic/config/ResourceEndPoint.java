@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.generic.FivePartResource;
+import org.slc.sli.api.resources.generic.SixPartResource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 
@@ -44,6 +45,7 @@ public class ResourceEndPoint {
     private static final String THREE_PART_RESOURCE = "org.slc.sli.api.resources.generic.ThreePartResource";
     private static final String FOUR_PART_RESOURCE = "org.slc.sli.api.resources.generic.FourPartResource";
     private static final String FIVE_PART_RESOURCE = FivePartResource.class.getName();
+	private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
 
@@ -100,7 +102,10 @@ public class ResourceEndPoint {
 
     protected String bruteForceMatch(final String resourcePath) {
 
-    	if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
+    	if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
+    		return SIX_PART_RESOURCE;
+    	}
+    	else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
     		return FIVE_PART_RESOURCE;
     	}
     	else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {

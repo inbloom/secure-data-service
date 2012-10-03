@@ -12,6 +12,7 @@
       "subResources": [
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
+        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/teachers" },
@@ -152,6 +153,7 @@
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
+        { "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
