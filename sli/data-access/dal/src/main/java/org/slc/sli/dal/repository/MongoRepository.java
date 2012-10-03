@@ -29,6 +29,7 @@ import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
@@ -304,21 +305,20 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        DBCollection collection = getCollection(collectionName);
-        if (collection == null) {
-            return 0;
-        }
-        this.addDefaultQueryParams(neutralQuery, collectionName);
-        return collection.count(this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
+        return this.count(collectionName, this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
     }
 
     @Override
     public long count(String collectionName, Query query) {
+        return count(collectionName, query.getQueryObject());
+    }
+
+    private long count(String collectionName, DBObject queryObject) {
         DBCollection collection = getCollection(collectionName);
         if (collection == null) {
             return 0;
         }
-        return collection.count(query.getQueryObject());
+        return collection.count(queryObject);
     }
 
     @Override
