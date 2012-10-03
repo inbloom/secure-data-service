@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.ingestion.smooks;
 
 import java.io.BufferedInputStream;
@@ -100,6 +101,7 @@ public class SmooksCallable implements Callable<Boolean> {
                 deterministicUUIDGeneratorStrategy);
         
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
+        metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         int errorCount = processMetrics(metrics, fileProcessStatus);
         
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
@@ -180,6 +182,8 @@ public class SmooksCallable implements Callable<Boolean> {
             SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
             
             int recordsPersisted = visitAfter.getRecordsPerisisted();
+            Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
+
             Map<String, Long> duplicateCounts = visitAfter.getDuplicateCounts();
 
             fileProcessStatus.setTotalRecordCount(recordsPersisted);

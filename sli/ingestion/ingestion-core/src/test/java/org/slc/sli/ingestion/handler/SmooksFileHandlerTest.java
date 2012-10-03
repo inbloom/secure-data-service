@@ -141,6 +141,7 @@
 //        Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());
 //    }
 //}
+<<<<<<< HEAD
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -285,3 +286,5 @@ public class SmooksFileHandlerTest {
         Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());
     }
 }
+=======
+>>>>>>> 6ad85620fd2dfbe86554f4d74736e1671058e21b
