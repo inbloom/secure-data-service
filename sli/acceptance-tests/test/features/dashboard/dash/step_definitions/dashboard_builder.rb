@@ -44,6 +44,9 @@ end
 When /^I add an available panel named "(.*?)"$/ do |panelName|
   # Click on the 'Add available panels' button
   @currentPage.find_element(:css, "button[class*='btn-block']").click
+  puts "current" + @currentPage.attribute('innerHTML')
+  
+  puts "driver"  + @driver.page_source
   # Identify the pop up panel for 'Add a Panel'
   @explicitWait.until {(style = @driver.find_element(:id, "allPanelsModal").attribute('style').strip)  == "display: block;" }
   popupPanel = @driver.find_element(:id, "allPanelsModal")
