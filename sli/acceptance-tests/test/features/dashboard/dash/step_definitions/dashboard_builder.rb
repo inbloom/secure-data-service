@@ -148,10 +148,10 @@ end
 # Click the 'Publish Layout' button
 When /^I click the Publish Layout button$/ do
   @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
-  
- # @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
-  
-  @explicitWait.until { @driver.page_source.include? "Well done!"}
+  style = "test"
+  @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+  puts style
+  sleep 3
 end
 
 # Publish Layout Modal Window
