@@ -153,7 +153,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         paths.put(BATCH_JOB_ID, jobId);
         NeutralQuery neutralQuery = new NeutralQuery();
-        Query query = this.queryConverter.convert(collectionName, neutralQuery);;
+        Query query = this.queryConverter.convert(collectionName, neutralQuery);
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
     }
 
@@ -190,7 +190,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
 
-            for (String currentCollection : getTemplate().getCollectionNames()) {
+            for (String currentCollection : getCollectionNames()) {
                 long count = countByQuery(currentCollection, query);
                 if (count > 0) {
                     collectionNamesForJob.add(currentCollection);
@@ -205,7 +205,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void deleteStagedRecordsForJob(String batchJobId) {
         if (batchJobId != null) {
             Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
-            for (String currentCollection : getTemplate().getCollectionNames()) {
+            for (String currentCollection : getCollectionNames()) {
                 if (!currentCollection.startsWith("system.")) {
                     LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
                             batchJobId);
@@ -244,8 +244,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods
     // above.
-    @Override
-    public NeutralRecord create(NeutralRecord record, String collectionName) {
+    NeutralRecord create(NeutralRecord record, String collectionName) {
         template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;

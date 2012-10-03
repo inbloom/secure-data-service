@@ -166,14 +166,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
-    // DE719 -- Not sure how to handle this, since it is using Generics. We
-    // will not know until compileTime, what the object will be.
-    public T create(T record, String collectionName) {
-        template.insert(record, collectionName);
-        LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
-        return record;
-    }
-
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      *
@@ -219,7 +211,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         try {
-            return template.findOne(mongoQuery, getRecordClass(), collectionName);
+            return findOne(collectionName, mongoQuery);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -245,7 +237,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 obj = new BasicDBObject("_id", databaseId);
             }
 
-            return template.getCollection(collectionName).getCount(obj) != 0L;
+            return getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return false;
@@ -263,12 +255,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an entity
-        return template.findOne(mongoQuery, getRecordClass(), collectionName);
+        return findOne(collectionName, mongoQuery);
     }
 
     public T findOne(String collectionName, Query query) {
-
-        // find and return an entity
         return template.findOne(query, getRecordClass(), collectionName);
     }
 
@@ -287,7 +277,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an instance
-        return template.find(mongoQuery, getRecordClass(), collectionName);
+        return findAll(mongoQuery, collectionName);
+    }
+
+    private Iterable<T> findAll(Query query, String collectionName) {
+        return template.find(query, getRecordClass(), collectionName);
     }
 
     @Override
@@ -310,7 +304,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        DBCollection collection = template.getCollection(collectionName);
+        DBCollection collection = getCollection(collectionName);
         if (collection == null) {
             return 0;
         }
@@ -320,7 +314,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public long count(String collectionName, Query query) {
-        DBCollection collection = template.getCollection(collectionName);
+        DBCollection collection = getCollection(collectionName);
         if (collection == null) {
             return 0;
         }
@@ -363,11 +357,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Update update = getUpdateCommand(encryptedRecord);
 
         // attempt update
-        WriteResult result = template.updateFirst(query, update, collection);
+        WriteResult result = updateFirst(query, update, collection);
         // if no records were updated, try insert
         // insert goes through the encryption pipeline, so use the unencrypted record
         if (result.getN() == 0) {
-            template.insert(record, collection);
+            insert(record, collection);
         }
 
         return true;
@@ -400,7 +394,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
-        return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
+        return updateFirst(convertedQuery, convertedUpdate, collectionName);
+    }
+
+    private WriteResult updateFirst(Query query, Update update, String collectionName) {
+        return template.updateFirst(query, update, collectionName);
     }
 
     @Override
@@ -436,7 +434,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        return template.updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
+        return updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
     }
 
     protected abstract Query getUpdateQuery(T entity);
@@ -474,23 +472,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         template.remove(convertedQuery, collectionName);
     }
 
-    protected void logResults(String collectioName, List<T> results) {
-        if (results == null) {
-            LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
-        } else {
-            LOG.debug("find objects in collection {} with total numbers is {}",
-                    new Object[] { collectioName, results.size() });
-        }
-    }
-
     protected abstract String getRecordId(T record);
 
     protected abstract Class<T> getRecordClass();
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template.find(query, getRecordClass(), collectionName);
-        logResults(collectionName, results);
+        Iterable<T> results = findAll(query, collectionName);
         return results;
     }
 
@@ -522,7 +510,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *
      */
     public boolean collectionExists(String collection) {
-
         return template.collectionExists(collection);
     }
 
@@ -544,7 +531,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             update.set("body." + patch.getKey(), patch.getValue());
         }
 
-        WriteResult result = template.updateFirst(query, update, collectionName);
+        WriteResult result = updateFirst(query, update, collectionName);
 
         return (result.getN() == 1);
     }
@@ -567,16 +554,20 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
     }
 
+    protected Set<String> getCollectionNames() {
+        return template.getCollectionNames();
+    }
+
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
         List<DBCollection> collections = new ArrayList<DBCollection>();
 
-        for (String name : getTemplate().getCollectionNames()) {
+        for (String name : getCollectionNames()) {
 
             if (!includeSystemCollections && name.startsWith("system.")) {
                 continue;
             }
-            collections.add(getTemplate().getCollection(name));
+            collections.add(getCollection(name));
         }
         return collections;
     }
