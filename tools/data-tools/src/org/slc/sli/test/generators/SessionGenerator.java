@@ -39,6 +39,7 @@ import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 
 public class SessionGenerator {
 
@@ -70,7 +71,7 @@ public class SessionGenerator {
         session.setEducationOrganizationReference(eort);
 
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
-        gpit.setGradingPeriod(getGradingPeriodType());
+        gpit.setGradingPeriod(GradingPeriodGenerator.getGradingPeriodType(generator.nextInt(20) + 1));
         gpit.setSchoolYear("2011-2012");
         // System.out.println("this is grading period Type :" +
         // gpit.getGradingPeriod());
@@ -87,7 +88,6 @@ public class SessionGenerator {
         GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 
         gprt.setGradingPeriodIdentity(gpit);
-        gprt.setBeginDate("2012-01-01");
 
         session.getGradingPeriodReference().add(gprt);
         // System.out.println("This is state org id by gradingPeriodReference: "
@@ -98,52 +98,6 @@ public class SessionGenerator {
         // session.getGradingPeriodReference().get(0).getGradingPeriodIdentity().getStateOrganizationIdOrEducationOrgIdentificationCode().get(1));
 
         return session;
-    }
-
-    public GradingPeriodType getGradingPeriodType() {
-        int roll = generator.nextInt(20) + 1;
-        switch (roll) {
-            case 1:
-                return GradingPeriodType.END_OF_YEAR;
-            case 2:
-                return GradingPeriodType.FIFTH_SIX_WEEKS;
-            case 3:
-                return GradingPeriodType.FIRST_NINE_WEEKS;
-            case 4:
-                return GradingPeriodType.FIRST_SEMESTER;
-            case 5:
-                return GradingPeriodType.FIRST_SIX_WEEKS;
-            case 6:
-                return GradingPeriodType.FIRST_SUMMER_SESSION;
-            case 7:
-                return GradingPeriodType.FIRST_TRIMESTER;
-            case 8:
-                return GradingPeriodType.FOURTH_NINE_WEEKS;
-            case 9:
-                return GradingPeriodType.FOURTH_SIX_WEEKS;
-            case 10:
-                return GradingPeriodType.SECOND_NINE_WEEKS;
-            case 11:
-                return GradingPeriodType.SECOND_SEMESTER;
-            case 12:
-                return GradingPeriodType.SECOND_SIX_WEEKS;
-            case 13:
-                return GradingPeriodType.SECOND_SUMMER_SESSION;
-            case 14:
-                return GradingPeriodType.SECOND_TRIMESTER;
-            case 15:
-                return GradingPeriodType.SIXTH_SIX_WEEKS;
-            case 16:
-                return GradingPeriodType.SUMMER_SEMESTER;
-            case 17:
-                return GradingPeriodType.THIRD_NINE_WEEKS;
-            case 18:
-                return GradingPeriodType.THIRD_SIX_WEEKS;
-            case 19:
-                return GradingPeriodType.THIRD_SUMMER_SESSION;
-            default:
-                return GradingPeriodType.THIRD_TRIMESTER;
-        }
     }
 
     public TermType getTermType() {
@@ -168,7 +122,7 @@ public class SessionGenerator {
         }
     }
 
-    public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
+    public static Session generateLowFi(String id, String schoolId, List<String> calendarList, List<Integer> gradingPeriodNums) {
         Session session = new Session();
         Random random = new Random();
         int roll = 1;//random.nextInt(30) + 1;
@@ -188,6 +142,8 @@ public class SessionGenerator {
 //        }
 //        else
 //        	session.setEndDate("2012-06-" + + roll);
+        
+        //lina
         session.setBeginDate("2012-01-01");
         session.setEndDate("2012-12-31");
         
@@ -225,11 +181,13 @@ public class SessionGenerator {
 				session.getCalendarDateReference().add(crf);
 			}
 		}
-			
-		for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
-//		for (int i = 0; i < 1; i++) {
+		
+		//should really have gradingPeriod meta data to build this up from
+		//restrict grading periods so that refs are unique
+		
+		for (Integer gradingPeriodNum : gradingPeriodNums) {
 			if (MetaRelations.Session_Ref) {
-				Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
+				Ref gpRef = new Ref(calendarList.get(0) + "-" + gradingPeriodNum.intValue());
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 				gprt.setRef(gpRef);
 				session.getGradingPeriodReference().add(gprt);
@@ -237,14 +195,11 @@ public class SessionGenerator {
 				GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
 				gpit.setStateOrganizationId(schoolId);
 				gpit.setSchoolYear("2011-2012");
-				if (i == 0) {
-					gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
-				} else {
-					gpit.setGradingPeriod(GradingPeriodType.FIRST_SIX_WEEKS);
-				}
+				gpit.setGradingPeriod(GradingPeriodGenerator.getGradingPeriodType(gradingPeriodNum.intValue()));
+				
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 				gprt.setGradingPeriodIdentity(gpit);
-				gprt.setBeginDate("2012-01-01");
+				//gprt.setBeginDate("2012-09-01");
 				session.getGradingPeriodReference().add(gprt);
 			}
 		}

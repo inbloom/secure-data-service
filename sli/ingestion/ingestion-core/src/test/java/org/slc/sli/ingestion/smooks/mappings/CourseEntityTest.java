@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
+import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -108,7 +108,7 @@ public class CourseEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("course");
 
-        IngestionDummyEntityRepository repo = mock(IngestionDummyEntityRepository.class);
+        DummyEntityRepository repo = mock(DummyEntityRepository.class);
         when(repo.exists("educationOrganization", "ID1")).thenReturn(true);
         PrivateAccessor.setField(validator, "validationRepo", repo);
 

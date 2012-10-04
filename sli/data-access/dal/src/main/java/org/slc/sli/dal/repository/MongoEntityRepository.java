@@ -88,19 +88,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public Entity createWithRetries(final String type, final Map<String, Object> body,
-            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
-        RetryMongoCommand rc = new RetryMongoCommand() {
-
-            @Override
-            public Object execute() {
-                return create(type, body, metaData, collectionName);
-            }
-        };
-        return (Entity) rc.executeOperation(noOfRetries);
-    }
-
-    @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
@@ -122,23 +109,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        Assert.notNull(body, "The given entity must not be null!");
-        if (metaData == null) {
-            metaData = new HashMap<String, Object>();
-        }
-
-        String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
-
-        Entity entity = new MongoEntity(type, null, body, metaData);
-        validator.validate(entity);
-
-        this.addTimestamps(entity);
-        return super.create(entity, collectionName);
+        return create(type, null, body, metaData, collectionName);
     }
 
     public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
@@ -155,7 +126,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        if (collectionName.equals("educationOrganization")) {
+        if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
                 @SuppressWarnings("unchecked")
                 List<String> edOrgs = (List<String>) metaData.get("edOrgs");
@@ -176,7 +147,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             subDocs.subDoc(collectionName).create(entity.getBody());
             return entity;
         } else {
-            return super.create(entity, collectionName);
+            return super.insert(entity, collectionName);
         }
     }
 
@@ -191,7 +162,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             for (Entity record : records) {
 
                 String entityId = null;
-                if (NaturalKeyExtractor.useDeterministicIds() == false) {
+                if (!NaturalKeyExtractor.useDeterministicIds()) {
                     if ("educationOrganization".equals(collectionName)) {
                         entityId = record.getStagedEntityId();
                     }
@@ -287,5 +258,4 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.findAll(collectionName, neutralQuery);
     }
-
 }

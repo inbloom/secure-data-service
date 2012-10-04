@@ -90,9 +90,9 @@ public class EntityServiceLayerTest {
         // inject administrator security context for unit testing
         securityContextInjector.setAccessAllAdminContextWithElevatedRights();
         
-        repo.deleteAll("student");
-        repo.deleteAll("school");
-        repo.deleteAll("studentSchoolAssociations");
+        repo.deleteAll("student", null);
+        repo.deleteAll("school", null);
+        repo.deleteAll("studentSchoolAssociations", null);
         studentDef = defs.lookupByResourceName("students");
         schoolDef = defs.lookupByResourceName("schools");
         studentEnrollmentDef = (AssociationDefinition) defs.lookupByResourceName("studentSchoolAssociations");
