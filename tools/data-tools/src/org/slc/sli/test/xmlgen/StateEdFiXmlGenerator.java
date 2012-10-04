@@ -93,7 +93,7 @@ public class StateEdFiXmlGenerator {
      */
     public static void main(String[] args) throws Exception {
    
-        processProgramArguments(args);
+       processProgramArguments(args);
 
         MetaRelations.construct();
  
@@ -109,7 +109,7 @@ public class StateEdFiXmlGenerator {
         	
         }
         
-       // generateAndMarshalInterchanges();
+        
         
         ValidateSchema.check(rootOutputPath);
         
