@@ -101,7 +101,7 @@ public class SmooksCallable implements Callable<Boolean> {
                 deterministicUUIDGeneratorStrategy);
         
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
-        metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
+
         int errorCount = processMetrics(metrics, fileProcessStatus);
         
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
