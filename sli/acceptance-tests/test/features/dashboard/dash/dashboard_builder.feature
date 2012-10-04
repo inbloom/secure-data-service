@@ -30,14 +30,15 @@ When I select "Illinois Daybreak School District 4529" and click go
 When I navigate to the Dashboard Builder page
 
 And I click on "School" Profile Builder
-And I add a Page named "School Tab"
+And I add a Page named "Notice"
 And I add an available panel named "sectionList"
 And I add an available panel named "teacherList"
 And I click the Publish Layout button
-And in "School Tab" Page, it has the following panels: "sectionList;teacherList"
+And in "Notice" Page, it has the following panels: "sectionList;teacherList"
 And I delete an available panel named "teacherList"
-And I navigate away to "Section" Profile Builder without saving the changes
-#Publish layout modal window - select 'Stay on this page' and save the changes
+And I "Edit" the page title as "School Tab"
+#US3480: Publish layout modal window - Select and validate 'Stay on this page' option.
+And I navigate away to "Section" Profile Builder without clicking the Publish Layout button
 And I click on "Stay" button on the modal window
 And I click the Publish Layout button
 And in "School Tab" Page, it has the following panels: "sectionList"
@@ -46,13 +47,24 @@ And I click on "Section" Profile Builder
 And I add a Page named "LOS 2"
 And I add an available panel named "listOfStudents"
 And I click the Publish Layout button
-#US3480: Publish layout modal window - select 'Leave this page' and validate that changes are not saved
+
+#US3480: Publish layout modal window - Select 'Leave this page' and validate that changes are not saved in following scenarios
+#Scenario 1: Add a new page
 And I add an available panel named "sectionInfo"
-And I navigate away to "School" Profile Builder without saving the changes
+And I "Add" a page named "Overview" without clicking the Publish Layout button
 And I click on "Leave" button on the modal window
+And I "Add" the page title as "Overview"
+And I click the Publish Layout button
+And in "LOS 2" Page, it has the following panels: "listOfStudents"
+#Scenario 2: Navigate to a different profile
+And I add an available panel named "populationWidget"
+And I navigate away to "School" Profile Builder without clicking the Publish Layout button
+And I click on "Leave" button on the modal window
+	#Step to validate that the page loads correctly 
 And I view the "School" profile builder
 And I click on "Section" Profile Builder
 And in "LOS 2" Page, it has the following panels: "listOfStudents"
+And I delete Page "Overview"
 
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page

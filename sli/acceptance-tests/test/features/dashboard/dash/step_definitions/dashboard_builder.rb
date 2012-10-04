@@ -28,12 +28,11 @@ When /^I delete Page "(.*?)"$/ do |pageName|
   hoverOverPage(pageName, "delete")
 end
 
+#Add a new page and rename it to 'pageName'
 When /^I add a Page named "(.*?)"$/ do |pageName|
   addSection = @driver.find_element(:class, "addPageSection")
   addSection.find_element(:tag_name, "button").click
-  
   @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='New page']")
-  
   setPageName(pageName) 
 end
 
@@ -163,16 +162,24 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
+   sleep 1
 end
 
-# Navigate away without clicking the Publish Layout button 
-When /^I navigate away to "(.*?)" Profile Builder without saving the changes$/ do |profileName|
+## Click on the profile name to navigate away to the profile builder without clicking the Publish Layout button 
+#When /^I navigate away to "(.*?)" Profile Builder without saving the changes$/ do |profileName|
+ # @currentProfile = profileName.downcase
+  #name = "SLC - " + profileName + " Profile"
+  #@driver.find_element(:class, "profile_list").find_element(:link_text, name).click
+#end
+
+# Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
+When /^I navigate away to "(.*?)" Profile Builder without clicking the Publish Layout button$/ do |profileName|
   @currentProfile = profileName.downcase
   name = "SLC - " + profileName + " Profile"
   @driver.find_element(:class, "profile_list").find_element(:link_text, name).click
 end
 
-# Validate that the profile builder page loads correctly
+# Validate that the profile builder loads (for publish layout button functionality)
 When /^I view the "(.*?)" profile builder$/ do |profileName|
   @currentProfile = profileName.downcase
   name = "SLC - " + profileName + " Profile"
@@ -180,6 +187,29 @@ When /^I view the "(.*?)" profile builder$/ do |profileName|
     found = true
   end
   assert(found, "#{profileName} profile page was not loaded")  
+end
+
+When /^I "(.*?)" a page named "(.*?)" without clicking the Publish Layout button$/ do |action, pageName|
+  if (action == "Add")
+    @driver.find_element(:class, "addPageSection").find_element(:tag_name, "button").click  
+  #elsif (action == "View")
+    #TODO
+  end #end if
+end
+
+#Add/Edit a new title to the page 
+When /^I "(.*?)" the page title as "(.*?)"$/ do |action, pageName|
+  if (action == "Add")
+    @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:class, "active")
+  elsif (action == "Edit")
+    @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:class, "active")
+    @currentPage.find_element(:css, "[ng-click='editPageTitle();']").click
+  end
+  input = @currentPage.find_element(:class,"show-true").find_element(:tag_name, "input")  
+  input.clear
+  input.send_keys pageName
+  @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
+  sleep 0.30
 end
 
 ################################################################################################################
@@ -226,6 +256,7 @@ def hoverOverPage(pageName, mode = nil)
       @driver.switch_to.alert.accept
     rescue
     end
+    sleep 1
   end  
 end
 
