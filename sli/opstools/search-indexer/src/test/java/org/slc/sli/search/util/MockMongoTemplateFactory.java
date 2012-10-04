@@ -21,6 +21,12 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.search.util.MongoTemplateWrapper.DBCollectionWrapper;
 
+/**
+ * Factory class for Mocking Mongo Template
+ * 
+ * @author tosako
+ * 
+ */
 public class MockMongoTemplateFactory {
 
     private LinkedList<DBObject> jsonArray = new LinkedList<DBObject>();
@@ -28,8 +34,16 @@ public class MockMongoTemplateFactory {
     private MockMongoTemplateFactory() {
     }
 
+    /**
+     * factory method to create MongoTemplateWrapper.
+     * 
+     * @return
+     */
     public static MongoTemplateWrapper create() {
         MongoTemplateWrapper mongotemplate = mock(MongoTemplateWrapper.class);
+
+        // when getColleciton method is called, then read JSON file from resource by give name.
+        // Finally, create DBCollectionWrapper class.
         when(mongotemplate.getCollection(anyString())).thenAnswer(new Answer<DBCollectionWrapper>() {
             public DBCollectionWrapper answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
@@ -40,7 +54,13 @@ public class MockMongoTemplateFactory {
         return mongotemplate;
     }
 
-
+    /**
+     * Create DBCollectionWrapper.
+     * Since this is mocking data, Date source comes from file in resource directory.
+     * If a file does not exist, it returns null object.
+     * @param collection
+     * @return
+     */
     private DBCollectionWrapper createDBCollection(String collection) {
         DBCollectionWrapper dbColelction = null;
         BufferedReader br = null;
@@ -65,8 +85,8 @@ public class MockMongoTemplateFactory {
                         return !jsonArray.isEmpty();
                     }
                 });
+                
                 when(cursor.next()).thenAnswer(new Answer<DBObject>() {
-
                     public DBObject answer(InvocationOnMock invocation) throws Throwable {
                         return jsonArray.remove();
                     }
