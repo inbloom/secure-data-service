@@ -108,6 +108,8 @@ And I have navigated to the "Me" page of the Data Browser
 When I click on the "Teacher to Section List" link
 Then I am redirected to the particular associations Simple View
  
+ @DE1461
+ @wip
 Scenario: Click on Available Links entities
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
