@@ -161,18 +161,18 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        
-        <!-- Quartz scheduler -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>1.8.5</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Quartz scheduler -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.5</version>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -183,12 +183,22 @@
 				<version>1.1.1</version>
 				<executions>
 					<execution>
-						<phase>test</phase>
+					    <phase>test</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
 						<configuration>
 							<mainClass>org.slc.sli.search.Launcher</mainClass>
+							<systemProperties>
+								<systemProperty>
+									<key>sli.encryption.keyStore</key>
+									<value>../../data-access/dal/keyStore/ciKeyStore.jks</value>
+								</systemProperty>
+								<systemProperty>
+									<key>sli.conf</key>
+									<value>../../config/properties/sli.properties</value>
+								</systemProperty>
+							</systemProperties>
 						</configuration>
 					</execution>
 				</executions>

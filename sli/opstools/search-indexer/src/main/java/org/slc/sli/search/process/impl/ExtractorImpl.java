@@ -15,14 +15,14 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
+import com.mongodb.util.ThreadUtil;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.search.config.IndexEntityConfigStore;
 import org.slc.sli.search.process.Extractor;
-import org.slc.sli.search.util.IndexEntityConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -41,10 +41,9 @@ public class ExtractorImpl implements Extractor {
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
-    @Autowired
-    private MongoTemplate template;
+    private MongoTemplate mongoTemplate;
 
-    private IndexEntityConfig indexEntityConfig;
+    private IndexEntityConfigStore indexEntityConfigStore;
 
     private String extractDir = DEFAULT_EXTRACT_DIR;
 
@@ -53,12 +52,17 @@ public class ExtractorImpl implements Extractor {
     private ExecutorService executor;
 
     private int executorThreads = DEFAULT_EXECUTOR_THREADS;
+    
+    private boolean runOnStartup = false;
 
 
     public void init() {
         new File(extractDir).mkdirs();
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
+        if (runOnStartup) {
+            execute();
+        }
     }
 
     public void destroy() {
@@ -71,9 +75,8 @@ public class ExtractorImpl implements Extractor {
      * @see org.slc.sli.search.process.Extractor#execute()
      */
     public void execute() {
-
-        for (String collection : indexEntityConfig.collections()) {
-            executor.execute(new ExtractWorker(collection, indexEntityConfig.getFields(collection)));
+        for (String collection : indexEntityConfigStore.getCollections()) {
+            executor.execute(new ExtractWorker(collection, indexEntityConfigStore.getFields(collection)));
         }
 
     }
@@ -88,7 +91,7 @@ public class ExtractorImpl implements Extractor {
             keys.put(field, 1);
         }
 
-        DBCollection collection = template.getCollection(collectionName);
+        DBCollection collection = mongoTemplate.getCollection(collectionName);
         DBCursor cursor = collection.find(new BasicDBObject(), keys);
 
         BufferedWriter bw = null;
@@ -100,11 +103,11 @@ public class ExtractorImpl implements Extractor {
             while (cursor.hasNext()) {
                 if (numberOfLineWritten % maxLinePerFile == 0) {
                     numberOfLineWritten = 0;
-                    IOUtils.closeQuietly(bw);
-
+                    
                     // move file to inbox for indexer
                     if (outFile != null) {
-                        FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
+                        IOUtils.closeQuietly(bw);
+                        FileUtils.moveFile(outFile, new File(inboxDir, outFile.getName()));
                     }
                     
                     // open file to write
@@ -117,13 +120,16 @@ public class ExtractorImpl implements Extractor {
                 bw.newLine();
                 numberOfLineWritten++;
             }
-
             // finish up
-            IOUtils.closeQuietly(bw);
             // move file to inbox for indexer
             if (outFile != null) {
-                FileUtils.moveFileToDirectory(outFile, new File(inboxDir), true);
+                IOUtils.closeQuietly(bw);
+                FileUtils.moveFile(outFile, new File(inboxDir, outFile.getName()));
+                logger.info("File [" + outFile.getName() + "] " + new File(inboxDir, outFile.getName()).exists());
+                ThreadUtil.sleep(1000);
+                logger.info("File [" + outFile.getName() + "] " + new File(inboxDir, outFile.getName()).exists());
             }
+            logger.info("Finished extracting " + collectionName);
             
         } catch (FileNotFoundException e) {
             logger.error("Error writing entities file", e);
@@ -134,17 +140,15 @@ public class ExtractorImpl implements Extractor {
             IOUtils.closeQuietly(bw);
             // close cursor
             cursor.close();
-            logger.info("Finished extracting " + collectionName);
         }
-
     }
 
     private File createTempFile(String collectionName) {
         return new File(extractDir, collectionName + "." + UUID.randomUUID() + ".json");
     }
 
-    public void setIndexEntityConfig(IndexEntityConfig config) {
-        this.indexEntityConfig = config;
+    public void setIndexEntityConfigStore(IndexEntityConfigStore config) {
+        this.indexEntityConfigStore = config;
     }
 
     public void setExtractDir(String extractDir) {
@@ -161,6 +165,14 @@ public class ExtractorImpl implements Extractor {
 
     public void setExecutorThreads(int executorThreads) {
         this.executorThreads = executorThreads;
+    }
+    
+    public void setRunOnStartup(boolean runOnStartup) {
+        this.runOnStartup = runOnStartup;
+    }
+    
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
     }
     /**
      * Runnable Thread class to write into file read from Mongo.

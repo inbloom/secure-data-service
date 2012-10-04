@@ -14,7 +14,6 @@ import org.slc.sli.search.util.IndexEntityConverter;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,8 +35,7 @@ public class IndexerImpl implements Indexer {
     private static final int DEFAULT_BULK_SIZE = 5000;
     private static final int MAX_AGGREGATE_PERIOD = 2000;
     
-    @Autowired
-    IndexEntityConverter indexEntityConverter;
+    private IndexEntityConverter indexEntityConverter;
     
     private String esUri;
     
@@ -86,6 +84,7 @@ public class IndexerImpl implements Indexer {
     }
     
     public void init() {
+        logger.info("Indexer started");
         indexExecutor.scheduleAtFixedRate(new IndexQueueMonior(), aggregatePeriodInMillis, aggregatePeriodInMillis, TimeUnit.MILLISECONDS);
     }
     

@@ -378,9 +378,12 @@ default:
         # search indexer
         sli.search.indexer.log.path: logs
         sli.search.indexer.log.level: INFO
-        sli.search.indexer.dir.inbox: inbox
-        sli.search.indexer.dir.extract: tmp
-        sli.search.indexer.schedule: 0 0 0 ? * SUN
+        sli.search.indexer.dir.data: data/
+        sli.search.indexer.dir.inbox: data/inbox
+        sli.search.indexer.dir.extract: data/tmp
+        sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
+        sli.search.indexer.config: index-config.json
+        sli.search.indexer.extract.runOnStartup: false
 
 acceptance-tests:
     api:

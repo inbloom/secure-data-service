@@ -6,25 +6,17 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.search.entity.IndexEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * IndexEntityConverter handles conversion of IndexEntity to and from json
  * 
  */
-@Component
 public class IndexEntityConverter {
-    
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private ObjectMapper mapper = new ObjectMapper();
     private final static String NEW_LINE = "\n";
     
-    @Autowired
-    EntityEncryption entityEncryption;
+    private EntityEncryption entityEncryption;
     // decrypt records flag
     private boolean decrypt = true;
     
@@ -57,5 +49,7 @@ public class IndexEntityConverter {
     public void setDecrypt(boolean decrypt) {
         this.decrypt = decrypt;
     }
-    
+    public void setEntityEncryption(EntityEncryption entityEncryption) {
+        this.entityEncryption = entityEncryption;
+    }
 }

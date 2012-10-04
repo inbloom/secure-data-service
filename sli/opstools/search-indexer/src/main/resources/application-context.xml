@@ -12,11 +12,11 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	<import resource="classpath:/spring/validation.xml" />
-	<context:component-scan base-package="org.slc.sli.search" />
 	<context:component-scan base-package="org.slc.sli.dal" />
 	<context:component-scan base-package="org.slc.sli.validation" />
 	<context:annotation-config />
 	<tx:annotation-driven />
+
 	<context:property-placeholder location="file:${sli.conf}" />
 
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
@@ -48,47 +48,57 @@
 		<property name="template" ref="mongoTemplate" />
 	</bean>
 
-    <bean id="indexEntityConfig" class="org.slc.sli.search.util.IndexEntityConfig" />
-    
-    <bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
-        <property name="indexEntityConfig" ref="indexEntityConfig" />
-        <property name="inboxDir" value="${sli.search.indexer.dir.inbox:inbox}" />
-        <property name="extractDir" value="${sli.search.indexer.dir.extract:tmp}" />
-        <property name="maxLinePerFile" value="${sli.search.indexer.max.lines:100}" />
-        <property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
-    </bean>
+	<bean id="indexEntityConverter" class="org.slc.sli.search.util.IndexEntityConverter">
+		<property name="entityEncryption" ref="entityEncryption" />
+	</bean>
+
+	<bean id="indexEntityConfigStore" class="org.slc.sli.search.config.IndexEntityConfigStore">
+		<constructor-arg name="configFile"
+			value="${sli.search.index.config:index-config.json}" />
+	</bean>
+
+	<bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="indexEntityConfigStore" ref="indexEntityConfigStore" />
+		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
+		<property name="extractDir" value="${sli.search.indexer.dir.extract}" />
+		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}"></property>
+	</bean>
 
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">
-	    <property name="inboxDir" value="${sli.search.indexer.dir.inbox:inbox}" />
-	    <property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
+		<property name="indexer" ref="indexer" />
+		<property name="indexEntityConverter" ref="indexEntityConverter" />
+		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
+		<property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
 	</bean>
-	
-	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate"/>
-	
+
+	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" />
+
 	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl" init-method="init" destroy-method="destroy">
-	    <property name="searchUrl" value="${sli.search.url}" />
-        <property name="searchUsername" value="${sli.search.username}" />
-        <property name="searchPassword" value="${sli.search.password}" />
-        <property name="searchTemplate" ref="searchTemplate"/>
+		<property name="searchUrl" value="${sli.search.url}" />
+		<property name="searchUsername" value="${sli.search.username}" />
+		<property name="searchPassword" value="${sli.search.password}" />
+		<property name="searchTemplate" ref="searchTemplate" />
+		<property name="indexEntityConverter" ref="indexEntityConverter" />
 	</bean>
 
+	<bean id="jobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="extractor" />
+		<property name="targetMethod" value="execute" />
+	</bean>
 
-    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="extractor" />
-        <property name="targetMethod" value="execute" />
-    </bean>
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetail" />
+		<property name="cronExpression" value="${sli.search.indexer.extract.schedule}" />
+	</bean>
 
-    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobDetail" />
-        <property name="cronExpression" value="${sli.search.indexer.schedule}" />
-    </bean>
-    
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="cronTrigger" />
-            </list>
-        </property>
-    </bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+	</bean>
 
 </beans>
