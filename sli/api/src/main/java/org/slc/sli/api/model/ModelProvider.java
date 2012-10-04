@@ -106,7 +106,7 @@ public class ModelProvider {
         if (type == null) throw new NullPointerException("type");
         if (attributeName == null) throw new NullPointerException("attributeName");
 
-        final List<Attribute> attributes = type.getAttributes();
+        final List<Attribute> attributes = getAttributes(type);
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attributeName)) {
                 return true;
@@ -137,13 +137,35 @@ public class ModelProvider {
     }
 
     public Attribute getAttributeType(final ClassType type, final String attr) {
-        final List<Attribute> attributes = type.getAttributes();
+        final List<Attribute> attributes = getAttributes(type);
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
                 return attribute;
             }
         }
         return null;
+    }
+
+    public List<Attribute> getAttributes(final ClassType type) {
+        List<Generalization> baseGeneralizations = modelIndex.getGeneralizationBase(type.getId());
+        List<Attribute> baseAttributes = new ArrayList<Attribute>();
+        List<Attribute> fullAttributes = new ArrayList<Attribute>();
+
+        if (baseGeneralizations != null) {
+            for (Generalization generalization : baseGeneralizations) {
+                Type baseType = modelIndex.getType(generalization.getParent());
+
+                if (baseType != null) {
+                    ClassType baseClassType = modelIndex.getClassTypes().get(baseType.getName());
+                    baseAttributes.addAll(baseClassType.getAttributes());
+                }
+            }
+        }
+
+        fullAttributes.addAll(baseAttributes);
+        fullAttributes.addAll(type.getAttributes());
+
+        return fullAttributes;
     }
 
     private ClassType getEmbeddedClassType(final ClassType type, final String attr) {
@@ -202,6 +224,7 @@ public class ModelProvider {
 
         return null;
     }
+
     public String getConnectionPath(final ClassType fromEntityType, final ClassType toEntityType) {
         List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
 
