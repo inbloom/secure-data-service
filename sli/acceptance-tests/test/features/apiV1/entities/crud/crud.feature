@@ -8,7 +8,7 @@ Background: Nothing yet
       And format "application/vnd.slc+json"
 
 
-	    Scenario Outline: CRUD operations on an entity
+        Scenario Outline: CRUD operations on an entity
        Given entity URI <Entity Resource URI>
         # Create
        Given a valid entity json document for a <Entity Type>
@@ -43,7 +43,7 @@ Examples:
 | "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
 | "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
 | "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-| "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
+| "learningObjective"            | "learningObjectives"      | "description"            | "Mathematics Objective"                      |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
 | "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
@@ -58,9 +58,9 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
- 
- 
-	    Scenario Outline: CRUD operations on invalid entities
+
+
+        Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
     #Read invalid
      When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
@@ -98,7 +98,7 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-#| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
+| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities as State Staff
@@ -179,7 +179,7 @@ Examples:
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
+| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |

@@ -46,8 +46,6 @@ public enum EdfiEntity {
 
     CLASS_PERIOD("classPeriod", Collections.<EdfiEntity>emptyList()),
 
-    GRADUATION_PLAN("graduationPlan", Collections.<EdfiEntity>emptyList()),
-
     LEARNING_STANDARD("learningStandard", Collections.<EdfiEntity>emptyList()),
 
     LOCATION("location", Collections.<EdfiEntity>emptyList()),
@@ -87,6 +85,9 @@ public enum EdfiEntity {
 
     SCHOOL("school", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY,
             CLASS_PERIOD, SELF)),
+
+    GRADUATION_PLAN("graduationPlan", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY,
+    		EDUCATION_SERVICE_CENTER, SCHOOL)),
 
     GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE, STATE_EDUCATION_AGENCY,
             LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL)),

@@ -155,7 +155,7 @@ Then the user gets an error message
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
-And I should see "Processed 4148 records." in the resulting batch job file
+And I should see "Processed 4251 records." in the resulting batch job file
 And I clean the landing zone
 And user's landing zone is still provisioned from the prior preloading
 When the developer go to the provisioning application web page
@@ -165,6 +165,6 @@ And the user gets a success message indicating preloading has been triggered
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
-And I should see "Processed 4148 records." in the resulting batch job file
+And I should see "Processed 4251 records." in the resulting batch job file
 And I clean the landing zone
 

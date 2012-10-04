@@ -91,6 +91,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
+                "sandboxingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa701",
                 "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
                 "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
@@ -525,8 +526,8 @@ module DataProvider
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
     }
   end
-  
-  def self.getValidCustomRoleData() 
+
+  def self.getValidCustomRoleData()
     return {
       "realmId" => "",
       "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
@@ -585,6 +586,18 @@ module CreateEntityHash
     return data
   end
 
+  def CreateEntityHash.createBaseStudentRandomId()
+    data = CreateEntityHash.createBaseStudent
+    data['studentUniqueStateId'] = (0...8).map{65.+(rand(25)).chr}.join
+    return data
+  end
+
+  def CreateEntityHash.createBaseStudentDefinedId(id)
+    data = CreateEntityHash.createBaseStudent
+    data['studentUniqueStateId'] = id
+    return data
+  end
+
   def CreateEntityHash.createBaseSchool()
     data = Hash[
         "nameOfInstitution" => "school name",
@@ -600,6 +613,12 @@ module CreateEntityHash
         "organizationCategories" => ["School"],
         "schoolCategories" => ["Elementary School"],
         ]
+    return data
+  end
+  
+  def CreateEntityHash.createBaseSchoolRandomId()
+    data = CreateEntityHash.createBaseSchool
+    data['stateOrganizationId'] = (0...8).map{65.+(rand(25)).chr}.join
     return data
   end
 end

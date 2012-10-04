@@ -35,9 +35,9 @@ public class CalendarDateGenerator {
         cd.setId(id);
 
 //        cd.setDate("2011-03-04");
-        int day = ((dateCount/8) % 28) + 1;
-        int month = (((dateCount/8) / 28) % 12) + 1;
-        int year = (((dateCount/8) / 28) / 12) + 2011;
+        int day = ((dateCount) % 28) + 1;
+        int month = (((dateCount) / 28) % 12) + 1;
+        int year = (((dateCount) / 28) / 12) + 2011;
 
         String dayString = "";
         if (day < 10) {

@@ -537,7 +537,23 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>15</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_191"/> 
+       <StudentAssessmentReference> 
+          <StudentAssessmentIdentity>
+            <AdministrationDate>2011-05-01</AdministrationDate> 
+            <StudentReference> 
+                 <StudentIdentity> 
+                      <StudentUniqueStateId>900000003</StudentUniqueStateId> 
+                 </StudentIdentity> 
+            </StudentReference> 
+            <AssessmentReference> 
+                 <AssessmentIdentity> 
+                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                           <ID>ACT</ID> 
+                      </AssessmentIdentificationCode> 
+                 </AssessmentIdentity> 
+            </AssessmentReference> 
+          </StudentAssessmentIdentity>
+       </StudentAssessmentReference> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode> 
@@ -609,7 +625,23 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>2</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference ref="saa_191"/> 
+       <StudentAssessmentReference> 
+          <StudentAssessmentIdentity>
+            <AdministrationDate>2011-05-01</AdministrationDate> 
+            <StudentReference> 
+                 <StudentIdentity> 
+                      <StudentUniqueStateId>900000003</StudentUniqueStateId> 
+                 </StudentIdentity> 
+            </StudentReference> 
+            <AssessmentReference> 
+                 <AssessmentIdentity> 
+                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                           <ID>ACT</ID> 
+                      </AssessmentIdentificationCode> 
+                 </AssessmentIdentity> 
+            </AssessmentReference> 
+          </StudentAssessmentIdentity>
+       </StudentAssessmentReference> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 

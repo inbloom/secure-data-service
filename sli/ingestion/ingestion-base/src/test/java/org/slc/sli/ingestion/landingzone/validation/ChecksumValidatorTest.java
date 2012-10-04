@@ -31,16 +31,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validation-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ChecksumValidatorTest {
-    
+
     @Autowired
     ChecksumValidator checksumValidator;
-    
+
     @Test
     public void compareIgnoresCase() {
-        Assert.assertTrue("Validation fails when case doesn't match.", 
-                checksumValidator.checksumsMatch("639e31df6485554cf2f4194f40a157a9", 
+        Assert.assertTrue("Validation fails when case doesn't match.",
+                checksumValidator.checksumsMatch("639e31df6485554cf2f4194f40a157a9",
                         "639E31DF6485554CF2F4194F40A157A9"));
     }
 }

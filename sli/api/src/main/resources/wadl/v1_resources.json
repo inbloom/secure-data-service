@@ -133,7 +133,8 @@
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
-        { "path": "/{id}/cohorts" }
+        { "path": "/{id}/cohorts" },
+        { "path": "/{id}/studentCompetencyObjectives" }
       ]
     },
     {
@@ -158,7 +159,8 @@
         { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
         { "path": "/{id}/sessions/gradingPeriods" },
-        { "path": "/{id}/sections" }
+        { "path": "/{id}/sections" },
+        { "path": "/{id}/sections/gradebookEntries" }
       ]
     },
     {
@@ -237,7 +239,10 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffProgramAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations" },
-        { "path": "/{id}/staffCohortAssociations/cohorts" }
+        { "path": "/{id}/staffCohortAssociations/cohorts" },
+        { "path": "/{id}/disciplineActions" },
+        { "path": "/{id}/disciplineIncidents" },
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
     {

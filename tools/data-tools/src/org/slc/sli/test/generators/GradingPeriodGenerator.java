@@ -23,9 +23,11 @@ import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
+import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 
 public class GradingPeriodGenerator {
     private static final Logger log = Logger.getLogger(GradingPeriodGenerator.class);
+    
     private String beginDate = null;
     private String endDate = null;
     Random generator = new Random();
@@ -40,8 +42,8 @@ public class GradingPeriodGenerator {
 //        gp.setGradingPeriod(getGradingPeriodType());
         //gp.setId(orgId);
         gp.setGradingPeriodIdentity(gpit);
-        beginDate = "2011-03-04";
-        endDate = "2012-03-04";
+        beginDate = "2011-03-" + inTwoDigits(gradePeriodType);
+        endDate = "2012-03-" + inTwoDigits(gradePeriodType);
         gp.setBeginDate(beginDate);
         gp.setEndDate(endDate);
         int roll = 45 + (int) (Math.random() * (150 - 45));
@@ -50,9 +52,9 @@ public class GradingPeriodGenerator {
         return gp;
     }
 
-    public GradingPeriodType getGradingPeriodType(int roll) {
-//        int roll = generator.nextInt(20) + 1;
-        switch (roll) {
+    public static GradingPeriodType getGradingPeriodType(int index) {
+        index = index % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS;
+        switch (index) {
         case 1:
             return GradingPeriodType.END_OF_YEAR;
         case 2:
@@ -94,6 +96,10 @@ public class GradingPeriodGenerator {
         default:
             return GradingPeriodType.THIRD_TRIMESTER;
         }
+    }
+
+    private String inTwoDigits(int number) {
+        return String.format("%02d", number);
     }
 
     public static void main(String args[]) {

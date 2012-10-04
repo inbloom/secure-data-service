@@ -32,19 +32,21 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
-import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.validation.EntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
+import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.ingestion.validation.DummyErrorReport;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Unit Test for SmooksEdFi2SLITransformer
@@ -284,6 +286,10 @@ public class SmooksEdFi2SLITransformerTest {
 
         transformer.setEntityConfigurations(entityConfigurations);
         transformer.setIdNormalizer(new IdNormalizer());
+
+        //mock the Did Resolver
+        DeterministicIdResolver mockDidResolver = Mockito.mock(DeterministicIdResolver.class);
+        transformer.setDidResolver(mockDidResolver);
 
         //Query assessmentQuery = new Query();
         //assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));

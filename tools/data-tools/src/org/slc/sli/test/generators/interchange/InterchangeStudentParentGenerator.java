@@ -84,11 +84,18 @@ public class InterchangeStudentParentGenerator {
 
         generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
 
-        generateParents(iWriter, MetaRelations.PARENT_MAP.values());
 
-        generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
+        if (!MetaRelations.EXCLUDE_PARENTS) {
+            generateParents(iWriter, MetaRelations.PARENT_MAP.values());
+
+            generateParents(iWriter, MetaRelations.PARENT_MAP.values());
+
+            generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
 
 
+
+            generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
+        }
     }
 
 

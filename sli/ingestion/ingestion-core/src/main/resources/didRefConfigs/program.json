@@ -1,0 +1,10 @@
+{
+    "entityType" : "program",
+    "keyFields" :
+        [
+            {
+                "keyFieldName" : "programId",
+                "valueSource" : "ProgramIdentity.ProgramId"
+            }
+        ]
+}
