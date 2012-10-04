@@ -38,10 +38,10 @@ public class SubDocAccessor {
 
     public SubDocAccessor(MongoTemplate template) {
         this.template = template;
-        // this will store student assessment associations under the student documents in the
-        // assessments field
-        store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
-                .register();
+//        // this will store student assessment associations under the student documents in the
+//        // assessments field
+//        store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
+//                .register();
     }
 
     /**
