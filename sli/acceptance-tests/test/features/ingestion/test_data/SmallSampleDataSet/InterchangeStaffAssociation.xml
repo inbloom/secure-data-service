@@ -1005,9 +1005,6 @@
   </StaffEducationOrgAssignmentAssociation>
   <!-- jjackson to ACC-TEST-PROG-1 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-01-05</BeginDate>
-    <EndDate>2012-02-15</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>jjackson</StaffUniqueStateId>
@@ -1018,12 +1015,12 @@
         <ProgramId>ACC-TEST-PROG-1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-01-05</BeginDate>
+    <EndDate>2012-02-15</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>
   <!-- jjackson to ACC-TEST-PROG-2 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-01-05</BeginDate>
-    <EndDate>2012-02-15</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>jjackson</StaffUniqueStateId>
@@ -1034,12 +1031,12 @@
         <ProgramId>ACC-TEST-PROG-2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-01-05</BeginDate>
+    <EndDate>2012-02-15</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>
   <!-- jstevenson to ACC-TEST-PROG-1 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-01-05</BeginDate>
-    <EndDate>2012-02-15</EndDate>
-    <StudentRecordAccess>true</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>jstevenson</StaffUniqueStateId>
@@ -1050,12 +1047,12 @@
         <ProgramId>ACC-TEST-PROG-1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-  </StaffProgramAssociation>
-  <!-- jstevenson to ACC-TEST-PROG-2 -->
-  <StaffProgramAssociation>
     <BeginDate>2011-01-05</BeginDate>
     <EndDate>2012-02-15</EndDate>
     <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffProgramAssociation>
+  <!-- jstevenson to ACC-TEST-PROG-2 -->
+  <StaffProgramAssociation>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>jstevenson</StaffUniqueStateId>
@@ -1066,11 +1063,12 @@
         <ProgramId>ACC-TEST-PROG-2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-01-05</BeginDate>
+    <EndDate>2012-02-15</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>
   <!-- jjackson to ACC-TEST-PROG-1 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-06-01</BeginDate>
-    <StudentRecordAccess>false</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>jjackson</StaffUniqueStateId>
@@ -1081,11 +1079,11 @@
         <ProgramId>ACC-TEST-PROG-1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-06-01</BeginDate>
+    <StudentRecordAccess>false</StudentRecordAccess>
   </StaffProgramAssociation>
   <!-- sbantu to ACC-TEST-PROG-2 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-01-01</BeginDate>
-    <StudentRecordAccess>false</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>sbantu</StaffUniqueStateId>
@@ -1096,11 +1094,11 @@
         <ProgramId>ACC-TEST-PROG-2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-01-01</BeginDate>
+    <StudentRecordAccess>false</StudentRecordAccess>
   </StaffProgramAssociation>
     <!-- mjohnson to ACC-TEST-PROG-2 -->
   <StaffProgramAssociation>
-    <BeginDate>2011-01-01</BeginDate>
-    <StudentRecordAccess>false</StudentRecordAccess>
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>mjohnson</StaffUniqueStateId>
@@ -1111,5 +1109,7 @@
         <ProgramId>ACC-TEST-PROG-2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <BeginDate>2011-01-01</BeginDate>
+    <StudentRecordAccess>false</StudentRecordAccess>
   </StaffProgramAssociation>
 </InterchangeStaffAssociation>
