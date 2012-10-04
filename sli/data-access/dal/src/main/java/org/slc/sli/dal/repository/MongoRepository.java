@@ -32,6 +32,11 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +45,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
-
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -306,7 +305,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // always call guideIfTenantAgnostic - this sets threadlocal flag
-        if (!guideIfTenantAgnostic(collectionName) && TenantContext.runWithAllTenants()) {
+        if (!guideIfTenantAgnostic(collectionName) && TenantContext.getTenantId() == null) {
 
             return findAllAcrossTenants(collectionName, mongoQuery);
         } else {
@@ -454,7 +453,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-	public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
@@ -706,7 +705,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected boolean isTenantAgnostic(String collectionName) {
         return tenantAgnosticCollections.contains(collectionName);
     }
-
 
     /**
      * Set a boolean value in TenantContext threadlocal store which signals whether this collection

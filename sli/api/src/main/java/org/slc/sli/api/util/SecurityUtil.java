@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.util;
 
 import java.util.Arrays;
@@ -57,8 +56,12 @@ public class SecurityUtil {
 
     private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
     private static ThreadLocal<String> tenantContext = new ThreadLocal<String>();
-    private static ThreadLocal<Boolean> inSudo = new ThreadLocal<Boolean>(); //use to detect nested sudos
-    private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>(); //use to detect nested tenant blocks
+
+    // use to detect nested sudos
+    private static ThreadLocal<Boolean> inSudo = new ThreadLocal<Boolean>();
+
+    // use to detect nested tenant blocks
+    private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -77,10 +80,8 @@ public class SecurityUtil {
 
         try {
             SecurityContextHolder.getContext().setAuthentication(FULL_ACCESS_AUTH);
-            TenantContext.setRunWithAllTenants(true);
             toReturn = task.execute();
         } finally {
-            TenantContext.setRunWithAllTenants(false);
             SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
             cachedAuth.remove();
             inSudo.set(false);
@@ -234,7 +235,6 @@ public class SecurityUtil {
                 return repo.findById("realm", realmId);
             }
         });
-
 
         if (entity != null) {
             Boolean admin = (Boolean) entity.getBody().get("admin");
