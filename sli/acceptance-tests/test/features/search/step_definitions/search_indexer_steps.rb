@@ -2,16 +2,36 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../apiV1/utils/api_utils.rb'
 
+###############################  After Scenario Do ###############################
+# Clear Elastic Search Indexer
+# Clear student and section collection from mongo
+After do |scenario|
+  step 'I DELETE to clear the Indexer'
+  
+  # Clear Mongo
+  conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'])
+  db   = conn[PropLoader.getProps['ingestion_database_name']]
+  result = "true"
+  collections = ["student","section"]
+  collections.each do |collection|
+    entity_collection = db[collection]
+    entity_collection.remove("metaData.tenantId" => {"$in" => ["Midgar"]})
+    if entity_collection.find("metaData.tenantId" => {"$in" => ["Midgar"]}).count.to_s != "0"
+      result = "false"
+    end
+  end
+  assert(result == "true", "Some collections were not cleared successfully.")
+end
+
 Given /^I DELETE to clear the Indexer$/ do
   @format = "application/json;charset=utf-8"
   url = PropLoader.getProps['elastic_search_address'] + "/midgar"
   restHttpDeleteAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
-  
-  #step "I should receive a return code of 201"  
 end
 
+# Current not being used
 Given /^I import some student data$/ do
   entityData = {
       "student1" => {
@@ -22,7 +42,7 @@ Given /^I import some student data$/ do
       "studentUniqueStateId" => "123456",
       "economicDisadvantaged" => false,
       "name" => {
-        "firstName" => "Doris",
+        "firstName" => "Alex",
         "middleName" => "John",
         "lastSurname" => "Doe"
       }
@@ -35,7 +55,7 @@ Given /^I import some student data$/ do
       "studentUniqueStateId" => "9876",
       "economicDisadvantaged" => true,
       "name" => {
-        "firstName" => "Doris",
+        "firstName" => "Matt",
         "middleName" => "Steve",
         "lastSurname" => "Moe"
       }
@@ -46,7 +66,7 @@ Given /^I import some student data$/ do
     step "format \"application/vnd.slc+json\""
     step "I navigate to POST \"/students\""
     step "I should receive a return code of 201"
-  end   
+  end 
 end
 
 Given /^I drop Invalid Files to Inbox Directory$/ do
@@ -95,12 +115,17 @@ Given /^I should see the file has not been processed$/ do
   assert(finished, "#{destPath} still exists in Inbox")
 end
 
+Given /^I will wait up to "(.*?)" seconds for the extractor$/ do |sec|
+  @max = sec.to_i
+end
+
 Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
+  @max ||= 10
   done = false
   numTries = 0
   indexCount = 0
   sleep 2
-  while (numTries < 10 && !done)
+  while (numTries < @max && !done)
     url = PropLoader.getProps['elastic_search_address'] + "/midgar/_count"
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
@@ -120,22 +145,37 @@ Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
   assert(indexCount.to_i == numEntities.to_i, "Expected #{numEntities} Actual #{indexCount}")
 end
 
-Given /^I configure the job to extract entity "(.*?)" with the following fields "(.*?)"$/ do |arg1, arg2|
+Given /^I search in Elastic Search for "(.*?)"$/ do |query|
+  url = PropLoader.getProps['elastic_search_address'] + "/midgar/_search?q=" + query
+  restHttpGetAbs(url)
+  assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-Given /^I see an output file placed into the directory$/ do
+Given /^"(.*?)" hit is returned$/ do |expectedHits|
+  result = JSON.parse(@res.body)
+  hits = result["hits"]["total"]
+  assert(expectedHits.to_i == hits.to_i, "Expected: #{expectedHits} Actual: #{hits}")
 end
 
-Given /^I schedule the job to run every "(.*?)" minute$/ do |arg1|
-end
-
-Given /^I configure the file size cutoff to be "(.*?)"$/ do |arg1|
-end
-
-Given /^it should have extracted "(.*?)" entities$/ do |arg1|
-end
-
-Given /^each entity has its list of extracted fields$/ do
+Given /^I see the following fields:$/ do |table|
+  json = JSON.parse(@res.body)
+  arrayOfHits = json["hits"]["hits"]
+  arrayOfHits.each do |hit|
+    table.hashes.each do |row|
+      field = row["Field"]
+      currentHit = hit
+      value = nil
+      while (field.include? ".")
+        delimiter = field.index('.') + 1
+        length = field.length - delimiter
+        current = field[0..delimiter-2]
+        field = field[delimiter,length]
+        currentHit = currentHit[current]   
+      end
+      value = currentHit[field]
+      assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
+    end
+  end
 end
 
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
