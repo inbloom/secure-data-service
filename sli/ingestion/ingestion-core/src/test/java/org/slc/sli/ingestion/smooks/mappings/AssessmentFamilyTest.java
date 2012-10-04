@@ -39,7 +39,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  *
  */
 public class AssessmentFamilyTest {
-	@Ignore
+
     @Test
     public void edfiXmlAssessmentFamilyTest() throws IOException, SAXException {
 
