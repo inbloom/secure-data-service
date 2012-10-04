@@ -58,9 +58,9 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
       | courseOffering                         | courseOfferings                          | 95      |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 2       |
+      | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
-      | staffProgramAssociation                | staffProgramAssociations                 | 2       |
+      | staffProgramAssociation                | staffProgramAssociations                 | 3       |
       | studentAssessmentAssociation           | studentAssessments                       | 8       |
       | studentCohortAssociation               | studentCohortAssociations                | 13      |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 4       |
