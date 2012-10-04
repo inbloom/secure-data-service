@@ -58,11 +58,14 @@
 	</bean>
 
 	<bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl" init-method="init" destroy-method="destroy">
-		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mongoTemplate" ref="mongoTemplateWrapper" />
 		<property name="indexEntityConfigStore" ref="indexEntityConfigStore" />
 		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
 		<property name="extractDir" value="${sli.search.indexer.dir.extract}" />
 		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}"></property>
+	</bean>
+	<bean id="mongoTemplateWrapper" class="org.slc.sli.search.util.MongoTemplateWrapper">
+		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
 
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">

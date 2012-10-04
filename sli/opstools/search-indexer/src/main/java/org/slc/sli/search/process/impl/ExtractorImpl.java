@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
@@ -21,6 +20,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.search.config.IndexEntityConfigStore;
 import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.util.MongoTemplateWrapper;
+import org.slc.sli.search.util.MongoTemplateWrapper.DBCollectionWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -41,7 +42,7 @@ public class ExtractorImpl implements Extractor {
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
-    private MongoTemplate mongoTemplate;
+    private MongoTemplateWrapper mongoTemplate;
 
     private IndexEntityConfigStore indexEntityConfigStore;
 
@@ -91,7 +92,7 @@ public class ExtractorImpl implements Extractor {
             keys.put(field, 1);
         }
 
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
+        DBCollectionWrapper collection = mongoTemplate.getCollection(collectionName);
         DBCursor cursor = collection.find(new BasicDBObject(), keys);
 
         BufferedWriter bw = null;
@@ -171,7 +172,7 @@ public class ExtractorImpl implements Extractor {
         this.runOnStartup = runOnStartup;
     }
     
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+    public void setMongoTemplate(MongoTemplateWrapper mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
     /**
