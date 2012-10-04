@@ -182,7 +182,7 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   found = false
   @result = [@result] unless @result.is_a? Array
   @result.each do |entity|
-    puts entity
+    #puts entity
     assert(entity.has_key?("links"), "Response contains no links")
     entity["links"].each do |link|
       if link["rel"] == arg1
