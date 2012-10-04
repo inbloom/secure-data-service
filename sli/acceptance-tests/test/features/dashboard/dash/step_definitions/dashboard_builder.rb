@@ -165,13 +165,6 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
    sleep 1
 end
 
-## Click on the profile name to navigate away to the profile builder without clicking the Publish Layout button 
-#When /^I navigate away to "(.*?)" Profile Builder without saving the changes$/ do |profileName|
- # @currentProfile = profileName.downcase
-  #name = "SLC - " + profileName + " Profile"
-  #@driver.find_element(:class, "profile_list").find_element(:link_text, name).click
-#end
-
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
 When /^I navigate away to "(.*?)" Profile Builder without clicking the Publish Layout button$/ do |profileName|
   @currentProfile = profileName.downcase
