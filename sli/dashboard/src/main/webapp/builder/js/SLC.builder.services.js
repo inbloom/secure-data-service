@@ -38,10 +38,16 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		return $resource('../s/c/cfg/all?layoutName=:profileId', {profileId:''});
 	})
 
+	// Get the config for the page
+	.factory('Page', function($resource){
+		return $resource('page.json', {});
+	})
+
 	// Service which contains common methods shared by controllers
 	.factory('dbSharedService', function($http, $rootScope){
 		var page = {},
 			modalConfig = {};
+
 
 		function getPage() {
 			return page;
@@ -64,13 +70,16 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 						if(modalId === "#allPanelsModal") {
 							$rootScope.$broadcast("allPanelsModalDisplayed");
 						}
+						if(modalId === "#alertModal") {
+							$rootScope.$broadcast("alertModalDisplayed");
+
+						}
 						else {
 							$rootScope.$broadcast("modalDisplayed");
 						}
 					});
 				});
 			}});
-
 		}
 
 		function closeModal(modalId) {
@@ -93,6 +102,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			$.extend(modalConfig, modalCfg);
 		}
 
+		// This function will save the data to the server
 		function saveDataSource(profileData, callback) {
 			$http({
 				method: 'POST',
@@ -154,6 +164,20 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			}
 		}
 
+		// The 'Publish Layout' button will get activated if any changes made for the page/tab
+		// The button will be inactive if the changes saved to the server.
+		function enableSaveButton(status) {
+
+			$rootScope.saveStatus = status;
+
+			if(status) {
+				$(".publish_button").removeAttr("disabled").addClass("btn-primary");
+			}
+			else {
+				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+			}
+		}
+
 		return {
 			getPage: getPage,
 			setPage: setPage,
@@ -163,6 +187,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			getModalConfig: getModalConfig,
 			setModalConfig: setModalConfig,
 			generatePageId: generatePageId,
-			showError: showError
+			showError: showError,
+			enableSaveButton: enableSaveButton
 		};
 	});

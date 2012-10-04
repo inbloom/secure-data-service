@@ -22,6 +22,7 @@ angular.module('SLC.builder.app', ['SLC.builder.sharedServices', 'SLC.builder.di
 	config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
 		when('/profiles/:profileId', {templateUrl: 'js/templates/profile.html', controller: profileCtrl}).
+		when('/panels/:profileId', {templateUrl: 'js/templates/panels.html', controller: panelsCtrl}).
 		otherwise({redirectTo: '/'});
 
 	$( "input:submit, button" ).button();
