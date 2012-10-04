@@ -128,7 +128,7 @@ Examples:
 | "session"                      | "sessions"                |  200 | 22 |
 | "staff"                        | "staff"                   |  200 | 3 |
 | "student"                      | "students"                |  200 | 0 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 2 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 3 |
 | "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 5 |
 | "teacher"                      | "teachers"                |  200 | 0 |
 | "grade"                        | "grades"                  |  200 | 3 |
