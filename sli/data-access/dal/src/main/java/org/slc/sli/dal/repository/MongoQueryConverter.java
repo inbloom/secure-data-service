@@ -298,6 +298,8 @@ public class MongoQueryConverter {
                 for (String includeField : neutralQuery.getIncludeFields()) {
                     mongoQuery.fields().include(MONGO_BODY + includeField);
                 }
+                mongoQuery.fields().include("type");
+                mongoQuery.fields().include("metaData");
             } else if (neutralQuery.getExcludeFields() != null) {
                 for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
