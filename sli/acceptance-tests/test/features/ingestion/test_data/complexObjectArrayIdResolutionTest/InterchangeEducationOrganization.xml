@@ -82,7 +82,8 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-1-1</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-1-1</UniqueCourseId>
+  </Course>
 
   <Course>
     <CourseTitle>COURSE 2</CourseTitle>
@@ -102,7 +103,8 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-2-2</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-2-2</UniqueCourseId>
+  </Course>
 
   <Course>
     <CourseTitle>COURSE 3</CourseTitle>
@@ -122,7 +124,8 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-3-3</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-3-3</UniqueCourseId>
+  </Course>
 
   <Course>
     <CourseTitle>COURSE 4</CourseTitle>
@@ -142,7 +145,8 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-4-4</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-4-4</UniqueCourseId>
+  </Course>
   
   <Course>
     <CourseTitle>COURSE 5</CourseTitle>
@@ -156,7 +160,8 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-5-5</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-5-5</UniqueCourseId>
+  </Course>
   
   <Course>
     <CourseTitle>COURSE 6</CourseTitle>
@@ -170,6 +175,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>COURSE-6-6</UniqueCourseId></Course>
+    <UniqueCourseId>COURSE-6-6</UniqueCourseId>
+  </Course>
   
 </InterchangeEducationOrganization>
