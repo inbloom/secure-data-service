@@ -134,7 +134,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					if($rootScope.saveStatus) {
 						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
 
-						$scope.$on("leaveTab", function () {
+						$scope.$on("leavePage", function () {
 							$scope.selectTab(pane);
 							$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
 						});
@@ -184,6 +184,34 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 
 				// Add a new page/tab into the profile
 				$scope.addPage = function () {
+					$rootScope.addNewPage = false;
+
+					// if user trying to navigate away from the selected tab without saving page-level changes,
+					// the save changes confirmation box will display.
+					if($rootScope.saveStatus) {
+
+						$rootScope.addNewPage = true;
+						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+
+						// After 'restorePageAndAddNewPage' get triggered, the new tab/page will be added to the profile
+						$scope.$on("restorePageAndAddNewPage", function () {
+
+							if($rootScope.addNewPage) {
+								var pageId = dbSharedService.generatePageId(parent.pages);
+								parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
+								parent.saveProfile(function () {
+									$scope.select(panes[panes.length-1]);
+									parent.checked = true;
+								});
+							}
+
+							$rootScope.addNewPage = false;
+							return false;
+						});
+
+						return false;
+					}
+
 					var pageId = dbSharedService.generatePageId(parent.pages);
 					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
 					parent.saveProfile(function () {

@@ -130,7 +130,7 @@ function profileCtrl($scope, $routeParams, Profile, AllPanels, dbSharedService) 
 		$scope.saveProfile();
 	});
 
-	$scope.savePage = function () {
+	$scope.updatePage = function () {
 		var configs = dbSharedService.getModalConfig(),
 			page = dbSharedService.getPage();
 
@@ -223,33 +223,39 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 	$scope.pageName = $scope.page.name;
 
 	// If user choose to leave the page without saving new changes, the old changes will be restored.
-	$rootScope.$on("leavePage", function () {
+	$scope.$on("restorePage", function () {
 
+		// The profile service will be called to restore the changes at page level
 		Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
 			var i;
 
 			$scope.profile = profile[0];
 
-			// Check profile items. Store all tabs into the pages array and all panels into panels array
+
 			for (i = 0; i < $scope.profile.items.length; i++) {
 				if($scope.profile.items[i].type === "TAB" && $scope.profile.items[i].id === $scope.page.id) {
 					$scope.page.name = $scope.profile.items[i].name;
 					$scope.page.items = $scope.profile.items[i].items;
-					$rootScope.$broadcast("leaveTab");
+
 				}
+			}
+
+			// if user adding a new tab without saving selected page level changes,
+			// the custom event 'restorePageAndAddNewPage' will be triggered, otherwise 'leavePage' event will be triggered.
+			if($rootScope.addNewPage) {
+				if($scope.profile.items[$scope.profile.items.length-1].id === $scope.page.id) {
+					dbSharedService.enableSaveButton(false);
+					$rootScope.$broadcast("restorePageAndAddNewPage");
+				}
+			}
+			else {
+				$rootScope.$broadcast("leavePage");
 			}
 
 		}, function(error) {
 			dbSharedService.showError(error.status, null);
 		});
 
-		/*var pageDetails = Page.query(function () {
-			if($scope.page.id === pageDetails[0].id) {
-				$scope.page.name = pageDetails[0].name;
-				$scope.page.items = pageDetails[0].items;
-				$rootScope.$broadcast("leaveTab");
-			}
-		});*/
 		return false;
 	});
 
@@ -355,7 +361,7 @@ function modalCtrl($scope, dbSharedService) {
 
 	$scope.save = function () {
 		dbSharedService.setModalConfig({pageTitle: $scope.pageTitle, contentJSON: $scope.contentJSON});
-		parent.savePage();
+		parent.updatePage();
 	};
 }
 
@@ -422,7 +428,7 @@ function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 			$rootScope.$broadcast("leaveProfile");
 		}
 		else {
-			$rootScope.$broadcast("leavePage");
+			$rootScope.$broadcast("restorePage");
 		}
 	};
 
