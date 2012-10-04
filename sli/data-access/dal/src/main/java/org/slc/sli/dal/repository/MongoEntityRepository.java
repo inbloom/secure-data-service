@@ -144,7 +144,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.addTimestamps(entity);
         if (subDocs.isSubDoc(collectionName)) {
-            subDocs.subDoc(collectionName).create(entity.getBody());
+            subDocs.subDoc(collectionName).create(entity);
             return entity;
         } else {
             return super.insert(entity, collectionName);

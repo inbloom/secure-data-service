@@ -41,12 +41,16 @@ public class SubDocAccessorTest {
 
     private final MongoTemplate template = mock(MongoTemplate.class);
     private final SubDocAccessor underTest = new SubDocAccessor(template);
-    private final Map<String, Object> assessmentResult = new HashMap<String, Object>();
+    private final Map<String, Object> assessmentResultBody = new HashMap<String, Object>();
+    private final Map<String, Object> assessmentResultMetadata = new HashMap<String, Object>();
+    private Entity assessmentResult;
 
     @Before
     public void setUp() {
-        assessmentResult.put("scoreResult", "42");
-        assessmentResult.put("studentId", "studentid");
+        assessmentResultBody.put("scoreResult", "42");
+        assessmentResultBody.put("studentId", "studentid");
+        assessmentResultMetadata.put("tenantId", "TEST");
+        assessmentResult = new MongoEntity("studentAssessmentAssociation", null, assessmentResultBody, assessmentResultMetadata);
     }
 
     @Test
@@ -90,12 +94,12 @@ public class SubDocAccessorTest {
         when(enrollmentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
                 success);
 
-        Entity assessment1 = new MongoEntity("studentAssessmentAssociation", assessmentResult);
+        Entity assessment1 = new MongoEntity("studentAssessmentAssociation", assessmentResultBody);
         Entity assessment2 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
-                assessmentResult));
+                assessmentResult.getBody()));
         assessment2.getBody().put("scoreResult", "24");
         Entity assessment3 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
-                assessmentResult));
+                assessmentResult.getBody()));
         assessment3.getBody().put("studentId", "studentid2");
         assertTrue(underTest.subDoc("studentAssessmentAssociation").insert(
                 Arrays.asList(assessment1, assessment2, assessment3)));
@@ -148,10 +152,10 @@ public class SubDocAccessorTest {
     public void testRead() {
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> studentAssessments = new HashMap<String, Object>();
-        studentAssessments.put("studentid×1234", assessmentResult);
+        studentAssessments.put("studentid×1234", assessmentResult.getBody());
         student.put("assessments", studentAssessments);
         when(template.findOne(matchesParentId(), eq(Map.class), eq("student"))).thenReturn(student);
-        assertEquals(assessmentResult, underTest.subDoc("studentAssessmentAssociation").read("studentid×1234", null));
+        assertEquals(assessmentResult.getBody(), underTest.subDoc("studentAssessmentAssociation").read("studentid×1234", null));
     }
 
 }

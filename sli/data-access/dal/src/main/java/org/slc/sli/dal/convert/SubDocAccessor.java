@@ -14,11 +14,14 @@ import com.mongodb.DBObject;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
@@ -114,6 +117,11 @@ public class SubDocAccessor {
      *
      */
     public class Location {
+
+        @Autowired
+        @Qualifier("DeterministicUUIDGeneratorStrategy")
+        private UUIDGeneratorStrategy didGenerator;
+
         private static final String ID_SEPERATOR = "×"; // it should be noted that is not an 'x', so
                                                         // be careful
                                                         // should probably change it to something
@@ -192,36 +200,36 @@ public class SubDocAccessor {
             return doUpdate(parentQuery, update);
         }
 
-        public boolean create(Map<String, Object> entity) {
-            return update(makeEntityId(entity), entity);
+        public boolean create(Entity entity) {
+            return update(makeEntityId(entity), entity.getBody());
         }
 
-        public boolean bulkCreate(DBObject parentQuery, List<Map<String, Object>> entities) {
+        public boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
             Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
-            for (Map<String, Object> entity : entities) {
-                updateMap.put(makeEntityId(entity), entity);
+            for (Entity entity : entities) {
+                updateMap.put(makeEntityId(entity), entity.getBody());
             }
             return bulkUpdate(parentQuery, updateMap);
         }
 
         public boolean insert(List<Entity> entities) {
-            ConcurrentMap<DBObject, List<Map<String, Object>>> parentEntityMap = new ConcurrentHashMap<DBObject, List<Map<String, Object>>>();
+            ConcurrentMap<DBObject, List<Entity>> parentEntityMap = new ConcurrentHashMap<DBObject, List<Entity>>();
             for (Entity entity : entities) {
                 DBObject parentQuery = getParentQuery(entity.getBody());
-                parentEntityMap.putIfAbsent(parentQuery, new ArrayList<Map<String, Object>>());
-                parentEntityMap.get(parentQuery).add(entity.getBody());
+                parentEntityMap.putIfAbsent(parentQuery, new ArrayList<Entity>());
+                parentEntityMap.get(parentQuery).add(entity);
             }
             boolean result = true;
-            for (Entry<DBObject, List<Map<String, Object>>> entry : parentEntityMap.entrySet()) {
+            for (Entry<DBObject, List<Entity>> entry : parentEntityMap.entrySet()) {
                 result &= bulkCreate(entry.getKey(), entry.getValue());
             }
             return result;
         }
 
-        private String makeEntityId(Map<String, Object> entity) {
+        private String makeEntityId(Entity entity) {
             // TODO this needs to be done a bit smarter, probably using whatever is in place for
             // deterministic ids
-            return getParentEntityId(entity) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
+            return getParentEntityId(entity.getBody()) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
         }
 
         public Map<String, Object> read(String id) {
