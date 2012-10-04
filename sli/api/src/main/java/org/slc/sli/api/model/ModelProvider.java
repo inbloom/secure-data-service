@@ -19,6 +19,7 @@ package org.slc.sli.api.model;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -30,6 +31,7 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -57,7 +59,22 @@ public class ModelProvider {
     }
 
     public List<AssociationEnd> getAssociationEnds(final Identifier type) {
-        return modelIndex.getAssociationEnds(type);
+        List<Generalization> baseGeneralizations = modelIndex.getGeneralizationBase(type);
+        List<AssociationEnd> baseEnds = new ArrayList<AssociationEnd>();
+        List<AssociationEnd> fullAssociationEnds = new ArrayList<AssociationEnd>();
+
+        if (baseGeneralizations != null) {
+            for (Generalization generalization : baseGeneralizations) {
+                baseEnds.addAll(getAssociationEnds(generalization.getParent()));
+            }
+        }
+
+        List<AssociationEnd> associationEnds = modelIndex.getAssociationEnds(type);
+
+        fullAssociationEnds.addAll(baseEnds);
+        fullAssociationEnds.addAll(associationEnds);
+
+        return fullAssociationEnds;
     }
 
     public Set<ModelElement> lookupByName(final QName qName) {
@@ -187,6 +204,7 @@ public class ModelProvider {
     }
     public String getConnectionPath(final ClassType fromEntityType, final ClassType toEntityType) {
         List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
+
         for (AssociationEnd end : associationEnds) {
             if (toEntityType.getId().equals(end.getType())) {
                 return end.getAssociatedAttributeName();
