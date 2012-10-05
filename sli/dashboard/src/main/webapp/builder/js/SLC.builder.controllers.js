@@ -222,7 +222,8 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 
 	$scope.pageName = $scope.page.name;
 
-	// If user choose to leave the page without saving new changes, the old changes will be restored.
+	// If user choose to leave the page or adding a new tab without saving new changes,
+	// then old changes will be restored
 	$scope.$on("restorePage", function () {
 
 		// The profile service will be called to restore the changes at page level
@@ -241,14 +242,18 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 			}
 
 			// if user adding a new tab without saving selected page level changes,
-			// the custom event 'restorePageAndAddNewPage' will be triggered, otherwise 'leavePage' event will be triggered.
+			// the custom event 'restorePageAndAddNewPage' will be triggered
 			if($rootScope.addNewPage) {
 				if($scope.profile.items[$scope.profile.items.length-1].id === $scope.page.id) {
 					dbSharedService.enableSaveButton(false);
 					$rootScope.$broadcast("restorePageAndAddNewPage");
 				}
 			}
-			else {
+
+			// if user leaving the page without saving page level changes,
+			// then 'leavePage' event will be triggered.
+			if($rootScope.leavePageStatus) {
+				$rootScope.leavePageStatus = false;
 				$rootScope.$broadcast("leavePage");
 			}
 
@@ -437,8 +442,8 @@ function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 			$rootScope.$broadcast("leaveProfile");
 		}
 		else {
-			$rootScope.$broadcast("restorePage");
-			console.log($scope.$parent.page.id);
+				$rootScope.leavePageStatus = true;
+				$rootScope.$broadcast("restorePage");
 		}
 	};
 
