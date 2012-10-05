@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" targetNamespace="http://ed-fi.org/0100"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:include schemaLocation="../edfiXsd/Ed-Fi-Core.xsd"/>
+
+  <!-- Make ProgramId a required field -->
+  <xs:complexType name="SLI-ProgramRestriction">
+    <xs:complexContent>
+      <xs:restriction base="Program">
+        <xs:sequence>
+          <xs:element name="ProgramId" type="ProgramId" />
+          <xs:element name="ProgramType" type="ProgramType" />
+          <xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0" />
+          <xs:element name="Services" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Add UniqueCourseId -->
+  <xs:complexType name="SLI-CourseExtension">
+    <xs:complexContent>
+      <xs:extension base="Course">
+        <xs:sequence>
+          <xs:element name="UniqueCourseId" type="SLI-UniqueCourseId" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Make SchoolReference required -->
+  <xs:complexType name="SLI-AttendanceEventRestriction">
+    <xs:complexContent>
+      <xs:restriction base="AttendanceEvent">
+        <xs:sequence>
+          <xs:element name="EventDate" type="xs:date" />
+          <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0" />
+          <xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType" />
+          <xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0" />
+          <xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0" />
+          <xs:element name="StudentReference" type="StudentReferenceType" />
+          <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" />
+          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <!-- Change ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType -->
+  <xs:complexType name="SLI-ObjectiveAssessmentRestriction">
+    <xs:complexContent>
+      <xs:restriction base="ObjectiveAssessment">
+        <xs:sequence>
+          <xs:element name="IdentificationCode" type="IdentificationCode" />
+          <xs:element name="MaxRawScore" type="xs:int" minOccurs="0" />
+          <xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="PercentOfAssessment" type="percent" minOccurs="0" />
+          <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
+          <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Make StudentSectionAssociationReference required -->
+  <xs:complexType name="SLI-StudentCompetencyRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StudentCompetency">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" />
+            <xs:element name="StudentCompetencyObjectiveReference" type="StudentCompetencyObjectiveReferenceType" />
+          </xs:choice>
+          <xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" />
+          <xs:element name="DiagnosticStatement" type="text" minOccurs="0" />
+          <xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="SLI-UniqueCourseId">
+    <xs:annotation>
+      <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="60"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
