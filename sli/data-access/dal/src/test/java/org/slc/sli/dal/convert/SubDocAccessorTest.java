@@ -39,32 +39,42 @@ import org.slc.sli.domain.MongoEntity;
  */
 public class SubDocAccessorTest {
 
+    private static final String STARTDATE = "3001-09-01";
+    private static final String STUDENT1 = "PhillipFry";
+    private static final String SECTION1 = "HistoryOfThe20thCentury";
+    private static final String STUDENT2 = "Gunther";
+    private static final String SECTION2 = "MathematicsOfWontonBurritoMeals";
     private final MongoTemplate template = mock(MongoTemplate.class);
     private final SubDocAccessor underTest = new SubDocAccessor(template);
-    private final Map<String, Object> assessmentResultBody = new HashMap<String, Object>();
-    private final Map<String, Object> assessmentResultMetadata = new HashMap<String, Object>();
-    private Entity assessmentResult;
+    private final Map<String, Object> studentSectionAssociation = new HashMap<String, Object>();
+    private final DBCollection sectionCollection = mock(DBCollection.class);
 
     @Before
     public void setUp() {
-        assessmentResultBody.put("scoreResult", "42");
-        assessmentResultBody.put("studentId", "studentid");
-        assessmentResultMetadata.put("tenantId", "TEST");
-        assessmentResult = new MongoEntity("studentAssessmentAssociation", null, assessmentResultBody, assessmentResultMetadata);
-    }
-
-    @Test
-    public void testCreate() {
+        studentSectionAssociation.put("sectionId", SECTION1);
+        studentSectionAssociation.put("studentId", STUDENT1);
+        studentSectionAssociation.put("startDate", STARTDATE);
         WriteResult success = mock(WriteResult.class);
         CommandResult successCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
-        DBCollection studentCollection = mock(DBCollection.class);
-        when(template.getCollection("student")).thenReturn(studentCollection);
-        when(studentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
                 success);
-        assertTrue(underTest.subDoc("studentAssessmentAssociation").create(assessmentResult));
-        verify(studentCollection).update(eq(BasicDBObjectBuilder.start("_id", "studentid").get()),
+        when(template.getCollection("section")).thenReturn(sectionCollection);
+        Map<String, Object> section = new HashMap<String, Object>();
+        Map<String, Object> studentSectionAssociations = new HashMap<String, Object>();
+        studentSectionAssociations.put(SECTION1 + "×" + STUDENT1, studentSectionAssociation);
+        studentSectionAssociations.put(SECTION1 + "×" + STUDENT2, studentSectionAssociation);
+        section.put("studentAssociations", studentSectionAssociations);
+        when(template.findOne(matchesParentId(SECTION1), eq(Map.class), eq("section"))).thenReturn(section);
+    }
+
+    @Test
+    public void testSingleInsert() {
+        MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
+        entity.getMetaData().put("tenantId", "TEST");
+        assertTrue(underTest.subDoc("studentSectionAssociation").create(entity));
+        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
 
                     @Override
@@ -72,38 +82,28 @@ public class SubDocAccessorTest {
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
                         Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                        List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
+                        List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
                                 (Collection<? extends Map<String, Object>>) set.values());
-                        List<String> assessmentIds = new ArrayList<String>(set.keySet());
-                        return assessmentResults.size() == 1
-                                && assessmentResults.get(0).get("scoreResult").equals("42")
-                                && assessmentIds.get(0).startsWith("assessments.studentid×");
+                        List<String> ssaIds = new ArrayList<String>(set.keySet());
+                        return ssaResults.size() == 1 && ssaResults.get(0).get("startDate").equals(STARTDATE)
+                                && ssaIds.get(0).startsWith("studentAssociations." + SECTION1);
                     }
                 }), eq(true), eq(false));
 
     }
 
     @Test
-    public void testInsert() {
-        WriteResult success = mock(WriteResult.class);
-        CommandResult successCR = mock(CommandResult.class);
-        when(success.getLastError()).thenReturn(successCR);
-        when(successCR.ok()).thenReturn(true);
-        DBCollection enrollmentCollection = mock(DBCollection.class);
-        when(template.getCollection("student")).thenReturn(enrollmentCollection);
-        when(enrollmentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
-                success);
-
-        Entity assessment1 = new MongoEntity("studentAssessmentAssociation", assessmentResultBody);
-        Entity assessment2 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
-                assessmentResult.getBody()));
-        assessment2.getBody().put("scoreResult", "24");
-        Entity assessment3 = new MongoEntity("studentAssessmentAssociation", new HashMap<String, Object>(
-                assessmentResult.getBody()));
-        assessment3.getBody().put("studentId", "studentid2");
-        assertTrue(underTest.subDoc("studentAssessmentAssociation").insert(
-                Arrays.asList(assessment1, assessment2, assessment3)));
-        verify(enrollmentCollection).update(eq(BasicDBObjectBuilder.start("_id", "studentid2").get()),
+    public void testMultipleInsert() {
+        Entity ssa1 = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
+        Entity ssa2 = new MongoEntity("studentSectionAssociation", new HashMap<String, Object>(
+                studentSectionAssociation));
+        ssa2.getBody().put("studentId", STUDENT2);
+        Entity ssa3 = new MongoEntity("studentSectionAssociation", new HashMap<String, Object>(
+                studentSectionAssociation));
+        ssa3.getBody().put("sectionId", SECTION2);
+        assertTrue(underTest.subDoc("studentSectionAssociation").insert(Arrays.asList(ssa1, ssa2, ssa3)));
+        // Test that fry gets enrolled in mathematics of wonton burrito meals
+        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION2).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
 
                     @Override
@@ -111,15 +111,15 @@ public class SubDocAccessorTest {
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
                         Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                        List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
+                        List<Map<String, Object>> sectionResults = new ArrayList<Map<String, Object>>(
                                 (Collection<? extends Map<String, Object>>) set.values());
-                        List<String> assessmentIds = new ArrayList<String>(set.keySet());
-                        return assessmentResults.size() == 1
-                                && assessmentResults.get(0).get("scoreResult").equals("42")
-                                && assessmentIds.get(0).startsWith("assessments.studentid2×");
+                        List<String> ssaIds = new ArrayList<String>(set.keySet());
+                        return sectionResults.size() == 1 && sectionResults.get(0).get("startDate").equals(STARTDATE)
+                                && ssaIds.get(0).startsWith("studentAssociations." + SECTION2);
                     }
                 }), eq(true), eq(false));
-        verify(enrollmentCollection).update(eq(BasicDBObjectBuilder.start("_id", "studentid").get()),
+        // Test that both fry and gunther get enrolled in history of the 20th century
+        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
 
                     @Override
@@ -127,22 +127,22 @@ public class SubDocAccessorTest {
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
                         Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                        List<Map<String, Object>> assessmentResults = new ArrayList<Map<String, Object>>(
+                        List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
                                 (Collection<? extends Map<String, Object>>) set.values());
-                        return assessmentResults.size() == 2;
+                        return ssaResults.size() == 2;
                     }
                 }), eq(true), eq(false));
 
     }
 
-    private Query matchesParentId() {
+    private Query matchesParentId(final String id) {
         Query matchesId = argThat(new ArgumentMatcher<Query>() {
 
             @Override
             public boolean matches(Object argument) {
                 Query query = (Query) argument;
                 DBObject queryObject = query.getQueryObject();
-                return queryObject.get("_id").equals("studentid");
+                return queryObject.get("_id").equals(id);
             }
         });
         return matchesId;
@@ -150,12 +150,9 @@ public class SubDocAccessorTest {
 
     @Test
     public void testRead() {
-        Map<String, Object> student = new HashMap<String, Object>();
-        Map<String, Object> studentAssessments = new HashMap<String, Object>();
-        studentAssessments.put("studentid×1234", assessmentResult.getBody());
-        student.put("assessments", studentAssessments);
-        when(template.findOne(matchesParentId(), eq(Map.class), eq("student"))).thenReturn(student);
-        assertEquals(assessmentResult.getBody(), underTest.subDoc("studentAssessmentAssociation").read("studentid×1234", null));
+        String ssaId = SECTION1 + "×" + STUDENT1;
+        assertEquals(studentSectionAssociation,
+                underTest.subDoc("studentSectionAssociation").read(ssaId, null));
     }
 
 }
