@@ -186,7 +186,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             return naturalKeyDescriptor;
         }
         
-        String entityType = entity.getType();
+        String entityType = getCollectionName(entity);
         String tenantId = (String) entity.getMetaData().get("tenantId");
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType);
         return naturalKeyDescriptor;
@@ -194,5 +194,21 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     
     private void handleFieldAccessException(String keyField, Entity entity) {
         LOG.error("Failed to extract field " + keyField + " from " + entity.getType() + "entity");
+    }
+    
+    /*
+     * 
+     */
+    public String getCollectionName(Entity entity) {
+        
+        NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                return appInfo.getCollectionType();
+            }
+        }
+        LOG.error("No collectionType found in schema for entity: " + entity.getType());
+        return null;
     }
 }
