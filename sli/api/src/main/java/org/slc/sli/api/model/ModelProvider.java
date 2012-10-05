@@ -227,13 +227,27 @@ public class ModelProvider {
 
     public String getConnectionPath(final ClassType fromEntityType, final ClassType toEntityType) {
         List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
+        List<Generalization> generalizations = modelIndex.getGeneralizationBase(toEntityType.getId());
 
         for (AssociationEnd end : associationEnds) {
-            if (toEntityType.getId().equals(end.getType())) {
+            if (checkType(toEntityType.getId(), generalizations, end.getType())) {
                 return end.getAssociatedAttributeName();
             }
         }
         return null;
+    }
+
+    private boolean checkType(final Identifier toType, List<Generalization> baseToTypeGeneralizations, final Identifier endType) {
+
+        if (baseToTypeGeneralizations != null) {
+            for (Generalization generalization : baseToTypeGeneralizations) {
+                if (generalization.getParent().equals(endType)) {
+                    return true;
+                }
+            }
+        }
+
+        return toType.equals(endType);
     }
 }
 
