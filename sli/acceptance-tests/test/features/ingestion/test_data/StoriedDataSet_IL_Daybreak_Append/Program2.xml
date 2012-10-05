@@ -7,13 +7,9 @@
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
 			<CodeValue>Test service 1</CodeValue>
-			<ShortDescription>Short description for program 1 service 1</ShortDescription>
-			<Description>This is a longer description of the services provided by program 1 service 1. More detail could be provided here.</Description>
 		</Services>
 		<Services>
-			<CodeValue>Test service 2</CodeValue>
 			<ShortDescription>Short description for program 1 service 1</ShortDescription>
-			<Description>This is a longer description of the services provided by program 1 service 2. More detail could be provided here.</Description>
 		</Services>
 		</Program>
 	<Program>
@@ -21,14 +17,10 @@
 		<ProgramType>Regular Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
-			<CodeValue>Test service 3</CodeValue>
-			<ShortDescription>Short description for program 2 service 1</ShortDescription>
 			<Description>This is a longer description of the services provided by program 2 service 1. More detail could be provided here.</Description>
 		</Services>
 		<Services>
 			<CodeValue>Test service 4</CodeValue>
-			<ShortDescription>Short description for program 2 service 2</ShortDescription>
-			<Description>This is a longer description of the services provided by program 2 service 2. More detail could be provided here.</Description>
 		</Services>
 	</Program>
 	<Program>
@@ -36,9 +28,7 @@
 		<ProgramType>Regular Education</ProgramType>
 		<ProgramSponsor>State Education Agency</ProgramSponsor>
 		<Services>
-			<CodeValue>Test service 5</CodeValue>
 			<ShortDescription>Short description for program 3 service 1</ShortDescription>
-			<Description>This is a longer description of the services provided by program 3 service 1. More detail could be provided here.</Description>
 		</Services>
 	</Program>
 	<Program>
@@ -46,8 +36,6 @@
 		<ProgramType>Remedial Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
-			<CodeValue>Test service 6</CodeValue>
-			<ShortDescription>Short description for program 4 service 1</ShortDescription>
 			<Description>This is a longer description of the services provided by program 4 service 1. More detail could be provided here.</Description>
 		</Services>
 	</Program>
