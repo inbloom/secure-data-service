@@ -745,11 +745,6 @@ Student late arrival/early dismissal
 							<xs:documentation>The competency levels defined to rate the student for the course.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="UniqueCourseId" type="UniqueCourseId">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -2791,7 +2786,7 @@ Met standard
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType" minOccurs="0">
+					<xs:element name="StudentAssessmentReference" type="ReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
