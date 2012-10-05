@@ -84,6 +84,10 @@ public class EntityDefinitionTest {
         assertNotNull("Expected non-null schema", listSchema);
         assertEquals("Expected different reference type",
                 listSchema.getType(), "listReferenceTest");
+
+        assertTrue(entityDefinition.hasArrayField("ListSchema1"));
+        assertFalse(entityDefinition.hasArrayField("StringSchema1"));
+        assertFalse(entityDefinition.hasArrayField("Foo"));
     }
 
     private void populate(NeutralSchema schema) {
