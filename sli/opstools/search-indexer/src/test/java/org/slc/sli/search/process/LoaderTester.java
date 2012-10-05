@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
 
@@ -13,7 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.LoaderImpl;
-import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,7 @@ public class LoaderTester {
         }
     };
     
-    private File inbox = new File("inbox");
+    private File inbox = new File(Constants.DEFAULT_INBOX_DIR);
     
     @Before
     public void setup() throws Exception {
@@ -71,7 +73,7 @@ public class LoaderTester {
     }
     
     private void waitForFiles(int n) throws Exception {
-        mon.acquire(n);
+        mon.tryAcquire(n, 1, TimeUnit.SECONDS);
     }
     
     @Test

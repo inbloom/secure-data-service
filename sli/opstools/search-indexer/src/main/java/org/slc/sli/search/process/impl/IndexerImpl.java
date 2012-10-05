@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.binary.Base64;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.Indexer;
-import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

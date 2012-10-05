@@ -6,8 +6,9 @@
       "body.name.middleName",
       "body.name.lastSurname",
       "body.otherName.firstName",
-      "body.name.lastSurname",
-      "metaData",
+      "body.otherName.middleName",
+      "body.otherName.lastSurname",
+      "metaData.tenantId",
       "type"
     ]
   },
@@ -15,7 +16,7 @@
     "fields": [
       "_id",
       "body.uniqueSectionCode",
-      "metaData",
+      "metaData.tenantId",
       "type"
     ]
   }

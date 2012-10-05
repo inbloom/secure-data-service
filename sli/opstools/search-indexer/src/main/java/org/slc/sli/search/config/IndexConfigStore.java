@@ -13,26 +13,13 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-public class IndexEntityConfigStore {
-    
-    /**
-     * Config holder entity
-     *
-     */
-    public static final class Config {
-        
-        private List<String> fields;
-     
-        public List<String> getFields() {
-            return fields;
-        }
-    }
+public class IndexConfigStore {
     
     // map of configs 
-    private Map<String, Config> configs;
+    private Map<String, IndexConfig> configs;
 
     
-    public IndexEntityConfigStore(String configFile) throws JsonParseException, JsonMappingException, IOException {
+    public IndexConfigStore(String configFile) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         if (configFile == null) {
             throw new IllegalArgumentException("sli.search.index.config must be provided");
@@ -48,19 +35,26 @@ public class IndexEntityConfigStore {
         if (!config.exists()) {
             throw new IllegalArgumentException("File" + config.getAbsolutePath() + " does not exist");
         }
-        Map<String, Config> map = mapper.readValue(config, new TypeReference<Map<String, Config>>(){});
+        Map<String, IndexConfig> map = mapper.readValue(config, new TypeReference<Map<String, IndexConfig>>(){});
+        for (IndexConfig indexConfig: map.values()) {
+            indexConfig.prepare();
+        }
         this.configs = Collections.unmodifiableMap(map);
     }
     
     public List<String> getFields(String collection) {
-        Config config = configs.get(collection);
-        if (config == null) {
-            throw new IllegalArgumentException("Unknown collection " + collection);
-        }
-        return config.getFields();
+        return getConfig(collection).getFields();
     }
     
     public Collection<String> getCollections() {
         return configs.keySet();
+    }
+    
+    public IndexConfig getConfig(String collection) {
+        IndexConfig config = configs.get(collection);
+        if (config == null) {
+            throw new IllegalArgumentException("Config for " + collection + " is not found");
+        }
+        return config;
     }
 }

@@ -1,4 +1,4 @@
-package org.slc.sli.search.process.impl;
+package org.slc.sli.search.process;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +13,10 @@ import com.mongodb.DBCursor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slc.sli.search.config.IndexEntityConfigStore;
+import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.process.impl.ExtractorImpl;
+import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.util.Constants;
 import org.slc.sli.search.util.MockDBCursorFactory;
 
 /**
@@ -24,8 +27,10 @@ import org.slc.sli.search.util.MockDBCursorFactory;
  */
 public class ExtractorImplTest {
 
-    private static final String INBOX = "inbox-test";
-    private IndexEntityConfigStore indexEntityConfigStore;
+    private static final String INBOX = Constants.DEFAULT_DATA_DIR + "/inbox-test";
+    private IndexConfigStore indexConfigStore;
+    private IndexEntityConverter indexEntityConverter;
+    
     private ExtractorImpl extractor = new ExtractorImpl() {
         protected DBCursor getDBCursor(String collectionName, List<String> fields) {
             // get cursor from static file
@@ -38,8 +43,11 @@ public class ExtractorImplTest {
         extractor.createExtractDir();
         (new File(INBOX)).mkdirs();
         deleteFolder(INBOX);
-        indexEntityConfigStore = new IndexEntityConfigStore("index-config-test.json");
-        extractor.setIndexEntityConfigStore(indexEntityConfigStore);
+        indexConfigStore = new IndexConfigStore("index-config-test.json");
+        indexEntityConverter = new IndexEntityConverter();
+        indexEntityConverter.setIndexConfigStore(indexConfigStore);
+        
+        extractor.setIndexConfigStore(indexConfigStore);
         extractor.setInboxDir(INBOX);
     }
     
@@ -55,7 +63,7 @@ public class ExtractorImplTest {
     public void testFileCounts() throws Exception {
         // set max lines per file is 10
         extractor.setMaxLinePerFile(10);
-        extractor.extractCollection("student", indexEntityConfigStore.getFields("student"));
+        extractor.extractCollection("student", indexConfigStore.getFields("student"));
 
         File[] files = listFiles(INBOX);
         Assert.assertEquals(20, files.length);

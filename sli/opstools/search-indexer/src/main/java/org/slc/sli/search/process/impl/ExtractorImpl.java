@@ -19,8 +19,9 @@ import com.mongodb.util.ThreadUtil;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.search.config.IndexEntityConfigStore;
+import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -35,7 +36,6 @@ public class ExtractorImpl implements Extractor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final static String DEFAULT_EXTRACT_DIR = "tmp";
     private final static int DEFAULT_LINE_PER_FILE = 500000;
     private final static int DEFAULT_EXECUTOR_THREADS = 2;
 
@@ -43,9 +43,9 @@ public class ExtractorImpl implements Extractor {
 
     private MongoOperations mongoTemplate;
 
-    private IndexEntityConfigStore indexEntityConfigStore;
+    private IndexConfigStore indexConfigStore;
 
-    private String extractDir = DEFAULT_EXTRACT_DIR;
+    private String extractDir = Constants.DEFAULT_TMP_DIR;
 
     private String inboxDir;
 
@@ -78,8 +78,8 @@ public class ExtractorImpl implements Extractor {
      * @see org.slc.sli.search.process.Extractor#execute()
      */
     public void execute() {
-        for (String collection : indexEntityConfigStore.getCollections()) {
-            executor.execute(new ExtractWorker(collection, indexEntityConfigStore.getFields(collection)));
+        for (String collection : indexConfigStore.getCollections()) {
+            executor.execute(new ExtractWorker(collection, indexConfigStore.getFields(collection)));
         }
 
     }
@@ -156,13 +156,24 @@ public class ExtractorImpl implements Extractor {
             cursor.close();
         }
     }
+    
+    protected DBCursor getCursor(String collectionName, List<String> fields) {
+        // execute query, get cursor of results
+        BasicDBObject keys = new BasicDBObject();
+        for (String field : fields) {
+            keys.put(field, 1);
+        }
+
+        DBCollection collection = mongoTemplate.getCollection(collectionName);
+        return collection.find(new BasicDBObject(), keys);
+    }
 
     private File createTempFile(String collectionName) {
         return new File(extractDir, collectionName + "." + UUID.randomUUID() + ".json");
     }
 
-    public void setIndexEntityConfigStore(IndexEntityConfigStore config) {
-        this.indexEntityConfigStore = config;
+    public void setIndexConfigStore(IndexConfigStore config) {
+        this.indexConfigStore = config;
     }
 
     public void setExtractDir(String extractDir) {

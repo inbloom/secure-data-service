@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.IndexerImpl;
-import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.MockRestTemplate;
 import org.springframework.http.HttpEntity;
 

@@ -18,5 +18,14 @@
       "metaData",
       "type"
     ]
+  },
+  "test": {
+    "indexType": "student",
+    "fields": [
+      "body.a",
+      "body.b",
+      "body.name"
+    ],
+    "rename" : {"body.name" : "_id", "body.b": "metaData.contextId"}
   }
 }

@@ -14,14 +14,14 @@ import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
-import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LoaderImpl implements FileAlterationListener, Loader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static final String DEFAULT_DROP_OFF_DIR = "inbox";
     private static final long DEFAULT_INTERVAL_MILLIS = 1000L;
     private static final int DEFAULT_EXECUTOR_THREADS = 2;
 
@@ -29,7 +29,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     private IndexEntityConverter indexEntityConverter;
 
-    private String inboxDir = DEFAULT_DROP_OFF_DIR;
+    private String inboxDir = Constants.DEFAULT_INBOX_DIR;
 
     private long pollIntervalMillis = DEFAULT_INTERVAL_MILLIS;
 
