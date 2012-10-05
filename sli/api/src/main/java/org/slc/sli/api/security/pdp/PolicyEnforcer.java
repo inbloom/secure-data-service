@@ -6,15 +6,14 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.springframework.security.access.AccessDeniedException;
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.sun.jersey.spi.container.ContainerRequest;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 
 /**
  * @author dkornishev
@@ -35,6 +34,17 @@ public class PolicyEnforcer {
 
         if (request.getMethod() == "POST") {
             return;
+        }
+
+        // TODO: Need to clean up this hack before turning on the path based context resolvers
+        /* (Temporarly) Allow root calls with query parameters through */
+        if (null != request.getRequestUri().getQuery()) {
+	        String[] queries = request.getRequestUri().getQuery().split("&");
+	        for(String query : queries){
+	        	if (!query.matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
+	        		return; //Escape if someone is attempting to query on entity fields
+	        	}
+	        }
         }
 
         List<PathSegment> seg = request.getPathSegments();
