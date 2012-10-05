@@ -91,22 +91,14 @@ public class DeterministicIdResolver {
         }
 
         String collectionName = "";
+        String referenceEntityType = "";
+        String sourceRefPath = "";
 
         for (DidRefSource didRefSource : entityConfig.getReferenceSources()) {
-            // TODO should we check if these are null or empty up here?
-            String entityType = didRefSource.getEntityType();
-            String didFieldPath = didRefSource.getDidFieldPath();
-            String sourceRefPath = didRefSource.getSourceRefPath();
-
             try {
-
-                DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
-
-                if (didRefConfig == null) {
-                     continue;
-                }
-
-                NeutralSchema schema = schemaRepository.getSchema(entityType);
+                referenceEntityType = didRefSource.getEntityType();
+                sourceRefPath = didRefSource.getSourceRefPath();
+                NeutralSchema schema = schemaRepository.getSchema(referenceEntityType);
                 if (schema != null) {
                     AppInfo appInfo = schema.getAppInfo();
                     if (appInfo != null) {
@@ -114,58 +106,74 @@ public class DeterministicIdResolver {
                     }
                 }
 
-                Object referenceObject = PropertyUtils.getProperty(entity, sourceRefPath);
-                if (referenceObject == null) {
-                    //ignore an empty reference if it is optional
-                    if (didRefSource.isOptional()) {
-                        continue;
-                    } else {
-                        throw new IdResolutionException("Entity missing key", sourceRefPath, null);
-                    }
-                }
+                handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId);
 
-                if (referenceObject instanceof List) {
-                    //handle a list of reference objects
-                    @SuppressWarnings("unchecked")
-                    List<Object> refList = (List<Object>) referenceObject;
-                    List<String> uuidList = new ArrayList<String>();
-
-                    for (Object reference :  refList) {
-                        @SuppressWarnings("unchecked")
-                        String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
-                        if (uuid != null && !uuid.isEmpty()) {
-                            uuidList.add(uuid);
-                            addContext(entity, uuid, didRefConfig, collectionName);
-                        } else {
-                            // TODO key and value below aren't what we want
-                            throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
-                        }
-                    }
-                    PropertyUtils.setProperty(entity, didFieldPath, uuidList);
-                } else {
-                    //handle a single reference object
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> reference = (Map<String, Object>) referenceObject;
-
-                    String uuid = getId(reference, tenantId, didRefConfig);
-                    if (uuid != null && !uuid.isEmpty()) {
-                        PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                        addContext(entity, uuid, didRefConfig, collectionName);
-                    } else {
-                        // TODO key and value below aren't what we want
-                        throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
-                    }
-                }
             } catch (IllegalAccessException e) {
-                handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
             } catch (InvocationTargetException e) {
-                handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
             } catch (NoSuchMethodException e) {
-                handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
             } catch (IllegalArgumentException e) {
-                handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
+            }
+        }
+    }
+
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
+            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IdResolutionException {
+        String entityType = didRefSource.getEntityType();
+        String didFieldPath = didRefSource.getDidFieldPath();
+        String sourceRefPath = didRefSource.getSourceRefPath();
+
+        DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
+
+        if (didRefConfig == null) {
+             return;
+        }
+
+        Object referenceObject = PropertyUtils.getProperty(entity, sourceRefPath);
+        if (referenceObject == null) {
+            //ignore an empty reference if it is optional
+            if (didRefSource.isOptional()) {
+                return;
+            } else {
+                throw new IdResolutionException("Entity missing key", sourceRefPath, null);
+            }
+        }
+
+        if (referenceObject instanceof List) {
+            //handle a list of reference objects
+            @SuppressWarnings("unchecked")
+            List<Object> refList = (List<Object>) referenceObject;
+            List<String> uuidList = new ArrayList<String>();
+
+            for (Object reference :  refList) {
+                @SuppressWarnings("unchecked")
+                String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
+                if (uuid != null && !uuid.isEmpty()) {
+                    uuidList.add(uuid);
+                    addContext(entity, uuid, didRefConfig, collectionName);
+                } else {
+                    // TODO key and value below aren't what we want
+                    throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                }
+            }
+            PropertyUtils.setProperty(entity, didFieldPath, uuidList);
+        } else {
+            //handle a single reference object
+            @SuppressWarnings("unchecked")
+            Map<String, Object> reference = (Map<String, Object>) referenceObject;
+
+            String uuid = getId(reference, tenantId, didRefConfig);
+            if (uuid != null && !uuid.isEmpty()) {
+                PropertyUtils.setProperty(entity, didFieldPath, uuid);
+                addContext(entity, uuid, didRefConfig, collectionName);
+            } else {
+                // TODO key and value below aren't what we want
+                throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
             }
         }
     }

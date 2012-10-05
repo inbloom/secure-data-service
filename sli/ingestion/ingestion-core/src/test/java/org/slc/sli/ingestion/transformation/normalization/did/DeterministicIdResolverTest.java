@@ -32,6 +32,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -39,6 +40,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
+import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
+import org.slc.sli.ingestion.transformation.normalization.Ref;
+import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 
@@ -64,6 +70,12 @@ public class DeterministicIdResolverTest {
 
     @Mock
     private DidRefConfigFactory didRefConfigs;
+
+    @Mock
+    private EntityConfigFactory entityConfigs;
+
+    @Mock
+    private ContextTaker contextTaker;
 
     private static final String TENANT = "tenant";
     private static final String ENTITY_TYPE = "entity_type";
@@ -92,8 +104,59 @@ public class DeterministicIdResolverTest {
     @Before
     public void setup() {
         didResolver = new DeterministicIdResolver();
+        entityConfigs = Mockito.mock(EntityConfigFactory.class);
+        contextTaker = Mockito.mock(ContextTaker.class);
+        Mockito.when(entityConfigs.getEntityConfiguration(Mockito.anyString())).thenReturn(null);
 
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void shouldAddAppropriateContextForReference() throws IOException {
+        Entity entity = createSourceEntity();
+
+        DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
+        DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
+
+        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
+        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
+        String entityType = ENTITY_TYPE;
+        String tenantId = TENANT;
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+
+        Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
+
+        ErrorReport errorReport = new TestErrorReport();
+
+        EntityConfig oldEntityConfig = Mockito.mock(EntityConfig.class);
+        Mockito.when(entityConfigs.getEntityConfiguration(Mockito.anyString())).thenReturn(oldEntityConfig);
+        List<RefDef> references = new ArrayList<RefDef>();
+        Mockito.when(oldEntityConfig.getReferences()).thenReturn(references);
+
+        RefDef refDef1 = Mockito.mock(RefDef.class);
+        Ref ref1 = Mockito.mock(Ref.class);
+        Mockito.when(ref1.getEntityType()).thenReturn(ENTITY_TYPE);
+        Mockito.when(refDef1.getRef()).thenReturn(ref1);
+        references.add(refDef1);
+
+        RefDef refDef2 = Mockito.mock(RefDef.class);
+        Ref ref2 = Mockito.mock(Ref.class);
+        Mockito.when(ref2.getEntityType()).thenReturn("wrongEntityType");
+        Mockito.when(refDef2.getRef()).thenReturn(ref2);
+        references.add(refDef2);
+
+        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+
+        Assert.assertEquals(DID_VALUE, entity.getBody().get(DID_TARGET_FIELD));
+        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+
+        // unable to mock contextTaker.addContext() because return type is void
+        Mockito.verify(contextTaker, Mockito.times(1)).addContext(Mockito.eq(entity), Mockito.anyListOf(String.class),
+                Mockito.eq(""), Mockito.any(Query.class), Mockito.anyListOf(String.class));
     }
 
     @Test
@@ -350,7 +413,6 @@ public class DeterministicIdResolverTest {
 
         Assert.assertNull("Id should not have been resolved", entity.getBody().get(DID_TARGET_FIELD));
         Assert.assertFalse("No errors should be reported from reference resolution ", errorReport.hasErrors());
-        Mockito.verifyZeroInteractions(schemaRepository);
     }
 
     private DidEntityConfig createEntityConfig(String fileName) throws IOException {
