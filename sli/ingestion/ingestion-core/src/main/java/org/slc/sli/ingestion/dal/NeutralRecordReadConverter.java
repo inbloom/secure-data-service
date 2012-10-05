@@ -22,11 +22,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBObject;
+
 import org.springframework.core.convert.converter.Converter;
 
-import com.mongodb.DBObject;
+import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Spring converter registered in the Mongo configuration to convert DBObjects into MongoEntity.
@@ -82,6 +83,12 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
             isAssociation = Boolean.parseBoolean(map.get("association").toString());
         }
 
+        Map<String, Object> metaData = null;
+        if (map.containsKey("metaData")) {
+            metaData = (Map<String, Object>) map.get("metaData");
+            cleanMap(metaData);
+        }
+
         NeutralRecord neutralRecord = new NeutralRecord();
         if (map.get("localId") != null) {
             neutralRecord.setLocalId(map.get("localId").toString());
@@ -95,6 +102,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         neutralRecord.setCreationTime((Long) map.get("creationTime"));
         neutralRecord.setLocalParentIds(localParentIds);
         neutralRecord.setAssociation(isAssociation);
+        neutralRecord.setMetaData(metaData);
         return neutralRecord;
     }
 

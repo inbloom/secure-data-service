@@ -84,6 +84,14 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             cleanMap(localParentIds);
         }
 
+        Map<String, Object> metaData = neutralRecord.getMetaData();
+        if (metaData != null) {
+            // The old ingestion id resolver code used fields with "." in the name. This will cause the
+            // mongo driver to throw an exception. If one of those fields exist in an entity being
+            // saved to here, it is likely a legacy smooks config nobody bothered to update.
+            cleanMap(metaData);
+        }
+
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", neutralRecord.getRecordType());
         dbObj.put("_id", uid);
@@ -102,6 +110,8 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         } else {
             dbObj.put("creationTime", System.currentTimeMillis());
         }
+
+        dbObj.put("metaData", metaData);
 
         return dbObj;
     }
