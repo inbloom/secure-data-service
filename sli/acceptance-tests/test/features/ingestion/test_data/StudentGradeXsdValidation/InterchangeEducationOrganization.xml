@@ -106,5 +106,6 @@
       <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
-  <UniqueCourseId>1st-Grade-Homeroom-1</UniqueCourseId></Course>
+    <UniqueCourseId>1st-Grade-Homeroom-1</UniqueCourseId>
+  </Course>
 </InterchangeEducationOrganization>

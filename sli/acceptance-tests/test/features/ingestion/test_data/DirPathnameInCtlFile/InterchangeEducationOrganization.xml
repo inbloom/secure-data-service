@@ -67,5 +67,6 @@
 			<Credit>5</Credit>
 		</MaximumAvailableCredit>
 		<EducationOrganizationReference/>
-	<UniqueCourseId>A.P.-Calculus-1</UniqueCourseId></Course>
+		<UniqueCourseId>A.P.-Calculus-1</UniqueCourseId>
+	</Course>
 </InterchangeEducationOrganization>

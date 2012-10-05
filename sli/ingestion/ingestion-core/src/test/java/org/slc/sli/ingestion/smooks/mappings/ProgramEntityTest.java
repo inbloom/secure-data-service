@@ -21,13 +21,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -39,7 +42,12 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author vmcglaughlin
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ProgramEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
@@ -64,7 +72,7 @@ public class ProgramEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidNeutralRecord(neutralRecord);
     }

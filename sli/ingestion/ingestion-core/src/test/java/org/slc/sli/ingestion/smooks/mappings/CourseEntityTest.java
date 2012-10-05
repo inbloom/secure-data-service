@@ -31,6 +31,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
@@ -38,7 +39,7 @@ import org.xml.sax.SAXException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
+import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -53,6 +54,9 @@ public class CourseEntityTest {
 
     @Autowired
     private EntityValidator validator;
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     @Test
     public void testValidCourse() throws Exception {
@@ -102,13 +106,14 @@ public class CourseEntityTest {
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, testData);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                testData, recordLevelDeltaEnabledEntityNames);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("course");
 
-        IngestionDummyEntityRepository repo = mock(IngestionDummyEntityRepository.class);
+        DummyEntityRepository repo = mock(DummyEntityRepository.class);
         when(repo.exists("educationOrganization", "ID1")).thenReturn(true);
         PrivateAccessor.setField(validator, "validationRepo", repo);
 
@@ -166,7 +171,7 @@ public class CourseEntityTest {
                 + "</InterchangeEducationOrganization>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiCourseXml);
+                targetSelector, edfiCourseXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidCourseNeutralRecord(neutralRecord);
     }
