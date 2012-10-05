@@ -70,10 +70,6 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 						if(modalId === "#allPanelsModal") {
 							$rootScope.$broadcast("allPanelsModalDisplayed");
 						}
-						if(modalId === "#alertModal") {
-							$rootScope.$broadcast("alertModalDisplayed");
-
-						}
 						else {
 							$rootScope.$broadcast("modalDisplayed");
 						}
@@ -172,9 +168,11 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 
 			if(status) {
 				$(".publish_button").removeAttr("disabled").addClass("btn-primary");
+				$(".restore_button").removeAttr("disabled");
 			}
 			else {
 				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+				$(".restore_button").attr("disabled", "true");
 			}
 		}
 

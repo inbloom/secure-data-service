@@ -132,11 +132,11 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					// if user trying to navigate away from the selected tab without saving page-level changes,
 					// the save changes confirmation box will display.
 					if($rootScope.saveStatus) {
-						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+						dbSharedService.showModal("#alertModal", {mode: "alert"});
 
 						$scope.$on("leavePage", function () {
 							$scope.selectTab(pane);
-							$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+							dbSharedService.enableSaveButton(false);
 						});
 
 						return false;
@@ -191,7 +191,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					if($rootScope.saveStatus) {
 
 						$rootScope.addNewPage = true;
-						dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+						dbSharedService.showModal("#alertModal", {mode: "alert"});
 
 						// After 'restorePageAndAddNewPage' get triggered, the new tab/page will be added to the profile
 						$scope.$on("restorePageAndAddNewPage", function () {
