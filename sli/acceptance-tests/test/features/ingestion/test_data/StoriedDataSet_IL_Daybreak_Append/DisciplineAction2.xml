@@ -5,8 +5,6 @@
 		<DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
 		<Disciplines>
 		    <CodeValue>DISCIPLINE 001</CodeValue>
-            <ShortDescription>Discipline 001 description</ShortDescription>
-			<Description>Suspension from school for a week</Description>
 		</Disciplines>
 		<DisciplineDate>2011-04-04</DisciplineDate>
 		<DisciplineActionLength>74</DisciplineActionLength>
@@ -43,8 +41,6 @@
         <DisciplineActionIdentifier>cap0-lea0-sch1-da2</DisciplineActionIdentifier>
         <Disciplines>
             <CodeValue>DISCIPLINE 001</CodeValue>
-            <ShortDescription>Discipline 001 description</ShortDescription>
-            <Description>Suspension from school for a week</Description>
         </Disciplines>
         <DisciplineDate>2011-05-04</DisciplineDate>
         <DisciplineActionLength>74</DisciplineActionLength>

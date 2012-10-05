@@ -317,6 +317,17 @@ public class NeutralRecord {
         this.metaData = metaData;
     }
 
+    public void addMetaData(String name, Object value) {
+        this.metaData.put(name, value);
+    }
+
+    public Object getMetaDataByName(String name) {
+        if (this.metaData.containsKey(name)) {
+            return this.metaData.get(name);
+        }
+        return null;
+    }
+
     @Override
     public int hashCode() {
         return this.toString().hashCode();
