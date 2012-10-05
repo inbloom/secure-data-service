@@ -193,7 +193,10 @@
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/sections" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" }
+        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/disciplineActions" },
+        { "path": "/{id}/disciplineIncidents" },
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
     {
