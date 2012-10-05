@@ -1,27 +1,28 @@
 {
     "keyFields" : ["body.sectionId", "body.studentId"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.sectionId",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "section",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.uniqueSectionCode",
-		                "values" :
-		                [{
-			                "valueSource" : "body.sectionReference.sectionIdentity.uniqueSectionCode"
-		                }]
-		            },
-		            {
-	                    "path" : "body.schoolId",
-	                    "values" :
-	                    [{
-	                        "ref":
+            "entityType" : "section",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.sectionReference.sectionIdentity.uniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
                              {
                                  "entityType" : "school",
                                  "choiceOfFields" :
@@ -37,30 +38,31 @@
                                       ]
                                   ]
                              }
-	                    }]
-	                }
-	            ]
-	        ]
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.studentId",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

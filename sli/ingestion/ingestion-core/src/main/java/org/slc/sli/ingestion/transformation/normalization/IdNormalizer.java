@@ -109,9 +109,9 @@ public class IdNormalizer {
                 // Don't resolve references marked as deprecated, allows the transition to
                 // deterministicIdResolution
                 // TODO: uncomment when deterministic id reference resolution should be activated
-                // if (reference.isDeprecated()) {
-                // continue;
-                // }
+                 if (reference.isDeprecated()) {
+                     continue;
+                 }
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
                 NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());

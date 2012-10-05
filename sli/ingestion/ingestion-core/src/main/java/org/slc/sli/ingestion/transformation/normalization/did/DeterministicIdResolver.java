@@ -27,12 +27,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
+import org.slc.sli.ingestion.transformation.normalization.Ref;
+import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
@@ -60,6 +67,12 @@ public class DeterministicIdResolver {
 
     @Autowired
     private SchemaRepository schemaRepository;
+
+    @Autowired
+    private EntityConfigFactory entityConfigurations;
+
+    @Autowired
+    private ContextTaker contextTaker;
 
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
@@ -112,7 +125,7 @@ public class DeterministicIdResolver {
                 }
 
                 if (referenceObject instanceof List) {
-                    //handle a lists of reference object
+                    //handle a list of reference objects
                     @SuppressWarnings("unchecked")
                     List<Object> refList = (List<Object>) referenceObject;
                     List<String> uuidList = new ArrayList<String>();
@@ -129,6 +142,7 @@ public class DeterministicIdResolver {
                         }
                     }
                     PropertyUtils.setProperty(entity, didFieldPath, uuidList);
+                    System.out.println(entity.getType());
                 } else {
                     //handle a single reference object
                     @SuppressWarnings("unchecked")
@@ -137,7 +151,27 @@ public class DeterministicIdResolver {
                     String uuid = getId(reference, tenantId, didRefConfig);
                     if (uuid != null && !uuid.isEmpty()) {
                         PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                        LOG.debug("Sed a DID for entity " + entity + ": " + uuid);
+                        LOG.debug("Set a DID for entity " + entity + ": " + uuid);
+
+                        // START - takesContext work
+                        // TODO move out of here into separate class
+                        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+                        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
+                            for (RefDef rd : oldEntityConfig.getReferences()) {
+                                Ref ref = rd.getRef();
+                                if (ref!= null && ref.getTakesContext() != null
+                                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
+                                    Criteria criteria = Criteria.where("_id").is(uuid);
+                                    Query filter = new Query(criteria);
+                                    List<String> ids = new ArrayList<String>();
+                                    List<String> takesContext = ref.getTakesContext();
+
+                                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
+                                }
+                            }
+                        }
+                        // END - takesContext work
+
                     } else {
                         // TODO key and value below aren't what we want
                         throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);

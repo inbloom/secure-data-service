@@ -4,7 +4,7 @@
     [
         {
             "keyFieldName" : "uniqueSectionCode",
-            "valueSource" : "SectionIdentity.UniqueSectionCode"
+            "valueSource" : "sectionIdentity.uniqueSectionCode"
         },
         {
             "keyFieldName" : "schoolId",
@@ -15,7 +15,7 @@
                 [
                     {
                         "keyFieldName" : "stateOrganizationId",
-                        "valueSource" : "SectionIdentity.StateOrganizationId"
+                        "valueSource" : "sectionIdentity.stateOrganizationId"
                     }
                 ]
             }
