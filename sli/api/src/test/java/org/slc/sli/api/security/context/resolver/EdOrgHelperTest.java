@@ -76,8 +76,8 @@ public class EdOrgHelperTest {
     @Before
     public void setup() {
         
-        repo.deleteAll("educationOrganization");
-        repo.deleteAll("staff");
+        repo.deleteAll("educationOrganization", null);
+        repo.deleteAll("staff", null);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");

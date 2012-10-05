@@ -27,7 +27,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.bson.BasicBSONObject;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -38,16 +42,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
@@ -60,12 +54,6 @@ public class MockRepo implements Repository<Entity> {
     public boolean collectionExists(String collection) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
     }
 
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
@@ -459,7 +447,7 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String entityType) {
+    public void deleteAll(String entityType, NeutralQuery query) {
         Map<String, Entity> repository = repo.get(entityType);
         if (repository != null) {
             repository.clear();
@@ -473,24 +461,12 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String entityType) {
-        List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
-        return all;
-    }
-
-    @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
         return ((List<?>) findAll(collectionName, neutralQuery)).size();
     }
 
     private String generateId() {
         return UUID.randomUUID().toString();
-    }
-
-    @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // Not implemented
-        return null;
     }
 
     @Override
@@ -552,18 +528,7 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public CommandResult execute(DBObject command) {
-        return null;
-    }
-
-    @Override
     public DBCollection getCollection(String collectionName) {
-        return null;
-    }
-
-    @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -610,24 +575,10 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
     }
-
-
-    @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        return null;
-    }
-
 
     @Override
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {

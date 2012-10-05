@@ -117,6 +117,10 @@ public final class InterchangeStudentGradeGenerator {
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
         gradingPeriodItentity.setSchoolYear(gpMeta.getBeginData() + "-" + gpMeta.getEndDate());
         gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+       
+       // gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        //orignal wrong code
+        
         gradingPeriodItentity.setStateOrganizationId(schoolId);
         return gradingPeriodRef;
     }
@@ -476,8 +480,9 @@ public final class InterchangeStudentGradeGenerator {
                     JAXBElement<String> oid = factory
                             .createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(ID_PREFIX_SCO
                                     + reportCardId + "_" + scoId);
-                    scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
-                    scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
+                   scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
+                    //lina
+                     scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
 
                     LearningObjectiveReferenceType learningObjectiveRef = null;
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef,
