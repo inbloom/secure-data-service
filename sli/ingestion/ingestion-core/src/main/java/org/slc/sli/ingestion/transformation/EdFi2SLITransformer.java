@@ -159,7 +159,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
-        // TODO: uncomment when deterministic id reference resolution should be activated
         didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);

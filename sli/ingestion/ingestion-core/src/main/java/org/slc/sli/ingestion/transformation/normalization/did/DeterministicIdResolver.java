@@ -135,14 +135,13 @@ public class DeterministicIdResolver {
                         String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                         if (uuid != null && !uuid.isEmpty()) {
                             uuidList.add(uuid);
-                            LOG.debug("Set a DID for an entity in a list " + entity + ": " + uuid);
+                            addContext(entity, uuid, didRefConfig, collectionName);
                         } else {
                             // TODO key and value below aren't what we want
                             throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
                         }
                     }
                     PropertyUtils.setProperty(entity, didFieldPath, uuidList);
-                    System.out.println(entity.getType());
                 } else {
                     //handle a single reference object
                     @SuppressWarnings("unchecked")
@@ -151,27 +150,7 @@ public class DeterministicIdResolver {
                     String uuid = getId(reference, tenantId, didRefConfig);
                     if (uuid != null && !uuid.isEmpty()) {
                         PropertyUtils.setProperty(entity, didFieldPath, uuid);
-                        LOG.debug("Set a DID for entity " + entity + ": " + uuid);
-
-                        // START - takesContext work
-                        // TODO move out of here into separate class
-                        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-                        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
-                            for (RefDef rd : oldEntityConfig.getReferences()) {
-                                Ref ref = rd.getRef();
-                                if (ref!= null && ref.getTakesContext() != null
-                                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
-                                    Criteria criteria = Criteria.where("_id").is(uuid);
-                                    Query filter = new Query(criteria);
-                                    List<String> ids = new ArrayList<String>();
-                                    List<String> takesContext = ref.getTakesContext();
-
-                                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
-                                }
-                            }
-                        }
-                        // END - takesContext work
-
+                        addContext(entity, uuid, didRefConfig, collectionName);
                     } else {
                         // TODO key and value below aren't what we want
                         throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
@@ -187,6 +166,27 @@ public class DeterministicIdResolver {
                 handleException(sourceRefPath, entityType, collectionName, e, errorReport);
             } catch (IdResolutionException e) {
                 handleException(sourceRefPath, entityType, collectionName, e, errorReport);
+            }
+        }
+    }
+
+    // This logic would ideally be performed outside of this class.
+    // However, this would duplicate the setup (looping, etc) already present here.
+    // This logic will be removed in the near future, so not refactoring.
+    private void addContext(Entity entity, String uuid, DidRefConfig didRefConfig, String collectionName) {
+        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
+            for (RefDef rd : oldEntityConfig.getReferences()) {
+                Ref ref = rd.getRef();
+                if (ref != null && ref.getTakesContext() != null
+                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
+                    Criteria criteria = Criteria.where("_id").is(uuid);
+                    Query filter = new Query(criteria);
+                    List<String> ids = new ArrayList<String>();
+                    List<String> takesContext = ref.getTakesContext();
+
+                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
+                }
             }
         }
     }

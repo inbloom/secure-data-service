@@ -21,6 +21,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
+/**
+ * Test cases for ContextTaker.
+ * @author vmcglaughlin
+ *
+ */
 public class ContextTakerTest {
 
     @InjectMocks
