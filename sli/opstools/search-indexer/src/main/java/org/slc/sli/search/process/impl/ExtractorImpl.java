@@ -54,19 +54,23 @@ public class ExtractorImpl implements Extractor {
     private int executorThreads = DEFAULT_EXECUTOR_THREADS;
 
     private boolean runOnStartup = false;
+    
+    public void destroy() {
+    }
 
     public void init() {
-        new File(extractDir).mkdirs();
+        createExtractDir();
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
             execute();
         }
     }
-
-    public void destroy() {
-
+    public void createExtractDir() {
+        new File(extractDir).mkdirs();
     }
+
+
 
     /*
      * (non-Javadoc)

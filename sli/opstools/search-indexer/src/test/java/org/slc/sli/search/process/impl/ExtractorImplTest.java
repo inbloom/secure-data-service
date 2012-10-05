@@ -35,6 +35,7 @@ public class ExtractorImplTest {
 
     @Before
     public void init() throws IOException {
+        extractor.createExtractDir();
         (new File(INBOX)).mkdirs();
         deleteFolder(INBOX);
         indexEntityConfigStore = new IndexEntityConfigStore("index-config-test.json");
