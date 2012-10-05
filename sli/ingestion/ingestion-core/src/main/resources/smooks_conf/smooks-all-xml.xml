@@ -2019,10 +2019,11 @@
     <jb:wiring property="classRanking" beanIdRef="studentAcademicRecordClassRanking" />
     <jb:value property="studentId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="sessionId" data="StudentAcademicRecord/SessionReference/SessionIdentity/SessionName" />
+    <jb:wiring property="reportCards" beanIdRef="reportCard_array" />
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordClassRanking" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ClassRanking">
     <jb:value property="classRank" data="StudentAcademicRecord/ClassRanking/ClassRank" decoder="Integer" />
     <jb:value property="totalNumberInClass" data="StudentAcademicRecord/ClassRanking/TotalNumberInClass" decoder="Integer" />
     <jb:value property="percentageRanking" data="StudentAcademicRecord/ClassRanking/PercentageRanking" decoder="Integer" />
@@ -2030,17 +2031,28 @@
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsEarnedValue" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/CumulativeCreditsEarned">
     <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsEarned/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditType" />
     <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditConversion" decoder="Double"/>
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsAttemptedValue" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord/CumulativeCreditsAttempted">
     <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsAttempted/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditType" />
     <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditConversion" decoder="Double" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCard_array" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference">
+    <jb:wiring beanIdRef="reportCard_reference" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCard_reference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference">
+    <jb:value property="studentId" data="ReportCardReference/ReportCardIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="gradingPeriod" data="ReportCardReference/ReportCardIdentity/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
+    <jb:value property="schoolYear" data="ReportCardReference/ReportCardIdentity/GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
+    <jb:value property="stateOrganizationId" data="ReportCardReference/ReportCardIdentity/GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
   </jb:bean>
 
   <!-- Start StudentTranscriptAssociation mapping -->
