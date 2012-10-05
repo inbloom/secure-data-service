@@ -2620,7 +2620,7 @@ such as Displaced Homemaker, Immigrant, Migratory, Military Parent, Pregnant Tee
 							<xs:documentation>The session associated with the session.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ReportCardReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ReportCardReference" type="ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Report cards for the student.</xs:documentation>
 						</xs:annotation>
@@ -4702,6 +4702,39 @@ Second grade
 			<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportCardReferenceType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="ReportCardIdentity" type="ReportCardIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportCardIdentityType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
