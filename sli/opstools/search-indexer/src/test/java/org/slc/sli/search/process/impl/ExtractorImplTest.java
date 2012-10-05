@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import junit.framework.Assert;
+
+import com.mongodb.DBCursor;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexEntityConfigStore;
-import org.slc.sli.search.util.MockMongoTemplateFactory;
+import org.slc.sli.search.util.MockDBCursorFactory;
 
 /**
  * current student.json for mock data has 192 records
@@ -23,14 +26,18 @@ public class ExtractorImplTest {
 
     private static final String INBOX = "inbox-test";
     private IndexEntityConfigStore indexEntityConfigStore;
-    private ExtractorImpl extractor = new ExtractorImpl();
+    private ExtractorImpl extractor = new ExtractorImpl() {
+        protected DBCursor getDBCursor(String collectionName, List<String> fields) {
+            // get cursor from static file
+            return MockDBCursorFactory.create(collectionName);
+        } 
+    };
 
     @Before
     public void init() throws IOException {
         (new File(INBOX)).mkdirs();
         deleteFolder(INBOX);
         indexEntityConfigStore = new IndexEntityConfigStore("index-config-test.json");
-        extractor.setMongoTemplate(MockMongoTemplateFactory.create());
         extractor.setIndexEntityConfigStore(indexEntityConfigStore);
         extractor.setInboxDir(INBOX);
     }
@@ -39,7 +46,10 @@ public class ExtractorImplTest {
     public void destroy() {
         deleteFolder(INBOX);
     }
-
+/**
+ * Test to count number of files and lines in each file
+ * @throws Exception
+ */
     @Test
     public void testFileCounts() throws Exception {
         // set max lines per file is 10

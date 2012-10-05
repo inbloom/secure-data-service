@@ -1,7 +1,5 @@
 package org.slc.sli.search.util;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +17,6 @@ import com.mongodb.util.JSON;
 import org.apache.commons.io.IOUtils;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.search.util.MongoTemplateWrapper.DBCollectionWrapper;
 
 /**
  * Factory class for Mocking Mongo Template
@@ -27,42 +24,27 @@ import org.slc.sli.search.util.MongoTemplateWrapper.DBCollectionWrapper;
  * @author tosako
  * 
  */
-public class MockMongoTemplateFactory {
+public class MockDBCursorFactory {
 
     private LinkedList<DBObject> jsonArray = new LinkedList<DBObject>();
 
-    private MockMongoTemplateFactory() {
+    private MockDBCursorFactory() {
     }
-
-    /**
-     * factory method to create MongoTemplateWrapper.
-     * 
-     * @return
-     */
-    public static MongoTemplateWrapper create() {
-        MongoTemplateWrapper mongotemplate = mock(MongoTemplateWrapper.class);
-
-        // when getColleciton method is called, then read JSON file from resource by give name.
-        // Finally, create DBCollectionWrapper class.
-        when(mongotemplate.getCollection(anyString())).thenAnswer(new Answer<DBCollectionWrapper>() {
-            public DBCollectionWrapper answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                String collection = (String) args[0];
-                return (new MockMongoTemplateFactory()).createDBCollection(collection);
-            }
-        });
-        return mongotemplate;
+    
+    public static DBCursor create(String collection) {
+        return (new MockDBCursorFactory()).createDBCursor(collection);
     }
 
     /**
      * Create DBCollectionWrapper.
      * Since this is mocking data, Date source comes from file in resource directory.
      * If a file does not exist, it returns null object.
+     * 
      * @param collection
      * @return
      */
-    private DBCollectionWrapper createDBCollection(String collection) {
-        DBCollectionWrapper dbColelction = null;
+    public DBCursor createDBCursor(String collection) {
+        DBCursor cursor = mock(DBCursor.class);
         BufferedReader br = null;
         File jsonFile = new File(DBCollection.class.getClassLoader().getResource(collection + ".json").getFile());
 
@@ -71,21 +53,17 @@ public class MockMongoTemplateFactory {
                 br = new BufferedReader(new FileReader(jsonFile));
                 String line;
 
-                DBCursor cursor = mock(DBCursor.class);
-                dbColelction = mock(DBCollectionWrapper.class);
                 while ((line = br.readLine()) != null) {
                     DBObject bson = (DBObject) JSON.parse(line);
                     jsonArray.add(bson);
                 }
-
-                when(dbColelction.find(any(DBObject.class), any(DBObject.class))).thenReturn(cursor);
 
                 when(cursor.hasNext()).thenAnswer(new Answer<Boolean>() {
                     public Boolean answer(InvocationOnMock invocation) throws Throwable {
                         return !jsonArray.isEmpty();
                     }
                 });
-                
+
                 when(cursor.next()).thenAnswer(new Answer<DBObject>() {
                     public DBObject answer(InvocationOnMock invocation) throws Throwable {
                         return jsonArray.remove();
@@ -100,6 +78,6 @@ public class MockMongoTemplateFactory {
                 IOUtils.closeQuietly(br);
             }
         }
-        return dbColelction;
+        return cursor;
     }
 }
