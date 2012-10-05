@@ -47,10 +47,10 @@
     </jb:bean>
 
     <jb:bean beanId="classRanking" class="java.util.HashMap" createOnElement="attributes classRanking">
-        <jb:value property="classRank" data="attributes classRanking credit" decoder="Integer" />
-        <jb:value property="totalNumberInClass" data="attributes classRanking creditType" decoder="Integer" />
-        <jb:value property="percentageRanking" data="attributes classRanking creditConversion" decoder="Integer" />
-        <jb:value property="classRankingDate" data="attributes classRanking creditConversion" />
+        <jb:value property="classRank" data="attributes classRanking classRank" decoder="Integer" />
+        <jb:value property="totalNumberInClass" data="attributes classRanking totalNumberInClass" decoder="Integer" />
+        <jb:value property="percentageRanking" data="attributes classRanking percentageRanking" decoder="Integer" />
+        <jb:value property="classRankingDate" data="attributes classRanking classRankingDate" />
     </jb:bean>
 
     <jb:bean beanId="studentAcademicRecord_reportCardArray" class="java.util.ArrayList" createOnElement="attributes reportCards">
