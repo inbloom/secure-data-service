@@ -13,10 +13,10 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="AssessmentFamily" type="AssessmentFamily"/>
-				<xs:element name="Assessment" type="Assessment"/>
+				<xs:element name="Assessment" type="SLI-AssessmentExtension"/>
 				<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
 				<xs:element name="PerformanceLevelDescriptor" type="PerformanceLevelDescriptor"/>
-				<xs:element name="ObjectiveAssessment" type="ObjectiveAssessment"/>
+				<xs:element name="ObjectiveAssessment" type="SLI-ObjectiveAssessmentExtension"/>
 				<xs:element name="AssessmentItem" type="AssessmentItem"/>
 				<xs:element name="LearningObjective" type="LearningObjective"/>
 				<xs:element name="LearningStandard" type="LearningStandard"/>

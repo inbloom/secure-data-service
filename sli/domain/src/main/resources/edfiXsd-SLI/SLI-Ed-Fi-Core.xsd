@@ -61,13 +61,21 @@
           <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="SLI-ObjectiveAssessmentExtension">
+    <xs:complexContent>
+      <xs:extension base="SLI-ObjectiveAssessmentRestriction">
+        <xs:sequence>
+          <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-  <!-- Make StudentSectionAssociationReference required -->
+   <!--Make StudentSectionAssociationReference required -->
   <xs:complexType name="SLI-StudentCompetencyRestriction">
     <xs:complexContent>
       <xs:restriction base="StudentCompetency">
@@ -84,6 +92,181 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <!-- Make StudentCompetencyObjectiveId required -->
+  <xs:complexType name="SLI-StudentCompetencyObjectiveRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StudentCompetencyObjective">
+        <xs:sequence>
+          <xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode" />
+          <xs:element name="Objective" type="Objective" />
+          <xs:element name="Description" type="Description" minOccurs="0" />
+          <xs:element name="ObjectiveGradeLevel" type="GradeLevelType" />
+          <xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Limit StaffReference and CohortReference to 1 -->
+  <xs:complexType name="SLI-StaffCohortAssociationRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StaffCohortAssociation">
+        <xs:sequence>
+          <xs:element name="StaffReference" type="StaffReferenceType" />
+          <xs:element name="CohortReference" type="CohortReferenceType" />
+          <xs:element name="BeginDate" type="xs:date" />
+          <xs:element name="EndDate" type="xs:date" minOccurs="0" />
+          <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Limit StaffReference and ProgramReference to 1 -->
+  <xs:complexType name="SLI-StaffProgramRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StaffProgramAssociation">
+        <xs:sequence>
+          <xs:element name="StaffReference" type="StaffReferenceType" />
+          <xs:element name="ProgramReference" type="ProgramReferenceType" />
+          <xs:element name="BeginDate" type="xs:date" />
+          <xs:element name="EndDate" type="xs:date" minOccurs="0" />
+          <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Make BeginDate required field on StudentSectionAssociation -->
+  <xs:complexType name="SLI-StudentSectionAssociationRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StudentSectionAssociation">
+        <xs:sequence>
+          <xs:element name="StudentReference" type="StudentReferenceType" />
+          <xs:element name="SectionReference" type="SectionReferenceType" />
+          <xs:element name="BeginDate" type="xs:date" />
+          <xs:element name="EndDate" type="xs:date" minOccurs="0" />
+          <xs:element name="HomeroomIndicator" type="xs:boolean" minOccurs="0" />
+          <xs:element name="RepeatIdentifier" type="RepeatIdentifierType" minOccurs="0" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Limit SchoolReference to 1 on TeacherSchoolAssociation -->
+  <xs:complexType name="SLI-TeacherSchoolAssociationRestriction">
+    <xs:complexContent>
+      <xs:restriction base="TeacherSchoolAssociation">
+        <xs:sequence>
+          <xs:element name="TeacherReference" type="StaffReferenceType" />
+          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="ProgramAssignment" type="ProgramAssignmentType" />
+          <xs:element name="InstructionalGradeLevels" type="GradeLevelsType" />
+          <xs:element name="AcademicSubjects" type="AcademicSubjectsType" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType -->
+  <xs:complexType name="SLI-AssessmentRestriction">
+    <xs:complexContent>
+      <xs:restriction base="Assessment">
+        <xs:sequence>
+          <xs:element name="AssessmentTitle" type="AssessmentTitle" />
+          <xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded" />
+          <xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0" />
+          <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0" />
+          <xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0" />
+          <xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0" />
+          <xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0" />
+          <xs:element name="AssessmentForm" type="AssessmentForm" minOccurs="0" />
+          <xs:element name="Version" type="Version" minOccurs="0" />
+          <xs:element name="RevisionDate" type="xs:date" minOccurs="0" />
+          <xs:element name="MaxRawScore" type="xs:int" minOccurs="0" />
+          <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
+          <xs:element name="AssessmentPeriod" type="AssessmentPeriodDescriptorType" minOccurs="0" />
+          <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0" />
+          <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SLI-AssessmentExtension">
+    <xs:complexContent>
+      <xs:extension base="SLI-AssessmentRestriction">
+        <xs:sequence>
+          <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
+       to GraduationPlanReference type -->
+  <xs:complexType name="SLI-StudentSchoolAssociationRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StudentSchoolAssociation">
+        <xs:sequence>
+          <xs:element name="StudentReference" type="StudentReferenceType" />
+          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0" />
+          <xs:element name="EntryDate" type="xs:date" />
+          <xs:element name="EntryGradeLevel" type="GradeLevelType" />
+          <xs:element name="EntryType" type="EntryType" minOccurs="0" />
+          <xs:element name="RepeatGradeIndicator" type="xs:boolean" minOccurs="0" />
+          <xs:element name="ClassOf" type="SchoolYearType" minOccurs="0" />
+          <xs:element name="SchoolChoiceTransfer" type="xs:boolean" minOccurs="0" />
+          <xs:element name="ExitWithdrawDate" type="xs:date" minOccurs="0" />
+          <xs:element name="ExitWithdrawType" type="ExitWithdrawType" minOccurs="0" />
+          <xs:element name="EducationalPlans" type="EducationalPlansType" minOccurs="0" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SLI-StudentSchoolAssociationExtension">
+    <xs:complexContent>
+      <xs:extension base="SLI-StudentSchoolAssociationRestriction">
+        <xs:sequence>
+          <xs:element name="GraduationPlanReference" type="SLI-GraduationPlanReferenceType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Change type of StudentGradebookEntry.GradebookEntryReference to type GradebookEntryReference -->
+  <!--<xs:complexType name="SLI-StudentGradebookEntryRestriction">-->
+    <!--<xs:complexContent>-->
+      <!--<xs:restriction base="StudentGradebookEntry">-->
+        <!--<xs:sequence>-->
+          <!--<xs:element name="DateFulfilled" type="xs:date" minOccurs="0" />-->
+          <!--<xs:element name="LetterGradeEarned" minOccurs="0">-->
+            <!--<xs:simpleType>-->
+              <!--<xs:restriction base="GradeEarned">-->
+                <!--<xs:maxLength value="20"/>-->
+              <!--</xs:restriction>-->
+            <!--</xs:simpleType>-->
+          <!--</xs:element>-->
+          <!--<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0" />-->
+          <!--<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0" />-->
+          <!--<xs:element name="DiagnosticStatement" type="text" minOccurs="0" />-->
+          <!--<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" />-->
+        <!--</xs:sequence>-->
+      <!--</xs:restriction>-->
+    <!--</xs:complexContent>-->
+  <!--</xs:complexType>-->
+  <!--<xs:complexType name="SLI-StudentGradebookEntryExtension">-->
+    <!--<xs:complexContent>-->
+      <!--<xs:extension base="StudentGradebookEntry">-->
+        <!--<xs:sequence>-->
+          <!--<xs:element name="GradebookEntryReference" type="SLI-GradebookEntryReferenceType" minOccurs="0"/>-->
+        <!--</xs:sequence>-->
+      <!--</xs:extension>-->
+    <!--</xs:complexContent>-->
+  <!--</xs:complexType>-->
+
   <xs:simpleType name="SLI-UniqueCourseId">
     <xs:annotation>
       <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
@@ -93,5 +276,77 @@
       <xs:maxLength value="60"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:complexType name="SLI-GraduationPlanReferenceType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ReferenceType">
+        <xs:sequence>
+          <xs:element name="GraduationPlanIdentity" type="SLI-GraduationPlanIdentityType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation/>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SLI-GradebookEntryReferenceType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ReferenceType">
+        <xs:sequence>
+          <xs:element name="GradebookEntryIdentity" type="SLI-GradebookEntryIdentityType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation/>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SLI-GraduationPlanIdentityType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="GraduationPlanType" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TotalCreditsRequired" type="Credits" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SLI-GradebookEntryIdentityType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="GradebookEntryType" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DateAssigned" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
 </xs:schema>

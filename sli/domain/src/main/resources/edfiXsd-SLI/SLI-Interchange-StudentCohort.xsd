@@ -14,7 +14,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="Cohort" type="Cohort"/>
 				<xs:element name="StudentCohortAssociation" type="StudentCohortAssociation"/>
-				<xs:element name="StaffCohortAssociation" type="StaffCohortAssociation"/>
+				<xs:element name="StaffCohortAssociation" type="SLI-StaffCohortAssociationRestriction"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
