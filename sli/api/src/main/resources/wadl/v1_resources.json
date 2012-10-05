@@ -133,9 +133,11 @@
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
-        { "path": "/{id}/studentCompetencyObjectives" },
         { "path": "/{id}/graduationPlans" },
-        { "path": "/{id}/cohorts" }
+        { "path": "/{id}/cohorts" },
+        { "path": "/{id}/educationOrganizations" },
+        { "path": "/{id}/schools" },
+        { "path": "/{id}/studentCompetencyObjectives" }
       ]
     },
     {
