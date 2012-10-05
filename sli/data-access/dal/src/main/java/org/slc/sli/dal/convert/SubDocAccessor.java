@@ -42,6 +42,8 @@ public class SubDocAccessor {
 //        // assessments field
 //        store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
 //                .register();
+
+        store("studentSectionAssociation").within("section").as("studentAssociations").mapping("sectionId", "_id").register();
     }
 
     /**
