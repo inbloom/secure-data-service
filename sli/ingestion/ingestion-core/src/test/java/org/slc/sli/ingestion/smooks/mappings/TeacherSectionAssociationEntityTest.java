@@ -31,6 +31,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,6 +50,9 @@ import org.slc.sli.validation.EntityValidator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSectionAssociationEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     @InjectMocks
     @Autowired
@@ -137,7 +141,8 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
-    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingTeacherReference);
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+            invalidXmlMissingTeacherReference, recordLevelDeltaEnabledEntityNames);
 
     Entity e = mock(Entity.class);
     when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -164,7 +169,8 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
-    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSectionReference);
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+            invalidXmlMissingSectionReference, recordLevelDeltaEnabledEntityNames);
 
     Entity e = mock(Entity.class);
     when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -195,7 +201,8 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
-    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingClassroomPosition);
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+            invalidXmlMissingClassroomPosition, recordLevelDeltaEnabledEntityNames);
 
     Entity e = mock(Entity.class);
     when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -227,7 +234,8 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
-    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlIncorrectEnum);
+    NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+            invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames);
 
     Entity e = mock(Entity.class);
     when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -247,7 +255,7 @@ public class TeacherSectionAssociationEntityTest {
         String csvTestData = "333333332,NCES Pilot SNCCS course code,ELU,23,,,Jane,Sarah,Smith,Ms,III,Jimenez,Alias,Ms,Jo,Gannon,Grant,II,Female,1999-07-12,true,White,Mobile,410-555-0248,true,Home/Personal,sjsmith@email.com,123456111,Summer Semester,2010-2011,A03,CC100,MATH1,NCES Pilot SNCCS course code,ELU,23,1998-01-01,2008-01-01,true,Teacher of Record";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                csvTestData);
+                csvTestData, recordLevelDeltaEnabledEntityNames);
 
         checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
 
@@ -259,7 +267,7 @@ public class TeacherSectionAssociationEntityTest {
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-                targetSelector, xmlTestData);
+                targetSelector, xmlTestData, recordLevelDeltaEnabledEntityNames);
 
         checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
    }
