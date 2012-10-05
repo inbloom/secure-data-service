@@ -142,3 +142,4 @@ public class SmooksFileHandlerTest {
         Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());
     }
 }
+
