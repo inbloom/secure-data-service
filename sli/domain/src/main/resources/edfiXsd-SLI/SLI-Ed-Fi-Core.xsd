@@ -75,6 +75,53 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <!-- Change StudentAssessmentItem.StudentAssessmentReference to StudentAssessmentReferenceType -->
+  <xs:complexType name="SLI-StudentAssessmentItemRestriction">
+    <xs:complexContent>
+      <xs:restriction base="StudentAssessmentItem">
+        <xs:sequence>
+          <xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0" />
+          <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0" />
+          <xs:element name="AssessmentItemResult" type="AssessmentItemResultType" />
+          <xs:element name="RawScoreResult" type="xs:int" minOccurs="0" />
+          <xs:element name="StudentObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" />
+          <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SLI-StudentAssessmentItemExtension">
+    <xs:complexContent>
+      <xs:extension base="SLI-StudentAssessmentItemRestriction">
+        <xs:sequence>
+          <xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType -->
+  <!--<xs:complexType name="SLI-StudentObjectiveAssessmentRestriction">-->
+    <!--<xs:complexContent>-->
+      <!--<xs:restriction base="StudentObjectiveAssessment">-->
+        <!--<xs:sequence>-->
+          <!--<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded" />-->
+          <!--<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />-->
+          <!--<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" />-->
+        <!--</xs:sequence>-->
+      <!--</xs:restriction>-->
+    <!--</xs:complexContent>-->
+  <!--</xs:complexType>-->
+  <!--<xs:complexType name="SLI-StudentObjectiveAssessmentExtension">-->
+    <!--<xs:complexContent>-->
+      <!--<xs:extension base="SLI-StudentObjectiveAssessmentRestriction">-->
+        <!--<xs:sequence>-->
+          <!--<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType" />-->
+        <!--</xs:sequence>-->
+      <!--</xs:extension>-->
+    <!--</xs:complexContent>-->
+  <!--</xs:complexType>-->
+
    <!--Make StudentSectionAssociationReference required -->
   <xs:complexType name="SLI-StudentCompetencyRestriction">
     <xs:complexContent>
