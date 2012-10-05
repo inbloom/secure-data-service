@@ -55,7 +55,9 @@
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="repo"  name="validationRepo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
+  <bean id="repo"  name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">
+     <constructor-arg value="true" type="boolean" />
+  </bean>
 
   <context:annotation-config />
 

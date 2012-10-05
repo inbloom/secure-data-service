@@ -1,15 +1,15 @@
 <StudentAssessmentIdentity>
-    <AdministrationDate>${StudentObjectiveAssessment.StudentAssessmentReference.StudentAssessmentIdentity.AdministrationDate}</AdministrationDate>
+    <AdministrationDate>${StudentAssessment.AdministrationDate}</AdministrationDate>
     <StudentReference>
         <StudentIdentity>
-            <StudentUniqueStateId>${StudentObjectiveAssessment.StudentAssessmentReference.StudentAssessmentIdentity.StudentReference.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
+            <StudentUniqueStateId>${StudentAssessment.StudentReference.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
         </StudentIdentity>
     </StudentReference>
     <AssessmentReference>
         <AssessmentIdentity>
             <AssessmentIdentificationCode>
-                IdentificationSystem="${StudentObjectiveAssessment.StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.@IdentificationSystem}"
-                <ID>${StudentObjectiveAssessment.StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID}</ID>
+                IdentificationSystem="${StudentAssessment.AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.@IdentificationSystem}"
+                <ID>${StudentAssessment.AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID}</ID>
             </AssessmentIdentificationCode>
         </AssessmentIdentity>
     </AssessmentReference>

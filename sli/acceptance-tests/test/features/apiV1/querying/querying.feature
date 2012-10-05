@@ -41,3 +41,11 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "reportCards"    | "gpaCumulative"         | ">="     | "3.65"             | 2                 | "double"  |
     | "reportCards"    | "gpaCumulative"         | "!="     | "3.65"             | 1                 | "double"  |
     | "reportCards"    | "gpaCumulative"         | "="      | "3.65"             | 1                 | "double"  |
+
+Scenario: Test that include fields only affect body fields (type remains)
+  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/json"
+   When I navigate to GET "/v1/students/0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba?includeFields=name,sex"
+   Then the "name" should be "Lashawn" "Lawrence" "Aldama"
+    And the "sex" should be "Male"
+    And the "entityType" should be "student"

@@ -35,6 +35,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -188,7 +189,7 @@ public class IngestionTest {
     
     public static long getTotalCountOfEntityInRepository(Repository repository, String entityType) {
         int count = 0;
-        Iterator<Entity> entities = repository.findAll(entityType).iterator();
+        Iterator<Entity> entities = repository.findAll(entityType, new NeutralQuery()).iterator();
         
         while (entities.hasNext()) {
             count++;

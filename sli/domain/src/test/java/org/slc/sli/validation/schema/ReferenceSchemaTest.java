@@ -23,14 +23,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,8 +35,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 
@@ -63,7 +55,7 @@ public class ReferenceSchemaTest {
     SchemaRepository schemaRepository;
 
     private ReferenceSchema spySchema;
-    private ValidationRepo repo = new ValidationRepo();
+    private DummyEntityRepository repo = new DummyEntityRepository();
     private static final String UUID = "123456789";
     private static final String REFERENCED_COLLECTION = "section";
     private static final String REFERENCE_FIELDNAME = "courseId";
@@ -96,230 +88,5 @@ public class ReferenceSchemaTest {
 
         assertFalse("Invalid Reference entity validation failed",
                 spySchema.validate(REFERENCE_FIELDNAME, "45679", errors, repo));
-    }
-
-    /**
-     * Mock repo class
-     *
-     * @author srupasinghe
-     *
-     */
-    static class ValidationRepo implements Repository<Entity> {
-        Map<String, List<Entity>> data = new HashMap<String, List<Entity>>();
-
-        public void addEntity(String collectionName, Entity entity) {
-            if (data.get(collectionName) != null) {
-                data.get(collectionName).add(entity);
-            } else {
-                List<Entity> list = new ArrayList<Entity>();
-                list.add(entity);
-
-                data.put(collectionName, list);
-            }
-        }
-
-        @Override
-        public boolean collectionExists(String collection) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public void createCollection(String collection) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public Entity findById(String collectioName, String id) {
-            List<Entity> list = data.get(collectioName);
-
-            for (Entity e : list) {
-                if (e.getEntityId().equals(id)) {
-                    return e;
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findAll(String collectionName, NeutralQuery query) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findAll(String collectioName) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean update(String collection, Entity entity) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public Entity create(String type, Map<String, Object> body) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Entity create(String type, Map<String, Object> body, String collectionName) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean delete(String collectionName, String id) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public void deleteAll(String collectionName) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths,
-                NeutralQuery neutralQuery) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public long count(String collectionName, NeutralQuery query) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public Entity findOne(String collectionName, NeutralQuery query) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public CommandResult execute(DBObject command) {
-            return null;
-        }
-
-        @Override
-        public DBCollection getCollection(String collectionName) {
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean exists(String collectionName, String id) {
-            List<Entity> list = data.get(collectionName);
-
-            for (Entity e : list) {
-                if (e.getEntityId().equals(id)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        @Override
-        public void setWriteConcern(String writeConcern) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public long count(String collectionName, Query query) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public void setReferenceCheck(String referenceCheck) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public List<DBCollection> getCollections(boolean includeSystemCollections) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean doUpdate(String collection, String id, Update update) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-                String collectionName, int noOfRetries) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public List<Entity> insert(List<Entity> records, String collectionName) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-                String collectionName, int noOfRetries) {
-            return null;
-        }
-
-        @Override
-        public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
-            return false;
-        }
-
-        @Override
-        public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
-            // TODO Auto-generated method stub
-            return null;
-        }
     }
 }

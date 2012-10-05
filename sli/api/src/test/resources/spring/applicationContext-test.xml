@@ -37,7 +37,9 @@
             </map>
         </property>
     </bean>
-
+    
+    <bean id="performanceRepo" class="org.slc.sli.validation.DummyEntityRepository" />
+    
     <context:component-scan base-package="org.slc">
         <context:exclude-filter type="regex"
             expression=".*CustomImpl" />
