@@ -16,11 +16,10 @@
       <sli.home>${project.parent.basedir}</sli.home>
   </properties>
 
-  <modules>
-    <module>dal</module>
-    <module>mock-dal</module>
-  </modules>
-
+    <modules>
+        <module>dal</module>
+    </modules>
+        
   <dependencies>
 
     <!-- Spring Test dependency -->

@@ -515,7 +515,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             for (Map<String, Object> assoc : stuSectAssocs) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
                 // This case will catch if the subjectArea is null
-                if (subjectArea == null || subjectArea.equalsIgnoreCase(getSubjectArea(sections))) {
+                // Add the section only if it's not null
+                if (sections != null && (subjectArea == null || subjectArea.equalsIgnoreCase(getSubjectArea(sections)))) {
                     interSections.add(sections);
                 }
             }

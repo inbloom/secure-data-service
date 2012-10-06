@@ -116,8 +116,7 @@ And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
-And I have navigated to the "GetDisciplineIncidents" page of the Data Browser
-When I click on the "GetDisciplineActions" link
+And I have navigated to the "Me" page of the Data Browser
 Then I am redirected to the particular entity Detail View
 
 Scenario: Get a Forbidden message when we access something that is forbidden
