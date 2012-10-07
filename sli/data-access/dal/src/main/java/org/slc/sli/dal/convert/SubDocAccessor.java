@@ -12,7 +12,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,9 +20,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -32,14 +32,21 @@ import org.slc.sli.domain.MongoEntity;
  *
  */
 public class SubDocAccessor {
+
+    @Autowired
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    private DeterministicUUIDGeneratorStrategy didGenerator;
+
+    @Autowired
+    private NaturalKeyExtractor naturalKeyExtractor;
+
+    private MongoTemplate template;
+
     private final Map<String, Location> locations = new HashMap<String, SubDocAccessor.Location>();
 
-    private final MongoTemplate template;
-
-    public SubDocAccessor(MongoTemplate template) {
-        this.template = template;
-//        // this will store student assessment associations under the student documents in the
-//        // assessments field
+    public SubDocAccessor() {
+        // this will store student assessment associations under the student documents in the
+        // assessments field
 //        store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId", "_id")
 //                .register();
 
@@ -113,23 +120,12 @@ public class SubDocAccessor {
     }
 
     /**
-     * THe location of the subDoc
+     * The location of the subDoc
      *
      * @author nbrown
-     *
      */
     public class Location {
 
-        @Autowired
-        @Qualifier("DeterministicUUIDGeneratorStrategy")
-        private UUIDGeneratorStrategy didGenerator;
-
-        private static final String ID_SEPERATOR = "×"; // it should be noted that is not an 'x', so
-                                                        // be careful
-                                                        // should probably change it to something
-                                                        // less nefarious, but it does need to be
-                                                        // something the api won't consider
-                                                        // meaningful
         private final String collection;
         private final Map<String, String> lookup;
         private final String subField;
@@ -154,7 +150,7 @@ public class SubDocAccessor {
         }
 
         private String getParentEntityId(String entityId) {
-            return entityId.split(ID_SEPERATOR)[0];
+            return entityId.substring(0,43);
         }
 
         private String getParentEntityId(Map<String, Object> body) {
@@ -229,9 +225,8 @@ public class SubDocAccessor {
         }
 
         private String makeEntityId(Entity entity) {
-            // TODO this needs to be done a bit smarter, probably using whatever is in place for
-            // deterministic ids
-            return getParentEntityId(entity.getBody()) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
+            String id = didGenerator.generateId(naturalKeyExtractor.getNaturalKeyDescriptor(entity));
+            return getParentEntityId(entity.getBody()) + id;
         }
 
         public Map<String, Object> read(String id) {
@@ -338,4 +333,17 @@ public class SubDocAccessor {
     public Location subDoc(String docType) {
         return locations.get(docType);
     }
+
+    public void setTemplate(MongoTemplate template) {
+        this.template = template;
+    }
+
+    public void setDidGenerator(DeterministicUUIDGeneratorStrategy didGenerator) {
+        this.didGenerator = didGenerator;
+    }
+
+    public void setNaturalKeyExtractor(NaturalKeyExtractor naturalKeyExtractor) {
+        this.naturalKeyExtractor = naturalKeyExtractor;
+    }
+
 }
