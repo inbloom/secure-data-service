@@ -17,13 +17,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.ThreadUtil;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.search.config.IndexConfig;
@@ -33,6 +26,13 @@ import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import com.mongodb.util.ThreadUtil;
 
 /**
  * Extractor pulls data from mongo and writes it to file.
@@ -46,7 +46,6 @@ public class ExtractorImpl implements Extractor {
 
     private final static int DEFAULT_LINE_PER_FILE = 500000;
     private final static int DEFAULT_EXECUTOR_THREADS = 2;
-
     private final static int DEFAULT_JOB_WAIT_TIMEOUT_MINS = 180;
 
     private final static int DEFAULT_EXTRACTOR_JOB_TIME = 600;
@@ -108,9 +107,7 @@ public class ExtractorImpl implements Extractor {
             futures.add(call);
             if (config.hasDependents()) {
                 for (String dependent : config.getDependents()) {
-                    Future<List<File>> dependentCall = executor.submit(new DependentExtractWorker(indexConfigStore
-                            .getConfig(dependent), call));
-                    futures.add(dependentCall);
+                    futures.add(executor.submit(new DependentExtractWorker(indexConfigStore.getConfig(dependent), call)));
                 }
             }
         }
