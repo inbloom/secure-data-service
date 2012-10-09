@@ -23,22 +23,21 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-
-import org.apache.commons.io.filefilter.FalseFileFilter;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.pdp.PolicyEnforcer;
+import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.validation.URLValidator;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter.
@@ -59,6 +58,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     @Autowired
     private MongoStat mongoStat;
+    
+    @Resource
+    private PolicyEnforcer enforcer;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
@@ -66,6 +68,12 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validate(request);
         populateSecurityContext(request);
         mongoStat.clear();
+        
+        info("\n {} -> {}",request.getBaseUri().getPath(),request.getRequestUri().getPath());
+        //info("GRU: {}",request.getBaseUriBuilder().path(request.getPathSegments().get(0).getPath()).path("1337").build());
+
+        enforcer.enforce(SecurityContextHolder.getContext().getAuthentication(), request);
+        
         return request;
     }
 
