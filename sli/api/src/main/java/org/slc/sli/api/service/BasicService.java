@@ -587,18 +587,36 @@ public class BasicService implements EntityService {
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                EntityService referencingEntityService = referencingEntity.getService();
+            	EntityService referencingEntityService = referencingEntity.getService();
+            	
+            	List<String> includeFields = new ArrayList<String>();
+            	includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
+                neutralQuery.setIncludeFields(includeFields);
+
                 try {
-                    // list all entities that have the deleted entity's ID in their reference field
-                    for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
-                        String idToBeDeleted = (String) entityBody.get("id");
-                        // delete that entity as well
-                        referencingEntityService.delete(idToBeDeleted);
-                        // delete custom entities attached to this entity
-                        deleteAttachedCustomEntities(idToBeDeleted);
-                    }
+                	//entities that have arrays of references only cascade delete the array entry, not the whole entity
+                	if (referencingEntity.hasArrayField(referenceField)) {
+                		// list all entities that have the deleted entity's ID in one of their arrays
+                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+                            String idToBePatched = (String) entityBody.get("id");
+                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
+                            basicDBList.remove(sourceId);
+                            EntityBody patchEntityBody = new EntityBody();
+                            patchEntityBody.put(referenceField, basicDBList);
+                            referencingEntityService.patch(idToBePatched, patchEntityBody);
+                        }
+                	} else {
+                		// list all entities that have the deleted entity's ID in their reference field (for deletion)
+                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+                            String idToBeDeleted = (String) entityBody.get("id");
+                            // delete that entity as well
+                            referencingEntityService.delete(idToBeDeleted);
+                            // delete custom entities attached to this entity
+                            deleteAttachedCustomEntities(idToBeDeleted);
+                        }
+                	}
                 } catch (AccessDeniedException ade) {
                     debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
