@@ -108,7 +108,7 @@ public class SmooksEdiFiVisitorTest {
         Assert.assertEquals(deterministicId, neutralRecord.getRecordId());
         NaturalKeyDescriptor desc = argument.getValue();
         Assert.assertEquals(tenantId, desc.getTenantId());
-        Assert.assertEquals(recordType, desc.getEntityType());
+        Assert.assertEquals("educationOrganization", desc.getEntityType());
         Map<String, String> keys = desc.getNaturalKeys();
         Assert.assertEquals(1, keys.size());
         Assert.assertEquals(stateOrgId, keys.get("stateOrganizationId"));
