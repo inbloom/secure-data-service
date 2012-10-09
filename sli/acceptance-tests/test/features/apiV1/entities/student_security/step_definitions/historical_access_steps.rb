@@ -177,7 +177,7 @@ def check_associated_data(arg1, response)
   @format = "application/vnd.slc+json"
   ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentGradebookEntries", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}") if endpoint.include? arg1
-    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}") unless endpoint.include? arg1
+    restHttpGet("/v1/students/#{arg1}/#{endpoint}") unless endpoint.include? arg1
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
     data = JSON.parse(@res.body) unless response == 403
@@ -188,7 +188,7 @@ end
 def check_grades(arg1, response)
   @format = "application/vnd.slc+json"
   #First get student section Associations, then get the grades.
-  restHttpGet("/v1/studentSectionAssociations?studentId=#{arg1}")
+  restHttpGet("/v1/students/#{arg1}/studentSectionAssociations")
   ssa = JSON.parse(@res.body)
   grades = []
   studentCompetencies = []

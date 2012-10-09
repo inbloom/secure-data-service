@@ -58,18 +58,18 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
       | courseOffering                         | courseOfferings                          | 95      |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 17      |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 17      |
-      | staffProgramAssociation                | staffProgramAssociations                 | 12      |
+      | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
+      | staffProgramAssociation                | staffProgramAssociations                 | 3       |
       | studentAssessmentAssociation           | studentAssessments                       | 8       |
       | studentCohortAssociation               | studentCohortAssociations                | 13      |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 4       |
       | studentParentAssociation               | studentParentAssociations                | 3       |
       | studentProgramAssociation              | studentProgramAssociations               | 18      |
-      | studentSchoolAssociation               | studentSchoolAssociations                | 209     |
+      | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
       | studentSectionAssociation              | studentSectionAssociations               | 263     |
       | studentTranscriptAssociation           | courseTranscripts                        | 3       |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | 6       |
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
       | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
