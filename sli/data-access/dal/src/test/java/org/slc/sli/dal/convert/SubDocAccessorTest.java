@@ -16,23 +16,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * Test for sub doc accessor
@@ -70,7 +71,7 @@ public class SubDocAccessorTest {
         Map<String, Object> studentSectionAssociations = new HashMap<String, Object>();
         studentSectionAssociations.put(SECTION1 + "×" + STUDENT1, studentSectionAssociation);
         studentSectionAssociations.put(SECTION1 + "×" + STUDENT2, studentSectionAssociation);
-        section.put("studentAssociations", studentSectionAssociations);
+        section.put("studentSectionAssociation", studentSectionAssociations);
         when(template.findOne(matchesParentId(SECTION1), eq(Map.class), eq("section"))).thenReturn(section);
     }
 
@@ -92,7 +93,7 @@ public class SubDocAccessorTest {
                                 (Collection<? extends Map<String, Object>>) set.values());
                         List<String> ssaIds = new ArrayList<String>(set.keySet());
                         return ssaResults.size() == 1 && ssaResults.get(0).get("startDate").equals(STARTDATE)
-                                && ssaIds.get(0).startsWith("studentAssociations." + SECTION1);
+                                && ssaIds.get(0).startsWith("studentSectionAssociation." + SECTION1);
                     }
                 }), eq(true), eq(false));
 
@@ -121,7 +122,7 @@ public class SubDocAccessorTest {
                                 (Collection<? extends Map<String, Object>>) set.values());
                         List<String> ssaIds = new ArrayList<String>(set.keySet());
                         return sectionResults.size() == 1 && sectionResults.get(0).get("startDate").equals(STARTDATE)
-                                && ssaIds.get(0).startsWith("studentAssociations." + SECTION2);
+                                && ssaIds.get(0).startsWith("studentSectionAssociation." + SECTION2);
                     }
                 }), eq(true), eq(false));
         // Test that both fry and gunther get enrolled in history of the 20th century
