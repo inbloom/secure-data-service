@@ -1,6 +1,7 @@
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../apiV1/utils/api_utils.rb'
+require 'socket'
 
 ###############################  After Scenario Do ###############################
 # Clear Elastic Search Indexer
@@ -21,6 +22,14 @@ After do |scenario|
     end
   end
   assert(result == "true", "Some collections were not cleared successfully.")
+end
+
+Given /^I send a command to start the extractor to extract now$/ do
+  hostname = PropLoader.getProps['elastic_search_host']
+  port = PropLoader.getProps['elastic_search_remote_command_port']
+  socket = TCPSocket.open(hostname, port)
+  socket.write("extract")
+  socket.close  
 end
 
 Given /^I DELETE to clear the Indexer$/ do
@@ -115,17 +124,13 @@ Given /^I should see the file has not been processed$/ do
   assert(finished, "#{destPath} still exists in Inbox")
 end
 
-Given /^I will wait up to "(.*?)" seconds for the extractor$/ do |sec|
-  @max = sec.to_i
-end
-
 Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
-  @max ||= 10
+  max = 10
   done = false
   numTries = 0
   indexCount = 0
   sleep 2
-  while (numTries < @max && !done)
+  while (numTries < max && !done)
     url = PropLoader.getProps['elastic_search_address'] + "/midgar/_count"
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
