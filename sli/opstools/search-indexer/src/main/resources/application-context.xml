@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<import resource="classpath:/spring/validation.xml" />
 	<context:component-scan base-package="org.slc.sli.dal" />
@@ -17,7 +17,7 @@
 	<context:annotation-config />
 	<tx:annotation-driven />
 
-	<context:property-placeholder location="file:${sli.conf}" />
+	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE"/>
 
 	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
@@ -65,7 +65,7 @@
 		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}"></property>
 	</bean>
 
-	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy">
+	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
 		<property name="indexer" ref="indexer" />
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
 		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
@@ -79,7 +79,9 @@
 		<property name="searchUsername" value="${sli.search.username}" />
 		<property name="searchPassword" value="${sli.search.password}" />
 		<property name="searchTemplate" ref="searchTemplate" />
-		<property name="indexEntityConverter" ref="indexEntityConverter" />
+		<property name="indexMappingFile">
+		  <bean class="java.io.File"><constructor-arg value="${sli.search.indexer.mappingTemplate:index-mapping.json}"/></bean>
+		</property>
 	</bean>
 
 	<bean id="jobDetail"

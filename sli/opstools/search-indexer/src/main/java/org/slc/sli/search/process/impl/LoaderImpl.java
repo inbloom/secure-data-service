@@ -23,7 +23,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final long DEFAULT_INTERVAL_MILLIS = 1000L;
-    private static final int DEFAULT_EXECUTOR_THREADS = 2;
+    private static final int DEFAULT_EXECUTOR_THREADS = 5;
 
     private Indexer indexer;
 
@@ -37,7 +37,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     private ExecutorService executor;
 
-    private int executorThreads=DEFAULT_EXECUTOR_THREADS;
+    private int executorThreads = DEFAULT_EXECUTOR_THREADS;
 
     public void init() throws Exception {
         logger.info("Loader started");

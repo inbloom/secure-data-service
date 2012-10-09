@@ -16,8 +16,34 @@
     "fields": [
       "_id",
       "body.uniqueSectionCode",
+      "body.schoolId",
       "metaData.tenantId",
       "type"
-    ]
+    ],
+    "rename" : {"body.schoolId": "body.context.schoolId"}
+  },
+  "course": {
+    "fields": [
+      "_id",
+      "body.courseTitle",
+      "body.subjectArea",
+      "body.schoolId",
+      "metaData.tenantId",
+      "type"
+    ],
+    "rename" : {"body.schoolId": "body.context.schoolId"}
+  },
+  "studentSchoolAssociation": {
+    "indexType": "student",
+    "fields": [
+      "_id",
+      "body.studentId",
+      "body.schoolId", 
+      "body.exitWithdrawDate",
+      "metaData.tenantId",
+      "type"
+    ],
+    "rename" : {"body.studentId" : "_id", "body.schoolId": "body.context.schoolId"},
+    "filterCondition":{"body.exitWithdrawDate": null}
   }
 }

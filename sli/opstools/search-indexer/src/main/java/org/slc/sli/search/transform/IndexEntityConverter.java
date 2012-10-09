@@ -2,13 +2,14 @@ package org.slc.sli.search.transform;
 
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.transform.impl.GenericTransformer;
+import org.slc.sli.search.util.IndexEntityUtil;
+import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 
 /**
@@ -16,29 +17,20 @@ import org.slc.sli.search.util.SearchIndexerException;
  * 
  */
 public class IndexEntityConverter {
-
-    private ObjectMapper mapper = new ObjectMapper();
-    private final static String NEW_LINE = "\n";
-    
     private EntityEncryption entityEncryption;
     private IndexConfigStore indexConfigStore;
-    private GenericTransformer transformer = new GenericTransformer();
+    private final GenericTransformer transformer = new GenericTransformer();
     // decrypt records flag
     private boolean decrypt = true;
     
-    public String toIndexJson(IndexEntity ie) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"").append(ie.getActionValue()).append(
-                "\":{").append("\"_index\":\"").append(ie.getIndex()).append("\", \"_type\":\"").
-                append(ie.getType()).append("\",\"_id\":\"").append(ie.getId()).append("\"}}").append(NEW_LINE);
-        sb.append(ie.getBody()).append(NEW_LINE);
-        return sb.toString();
+    public IndexEntity fromEntityJson(String entity) {
+        return fromEntityJson(Action.INDEX, entity);
     }
     
     @SuppressWarnings("unchecked")
-    public IndexEntity fromEntityJson(String entity) {
+    public IndexEntity fromEntityJson(Action action, String entity) {
         try {
-            Map<String, Object> entityMap = mapper.readValue(entity, new TypeReference<Map<String, Object>>() {});       
+            Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);       
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
             String type = (String)entityMap.get("type");
@@ -52,10 +44,15 @@ public class IndexEntityConverter {
             // transform the entities
             transformer.transform(config, entityMap);
             String id = (String)entityMap.get("_id");
-            entityMap.put("_id", id);
-            decryptedMap.put("metaData", entityMap.remove("metaData"));
+            String parent = (config.getParentField() != null) ? 
+                    (String)NestedMapUtil.get(config.getParentField(), entityMap) : null;
+            entityMap.remove("type");
+            entityMap.remove("_id");
+            entityMap.remove("metaData");
+            //decryptedMap.put("metaData", entityMap.remove("metaData"));
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
-            return new IndexEntity(indexName, indexType, id, mapper.writeValueAsString(entityMap.get("body")));
+            action = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
+            return new IndexEntity(action, indexName, indexType, id, parent, (Map<String, Object>)entityMap.get("body"));
             
         } catch (Exception e) {
              throw new SearchIndexerException("Unable to convert entity", e);

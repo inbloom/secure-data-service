@@ -5,15 +5,13 @@ import java.util.Map;
 import org.slc.sli.search.config.IndexConfig;
 
 /**
- * Custom transformer to index json
- *
+ * Filter records from indexing
  */
-public interface Transformer {
+public interface Filter {
     /**
-     * Mutates the original entity according to specified.
+     * Whether or not the entity satisfies indexing criteria
      * @param config - index config
      * @param entity - entity to transform
      */
-    public void transform(IndexConfig config, Map<String, Object> entity);
-    
+    public boolean matchesCondition(IndexConfig config, Map<String, Object> entity);
 }

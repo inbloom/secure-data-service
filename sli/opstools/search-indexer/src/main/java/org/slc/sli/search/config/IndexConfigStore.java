@@ -16,7 +16,7 @@ import org.codehaus.jackson.type.TypeReference;
 public class IndexConfigStore {
     
     // map of configs 
-    private Map<String, IndexConfig> configs;
+    private final Map<String, IndexConfig> configs;
 
     
     public IndexConfigStore(String configFile) throws JsonParseException, JsonMappingException, IOException {
@@ -36,8 +36,13 @@ public class IndexConfigStore {
             throw new IllegalArgumentException("File" + config.getAbsolutePath() + " does not exist");
         }
         Map<String, IndexConfig> map = mapper.readValue(config, new TypeReference<Map<String, IndexConfig>>(){});
-        for (IndexConfig indexConfig: map.values()) {
-            indexConfig.prepare();
+        IndexConfig indexConfig;
+        for (Map.Entry<String, IndexConfig> entry: map.entrySet()) {
+            indexConfig = entry.getValue();  
+            indexConfig.prepare(entry.getKey());
+            if (indexConfig.isChildDoc()) {
+                map.get(indexConfig.getIndexType()).addDependent(entry.getKey());
+            }
         }
         this.configs = Collections.unmodifiableMap(map);
     }

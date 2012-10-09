@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.search.config.IndexConfig;
-import org.slc.sli.search.transform.Transformer;
+import org.slc.sli.search.transform.CustomTransformer;
 import org.slc.sli.search.util.NestedMapUtil;
 
-public class GenericTransformer implements Transformer {
+public class GenericTransformer implements CustomTransformer {
     public void transform(IndexConfig config, Map<String, Object> entity) {
         filterExcept(config.getFlattendedFields(), entity);
-        rename(config.getRenameMap(), entity);
+        rename(config.getRename(), entity);
     }
     
     private void rename(Map<List<String>, List<String>> rename, Map<String, Object> entity) {
@@ -18,7 +18,7 @@ public class GenericTransformer implements Transformer {
             return;
         }
         for (Map.Entry<List<String>, List<String>> entry : rename.entrySet()) {
-            NestedMapUtil.moveField(entry.getKey(), entry.getValue(), entity);
+            NestedMapUtil.rename(entry.getKey(), entry.getValue(), entity);
         }
     }
     

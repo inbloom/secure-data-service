@@ -23,6 +23,11 @@ public final class IndexConfig {
     // rename to fields
     private Map<String, String> rename;
     
+    // if child entity, parentId field
+    private String parentField;
+    
+    private List<String> parentFieldChain;
+    
     private Map<String, String> filterCondition;
     
     @JsonIgnore
@@ -30,21 +35,34 @@ public final class IndexConfig {
     
     @JsonIgnore
     private List<String> flattenedFields;
+    
+    @JsonIgnore
+    private String collectionName;
+    
+    /**
+     * list of entity names that depends on this entity as the parent doc
+     */
+    @JsonIgnore
+    private final List<String> dependents = new ArrayList<String>(); 
 
+    public String getCollectionName() {
+        return collectionName;
+    }
+    
     public List<String> getFields() {
         return fields;
     }
-
-    public Map<String, String> getRename() {
-        return rename;
-    }
     
-    public Map<List<String>, List<String>> getRenameMap() {
+    public Map<List<String>, List<String>> getRename() {
         return renameMap;
     }
     
     public String getIndexType() {
-        return indexType;
+        return indexType == null ? collectionName : indexType;
+    }
+    
+    public List<String> getParentField() {
+        return parentFieldChain;
     }
     
     public Map<String, String> getfilterCondition() {
@@ -55,7 +73,24 @@ public final class IndexConfig {
         return flattenedFields;
     }
     
-    public void prepare() {
+    public boolean hasDependents() {
+        return !dependents.isEmpty();
+    }
+    
+    public List<String> getDependents() {
+        return dependents;
+    }
+    
+    public void addDependent(String dependent) {
+        this.dependents.add(dependent);
+    }
+    
+    public boolean isChildDoc() {
+        return indexType != null && !this.collectionName.equals(indexType);
+    }
+    
+    public void prepare(String name) {
+        this.collectionName = name;
         if (rename != null) {
             List<String> fieldChainFrom, fieldChainTo;
             Map<List<String>, List<String>> renameMap = new HashMap<List<String>, List<String>>();
@@ -70,5 +105,7 @@ public final class IndexConfig {
         for (String field: fields)
             flattenedFields.addAll(NestedMapUtil.getPathLinkFromDotNotation(field));
         this.flattenedFields = Collections.unmodifiableList(new ArrayList<String>(flattenedFields));
+        if (this.parentField != null)
+            this.parentFieldChain = NestedMapUtil.getPathLinkFromDotNotation(this.parentField);
     }
 }

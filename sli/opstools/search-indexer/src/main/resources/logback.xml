@@ -17,7 +17,7 @@
 			<fileNamePattern>${sli.search.indexer.log.path}/search-indexer-%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 	</appender>
-	
+		
 	<root level="${sli.search.indexer.log.level}">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>

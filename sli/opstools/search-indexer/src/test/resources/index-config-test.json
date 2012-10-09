@@ -26,6 +26,6 @@
       "body.b",
       "body.name"
     ],
-    "rename" : {"body.name" : "_id", "body.b": "metaData.contextId"}
+    "rename" : {"body.name" : "_id", "body.b": "body.metaData.contextId"}
   }
 }

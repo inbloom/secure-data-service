@@ -8,8 +8,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import com.mongodb.DBCursor;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +16,8 @@ import org.slc.sli.search.process.impl.ExtractorImpl;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.Constants;
 import org.slc.sli.search.util.MockDBCursorFactory;
+
+import com.mongodb.DBCursor;
 
 /**
  * current student.json for mock data has 192 records
@@ -31,7 +31,8 @@ public class ExtractorImplTest {
     private IndexConfigStore indexConfigStore;
     private IndexEntityConverter indexEntityConverter;
     
-    private ExtractorImpl extractor = new ExtractorImpl() {
+    private final ExtractorImpl extractor = new ExtractorImpl() {
+        @Override
         protected DBCursor getDBCursor(String collectionName, List<String> fields) {
             // get cursor from static file
             return MockDBCursorFactory.create(collectionName);
@@ -63,7 +64,7 @@ public class ExtractorImplTest {
     public void testFileCounts() throws Exception {
         // set max lines per file is 10
         extractor.setMaxLinePerFile(10);
-        extractor.extractCollection("student", indexConfigStore.getFields("student"));
+        extractor.extractCollection(indexConfigStore.getConfig("student"), 0);
 
         File[] files = listFiles(INBOX);
         Assert.assertEquals(20, files.length);
