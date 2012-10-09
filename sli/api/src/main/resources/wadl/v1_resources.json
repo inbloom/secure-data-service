@@ -133,8 +133,9 @@
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
-        { "path": "/{id}/cohorts" },
-        { "path": "/{id}/studentCompetencyObjectives" }
+        { "path": "/{id}/studentCompetencyObjectives" },
+        { "path": "/{id}/graduationPlans" },
+        { "path": "/{id}/cohorts" }
       ]
     },
     {
@@ -160,7 +161,8 @@
         { "path": "/{id}/sessions" },
         { "path": "/{id}/sessions/gradingPeriods" },
         { "path": "/{id}/sections" },
-        { "path": "/{id}/sections/gradebookEntries" }
+        { "path": "/{id}/sections/gradebookEntries" },
+        { "path": "/{id}/graduationPlans" }
       ]
     },
     {
@@ -359,6 +361,11 @@
         { "path": "/{id}/studentGradebookEntries" }, 
         { "path": "/{id}/studentAcademicRecords"}
       ]
+    },
+    {
+        "path": "/graduationPlans",
+        "doc": "Represents the definition of a graduation plan. For detailed information, see the schema for the $$GraduationPlan$$ entity.",
+        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     }
   ]
 }
