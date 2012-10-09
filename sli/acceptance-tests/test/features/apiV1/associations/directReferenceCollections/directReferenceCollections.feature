@@ -34,8 +34,8 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     When I navigate to GET "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
     Then I should receive a return code of 200
      And "entityType" should be <target entity type>
-     And I should receive a link named <source link name> with URI "/<URI OF ENTITIES THAT REFER TO TARGET>"
-    When I navigate to GET "/<URI OF ENTITIES THAT REFER TO TARGET>"
+     And I should receive a link named <source link name>
+    When I navigate to GET the link named <source link name>
     Then I should receive a return code of 200
      And each entity's "entityType" should be <source entity type>
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"

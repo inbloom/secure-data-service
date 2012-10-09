@@ -23,6 +23,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.dal.RetryMongoCommand;
@@ -33,14 +42,6 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -89,7 +90,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<Entity> crossTenantResults = Collections.emptyList();
 
         guideIfTenantAgnostic("realm");
-        List<String> distinctTenantIds = (List<String>) template.getCollection("realm").distinct("body.tenantId");
+        List<String> distinctTenantIds = template.getCollection("realm").distinct("body.tenantId");
 
         String originalTenantId = TenantContext.getTenantId();
         try {
@@ -123,7 +124,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
     }
 
-    @Override
+
     public Entity createWithRetries(final String type, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
@@ -135,6 +136,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         };
         return (Entity) rc.executeOperation(noOfRetries);
     }
+
 
     @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
@@ -158,23 +160,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        Assert.notNull(body, "The given entity must not be null!");
-        if (metaData == null) {
-            metaData = new HashMap<String, Object>();
-        }
-
-        String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !isTenantAgnostic(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
-
-        Entity entity = new MongoEntity(type, null, body, metaData);
-        validator.validate(entity);
-
-        this.addTimestamps(entity);
-        return super.create(entity, collectionName);
+        return create(type, null, body, metaData, collectionName);
     }
 
     public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
@@ -191,7 +177,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        if (collectionName.equals("educationOrganization")) {
+        if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
                 @SuppressWarnings("unchecked")
                 List<String> edOrgs = (List<String>) metaData.get("edOrgs");
@@ -208,7 +194,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validate(entity);
 
         this.addTimestamps(entity);
-        return super.create(entity, collectionName);
+        return super.insert(entity, collectionName);
     }
 
     @Override
@@ -218,7 +204,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         for (Entity record : records) {
 
             String entityId = null;
-            if (NaturalKeyExtractor.useDeterministicIds() == false) {
+            if (!NaturalKeyExtractor.useDeterministicIds()) {
                 if ("educationOrganization".equals(collectionName)) {
                     entityId = record.getStagedEntityId();
                 }

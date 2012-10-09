@@ -17,19 +17,26 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.xml.sax.SAXException;
+
+import scala.actors.threadpool.Arrays;
 
 /**
  * Factory class for Smooks
@@ -42,7 +49,12 @@ public class SliSmooksFactory {
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
-    
+
+    @Autowired
+    public BatchJobDAO batchJobDAO;
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
     public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, String tenantId,
             DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy) throws IOException, SAXException {
         
@@ -74,6 +86,12 @@ public class SliSmooksFactory {
                     deterministicUUIDGeneratorStrategy);
             
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
+
+            HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
+            recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
+
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
             }
@@ -91,5 +109,9 @@ public class SliSmooksFactory {
     
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = (NeutralRecordMongoAccess) nrMongoStagingWriter;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 }

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
@@ -27,10 +26,16 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.core.util.Base64;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -47,17 +52,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import com.sun.jersey.core.util.Base64;
 
 /**
  * Controller for Discovery Service
- *
+ * 
  * @author dkornishev
  */
 @Controller
@@ -79,7 +78,7 @@ public class AuthController {
 
     /**
      * Calls api to list available realms and injects into model
-     *
+     * 
      * @param model
      *            spring injected model
      * @return name of the template to use
@@ -91,8 +90,8 @@ public class AuthController {
             @RequestParam(value = "Realm", required = false) final String realmUniqueId,
             @RequestParam(value = "client_id", required = true) final String clientId,
             @RequestParam(value = "state", required = false) final String state,
-            @CookieValue(value = "_tla", required = false) final String sessionId,
-            final HttpServletResponse res, final Model model) throws IOException {
+            @CookieValue(value = "_tla", required = false) final String sessionId, final HttpServletResponse res,
+            final Model model) throws IOException {
 
         if (sessionId != null) {
             String realmId = getRealmId(sessionId);
@@ -105,9 +104,9 @@ public class AuthController {
         }
 
         Map<String, String> map = getRealmMap(realmUniqueId);
-
-
-        //Only one realm, so let's bypass the realm selection and direct them straight to that realm
+        
+        // Only one realm, so let's bypass the realm selection and direct them straight to that
+        // realm
         if (map.size() == 1) {
             return ssoInit(map.keySet().iterator().next(), sessionId, redirectUri, clientId, state, res, model);
         }
@@ -122,36 +121,34 @@ public class AuthController {
     }
 
     private Map<String, String> getRealmMap(final String realmUniqueId) {
-        Map<String, String> result =
-                SecurityUtil.runWithAllTenants(new SecurityTask<Map<String, String>>() {
-
+        Map<String, String> result = SecurityUtil.runWithAllTenants(new SecurityTask<Map<String, String>>() {
+            
+            @Override
+            public Map<String, String> execute() {
+                return SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
                     @Override
                     public Map<String, String> execute() {
-                        return  SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
-                            @Override
-                            public Map<String, String> execute() {
-                                Iterable<Entity> realmList = repo.findAll("realm");
-                                Map<String, String> map = new HashMap<String, String>();
-                                for (Entity realmEntity : realmList) {
-                                    map.put(realmEntity.getEntityId(),
-                                            (String) realmEntity.getBody().get("name"));
-
-                                    //We found the requested realm, so let's only return a map with just that entry
-                                    //so that we can short-circuit the realm selection
-                                    if (realmUniqueId != null && !realmUniqueId.isEmpty()) {
-                                        if (realmUniqueId.equals(realmEntity.getBody().get("uniqueIdentifier"))) {
-                                            map.clear();
-                                            map.put(realmEntity.getEntityId(),
-                                                    (String) realmEntity.getBody().get("name"));
-                                            return map;
-                                        }
-                                    }
+                        Iterable<Entity> realmList = repo.findAll("realm", new NeutralQuery());
+                        Map<String, String> map = new HashMap<String, String>();
+                        for (Entity realmEntity : realmList) {
+                            map.put(realmEntity.getEntityId(), (String) realmEntity.getBody().get("name"));
+                            
+                            // We found the requested realm, so let's only return a map with just
+                            // that entry
+                            // so that we can short-circuit the realm selection
+                            if (realmUniqueId != null && !realmUniqueId.isEmpty()) {
+                                if (realmUniqueId.equals(realmEntity.getBody().get("uniqueIdentifier"))) {
+                                    map.clear();
+                                    map.put(realmEntity.getEntityId(), (String) realmEntity.getBody().get("name"));
+                                    return map;
                                 }
-                                return map;
                             }
-                        });
+                        }
+                        return map;
                     }
                 });
+            }
+        });
         return result;
     }
 
@@ -159,9 +156,8 @@ public class AuthController {
     public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode,
             @RequestParam("redirect_uri") String redirectUri,
             @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId,
-            @RequestParam("client_secret") String clientSecret,
-            Model model) throws BadCredentialsException {
+            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model)
+            throws BadCredentialsException {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
@@ -201,7 +197,7 @@ public class AuthController {
 
     /**
      * Redirects user to the sso init url given valid id
-     *
+     * 
      * @param realmId
      *            id of the realm
      * @return directive to redirect to sso init page
@@ -212,32 +208,30 @@ public class AuthController {
             @RequestParam(value = "sessionId", required = false) final String sessionId,
             @RequestParam(value = "redirect_uri", required = false) String redirectUri,
             @RequestParam(value = "clientId", required = true) final String clientId,
-            @RequestParam(value = "state", required = false) final String state,
-            HttpServletResponse res, Model model) throws IOException {
+            @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model)
+            throws IOException {
 
         String realmId = getRealmId(sessionId);
         boolean isExpired = isSessionExpired(sessionId);
         boolean forceAuthn = (sessionId != null && realmId != null && !isExpired) ? false : true;
-
-        //Ugly, but we need both sudo access and full tenant access
+        
+        // Ugly, but we need both sudo access and full tenant access
         Entity realmEnt = SecurityUtil.sudoRun(new SecurityTask<Entity>() {
-
+            
+            @Override
+            public Entity execute() {
+                return SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
                     @Override
                     public Entity execute() {
-                        return SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
-                            @Override
-                            public Entity execute() {
-                                Entity ent = repo.findById("realm", realmIndex);
-                                if (ent == null) {
-                                    throw new IllegalArgumentException("couldn't locate idp for realm: "  + realmIndex);
-                                }
-                                return ent;
-                            }
-                        });
+                        Entity ent = repo.findById("realm", realmIndex);
+                        if (ent == null) {
+                            throw new IllegalArgumentException("couldn't locate idp for realm: " + realmIndex);
+                        }
+                        return ent;
                     }
                 });
-
-
+            }
+        });
 
         @SuppressWarnings("unused")
         String tenantId = (String) realmEnt.getBody().get("tenantId");

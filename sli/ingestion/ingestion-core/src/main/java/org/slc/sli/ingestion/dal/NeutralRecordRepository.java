@@ -26,12 +26,14 @@ import com.mongodb.DBCollection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.repository.MongoQueryConverter;
 import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -50,6 +52,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
+
+    @Autowired
+    private MongoQueryConverter queryConverter;
 
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
@@ -147,7 +152,18 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         paths.put(BATCH_JOB_ID, jobId);
-        return findByPaths(collectionName, paths);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        Query query = this.queryConverter.convert(collectionName, neutralQuery);
+        return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
+    }
+
+    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
+        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
+            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
+            query.addCriteria(criteria);
+        }
+
+        return query;
     }
 
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
@@ -174,7 +190,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
 
-            for (String currentCollection : getTemplate().getCollectionNames()) {
+            for (String currentCollection : getCollectionNames()) {
                 long count = countByQuery(currentCollection, query);
                 if (count > 0) {
                     collectionNamesForJob.add(currentCollection);
@@ -189,7 +205,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void deleteStagedRecordsForJob(String batchJobId) {
         if (batchJobId != null) {
             Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
-            for (String currentCollection : getTemplate().getCollectionNames()) {
+            for (String currentCollection : getCollectionNames()) {
                 if (!currentCollection.startsWith("system.")) {
                     LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
                             batchJobId);
@@ -228,18 +244,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods
     // above.
-    @Override
-    public NeutralRecord create(NeutralRecord record, String collectionName) {
+    NeutralRecord create(NeutralRecord record, String collectionName) {
         template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
-    }
-
-    @Override
-    public NeutralRecord createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

@@ -110,9 +110,9 @@ public class RealmHelperTest {
     @Before
     public void setup() {
 
-        repo.deleteAll("realm");
-        repo.deleteAll("educationOrganization");
-        repo.deleteAll("staff");
+        repo.deleteAll("realm", null);
+        repo.deleteAll("educationOrganization", null);
+        repo.deleteAll("staff", null);
 
     }
 
