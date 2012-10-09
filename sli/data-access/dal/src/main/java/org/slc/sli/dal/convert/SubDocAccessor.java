@@ -15,8 +15,6 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -61,7 +59,7 @@ public class SubDocAccessor {
         for (String entityType : EmbedDocumentRelations.getSubDocuments()) {
             String parent = EmbedDocumentRelations.getParentEntityType(entityType);
             String parentKey = EmbedDocumentRelations.getParentFieldReference(entityType);
-            if(parent != null && parentKey != null) {
+            if (parent != null && parentKey != null) {
                 store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").register();
             }
         }
@@ -174,44 +172,12 @@ public class SubDocAccessor {
             return entityId.split(ID_SEPERATOR)[0];
         }
 
-        private String getParentEntityId(Map<String, Object> body) {
-            List<String> parentIdList = new ArrayList<String>();
-            for (Entry<String, String> entry : lookup.entrySet()) {
-                if (entry.getKey().equals("_id")) {
-                    return (String) body.get(entry.getValue());
-                }
-                parentIdList.add(body.get(entry.getValue()).toString());
-            }
-            return StringUtils.join(parentIdList, "");
-        }
-
         private DBObject getParentQuery(Map<String, Object> body) {
             Query parentQuery = new Query();
             for (Entry<String, String> entry : lookup.entrySet()) {
                 parentQuery.addCriteria(new Criteria(entry.getKey()).is(body.get(entry.getValue())));
             }
             return parentQuery.getQueryObject();
-        }
-
-        private Update getUpdateObject(Map<String, Map<String, Object>> newEntities) {
-            Update update = new Update();
-            for (Entry<String, Map<String, Object>> entity : newEntities.entrySet()) {
-                update.set(getField(entity.getKey()), entity.getValue());
-            }
-            return update;
-        }
-
-        public boolean update(String id, Map<String, Object> entity) {
-            DBObject query = getParentQuery(entity);
-            Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
-            updateMap.put(id, entity);
-            Update updateObject = getUpdateObject(updateMap);
-            return doUpdate(query, updateObject);
-        }
-
-        private boolean doUpdate(DBObject query, Update updateObject) {
-            return template.getCollection(collection).update(query, updateObject.getUpdateObject(), true, false)
-                    .getLastError().ok();
         }
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
@@ -271,9 +237,8 @@ public class SubDocAccessor {
             return MongoEntity.fromDBObject(dbObject);
         }
 
-        public boolean bulkUpdate(DBObject parentQuery, Map<String, Map<String, Object>> newEntities) {
-            Update update = getUpdateObject(newEntities);
-            return doUpdate(parentQuery, update);
+        public boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
+            return doUpdate(parentQuery, newEntities);
         }
 
         public boolean create(Entity entity) {
@@ -298,11 +263,7 @@ public class SubDocAccessor {
         }
 
         public boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
-            Map<String, Map<String, Object>> updateMap = new HashMap<String, Map<String, Object>>();
-            for (Entity entity : entities) {
-                updateMap.put(makeEntityId(entity), entity.getBody());
-            }
-            return bulkUpdate(parentQuery, updateMap);
+            return bulkUpdate(parentQuery, entities);
         }
 
         public boolean insert(List<Entity> entities) {
@@ -318,12 +279,6 @@ public class SubDocAccessor {
                 // result &= doUpdate(entry.getKey(), entry.getValue());
             }
             return result;
-        }
-
-        private String makeEntityId(Entity entity) {
-            // TODO this needs to be done a bit smarter, probably using whatever is in place for
-            // deterministic ids
-            return getParentEntityId(entity.getBody()) + ID_SEPERATOR + RandomStringUtils.randomNumeric(16);
         }
 
         public Entity findById(String id) {

@@ -23,7 +23,6 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -76,7 +75,6 @@ public class SubDocAccessorTest {
     }
 
     @Test
-    @Ignore
     public void testSingleInsert() {
         MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
         entity.getMetaData().put("tenantId", "TEST");
@@ -88,12 +86,12 @@ public class SubDocAccessorTest {
                     @SuppressWarnings("unchecked")
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
+                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$pushAll");
                         List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
                                 (Collection<? extends Map<String, Object>>) set.values());
                         List<String> ssaIds = new ArrayList<String>(set.keySet());
                         return ssaResults.size() == 1 && ssaResults.get(0).get("startDate").equals(STARTDATE)
-                                && ssaIds.get(0).startsWith("studentSectionAssociation." + SECTION1);
+                                && ssaIds.get(0).equals("studentSectionAssociation");
                     }
                 }), eq(true), eq(false));
 
@@ -117,12 +115,15 @@ public class SubDocAccessorTest {
                     @SuppressWarnings("unchecked")
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
-                        List<Map<String, Object>> sectionResults = new ArrayList<Map<String, Object>>(
-                                (Collection<? extends Map<String, Object>>) set.values());
-                        List<String> ssaIds = new ArrayList<String>(set.keySet());
-                        return sectionResults.size() == 1 && sectionResults.get(0).get("startDate").equals(STARTDATE)
-                                && ssaIds.get(0).startsWith("studentSectionAssociation." + SECTION2);
+                        Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
+                        if (push == null) {
+                            return false;
+                        }
+                        List<Map<String, Object>> studentSections = new ArrayList<Map<String, Object>>(
+                                (Collection<? extends Map<String, Object>>) push.values());
+                        List<String> ssaIds = new ArrayList<String>(push.keySet());
+                        return studentSections.size() == 1 && studentSections.get(0).get("startDate").equals(STARTDATE)
+                                && ssaIds.get(0).equals("studentSectionAssociation");
                     }
                 }), eq(true), eq(false));
         // Test that both fry and gunther get enrolled in history of the 20th century
@@ -133,9 +134,9 @@ public class SubDocAccessorTest {
                     @SuppressWarnings("unchecked")
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$set");
+                        Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
                         List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
-                                (Collection<? extends Map<String, Object>>) set.values());
+                                (Collection<? extends Map<String, Object>>) push.values());
                         return ssaResults.size() == 2;
                     }
                 }), eq(true), eq(false));
@@ -158,8 +159,7 @@ public class SubDocAccessorTest {
     @Test
     public void testRead() {
         String ssaId = SECTION1 + "×" + STUDENT1;
-        assertEquals(studentSectionAssociation,
-                underTest.subDoc("studentSectionAssociation").read(ssaId, null));
+        assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
     }
 
 }
