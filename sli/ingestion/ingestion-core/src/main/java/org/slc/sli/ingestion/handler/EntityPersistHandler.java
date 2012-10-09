@@ -188,7 +188,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
-            LOG.info("Processing: " + entity.getType());
+            LOG.debug("Processing: " + entity.getType());
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
@@ -221,7 +221,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
         if (NaturalKeyExtractor.useDeterministicIds()) {
-            
+
             NaturalKeyDescriptor naturalKeyDescriptor;
             try {
                 naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
@@ -229,12 +229,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 LOG.error(e1.getMessage(), e1);
                 return;
             }
-            
+
             if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
                 String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
                         + "       Instance   " + entity.getRecordNumber();
                 LOG.error(message);
-                
+
                 preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
             } else {
                 // "new" style -> based on natural keys from schema
@@ -246,9 +246,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } else {
             preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
         }
-        
+
     }
-    
+
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
         List<String> keyFields = entityConfig.getKeyFields();
@@ -263,10 +263,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                             + entity.getType() + "\n";
                     errorReport.error(errorMessage, this);
                 }
-                
+
                 if (complexField != null) {
                     String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
-                    
+
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
@@ -275,7 +275,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                         errorReport.error(errorMessage, this);
                     }
                 }
-                
+
             }
             memory.put(keyValues, entity);
         }
