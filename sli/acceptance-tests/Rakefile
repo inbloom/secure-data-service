@@ -67,7 +67,8 @@ $collectionSet = ["student",
                   "studentProgramAssociation",
                   "disciplineAction",
                   "disciplineIncident",
-                  "studentDisciplineIncidentAssociation"]
+                  "studentDisciplineIncidentAssociation",
+                  "graduationPlan"]
 
 #######################################################################################################
 # Helper defs
@@ -905,7 +906,8 @@ task :importSandboxData do
     "studentCompetency" => "studentCompetency_fixture.json",
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
-    "reportCard" => "reportCard_fixture.json"
+    "reportCard" => "reportCard_fixture.json",
+    "graduationPlan" => "graduationPlan_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

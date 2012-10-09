@@ -58,6 +58,7 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
 
         Scenario Outline: CRUD operations on invalid entities
@@ -100,6 +101,7 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
     Scenario Outline: Get All Entities as State Staff
     Given entity URI <Entity Resource URI>
@@ -135,6 +137,7 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     |  200 | 3 |
 | "gradingPeriod"                | "gradingPeriods"          |  200 | 2 |
 | "reportCard"                   | "reportCards"             |  200 | 3 |
+| "graduationPlan"               | "graduationPlans"         |  200 | 5 |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -187,6 +190,7 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities as School Teacher
