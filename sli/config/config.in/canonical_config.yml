@@ -61,7 +61,7 @@ default:
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
         
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
@@ -82,6 +82,9 @@ default:
         sli.mongodb.connections: 20
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
+
+        # Key substitutions
+        sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
