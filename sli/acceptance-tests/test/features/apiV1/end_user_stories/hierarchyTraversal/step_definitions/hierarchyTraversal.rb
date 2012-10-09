@@ -87,22 +87,6 @@ Then /^the "([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(found, "Expected value #{value} not found in array")
 end
 
-Then /^I should receive a collection link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
-  found = false;
-  @result.each do |record|
-    
-    record["links"].each do |link|
-      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-        found = true
-      end
-    end
-    
-    
-    
-  end
-  assert(found, "Response collection did not contain link rel \"#{rel}\" with value \"#{href}\"")
-end
-
 Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
@@ -118,18 +102,6 @@ end
 # Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
   # version + uri + Transform(template) + uri2
 # end
-
-
-Then /^I should receive at least one link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
-  found = false
-  @result.each do |result|
-    assert(result.has_key?("links"), "Response contains no links")
-    result["links"].each do |link|
-      #puts link["rel"]
-      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-        found = true
-      end
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
+  step "in an entity, I should receive a link named \"#{arg1}\""
 end

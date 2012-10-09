@@ -12,9 +12,12 @@
       "subResources": [
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
+        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
+        { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
+        { "path": "/{id}/teacherSectionAssociations/teachers" },
         { "path": "/{id}/gradebookEntries" },
-        { "path": "/{id}/teacherSectionAssociations/teachers" }
+        { "path": "/{id}/studentGradebookEntries" }        
       ]
     },
     {
@@ -64,7 +67,10 @@
       "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources.",
       "subResources": [
         { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courseOfferings/courses" }
+        { "path": "/{id}/courseOfferings/courses" },
+        { "path": "/{id}/studentAcademicRecords" },
+        { "path": "/{id}/sections" }
+
       ]
     },
     {
@@ -79,7 +85,7 @@
       "path": "/gradebookEntries",
       "doc": "Represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook. For more information, see the schema for $$GradebookEntry$$ resources.",
       "subResources": [
-
+        { "path": "/{id}/studentGradebookEntries" }
       ]
     },
     {
@@ -128,7 +134,8 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
         { "path": "/{id}/studentCompetencyObjectives" },
-        { "path": "/{id}/graduationPlans" }
+        { "path": "/{id}/graduationPlans" },
+        { "path": "/{id}/cohorts" }
       ]
     },
     {
@@ -148,6 +155,7 @@
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
+        { "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
@@ -164,7 +172,8 @@
         { "path": "/{id}/staffProgramAssociations/staff" },
         { "path": "/{id}/studentProgramAssociations" },
         { "path": "/{id}/studentProgramAssociations/students" },
-        { "path": "/{id}/staffProgramAssociations" }
+        { "path": "/{id}/staffProgramAssociations" },
+        { "path": "/{id}/cohorts" }
       ]
     },
     {
@@ -186,7 +195,10 @@
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/sections" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" }
+        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/disciplineActions" },
+        { "path": "/{id}/disciplineIncidents" },
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
     {
@@ -316,6 +328,7 @@
       "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources.",
       "subResources": [
         { "path": "/{id}/sessions" },
+        { "path": "/{id}/sections" },
         { "path": "/{id}/courses" }
       ]
     },
@@ -344,7 +357,9 @@
         { "path": "/{id}/attendances" },
         { "path": "/{id}/courseTranscripts/courses" },
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
-        { "path": "/{id}/studentCohortAssociations/cohorts" }
+        { "path": "/{id}/studentCohortAssociations/cohorts" }, 
+        { "path": "/{id}/studentGradebookEntries" }, 
+        { "path": "/{id}/studentAcademicRecords"}
       ]
     },
     {
