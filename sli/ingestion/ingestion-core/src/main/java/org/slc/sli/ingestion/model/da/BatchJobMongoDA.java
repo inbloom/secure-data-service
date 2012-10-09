@@ -80,6 +80,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     private MongoTemplate batchJobMongoTemplate;
 
+    private MongoTemplate batchJobHashCacheMongoTemplate;
+
     private MongoTemplate sliMongo;
 
     @Value("${sli.ingestion.errors.tracking}")
@@ -593,6 +595,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.batchJobMongoTemplate = mongoTemplate;
     }
 
+    public void setBatchJobHashCacheMongoTemplate(MongoTemplate batchJobHashCacheMongoTemplate) {
+        this.batchJobHashCacheMongoTemplate = batchJobHashCacheMongoTemplate;
+    }
+
     public void setNumberOfRetries(int numberOfRetries) {
         this.numberOfRetries = numberOfRetries;
     }
@@ -615,12 +621,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
             rh._id = recordId;
             rh.tenantId = tenantId;
             rh.timestamp = "" + System.currentTimeMillis();
-            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
             return false;
         } else {
             rh.timestamp = "" + System.currentTimeMillis();
             rh.tenantId = tenantId;
-            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
 
             return true;
         }
@@ -632,7 +638,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         Query query = new Query().limit(1);
 //        query.addCriteria(Criteria.where("tenantId").is(tenantId));
         query.addCriteria(Criteria.where("_id").is(recordId));
-        return this.batchJobMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
+        return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override
@@ -641,6 +647,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
          Query searchTenantId = new Query();
             searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
                     tenantId));
-        batchJobMongoTemplate.remove(searchTenantId, RECORD_HASH);
+            batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
     }
 }
