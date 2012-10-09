@@ -89,7 +89,7 @@
 	</bean>
 	<bean class="org.slc.sli.search.util.RemoteCommandService" init-method="init">
 		<property name="extractor" ref="extractor" />
-		<property name="port" value="${sli.search.remote.service.port:10024}"/>
+		<property name="port" value="${sli.search.indexer.service.port:10024}"/>
 	</bean>
 
 </beans>
