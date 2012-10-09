@@ -209,7 +209,7 @@ Examples:
 | "assessment"                   | "assessments"             | 17 |
 | "attendance"                   | "attendances"             | 1 |
 | "cohort"                       | "cohorts"                 | 0 |
-| "course"                       | "courses"                 | 0 |
+| "course"                       | "courses"                 | 10|
 | "disciplineAction"             | "disciplineActions"       | 0 |
 | "disciplineIncident"           | "disciplineIncidents"     | 0 |
 | "school"                       | "educationOrganizations"  | 1 |
