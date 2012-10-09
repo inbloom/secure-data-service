@@ -18,17 +18,17 @@
 package org.slc.sli.api.security.resolve.impl;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
@@ -54,11 +54,10 @@ public class MongoUserLocator implements UserLocator {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("metaData.tenantId", tenantId);
-        paths.put("body.staffUniqueStateId", externalUserId);
+        neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
+        neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
 
-        Iterable<Entity> staff = repo.findAllByPaths(EntityNames.STAFF, paths, neutralQuery);
+        Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
 
         if (staff != null && staff.iterator().hasNext()) {
             Entity entity = staff.iterator().next();

@@ -19,12 +19,9 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -95,38 +92,14 @@ public interface Repository<T> {
     public T findOne(String collectionName, NeutralQuery neutralQuery);
 
     /**
-     * Get the number of elements in the collection matching a particular query
-     *
      * @param collectionName
      *            the name of the collection to look in
-     * @return the collection of objects
-     */
-    public Iterable<T> findAll(String collectionName);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param query
+     * @param neutralQuery
      *            the query to filter returned collection results
-     * @param skip
-     *            the beginning index of the object that will be returned
-     * @param max
-     *            the max number of objects that will be returned
      *
      * @return the collection of objects
      */
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.tenantId","Region")
-     * @return the collection of objects
-     */
-    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery);
 
     /**
      * Filter a collection of IDs by
@@ -164,22 +137,6 @@ public interface Repository<T> {
     public boolean update(String collection, T object);
 
     /**
-     * Make an update to an entity.
-     * Note, this does not go through the validator, caller is expected to ensure the update will
-     * keep the object valid
-     * It also does not encrypt values, so it cannot be used to update PII data
-     *
-     * @param collection
-     *            the collection the entity is in
-     * @param id
-     *            the id of the entity
-     * @param update
-     *            the update to make
-     * @return whether or not the object was updated
-     */
-    public boolean doUpdate(String collection, String id, Update update);
-
-    /**
      * Make an update to a single entity through a query
      * Note, this does not go through the validator, caller is expected to ensure the update will
      * keep the object valid
@@ -206,17 +163,9 @@ public interface Repository<T> {
     /**
      * @param collectionName
      *            the name of the collection to delete from
+     * @param query TODO
      */
-    public void deleteAll(String collectionName);
-
-    /**
-     * Execute a mongo command
-     *
-     * @param command
-     *            the command to execute
-     * @return the result of that command
-     */
-    public abstract CommandResult execute(DBObject command);
+    public void deleteAll(String collectionName, NeutralQuery query);
 
     /**
      * Get the actual db collection
@@ -233,18 +182,6 @@ public interface Repository<T> {
      * @return List<DBCollections> collections.
      */
     public List<DBCollection> getCollections(boolean includeSystemCollections);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.tenantId","Region")
-     * @return the collection of objects
-     */
-    @Deprecated
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths);
 
     /**
      * @param collectionName
@@ -271,23 +208,6 @@ public interface Repository<T> {
     public boolean collectionExists(String collection);
 
     /**
-     * Create a collection
-     *
-     * @param collection
-     */
-    public void createCollection(String collection);
-
-    /**
-     * ensureIndex for a collection the database
-     *
-     * @param index
-     *            : the index to be ensured
-     * @param collection
-     *            : name of collection
-     */
-    public void ensureIndex(IndexDefinition index, String collection);
-
-    /**
      * Supports configuring a write concern on a repository.
      *
      * @param writeConcern
@@ -302,9 +222,6 @@ public interface Repository<T> {
     public void setReferenceCheck(String referenceCheck);
 
     public long count(String collectionName, Query query);
-
-    public T createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries);
 
     public T createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName, int noOfRetries);

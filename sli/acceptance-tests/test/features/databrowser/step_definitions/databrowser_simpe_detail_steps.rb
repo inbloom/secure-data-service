@@ -161,7 +161,7 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Detention']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Canadian SIN']")}
 end
 
 When /^I click on any of the entity IDs$/ do

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="studentAcademicRecords" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentAcademicRecord" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAcademicRecord" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'studentAcademicRecord'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="studentAcademicRecordMeta" />
+        <jb:wiring property="body" beanIdRef="studentAcademicRecordBody" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAcademicRecordMeta" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="attributes studentAcademicRecordId" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAcademicRecordBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:wiring property="cumulativeCreditsEarned" beanIdRef="cumulativeCreditsEarned" />
+        <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="cumulativeCreditsAttempted" />
+        <jb:value property="cumulativeGradePointsEarned" data="attributes cumulativeGradePointsEarned" decoder="Double" />
+        <jb:value property="cumulativeGradePointAverage" data="attributes cumulativeGradePointAverage" decoder="Double" />
+        <jb:wiring property="classRanking" beanIdRef="classRanking" />
+        <jb:value property="studentId" data="attributes studentId" />
+        <jb:value property="sessionId" data="attributes sessionId"  />
+        <jb:wiring property="reportCards" beanIdRef="studentAcademicRecord_reportCardArray"/>
+    </jb:bean>
+
+    <jb:bean beanId="cumulativeCreditsEarned" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsEarned">
+        <jb:value property="credit" data="attributes cumulativeCreditsEarned credit" decoder="Double" />
+        <jb:value property="creditType" data="attributes cumulativeCreditsEarned creditType" />
+        <jb:value property="creditConversion" data="attributes cumulativeCreditsEarned creditConversion" decoder="Double" />
+    </jb:bean>
+
+    <jb:bean beanId="cumulativeCreditsAttempted" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsAttempted">
+        <jb:value property="credit" data="attributes cumulativeCreditsAttempted credit" decoder="Double" />
+        <jb:value property="creditType" data="attributes cumulativeCreditsAttempted creditType" />
+        <jb:value property="creditConversion" data="attributes cumulativeCreditsAttempted creditConversion" decoder="Double" />
+    </jb:bean>
+
+    <jb:bean beanId="classRanking" class="java.util.HashMap" createOnElement="attributes classRanking">
+        <jb:value property="classRank" data="attributes classRanking classRank" decoder="Integer" />
+        <jb:value property="totalNumberInClass" data="attributes classRanking totalNumberInClass" decoder="Integer" />
+        <jb:value property="percentageRanking" data="attributes classRanking percentageRanking" decoder="Integer" />
+        <jb:value property="classRankingDate" data="attributes classRanking classRankingDate" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAcademicRecord_reportCardArray" class="java.util.ArrayList" createOnElement="attributes reportCards">
+        <jb:value data="attributes reportCards element" />
+    </jb:bean>
+
+
+</smooks-resource-list>

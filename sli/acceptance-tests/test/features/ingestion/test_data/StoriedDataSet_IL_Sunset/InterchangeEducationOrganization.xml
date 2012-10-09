@@ -66,10 +66,11 @@
 		<MaximumAvailableCredit>
 			<Credit>5</Credit>
 		</MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<UniqueCourseId>A.P.-Calculus-1</UniqueCourseId></Course>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<UniqueCourseId>A.P.-Calculus-1</UniqueCourseId>
+	</Course>
 </InterchangeEducationOrganization>

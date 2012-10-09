@@ -119,7 +119,7 @@ public class ApplicationResourceTest {
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
 
-        repo.deleteAll("application");
+        repo.deleteAll("application", null);
     }
 
     @SuppressWarnings("rawtypes")

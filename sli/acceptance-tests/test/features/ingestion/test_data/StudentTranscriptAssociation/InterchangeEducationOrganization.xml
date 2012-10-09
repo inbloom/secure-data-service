@@ -16,7 +16,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Algebra-10-1</UniqueCourseId></Course>
+    <UniqueCourseId>Algebra-10-1</UniqueCourseId>
+  </Course>
 
   <Course>
     <CourseTitle>Geometry-10</CourseTitle>
@@ -34,6 +35,7 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Geometry-10-2</UniqueCourseId></Course>
+    <UniqueCourseId>Geometry-10-2</UniqueCourseId>
+  </Course>
   
 </InterchangeEducationOrganization>

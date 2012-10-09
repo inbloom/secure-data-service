@@ -75,7 +75,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Club/Team-1</UniqueCourseId></Course>
+    <UniqueCourseId>Club/Team-1</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Senior Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -91,7 +92,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Senior-Homeroom-2</UniqueCourseId></Course>
+    <UniqueCourseId>Senior-Homeroom-2</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Writing about Government</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -107,7 +109,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Writing-about-Government-3</UniqueCourseId></Course>
+    <UniqueCourseId>Writing-about-Government-3</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Honors American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -123,7 +126,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Honors-American-Literature-4</UniqueCourseId></Course>
+    <UniqueCourseId>Honors-American-Literature-4</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -139,7 +143,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>American-Literature-5</UniqueCourseId></Course>
+    <UniqueCourseId>American-Literature-5</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -155,7 +160,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Special-Elective:Debate-Clinic-6</UniqueCourseId></Course>
+    <UniqueCourseId>Special-Elective:Debate-Clinic-6</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>7th Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -171,7 +177,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>7th-Grade-Homeroom-7</UniqueCourseId></Course>
+    <UniqueCourseId>7th-Grade-Homeroom-7</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -188,7 +195,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>7th-Grade-English-8</UniqueCourseId></Course>
+    <UniqueCourseId>7th-Grade-English-8</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -205,7 +213,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>7th-Grade-Composition-9</UniqueCourseId></Course>
+    <UniqueCourseId>7th-Grade-Composition-9</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -222,7 +231,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>8th-Grade-English-10</UniqueCourseId></Course>
+    <UniqueCourseId>8th-Grade-English-10</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Reading Group</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -238,7 +248,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Reading-Group-11</UniqueCourseId></Course>
+    <UniqueCourseId>Reading-Group-11</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -254,7 +265,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>1st-Grade-Homeroom-12</UniqueCourseId></Course>
+    <UniqueCourseId>1st-Grade-Homeroom-12</UniqueCourseId>
+  </Course>
 
   <Course>
     <CourseTitle>Algebra-11</CourseTitle>
@@ -272,7 +284,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Algebra-11-13</UniqueCourseId></Course>
+    <UniqueCourseId>Algebra-11-13</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Algebra-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -289,7 +302,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Algebra-10-14</UniqueCourseId></Course>
+    <UniqueCourseId>Algebra-10-14</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Geometry-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -306,7 +320,8 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference/>
-  <UniqueCourseId>Geometry-10-15</UniqueCourseId></Course>
+    <UniqueCourseId>Geometry-10-15</UniqueCourseId>
+  </Course>
 
 
 

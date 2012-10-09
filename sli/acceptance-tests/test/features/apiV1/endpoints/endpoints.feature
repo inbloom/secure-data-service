@@ -8,9 +8,15 @@ Background: Nothing yet
         When I navigate to <url> with <id>
         Then I should receive a valid return code
     Examples:
-        | url                                     | id | 
-        | "/schools/#{id}/courses"                | "67ce204b-9999-4a11-bfea-000000000005"|
-        | "/schools/#{id}/courseOfferings"        | "67ce204b-9999-4a11-bfea-000000000005"|
-        | "/schools/#{id}/sessions"               | "67ce204b-9999-4a11-bfea-000000000005"| 
-        | "/schools/#{id}/sessions/gradingPeriods"| "67ce204b-9999-4a11-bfea-000000000005"|
+        | url                                                       | id | 
+        | "/schools/#{id}/courses"                                  | "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/schools/#{id}/courseOfferings"                          | "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/schools/#{id}/sessions"                                 | "67ce204b-9999-4a11-bfea-000000000005"| 
+        | "/schools/#{id}/sections/gradebookEntries"                | "67ce204b-9999-4a11-bfea-000000000005"| 
+        | "/schools/#{id}/sessions/gradingPeriods"                  | "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/educationOrganizations/#{id}/studentCompetencyObjectives"| "67ce204b-9999-4a11-bfea-000000000005"|
+        | "/staff/#{id}/disciplineIncidents/studentDisciplineIncidentAssociations"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"|
+        | "/staff/#{id}/disciplineIncidents"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"|
+        | "/staff/#{id}/disciplineActions"| "85585b27-5368-4f10-a331-3abcaf3a3f4c"|
+        | "/sections/#{id}/gradebookEntries"                         | "d17be230-640c-4d41-a10e-b54ec7a90168"|
 

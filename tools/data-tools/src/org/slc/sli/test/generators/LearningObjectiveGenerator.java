@@ -93,8 +93,8 @@ public class LearningObjectiveGenerator {
         learningStdIdForObjective.setIdentificationCode(learningObjectiveMeta.id);
         lo.setLearningObjectiveId(learningStdIdForObjective);
 
-        lo.setObjective("Learning Objective ");
-        lo.setDescription("Learning Objective Desciption ");
+        lo.setObjective(learningObjectiveMeta.id);
+        lo.setDescription("Learning Objective Desciption " + learningObjectiveMeta.id);
         lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
         lo.setObjectiveGradeLevel(GradeLevelType.OTHER);
 

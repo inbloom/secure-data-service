@@ -63,6 +63,10 @@ public class ResourceUtil {
     private static final String BLANK = "";
     private static final Map<String, String> LINK_NAMES = new HashMap<String, String>();
     static {
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.STUDENT_COMPETENCY_OBJECTIVES + LINK,
+                "getStudentCompetencyObjectives");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.STUDENT_COMPETENCY_OBJECTIVES + LINK,
+                "getStudentCompetencyObjectives");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE,
                 "getParentEducationOrganization");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.SCHOOLS + LINK, "getFeederSchools");
@@ -323,9 +327,16 @@ public class ResourceUtil {
                             referenceFieldName, false);
 
                     if (!linkName.isEmpty()) {
-                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
-                                + "?" + referenceFieldName + "=" + id));
+                        if (referenceFieldName.endsWith("Id")) {
+                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                    defn.getResourceName(), id,
+                                    PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()));
+                        } else {
+                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                    PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                                    + "?" + referenceFieldName + "=" + id));
+                        }
+
                     }
 
                 }
