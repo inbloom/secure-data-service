@@ -28,11 +28,12 @@ import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 /**
  * Test for sub doc accessor
@@ -49,13 +50,14 @@ public class SubDocAccessorTest {
     private static final String SECTION2 = "MathematicsOfWontonBurritoMeals";
     private final MongoTemplate template = mock(MongoTemplate.class);
     private final DeterministicUUIDGeneratorStrategy uuidGenerator = mock(DeterministicUUIDGeneratorStrategy.class);
-    INaturalKeyExtractor naturalKeyExtractor = mock(NaturalKeyExtractor.class);
+    private INaturalKeyExtractor naturalKeyExtractor = mock(INaturalKeyExtractor.class);
+    private NaturalKeyDescriptor naturalKeyDescriptor = mock(NaturalKeyDescriptor.class);
     private final SubDocAccessor underTest = new SubDocAccessor(template, uuidGenerator, naturalKeyExtractor);
     private final Map<String, Object> studentSectionAssociation = new HashMap<String, Object>();
     private final DBCollection sectionCollection = mock(DBCollection.class);
 
     @Before
-    public void setUp() {
+    public void setUp() throws NoNaturalKeysDefinedException {
         studentSectionAssociation.put("sectionId", SECTION1);
         studentSectionAssociation.put("studentId", STUDENT1);
         studentSectionAssociation.put("startDate", STARTDATE);
@@ -63,7 +65,7 @@ public class SubDocAccessorTest {
         CommandResult successCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false))).thenReturn(
                 success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
@@ -72,6 +74,17 @@ public class SubDocAccessorTest {
         studentSectionAssociations.put(SECTION1 + "×" + STUDENT2, studentSectionAssociation);
         section.put("studentSectionAssociation", studentSectionAssociations);
         when(template.findOne(matchesParentId(SECTION1), eq(Map.class), eq("section"))).thenReturn(section);
+        when(naturalKeyExtractor.getNaturalKeyDescriptor(argThat(new ArgumentMatcher<Entity>() {
+
+            @Override
+            public boolean matches(Object argument) {
+                Entity entity = (Entity) argument;
+                // TODO Auto-generated method stub
+                return entity.getType().equals("studentSectionAssociation");
+            }
+
+        }))).thenReturn(naturalKeyDescriptor);
+        when(uuidGenerator.generateId(naturalKeyDescriptor)).thenReturn("subdocid");
     }
 
     @Test
@@ -86,14 +99,21 @@ public class SubDocAccessorTest {
                     @SuppressWarnings("unchecked")
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> set = (Map<String, Object>) updateObject.get("$pushAll");
-                        List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
-                                (Collection<? extends Map<String, Object>>) set.values());
-                        List<String> ssaIds = new ArrayList<String>(set.keySet());
-                        return ssaResults.size() == 1 && ssaResults.get(0).get("startDate").equals(STARTDATE)
+                        Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
+                        if (push == null) {
+                            return false;
+                        }
+                        Collection<Object> toPush = push.values();
+                        if (toPush.size() != 1) {
+                            return false;
+                        }
+                        Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
+                        List<String> ssaIds = new ArrayList<String>(push.keySet());
+                        return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body")
+                                .get("startDate").equals(STARTDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(true), eq(false));
+                }), eq(false), eq(false));
 
     }
 
@@ -119,13 +139,17 @@ public class SubDocAccessorTest {
                         if (push == null) {
                             return false;
                         }
-                        List<Map<String, Object>> studentSections = new ArrayList<Map<String, Object>>(
-                                (Collection<? extends Map<String, Object>>) push.values());
+                        Collection<Object> toPush = push.values();
+                        if (toPush.size() != 1) {
+                            return false;
+                        }
+                        Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
                         List<String> ssaIds = new ArrayList<String>(push.keySet());
-                        return studentSections.size() == 1 && studentSections.get(0).get("startDate").equals(STARTDATE)
+                        return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body")
+                                .get("startDate").equals(STARTDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(true), eq(false));
+                }), eq(false), eq(false));
         // Test that both fry and gunther get enrolled in history of the 20th century
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -135,11 +159,17 @@ public class SubDocAccessorTest {
                     public boolean matches(Object argument) {
                         DBObject updateObject = (DBObject) argument;
                         Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
-                        List<Map<String, Object>> ssaResults = new ArrayList<Map<String, Object>>(
-                                (Collection<? extends Map<String, Object>>) push.values());
-                        return ssaResults.size() == 2;
+                        if (push == null) {
+                            return false;
+                        }
+                        Collection<Object> toPush = push.values();
+                        if (toPush.size() != 1) {
+                            return false;
+                        }
+                        Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
+                        return studentSectionsToPush.length == 2;
                     }
-                }), eq(true), eq(false));
+                }), eq(false), eq(false));
 
     }
 
