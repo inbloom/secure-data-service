@@ -261,7 +261,7 @@ public class SubDocAccessor {
             return dbObject;
         }
 
-        private Entity DBObjectToSubDoc(DBObject dbObject) {
+        private Entity convertDBObjectToSubDoc(DBObject dbObject) {
             return MongoEntity.fromDBObject(dbObject);
         }
 
@@ -403,7 +403,7 @@ public class SubDocAccessor {
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
             for (DBObject dbObject : subDocs) {
-                entities.add(DBObjectToSubDoc(((DBObject) dbObject.get(subField))));
+                entities.add(convertDBObjectToSubDoc(((DBObject) dbObject.get(subField))));
             }
 
             return entities;
