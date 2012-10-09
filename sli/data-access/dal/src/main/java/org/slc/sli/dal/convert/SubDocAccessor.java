@@ -315,6 +315,7 @@ public class SubDocAccessor {
             boolean result = true;
             for (Entry<DBObject, List<Entity>> entry : parentEntityMap.entrySet()) {
                 result &= bulkCreate(entry.getKey(), entry.getValue());
+                // result &= doUpdate(entry.getKey(), entry.getValue());
             }
             return result;
         }
@@ -399,11 +400,21 @@ public class SubDocAccessor {
 
         @SuppressWarnings("unchecked")
         private List<Entity> findSubDocs(DBObject parentQuery, DBObject subDocQuery, DBObject limitQuery) {
+            StringBuffer limitQuerySB = new StringBuffer();
+            if (limitQuery != null && limitQuery.keySet().size() > 0) {
+                if (limitQuery.get("$sort") != null) {
+                    limitQuerySB.append(",{$sort:" + limitQuery.get("$sort").toString() + "}");
+                }
+                if (limitQuery.get("$skip") != null) {
+                    limitQuerySB.append(",{$skip:" + limitQuery.get("$skip") + "}");
+                }
+                if (limitQuery.get("$limit") != null) {
+                    limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
+                }
+            }
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
-                    + subDocQuery.toString() + "}"
-                    + ((limitQuery == null || limitQuery.keySet().size() == 0) ? "" : ("," + limitQuery.toString()))
-                    + "]}";
+                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
             LOG.info("the aggregate query command is: {}", queryCommand);
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
