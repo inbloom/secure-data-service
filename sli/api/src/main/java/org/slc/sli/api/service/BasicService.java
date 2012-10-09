@@ -776,7 +776,8 @@ public class BasicService implements EntityService {
         return getAuths().contains(Right.FULL_ACCESS) || defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
                 || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                 || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
-                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
+                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)
+                || defn.getType().equals(EntityNames.GRADUATION_PLAN);
     }
 
     /**
