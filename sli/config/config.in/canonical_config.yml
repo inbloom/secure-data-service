@@ -396,8 +396,7 @@ default:
         sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
-        sli.search.indexer.extract.runOnStartup: false
-	sli.search.indexer.service.port: 10024
+        sli.search.indexer.service.port: 10024
 
 acceptance-tests:
     api:
