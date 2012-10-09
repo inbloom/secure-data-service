@@ -32,6 +32,7 @@ class LandingZoneController < ApplicationController
 
     tenant = get_tenant
     if (tenant == nil)
+      Rails.logger.warn("Tenant ID is nil for user #{uid()}")
       render_403
       return
     end
@@ -74,7 +75,8 @@ class LandingZoneController < ApplicationController
     render :action => 'index', :controller => 'landing_zone'
   end
 
-  def handle_error
+  def handle_error(exception)
+    Rails.logger.error("Error occured provisioning landing zone for #{uid()}: #{exception}")
     render :status => 500, :text => "An error occurred when provisioning the landing zone"
   end
 

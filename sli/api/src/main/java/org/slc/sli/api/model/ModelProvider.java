@@ -19,6 +19,7 @@ package org.slc.sli.api.model;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -30,6 +31,7 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -57,7 +59,22 @@ public class ModelProvider {
     }
 
     public List<AssociationEnd> getAssociationEnds(final Identifier type) {
-        return modelIndex.getAssociationEnds(type);
+        List<Generalization> baseGeneralizations = modelIndex.getGeneralizationBase(type);
+        List<AssociationEnd> baseEnds = new ArrayList<AssociationEnd>();
+        List<AssociationEnd> fullAssociationEnds = new ArrayList<AssociationEnd>();
+
+        if (baseGeneralizations != null) {
+            for (Generalization generalization : baseGeneralizations) {
+                baseEnds.addAll(getAssociationEnds(generalization.getParent()));
+            }
+        }
+
+        List<AssociationEnd> associationEnds = modelIndex.getAssociationEnds(type);
+
+        fullAssociationEnds.addAll(baseEnds);
+        fullAssociationEnds.addAll(associationEnds);
+
+        return fullAssociationEnds;
     }
 
     public Set<ModelElement> lookupByName(final QName qName) {
@@ -89,7 +106,7 @@ public class ModelProvider {
         if (type == null) throw new NullPointerException("type");
         if (attributeName == null) throw new NullPointerException("attributeName");
 
-        final List<Attribute> attributes = type.getAttributes();
+        final List<Attribute> attributes = getAttributes(type);
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attributeName)) {
                 return true;
@@ -120,13 +137,35 @@ public class ModelProvider {
     }
 
     public Attribute getAttributeType(final ClassType type, final String attr) {
-        final List<Attribute> attributes = type.getAttributes();
+        final List<Attribute> attributes = getAttributes(type);
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
                 return attribute;
             }
         }
         return null;
+    }
+
+    public List<Attribute> getAttributes(final ClassType type) {
+        List<Generalization> baseGeneralizations = modelIndex.getGeneralizationBase(type.getId());
+        List<Attribute> baseAttributes = new ArrayList<Attribute>();
+        List<Attribute> fullAttributes = new ArrayList<Attribute>();
+
+        if (baseGeneralizations != null) {
+            for (Generalization generalization : baseGeneralizations) {
+                Type baseType = modelIndex.getType(generalization.getParent());
+
+                if (baseType != null) {
+                    ClassType baseClassType = modelIndex.getClassTypes().get(baseType.getName());
+                    baseAttributes.addAll(baseClassType.getAttributes());
+                }
+            }
+        }
+
+        fullAttributes.addAll(baseAttributes);
+        fullAttributes.addAll(type.getAttributes());
+
+        return fullAttributes;
     }
 
     private ClassType getEmbeddedClassType(final ClassType type, final String attr) {
@@ -185,14 +224,30 @@ public class ModelProvider {
 
         return null;
     }
+
     public String getConnectionPath(final ClassType fromEntityType, final ClassType toEntityType) {
         List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
+        List<Generalization> generalizations = modelIndex.getGeneralizationBase(toEntityType.getId());
+
         for (AssociationEnd end : associationEnds) {
-            if (toEntityType.getId().equals(end.getType())) {
+            if (checkType(toEntityType.getId(), generalizations, end.getType())) {
                 return end.getAssociatedAttributeName();
             }
         }
         return null;
+    }
+
+    private boolean checkType(final Identifier toType, List<Generalization> baseToTypeGeneralizations, final Identifier endType) {
+
+        if (baseToTypeGeneralizations != null) {
+            for (Generalization generalization : baseToTypeGeneralizations) {
+                if (generalization.getParent().equals(endType)) {
+                    return true;
+                }
+            }
+        }
+
+        return toType.equals(endType);
     }
 }
 

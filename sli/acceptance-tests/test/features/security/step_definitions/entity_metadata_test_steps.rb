@@ -46,6 +46,6 @@ Given /^entity URI "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should not receive any metadata/ do
-  assert(!@result[0].has_key?("metaData"), "Response contains metadata")
+  assert(@result.length == 0 || !@result[0].has_key?("metaData"), "Response contains metadata")
 end
 

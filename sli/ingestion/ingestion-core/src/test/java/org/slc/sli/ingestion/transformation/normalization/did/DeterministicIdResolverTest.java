@@ -111,7 +111,7 @@ public class DeterministicIdResolverTest {
         naturalKeys.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
         String entityType = ENTITY_TYPE;
         String tenantId = TENANT;
-        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
@@ -138,7 +138,7 @@ public class DeterministicIdResolverTest {
         naturalKeys.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
         String entityType = ENTITY_TYPE;
         String tenantId = TENANT;
-        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 
@@ -164,11 +164,11 @@ public class DeterministicIdResolverTest {
 
         Map<String, String> naturalKeys1 = new HashMap<String, String>();
         naturalKeys1.put(SRC_KEY_FIELD, SRC_KEY_VALUE_1);
-        NaturalKeyDescriptor ndk1 = new NaturalKeyDescriptor(naturalKeys1, TENANT, ENTITY_TYPE);
+        NaturalKeyDescriptor ndk1 = new NaturalKeyDescriptor(naturalKeys1, TENANT, ENTITY_TYPE, null);
 
         Map<String, String> naturalKeys2 = new HashMap<String, String>();
         naturalKeys2.put(SRC_KEY_FIELD, SRC_KEY_VALUE_2);
-        NaturalKeyDescriptor ndk2 = new NaturalKeyDescriptor(naturalKeys2, TENANT, ENTITY_TYPE);
+        NaturalKeyDescriptor ndk2 = new NaturalKeyDescriptor(naturalKeys2, TENANT, ENTITY_TYPE, null);
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk1))).thenReturn(DID_VALUE_1);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
@@ -225,7 +225,7 @@ public class DeterministicIdResolverTest {
         naturalKeys.put(NESTED_SRC_KEY_FIELD, NESTED_DID_VALUE);
         String entityType = ENTITY_TYPE;
         String tenantId = TENANT;
-        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
 
         Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
         Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);

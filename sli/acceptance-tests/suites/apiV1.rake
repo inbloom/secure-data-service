@@ -231,6 +231,7 @@ desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("staff", "staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")

@@ -42,9 +42,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -70,12 +72,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
+    private static final String RECORD_HASH ="recordHash";
     private static final int DUP_KEY_CODE = 11000;
 
     @Value("${sli.ingestion.totalRetries}")
     private int numberOfRetries;
 
     private MongoTemplate batchJobMongoTemplate;
+
+    private MongoTemplate batchJobHashCacheMongoTemplate;
 
     private MongoTemplate sliMongo;
 
@@ -590,6 +595,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.batchJobMongoTemplate = mongoTemplate;
     }
 
+    public void setBatchJobHashCacheMongoTemplate(MongoTemplate batchJobHashCacheMongoTemplate) {
+        this.batchJobHashCacheMongoTemplate = batchJobHashCacheMongoTemplate;
+    }
+
     public void setNumberOfRetries(int numberOfRetries) {
         this.numberOfRetries = numberOfRetries;
     }
@@ -602,4 +611,42 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.sliMongo = sliMongo;
     }
 
+    @Override
+    public boolean findAndUpsertRecordHash(String tenantId, String recordId) {
+        RecordHash rh = this.findRecordHash(tenantId, recordId);
+
+        if (rh == null) {
+            //record was not found
+            rh = new RecordHash();
+            rh._id = recordId;
+            rh.tenantId = tenantId;
+            rh.timestamp = "" + System.currentTimeMillis();
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+            return false;
+        } else {
+            rh.timestamp = "" + System.currentTimeMillis();
+            rh.tenantId = tenantId;
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+
+            return true;
+        }
+    }
+
+
+    @Override
+    public RecordHash findRecordHash(String tenantId, String recordId) {
+        Query query = new Query().limit(1);
+//        query.addCriteria(Criteria.where("tenantId").is(tenantId));
+        query.addCriteria(Criteria.where("_id").is(recordId));
+        return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
+    }
+
+    @Override
+    public void removeRecordHashByTenant(String tenantId) {
+//       batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);
+         Query searchTenantId = new Query();
+            searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
+                    tenantId));
+            batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
+    }
 }

@@ -8,6 +8,8 @@ public enum ResourceTemplate {
     TWO_PART("/rest/{version}/{resource}/{id}"),
     THREE_PART("/rest/{version}/{base}/{id}/{resource}"),
     FOUR_PART("/rest/{version}/{base}/{id}/{association}/{resource}"),
+    FIVE_PART("/rest/{version}/{base}/{id}/{association}/{resource}/{part5}"),
+    SIX_PART("/rest/{version}/{base}/{id}/{association}/{resource}/{part5}/{part6}"),
     CUSTOM("/rest/{version}/{resource}/{id}/custom"),
     AGGREGATES("/rest/{version}/{resource}/{id}/aggregations"),
     CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues");

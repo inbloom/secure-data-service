@@ -36,6 +36,8 @@ import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
 public class NaturalKeyExtractorTest {
     
+    private static final String COLLECTION_TYPE = "StampCollection";
+    
     @InjectMocks
     NaturalKeyExtractor naturalKeyExtractor = new NaturalKeyExtractor();
     
@@ -69,11 +71,11 @@ public class NaturalKeyExtractorTest {
         NaturalKeyDescriptor desc = naturalKeyExtractor.getNaturalKeyDescriptor(e);
         Map<String, String> naturalKeys = desc.getNaturalKeys();
         
-        Assert.assertEquals("entityType", desc.getEntityType());
+        Assert.assertEquals(COLLECTION_TYPE, desc.getEntityType());
         Assert.assertEquals("someTenant", desc.getTenantId());
         Assert.assertEquals(1, naturalKeys.size());
         Assert.assertEquals("someValue", naturalKeys.get("someField"));
-        Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
+        Mockito.verify(entitySchemaRegistry, Mockito.times(2)).getSchema(Mockito.anyString());
     }
     
     @Test
@@ -206,6 +208,20 @@ public class NaturalKeyExtractorTest {
         Mockito.verify(entitySchemaRegistry, Mockito.times(1)).getSchema(Mockito.anyString());
     }
     
+    @Test
+    public void shouldLookupEntityCollection() {
+        
+        Entity e = setup();
+        
+        // add another optional schema field that is not present
+        AppInfo mockAppInfo = Mockito.mock(AppInfo.class);
+        mockSchema.addAnnotation(mockAppInfo);
+        
+        String collectionName = naturalKeyExtractor.getCollectionName(e);
+        
+        Assert.assertEquals(COLLECTION_TYPE, collectionName);
+    }
+    
     private Entity setup() {
         String entityType = "entityType";
         Entity e = createEntity(entityType);
@@ -218,6 +234,7 @@ public class NaturalKeyExtractorTest {
         AppInfo mockAppInfo = Mockito.mock(AppInfo.class);
         Mockito.when(mockAppInfo.applyNaturalKeys()).thenReturn(true);
         Mockito.when(mockAppInfo.getType()).thenReturn(AnnotationType.APPINFO);
+        Mockito.when(mockAppInfo.getCollectionType()).thenReturn(COLLECTION_TYPE);
         mockSchema.addAnnotation(mockAppInfo);
         
         NeutralSchema mockFieldSchema = Mockito.mock(NeutralSchema.class);
