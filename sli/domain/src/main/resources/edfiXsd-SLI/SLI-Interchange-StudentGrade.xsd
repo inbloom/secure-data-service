@@ -19,7 +19,7 @@
 				<xs:element name="StudentCompetency" type="SLI-StudentCompetencyRestriction"/>
 				<xs:element name="Diploma" type="Diploma"/>
 				<xs:element name="GradebookEntry" type="GradebookEntry"/>
-				<xs:element name="StudentGradebookEntry" type="StudentGradebookEntry"/>
+				<xs:element name="StudentGradebookEntry" type="SLI-StudentGradebookEntry"/>
 				<xs:element name="CompentencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="LearningObjective" type="LearningObjective"/>
 				<xs:element name="StudentCompetencyObjective" type="SLI-StudentCompetencyObjectiveRestriction"/>
