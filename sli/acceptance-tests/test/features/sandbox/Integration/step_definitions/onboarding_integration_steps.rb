@@ -38,6 +38,7 @@ Before do
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db("mreynolds")
    @sandboxdb = Mongo::Connection.new.db("devldapuser_slidev_org")
+   @sandboxdb_name = 'devldapuser_slidev_org'
    @slidb = Mongo::Connection.new.db("sli")
 end
 
@@ -300,6 +301,27 @@ Then /^the tenantId "([^"]*)" is saved in Ldap$/ do |tenantId|
   #puts user
   #after fix login issue for real user to provision instead of sunsetadmin, need to uncomment out
   assert(user[:tenant]==tenantId,"tenantId: #{tenantId} is not saved in Ldap")
+end
+
+
+And /^the sandbox db should have the following map of indexes in the corresponding collections:$/ do |table|
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @sandboxdb.collection(row["collectionName"])
+    @indexcollection = @sandboxdb.collection("system.indexes")
+    @indexCount = @indexcollection.find("ns" => @sandboxdb_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + @sandboxdb_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
 end
 
 
