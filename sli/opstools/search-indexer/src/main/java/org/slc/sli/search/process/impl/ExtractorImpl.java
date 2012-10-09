@@ -49,7 +49,7 @@ public class ExtractorImpl implements Extractor {
 
     private final static int DEFAULT_JOB_WAIT_TIMEOUT_MINS = 180;
 
-    private final static int DEFAULT_EXTRACTOR_JOB_TIME = 300;
+    private final static int DEFAULT_EXTRACTOR_JOB_TIME = 600;
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
@@ -69,7 +69,6 @@ public class ExtractorImpl implements Extractor {
 
     private boolean runOnStartup = false;
 
-    private int extractorJobTimeout = DEFAULT_EXTRACTOR_JOB_TIME;
 
     public void destroy() {
         executor.shutdown();
@@ -119,7 +118,7 @@ public class ExtractorImpl implements Extractor {
         //wait job to be finished.
         for (Future<List<File>> future : futures) {
             try {
-                future.get(this.extractorJobTimeout, TimeUnit.SECONDS);
+                future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
             } catch (Exception e) {
                 logger.error("Error while waiting extractor job to be finished", e);
             }
@@ -254,10 +253,6 @@ public class ExtractorImpl implements Extractor {
 
     public void setJobWaitTimeoutInMins(int jobWaitTimeoutInMins) {
         this.jobWaitTimeoutInMins = jobWaitTimeoutInMins;
-    }
-
-    public void setExtractorJobTimeout(int extractorJobTimeout) {
-        this.extractorJobTimeout = extractorJobTimeout;
     }
 
     /**

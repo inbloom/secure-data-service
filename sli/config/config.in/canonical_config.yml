@@ -397,7 +397,6 @@ default:
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.extract.runOnStartup: false
-	sli.search.indexer.jobTimeout: 300
 	sli.search.indexer.service.port: 10024
 
 acceptance-tests:

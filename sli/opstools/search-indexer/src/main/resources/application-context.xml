@@ -53,7 +53,6 @@
 		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
 		<property name="extractDir" value="${sli.search.indexer.dir.extract}" />
 		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}"></property>
-		<property name="extractorJobTimeout" value="${sli.search.indexer.jobTimeout:300}"></property>
 	</bean>
 
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
