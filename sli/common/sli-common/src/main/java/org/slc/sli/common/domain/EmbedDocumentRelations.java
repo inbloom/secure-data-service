@@ -33,7 +33,7 @@ public class EmbedDocumentRelations {
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
-        //map.put("studentSectionAssociation", new Parent("section", "sectionId"));
+        map.put("studentSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
         subDocParent = Collections.unmodifiableMap(map);
     };
