@@ -34,6 +34,10 @@ end
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
-When /^I query "([^"]*)" to demonstrate "([^"]*)"$/ do |resource_name, test_type|
-  step "I navigate to GET \"/<#{resource_name}>\""
+When /^I query "([^"]*)" of "([^"]*)" to demonstrate "([^"]*)"$/ do |resource_name, school_id, test_type|
+  if school_id == ""
+    step "I navigate to GET \"/<#{resource_name}>\""
+  else
+    step "I navigate to GET \"/<schools/#{school_id}/#{resource_name}>\""
+  end
 end

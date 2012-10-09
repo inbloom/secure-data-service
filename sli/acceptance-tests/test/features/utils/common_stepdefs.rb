@@ -171,3 +171,33 @@ end
 Given /^that databrowser has been authorized for all ed orgs$/ do
   allLeaAllowApp("SLC Data Browser")
 end
+
+Then /^I should receive a link named "([^"]*)"$/ do |arg1|
+  step "in an entity, I should receive a link named \"#{arg1}\""
+end
+
+Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
+  @the_link = []
+  @result = JSON.parse(@res.body)
+  found = false
+  @result = [@result] unless @result.is_a? Array
+  @result.each do |entity|
+    #puts entity
+    assert(entity.has_key?("links"), "Response contains no links")
+    entity["links"].each do |link|
+      if link["rel"] == arg1
+        @the_link.push link['href']
+        found = true
+      end
+    end
+  end
+  assert(found, "Link not found rel=#{arg1}")  
+end
+
+When /^I navigate to GET the link named "([^"]*)"$/ do |arg1|
+  @the_link.each { |link|
+    restHttpGetAbs(link)
+    @result = JSON.parse(@res.body)
+    break if @result.length > 0
+  }
+end
