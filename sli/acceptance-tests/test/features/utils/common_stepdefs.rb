@@ -178,6 +178,7 @@ end
 
 Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   @the_link = []
+  @id_link = []
   @result = JSON.parse(@res.body)
   found = false
   @result = [@result] unless @result.is_a? Array
@@ -187,6 +188,7 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
     entity["links"].each do |link|
       if link["rel"] == arg1
         @the_link.push link['href']
+        @id_link.push({"id"=>entity["id"],"link"=>link["href"]})
         found = true
       end
     end
