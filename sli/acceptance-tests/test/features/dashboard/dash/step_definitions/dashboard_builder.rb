@@ -144,9 +144,16 @@ When /^I click on Panels Menu$/ do
 end
 
 # Click the 'Publish Layout' button
-When /^I click the Publish Layout button$/ do
-  @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
-  @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+#When /^I click the Publish Layout button$/ do
+When /^I click the "(.*?)" button$/ do |buttonName|  
+  
+  if (buttonName =="Publish Layout")
+    @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+  elsif (buttonName =="Restore")
+    @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='restore()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='restoreMessage']").attribute('style').strip)  == "display: block;" }     
+  end
   sleep 3
 end
 
@@ -162,7 +169,7 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   sleep 0.50
+   sleep 1
 end
 
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
