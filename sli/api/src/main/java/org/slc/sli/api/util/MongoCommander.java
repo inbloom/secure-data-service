@@ -15,6 +15,7 @@
 */
 package org.slc.sli.api.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -49,7 +50,7 @@ public class MongoCommander {
             URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
             if(scriptFile != null) {
                 Runtime rt = Runtime.getRuntime();
-                Process p = rt.exec(new String[] {"mongo",db,"--eval",vars,scriptFile.getPath()});
+                Process p = rt.exec(new String[] {"mongo",db,"--eval",vars,(new File(scriptFile.getFile())).getPath()});
                 CmdStreamGobbler errorGobbler = new CmdStreamGobbler(p.getErrorStream(), "ERROR");
 
                 errorGobbler.start();

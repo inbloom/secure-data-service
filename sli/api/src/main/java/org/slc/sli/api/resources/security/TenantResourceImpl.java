@@ -241,7 +241,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
             //Spin up the new database
             MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + getDatabaseName(tenantId) + "\"");
-            MongoCommander.exec(getDatabaseName(tenantId), INDEX_SCRIPT, "");
+            MongoCommander.exec(getDatabaseName(tenantId), INDEX_SCRIPT, " ");
             MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "var num_years=1, tenant='" + tenantId + "', database='" + getDatabaseName(tenantId) + "'");
 
             return tenantService.create(newTenant);
