@@ -98,7 +98,19 @@ end
 Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
-
+When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
+  puts @the_link.count
+  case arg1
+  when /third/
+    @the_link = @the_link[2]
+  when /second/
+    @the_link = @the_link[1]
+  when /first/
+    @the_link = @the_link[0]
+  end
+  restHttpGetAbs(@the_link)
+  #@result = JSON.parse(@res.body)
+end
 # Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
   # version + uri + Transform(template) + uri2
 # end
