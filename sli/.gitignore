@@ -18,3 +18,6 @@ META*
 testBundle*.zip
 opstools/search-indexer/data/
 api/data
+api/src/main/resources/is_shards.js
+api/src/main/resources/sli-shard-presplit.js
+api/src/main/resources/sli_shards.js
