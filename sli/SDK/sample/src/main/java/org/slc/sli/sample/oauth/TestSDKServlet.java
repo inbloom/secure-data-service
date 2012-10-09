@@ -193,14 +193,14 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         String testResult = "";
         try {
-            client.read(collection, ResourceNames.TEACHERS,
+            client.read(collection, ResourceNames.STAFF,
                     BasicQuery.Builder.create().filterEqual("sex", "Male")
                                                .sortBy("name.firstName")
                                                .sortDescending()
                                                .build());
             if (collection.size() > 0) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-                if (firstName.equals("Mark")) {
+                if (firstName.equals("Rick")) {
                     testResult = "succeed";
                 } else {
                     testResult = "failed";

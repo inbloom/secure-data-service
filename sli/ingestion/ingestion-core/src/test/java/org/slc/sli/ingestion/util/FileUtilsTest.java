@@ -23,8 +23,6 @@ import java.io.IOException;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,55 +31,35 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUtilsTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FileUtilsTest.class);
-
     private static final String testFileName = "FileUtilsTest.changetestfile.txt";
 
     private static class TestFileWriter implements Runnable {
-
         private static final long WRITE_TIME = 3000; // 3 secs
         private static final long WRITE_INTERVAL = 250;
 
         @Override
         public void run() {
             long stopTime = System.currentTimeMillis() + WRITE_TIME;
-
             FileWriter outputStream = null;
-
             try {
                 try {
                     outputStream = new FileWriter(testFileName);
-
-                    System.out.println("Writing test file");
-                    System.out.flush();
-
                     while (System.currentTimeMillis() < stopTime) {
-
                         // modify file size
                         outputStream.write("test");
                         outputStream.flush();
-
-                        System.out.println("Modified test file");
-                        System.out.flush();
-
                         Thread.sleep(WRITE_INTERVAL);
                     }
-
                 } catch (InterruptedException e) {
-                    System.out.println("Interrupted!");
-                    e.printStackTrace();
+                    outputStream.write("exception: " + e);
                 } finally {
                     if (outputStream != null) {
                         outputStream.close();
                     }
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-            System.out.println("Done writing test file");
-            System.out.flush();
         }
     }
 

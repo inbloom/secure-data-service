@@ -43,6 +43,15 @@
 	font-size:11px; 
 }
 
+.custom-role {
+    margin-left: 140px;
+    margin-top: 20px;
+}
+
+.top-gap {
+    margin-top: 10px;
+}
+
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript">
@@ -116,17 +125,16 @@
 					</div>
 					<div class="control-group">
 						<label for="selected_roles" class="control-label">Roles:</label>
-						<div class="controls">
-							<select id="selected_roles" name="selected_roles" class="input-xlarge" onchange="disableTextbox();">
+							<select id="selected_roles" name="selected_roles" class="input-xlarge " onchange="disableTextbox();">
                                 <option> </option>
 								<c:forEach items="${roles}" var="role">
 									<option value="${role.id}">${role.name}</option>
 								</c:forEach>
 							</select>
-                            
-                            <label for='customRoles'>Or Custom Role:</label>
-                            <input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" />
-						</div>
+                            <div class="control-group top-gap">
+                                <label for='customRoles' class="control-label">Or Custom Role:</label>
+                                <input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" />
+                            </div>
 					</div>
 					</c:if>
 					<div class="control-group">

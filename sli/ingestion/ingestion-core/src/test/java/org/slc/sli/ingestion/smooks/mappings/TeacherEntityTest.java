@@ -31,6 +31,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
@@ -49,6 +50,9 @@ import org.slc.sli.validation.EntityValidator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     @Autowired
     EntityValidator validator;
@@ -141,7 +145,7 @@ public class TeacherEntityTest {
         String targetSelector = "InterchangeStaffAssociation/Teacher";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                testData);
+                testData, recordLevelDeltaEnabledEntityNames);
 
         Entity e = mock(Entity.class);
 
@@ -167,7 +171,7 @@ public class TeacherEntityTest {
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                teacherCsv);
+                teacherCsv, recordLevelDeltaEnabledEntityNames);
 
         checkValidTeacherNeutralRecord(neutralRecord);
     }
@@ -180,7 +184,7 @@ public class TeacherEntityTest {
         String targetSelector = "InterchangeStaffAssociation/Teacher";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, testData);
+                targetSelector, testData, recordLevelDeltaEnabledEntityNames);
 
         checkValidTeacherNeutralRecord(neutralRecord);
     }

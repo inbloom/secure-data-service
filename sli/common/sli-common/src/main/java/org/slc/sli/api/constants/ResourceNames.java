@@ -83,6 +83,7 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     public static final String ADMIN_DELEGATION = "adminDelegation";
+    public static final String HOME = "home";
 
     public static final Map<String, Set<String>> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, Set<String>>();
 
@@ -153,4 +154,6 @@ public final class ResourceNames {
         }
     }
 
+
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
 }

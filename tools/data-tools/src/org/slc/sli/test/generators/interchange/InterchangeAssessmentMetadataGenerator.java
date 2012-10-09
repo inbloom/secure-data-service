@@ -149,6 +149,8 @@ public class InterchangeAssessmentMetadataGenerator {
 
         System.out.println("generated " + assessmentItemMetas.size() + " AssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));
+        
+        
     }
 
     private static void generatePerformanceLevelDescriptors(InterchangeWriter<InterchangeAssessmentMetadata> writer,

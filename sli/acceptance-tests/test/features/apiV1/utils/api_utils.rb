@@ -101,6 +101,32 @@ end
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
+                                
+Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |arg1, arg2|
+  @result = @res if !defined? @result
+  if(arg1 == 'birthDate')
+    assert(@result['birthData'][arg1] == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
+  else
+    assert(@result[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
+  end
+end
+                                
+                                
+ Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
+  @result = @res if !defined? @result
+  assert(@result["name"] != nil, "Name is nil")
+  
+  expected_middle_name = ""
+  expected_first_name = @result["name"]["firstName"]
+  expected_middle_name = @result["name"]["middleName"] unless middle_name == ""
+  expected_last_name = @result["name"]["lastSurname"]
+  
+  assert(expected_first_name == first_name, "Unexpected first name. Input: #{first_name} Expected: #{expected_first_name}")
+  assert(expected_middle_name == middle_name, "Unexpected middle name. Input: #{middle_name} Expected: #{expected_middle_name}")
+  assert(expected_last_name == last_name, "Unexpected last name. Input: #{last_name} Expected: #{expected_last_name}")
+end
+                                
+
 
 Then /^I should receive a collection with (\d+) elements$/ do |count|;
   count = convert(count)

@@ -17,6 +17,8 @@
 
 package org.slc.sli.test.generators;
 
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.AdministrationEnvironmentType;
@@ -37,19 +39,21 @@ import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 public class StudentAssessmentGenerator {
     private static final boolean INCLUDE_OPTIONAL_DATA = true;
     private static final Random RANDOM = new Random();
+    private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
 
     public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
         StudentAssessment sa = new StudentAssessment();
         sa.setId(studentAssessmentMeta.xmlId);
 
-        sa.setAdministrationDate("2011-05-08");
-
+        //sa.setAdministrationDate("2011-05-08");
+        sa.setAdministrationDate(studentAssessmentMeta.date);
+        
+        
         // student reference
         sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentAssessmentMeta.studentId));
 
         // assessment reference
         sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(studentAssessmentMeta.assessmentId));
-
         if (INCLUDE_OPTIONAL_DATA) {
             sa.setAdministrationEndDate("2012-05-08");
             sa.setSerialNumber("Serial Number");
@@ -113,4 +117,7 @@ public class StudentAssessmentGenerator {
 
         return sa;
     }
+    
+    
+
 }

@@ -223,21 +223,6 @@ end
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
-Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |arg1, arg2|
-  if(arg1 == 'birthDate')
-    assert(@result['birthData'][arg1] == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
-  else
-    assert(@result[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
-  end
-
-end
-
-Then /^the "([^\"]*)" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |arg1, arg2, arg3, arg4|
-  assert(@result[arg1]['firstName'] == arg2, "Expected data incorrect")
-  assert(@result[arg1]['middleName'] == arg3, "Expected data incorrect")
-  assert(@result[arg1]['lastSurname'] == arg4, "Expected data incorrect")
-end
-
 Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
   conn = Mongo::Connection.new(API_DB)
   db = conn[API_DB_NAME]
