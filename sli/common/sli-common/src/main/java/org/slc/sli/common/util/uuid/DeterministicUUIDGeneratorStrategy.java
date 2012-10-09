@@ -79,7 +79,9 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
         }
         // Digest keyValue string into hash
         String hexHash = DigestUtils.shaHex(keyValues.toString().getBytes());
-
+        if (naturalKeyDescriptor.getParentId() != null) {
+            hexHash = naturalKeyDescriptor.getParentId() + hexHash;
+        }
         return hexHash + "_id";
     }
 
