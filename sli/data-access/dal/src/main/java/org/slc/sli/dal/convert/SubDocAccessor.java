@@ -188,6 +188,11 @@ public class SubDocAccessor {
             return doUpdate(query, updateObject);
         }
 
+        public boolean doUpdate(Query query, Update update) {
+            DBObject dbQuery = this.buildSubDocQuery(query);
+            return this.doUpdate(dbQuery, update);
+        }
+
         private boolean doUpdate(DBObject query, Update updateObject) {
             return template.getCollection(collection).update(query, updateObject.getUpdateObject(), true, false)
                     .getLastError().ok();
@@ -324,6 +329,43 @@ public class SubDocAccessor {
             return query;
         }
 
+        /*
+         * Returns a query to find the subdoc with the given id.
+         * Note: Firgure out how to merge it with buildSubDocQuery method
+         */
+        private DBObject getExactSubDocQuery(String id) {
+            String targetDoc = "body." + lookup.get("_id") + "." + id;
+            DBObject query = new BasicDBObject();
+            query.put("_id", getParentEntityId(id));
+            query.put(targetDoc, new BasicDBObject("$exists", true));
+            return query;
+        }
+
+        public boolean exists(String id) {
+            DBObject query = this.getExactSubDocQuery(id);
+            return template.getCollection(collection).count(query) > 0;
+        }
+
+        // Note: This is suboptimal and too memory intensive. Should be implemented
+        // by iterating over the cursor without instantiating instances of MongoEntity as
+        // done in the find(..) method, which should also be refactored.
+        public long count(Query query) {
+            return this.find(query).size();
+        }
+
+        public boolean delete(String id) {
+            String targetDoc = "body." + lookup.get("_id") + "." + id;
+            DBObject query = this.getExactSubDocQuery(id);
+            Update update = new Update();
+            update.unset(targetDoc);
+            return this.doUpdate(query, update);
+        }
+
+        public void deleteAll(Query query) {
+            for(Entity e :  find(query)) {
+                delete(e.getEntityId());
+            }
+        }
     }
 
     public boolean isSubDoc(String docType) {

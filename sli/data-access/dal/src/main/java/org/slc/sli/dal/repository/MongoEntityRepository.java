@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -94,7 +95,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             @Override
             public Object execute() {
-                return create(type, id, body, metaData, collectionName);
+                return internalCreate(type, id, body, metaData, collectionName);
             }
         };
         return (Entity) rc.executeOperation(noOfRetries);
@@ -109,10 +110,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        return create(type, null, body, metaData, collectionName);
+        return internalCreate(type, null, body, metaData, collectionName);
     }
 
-    public Entity create(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+    /*
+     * This method should be private, but is used via mockito in the tests, thus
+     * it's public. (S. Altmueller)
+     */
+    public Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
@@ -218,10 +223,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public boolean update(String collection, Entity entity) {
+    public boolean update(String collectionName, Entity entity) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).update(entity.getEntityId(), entity.getBody());
+        }
         validator.validate(entity);
         this.updateTimestamp(entity);
-        return update(collection, entity, null); // body);
+        return update(collectionName, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -246,9 +254,41 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id), null);
+            Map<String, Object> result = subDocs.subDoc(collectionName).read(id);
+            return (result == null) ? null : new MongoEntity(collectionName, id, result, null);
         }
         return super.findById(collectionName, id);
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        if (subDocs.isSubDoc(collectionName)) {
+            addDefaultQueryParams(neutralQuery, collectionName);
+            Query q = getQueryConverter().convert(collectionName, neutralQuery);
+            q.limit(1);
+            List<Entity> all = subDocs.subDoc(collectionName).find(q);
+            return (all.isEmpty()) ? null : all.get(0);
+        }
+        return super.findOne(collectionName, neutralQuery);
+    }
+
+    @Override
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
+        if (subDocs.isSubDoc(collectionName)) {
+            if (neutralQuery == null) {
+                neutralQuery = new NeutralQuery();
+            }
+            neutralQuery.setIncludeFieldString("_id");
+            addDefaultQueryParams(neutralQuery, collectionName);
+            Query q = getQueryConverter().convert(collectionName, neutralQuery);
+
+            List<String> ids = new LinkedList<String>();
+            for(Entity e : subDocs.subDoc(collectionName).find(q)) {
+                ids.add(e.getEntityId());
+            }
+            return ids;
+        }
+        return super.findAllIds(collectionName, neutralQuery);
     }
 
     @Override
@@ -257,5 +297,57 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collectionName).find(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
+    }
+
+    @Override
+    public boolean exists(String collectionName, String id) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).exists(id);
+        }
+        return super.exists(collectionName, id);
+    }
+
+    @Override
+    public long count(String collectionName, NeutralQuery neutralQuery) {
+        if (subDocs.isSubDoc(collectionName)) {
+            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            return count(collectionName, query);
+        }
+        return super.count(collectionName, neutralQuery);
+    }
+
+    @Override
+    public long count(String collectionName, Query query) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).count(query);
+        }
+        return super.count(collectionName, query);
+    }
+
+    @Override
+    public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        if (subDocs.isSubDoc(collectionName)) {
+            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            return subDocs.subDoc(collectionName).doUpdate(query, update);
+        }
+        return super.doUpdate(collectionName, neutralQuery, update);
+    }
+
+    @Override
+    public boolean delete(String collectionName, String id) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).delete(id);
+        }
+        return super.delete(collectionName, id);
+    }
+
+    @Override
+    public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
+        if (subDocs.isSubDoc(collectionName)) {
+            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            subDocs.subDoc(collectionName).deleteAll(query);
+        } else {
+            super.deleteAll(collectionName, neutralQuery);
+        }
     }
 }

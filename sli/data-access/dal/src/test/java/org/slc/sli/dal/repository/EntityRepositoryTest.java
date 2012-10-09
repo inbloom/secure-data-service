@@ -407,7 +407,7 @@ public class EntityRepositoryTest {
         int noOfRetries = 5;
 
         Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
-            .create("student", null, studentBody, studentMetaData, "student");
+            .internalCreate("student", null, studentBody, studentMetaData, "student");
         Mockito.doCallRealMethod().when(mockRepo)
             .createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
 
@@ -417,7 +417,7 @@ public class EntityRepositoryTest {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).internalCreate("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test
