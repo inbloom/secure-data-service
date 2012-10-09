@@ -18,7 +18,7 @@ if sectionId == ssaLine_hash["body"]["sectionId"]
 ssa_array << ssaLine_hash
 end
 if ssa_array.length > 0
-line_hash["studentAssociations"] = ssa_array
+line_hash["studentSectionAssociation"] = ssa_array
 puts line_hash
 end
 end
