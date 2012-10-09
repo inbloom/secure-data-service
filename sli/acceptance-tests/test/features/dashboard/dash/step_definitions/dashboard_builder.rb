@@ -143,15 +143,15 @@ When /^I click on Panels Menu$/ do
   @driver.find_elements(:class, "accordion-heading")[1].find_element(:tag_name,"a").click
 end
 
-# Click the 'Publish Layout' button
+# Click the 'Publish Layout' or 'Restore' button after making changes in the page
 #When /^I click the Publish Layout button$/ do
 When /^I click the "(.*?)" button$/ do |buttonName|  
-  
+  activeButton = @currentPage.find_element(:class, "form-actions")
   if (buttonName =="Publish Layout")
-    @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
+    activeButton.find_element(:css, "[ng-click='publishPage()']").click
     @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
   elsif (buttonName =="Restore")
-    @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='restore()']").click
+    activeButton.find_element(:css, "[ng-click='restore()']").click
     @explicitWait.until {(style = @driver.find_element(:css, "div[class*='restoreMessage']").attribute('style').strip)  == "display: block;" }     
   end
   sleep 3
