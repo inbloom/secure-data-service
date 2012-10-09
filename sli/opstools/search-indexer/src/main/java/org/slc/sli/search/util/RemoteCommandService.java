@@ -72,7 +72,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     // Main function, Listen server socket
-    private void listen() throws Exception{
+    private void listen() throws Exception {
 
         try {
             // Wait for client to connect
@@ -110,11 +110,13 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 }
             }
 
+            String option = null;
             // execute command
             switch (command) {
                 case Extract:
                     logger.info("Remote Service received Extract command");
-                    if (command.getOption().equals("sync")) {
+                    option = command.getOption();
+                    if (option != null && option.equals("sync")) {
                         this.extractor.execute();
                     } else {
                         scheduledService.schedule(new Runnable() {
@@ -126,22 +128,22 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                     command.setReply("sent extract command");
                     break;
                 case Stop:
-                    
+
                     int delay = 5;
                     try {
-                        String option = command.getOption();
+                        option = command.getOption();
                         if (option != null && !option.isEmpty()) {
                             delay = Integer.parseInt(option);
                         }
                     } finally {
-                        logger.info("Remote Service received Stop command, shutting down in "+delay+" second(s)");
+                        logger.info("Remote Service received Stop command, shutting down in " + delay + " second(s)");
                         scheduledService.schedule(new Runnable() {
                             public void run() {
                                 commandShutdown();
                             }
                         }, delay, TimeUnit.SECONDS);
                     }
-                    command.setReply("Shutting down in "+delay+ " second(s)\n");
+                    command.setReply("Shutting down in " + delay + " second(s)\n");
                     break;
                 default:
                     command.setReply("Available Commands:\n" + "extract (start Extractor job)\n"
