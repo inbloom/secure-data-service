@@ -108,6 +108,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         guideIfTenantAgnostic(collectionName);
         for (String tenantId : distinctTenantIds) {
             // escape nasty characters
+
             tenantId = TenantIdToDbName.convertTenantIdToDbName(tenantId);
 
             if (isValidDbName(tenantId)) {
@@ -121,7 +122,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     private boolean isValidDbName(String tenantId) {
-        return !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
+        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
     }
 
 

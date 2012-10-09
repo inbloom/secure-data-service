@@ -34,7 +34,11 @@ public class TenantIdToDbName {
      *            Mongo DB name for tenant.
      */
     public static String convertTenantIdToDbName(String tenantId) {
-        return tenantId.replaceAll("[^A-Za-z0-9]", "_");
+    	if (tenantId != null) {
+    		return tenantId.replaceAll("[^A-Za-z0-9]", "_");
+    	} else {
+    		return tenantId;
+    	}
     }
 
 }
