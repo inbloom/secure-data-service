@@ -17,14 +17,11 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a link named "getFeederEducationOrganizations"
     When I navigate to GET the link named "getFeederEducationOrganizations"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getFeederEducationOrganizations"
-    When I navigate to GET the link named "getFeederEducationOrganizations"
-    Then I should receive a return code of 200
         And I should receive a link named "getFeederSchools"
-    When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+    When I navigate to GET the "first" link named "getFeederSchools"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
-    When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
+    When I navigate to GET the "third" link named "self" 
     Then I should receive a return code of 200
        And I should receive a link named "getSessions"
     When I navigate to GET the link named "getSessions"
@@ -67,9 +64,6 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getFeederEducationOrganizations"
-    When I navigate to GET the link named "getFeederEducationOrganizations"
-    Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getFeederEducationOrganizations"
     When I navigate to GET the link named "getFeederEducationOrganizations"
     Then I should receive a return code of 200
         And I should receive a link named "getFeederSchools"
