@@ -162,7 +162,7 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   sleep 1
+   sleep 0.50
 end
 
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
@@ -246,7 +246,10 @@ def hoverOverPage(pageName, mode = nil)
   elsif (mode == "delete")
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
     begin
-      @driver.switch_to.alert.accept
+      #Find the Remove Tab? pop up window
+      popupPanel = @driver.find_element(:id, "removeTab")
+      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
+      ensurePopupUnloaded()
     rescue
     end
     sleep 1
