@@ -90,7 +90,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         List<Entity> crossTenantResults = Collections.emptyList();
 
         guideIfTenantAgnostic("realm");
-        List<String> distinctTenantIds = (List<String>) template.getCollection("realm").distinct("body.tenantId");
+        List<String> distinctTenantIds = template.getCollection("realm").distinct("body.tenantId");
 
         String originalTenantId = TenantContext.getTenantId();
         try {
@@ -124,7 +124,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
     }
 
-    @Override
+
     public Entity createWithRetries(final String type, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {

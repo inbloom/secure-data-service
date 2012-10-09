@@ -31,11 +31,6 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +39,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
+
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -294,6 +295,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     private Iterable<T> findAll(Query query, String collectionName) {
+    	guideIfTenantAgnostic(collectionName);
         return template.find(query, getRecordClass(), collectionName);
     }
 
@@ -317,7 +319,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return ids;
     }
 
-    @Override
+
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
@@ -469,12 +471,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        guideIfTenantAgnostic(collection);
-        return template.updateFirst(Query.query(new Criteria("_id").is(id)), update, collection).getLastError().ok();
-    }
-
-    @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         return updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
     }
@@ -508,7 +504,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return deleted != null;
     }
 
-    @Override
 
     public void deleteAll(String collectionName) {
         // We decided that if TenantId is null, then we will search on blank.
@@ -521,7 +516,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         } else {
             obj = new BasicDBObject();
         }
-
+        guideIfTenantAgnostic(collectionName);
         template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
     }
@@ -533,8 +528,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
             LOG.debug("find objects in collection {} with total numbers is {}",
                     new Object[] { collectioName, results.size() });
         }
+     }
 
-    public void deleteAll(String collectionName, NeutralQuery query) {
+
+	@Override
+	public void deleteAll(String collectionName, NeutralQuery query) {
         this.addDefaultQueryParams(query, collectionName);
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
         guideIfTenantAgnostic(collectionName);
@@ -549,7 +547,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
         Iterable<T> results = findAll(query, collectionName);
-        logResults(collectionName, results);
+
         return results;
     }
 
@@ -583,17 +581,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public boolean collectionExists(String collection) {
         guideIfTenantAgnostic(collection);
         return template.collectionExists(collection);
-    }
-
-    @Override
-    /**
-     * This function assumes the collection does not exists
-     *
-     * @author tke
-     */
-    public void createCollection(String collection) {
-        guideIfTenantAgnostic(collection);
-        template.createCollection(collection);
     }
 
     @Override
