@@ -23,12 +23,12 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | ">="     | "Chem305-Sec2"     | 3                 | "string"  |
     | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | "!="     | "Chem305-Sec2"     | 3                 | "string"  |
     | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | "="      | "Chem305-Sec2"     | 1                 | "string"  |
-    | "gradingPeriods"                     | ""                                     | "beginDate"             | "<="     | "2012-01-01"       | 0                 | "date"    |
+    | "gradingPeriods"                     | ""                                     | "beginDate"             | "<="     | "2012-01-01"       | 2                 | "date"    |
     | "gradingPeriods"                     | ""                                     | "beginDate"             | ">"      | "2012-01-01"       | 0                 | "date"    |
-    | "gradingPeriods"                     | ""                                     | "beginDate"             | "<"      | "2012-01-01"       | 0                 | "date"    |
-    | "gradingPeriods"                     | ""                                     | "beginDate"             | ">="     | "2012-01-01"       | 0                 | "date"    |
-    | "gradingPeriods"                     | ""                                     | "beginDate"             | "!="     | "2012-01-01"       | 0                 | "date"    |
-    | "gradingPeriods"                     | ""                                     | "beginDate"             | "="      | "2011-08-01"       | 0                 | "date"    |
+    | "gradingPeriods"                     | ""                                     | "beginDate"             | "<"      | "2012-01-01"       | 1                 | "date"    |
+    | "gradingPeriods"                     | ""                                     | "beginDate"             | ">="     | "2012-01-01"       | 1                 | "date"    |
+    | "gradingPeriods"                     | ""                                     | "beginDate"             | "!="     | "2012-01-01"       | 1                 | "date"    |
+    | "gradingPeriods"                     | ""                                     | "beginDate"             | "="      | "2011-08-01"       | 1                 | "date"    |
     | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | "<="     | "true"             | 4                 | "boolean" |
     | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | ">"      | "true"             | 0                 | "boolean" |
     | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | "<"      | "true"             | 4                 | "boolean" |
