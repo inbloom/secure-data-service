@@ -169,7 +169,7 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   sleep 1
+   sleep 2
 end
 
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
