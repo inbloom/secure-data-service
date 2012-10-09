@@ -58,6 +58,7 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
 
         Scenario Outline: CRUD operations on invalid entities
@@ -100,6 +101,7 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 #| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
 
         Scenario Outline: Get All Entities
@@ -136,6 +138,7 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | 3 |
 | "gradingPeriod"                | "gradingPeriods"          | 2 |
 | "reportCard"                   | "reportCards"             | 3 |
+| "graduationPlan"               | "graduationPlans"         | 5 |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -189,3 +192,4 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 #| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
