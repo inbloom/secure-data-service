@@ -289,7 +289,9 @@ public class EntityManager extends ApiClientManager {
      */
     public GenericEntity getSectionForProfile(String token, String sectionId) {
         GenericEntity section = getApiClient().getSection(token, sectionId);
-
+        if (section == null) {
+        	return null;
+        }
         // Retrieve teacher of record for the section, and add the teacher's name to the section
         // entity.
         GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
@@ -422,25 +424,27 @@ public class EntityManager extends ApiClientManager {
 
                         //Retrieve, course, teacher, and subject for the studentSectionAssociation.
                         GenericEntity section = getSectionForProfile(token, studentSectionAssociation.getString(Constants.ATTR_SECTION_ID));
-                        toAdd.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-                        Map teacher = (Map) section.get(Constants.ATTR_TEACHER_NAME);
-
-                        StringBuilder teacherName = new StringBuilder();
-                        if (teacher != null) {
-                            if (teacher.containsKey(Constants.ATTR_PERSONAL_TITLE_PREFIX)) {
-                                teacherName = teacherName.append(teacher.get(Constants.ATTR_PERSONAL_TITLE_PREFIX)).append(". ");
-                            }
-                            if (teacher.containsKey(Constants.ATTR_FIRST_NAME)) {
-                                teacherName = teacherName.append(teacher.get(Constants.ATTR_FIRST_NAME)).append(" ");
-                            }
-                            if (teacher.containsKey(Constants.ATTR_LAST_SURNAME)) {
-                                teacherName = teacherName.append(teacher.get(Constants.ATTR_LAST_SURNAME));
-                            }
+                        // section may be null if teacher has no access to it
+                        if (section != null) {
+	                        toAdd.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+	                        Map teacher = (Map) section.get(Constants.ATTR_TEACHER_NAME);
+	
+	                        StringBuilder teacherName = new StringBuilder();
+	                        if (teacher != null) {
+	                            if (teacher.containsKey(Constants.ATTR_PERSONAL_TITLE_PREFIX)) {
+	                                teacherName = teacherName.append(teacher.get(Constants.ATTR_PERSONAL_TITLE_PREFIX)).append(". ");
+	                            }
+	                            if (teacher.containsKey(Constants.ATTR_FIRST_NAME)) {
+	                                teacherName = teacherName.append(teacher.get(Constants.ATTR_FIRST_NAME)).append(" ");
+	                            }
+	                            if (teacher.containsKey(Constants.ATTR_LAST_SURNAME)) {
+	                                teacherName = teacherName.append(teacher.get(Constants.ATTR_LAST_SURNAME));
+	                            }
+	                        }
+	                        toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName.toString());
+	                        toAdd.put(Constants.ATTR_COURSE_TITLE, section.get(Constants.ATTR_COURSE_TITLE));
+	                        toAdd.put(Constants.ATTR_SUBJECTAREA, section.get(Constants.ATTR_SUBJECTAREA));
                         }
-                        toAdd.put(Constants.ATTR_TEACHER_NAME, teacherName.toString());
-                        toAdd.put(Constants.ATTR_COURSE_TITLE, section.get(Constants.ATTR_COURSE_TITLE));
-                        toAdd.put(Constants.ATTR_SUBJECTAREA, section.get(Constants.ATTR_SUBJECTAREA));
-
 
                         //Iterate the link and retrieve grades for the studentSectionAssociation.
                         for (Link stuSecLinks : studentSectionAssociation.getLinks()) {

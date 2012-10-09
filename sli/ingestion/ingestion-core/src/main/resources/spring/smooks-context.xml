@@ -23,7 +23,7 @@
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
                 <value>${smooks.targetselector.xml.program}</value>
-                <value>${smooks.targetselector.xml.competencyLevelDescriptor}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptorEdOrg}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -131,6 +131,7 @@
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptorStudentGrade}</value>
                  <value>InterchangeStudentGrade/LearningObjective</value>
                
               </list>
@@ -193,6 +194,7 @@
     </property>
     <property name="beanId" value="${smooks.config.bean.id}" />
     <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
   </bean>
 
 </beans>

@@ -2625,7 +2625,7 @@ such as Displaced Homemaker, Immigrant, Migratory, Military Parent, Pregnant Tee
 							<xs:documentation>The session associated with the session.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ReportCardReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ReportCardReference" type="ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Report cards for the student.</xs:documentation>
 						</xs:annotation>
@@ -2791,7 +2791,7 @@ Met standard
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="ReferenceType" minOccurs="0">
+					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -2954,7 +2954,7 @@ Met standard
 							<xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="ReferenceType">
+					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType">
 						<xs:annotation>
 							<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -4778,6 +4778,77 @@ Second grade
 			<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportCardReferenceType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="ReportCardIdentity" type="ReportCardIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReportCardIdentityType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StudentAssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="StudentAssessmentIdentity" type="StudentAssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StudentAssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AdministrationDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssessmentReference" type="AssessmentReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

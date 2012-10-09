@@ -369,4 +369,17 @@
     </EducationOrganizationReference>
     <UniqueCourseId>Club/Team-6</UniqueCourseId>
   </Course>
+    
+    <CompetencyLevelDescriptor id="CL_7">
+		<CodeValue>Barely Competent 7</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_8">
+		<CodeValue>Barely Competent 8</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	
+    
 </InterchangeEducationOrganization>
