@@ -8,6 +8,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -15,6 +16,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import com.mongodb.util.ThreadUtil;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -25,13 +33,6 @@ import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.ThreadUtil;
 
 /**
  * Extractor pulls data from mongo and writes it to file.
@@ -45,8 +46,10 @@ public class ExtractorImpl implements Extractor {
 
     private final static int DEFAULT_LINE_PER_FILE = 500000;
     private final static int DEFAULT_EXECUTOR_THREADS = 2;
-    
+
     private final static int DEFAULT_JOB_WAIT_TIMEOUT_MINS = 180;
+
+    private final static int DEFAULT_EXTRACTOR_JOB_TIME = 300;
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
@@ -61,11 +64,13 @@ public class ExtractorImpl implements Extractor {
     private ExecutorService executor;
 
     private int executorThreads = DEFAULT_EXECUTOR_THREADS;
-    
+
     private int jobWaitTimeoutInMins = DEFAULT_JOB_WAIT_TIMEOUT_MINS;
 
     private boolean runOnStartup = false;
-    
+
+    private int extractorJobTimeout = DEFAULT_EXTRACTOR_JOB_TIME;
+
     public void destroy() {
         executor.shutdown();
     }
@@ -78,11 +83,10 @@ public class ExtractorImpl implements Extractor {
             execute();
         }
     }
+
     public void createExtractDir() {
         new File(extractDir).mkdirs();
     }
-
-
 
     /*
      * (non-Javadoc)
@@ -90,9 +94,11 @@ public class ExtractorImpl implements Extractor {
      * @see org.slc.sli.search.process.Extractor#execute()
      */
     public void execute() {
+
         IndexConfig config;
-        Collection<String> collections = indexConfigStore.getCollections(); 
+        Collection<String> collections = indexConfigStore.getCollections();
         Future<List<File>> call;
+        List<Future<List<File>>> futures = new LinkedList<Future<List<File>>>();
         for (String collection : collections) {
             config = indexConfigStore.getConfig(collection);
             // child docs will be processed as dependents
@@ -100,10 +106,22 @@ public class ExtractorImpl implements Extractor {
                 continue;
             }
             call = executor.submit(new ExtractWorker(config));
+            futures.add(call);
             if (config.hasDependents()) {
                 for (String dependent : config.getDependents()) {
-                    executor.submit(new DependentExtractWorker(indexConfigStore.getConfig(dependent), call));
+                    Future<List<File>> dependentCall = executor.submit(new DependentExtractWorker(indexConfigStore
+                            .getConfig(dependent), call));
+                    futures.add(dependentCall);
                 }
+            }
+        }
+        
+        //wait job to be finished.
+        for (Future<List<File>> future : futures) {
+            try {
+                future.get(this.extractorJobTimeout, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                logger.error("Error while waiting extractor job to be finished", e);
             }
         }
     }
@@ -111,6 +129,7 @@ public class ExtractorImpl implements Extractor {
     /**
      * Create DBCUrsor
      * Also, make this method available to Mock for UT
+     * 
      * @param collectionName
      * @param fields
      * @return
@@ -157,7 +176,7 @@ public class ExtractorImpl implements Extractor {
                 numberOfLineWritten++;
             }
             IOUtils.closeQuietly(bw);
-            
+
             finishProcessing(outFile, producedFiles);
             logger.info("Finished extracting " + collectionName);
         } catch (FileNotFoundException e) {
@@ -170,16 +189,16 @@ public class ExtractorImpl implements Extractor {
                 extractCollection(config, ++retryCount);
             }
         } finally {
-      
+
             // close file
             IOUtils.closeQuietly(bw);
             // close cursor
             if (cursor != null)
-               cursor.close();
+                cursor.close();
         }
         return producedFiles;
     }
-    
+
     private void finishProcessing(File outFile, List<File> producedFiles) throws IOException {
         // finish up
         // move file to inbox for indexer
@@ -189,7 +208,7 @@ public class ExtractorImpl implements Extractor {
             producedFiles.add(movedFile);
         }
     }
-    
+
     protected DBCursor getCursor(String collectionName, List<String> fields) {
         // execute query, get cursor of results
         BasicDBObject keys = new BasicDBObject();
@@ -232,9 +251,13 @@ public class ExtractorImpl implements Extractor {
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
-    
+
     public void setJobWaitTimeoutInMins(int jobWaitTimeoutInMins) {
         this.jobWaitTimeoutInMins = jobWaitTimeoutInMins;
+    }
+
+    public void setExtractorJobTimeout(int extractorJobTimeout) {
+        this.extractorJobTimeout = extractorJobTimeout;
     }
 
     /**
@@ -255,7 +278,7 @@ public class ExtractorImpl implements Extractor {
             return extractCollection(config, 0);
         }
     }
-    
+
     /**
      * Runnable Thread class to write into file read from Mongo.
      * 
@@ -286,10 +309,10 @@ public class ExtractorImpl implements Extractor {
                             }
                         });
                     }
-                    
+
                 }
             } catch (Exception e) {
-                logger.error("Error while waiting for parent job to finish for " + config , e);
+                logger.error("Error while waiting for parent job to finish for " + config, e);
             }
             return super.call();
         }

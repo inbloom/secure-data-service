@@ -43,7 +43,7 @@ public class MockDBCursorFactory {
      * @param collection
      * @return
      */
-    public DBCursor createDBCursor(String collection) {
+    private DBCursor createDBCursor(String collection) {
         DBCursor cursor = mock(DBCursor.class);
         BufferedReader br = null;
         File jsonFile = new File(DBCollection.class.getClassLoader().getResource(collection + ".json").getFile());
