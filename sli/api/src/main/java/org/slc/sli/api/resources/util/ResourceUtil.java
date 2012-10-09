@@ -327,17 +327,9 @@ public class ResourceUtil {
                             referenceFieldName, false);
 
                     if (!linkName.isEmpty()) {
-                        // if (referenceFieldName.endsWith("Id")) {
-                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                    defn.getResourceName(), id,
-                                    PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()));
-                        // } else {
-                        // links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo,
-                        // PathConstants.V1,
-                        // PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
-                        // + "?" + referenceFieldName + "=" + id));
-                        // }
-
+                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                                + "?" + referenceFieldName + "=" + id));
                     }
 
                 }
