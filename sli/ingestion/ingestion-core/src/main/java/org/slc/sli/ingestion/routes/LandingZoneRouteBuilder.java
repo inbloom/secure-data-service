@@ -26,7 +26,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
-import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
@@ -60,13 +59,15 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
 
     private String workItemQueueUri;
 
+    private String landingZoneQueueUri;
+
     /**
      * @param landingZonePaths, the landing zone directories to poll
      * @param workItemQueueUri, the URI for the main ingestion queue
      * @param zipFileProcessor, the ingestion zip processor
      * @param controlFilePreProcessor, the ingestion controlFilePreProcessor
      */
-    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri,
+    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri, String landingZoneQueueUri,
             ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor,
             int pollInterval, int readLockCheckInterval, int readLockTimeout) {
 
@@ -75,6 +76,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
         this.controlFilePreProcessor = controlFilePreProcessor;
         this.noExtractProcessor = noExtractProcessor;
         this.workItemQueueUri = workItemQueueUri;
+        this.landingZoneQueueUri = landingZoneQueueUri;
         this.pollInterval = pollInterval;
         this.readLockCheckInterval = readLockCheckInterval;
         this.readLockTimeout = readLockTimeout;
@@ -86,38 +88,22 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
         for (String inboundDir : landingZonePaths) {
             log.info("Configuring route for landing zone: {}", inboundDir + ", pi=" + pollInterval + ", rlci=" + readLockCheckInterval + ", rlt=" + readLockTimeout);
 
-            //Don't create the file poller if failed to create
-            //the landing zone or the name is invalid
+            // Skip inboundDir if failed to create the landing zone or the name is invalid.
             if (!isValidDirName(inboundDir) || !createValidDir(inboundDir)) {
                 continue;
             }
 
-            // routeId: ctlFilePoller-inboundDir
-            from(
-                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
-            + "&delay=" + pollInterval
-            + "&delete=true"
-            + "&readLock=changed&readLockCheckInterval=" + readLockCheckInterval)
-                    .routeId(CTRL_POLLER_PREFIX + inboundDir)
+            // routeId: inboundDir
+            from(landingZoneQueueUri).routeId(inboundDir).log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.")
+//                .choice().when(header("controlFile").isEqualTo(true))
+                .choice().when(body().endsWith(".ctl"))
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
                     .choice().when(header("hasErrors").isEqualTo(true))
                         .to("direct:stop")
                     .otherwise()
-                        .to(workItemQueueUri);
-
-            // routeId: zipFilePoller-inboundDir
-            from(
-                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension()
-            + "$&exclude=\\.in\\.*"
-            + "&preMove="
-                            + inboundDir + "/.done&moveFailed=" + inboundDir
-                            + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=" + readLockCheckInterval
-                            + "&readLockTimeout=" + readLockTimeout
-                            + "&delay=" + pollInterval
-                            + "&delete=true")
-                    .routeId(ZIP_POLLER_PREFIX + inboundDir)
+                        .to(workItemQueueUri).endChoice()
+                .when(body().endsWith(".zip"))
                     .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                     .process(zipFileProcessor)
                     .choice().when(header("hasErrors").isEqualTo(true))
@@ -128,17 +114,9 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                             .choice().when(header("hasErrors").isEqualTo(true))
                                 .to("direct:stop")
                             .otherwise()
-                                .to(workItemQueueUri);
-
-//            from(
-//                    "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
-//                            + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
-//                            + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-//                + "&readLock=changed&readLockCheckInterval=1000")
-//                    .routeId("noextract-" + inboundDir)
-//                .log(LoggingLevel.INFO, "CamelRouting",
-//                        "No-extract command file detected. Routing to NoExtractProcessor.").process(noExtractProcessor)
-//            .to("direct:postExtract");
+                                .to(workItemQueueUri).endChoice().endChoice()
+                .otherwise()
+                    .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");
 
         }
     }

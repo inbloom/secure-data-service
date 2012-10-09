@@ -65,7 +65,7 @@ public class LandingZoneRouteBuilderTest {
         testPaths.add(testPath);
 
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(testPaths,
-                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor, 1000, 2000, 5000);
+                "seda:workItemQueue", "seda:landingZoneQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor, 1000, 2000, 5000);
 
         camelContext.start();
 

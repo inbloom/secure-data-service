@@ -67,6 +67,8 @@ public class TenantProcessor implements Processor {
 
     private String workItemQueueUri;
 
+    private String landingZoneQueueUri;
+
     @Autowired
     private ZipFileProcessor zipFileProcessor;
 
@@ -121,6 +123,10 @@ public class TenantProcessor implements Processor {
         this.workItemQueueUri = workItemQueueUri;
     }
 
+    public void setLandingZoneQueueUri(String landingZoneQueueUri) {
+        this.landingZoneQueueUri = landingZoneQueueUri;
+    }
+
     /**
      * Update the landing zone routes based on the tenant DB collection.
      *
@@ -162,8 +168,11 @@ public class TenantProcessor implements Processor {
         List<Route> routes = camelContext.getRoutes();
         for (Route curRoute : routes) {
             String routeId = curRoute.getId();
-            if (routeId.contains(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX)) {
-                routePaths.add(routeId.replace(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX, ""));
+//            if (routeId.contains(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX)) {
+//                routePaths.add(routeId.replace(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX, ""));
+//            }
+            if (routeId.contains(File.separator)) {
+                routePaths.add(routeId);
             }
         }
         return routePaths;
@@ -177,11 +186,12 @@ public class TenantProcessor implements Processor {
      */
     private void removeRoutes(Set<String> routesToRemove) throws Exception {
         for (String routePath : routesToRemove) {
-            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
-            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
+//            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
+//            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
             // initiate graceful shutdown of these routes
-            camelContext.stopRoute(zipRouteId);
-            camelContext.stopRoute(ctrlRouteId);
+//            camelContext.stopRoute(zipRouteId);
+//            camelContext.stopRoute(ctrlRouteId);
+            camelContext.stopRoute(routePath);
         }
     }
 
@@ -192,7 +202,7 @@ public class TenantProcessor implements Processor {
      *             if a route cannot be resolved
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
-        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri,
+        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri, landingZoneQueueUri,
                 zipFileProcessor, controlFilePreProcessor, noExtractProcessor, pollInterval, readLockCheckInterval, readLockTimeout);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }

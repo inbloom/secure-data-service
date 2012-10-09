@@ -124,6 +124,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private String workItemConsumers;
 
+    @Value("${sli.ingestion.queue.landingZone.queueURI}")
+    private String landingZoneQueue;
+
+    @Value("${sli.ingestion.queue.landingZone.concurrentConsumers}")
+    private String landingZoneConsumers;
+
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
 
@@ -200,6 +206,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             configureTenantPollingTimerRoute();
             tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
+            tenantProcessor.setLandingZoneQueueUri(getLandingZoneQueueUri());
             this.addRoutesToCamelContext(camelContext);
         }
 
@@ -350,6 +357,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     public String getWorkItemQueueUri() {
         return workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+    }
+
+    /**
+     * Access the landingZoneQueueUri.
+     */
+    public String getLandingZoneQueueUri() {
+        return landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
     }
 
     public void configureTenantPollingTimerRoute() {

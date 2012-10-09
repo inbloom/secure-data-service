@@ -62,7 +62,7 @@ default:
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
         sli.api.performance.tracking: false
-        
+
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
 
@@ -158,6 +158,12 @@ default:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.queue.landingZone.host:
+        sli.ingestion.queue.landingZone.port:
+        sli.ingestion.queue.landingZone.queueURI: seda:IngestionLandingZone
+        sli.ingestion.queue.landingZone.concurrentConsumers: 1
+        sli.ingestion.queue.landingZone.keystore:
+        sli.ingestion.queue.landingZone.keystorePassword:
 
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host:
@@ -204,7 +210,7 @@ default:
         # Number of retries for mongo operations in ingestion
         sli.ingestion.totalRetries: 5
 
-        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
+        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names
         sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,studentTranscriptAssociation
 
         sli.ingestion.dataset.sample:
@@ -440,6 +446,12 @@ acceptance-tests:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.queue.landingZone.host: devmq1.slidev.org
+        sli.ingestion.queue.landingZone.port: 61613
+        sli.ingestion.queue.landingZone.queueURI: activemq:queue:IngestionLandingZone
+        sli.ingestion.queue.landingZone.concurrentConsumers: 1
+        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
 
         # TODO - need maestroPit queue config
@@ -917,6 +929,12 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.queue.landingZone.host: localhost
+        sli.ingestion.queue.landingZone.port: 61613
+        sli.ingestion.queue.landingZone.queueURI: seda:IngestionLandingZone
+        sli.ingestion.queue.landingZone.concurrentConsumers: 1
+        sli.ingestion.queue.landingZone.keystore:
+        sli.ingestion.queue.landingZone.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
@@ -1152,6 +1170,12 @@ team:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.queue.landingZone.host: localhost
+        sli.ingestion.queue.landingZone.port: 61613
+        sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
+        sli.ingestion.queue.landingZone.concurrentConsumers: 1
+        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host: localhost
@@ -1436,6 +1460,7 @@ nxteam:
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
+        sli.ingestion.queue.landingZone.host: nxmaestro.slidev.org
         sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
         sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
