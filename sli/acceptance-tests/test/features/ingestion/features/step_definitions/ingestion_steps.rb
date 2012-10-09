@@ -361,6 +361,10 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
 end
 
 def initializeLandingZone(lz)
+  if lz == nil
+      
+  end
+    
   if lz.rindex('/') == (lz.length - 1)
     @landing_zone_path = lz
   else

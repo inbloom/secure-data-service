@@ -1,5 +1,5 @@
 {
-    "keyFields":["metaData.externalId"],
+    "keyFields":["body.studentId", "body.gradingPeriodId"],
     "references":[
         {
             "fieldPath":"body.grades",

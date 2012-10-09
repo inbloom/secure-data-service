@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
@@ -57,6 +58,14 @@ public class EntityDefinition {
         this.service = service;
         this.referencingEntities = new LinkedList<EntityDefinition>();
         this.supportsAggregates = supportsAggregates;
+    }
+    
+    public boolean hasArrayField(String fieldName) {
+    	try {
+    		return (this.schema.getFields().get(fieldName).getSchemaType() == NeutralSchemaType.LIST);	
+    	} catch(NullPointerException e) {
+    		return false;
+    	}
     }
 
     /**

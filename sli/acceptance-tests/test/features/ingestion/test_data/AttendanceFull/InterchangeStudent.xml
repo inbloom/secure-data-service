@@ -16,7 +16,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
