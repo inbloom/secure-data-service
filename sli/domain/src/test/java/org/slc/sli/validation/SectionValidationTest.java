@@ -118,6 +118,11 @@ public class SectionValidationTest {
             }
 
             @Override
+            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
             public String getStagedEntityId() {
                 return null;
             }
