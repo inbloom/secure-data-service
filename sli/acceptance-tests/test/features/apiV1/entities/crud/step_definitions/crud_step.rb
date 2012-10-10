@@ -343,3 +343,24 @@ Then /^the tenant ID of the entity should be "([^"]*)"$/ do |arg1|
   tenant = result["metaData"]["tenantId"]
   assert(tenant == arg1, "Tenant ID expected #{arg1} but was #{tenant}")
 end
+
+Given /^my contextual access is defined by table:$/ do |table|
+  @ctx={}
+  table.hashes.each do |hash|
+  @ctx[hash["Context"]]=hash["Ids"]
+  end
+end
+
+Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
+  version="v1"
+  root=expectedUri.match(/\/(.+?)\/|$/)[1]
+  expected=version+expectedUri
+  
+  if @ctx.has_key? root
+    expected=expected.gsub("@ids",@ctx[root])
+  end
+  
+  actual=@headers["x-executedpath"][0]
+  assert(expected==actual,"URI didn't match.  Expected #{expected} Actual #{actual}")
+end
+

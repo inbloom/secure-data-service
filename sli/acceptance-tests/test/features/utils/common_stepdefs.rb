@@ -56,6 +56,8 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
+
+  @headers=@res.raw_headers.to_hash()  
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
