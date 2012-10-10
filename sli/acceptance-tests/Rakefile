@@ -452,7 +452,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI,
                      :v1SelectorTests] do
   displayFailureReport()
 end
